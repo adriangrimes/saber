@@ -1,0 +1,59 @@
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-sm" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title" id="myModalLabel">
+
+        {{#if signupform}}
+          Sign Up     or <a href="" {{action 'toggleSignUp'}}>Log In</a>
+        {{else}}
+          Log In      or <a href="" {{action 'toggleSignUp'}}>Sign Up</a>
+        {{/if}}
+
+
+      </h4>
+    </div>
+
+      <form>
+    <div class="modal-body">
+
+
+        <div class="form-group">
+          <label for="exampleInputEmail1">Username</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+{{#if signupform}}
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+
+  {{/if}}
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+  {{#if signupform}}
+        <div class="form-group">
+          <label for="exampleInputPassword1">Confrim Password</label>
+          <input type="confirmpassword" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+          <br>
+        <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" {{action "signup"}}>Sign me up!</button>
+
+  {{else}}
+  <br>
+      <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" {{action "login"}}>Log In</button>
+      {{/if}}
+    </div>
+
+
+    </form>
+  </div>
+</div>
+</div>
