@@ -1,16 +1,16 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  loggedIn: false,
+  loggedIn: true,
 
-  actions: {
-    login(){
-      console.log(this.get('loggedIn'));
 
-      this.toggleProperty('loggedIn');
-      console.log(this.get('loggedIn'));
+  actions:{
+      logout(){
+        this.set('loggedIn', false);
+        console.log(this.get('loggedIn'));
 
-    },
-  }
+      },
+
+    }
 
 });

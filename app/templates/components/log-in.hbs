@@ -1,18 +1,21 @@
 
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
 <div class="modal-dialog modal-sm" role="document">
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-      <h4 class="modal-title" id="myModalLabel">
-
+      <h4 class="loginmodal" id="loginModal">
         {{#if signupform}}
-          Sign Up     or <a href="" {{action 'toggleSignUp'}}>Log In</a>
+          <a href="" {{action 'toggleSignUp'}}><u>Log in</u></a>     or <b>Sign up</b>
+        {{else if devsignup}}
+          Developer Signup
+        {{else if castersignup}}
+          Broadcaster Signup
         {{else}}
-          Log In      or <a href="" {{action 'toggleSignUp'}}>Sign Up</a>
+          <b>Log in</b>      or <a href="" {{action 'toggleSignUp'}}><u>Sign up</u></a>
         {{/if}}
 
 
@@ -23,33 +26,52 @@
     <div class="modal-body">
 
 
-        <div class="form-group">
-          <label for="exampleInputEmail1">Username</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+        <div class="form-group-sm">
+          <label for="inputusername">Username</label>
+          <input type="email" class="form-control" id="inputusername" aria-describedby="emailHelp" placeholder="Choose a username">
         </div>
 {{#if signupform}}
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+        <div class="form-group-sm">
+          <label for="inputemailAddress">Email address</label>
+          <input type="email" class="form-control" id="inputemailAddress" aria-describedby="emailHelp" placeholder="Enter email address">
         </div>
+          {{#if casterform}}
+          <div class="form-group-sm">
+            <label for="inputfirstName">First Name</label>
+            <input type="email" class="form-control" id="inputfirstName" aria-describedby="emailHelp" placeholder="First Name">
+          </div>
+          <div class="form-group-sm">
+            <label for="inputlastName">Last Name</label>
+            <input type="email" class="form-control" id="inputlastName" aria-describedby="emailHelp" placeholder="Last Name">
+          </div>
+          {{/if}}
 
   {{/if}}
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        <div class="form-group-sm">
+          <label for="inputpassword">Password</label>
+          <input type="password" class="form-control" id="inputpassword" placeholder="Password">
         </div>
   {{#if signupform}}
-        <div class="form-group">
-          <label for="exampleInputPassword1">Confrim Password</label>
-          <input type="confirmpassword" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        <div class="form-group-sm">
+          <label for="inputpasswordconfirm">Confrim Password</label>
+          <input type="confirmpassword" class="form-control" id="inputpasswordconfirm" placeholder="Password">
         </div>
+        <label class="form-check-label">
+                <br>
+          <input type="checkbox" class="form-check-input">
+            Yes, I am over the age of 18 and agree to the <a href="/terms"><u>terms of service</u></a></label>
+  <br>
           <br>
         <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" {{action "signup"}}>Sign me up!</button>
-
+        {{#if casterform}}
+            <button type="button" class="btn btn-link btn-block"  {{action "toggleCasterSignup"}}><u>Sign up as player</u></button>
+        {{else}}
+            <button type="button" class="btn btn-link btn-block"  {{action "toggleCasterSignup"}}><u>Sign up as a broadcaster</u></button>
+        {{/if}}
   {{else}}
-  <br>
+        <br>
       <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" {{action "login"}}>Log In</button>
-      {{/if}}
+  {{/if}}
     </div>
 
 

@@ -10,6 +10,8 @@ Router.map(function() {
   this.route('about');
   this.route('profile');
   this.route('account');
+  this.route('terms');
+  this.route('privacy');
 });
 
 export default Router;
