@@ -6,6 +6,7 @@
   font-family: 'Lato', sans-serif;
 }
 #nav-bar {
+  height:40px;
   background: #d0e5e5; /* Old browsers */
   background: -moz-linear-gradient(left,  #d0e5e5 0%, #bfe8f9 50%, #9fd8ef 68%, #2ab0ed 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(left,  #d0e5e5 0%,#bfe8f9 50%,#9fd8ef 68%,#2ab0ed 100%); /* Chrome10-25,Safari5.1-6 */
@@ -25,32 +26,26 @@
 #nav-links{
   color: #FFFFFF;
 }
+
+
 html {
   position: relative;
   min-height: 100%;
 }
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: 80px;
 }
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 40px;
+  height: 80px;
   background-color: #232528;
 }
-#footer{
-  before:0px;
-}
-
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
 
 .container {
   width: auto;
-  max-width: 680px;
+  max-width: 960px;
   padding: 0 15px;
+  padding-bottom: 30px;
 }

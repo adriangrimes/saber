@@ -12,6 +12,11 @@ Router.map(function() {
   this.route('account');
   this.route('terms');
   this.route('privacy');
+  this.route('contact');
+  this.route('faq');
+  this.route('games');
+  this.route('fullSignup');
+  this.route('delete');
 });
 
 export default Router;
