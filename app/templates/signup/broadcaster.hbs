@@ -1,41 +1,35 @@
 
+<div class="container">
 
-<div class="loginModal modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-sm" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <h4 class="loginmodal">
-        {{#if signupform}}
-          <a href="" {{action 'toggleSignUp'}}><u>Log in</u></a>     or <b>Sign up</b>
-        {{else}}
-          <b>Log in</b>      or <a href="" {{action 'toggleSignUp'}}><u>Sign up</u></a>
-        {{/if}}
-      </h4>
+  <div class="row ">
+    <div class="col-xs-12 col-sm-4">
+      <h3>Broadcaster Sign Up</h3>
+      <br>
+      Stream Stuff!
+
     </div>
-
-
+    <div class="col-xs-12 col-sm-8">
       <form>
-    <div class="modal-body">
-
-
         <div class="form-group-sm">
           <label for="inputusername">Username</label>
           <input type="text" class="form-control" id="inputusername" placeholder="Choose a username">
         </div>
-{{#if signupform}}
         <div class="form-group-sm">
           <label for="inputemailAddress">Email address</label>
           <input type="email" class="form-control" id="inputemailAddress"  placeholder="Enter email address">
         </div>
-  {{/if}}
+        <div class="form-group-sm">
+          <label for="inputfirstname">First Name</label>
+          <input type="text" class="form-control" id="inputfirstname" placeholder="First Name">
+        </div>
+        <div class="form-group-sm">
+          <label for="inputlastname">Last Name</label>
+          <input type="text" class="form-control" id="inputlastname" placeholder="Last Name">
+        </div>
         <div class="form-group-sm">
           <label for="inputpassword">Password</label>
           <input type="password" class="form-control" id="inputpassword" placeholder="Password">
         </div>
-  {{#if signupform}}
         <div class="form-group-sm">
           <label for="inputpasswordconfirm">Confirm Password</label>
           <input type="password" class="form-control" id="inputpasswordconfirm" placeholder="Password">
@@ -48,14 +42,12 @@
 
 
         <button type="button" class="signup-button btn btn-primary btn-block" data-dismiss="modal" {{action "signup"}}>Sign me up!</button>
-  {{else}}
-        <br>
-      <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" {{action "login"}}>Log In</button>
-  {{/if}}
-    </div>
+</form>
 
-
-    </form>
-  </div>
 </div>
 </div>
+
+</div>
+
+
+{{outlet}}

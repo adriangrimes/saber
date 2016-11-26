@@ -9,9 +9,25 @@
     <div class="col-xs-12 col-md-8">
       <div class="well">
 
+        <div class="form-group has-danger">
+          <label class="form-control-label" for="inputDanger1">Input with danger</label>
+          <input type="email" required="required"  class="form-control form-control-danger" id="inputDanger1">
+          <div class="form-control-feedback">Required</div>
+        </div>
         <div class="form-group">
-          <label for="inputemailAddress">Email address</label>
+          <label for="inputemailAddress">Email Address</label>
           <input type="email" class="form-control" id="inputemailAddress" placeholder="Email Address">
+        </div>
+        <div class="form-group">
+          <label for="topic">Topic&nbsp;</label><br>
+          <select class="form-control" id="topicSelect">
+            <option value="" selected="selected">(Select a Topic)</option>
+            <option>Bug Report</option>
+            <option>Feature Request</option>
+            <option>Sign up Help</option>
+            <option>Billing Help</option>
+            <option>Other</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="inputSubject">Subject</label>
@@ -21,12 +37,13 @@
           <label for="comment">Message</label>
           <textarea class="form-control" rows="5" id="message"placeholder="Message"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Send</button>
+        <br>
+        <button type="submit" class="btn btn-primary btn-block">Send</button>
 
       </div>
     </div>
-    <div class="col-xs-6 col-md-4">
-      <a class="btn btn-primary btn-lg btn-block" href="/faq" role="button">Frequently Asked Questions</a>
+    <div class="col-xs-12 col-md-4">
+      <a class="btn btn-primary btn-block" href="/faq" role="button">Frequently Asked Questions</a>
     </div>
 
   </div>

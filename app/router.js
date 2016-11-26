@@ -9,7 +9,11 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('about');
   this.route('profile');
-  this.route('account');
+  this.route('account', function() {
+    this.route('developer');
+    this.route('broadcaster');
+    this.route('delete');
+  });
   this.route('terms');
   this.route('privacy');
   this.route('contact');
@@ -17,6 +21,11 @@ Router.map(function() {
   this.route('games');
   this.route('fullSignup');
   this.route('delete');
+  this.route('signup', function() {
+    this.route('dev');
+    this.route('broadcaster');
+    this.route('developer');
+  });
 });
 
 export default Router;
