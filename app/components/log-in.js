@@ -1,26 +1,20 @@
 import Ember from 'ember';
 
-
-
+//Component - log-in
 export default Ember.Component.extend({
-      casterform: false,
+  casterform: false,
 
-        actions: {
-          toggleSignUp() {
-            this.toggleProperty('signupform');
-          },
-
-          signup(){
-            document.cookie ="signedUp=Yes";
-          },
-
-          login(){
-              this.set('loggedIn', true);
-            },
-
-        },
-        click: function(){
-          this.sendAction();
-        }
+  actions: {
+    toggleSignUp() {
+      this.toggleProperty('signupform');
+    },
+    signup(){
+      this.sendAction('signup')
+      document.cookie ="signedUp=Yes";
+    },
+    login() {
+      this.sendAction('login');
+    }
+  }
 
 });
