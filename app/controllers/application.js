@@ -2,16 +2,15 @@ import Ember from 'ember';
 
 //Controller - application
 export default Ember.Controller.extend({
-  loggedIn: true,
-  userType: '',
+
+  loginState: Ember.inject.service('login-state'),
   signupform: false,
 
   actions: {
-    login() {
-      console.log("controller logged em");
-    },
+
     logout(){
-      this.set('loggedIn', false);
+      this.get('loginState').logOut();
+      this.transitionToRoute('index');
     },
     openSignup(userType){
       var modal = Ember.$(".loginModal");
@@ -21,6 +20,6 @@ export default Ember.Controller.extend({
     openlogin(){
       this.set('signupform', false);
     }
-  },
+  }
 
 });

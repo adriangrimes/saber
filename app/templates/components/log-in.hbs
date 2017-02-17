@@ -1,61 +1,60 @@
-
-
 <div class="loginModal modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-sm" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <h4 class="loginmodal">
-        {{#if signupform}}
-          <a href="" {{action 'toggleSignUp'}}><u>Log in</u></a>     or <b>Sign up</b>
-        {{else}}
-          <b>Log in</b>      or <a href="" {{action 'toggleSignUp'}}><u>Sign up</u></a>
-        {{/if}}
-      </h4>
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="loginmodal">
+          {{#if signupform}}
+            <a href="" {{action 'toggleSignUp'}}><u>Log in</u></a>     or <b>Sign up</b>
+          {{else}}
+            <b>Log in</b>      or <a href="" {{action 'toggleSignUp'}}><u>Sign up</u></a>
+          {{/if}}
+        </h4>
+      </div>
+
+        <form>
+          <div class="modal-body">
+
+          <div class="form-group-sm">
+            <label for="inputusername">Username</label>
+            {{input type="text" class="form-control" value=inputusername id="inputusername" placeholder="Choose a username"}}
+          </div>
+          {{#if signupform}}
+            <br>
+            <div class="form-group-sm">
+              <label for="inputemailAddress">Email address</label>
+              {{input type="email" class="form-control" value=inputemailaddress id="inputemailAddress" placeholder="Enter email address"}}
+            </div>
+          {{/if}}
+            <br>
+            <div class="form-group-sm">
+              <label for="inputpassword">Password</label>
+              {{input type="password" class="form-control" value=inputpassword id="inputpassword" placeholder="Password"}}
+            </div>
+          {{#if signupform}}
+            <br>
+            <div class="form-group-sm">
+              <label for="inputpasswordconfirm">Confirm Password</label>
+              {{input type="password" class="form-control" value=inputpasswordconfirm id="inputpasswordconfirm" placeholder="Password"}}
+            </div>
+            <label class="form-check-label">
+              <br>
+              <input type="checkbox" class="form-check-input">
+              Yes, I am over the age of 18 and agree to the <a href="/terms" target="_blank"><u>terms of service</u></a>
+            </label>
+            <br>
+            <br>
+
+            <button type="button" class="signup-button btn btn-primary btn-block" data-dismiss="modal" {{action "signup"}}>Sign me up!</button>
+          {{else}}
+            <br>
+            <button type="button" class="btn btn-primary btn-block" data-dismiss="" {{action "login"}}>Log In</button>
+          {{/if}}
+        </div>
+      </form>
+
     </div>
-
-
-      <form>
-    <div class="modal-body">
-
-
-        <div class="form-group-sm">
-          <label for="inputusername">Username</label>
-          <input type="text" class="form-control" id="inputusername" placeholder="Choose a username">
-        </div>
-{{#if signupform}}
-        <div class="form-group-sm">
-          <label for="inputemailAddress">Email address</label>
-          <input type="email" class="form-control" id="inputemailAddress"  placeholder="Enter email address">
-        </div>
-  {{/if}}
-        <div class="form-group-sm">
-          <label for="inputpassword">Password</label>
-          <input type="password" class="form-control" id="inputpassword" placeholder="Password">
-        </div>
-  {{#if signupform}}
-        <div class="form-group-sm">
-          <label for="inputpasswordconfirm">Confirm Password</label>
-          <input type="password" class="form-control" id="inputpasswordconfirm" placeholder="Password">
-        </div>
-        <label class="form-check-label">
-                <br>
-          <input type="checkbox" class="form-check-input">
-            Yes, I am over the age of 18 and agree to the <a href="/terms" target="_blank"><u>terms of service</u></a></label>
-  <br><br>
-
-
-        <button type="button" class="signup-button btn btn-primary btn-block" data-dismiss="modal" {{action "signup"}}>Sign me up!</button>
-  {{else}}
-        <br>
-      <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" {{action "login"}}>Log In</button>
-  {{/if}}
-    </div>
-
-
-    </form>
   </div>
-</div>
 </div>
