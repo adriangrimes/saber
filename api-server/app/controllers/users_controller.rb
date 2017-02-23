@@ -3,15 +3,22 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
+    sleep 2 #Add server latency
     @user = User.find_by!(username: params[:username], password: params[:password])
-    
-    render json: @user
+
+    respond_to do |format|
+      if @user
+        format.jsonapi { render jsonapi: @user }
+      else
+        format.jsonapi { render jsonapi: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # GET /users/1
   def show
     @user = User.find(params[:id])
-    #sleep 5 #Add server latency
+
     render json: @user
   end
 

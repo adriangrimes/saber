@@ -13,12 +13,18 @@ export default Ember.Component.extend({
         const username = this.get('inputusername');
         const pw = this.get('inputpassword');
 
+        this.$('#loginModal > div > div > form > div > button > div').addClass('spinner');
+        this.$("#loginModal > div > div > form > div > button > div").contents().filter(function () {
+          return this.nodeType === 3; // Text nodes only
+        }).remove();
+
         this.get('loginState').logIn(username,pw);
       }
-
-      //clear fields for reasons
-      this.set('inputusername','');
-      this.set('inputpassword','');
+      if (this.get('loginState.loggedIn') === true) {
+        //clear fields for reasons
+        this.set('inputusername','');
+        this.set('inputpassword','');
+      }
     },
     signup(){
       if (this.get('loginState.loggedIn') === false) {
