@@ -4,7 +4,7 @@ export default Ember.Service.extend({
 
   store: Ember.inject.service(),
 
-  loggedIn: false,
+  loggedIn: true,
   username: '',
   userType: '',
 
@@ -31,33 +31,33 @@ export default Ember.Service.extend({
     console.log('Username: '+ user);
     console.log('Password: '+ pw +' ...lol');
     let that = this;
-    this.get('store').queryRecord('user', {username: user, password: pw}).then(function(){
-      console.log('auth success');
-      that.set('loggedIn', true);
-      that.set('username', user);
+    this.get('store').queryRecord('user', {username: user, password: pw}).then(function(query){
+       console.log(query);
+       if (!query) {
+         console.log('auth failed');
+         that.set('loggedIn', false);
+       } else {
+         console.log('auth didnt fail? yay');
+         that.set('loggedIn', true);
+         that.set('username', user);
+         var date = new Date();
 
-      //start cookie
-      var date = new Date();
-      // 30 day expiration
-      var days = 30;
-      // Get unix milliseconds at current time plus number of days
-      date.setTime(+ date + (days * 86400000)); //24 * 60 * 60 * 1000
-      document.cookie ="username="+user+ "; expires=" + date.toGMTString();
-      document.cookie ="password="+pw+ "; expires=" + date.toGMTString();
+         // 30 day expiration
+         var days = 30;
 
-      Ember.$('#loginModal').modal('hide'); //close log in modal
-      Ember.$('#loginModal > div > div > form > div > button > div').removeClass('spinner');
-      Ember.$('#loginModal > div > div > form > div > button > div').replaceWith('Log In');
-    }, function(error) {
-      // for (var i = 0, len = error.length; i < len; i++) {
-      //   console.log(error.errors[i].status);
-      // }
-
-      console.log('auth failed');
-      that.set('loggedIn', false);
-      Ember.$('#loginModal > div > div > form > div > button > div').removeClass('spinner');
-      Ember.$('#loginModal > div > div > form > div > button > div').replaceWith('Log In');
+         // Get unix milliseconds at current time plus number of days
+         date.setTime(+ date + (days * 86400000)); //24 * 60 * 60 * 1000
+         document.cookie ="username="+user+ ";path=/; expires=" + date.toGMTString();
+         document.cookie ="password="+pw+ ";path=/; expires=" + date.toGMTString();
+         $('#loginModal').modal('hide') //close log in modal
+       }
     });
+      // this.get('store').find('user', 1).then(function(){
+      //   console.log("logged in");
+      //   that.set('loggedIn', true);
+      //   $('#loginModal').modal('hide') //close log in modal
+      // });
+
   },
 
   logOut() {
@@ -73,34 +73,22 @@ export default Ember.Service.extend({
 
     // Get unix milliseconds at current time plus number of days
     date.setTime(+ date + (days * 86400000)); //24 * 60 * 60 * 1000
-    document.cookie ="username=; expires=" + date.toGMTString();
-    document.cookie ="password=; expires=" + date.toGMTString();
-    Ember.getOwner(this).lookup('router:main').transitionTo('index');
+    document.cookie ="username=;path=/; expires=" + date.toGMTString();
+    document.cookie ="password=;path=/; expires=" + date.toGMTString();
     this.get('store').unloadAll('user');
   },
 
   signUp(user, email, pw, pwconfirm) {
     //TODO input validation
-    if (pw === pwconfirm && user && email) {
-      let that = this;
+    if (pw === pwconfirm) {
       var signup = this.get('store').createRecord('user', {
         username: user,
         email: email,
         password: pw
       });
       signup.save().then(function(){
-        console.log("signed up");
-        Ember.$('#loginModal').modal('hide'); //close log in modal
-      }, function(error) {
-        // for (var i = 0, len = error.length; i < len; i++) {
-        //   console.log(error.errors[i].status);
-        // }
-
-        console.log('signup failed');
-        that.set('loggedIn', false);
-        Ember.$('#loginModal').modal('hide'); //close log in modal
-        Ember.$('#loginModal > div > div > form > div > button > div').removeClass('spinner');
-        Ember.$('#loginModal > div > div > form > div > button > div').replaceWith('Sign me up!');
+        console.log("signed up")
+        $('#loginModal').modal('hide') //close log in modal
       });
 
     } else {

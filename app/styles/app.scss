@@ -9,6 +9,23 @@
 #nav-links{
   color: #FFFFFF;
 }
+#profile-links{
+  color: #000000;
+  font-size:24px;
+}
+#edit-links{
+  color: #000000;
+  font-size:20px;
+  position:absolute;
+  top:12px;
+  right:30px;
+}
+#footer-links{
+  color: #FFFFFF;
+}
+#footer-links:hover{
+  color:#000000;
+}
 
 #main-navbar-collapse{
   background-color:#e6e6e6;
@@ -18,7 +35,15 @@
   border:none;
   background-color:#0063ef;
 }
+#creditSelect{
+  padding:20px;
+  font-size:18px;
+ }
 
+.profile-Actions{
+  position: absolute;
+  right:30px;
+}
 
 
 html {
@@ -69,11 +94,7 @@ body {
 
 // Small devices (landscape phones, 544px and up)
 @media (min-width: 544px) {
-  #main-navbar-collapse{
-    background-color:transparent;
 
-
-  }
 }
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) {
@@ -89,7 +110,9 @@ body {
    right:0px;
 
   }
-
+  #main-navbar-collapse{
+    background-color:transparent;
+}
 }
 
 // Large devices (desktops, 992px and up)

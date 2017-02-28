@@ -26,6 +26,7 @@ Router.map(function() {
     this.route('broadcaster');
     this.route('developer');
   });
+  this.route('dashboard');
 });
 
 export default Router;

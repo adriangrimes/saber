@@ -1,13 +1,14 @@
 
 {{age-gate}}
 {{log-in}}
+{{buy-credits}}
 
 <nav class="navbar navbar-default" id="nav-bar">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       {{#if loginState.loggedIn}}
-        <button type="button" style="border:none" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse" aria-expanded="false">       <span class="sr-only">Toggle navigation</span>
+        <button  id="nav-links" type="button" style="border:none" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse" aria-expanded="false">       <span class="sr-only">Toggle navigation</span>
           <span class="sr-only">Toggle navigation</span>
           <span class="glyphicon glyphicon-align-right" aria-hidden="true"></span>
         </button>
@@ -20,24 +21,29 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="main-navbar-collapse">
         <ul class="nav navbar-nav navbar-right" >
-           <li><a class="hidden-xs"  href="/games" id="nav-links"> <span class="glyphicon glyphicon-tower" aria-hidden="true"></span></a></li>
-           <li><a class="hidden-xs" href="/account" id="nav-links"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
+          <li><a  class="hidden-xs" role="button" id="nav-links"  data-toggle="modal" data-target="#buyCreditsModal" > <span  title="Buy Credits" class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span></a></li>
+           <li><a class="hidden-xs"  href="/games" id="nav-links"> <span  title="Games" class="glyphicon glyphicon-tower" aria-hidden="true"></span></a></li>
+           <li><a class="hidden-xs" href="/account" id="nav-links"> <span  title="My Account" class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
            <li class="hidden-xs dropdown">
-             <a href="" id="nav-links" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="glyphicon glyphicon-align-right" aria-hidden="true"></span></a>
+             <a href="" id="nav-links" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span   title="Menu" class="glyphicon glyphicon-align-right" aria-hidden="true"></span></a>
                <ul class="dropdown-menu">
                  <li class="dropdown-header">Hi {{loginState.username}}</li>
                  <li><a href="/account">My Account</a></li>
                  <li><a href="/profile">My Profile</a></li>
+                 <li><a role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a></li>
+
                  <li role="separator" class="divider"></li>
                  <li><a href="/games">Games</a></li>
                  <li role="separator" class="divider"></li>
-                 <li><a {{action "logout"}}>Log Out</a></li>
+                 <li><a role="button" {{action "logout"}}>Log Out</a></li>
                </ul>
            </li>
+           <li class="visible-xs-block dropdown-header">Hi {{loginState.username}}</li>
             <li><a class="visible-xs-block" href="/account">My Account</a></li>
             <li><a class="visible-xs-block" href="/profile">My Profile</a></li>
+            <li><a class="visible-xs-block" role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a></li>
             <li><a class="visible-xs-block" href="/games">Games</a></li>
-            <li><a class="visible-xs-block" {{action "logout"}}>Log Out</a></li>
+            <li><a class="visible-xs-block" role="button" {{action "logout"}}>Log Out</a></li>
 
         </ul>
       </div><!-- /.navbar-collapse -->
@@ -52,62 +58,62 @@
 
         <div class="row text-center">
           <div class="col-xs-12 col-sm-4">
-            <ul class="nav nav-pills nav-justified">
-            <li><a href="/contact">Contact Us</a></li>
+            <ul  class="nav nav-pills nav-justified">
+            <li><a id="footer-links" href="/contact">Contact Us</a></li>
           </ul>
           </div>
           <div class="col-xs-12 col-sm-4 col-sm-push-4">
             <ul class="nav nav-pills nav-justified">
-              <li><a  href="/signup">Sign Up</a></li>
+              <li><a id="footer-links"  href="/signup">Sign Up</a></li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 col-sm-pull-4">
             <ul class="nav nav-pills nav-justified">
-              <li><a href="/terms">Terms of Service</a></li>
+              <li><a id="footer-links" href="/terms">Terms of Service</a></li>
             </ul>
           </div>
         </div>
         <div class="row text-center">
           <div class="col-xs-12 col-sm-4">
             <ul class="nav nav-pills nav-justified">
-              <li><a href="/faq">Help</a></li>
+              <li><a id="footer-links" href="/faq">Help</a></li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4">
             <ul class="nav nav-pills nav-justified">
-              <li><a href="/privacy">Privacy Policy</a></li>
+              <li><a id="footer-links" href="/privacy">Privacy Policy</a></li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4">
             <ul class="nav nav-pills nav-justified">
-              <li><a  href="/signup/broadcaster">Become a Broadcaster</a></li>
+              <li><a id="footer-links"  href="/signup/broadcaster">Become a Broadcaster</a></li>
             </ul>
           </div>
         </div>
         <div class="row text-center">
           <div class="col-xs-12 col-sm-4 hidden-sm hidden-md hidden-lg">
             <ul class="nav nav-pills nav-justified">
-              <li><a  href="/signup/developer">Become a Developer</a></li>
+              <li><a id="footer-links"  href="/signup/developer">Become a Developer</a></li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 hidden-xs">
             <ul class="nav nav-pills nav-justified">
-              <li><a href="/">© 2016 Brand Inc</a></li>
+              <li><a id="footer-links" href="/">© 2016 Brand Inc</a></li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4">
             <ul class="nav nav-pills nav-justified">
-              <li><a href="/privacy">Legal Stuff</a></li>
+              <li><a id="footer-links" href="/privacy">Legal Stuff</a></li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 hidden-sm hidden-md hidden-lg">
             <ul class="nav nav-pills nav-justified">
-              <li><a href="/">© 2016 Brand Inc</a></li>
+              <li><a id="footer-links" href="/">© 2016 Brand Inc</a></li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 hidden-xs">
             <ul class="nav nav-pills nav-justified">
-              <li><a  href="/signup/developer">Become a Developer</a></li>
+              <li><a id="footer-links" href="/signup/developer">Become a Developer</a></li>
             </ul>
           </div>
         </div>
