@@ -1,0 +1,2 @@
+class GameLog < ApplicationRecord
+end

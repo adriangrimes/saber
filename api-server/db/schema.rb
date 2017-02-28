@@ -19,10 +19,11 @@ ActiveRecord::Schema.define(version: 20161214031618) do
     t.string   "first_name"
     t.string   "middle_name"
     t.string   "last_name"
+    t.datetime "birthdate"
     t.boolean  "admin",                                    default: false
     t.boolean  "broadcaster",                              default: false
     t.boolean  "developer",                                default: false
-    t.datetime "birthdate"
+    t.string   "stream_key",                  limit: 64
     t.string   "address_line_1"
     t.string   "address_line_2"
     t.string   "address_line_3"
