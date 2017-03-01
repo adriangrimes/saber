@@ -23,12 +23,13 @@
         <ul class="nav navbar-nav navbar-right" >
           <li><a  class="hidden-xs" role="button" id="nav-links"  data-toggle="modal" data-target="#buyCreditsModal" > <span  title="Buy Credits" class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span></a></li>
            <li><a class="hidden-xs"  href="/games" id="nav-links"> <span  title="Games" class="glyphicon glyphicon-tower" aria-hidden="true"></span></a></li>
-           <li><a class="hidden-xs" href="/account" id="nav-links"> <span  title="My Account" class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
+           <li><a class="hidden-xs" href="/account" id="nav-links"> <span  title="Account Settings" class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
            <li class="hidden-xs dropdown">
              <a href="" id="nav-links" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span   title="Menu" class="glyphicon glyphicon-align-right" aria-hidden="true"></span></a>
                <ul class="dropdown-menu">
                  <li class="dropdown-header">Hi {{loginState.username}}</li>
-                 <li><a href="/account">My Account</a></li>
+                 <li><a href="/dashboard">My Dashboard</a></li>
+                 <li><a href="/account">Account Settings</a></li>
                  <li><a href="/profile">My Profile</a></li>
                  <li><a role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a></li>
 
@@ -39,7 +40,8 @@
                </ul>
            </li>
            <li class="visible-xs-block dropdown-header">Hi {{loginState.username}}</li>
-            <li><a class="visible-xs-block" href="/account">My Account</a></li>
+            <li><a class="visible-xs-block" href="/dashboard">My Dashboard</a></li>
+            <li><a class="visible-xs-block" href="/account">Account Settings</a></li>
             <li><a class="visible-xs-block" href="/profile">My Profile</a></li>
             <li><a class="visible-xs-block" role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a></li>
             <li><a class="visible-xs-block" href="/games">Games</a></li>
@@ -64,7 +66,15 @@
           </div>
           <div class="col-xs-12 col-sm-4 col-sm-push-4">
             <ul class="nav nav-pills nav-justified">
+
+              {{#if loginState.loggedIn}}
+
+              <li><a id="footer-links"  href="/account">Account Settings</a></li>
+              {{else}}
               <li><a id="footer-links"  href="/signup">Sign Up</a></li>
+
+              {{/if}}
+
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 col-sm-pull-4">

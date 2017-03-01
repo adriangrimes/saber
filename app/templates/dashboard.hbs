@@ -16,7 +16,6 @@
     </div>
 
     <div class="col-xs-12 col-sm-6 col-md-4">
-
       <div class="well">
 
                  <h4>Recent Messages:</h4>
@@ -30,38 +29,58 @@
 
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-8">
-            <div class="well">
-              <h4>Stream Settings</h4>
-              <br>
-              <form>
-                <label class="form-check-label">
-                  <input type="checkbox" class="form-check-input">
-                  Allow users to Shoopdawoop you
-                  </label>
 
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input type="checkbox" class="form-check-input">
-                    Allow users to werwerwer with you
-                </label>
+
+          <div class="panel-group" id="accordion">
+              <div class="panel panel-default">
+                  <div class="panel-heading accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+                       <h4 class="panel-title"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp; Stream Settings</h4>
+
               </div>
-              <br>
 
-                <label for="example-number-input" >Number</label>
-                  <input class="form-control" type="number" min="10" max="500"  step="1" value="42" id="number-input">
+              <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                <form class="form-inline">
+                        <div class="input-group">
+                             <span class="input-group-btn">
+                                 <button class="btn btn-default" type="button">Show Steam Key</button>
+                             </span>
+                             <input type="text" class="form-control" placeholder="***************">
+                         </div>
+                         <button class="btn btn-default"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>&nbsp;Reset Key</button>
 
-            <br>
-              <button type="submit" class="btn btn-primary">Submit</button>
-              <br> <br>
+                       </form>
+                     <form>
 
-              <div class="input-group">
-                   <span class="input-group-btn">
-                     <button class="btn btn-default" type="button">Show Steam Key</button>
-                   </span>
-                   <input type="text" class="form-control" placeholder="***************">
-                 </div>
-            </form>
+                        <br>
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input">
+                      Allow users to Shoopdawoop you
+                      </label>
+
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input">
+                        Allow users to werwerwer with you
+                    </label>
+                  </div>
+                  <br>
+
+                    <label for="example-number-input" >Number</label>
+                      <input class="form-control" type="number" min="10" max="500" value="42" id="number-input">
+
+                  <br>
+                  <div class=text-right>
+
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+                  </form>
+                </div>
+              </div>
             </div>
+
+          </div>
 
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4">
@@ -71,9 +90,24 @@
 
       <div class="row">
           <div class="col-xs-12 col-sm-6 col-md-8">
-              <div class="well">
-                <h4>Stats</h4>
 
+
+
+
+
+            <div class="panel-group" id="accordion2">
+              <div class="panel panel-default">
+
+                  <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" data-target="#collapseTwo">
+                    <h4 class="panel-title"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>&nbsp; Stats</h4>
+
+                  </div>
+                  <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      woo stats <br> <br> congrats on the stats
+                      </div>
+                  </div>
+                </div>
               </div>
 
           </div>
