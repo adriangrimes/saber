@@ -81,10 +81,10 @@ ActiveRecord::Schema.define(version: 20170228073509) do
 
   create_table "user_files", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "file_file_name"
-    t.string   "file_content_type"
-    t.integer  "file_file_size"
-    t.datetime "file_updated_at"
+    t.string   "user_file_name"
+    t.string   "user_content_type"
+    t.integer  "user_file_size"
+    t.datetime "user_updated_at"
     t.boolean  "is_public"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false

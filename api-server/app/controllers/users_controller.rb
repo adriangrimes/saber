@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    sleep 2 #Add server latency
+    #sleep 2 #Add server latency
     @user = User.find_by!(username: params[:username], password: params[:password])
 
     respond_to do |format|

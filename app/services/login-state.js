@@ -37,7 +37,7 @@ export default Ember.Service.extend({
          console.log('auth failed');
          that.set('loggedIn', false);
        } else {
-         console.log('auth didnt fail? yay');
+         console.log('auth success');
          that.set('loggedIn', true);
          that.set('username', user);
          var date = new Date();
