@@ -1,12 +1,7 @@
 import Ember from 'ember';
 
-//Component - log-in
+//Component edit-photos
 export default Ember.Component.extend({
 
-
-  actions: {
-
-
-  }
 
 });
