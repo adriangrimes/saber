@@ -8,10 +8,15 @@
 
 #nav-links{
   color: #FFFFFF;
+  background-color:transparent;
+}
+#nav-links:hover, #nav-links:active, #nav-links:focus{
+  color: #bcbcbc;
 }
 #profile-links{
   color: #B80000;
   font-size:24px;
+height: 44px;
 }
 #edit-links{
   color: #B80000;
@@ -46,10 +51,16 @@
    width:50%;
    font-size:18px;
   }
-
-.profile-Actions{
-  position: absolute;
-  right:30px;
+  #photo-gallery{
+    overflow-x: auto;
+  	white-space: nowrap;
+  }
+#tip-form{
+  float: right;
+}
+.profile-controls{
+  padding:10px;
+  background-color: #bcbcbc;
 }
 
 
@@ -116,7 +127,6 @@ body {
 }
 
 
-
 // Collapsable Wellss
 .panel-heading.accordion-toggle:after {
     /* symbol for "opening" panels */
@@ -148,6 +158,23 @@ body {
 // Extra small devices (portrait phones, less than 544px)
 // No media query since this is the default in Bootstrap
 
+.chat-body{
+  height:200px;
+  overflow-y: auto;
+
+}
+
+.chat-panel{
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-top-style: none;
+}
+.video-panel{
+    margin-bottom: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
 
 
 // Small devices (landscape phones, 544px and up)
@@ -172,8 +199,35 @@ body {
 
  }
   #main-navbar-collapse{
-    background-color:transparent;
+  background-color:transparent;
 }
+
+#chatWindow{
+  padding-left:0px;
+}
+#videoWindow{
+  padding-right:0px;
+}
+
+.chat-body{
+  height:515px;
+
+}
+
+.chat-panel{
+  height: 550px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-left-style: none;
+  border-top-style: solid;
+
+}
+.video-panel{
+    height: 550px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
 
 }
 

@@ -7,29 +7,55 @@
       <a class="btn btn-primary btn-block visible-xs-block" href="/dashboard" role="button">View Dashboard &nbsp;<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span></a>
       <a class="btn btn-primary btn-block visible-xs-block" href="/profile" role="button">Edit Profile &nbsp;<span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
       <br><br>
-            <div class="panel-group" id="accordion">
+      <div class="panel-group" id="siteSettingsAccordion">
+        <div class="panel panel-default">
+
+            <div class="panel-heading accordion-toggle" data-toggle="collapse" data-parent="#siteSettingsAccordion" data-target="#collapseSiteSettings">
+              <h4 class="panel-title"> Site and Search Settings</h4>
+
+            </div>
+            <div id="collapseSiteSettings" class="panel-collapse collapse in">
+              <div class="panel-body">
+
+                <form>
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input">
+                      Dark Mode
+                    </label>
+                    <br>
+                    <div class=text-right>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+              </form>
+                </div>
+            </div>
+          </div>
+        </div>
+
+            <div class="panel-group" id="emailSettingsAccordion">
                 <div class="panel panel-default">
-                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseEmailPreferences">
-                         <h4 class="panel-title">Email Preferences</h4>
+                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#emailSettingsAccordion" data-target="#collapseEmailSettings">
+                         <h4 class="panel-title">Email Settings</h4>
                     </div>
-                <div id="collapseEmailPreferences" class="panel-collapse collapse">
+                <div id="collapseEmailSettings" class="panel-collapse collapse">
                   <div class="panel-body">
                       <form>
+                        <h4>Send me an email...</h4>
                         <label class="form-check-label">
                           <input type="checkbox" class="form-check-input">
-                            Send me an email when my favorites are online.
+                            When my favorites are online.
                           </label>
 
                       <div class="form-check">
                         <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input">
-                            Send me email about site news, events and updates.
+                          <input type="checkbox" class="form-check-input" checked>
+                            When I get a new private message
                         </label>
                     </div>
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input">
-                        Send me an email when I get a new private message
+                        <input type="checkbox" class="form-check-input" checked>
+                          With the site Newsletter
                         </label>
                   </div>
                             <br>
@@ -58,10 +84,10 @@
               </div>
 
             </div>
-            <div class="panel-group" id="accordion2">
+            <div class="panel-group" id="securitySettingsAccordion">
               <div class="panel panel-default">
 
-                  <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" data-target="#collapseSecuritySettings">
+                  <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#securitySettingsAccordion" data-target="#collapseSecuritySettings">
                     <h4 class="panel-title"> Security Settings</h4>
 
                   </div>
@@ -90,34 +116,11 @@
                   </div>
                 </div>
               </div>
-              <div class="panel-group" id="accordion3">
-                <div class="panel panel-default">
 
-                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion3" data-target="#collapseThree">
-                      <h4 class="panel-title"> Site and Search Options</h4>
-
-                    </div>
-                    <div id="collapseThree" class="panel-collapse collapse">
-                      <div class="panel-body">
-
-                        <form>
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input">
-                              Dark Mode
-                            </label>
-                            <br>
-                            <div class=text-right>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                          </div>
-                      </form>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="panel-group" id="accordion4">
+                <div class="panel-group" id="payoutSettingsAccordion">
                   <div class="panel panel-default">
 
-                      <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion4" data-target="#collapsePayoutSettings">
+                      <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#payoutSettingsAccordion" data-target="#collapsePayoutSettings">
                         <h4 class="panel-title">Payout Settings</h4>
 
                       </div>
@@ -129,12 +132,12 @@
                           		<div id="payoutSelect" class="btn-group" data-toggle="buttons">
 
                           			<label id="payoutMethod" class="btn  btn-default active">
-                          				<input type="radio" name="payoutoptions" id="mailedcheck" chacked>
+                          				<input type="radio" name="payoutSettings" id="mailedcheck" chacked>
                                   Mailed Check
                           			</label>
 
                           			<label id="payoutMethod"  class="btn   btn-default">
-                          				<input type="radio" name="payoutoptions" id="bitcoin">
+                          				<input type="radio" name="payoutSettings" id="bitcoin">
                                   Bitcoin
                           			</label>
                               </div>

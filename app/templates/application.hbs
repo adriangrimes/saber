@@ -28,23 +28,24 @@
              <a href="" id="nav-links" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span   title="Menu" class="glyphicon glyphicon-align-right" aria-hidden="true"></span></a>
                <ul class="dropdown-menu">
                  <li class="dropdown-header">Hi {{loginState.username}}</li>
+                 <li><a href="/account/messages">My Messages&nbsp;&nbsp;<span class="badge">42</span></a></li>
                  <li><a href="/dashboard">My Dashboard</a></li>
-                 <li><a href="/account">Account Settings</a></li>
                  <li><a href="/profile">My Profile</a></li>
-                 <li><a role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a></li>
-
+                 <li><a href="/account">Account Settings</a></li>
                  <li role="separator" class="divider"></li>
                  <li><a href="/games">Games</a></li>
+                 <li><a role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a></li>
                  <li role="separator" class="divider"></li>
                  <li><a role="button" {{action "logout"}}>Log Out</a></li>
                </ul>
            </li>
            <li class="visible-xs-block dropdown-header">Hi {{loginState.username}}</li>
+           <li><a class="visible-xs-block" href="/account/messages">My Messages&nbsp;&nbsp;<span class="badge">42</span></a></li>
             <li><a class="visible-xs-block" href="/dashboard">My Dashboard</a></li>
-            <li><a class="visible-xs-block" href="/account">Account Settings</a></li>
             <li><a class="visible-xs-block" href="/profile">My Profile</a></li>
-            <li><a class="visible-xs-block" role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a></li>
+            <li><a class="visible-xs-block" href="/account">Account Settings</a></li>
             <li><a class="visible-xs-block" href="/games">Games</a></li>
+            <li><a class="visible-xs-block" role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a></li>
             <li><a class="visible-xs-block" role="button" {{action "logout"}}>Log Out</a></li>
 
         </ul>
@@ -96,14 +97,29 @@
           </div>
           <div class="col-xs-12 col-sm-4">
             <ul class="nav nav-pills nav-justified">
+
+              {{#if loginState.loggedIn}}
+
+              <li><a id="footer-links"  href="/account/broadcaster">Become a Broadcaster</a></li>
+              {{else}}
               <li><a id="footer-links"  href="/signup/broadcaster">Become a Broadcaster</a></li>
+
+              {{/if}}
+
             </ul>
           </div>
         </div>
         <div class="row text-center">
           <div class="col-xs-12 col-sm-4 hidden-sm hidden-md hidden-lg">
             <ul class="nav nav-pills nav-justified">
+
+              {{#if loginState.loggedIn}}
+
+              <li><a id="footer-links"  href="/account/developer">Become a Developer</a></li>
+              {{else}}
               <li><a id="footer-links"  href="/signup/developer">Become a Developer</a></li>
+
+              {{/if}}
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 hidden-xs">
@@ -123,7 +139,13 @@
           </div>
           <div class="col-xs-12 col-sm-4 hidden-xs">
             <ul class="nav nav-pills nav-justified">
-              <li><a id="footer-links" href="/signup/developer">Become a Developer</a></li>
+                          {{#if loginState.loggedIn}}
+
+                          <li><a id="footer-links"  href="/account/developer">Become a Developer</a></li>
+                          {{else}}
+                          <li><a id="footer-links"  href="/signup/developer">Become a Developer</a></li>
+
+                          {{/if}}
             </ul>
           </div>
         </div>

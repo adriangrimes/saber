@@ -13,6 +13,8 @@ Router.map(function() {
     this.route('developer');
     this.route('broadcaster');
     this.route('delete');
+    this.route('messages');
+    this.route('finishsignup');
   });
   this.route('terms');
   this.route('privacy');

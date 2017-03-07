@@ -2,84 +2,149 @@
 {{edit-photos}}
 
 <div class="container">
-
   <div class="row">
-    <div class="col-xs-12">
+    <div class =col-xs-12>
       <h2>Your Profile</h2>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-8">
-      <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal"><span title="Edit Avatar" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-      <img src="/usericon.svg"  class="img-responsive" alt="default user icon" width="500" height="300" >
-
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
-      <div class="well">
-
-  <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editProfileModal"><span title="Edit Details" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-       <h4>About Me:
-</h4>
-        Lorem Ipsum all the homes. placerat velit tempor sit amet. Suspendisse potenti. Morbi luctus iaculis quam ac euismod. Vivamus nec velit non ex sollicitudin ultricies. Nunc sed rhoncus tu
-        <br>
-        <br>
-        <b>Sex:</b> Male
-        <br>
-        <b>Location:</b>  Earth
-        <br>
-        <b>Languages:</b>  English, Fake Latin
-        <br>
-        <b>Tags:</b> RPG, Monopoly, Cheese, Crackers, Pizza
-
-      </div>
+      <br>
     </div>
   </div>
-
-
   <div class="row">
-      <div class="col-xs-12 col-sm-6 col-md-8" align="center">
-        <div class="profile-Actions">
-          <a id="profile-links" ><span title="Send Message" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
-          {{#if isFavorite}}
-          <a id="profile-links" ><span  title="Remove From Favorites" class="glyphicon glyphicon-heart" aria-hidden="true"></span></a>
-          {{else}}
-          <a id="profile-links" ><span  title="Add to Favorites" class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span></a>
-          {{/if}}
+    <div class="col-xs-12 col-sm-8"  id="videoWindow">
+      <div class="panel panel-default video-panel">
+        <div class="profile-controls">
+        {{#if isFavorite}}
+        <a role="button" id="profile-links" ><span  title="Remove From Favorites" class="glyphicon glyphicon-heart" aria-hidden="true"{{action "toggleFav"}}></span></a>
+ &nbsp;
+        {{else}}
+        <a  role="button" id="profile-links" ><span  title="Add to Favorites" class="glyphicon glyphicon-heart-empty" aria-hidden="true"{{action "toggleFav"}}></span></a>
+ &nbsp;
+        {{/if}}
+        <a href="/account/messages" id="profile-links" ><span title="Send Message" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
+ &nbsp;
+        <a  role="button" id="profile-links" ><span title="Send Tip" class="glyphicon glyphicon-bitcoin" aria-hidden="true" {{action "toggleTip"}}></span></a>
+
+                <div class="input-group col-xs-9 col-sm-9" id="tip-form" style="display:none" >
+                  <span class="input-group-btn button-group" data-toggle="buttons">
+                      <label class="btn btn-default">
+                        <input type="radio" name="tipAmount1" value="25" >
+                        25
+                      </label>
+                      <label class="btn btn-default">
+                      <input type="radio" name="tipAmount2" value="100" >
+                      100
+                    </label>
+
+
+                  </span>
+                   <input type="number" class="form-control"   min="1" max="10000"  value="50">
+                   <span class="input-group-btn">
+                     <button class="btn btn-default" type="submit">Send</button>
+                   </span>
+                </div>
+        </div>
+        <div class="panel-body" style="padding:0px">
+          <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal" style="top:74px;right:18px"><span title="Edit Avatar" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+
+          <img src="/usericon.svg"  class="img-responsive center-block" alt="default user icon" width="500" height="300" >
 
         </div>
 
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-4" id="chatWindow">
+      <div class="panel panel-default chat-panel" style="margin-bottom:0px;">
+
+        <div class="panel-body chat-body">
+        <b>test:</b> woooo its chat<br>
+        <b>tester2:</b> Testing Testing Testing <br>
+        <b>test:</b> woooo its chat<br>
+        <b>tester2:</b> Testing Testing Testing <br>
+        <b>test:</b> woooo its chat<br>
+        <b>tester2:</b> Testing Testing Testing <br>
+        <b>test:</b> woooo its chat<br>
+        <b>tester2:</b> Testing Testing Testing <br>
+        <b>test:</b> woooo its chat<br>
+        <b>tester2:</b> Testing Testing Testing <br>
+        <b>test:</b> woooo its chat<br>
+        <b>tester2:</b> Testing Testing Testing <br>
+        <b>test:</b> woooo its chat<br>
+        <b>tester2:</b> Testing Testing Testing <br>
+        <b>test:</b> woooo its chat<br>
+        <b>tester2:</b> Testing Testing Testing <br>
+        <b>test:</b> woooo its chat<br>
+        <b>tester2:</b> Testing Testing Testing <br>
+        <b>test:</b> woooo its chat<br>
+        <b>tester2:</b> Testing Testing Testing <br>
+        <b>test:</b> woooo its chat<br>
+        <b>tester2:</b> Testing Testing Testing <br>
+        <b>test:</b> woooo its chat<br>
+        <b>tester2:</b> Testing Testing Testing <br>
+        </div>
+        <div class="input-group">
+           <input type="text" class="form-control" placeholder="Enter Chat Message...">
+           <span class="input-group-btn">
+             <button class="btn btn-default" type="button">Send</button>
+           </span>
+         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-8">
-          <div class="well">
-            <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal"><span title="Edit Photos" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 
-
-            <h4>Photos</h4>
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-            <img src="/usericon.svg" alt="default user icon" height="100" width="100">
-
-
-          </div>
-
-      </div>
+         <br><br>
+    </div>
   </div>
+  <div class="row">
+      <div class="col-xs-12">
+        <div class="well" id="photo-gallery" style="padding-bottom:10px;">
+          <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal"><span title="Edit Photos" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+          <br>
+
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+          <img src="/usericon.svg" alt="default user icon" height="100" width="100">
+        </div>
+      </div>
+
 </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+              <div class="well">
+
+          <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editProfileModal"><span title="Edit Details" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+               <h4>About Me:</h4>
+                Lorem Ipsum all the homes. placerat velit tempor sit amet. Suspendisse potenti. Morbi luctus iaculis quam ac euismod. Vivamus nec velit non ex sollicitudin ultricies. Nunc sed rhoncus tu
+                <br>
+                <br>
+                <b>Sex:</b> Male
+                <br>
+                <b>Location:</b>  Earth
+                <br>
+                <b>Languages:</b>  English, Fake Latin
+                <br>
+                <b>Tags:</b> RPG, Monopoly, Cheese, Crackers, Pizza
+
+              </div>
+            </div>
+
+        </div>
+
+  </div>
 
 
 {{outlet}}
