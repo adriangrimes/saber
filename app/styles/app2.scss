@@ -17,6 +17,11 @@
   color: #B80000;
   font-size:24px;
 height: 44px;
+padding-left: 10px;
+}
+#profile-links:hover, #profile-links:active, #profile-links:focus{
+  color: #ef0202;
+
 }
 #edit-links{
   color: #B80000;
@@ -24,6 +29,10 @@ height: 44px;
   position:absolute;
   top:12px;
   right:30px;
+}
+#edit-links:hover, #edit-links:active, #edit-links:focus{
+  color: #ef0202;
+
 }
 #footer-links{
   color: #FFFFFF;
@@ -55,38 +64,62 @@ height: 44px;
     overflow-x: auto;
   	white-space: nowrap;
   }
+#simple-tip-form{
+  float:right;
+}
 #tip-form{
-  float: right;
+  position: absolute;
+  padding-top: 20px;
+  width: 96%;
+  -webkit-transition: height .1s ease;
+  -o-transition: height .1s ease;
+  transition: height .1s ease;
+
+}
+#private-messenger-window{
+  position:fixed;
+  z-index: 10000;
+  bottom:0px;
+
+  right: 10px;
+  width: 220px;
+  margin-bottom: 0px;
+  border-bottom-right-radius:0px;
+  border-bottom-left-radius: 0px;
+}
+#private-messenger-panel{
+  height:280px;
+  overflow-y:auto;
+}
+#closePM{
+  float:left;
+  padding-left:5px;
+  padding-right: 20px;
+  font-color: #686868;
+}
+#chat-input{
+  border-radius: 0px;
 }
 .profile-controls{
-  padding:10px;
+padding-top:10px;
+padding-bottom: 10px;
+padding-right: 10px;
+min-height: 54px;
   background-color: #bcbcbc;
 }
 
 
 .btn-primary{
   background:#B80000;
-  border-color:#FFFFFF;
+  border-color:#cccccc;
 }
 .btn-primary:hover{
   background:#ef0202;
-  border-color:#FFFFFF;
+  border-color:#cccccc;
 }
-.btn-primary:focus{
+.btn-primary:focus, .btn-primary:active:hover, .btn-primary.active, .btn-primary.active.focus{
   background:#800000;
-  border-color:#FFFFFF;
-}
-.btn-primary:active:hover{
-  background:#800000;
-  border-color:#FFFFFF;
-}
-.btn-primary.active{
-  background:#800000;
-  border-color:#FFFFFF;
-}
-.btn-primary.active.focus{
-  background:#800000;
-  border-color:#FFFFFF;
+  border-color:#cccccc;
 }
 
 html {
@@ -143,7 +176,24 @@ body {
     /* symbol for "collapsed" panels */
     content:"\e080";
 }
+#tip-toggle{
+  padding-left:9px;
+  padding-right:9px;
+}
 
+#tip-toggle:after{
+  /* symbol for "opening" panels */
+  font-family:'Glyphicons Halflings';
+  /* essential for enabling glyphicon */
+  content:"\e113";
+  font-size: 12px;
+
+
+}
+#tip-toggle.collapsed:after{
+  content:"\e114";
+
+}
 .panel-heading:hover {
       cursor: pointer;
 }
@@ -179,6 +229,10 @@ body {
 
 // Small devices (landscape phones, 544px and up)
 @media (min-width: 544px) {
+
+  #tip-value{
+    padding-left: 7px;
+  }
 
 }
 

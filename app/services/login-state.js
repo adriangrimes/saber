@@ -4,7 +4,7 @@ export default Ember.Service.extend({
 
   store: Ember.inject.service(),
 
-  loggedIn: true,
+  loggedIn: false,
   username: '',
   userType: '',
 

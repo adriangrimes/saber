@@ -4,7 +4,11 @@
 <div class="container">
   <div class="row">
     <div class =col-xs-12>
+      {{#if loginState.loggedIn}}
       <h2>Your Profile</h2>
+      {{else}}
+      <h2>Someone Else</h2>
+      {{/if}}
       <br>
     </div>
   </div>
@@ -12,38 +16,62 @@
     <div class="col-xs-12 col-sm-8"  id="videoWindow">
       <div class="panel panel-default video-panel">
         <div class="profile-controls">
-        {{#if isFavorite}}
-        <a role="button" id="profile-links" ><span  title="Remove From Favorites" class="glyphicon glyphicon-heart" aria-hidden="true"{{action "toggleFav"}}></span></a>
- &nbsp;
-        {{else}}
-        <a  role="button" id="profile-links" ><span  title="Add to Favorites" class="glyphicon glyphicon-heart-empty" aria-hidden="true"{{action "toggleFav"}}></span></a>
- &nbsp;
-        {{/if}}
-        <a href="/account/messages" id="profile-links" ><span title="Send Message" class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
- &nbsp;
-        <a  role="button" id="profile-links" ><span title="Send Tip" class="glyphicon glyphicon-bitcoin" aria-hidden="true" {{action "toggleTip"}}></span></a>
+            {{#if loginState.loggedIn}}
+            <a  id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal" style="top:70px"><span title="Edit Avatar" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 
-                <div class="input-group col-xs-9 col-sm-9" id="tip-form" style="display:none" >
-                  <span class="input-group-btn button-group" data-toggle="buttons">
-                      <label class="btn btn-default">
-                        <input type="radio" name="tipAmount1" value="25" >
-                        25
-                      </label>
-                      <label class="btn btn-default">
-                      <input type="radio" name="tipAmount2" value="100" >
-                      100
-                    </label>
+            {{else}}
+                    {{#if isFavorite}}
+
+                    <a role="button" id="profile-links" ><span  title="Remove From Favorites" class="glyphicon glyphicon-heart" aria-hidden="true"{{action "toggleFav"}}></span></a>
+
+                    {{else}}
+                    <a  role="button" id="profile-links" ><span  title="Add to Favorites" class="glyphicon glyphicon-heart-empty" aria-hidden="true"{{action "toggleFav"}}></span></a>
+
+                    {{/if}}
+                    <a href="/account/messages" id="profile-links" ><span title="Send Message" class="glyphicon glyphicon-envelope" aria-hidden="true" ></span></a>
 
 
-                  </span>
-                   <input type="number" class="form-control"   min="1" max="10000"  value="50">
-                   <span class="input-group-btn">
-                     <button class="btn btn-default" type="submit">Send</button>
-                   </span>
-                </div>
-        </div>
+                    <div class="input-group col-xs-4 col-sm-4" id="simple-tip-form" >
+
+                      <span class="input-group-btn button-group" data-toggle="buttons">
+                          <label class="btn btn-default">
+                            <input type="radio" name="tipAmount1" value="10" >
+                            10
+                          </label>
+                          <label class="btn btn-default">
+                          <input type="radio" name="tipAmount2" value="25" >
+                          25
+                        </label>
+                            <label class="btn btn-default">
+                            <input type="radio" name="tipAmount3" value="50" >
+                            50
+                          </label>
+                          <label class="btn btn-default hidden-xs">
+                          <input type="radio" name="tipAmount4" value="100" >
+                          100
+                        </label>
+                        <button class="btn btn-primary" type="submit">Send Tip</button>
+                        <button class="btn btn-primary collapsed" id="tip-toggle"  data-toggle="collapse"  data-target="#tip-form" type="button"><span title="Tip Options"  aria-hidden="true" {{action "toggleTip"}}></span></button>
+
+
+                      </span>
+                    </div>
+                      <div class="collapse" id="tip-form" >
+                        <div class="col-xs-3 col-sm-3" id="tip-value">
+                        <input type="number" class="form-control"   min="1" max="10000"  value="50">
+                      </div>
+                          <div class="input-group col-xs-8 col-sm-9" >
+
+                               <input type="text" class="form-control"  placeholder="Optional Note">
+                               <span class="input-group-btn">
+                                 <button class="btn btn-primary" type="submit">Send Tip</button>
+                               </span>
+                            </div>
+                          </div>
+
+                            {{/if}}
+                    </div>
         <div class="panel-body" style="padding:0px">
-          <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal" style="top:74px;right:18px"><span title="Edit Avatar" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 
           <img src="/usericon.svg"  class="img-responsive center-block" alt="default user icon" width="500" height="300" >
 
@@ -81,9 +109,9 @@
         <b>tester2:</b> Testing Testing Testing <br>
         </div>
         <div class="input-group">
-           <input type="text" class="form-control" placeholder="Enter Chat Message...">
+           <input type="text" id="chat-input" class="form-control" placeholder="Enter Chat Message...">
            <span class="input-group-btn">
-             <button class="btn btn-default" type="button">Send</button>
+             <button class="btn btn-primary" id="chat-input" type="button">Send</button>
            </span>
          </div>
       </div>
@@ -94,7 +122,11 @@
   <div class="row">
       <div class="col-xs-12">
         <div class="well" id="photo-gallery" style="padding-bottom:10px;">
+          {{#if loginState.loggedIn}}
+
           <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal"><span title="Edit Photos" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+          {{/if}}
+
           <br>
 
           <img src="/usericon.svg" alt="default user icon" height="100" width="100">
@@ -125,8 +157,10 @@
         <div class="row">
             <div class="col-xs-12">
               <div class="well">
+                {{#if loginState.loggedIn}}
 
           <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editProfileModal"><span title="Edit Details" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+          {{/if}}
                <h4>About Me:</h4>
                 Lorem Ipsum all the homes. placerat velit tempor sit amet. Suspendisse potenti. Morbi luctus iaculis quam ac euismod. Vivamus nec velit non ex sollicitudin ultricies. Nunc sed rhoncus tu
                 <br>

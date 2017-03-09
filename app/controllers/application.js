@@ -19,8 +19,9 @@ export default Ember.Controller.extend({
     },
     openlogin(){
       this.set('signupform', false);
-    }
-    
+    },
+
+
 
   }
 
