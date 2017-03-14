@@ -3,7 +3,6 @@ import Ember from 'ember';
 //Controller - application
 export default Ember.Controller.extend({
 
-  loginState: Ember.inject.service('login-state'),
   signupform: false,
 
   actions: {

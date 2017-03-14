@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :user_prefs
   resources :private_messages
   resources :contests
   resources :contest_votes

@@ -5,8 +5,14 @@ export default Ember.Service.extend({
   store: Ember.inject.service(),
 
   loggedIn: false,
+
+  userId: '',
   username: '',
-  userType: '',
+  broadcaster: false,
+  developer: false,
+  adminStatus: false,
+
+  darkMode: false,
 
   init() {
     this._super(...arguments);
@@ -28,29 +34,37 @@ export default Ember.Service.extend({
   logIn(user, pw) {
     //do login work here
     //TODO input validation
-    console.log('Username: '+ user);
-    console.log('Password: '+ pw +' ...lol');
     let that = this;
+
     this.get('store').queryRecord('user', {username: user, password: pw}).then(function(query){
-       console.log(query);
-       if (!query) {
-         console.log('auth failed');
-         that.set('loggedIn', false);
-       } else {
-         console.log('auth success');
-         that.set('loggedIn', true);
-         that.set('username', user);
-         var date = new Date();
 
-         // 30 day expiration
-         var days = 30;
+      that.set('userId', query.get('id'));
+      that.set('broadcaster', query.get('broadcaster'));
+      that.set('developer', query.get('developer'));
+      that.set('adminStatus', query.get('adminStatus'));
 
-         // Get unix milliseconds at current time plus number of days
-         date.setTime(+ date + (days * 86400000)); //24 * 60 * 60 * 1000
-         document.cookie ="username="+user+ ";path=/; expires=" + date.toGMTString();
-         document.cookie ="password="+pw+ ";path=/; expires=" + date.toGMTString();
-         $('#loginModal').modal('hide') //close log in modal
-       }
+      let userPref = that.get('store').peekRecord('user-pref', that.get('userId'));
+      that.set('darkMode', userPref.get('darkMode'));
+
+      if (!query) {
+        console.log('auth failed');
+        that.set('loggedIn', false);
+      } else {
+        console.log('auth success');
+
+        that.set('loggedIn', true);
+        that.set('username', user);
+        var date = new Date();
+
+        // 30 day expiration
+        var days = 30;
+
+        // Get unix milliseconds at current time plus number of days
+        date.setTime(+ date + (days * 86400000)); //24 * 60 * 60 * 1000
+        document.cookie ="username="+user+ ";path=/; expires=" + date.toGMTString();
+        document.cookie ="password="+pw+ ";path=/; expires=" + date.toGMTString();
+        $('#loginModal').modal('hide'); //close log in modal
+      }
     });
       // this.get('store').find('user', 1).then(function(){
       //   console.log("logged in");
@@ -65,7 +79,12 @@ export default Ember.Service.extend({
     //TODO input validation
     console.log("logged out");
     this.set('loggedIn', false);
+    this.set('userId', '');
     this.set('username', '');
+    this.set('broadcaster', false);
+    this.set('developer', false);
+    this.set('adminStatus', false);
+
     var date = new Date();
 
     // 30 day expiration
@@ -76,6 +95,7 @@ export default Ember.Service.extend({
     document.cookie ="username=;path=/; expires=" + date.toGMTString();
     document.cookie ="password=;path=/; expires=" + date.toGMTString();
     this.get('store').unloadAll('user');
+    this.get('store').unloadAll('user-pref');
   },
 
   signUp(user, email, pw, pwconfirm) {
@@ -87,8 +107,8 @@ export default Ember.Service.extend({
         password: pw
       });
       signup.save().then(function(){
-        console.log("signed up")
-        $('#loginModal').modal('hide') //close log in modal
+        console.log("signed up");
+        $('#loginModal').modal('hide'); //close log in modal
       });
 
     } else {

@@ -120,8 +120,67 @@
     </div>
   </div>
   <div class="row">
-      <div class="col-xs-12">
-        <div class="well" id="photo-gallery" style="padding-bottom:10px;">
+      <div class="col-xs-12 col-sm-6 col-sm-push-6" >
+        <div class="panel panel-default game-panel" >
+          <div class="panel-body" id="game-Window">
+            <div class="row">
+              <div class="col-xs-8">
+              {{#if loginState.loggedIn}}
+              <h4 id="gameHeading">Next Stream Starts</h4>
+              <br>
+              <b> Tuesday, March 14th</b> 9:00pm
+
+              {{else}}
+
+              <h4 id="gameHeading">Play 8 Ball Pool</h4>
+
+              <b>If you win:</b> Pizza!
+              <br>
+              <b>Consolation Prize:</b> No Pizza :(
+              <br>
+              <b>Entry Fee:</b> 100Cr
+              <br>
+              <b>Number of Players:</b> 2
+              <br><br>
+              {{/if}}
+
+
+
+
+            </div>
+            <div class="col-xs-4">
+              {{#if loginState.loggedIn}}
+              {{else}}
+
+              <img src="/usericon.svg"  class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+
+              {{/if}}
+            </div>
+
+
+          </div>
+          {{#if loginState.loggedIn}}
+          {{else}}
+
+          <div class="row">
+            <div class="col-xs-6" id="play-button">
+             <a class="btn btn-primary" title="Play Game" role="button">Play Game</a>
+           </div>
+           <div class="col-xs-6">
+             <div class="text-right" id="suggest-game-button">
+               <a class="btn btn-link" title="Suggest Game" role="button">Suggest Game</a>
+             </div>
+             </div>
+           </div>
+
+            {{/if}}
+            </div>
+
+
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-sm-pull-6" >
+        <div class="well" id="photo-gallery">
           {{#if loginState.loggedIn}}
 
           <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal"><span title="Edit Photos" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
@@ -151,8 +210,8 @@
           <img src="/usericon.svg" alt="default user icon" height="100" width="100">
         </div>
       </div>
+  </div>
 
-</div>
 
         <div class="row">
             <div class="col-xs-12">
@@ -175,8 +234,7 @@
 
               </div>
             </div>
-
-        </div>
+          </div>
 
   </div>
 

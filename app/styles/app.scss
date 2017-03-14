@@ -53,11 +53,18 @@ padding-left: 10px;
    width:50%;
    font-size:18px;
   }
-  #photo-gallery{
-    overflow-x: auto;
-  	white-space: nowrap;
-    padding-bottom: 0px;
+  #game-window{
+        height: 190px;
   }
+    #photo-gallery{
+      overflow-x: auto;
+      overflow-y:hidden;
+
+    	white-space: nowrap;
+      padding-bottom:0px;
+      height: 190px;
+
+    }
 
   #simple-tip-form{
     float:right;
@@ -95,6 +102,22 @@ padding-left: 10px;
   #chat-input{
     border-radius: 0px;
   }
+  #gameHeading{
+    margin-top:0px;
+    margin-bottom: 10px;
+  }
+  #day-select{
+    width: 15%;
+  }
+  #dashboard-button{
+    width:100%;
+
+  }
+  #dashboard-button-row{
+    margin-bottom: 10px;
+  }
+
+
   .profile-controls{
     padding:10px;
     min-height: 54px;

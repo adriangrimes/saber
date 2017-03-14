@@ -3,6 +3,13 @@
   <div class="row">
     <div class="col-xs-12">
       <h2>Home Page</h2>
+
+      {{#if loginState.loggedIn}}
+      logged in
+      {{else}}
+      not logged in
+      {{/if}}
+
       <h4> It pages all the homes. placerat velit tempor sit amet. Suspendisse
         potenti. Morbi luctus iaculis quam ac euismod. Vivamus nec velit non ex
         sollicitudin ultricies. Nunc sed rhoncus turpis. Aenean molestie

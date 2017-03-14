@@ -11,7 +11,6 @@ export default Ember.Component.extend({
        }else{
          x.style.display = 'none';
        }
-       console.log('wotwtowtowt');
      
    },
   }

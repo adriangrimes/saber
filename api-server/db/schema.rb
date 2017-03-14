@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170228073509) do
+ActiveRecord::Schema.define(version: 20170307044101) do
 
   create_table "contest_votes", force: :cascade do |t|
     t.integer  "user_id"
@@ -90,23 +90,8 @@ ActiveRecord::Schema.define(version: 20170228073509) do
     t.datetime "updated_at",        null: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string   "email"
-    t.string   "username"
-    t.string   "password"
-    t.string   "first_name"
-    t.string   "middle_name"
-    t.string   "last_name"
-    t.datetime "birthdate"
-    t.string   "account_status"
-    t.boolean  "admin",                                    default: false
-    t.boolean  "broadcaster",                              default: false
-    t.boolean  "developer",                                default: false
-    t.string   "stream_key",                  limit: 64
-    t.string   "address_line_1"
-    t.string   "address_line_2"
-    t.string   "address_line_3"
-    t.string   "timezone"
+  create_table "user_prefs", force: :cascade do |t|
+    t.integer  "user_id"
     t.boolean  "dark_mode",                                default: false
     t.boolean  "send_email_favorites_online",              default: false
     t.boolean  "send_email_site_news",                     default: false
@@ -118,6 +103,28 @@ ActiveRecord::Schema.define(version: 20170228073509) do
     t.string   "profile_languages",           limit: 32
     t.datetime "created_at",                                               null: false
     t.datetime "updated_at",                                               null: false
+    t.index ["user_id"], name: "index_user_prefs_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email"
+    t.string   "username"
+    t.string   "password"
+    t.string   "first_name"
+    t.string   "middle_name"
+    t.string   "last_name"
+    t.datetime "birthdate"
+    t.string   "account_status"
+    t.boolean  "admin_status",              default: false
+    t.boolean  "broadcaster",               default: false
+    t.boolean  "developer",                 default: false
+    t.string   "stream_key",     limit: 64
+    t.string   "address_line_1"
+    t.string   "address_line_2"
+    t.string   "address_line_3"
+    t.string   "timezone"
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
   end
 
 end

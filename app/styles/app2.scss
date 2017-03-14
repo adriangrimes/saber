@@ -60,9 +60,24 @@ padding-left: 10px;
    width:50%;
    font-size:18px;
   }
+#game-window{
+      margin-bottom:0px;
+}
+#play-button{
+  position:relative;
+  bottom:10px;
+}
+#suggest-game-button{
+  position:relative;
+  bottom:10px;
+}
   #photo-gallery{
     overflow-x: auto;
+    overflow-y:hidden;
   	white-space: nowrap;
+    padding-bottom:0px;
+    height: 190px;
+
   }
 #simple-tip-form{
   float:right;
@@ -99,6 +114,23 @@ padding-left: 10px;
 }
 #chat-input{
   border-radius: 0px;
+}
+#gameHeading{
+  margin-top:0px;
+  margin-bottom: 10px;
+}
+#day-select{
+  width: 15%;
+}
+#dashboard-button{
+  width:100%;
+
+}
+#dashboard-button-row{
+  margin-bottom: 10px;
+}
+.game-panel{
+  height: 190px;
 }
 .profile-controls{
 padding-top:10px;
@@ -256,11 +288,11 @@ body {
   background-color:transparent;
 }
 
-#chatWindow{
-  padding-left:0px;
-}
 #videoWindow{
   padding-right:0px;
+}
+#chatWindow{
+  padding-left:0px;
 }
 
 .chat-body{
