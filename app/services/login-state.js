@@ -11,6 +11,13 @@ export default Ember.Service.extend({
   broadcaster: false,
   developer: false,
   adminStatus: false,
+  devCaster: Ember.computed('broadcaster', 'developer', function() {
+    if (this.get('broadcaster') == true ||  this.get('developer') == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }),
 
   darkMode: false,
 
