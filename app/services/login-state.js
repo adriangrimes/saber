@@ -10,6 +10,7 @@ export default Ember.Service.extend({
   username: '',
   broadcaster: false,
   developer: false,
+  devCaster: false,
   adminStatus: false,
   devCaster: Ember.computed('broadcaster', 'developer', function() {
     if (this.get('broadcaster') == true ||  this.get('developer') == true) {

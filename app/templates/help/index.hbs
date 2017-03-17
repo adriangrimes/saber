@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="row">
+    <h2>Help</h2>
+
+    <div id="account">
+      <br><br>
+      <h3>Account and Sign Up</h3>
+      <br>
+
+      <b>Q.</b>  Why do you hate giraffes?
+      <br>
+      <b>A.</b>  No comment.
+
+      <br><br>
+      <b>Q.</b>  Can I put games I've developed on the site?
+      <br>
+      {{#if loginState.loggedIn}}
+        <b>A.</b>  Yes, <a href="/account/developer">click here to become a developer.</a>
+      {{else}}
+        <b>A.</b>  Yes, <a href="/signup/developer">click here to become a developer.</a>
+      {{/if}}
+      <br><br>
+      <b>Q.</b>  How can I stream on your site?
+      <br>
+      {{#if loginState.loggedIn}}
+        <b>A.</b>  Yes, <a href="/account/broadcaster">click here to become a broadcaster.</a>
+      {{else}}
+        <b>A.</b>  Yes, <a href="/signup/broadcaster">click here to become a broadcaster.</a>
+      {{/if}}
+      <br><br>
+      <b>Q.</b>  Can I delete my account?
+      <br>
+      <b>A.</b>  Yes, while logged in <a href="/account/delete">click here to delete your account.</a>
+
+
+    </div>
+    <div id="bugs">
+      <br><br>
+      <h3>Bugs and Issues</h3>
+      <br>
+
+      <b>Q.</b>  I've found a bug! How can I report it?
+      <br>
+      <b>A.</b>  <a href="/contact">Click here to report a bug or issue with the website.</a>
+      <br><br>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="text-center">
+      Still need help? Click below to send us a message.<br><br>
+      <a class="btn btn-primary" href="/contact" role="button">Contact Us</a>
+    </div>
+  </div>
+</div>
+{{outlet}}

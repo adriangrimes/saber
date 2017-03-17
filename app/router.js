@@ -7,28 +7,27 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('about');
   this.route('profile');//, { path: '/profile/:profile_id' });
   this.route('account', function() {
     this.route('developer');
     this.route('broadcaster');
     this.route('delete');
     this.route('messages');
-    this.route('finishsignup');
+    this.route('dashboard');
+  });
+  this.route('signup', function() {
+    this.route('broadcaster');
+    this.route('developer');
+  });
+  this.route('help', function() {
+    this.route('developer');
+    this.route('broadcaster');
   });
   this.route('terms');
   this.route('privacy');
   this.route('contact');
-  this.route('faq');
   this.route('games');
-  this.route('fullSignup');
-  this.route('delete');
-  this.route('signup', function() {
-    this.route('dev');
-    this.route('broadcaster');
-    this.route('developer');
-  });
-  this.route('dashboard');
+  this.route('legal');
 });
 
 export default Router;

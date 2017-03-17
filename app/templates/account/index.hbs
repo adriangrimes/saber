@@ -4,7 +4,10 @@
   <div class="row">
 
     <div class="col-xs-12 col-sm-6 col-md-8">
-      <a class="btn btn-primary btn-block visible-xs-block" href="/dashboard" role="button">View Dashboard &nbsp;<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span></a>
+
+      {{#if loginState.devCaster}}
+      <a class="btn btn-primary btn-block visible-xs-block" href="/account/dashboard" role="button">View Dashboard &nbsp;<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span></a>
+      {{/if}}
       <a class="btn btn-primary btn-block visible-xs-block" href="/profile" role="button">Edit Profile &nbsp;<span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
       <br><br>
       <div class="panel-group" id="siteSettingsAccordion">
@@ -116,6 +119,8 @@
                   </div>
                 </div>
               </div>
+
+              {{#if loginState.devCaster}}
 
                 <div class="panel-group" id="payoutSettingsAccordion">
                   <div class="panel panel-default">
@@ -425,22 +430,37 @@
                       </div>
                     </div>
                   </div>
+                  {{/if}}
+
+
           </div>
 
             <div class="col-xs-12 col-sm-6 col-md-4">
-              <a class="btn btn-primary btn-block hidden-xs" href="/dashboard" role="button">View Dashboard &nbsp;<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span></a>
+              {{#if loginState.devCaster}}
+              <a class="btn btn-primary btn-block hidden-xs" href="/account/dashboard" role="button">View Dashboard &nbsp;<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span></a>
+              {{/if}}
                   <a class="btn btn-primary btn-block hidden-xs" href="/profile" role="button">Edit Profile &nbsp;<span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                 <br> <br>    <br>
-                <a class="btn btn-primary btn-block hidden-xs" href="/account/broadcaster" role="button">Become a Broadcaster &nbsp;<span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span></a>
-                <a class="btn btn-primary btn-block hidden-xs" href="/account/developer" role="button">Become a Developer &nbsp;<span class="glyphicon glyphicon-console" aria-hidden="true"></span></a>
-
-
+                {{#if loginState.broadcaster}}
+                {{else}}
+                <a class="btn btn-primary btn-block hidden-xs" href="/fullSignup" role="button">Become a Broadcaster &nbsp;<span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span></a>
+                {{/if}}
+                {{#if loginState.developer}}
+                {{else}}
+                <a class="btn btn-primary btn-block hidden-xs" href="/fullSignup" role="button">Become a Developer &nbsp;<span class="glyphicon glyphicon-console" aria-hidden="true"></span></a>
+                {{/if}}
               </div>
             </div>
   <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-8">
-      <a class="btn btn-primary btn-block visible-xs-block" href="/fullSignup" role="button">Become a Broadcaster &nbsp;<span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span></a>
-      <a class="btn btn-primary btn-block visible-xs-block" href="/fullSignup" role="button">Become a Developer &nbsp;<span class="glyphicon glyphicon-console" aria-hidden="true"></span></a>
+      {{#if loginState.broadcaster}}
+      {{else}}
+      <a class="btn btn-primary btn-block visible-xs" href="/fullSignup" role="button">Become a Broadcaster &nbsp;<span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span></a>
+      {{/if}}
+      {{#if loginState.developer}}
+      {{else}}
+      <a class="btn btn-primary btn-block visible-xs" href="/fullSignup" role="button">Become a Developer &nbsp;<span class="glyphicon glyphicon-console" aria-hidden="true"></span></a>
+      {{/if}}
 </div>
 <div class="col-xs-12 col-sm-6 col-md-4">
   <br>

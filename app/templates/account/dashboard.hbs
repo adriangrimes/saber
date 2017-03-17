@@ -1,0 +1,222 @@
+<div class="container">
+  {{#if loginState.devCaster}}
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>Your Dashboard</h2>
+      <br>
+    </div>
+  </div>
+  {{#if loginState.broadcaster}}
+  <div class="row">
+    <div class="col-xs-6 col-sm-4">
+      <br><br>
+      <a class="btn btn-primary btn-block btn-lg visible-xs" title="Stream with minimal set up right from your web browser." role="button">Quick<br/>Stream</a>
+      <a class="btn btn-primary btn-block btn-lg hidden-xs" title="Stream with minimal set up right from your web browser." role="button">Quick Stream</a>
+
+    </div>
+    <div class="col-xs-6 col-sm-4" >
+      <br><br>
+      <a class="btn btn-primary btn-block btn-lg visible-xs" title="Stream via RTMP, better for gaming streams but requires some set up."  role="button">Advanced <br/>Stream</a>
+      <a class="btn btn-primary btn-block btn-lg hidden-xs" title="Stream via RTMP, better for gaming streams but requires some set up." role="button">Advanced Stream</a>
+      <br><br>
+    </div>
+
+    <div class="col-xs-12 col-sm-4">
+
+              {{stream-scheduler}}
+    </div>
+  </div>
+  {{/if}}
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-8">
+
+          {{#if loginState.broadcaster}}
+
+          <div class="panel-group" id="streamSettingsAccordion">
+              <div class="panel panel-default">
+                <div class="panel-heading accordion-toggle" data-toggle="collapse" data-parent="#streamSettingsAccordion" data-target="#streamSettings">
+                  <h4 class="panel-title"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp; Stream Settings</h4>
+                </div>
+              <div id="streamSettings" class="panel-collapse collapse in">
+                <div class="panel-body">
+                <form class="form-inline">
+                        <div class="input-group">
+                             <span class="input-group-btn">
+                                 <button class="btn btn-default" type="button">Show Steam Key</button>
+                             </span>
+                             <input type="text" class="form-control" placeholder="***************">
+                         </div>
+                         <button class="btn btn-default"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>&nbsp;Reset Key</button>
+
+                       </form>
+                     <form>
+
+                        <br>
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input">
+                      Allow users to Shoopdawoop you
+                      </label>
+
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input">
+                        Allow users to werwerwer with you
+                    </label>
+                  </div>
+                  <br>
+
+                    <label for="example-number-input" >Number</label>
+                      <input class="form-control" type="number" min="10" max="500" value="42" id="number-input">
+
+                  <br>
+                  <div class=text-right>
+
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          {{/if}}
+          {{#if loginState.developer}}
+          <div class="panel-group" id="developerAccordion">
+            <div class="panel panel-default">
+                <div class="panel-heading accordion-toggle" data-toggle="collapse" data-parent="#developerAccordion" data-target="#developerCollapse">
+                  <h4 class="panel-title"><span class="glyphicon glyphicon-tower" aria-hidden="true"></span>&nbsp; My Games</h4>
+
+                </div>
+                <div id="developerCollapse" class="panel-collapse collapse in">
+                  <div class="panel-body">
+                    <div class="col-xs-6">
+                      <br><br>
+                      <a class="btn btn-primary btn-block btn-lg visible-xs" title="View the API and Documentation" role="button">View<br/>API</a>
+                      <a class="btn btn-primary btn-block btn-lg hidden-xs" title="View the API and Documentation" role="button">View API</a>
+
+                    </div>
+                    <div class="col-xs-6" >
+                      <br><br>
+                      <a class="btn btn-primary btn-block btn-lg visible-xs" title="Upload Your Game"  role="button">Upload <br/>Game</a>
+                      <a class="btn btn-primary btn-block btn-lg hidden-xs" title="Upload Your Game" role="button">Upload Game</a>
+                      <br><br>
+                    </div>
+                    </div>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                          <div class="col-xs-8">
+                            Game 1
+                          </div>
+                        <div class="col-xs-4">
+                          <img src="/usericon.svg"  class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-sm-6">
+                        <div class="col-xs-8">
+                        Game 2
+                        </div>
+                        <div class="col-xs-4">
+                          <img src="/usericon.svg"  class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-sm-6">
+                        <div class="col-xs-8">
+                          Game 3
+                        </div>
+                        <div class="col-xs-4">
+                          <img src="/usericon.svg"  class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-sm-6">
+                        <div class="col-xs-8">
+                          Game 4
+                        </div>
+                        <div class="col-xs-4">
+                          <img src="/usericon.svg"  class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            {{/if}}
+
+                      <div class="panel-group" id="statsAccordion">
+                        <div class="panel panel-default">
+
+                            <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#statsAccordion" data-target="#statsCollapse">
+                              <h4 class="panel-title"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>&nbsp; Stats</h4>
+
+                            </div>
+                            <div id="statsCollapse" class="panel-collapse collapse">
+                              <div class="panel-body">
+                                woo stats <br> <br> congrats on the stats
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-4">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="row" id="dashboard-button-row">
+                <div class="col-xs-6">
+                  <a  id="dashboard-button" href="/profile" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-edit"></span> <br/>Edit Profile</a>
+                </div>
+                <div class="col-xs-6">
+                  <a id="dashboard-button" href="/account/messages" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-inbox"></span> <br/>Inbox</a>
+                </div>
+              </div>
+              <div class="row"  id="dashboard-button-row">
+                <div class="col-xs-6">
+                  <a id="dashboard-button" href="/account" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-cog"></span> <br/>Account</a>
+                </div>
+                <div class="col-xs-6">
+                  <a id="dashboard-button" href="#" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-sunglasses"></span> <br/>Cool Stuff</a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6">
+                  <a  id="dashboard-button" href="#" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-stats"></span> <br/>Earnings</a>
+                </div>
+                <div class="col-xs-6">
+                  <a id="dashboard-button" href="#" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-user"></span> <br/>Referals</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    {{#if loginState.developer}}
+    <div class="row">
+
+    </div>
+    {{/if}}
+
+
+  {{else}}
+  <div class="row">
+    <br><br>
+    <div class="col-xs-6">
+      <a href="/account" class="btn btn-primary btn-block btn-lg visible-xs" title="Account Settings"  role="button">Account<br/>Settings</a>
+      <a href="/account" class="btn btn-primary btn-block btn-lg hidden-xs" title="Account Settings"  role="button">Account Settings</a>
+    </div>
+    <div class="col-xs-6">
+      <a href="/profile" class="btn btn-primary btn-block btn-lg visible-xs" title="My Profile" role="button">My<br/>Profile</a>
+      <a href="/profile" class="btn btn-primary btn-block btn-lg hidden-xs" title="My Profile" role="button">My Profile</a>
+
+    </div>
+  </div>
+  {{/if}}
+
+</div>
+
+
+{{outlet}}

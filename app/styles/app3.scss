@@ -1,0 +1,360 @@
+
+@import "bootstrap";
+
+*{
+
+  font-family: 'Lato', sans-serif;
+}
+
+#nav-links{
+  color: #FFFFFF;
+  background-color:transparent;
+}
+#nav-links:hover, #nav-links:active, #nav-links:focus{
+  color: #bcbcbc;
+}
+#profile-links{
+  color: #B80000;
+  font-size:24px;
+height: 44px;
+padding-left: 10px;
+}
+#profile-links:hover, #profile-links:active, #profile-links:focus{
+  color: #ef0202;
+
+}
+#edit-links{
+  color: #B80000;
+  font-size:20px;
+  position:absolute;
+  top:12px;
+  right:30px;
+}
+#edit-links:hover, #edit-links:active, #edit-links:focus{
+  color: #ef0202;
+
+}
+#footer-links{
+  color: #FFFFFF;
+}
+#footer-links:hover{
+  color:#000000;
+}
+#main-navbar-collapse{
+  background-color:#e6e6e6;
+}
+#login-button{
+  color: #000000;
+  border:none;
+  background-color:#FFFFFF;
+}
+#creditSelect{
+  padding:20px;
+  font-size:18px;
+ }
+ #payoutSelect{
+   width:100%;
+  }
+ #payoutMethod{
+   padding:20px;
+   width:50%;
+   font-size:18px;
+  }
+#game-window{
+      margin-bottom:0px;
+}
+#play-button{
+  position:relative;
+  bottom:10px;
+}
+#suggest-game-button{
+  position:relative;
+  bottom:10px;
+}
+  #photo-gallery{
+    overflow-x: auto;
+    overflow-y:hidden;
+  	white-space: nowrap;
+    padding-bottom:0px;
+    height: 190px;
+
+  }
+#simple-tip-form{
+  float:right;
+}
+#tip-form{
+  position: absolute;
+  padding-top: 20px;
+  width: 96%;
+  -webkit-transition: height .1s ease;
+  -o-transition: height .1s ease;
+  transition: height .1s ease;
+
+}
+#private-messenger-window{
+  position:fixed;
+  z-index: 10000;
+  bottom:0px;
+
+  right: 10px;
+  width: 220px;
+  margin-bottom: 0px;
+  border-bottom-right-radius:0px;
+  border-bottom-left-radius: 0px;
+}
+#private-messenger-panel{
+  height:280px;
+  overflow-y:auto;
+}
+#closePM{
+  float:left;
+  padding-left:5px;
+  padding-right: 20px;
+  font-color: #686868;
+}
+#chat-input{
+  border-radius: 0px;
+}
+#gameHeading{
+  margin-top:0px;
+  margin-bottom: 10px;
+}
+#day-select{
+  width: 15%;
+}
+#dashboard-button{
+  width:100%;
+
+}
+#dashboard-button-row{
+  margin-bottom: 10px;
+}
+.game-panel{
+  height: 190px;
+}
+.profile-controls{
+padding-top:10px;
+padding-bottom: 10px;
+padding-right: 10px;
+min-height: 54px;
+  background-color: #bcbcbc;
+}
+
+
+.btn-primary{
+  background:#B80000;
+  border-color:#cccccc;
+}
+.btn-primary:hover{
+  background:#ef0202;
+  border-color:#cccccc;
+}
+.btn-primary:focus, .btn-primary:active:hover, .btn-primary.active, .btn-primary.active.focus{
+  background:#800000;
+  border-color:#cccccc;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 400px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 400px;
+  background-color: #232528;
+}
+
+.container {
+  width: auto;
+  max-width: 960px;
+  padding: 0 15px;
+  padding-bottom: 30px;
+}
+.form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+.navbar-default{
+  min-height:50px;
+	background: #B80000; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, #B80000 , #800000); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #B80000, #800000); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #B80000, #800000); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #B80000 , #800000); /* Standard syntax */
+
+}
+
+
+// Collapsable Wellss
+.panel-heading.accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family:'Glyphicons Halflings';
+    /* essential for enabling glyphicon */
+    content:"\e114";
+    position: absolute;
+    right:10px;
+    top: 7px;
+    font-size: 15pt;
+    color: grey;
+}
+.panel-heading.accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content:"\e080";
+}
+#tip-toggle{
+  padding-left:9px;
+  padding-right:9px;
+}
+
+#tip-toggle:after{
+  /* symbol for "opening" panels */
+  font-family:'Glyphicons Halflings';
+  /* essential for enabling glyphicon */
+  content:"\e113";
+  font-size: 12px;
+
+
+}
+#tip-toggle.collapsed:after{
+  content:"\e114";
+
+}
+.panel-heading:hover {
+      cursor: pointer;
+}
+
+.panel-group{
+  position:relative;
+}
+
+
+
+
+// Extra small devices (portrait phones, less than 544px)
+// No media query since this is the default in Bootstrap
+
+.chat-body{
+  height:200px;
+  overflow-y: auto;
+
+}
+
+.chat-panel{
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-top-style: none;
+}
+.video-panel{
+    margin-bottom: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+
+
+// Small devices (landscape phones, 544px and up)
+@media (min-width: 544px) {
+
+  #tip-value{
+    padding-left: 7px;
+  }
+
+}
+
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  body {
+    margin-bottom: 120px;
+  }
+  .footer {
+    height: 120px;
+    color: #FFFFFF;
+  }
+  .navbar-toggle{
+   position:absolute;
+   margin-top:6px;
+   right:0px;
+
+ }
+  #main-navbar-collapse{
+  background-color:transparent;
+}
+
+#videoWindow{
+  padding-right:0px;
+}
+#chatWindow{
+  padding-left:0px;
+}
+
+.chat-body{
+  height:515px;
+
+}
+
+.chat-panel{
+  height: 550px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-left-style: none;
+  border-top-style: solid;
+
+}
+.video-panel{
+    height: 550px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+
+
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+
+
+}
+
+
+
+//spinny guy
+.spinner {
+  width: 50px;
+  height: 15px;
+  background-color: #FFF;
+
+  margin: 2px auto;
+  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+  animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+@-webkit-keyframes sk-rotateplane {
+  0% { -webkit-transform: perspective(120px) }
+  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+}
+@keyframes sk-rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+  } 50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+  } 100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}
