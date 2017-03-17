@@ -8,6 +8,10 @@ export default Ember.Controller.extend({
     toggleFav(){
       this.toggleProperty('isFavorite');
     },
+
+      setupController: function(controller, model) {
+        controller.set('user', model);
+      }
   }
 
 });

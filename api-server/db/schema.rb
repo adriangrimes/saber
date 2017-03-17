@@ -111,10 +111,20 @@ ActiveRecord::Schema.define(version: 20170307044101) do
     t.string   "username"
     t.string   "password"
     t.string   "first_name"
+    t.string   "middle_name"
     t.string   "last_name"
     t.datetime "birthdate"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "account_status"
+    t.boolean  "admin_status",              default: false
+    t.boolean  "broadcaster",               default: false
+    t.boolean  "developer",                 default: false
+    t.string   "stream_key",     limit: 64
+    t.string   "address_line_1"
+    t.string   "address_line_2"
+    t.string   "address_line_3"
+    t.string   "timezone"
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
   end
 
 end

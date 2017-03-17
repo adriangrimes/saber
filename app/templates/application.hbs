@@ -38,7 +38,7 @@
                  {{#if loginState.devCaster}}
                     <li><a href="/account/dashboard">Dashboard</a></li>
                  {{/if}}
-                 <li><a href="/profile">Profile</a></li>
+                 <li><a href="/profile/{{loginState.username}}">Profile</a></li>
                  <li><a href="/account">Account Settings</a></li>
                  <li><a href="/games">Games</a></li>
                  <li role="separator" class="divider"></li>
@@ -53,7 +53,7 @@
            {{#if loginState.devCaster}}
               <li><a class="visible-xs-block" href="/account/dashboard">Dashboard</a></li>
             {{/if}}
-            <li><a class="visible-xs-block" href="/profile">Profile</a></li>
+            <li><a class="visible-xs-block" href="/profile/{{loginState.username}}">Profile</a></li>
             <li><a class="visible-xs-block" href="/account">Account Settings</a></li>
             <li><a class="visible-xs-block" href="/games">Games</a></li>
             <li><a class="visible-xs-block" role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a></li>
