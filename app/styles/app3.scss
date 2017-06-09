@@ -6,6 +6,14 @@
   font-family: 'Lato', sans-serif;
 }
 
+//generic classes
+
+.no-padding{
+  padding-left: 0px;
+  padding-right:0px;
+}
+
+
 #nav-links{
   color: #FFFFFF;
   background-color:transparent;
@@ -188,7 +196,14 @@ body {
   background: -o-linear-gradient(right, #B80000, #800000); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(right, #B80000, #800000); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, #B80000 , #800000); /* Standard syntax */
+}
 
+.chat-divide{
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#999999+0,727272+0&0.65+0,0+5,0+36 */
+  background: -moz-linear-gradient(top, rgba(114,114,114,0.65) 0%, rgba(114,114,114,0) 5%, rgba(114,114,114,0) 36%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(114,114,114,0.65) 0%,rgba(114,114,114,0) 5%,rgba(114,114,114,0) 36%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(114,114,114,0.65) 0%,rgba(114,114,114,0) 5%,rgba(114,114,114,0) 36%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6727272', endColorstr='#00727272',GradientType=0 ); /* IE6-9 */
 }
 
 
@@ -250,11 +265,13 @@ body {
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
   border-top-style: none;
+    border:0px;
 }
 .video-panel{
     margin-bottom: 0px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+    border:0px;
 }
 
 
@@ -283,6 +300,14 @@ body {
    margin-top:6px;
    right:0px;
 
+   .navbar-fixed-top
+     {
+     position: relative;
+     top: auto;
+     }
+
+
+
  }
   #main-navbar-collapse{
   background-color:transparent;
@@ -296,20 +321,25 @@ body {
 }
 
 .chat-body{
-  height:515px;
+  height:380px;
 
 }
 
 .chat-panel{
-  height: 550px;
+  height: 415px;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   border-left-style: none;
   border-top-style: solid;
 
 }
+
+.chat-divide{
+  background:#FFF;
+}
+
 .video-panel{
-    height: 550px;
+    height: 415px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
 }

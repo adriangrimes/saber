@@ -7,7 +7,6 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  
   this.route('profile');//, { path: '/profile/:profile_id' });
   this.route('account', function() {
     this.route('developer');
@@ -29,6 +28,18 @@ Router.map(function() {
   this.route('contact');
   this.route('games');
   this.route('legal');
+
+  this.route('p', {
+    path: 'p/:profile_id'
+  });
+
+  this.route('page-not-found', {
+    path: '/*wildcard'
+  });
+
+  this.route('user-not-found', {
+    path: 'p/*wildcard'
+  });
 });
 
 export default Router;
