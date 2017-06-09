@@ -8,18 +8,15 @@ export default Ember.Controller.extend({
     toggleFav(){
       this.toggleProperty('isFavorite');
     },
-      submitmsg(){
-  		var clientmsg = $("#usermsg").val();
-  		$("#usermsg").val('');
-            console.log(clientmsg);
-  		return false;
-	 },
-
-      setupController: function(controller, model) {
-        controller.set('user', model);
-      },
-
-
+    submitmsg(){
+      var clientmsg = $("#usermsg").val();
+      $("#usermsg").val('');
+      console.log(clientmsg);
+      return false;
+    },
+    setupController: function(controller, model) {
+      controller.set('user', model);
+    },
   }
 
 });
