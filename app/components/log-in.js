@@ -4,30 +4,34 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   casterform: false,
   loginState: Ember.inject.service('login-state'),
-  inputusername:'',
-  inputpassword: '',
+  session: Ember.inject.service('session'),
+  inputUsername: '',
+  inputPassword: '',
 
   actions: {
-    login() {
-      if (this.get('loginState.loggedIn') === false) {
-        const username = this.get('inputusername');
-        const pw = this.get('inputpassword');
+    authenticate() {
+      let identification = this.get('inputUsername');
+      let password = this.get('inputPassword');
 
+      console.log(this.get('session.isAuthenticated'));
+      console.log('component log in inputUsername: ' + identification);
+
+      if (this.get('session.isAuthenticated') === false) {
         this.$('#loginModal > div > div > form > div > button > div').addClass('spinner');
         this.$("#loginModal > div > div > form > div > button > div").contents().filter(function () {
           return this.nodeType === 3; // Text nodes only
         }).remove();
 
-        this.get('loginState').logIn(username,pw);
+        this.get('loginState').logIn(identification, password);
       }
-      if (this.get('loginState.loggedIn') === true) {
+      if (this.get('session.isAuthenticated') === true) {
         //clear fields for reasons
         this.set('inputusername','');
         this.set('inputpassword','');
       }
     },
     signup(){
-      if (this.get('loginState.loggedIn') === false) {
+      if (this.get('session.isAuthenticated') === false) {
         const username = this.get('inputusername');
         const email = this.get('inputemailaddress');
         const pw = this.get('inputpassword');

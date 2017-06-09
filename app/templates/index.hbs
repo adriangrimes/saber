@@ -4,10 +4,10 @@
     <div class="col-xs-12">
       <h2>Home Page</h2>
 
-      {{#if loginState.loggedIn}}
-      logged in
+      {{#if session.isAuthenticated}}
+        logged in
       {{else}}
-      not logged in
+        not logged in
       {{/if}}
 
       <h4> It pages all the homes. placerat velit tempor sit amet. Suspendisse

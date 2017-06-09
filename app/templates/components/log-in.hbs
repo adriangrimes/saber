@@ -18,8 +18,8 @@
           <div class="modal-body">
 
           <div class="form-group-sm">
-            <label for="inputusername">Username</label>
-            {{input type="text" class="form-control" value=inputusername id="inputusername" placeholder="Username"}}
+            <label for="inputusername">Email</label>
+            {{input class="form-control" value=inputUsername id="inputusername" placeholder="Enter Email"}}
           </div>
           {{#if signupform}}
             <br>
@@ -31,7 +31,7 @@
             <br>
             <div class="form-group-sm">
               <label for="inputpassword">Password</label>
-              {{input type="password" class="form-control" value=inputpassword id="inputpassword" placeholder="Password"}}
+              {{input class="form-control" value=inputPassword id="inputpassword" placeholder="Enter Password"}}
             </div>
           {{#if signupform}}
             <br>
@@ -50,7 +50,10 @@
             <button type="button" class="signup-button btn btn-primary btn-block" data-dismiss="modal" {{action "signup"}}>Sign me up!</button>
           {{else}}
             <br>
-            <button type="button" class="btn btn-primary btn-block" data-dismiss="" {{action "login"}}><div>Log In</div></button>
+            <button type="button" class="btn btn-primary btn-block" data-dismiss="" {{action "authenticate"}}><div>Log In</div></button>
+          {{/if}}
+          {{#if errorMessage}}
+            {{errorMessage}}
           {{/if}}
         </div>
       </form>

@@ -6,6 +6,9 @@ module.exports = function(environment) {
     environment: environment,
     rootURL: '/',
     locationType: 'auto',
+    contentSecurityPolicy: {
+      'connect-src': "*"
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -17,6 +20,13 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
     }
+  };
+
+  ENV['ember-simple-auth'] = {
+    baseURL: '',
+    authenticationRoute: '',
+    routeAfterAuthentication: '/account/dashboard',
+    routeIfAlreadyAuthenticated: '/account/dashboard',
   };
 
   if (environment === 'development') {

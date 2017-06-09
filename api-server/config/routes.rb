@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: { sessions: 'sessions' }
   resources :user_prefs
   resources :private_messages
   resources :contests
