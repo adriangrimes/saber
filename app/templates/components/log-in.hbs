@@ -1,22 +1,15 @@
-<div class="loginModal modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="loginmodal">
+
+        <h4>
           {{#if signupform}}
-            <a href="" {{action 'toggleSignUp'}}><u>Log in</u></a>     or <b>Sign up</b>
+            <b>Sign up</b>     or <a href="" {{action 'toggleSignUp'}}><u>Log in</u></a>
           {{else}}
             <b>Log in</b>      or <a href="" {{action 'toggleSignUp'}}><u>Sign up</u></a>
           {{/if}}
         </h4>
-      </div>
+        <br>
+
 
         <form>
-          <div class="modal-body">
-
           <div class="form-group-sm">
             <label for="inputusername">Email</label>
             {{input class="form-control" value=inputUsername id="inputusername" placeholder="Enter Email"}}
@@ -55,9 +48,4 @@
           {{#if errorMessage}}
             {{errorMessage}}
           {{/if}}
-        </div>
       </form>
-
-    </div>
-  </div>
-</div>

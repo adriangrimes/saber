@@ -2,7 +2,10 @@ import Ember from 'ember';
 
 //Component - log-in
 export default Ember.Component.extend({
-  casterform: false,
+
+
+  signupform: false,
+
   loginState: Ember.inject.service('login-state'),
   session: Ember.inject.service('session'),
   inputUsername: '',

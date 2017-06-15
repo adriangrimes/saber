@@ -2,42 +2,13 @@
 <div class="container">
 
   <div class="row ">
-    <div class="col-xs-12 col-sm-4">
-      <h3>Sign Up</h3>
-
-      <br>
-      Play stuff!
+    <div class="col-xs-1 col-sm-3 hidden-xs">
     </div>
-    <div class="col-xs-12 col-sm-8">
-      <form>
-        <div class="form-group-sm">
-          <label for="inputusername">Username</label>
-          <input type="text" class="form-control" id="inputusername" placeholder="Choose a username">
-        </div>
-        <div class="form-group-sm">
-          <label for="inputemailAddress">Email address</label>
-          <input type="email" class="form-control" id="inputemailAddress"  placeholder="Enter email address">
-        </div>
-
-        <div class="form-group-sm">
-          <label for="inputpassword">Password</label>
-          <input type="password" class="form-control" id="inputpassword" placeholder="Password">
-        </div>
-        <div class="form-group-sm">
-          <label for="inputpasswordconfirm">Confirm Password</label>
-          <input type="password" class="form-control" id="inputpasswordconfirm" placeholder="Password">
-        </div>
-        <label class="form-check-label">
-                <br>
-          <input type="checkbox" class="form-check-input">
-            Yes, I am over the age of 18 and agree to the <a href="/terms" target="_blank"><u>terms of service</u></a></label>
-  <br><br>
-
-
-        <button type="button" class="signup-button btn btn-primary btn-block" data-dismiss="modal" {{action "signup"}}>Sign me up!</button>
-</form>
-
-</div>
+    <div class="col-xs-12 col-sm-6">
+      {{log-in signupform=true}}
+    </div>
+    <div class="col-xs-1 col-sm-3 hidden-xs">
+    </div>
 </div>
 
 </div>

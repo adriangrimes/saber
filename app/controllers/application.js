@@ -3,7 +3,6 @@ import Ember from 'ember';
 //Controller - application
 export default Ember.Controller.extend({
 
-  signupform: false,
 
   actions: {
 
@@ -11,16 +10,6 @@ export default Ember.Controller.extend({
       this.get('loginState').logOut();
       this.transitionToRoute('index');
     },
-    openSignup(userType){
-      var modal = Ember.$(".loginModal");
-      modal.find('.signup-button').text('Sign up as a ' + userType);
-      modal.find('.modal-title').text('Sign up as a ' + userType);
-    },
-    openlogin(){
-      this.set('signupform', false);
-    },
-
-
 
   }
 
