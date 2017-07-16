@@ -40,6 +40,7 @@ Router.map(function() {
   this.route('user-not-found', {
     path: 'p/*wildcard'
   });
+  this.route('admin');
 });
 
 export default Router;

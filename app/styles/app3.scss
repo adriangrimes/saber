@@ -42,6 +42,13 @@ padding-left: 10px;
   color: #ef0202;
 
 }
+.alert-info{
+  background-color: #FF8888;
+  border-width: 0px;
+  border-radius: 0px;
+  color: #000000;
+
+}
 #footer-links{
   color: #FFFFFF;
 }
@@ -105,7 +112,7 @@ padding-left: 10px;
   bottom:0px;
 
   right: 10px;
-  width: 220px;
+  width: 300px;
   margin-bottom: 0px;
   border-bottom-right-radius:0px;
   border-bottom-left-radius: 0px;
@@ -123,6 +130,35 @@ padding-left: 10px;
 #chat-input{
   border-radius: 0px;
 }
+
+#popup-alert-window{
+  position:fixed;
+  z-index: 10000;
+  bottom:60px;
+
+  right: 10px;
+  width: 300px;
+  margin-bottom: 0px;
+  background-color:#F5F5F5;
+}
+#popup-alert-panel{
+  height:100px;
+  overflow-y:auto;
+  padding-left:0px;
+  padding-top:5px;
+}
+.popup-title{
+  font-size:16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+}
+#closeAlert{
+  float:left;
+  padding-left:5px;
+  padding-right: 10px;
+  font-color: #686868;
+}
 #gameHeading{
   margin-top:0px;
   margin-bottom: 10px;
@@ -136,6 +172,9 @@ padding-left: 10px;
 }
 #dashboard-button-row{
   margin-bottom: 10px;
+}
+#large-glyphicon{
+  font-size: 75px;
 }
 .game-panel{
   height: 190px;
@@ -157,8 +196,12 @@ min-height: 54px;
   background:#ef0202;
   border-color:#cccccc;
 }
-.btn-primary:focus, .btn-primary:active:hover, .btn-primary.active, .btn-primary.active.focus{
+.btn-primary:focus, .btn-primary:active:hover, .btn-primary.active, .btn-primary.active.focus .disabled{
   background:#800000;
+  border-color:#cccccc;
+}
+.label-primary{
+  background:#B80000;
   border-color:#cccccc;
 }
 
@@ -176,6 +219,41 @@ body {
   width: 100%;
   height: 400px;
   background-color: #232528;
+}
+#newEmailBody{
+ height: 300px;
+}
+
+
+
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+  color: #B80000;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #B80000;
+  background-color: #F0F0F0;
+}
+
+.main {
+  padding: 20px;
+}
+
+.main .page-header {
+  margin-top: 0;
+}
+
+
+.dash-widget{
+  color: #FFFFFF;
 }
 
 .container {
@@ -196,6 +274,7 @@ body {
   background: -o-linear-gradient(right, #B80000, #800000); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(right, #B80000, #800000); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, #B80000 , #800000); /* Standard syntax */
+  margin-bottom:5px;
 }
 
 .chat-divide{
@@ -251,9 +330,12 @@ body {
 
 
 
-
 // Extra small devices (portrait phones, less than 544px)
 // No media query since this is the default in Bootstrap
+
+#verifyFooter{
+  height:160px;
+}
 
 .chat-body{
   height:200px;
@@ -294,6 +376,10 @@ body {
   .footer {
     height: 120px;
     color: #FFFFFF;
+  }
+
+  #verifyFooter{
+    height:55px;
   }
   .navbar-toggle{
    position:absolute;

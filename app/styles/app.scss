@@ -102,6 +102,28 @@ padding-left: 10px;
   #chat-input{
     border-radius: 0px;
   }
+
+  #popup-alert-window{
+    position:fixed;
+    z-index: 10000;
+    bottom:60px;
+
+    right: 10px;
+    width: 300px;
+    margin-bottom: 0px;
+  }
+  #popup-alert-panel{
+    height:100px;
+    overflow-y:auto;
+    padding-left:0px;
+    padding-top:5px;
+  }
+  .popup-title{
+    font-size:16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+  }
   #usermsg{
     border-radius: 0px;
   }
@@ -119,6 +141,13 @@ padding-left: 10px;
   }
   #dashboard-button-row{
     margin-bottom: 10px;
+  }
+
+  #large-glyphicon{
+    font-size: 75px;
+  }
+  #newEmailBody{
+   height: 300px;
   }
 
 
@@ -244,8 +273,13 @@ body {
 
 
 
+
 // Extra small devices (portrait phones, less than 544px)
 // No media query since this is the default in Bootstrap
+
+#verifyFooter{
+  height:160px;
+}
 
 .chat-body{
   height:200px;
@@ -316,7 +350,9 @@ body {
   .chat-divide{
     background:#FFFFFF;
   }
-
+  #verifyFooter{
+    height:55px;
+  }
   .video-panel{
       height: 550px;
       border-top-right-radius: 0px;

@@ -2,6 +2,7 @@
 {{log-in-modal}}
 {{buy-credits}}
 {{private-messenger}}
+{{popup-alert}}
 
 <nav class="navbar navbar-default" id="nav-bar">
   <div class="container-fluid">
@@ -14,6 +15,7 @@
         </button>
       {{else}}
         <a  id="login-button" class="navbar-toggle collapsed visible-lg visible-md visible-sm visible-xs" role="button" data-toggle="modal" data-target="#loginModal"  aria-expanded="false" >Log In</a>
+
       {{/if}}
         <a class="navbar-brand" id="nav-links" href="/">Fubar</a>
     </div>
@@ -66,6 +68,9 @@
 </div><!-- /.container-fluid -->
 </nav>
 
+<!-- on page alert attempt
+<div class="alert alert-info text-center" role="alert">Welcome {{loginState.username}}! Click <a href="/account">Here</a> to configure your email settings. (You can do this any time from your account page)</div>
+-->
 {{outlet}}
 <div class="footer">
   <div class="container-fluid">

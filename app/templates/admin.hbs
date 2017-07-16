@@ -1,0 +1,963 @@
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="/admin"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp;&nbsp;Overview</a></li>
+            <li><a href="#transactions"><span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;&nbsp;Transactions</a></li>
+            <li><a href="#payouts"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span>&nbsp;&nbsp;Payout</a></li>
+            <li><a href="#verify"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;Verifications&nbsp;&nbsp;&nbsp;<span class="badge">{{verifications}}</span></a></li>
+
+          </ul>
+            <ul class="nav nav-sidebar">
+            <li><a href="#broadcasters"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>&nbsp;&nbsp;Broadcasters</a></li>
+            <li><a href="#Games"><span class="glyphicon glyphicon-tower" aria-hidden="true"></span>&nbsp;&nbsp;Games</a></li>
+            <li><a href="#users"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Users</a></li>
+          </ul>
+            <ul class="nav nav-sidebar">
+            <li><a href="#contest"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>&nbsp;&nbsp;Add Contest</a></li>
+            <li><a href="#event"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;&nbsp;Add Event</a></li>
+          </ul>
+            <ul class="nav nav-sidebar">
+            <li><a href="#email"><span class="glyphicon glyphicon-send" aria-hidden="true"></span>&nbsp;&nbsp;Send Email</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9  main">
+          <h1 class="page-header"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp;&nbsp;Admin Dashboard <small>{{moment}}</small></h1>
+
+
+            <div class="row">
+              <div class="col-lg-3">
+                <a href="#broadcasters">
+                  <div class="panel panel-danger">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-xs-4">
+                          {{#if (eq activeBroadcasters 0)}}
+                          <span id="large-glyphicon" style="color:#a88888" class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>
+                          {{else}}
+                          <span id="large-glyphicon" style="color:#800000" class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>
+                          {{/if}}
+                        </div>
+                        <div class="col-xs-8 text-right">
+                          <p class="announcement-heading"><b>{{activeBroadcasters}}</b></p>
+                          <p class="announcement-text"><b>Active Broadcasters</b></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-lg-3">
+                <a href="#games">
+                  <div class="panel panel-danger">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-xs-4">
+                          {{#if (eq gamesPlayed 0)}}
+                          <span id="large-glyphicon"  style="color:#a88888" class="glyphicon glyphicon-tower" aria-hidden="true"></span>
+                          {{else}}
+                          <span id="large-glyphicon" style="color:#800000" class="glyphicon glyphicon-tower" aria-hidden="true"></span>
+                          {{/if}}
+                        </div>
+                        <div class="col-xs-8 text-right">
+                          <p class="announcement-heading"><b>{{gamesPlayed}}</b></p>
+                          <p class="announcement-text"><b>Game Played<br>this week</b></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-lg-3">
+                <a href="#users">
+                  <div class="panel panel-danger">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-xs-4">
+                          {{#if (eq newUsers 0)}}
+                          <span id="large-glyphicon"  style="color:#a88888" class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                          {{else}}
+                          <span id="large-glyphicon" style="color:#800000" class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                          {{/if}}
+
+                        </div>
+                        <div class="col-xs-8 text-right">
+                          <p class="announcement-heading"><b>{{newUsers}}</b></p>
+                          <p class="announcement-text"><b>New Users <br>this week</b></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-lg-3">
+                <a href="#verify">
+                  <div class="panel panel-danger">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-xs-4">
+                          {{#if (eq verifications 0)}}
+                          <span id="large-glyphicon"  style="color:#a88888" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                          {{else}}
+                          <span id="large-glyphicon" style="color:#800000" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                          {{/if}}
+
+                        </div>
+                        <div class="col-xs-8 text-right">
+                          <p class="announcement-heading"><b>{{verifications}}</b></p>
+                          <p class="announcement-text"><b>Pending Vericications</b></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <a href="#contest">
+                  <div class="panel panel-danger">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-xs-3 col-sm-2">
+                          {{#if (is-before nextContestStart now)}}
+                            <span id="large-glyphicon"  style="color:#a88888" class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                          {{else}}
+                            <span id="large-glyphicon" style="color:#800000" class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                          {{/if}}
+                        </div>
+                        <div class="col-xs-9 col-sm-10">
+
+                          {{#if (is-before nextContestStart now)}}
+                          <h4><b>No Contests Planned</b></h4>
+                            <p class="announcement-text"><b>Click to Plan a Contest</b></p>
+                          {{else}}
+                            <h4><b>{{nextContestTitle}}</b></h4>
+                            {{#if (is-before nextEventstart now)}}
+                                <p class="announcement-text"><b>Starts: {{moment nextContestStart}}</b></p>
+                              {{else}}
+                                <p class="announcement-text"><b>Ends: {{moment nextContestEnd}}</b></p>
+                              {{/if}}
+                          {{/if}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-lg-6">
+                <a href="#event">
+                  <div class="panel panel-danger">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-xs-3 col-sm-2">
+                          {{#if (is-before nextEventEnd now)}}
+                            <span id="large-glyphicon"  style="color:#a88888" class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                          {{else}}
+                            <span id="large-glyphicon" style="color:#800000" class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                          {{/if}}
+                        </div>
+                        <div class="col-xs-9 col-sm-10">
+
+                          {{#if (is-before nextEventEnd now)}}
+                              <h4><b>No Events Planned</b></h4>
+                            <p class="announcement-text"><b>Click to Plan an Event</b></p>
+                          {{else}}
+                          <h4><b>{{nextEventTitle}}</b></h4>
+                              {{#if (is-before nextEventstart now)}}
+                                  <p class="announcement-text"><b>Starts: {{moment nextEventStart}}</b></p>
+                                {{else}}
+                                  <p class="announcement-text"><b>Ends: {{moment nextEventEnd}}</b></p>
+                                {{/if}}
+                          {{/if}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          <h2 class="sub-header" id="transactions"><span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;&nbsp;Transactions</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID #</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>From</th>
+                  <th>To</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1,001</td>
+                  <td>Lorem</td>
+                  <td>ipsum</td>
+                  <td>dolor</td>
+                  <td>sit</td>
+                </tr>
+                <tr>
+                  <td>1,002</td>
+                  <td>amet</td>
+                  <td>consectetur</td>
+                  <td>adipiscing</td>
+                  <td>elit</td>
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>Integer</td>
+                  <td>nec</td>
+                  <td>odio</td>
+                  <td>Praesent</td>
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>libero</td>
+                  <td>Sed</td>
+                  <td>cursus</td>
+                  <td>ante</td>
+                </tr>
+                <tr>
+                  <td>1,004</td>
+                  <td>dapibus</td>
+                  <td>diam</td>
+                  <td>Sed</td>
+                  <td>nisi</td>
+                </tr>
+                <tr>
+                  <td>1,005</td>
+                  <td>Nulla</td>
+                  <td>quis</td>
+                  <td>sem</td>
+                  <td>at</td>
+                </tr>
+                <tr>
+                  <td>1,006</td>
+                  <td>nibh</td>
+                  <td>elementum</td>
+                  <td>imperdiet</td>
+                  <td>Duis</td>
+                </tr>
+                <tr>
+                  <td>1,007</td>
+                  <td>sagittis</td>
+                  <td>ipsum</td>
+                  <td>Praesent</td>
+                  <td>mauris</td>
+                </tr>
+                <tr>
+                  <td>1,008</td>
+                  <td>Fusce</td>
+                  <td>nec</td>
+                  <td>tellus</td>
+                  <td>sed</td>
+                </tr>
+                <tr>
+                  <td>1,009</td>
+                  <td>augue</td>
+                  <td>semper</td>
+                  <td>porta</td>
+                  <td>Mauris</td>
+                </tr>
+                <tr>
+                  <td>1,010</td>
+                  <td>massa</td>
+                  <td>Vestibulum</td>
+                  <td>lacinia</td>
+                  <td>arcu</td>
+                </tr>
+                <tr>
+                  <td>1,011</td>
+                  <td>eget</td>
+                  <td>nulla</td>
+                  <td>Class</td>
+                  <td>aptent</td>
+                </tr>
+                <tr>
+                  <td>1,012</td>
+                  <td>taciti</td>
+                  <td>sociosqu</td>
+                  <td>ad</td>
+                  <td>litora</td>
+                </tr>
+                <tr>
+                  <td>1,013</td>
+                  <td>torquent</td>
+                  <td>per</td>
+                  <td>conubia</td>
+                  <td>nostra</td>
+                </tr>
+                <tr>
+                  <td>1,014</td>
+                  <td>per</td>
+                  <td>inceptos</td>
+                  <td>himenaeos</td>
+                  <td>Curabitur</td>
+                </tr>
+                <tr>
+                  <td>1,015</td>
+                  <td>sodales</td>
+                  <td>ligula</td>
+                  <td>in</td>
+                  <td>libero</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h2 class="sub-header" id="payouts"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span>&nbsp;&nbsp;Payouts</h2>
+          <br>
+          <h4> Payouts Due:</h4>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID #</th>
+                  <th>Date Due</th>
+                  <th>Amount</th>
+                  <th>To</th>
+                  <th>Method</th>
+                  <th>Account</th>
+                  <th>Pay</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1,001</td>
+                  <td>Lorem</td>
+                  <td>ipsum</td>
+                  <td>dolor</td>
+                  <td>sit</td>
+                  <td>sit</td>
+                  <td><button class="btn btn-primary btn-sm">Pay Now</button></td>
+
+
+                </tr>
+                <tr>
+                  <td>1,002</td>
+                  <td>amet</td>
+                  <td>consectetur</td>
+                  <td>adipiscing</td>
+                  <td>elit</td>
+                  <td>sit</td>
+                  <td><button class="btn btn-primary btn-sm">Pay Now</button></td>
+
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>Integer</td>
+                  <td>nec</td>
+                  <td>odio</td>
+                  <td>Praesent</td>
+                  <td>sit</td>
+                  <td><button class="btn btn-primary btn-sm">Pay Now</button></td>
+
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>libero</td>
+                  <td>Sed</td>
+                  <td>cursus</td>
+                  <td>ante</td>
+                  <td>sit</td>
+                  <td><button class="btn btn-primary btn-sm">Pay Now</button></td>
+
+                </tr>
+                <tr>
+                  <td>1,004</td>
+                  <td>dapibus</td>
+                  <td>diam</td>
+                  <td>Sed</td>
+                  <td>nisi</td>
+                  <td>sit</td>
+                  <td><button class="btn btn-primary btn-sm">Pay Now</button></td>
+
+                </tr>
+                <tr>
+                  <td>1,005</td>
+                  <td>Nulla</td>
+                  <td>quis</td>
+                  <td>sem</td>
+                  <td>at</td>
+                  <td>sit</td>
+                  <td><button class="btn btn-primary btn-sm">Pay Now</button></td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <br>
+          <h4>Past Payouts:</h4>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID #</th>
+                  <th>Date Paid</th>
+                  <th>Amount</th>
+                  <th>To</th>
+                  <th>Method</th>
+                  <th>Account</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1,001</td>
+                  <td>Lorem</td>
+                  <td>ipsum</td>
+                  <td>dolor</td>
+                  <td>sit</td>
+                  <td>sit</td>
+
+                </tr>
+                <tr>
+                  <td>1,002</td>
+                  <td>amet</td>
+                  <td>consectetur</td>
+                  <td>adipiscing</td>
+                  <td>elit</td>
+                  <td>sit</td>
+
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>Integer</td>
+                  <td>nec</td>
+                  <td>odio</td>
+                  <td>Praesent</td>
+                  <td>sit</td>
+
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>libero</td>
+                  <td>Sed</td>
+                  <td>cursus</td>
+                  <td>ante</td>
+                  <td>sit</td>
+
+                </tr>
+                <tr>
+                  <td>1,004</td>
+                  <td>dapibus</td>
+                  <td>diam</td>
+                  <td>Sed</td>
+                  <td>nisi</td>
+                  <td>sit</td>
+
+                </tr>
+                <tr>
+                  <td>1,005</td>
+                  <td>Nulla</td>
+                  <td>quis</td>
+                  <td>sem</td>
+                  <td>at</td>
+                  <td>sit</td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h2 class="sub-header" id="verify"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;Verifications</h2>
+          <div class="col-xs-12">
+
+          {{#each model as |verificationNeeded|}}
+              <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                <div role="button" {{action "openVerification" verificationNeeded}}>
+                  <div class="panel panel-success">
+                    <div class="panel-body">
+                      <img src="{{verificationNeeded.photo1}}" height="100" width="100%">
+                        <h4 class="text-center">
+                          {{verificationNeeded.username}}
+                        </h4>
+                      </div>
+                      <button class="btn btn-block btn-primary">Verify</button>
+                  </div>
+                </div>
+            </div>
+          {{/each}}
+        </div>
+        {{#each model as |verificationNeeded|}}
+        <div class="col-xs-12 verifyPanelClass"  id="verifyPanel.{{verificationNeeded.id}}"  style="display:none">
+            <div class="panel panel-success">
+              <div class="panel-body">
+                <div class="row">
+                  <h2 class="text-center">
+                    {{verificationNeeded.username}}
+                  </h2>
+                <div class="col-xs-12 col-sm-6">
+                  <img src="{{verificationNeeded.photo1}}" height="300" width="100%">
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <img src="{{verificationNeeded.photo2}}" height="300" width="100%">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-sm-3">
+                  <br>
+                  <a href="/p/{{verificationNeeded.id}}"class="btn btn-block btn-primary" >View Profile</a>
+                  <br>
+
+                </div>
+                <div class="col-xs-12 col-sm-3">
+                  <b>{{verificationNeeded.fullName}}</b><br>
+                  {{verificationNeeded.streetAddress1}}, {{streetAddress2}}<br>
+                  {{verificationNeeded.city}}, {{verificationNeeded.state}} {{verificationNeeded.postalCode}}<br>
+                  {{verificationNeeded.country}}<br>
+                  <br>
+
+              </div>
+              <div class="col-xs-12 col-sm-3">
+                <b>Payment Method: </b>{{verificationNeeded.payoutMethod}}<br>
+                <b>Payment Account: </b>{{verificationNeeded.account}}
+              </div>
+
+              </div>
+              </div>
+              <div class="panel-footer text-center" id="verifyFooter">
+                <div class="col-xs-12 col-sm-4">
+                  <button class="btn  btn-block btn-danger"{{action "blockUser" verificationNeeded}}>  <span  class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>&nbsp;&nbsp;Block</button>
+                    <br>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                  <button class="btn btn-block btn-default"{{action "requestInfo" verificationNeeded}}>  <span  class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>&nbsp;&nbsp;Request Info</button>
+                  <br>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                  <button class="btn  btn-block btn-success"{{action "VerifyUser" verificationNeeded}}>  <span  class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;Verify</button>
+                  <br>
+                </div>
+
+              </div>
+            </div>
+        </div>
+        {{/each}}
+
+          <h2 class="sub-header" id="broadcasters"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>&nbsp;&nbsp;Broadcasters</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1,001</td>
+                  <td>Lorem</td>
+                  <td>ipsum</td>
+                  <td>dolor</td>
+                  <td>sit</td>
+                </tr>
+                <tr>
+                  <td>1,002</td>
+                  <td>amet</td>
+                  <td>consectetur</td>
+                  <td>adipiscing</td>
+                  <td>elit</td>
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>Integer</td>
+                  <td>nec</td>
+                  <td>odio</td>
+                  <td>Praesent</td>
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>libero</td>
+                  <td>Sed</td>
+                  <td>cursus</td>
+                  <td>ante</td>
+                </tr>
+                <tr>
+                  <td>1,004</td>
+                  <td>dapibus</td>
+                  <td>diam</td>
+                  <td>Sed</td>
+                  <td>nisi</td>
+                </tr>
+                <tr>
+                  <td>1,005</td>
+                  <td>Nulla</td>
+                  <td>quis</td>
+                  <td>sem</td>
+                  <td>at</td>
+                </tr>
+                <tr>
+                  <td>1,006</td>
+                  <td>nibh</td>
+                  <td>elementum</td>
+                  <td>imperdiet</td>
+                  <td>Duis</td>
+                </tr>
+                <tr>
+                  <td>1,007</td>
+                  <td>sagittis</td>
+                  <td>ipsum</td>
+                  <td>Praesent</td>
+                  <td>mauris</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <h2 class="sub-header" id="games"><span class="glyphicon glyphicon-tower" aria-hidden="true"></span>&nbsp;&nbsp;Games</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1,001</td>
+                  <td>Lorem</td>
+                  <td>ipsum</td>
+                  <td>dolor</td>
+                  <td>sit</td>
+                </tr>
+                <tr>
+                  <td>1,002</td>
+                  <td>amet</td>
+                  <td>consectetur</td>
+                  <td>adipiscing</td>
+                  <td>elit</td>
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>Integer</td>
+                  <td>nec</td>
+                  <td>odio</td>
+                  <td>Praesent</td>
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>libero</td>
+                  <td>Sed</td>
+                  <td>cursus</td>
+                  <td>ante</td>
+                </tr>
+                <tr>
+                  <td>1,004</td>
+                  <td>dapibus</td>
+                  <td>diam</td>
+                  <td>Sed</td>
+                  <td>nisi</td>
+                </tr>
+                <tr>
+                  <td>1,005</td>
+                  <td>Nulla</td>
+                  <td>quis</td>
+                  <td>sem</td>
+                  <td>at</td>
+                </tr>
+                <tr>
+                  <td>1,006</td>
+                  <td>nibh</td>
+                  <td>elementum</td>
+                  <td>imperdiet</td>
+                  <td>Duis</td>
+                </tr>
+                <tr>
+                  <td>1,007</td>
+                  <td>sagittis</td>
+                  <td>ipsum</td>
+                  <td>Praesent</td>
+                  <td>mauris</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <h2 class="sub-header" id="users"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Users</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1,001</td>
+                  <td>Lorem</td>
+                  <td>ipsum</td>
+                  <td>dolor</td>
+                  <td>sit</td>
+                </tr>
+                <tr>
+                  <td>1,002</td>
+                  <td>amet</td>
+                  <td>consectetur</td>
+                  <td>adipiscing</td>
+                  <td>elit</td>
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>Integer</td>
+                  <td>nec</td>
+                  <td>odio</td>
+                  <td>Praesent</td>
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>libero</td>
+                  <td>Sed</td>
+                  <td>cursus</td>
+                  <td>ante</td>
+                </tr>
+                <tr>
+                  <td>1,004</td>
+                  <td>dapibus</td>
+                  <td>diam</td>
+                  <td>Sed</td>
+                  <td>nisi</td>
+                </tr>
+                <tr>
+                  <td>1,005</td>
+                  <td>Nulla</td>
+                  <td>quis</td>
+                  <td>sem</td>
+                  <td>at</td>
+                </tr>
+                <tr>
+                  <td>1,006</td>
+                  <td>nibh</td>
+                  <td>elementum</td>
+                  <td>imperdiet</td>
+                  <td>Duis</td>
+                </tr>
+                <tr>
+                  <td>1,007</td>
+                  <td>sagittis</td>
+                  <td>ipsum</td>
+                  <td>Praesent</td>
+                  <td>mauris</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="sub-header" id="contest"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>&nbsp;&nbsp;Contests</h2>
+          <div class="row">
+            <div class="col-xs-12 col-sm-4">
+              <h4>New Contest</h4>
+              <div class="form-group-sm">
+
+                <label for="newContestTitle">Title</label>
+                <input id="newContestTitle" type="text" class="form-control">
+
+                <label for="newContestStartDate">Start Date</label>
+                <input id="newContestStartDate" type="date" class="form-control">
+
+                <label for="newContestEndDate">End Date</label>
+                <input id="newContestEndDate" type="date" class="form-control">
+
+                <label for="newContestReward">Reward in Credits</label>
+                <input id="newContestReward" type="number" min="1" max="5000" class="form-control">
+                <br>
+                <button type="submit" class="btn btn-primary btn-block">Add Contest</button>
+              </div>
+
+            </div>
+            <div class="col-xs-12 col-sm-8">
+              <h4>Upcoming Contests</h4>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>ID #</th>
+                      <th>Title</th>
+                      <th>Start</th>
+                      <th>End</th>
+                      <th>Reward</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1,001</td>
+                      <td>Lorem</td>
+                      <td>ipsum</td>
+                      <td>dolor</td>
+                      <td>sit</td>
+                    </tr>
+                    <tr>
+                      <td>1,002</td>
+                      <td>amet</td>
+                      <td>consectetur</td>
+                      <td>adipiscing</td>
+                      <td>elit</td>
+                    </tr>
+                    <tr>
+                      <td>1,003</td>
+                      <td>Integer</td>
+                      <td>nec</td>
+                      <td>odio</td>
+                      <td>Praesent</td>
+                    </tr>
+                    <tr>
+                      <td>1,003</td>
+                      <td>libero</td>
+                      <td>Sed</td>
+                      <td>cursus</td>
+                      <td>ante</td>
+                    </tr>
+                    <tr>
+                      <td>1,004</td>
+                      <td>dapibus</td>
+                      <td>diam</td>
+                      <td>Sed</td>
+                      <td>nisi</td>
+                    </tr>
+                    <tr>
+                      <td>1,005</td>
+                      <td>Nulla</td>
+                      <td>quis</td>
+                      <td>sem</td>
+                      <td>at</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+
+
+          <h2 class="sub-header" id="event"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;&nbsp;Events</h2>
+          <div class="row">
+            <div class="col-xs-12 col-sm-4">
+              <h4>New Event</h4>
+              <div class="form-group-sm">
+
+                <label for="newEventTitle">Title</label>
+                <input id="newContestTitle" type="text" class="form-control">
+
+                <label for="newEventStartDate">Start Date</label>
+                <input id="newEventStartDate" type="date" class="form-control">
+
+                <label for="newEventEndDate">End Date</label>
+                <input id="newEventEndDate" type="date" class="form-control">
+              <br>
+                <button type="submit" class="btn btn-primary btn-block">Add Event</button>
+              </div>
+
+            </div>
+            <div class="col-xs-12 col-sm-8">
+              <h4>Upcoming Events</h4>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>ID #</th>
+                      <th>Title</th>
+                      <th>Start</th>
+                      <th>End</th>
+                      <th>Reward</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1,001</td>
+                      <td>Lorem</td>
+                      <td>ipsum</td>
+                      <td>dolor</td>
+                      <td>sit</td>
+                    </tr>
+                    <tr>
+                      <td>1,002</td>
+                      <td>amet</td>
+                      <td>consectetur</td>
+                      <td>adipiscing</td>
+                      <td>elit</td>
+                    </tr>
+                    <tr>
+                      <td>1,003</td>
+                      <td>Integer</td>
+                      <td>nec</td>
+                      <td>odio</td>
+                      <td>Praesent</td>
+                    </tr>
+                    <tr>
+                      <td>1,003</td>
+                      <td>libero</td>
+                      <td>Sed</td>
+                      <td>cursus</td>
+                      <td>ante</td>
+                    </tr>
+                    <tr>
+                      <td>1,004</td>
+                      <td>dapibus</td>
+                      <td>diam</td>
+                      <td>Sed</td>
+                      <td>nisi</td>
+                    </tr>
+                    <tr>
+                      <td>1,005</td>
+                      <td>Nulla</td>
+                      <td>quis</td>
+                      <td>sem</td>
+                      <td>at</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+
+          <h2 class="sub-header" id="email"><span class="glyphicon glyphicon-send" aria-hidden="true"></span>&nbsp;&nbsp;Send Email</h2>
+
+          <div class ="row">
+            <div class="col-xs-12 col-sm-4">
+              <div class="col-xs-6">
+                <button type="submit" class="btn btn-primary btn-block">Verified</button>
+                <br>
+                <button type="submit" class="btn btn-primary btn-block">Info Needed</button>
+
+              </div>
+              <div class="col-xs-6">
+                <button type="submit" class="btn btn-primary btn-block">Contest Won</button>
+                <br>
+                <button type="submit" class="btn btn-primary btn-block">Featured</button>
+    <br>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-8">
+              <div class="form-group">
+
+                  <label for="newEmailRecipient">To Username or Email</label>
+                  <input id="newEmailRecipient" type="text" class="form-control">
+
+                  <label for="newEmailSubject">Subject</label>
+                  <input id="newEmailSubject" type="text" class="form-control">
+
+                  <label for="newEmailBody">Body</label>
+                  <input id="newEmailBody" type="text" class="form-control">
+                  <br>
+                  <button type="submit" class="btn btn-primary ">Send Email</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

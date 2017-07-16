@@ -4,8 +4,8 @@ export default Ember.Component.extend({
 
   actions:{
 
-      togglePM(){
-       var x = document.getElementById('private-messenger-window');
+      togglePopup(){
+       var x = document.getElementById('popup-alert-window');
        if (x.style.display === 'none'){
          x.style.display = 'block';
        }else{
