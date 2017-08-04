@@ -1,6 +1,5 @@
 import Ember from 'ember';
 
-
   let photo =[{
      id: 1,
      photo: '/usericon.svg'
@@ -77,6 +76,7 @@ export default Ember.Route.extend({
     return photo;
 
   }
+
 
 
 });

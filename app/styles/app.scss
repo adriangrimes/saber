@@ -6,6 +6,20 @@
   font-family: 'Lato', sans-serif;
 }
 
+//generic classes
+
+.no-padding{
+  padding-left: 0px;
+  padding-right:0px;
+}
+#large-glyphicon{
+  font-size: 75px;
+}
+.clearFix
+{
+   clear: both;
+}
+//Navbar Classes
 #nav-links{
   color: #FFFFFF;
   background-color:transparent;
@@ -13,34 +27,98 @@
 #nav-links:hover, #nav-links:active, #nav-links:focus{
   color: #bcbcbc;
 }
-#profile-links{
-  color: #686868;
-  font-size:24px;
-height: 44px;
-padding-left: 10px;
-}
-#edit-links{
-  color: #000000;
-  font-size:20px;
-  position:absolute;
-  top:12px;
-  right:30px;
-}
 #footer-links{
   color: #FFFFFF;
 }
 #footer-links:hover{
   color:#000000;
 }
-
 #main-navbar-collapse{
   background-color:#e6e6e6;
 }
+
 #login-button{
   color: #000000;
   border:none;
-  background-color:#0063ef;
+  background-color:#FFFFFF;
 }
+
+//chat classes
+#usermsg{
+border-radius:0px;
+}
+#chatTabs{
+text-align: right;
+  margin: 0;
+  padding-left: 5px;
+  padding-right:5px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.tab-btn{
+ border-bottom-left-radius: 0px;
+ border-bottom-right-radius: 0px;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+   background-color: #dddddd;
+   color: #000000;
+}
+
+#messages{
+  list-style-type: none;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-right:0px;
+  margin-left: 0px;
+  padding: 0;
+}
+#messages li {
+  padding-left: 0px;
+  padding-bottom:5px;
+  padding-top:0px;
+  padding-right:5px;
+}
+#users{
+  list-style-type: none;
+  margin:0px;
+  padding: 0;
+  border-width: 1px;
+  border-color: #000000;
+}
+#users li {
+  padding: 5px;
+}
+
+#usermsg{
+  border-radius: 0px;
+}
+
+
+
+// Profile Classes
+#profile-links{
+  color: #B80000;
+  font-size:24px;
+height: 44px;
+padding-left: 10px;
+}
+#profile-links:hover, #profile-links:active, #profile-links:focus{
+  color: #ef0202;
+
+}
+#edit-links{
+  color: #B80000;
+  font-size:20px;
+  position:absolute;
+  top:12px;
+  right:30px;
+}
+#edit-links:hover, #edit-links:active, #edit-links:focus{
+  color: #ef0202;
+
+}
+
 #creditSelect{
   padding:20px;
   font-size:18px;
@@ -78,13 +156,29 @@ padding-left: 10px;
     transition: height .1s ease;
 
   }
+  #gameHeading{
+    margin-top:0px;
+    margin-bottom: 10px;
+  }
+  #day-select{
+    width: 15%;
+  }
+  #dashboard-button{
+    width:100%;
+
+  }
+  #dashboard-button-row{
+    margin-bottom: 10px;
+  }
+
+  //Private Messenger Classes
   #private-messenger-window{
     position:fixed;
     z-index: 10000;
     bottom:0px;
 
     right: 10px;
-    width: 220px;
+    width: 300px;
     margin-bottom: 0px;
     border-bottom-right-radius:0px;
     border-bottom-left-radius: 0px;
@@ -103,6 +197,7 @@ padding-left: 10px;
     border-radius: 0px;
   }
 
+//Pop Up Alert Classes
   #popup-alert-window{
     position:fixed;
     z-index: 10000;
@@ -124,28 +219,10 @@ padding-left: 10px;
     padding-bottom: 10px;
 
   }
-  #usermsg{
-    border-radius: 0px;
-  }
 
-  #gameHeading{
-    margin-top:0px;
-    margin-bottom: 10px;
-  }
-  #day-select{
-    width: 15%;
-  }
-  #dashboard-button{
-    width:100%;
 
-  }
-  #dashboard-button-row{
-    margin-bottom: 10px;
-  }
 
-  #large-glyphicon{
-    font-size: 75px;
-  }
+
   #newEmailBody{
    height: 300px;
   }
@@ -155,16 +232,118 @@ padding-left: 10px;
     padding:10px;
     min-height: 54px;
 
-    background-color: #bcbcbc;
+
+}
+
+
+#private-messenger-window{
+  position:fixed;
+  z-index: 10000;
+  bottom:0px;
+
+  right: 10px;
+  width: 300px;
+  margin-bottom: 0px;
+  border-bottom-right-radius:0px;
+  border-bottom-left-radius: 0px;
+}
+#private-messenger-panel{
+  height:280px;
+  overflow-y:auto;
+}
+#closePM{
+  float:left;
+  padding-left:5px;
+  padding-right: 20px;
+  font-color: #686868;
+}
+
+#gameHeading{
+  margin-top:0px;
+  margin-bottom: 10px;
+}
+#day-select{
+  width: 15%;
+}
+#dashboard-button{
+  width:100%;
+
+}
+#dashboard-button-row{
+  margin-bottom: 10px;
+}
+
+.manage-users-panel{
+  overflow-y:auto;
+  height: 500px;
+}
+
+#blockedUsersList{
+  list-style-type: none;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-right:0px;
+  margin-left: 0px;
+  padding: 0;
+}
+#blockedUsersList li {
+  padding-left: 0px;
+  padding-bottom:5px;
+  padding-top:0px;
+  padding-right:5px;
+}
+#favoriteUsersList{
+  list-style-type: none;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-right:0px;
+  margin-left: 0px;
+  padding: 0;
+}
+#favoriteUsersList li {
+  padding-left: 0px;
+  padding-bottom:5px;
+  padding-top:0px;
+  padding-right:5px;
+}
+
+.remove {
+  float: right;
+  font-size: 18;
+  line-height: 1;
+  color: #B80000;
+
+  &:hover,
+  &:focus {
+    color: #c95252;
+    text-decoration: none;
+    cursor: pointer;
   }
+}
+.game-panel{
+  height: 190px;
+}
+.profile-controls{
+padding-top:10px;
+padding-bottom: 10px;
+padding-right: 10px;
+min-height: 54px;
+  background-color: #bcbcbc;
+}
 
-  .no-padding-sm{
-    padding-left: 0px;
-    padding-right: 0px;
-  }
 
-
-
+.btn-primary{
+  background:#B80000;
+  border-color:#cccccc;
+}
+.btn-primary:hover{
+  background:#ef0202;
+  border-color:#cccccc;
+}
+.btn-primary:focus, .btn-primary:active:hover, .btn-primary.active, .btn-primary.active.focus{
+  background:#800000;
+  border-color:#cccccc;
+}
 
 html {
   position: relative;
@@ -194,33 +373,21 @@ body {
     vertical-align: middle;
 }
 .navbar-default{
-  min-height:50px;
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7d7e7d+0,0e0e0e+100;Black+3D */
-  background: #7d7e7d; /* Old browsers */
-  background: -moz-linear-gradient(left,  #7d7e7d 0%, #0e0e0e 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(left,  #7d7e7d 0%,#0e0e0e 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right,  #7d7e7d 0%,#0e0e0e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#0e0e0e',GradientType=1 ); /* IE6-9 */
-
-
-  .chat-divide{
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#999999+0,727272+0&0.65+0,0+5,0+36 */
-    background: -moz-linear-gradient(top, rgba(114,114,114,0.65) 0%, rgba(114,114,114,0) 5%, rgba(114,114,114,0) 36%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(114,114,114,0.65) 0%,rgba(114,114,114,0) 5%,rgba(114,114,114,0) 36%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, rgba(114,114,114,0.65) 0%,rgba(114,114,114,0) 5%,rgba(114,114,114,0) 36%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6727272', endColorstr='#00727272',GradientType=0 ); /* IE6-9 */
-  }
-
-
-//	background: #B80000; /* For browsers that do not support gradients */
-//	background: -webkit-linear-gradient(left, #B80000 , #800000); /* For Safari 5.1 to 6.0 */
-//	background: -o-linear-gradient(right, #B80000, #800000); /* For Opera 11.1 to 12.0 */
-//	background: -moz-linear-gradient(right, #B80000, #800000); /* For Firefox 3.6 to 15 */
-//	background: linear-gradient(to right, #B80000 , #800000); /* Standard syntax */
-
+  min-height:10px;
+	background: #B80000; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, #B80000 , #800000); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #B80000, #800000); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #B80000, #800000); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #B80000 , #800000); /* Standard syntax */
 }
 
-
+.chat-divide{
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#999999+0,727272+0&0.65+0,0+5,0+36 */
+  background: -moz-linear-gradient(top, rgba(114,114,114,0.65) 0%, rgba(114,114,114,0) 5%, rgba(114,114,114,0) 36%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(114,114,114,0.65) 0%,rgba(114,114,114,0) 5%,rgba(114,114,114,0) 36%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(114,114,114,0.65) 0%,rgba(114,114,114,0) 5%,rgba(114,114,114,0) 36%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6727272', endColorstr='#00727272',GradientType=0 ); /* IE6-9 */
+}
 
 
 // Collapsable Wellss
@@ -239,15 +406,6 @@ body {
     /* symbol for "collapsed" panels */
     content:"\e080";
 }
-
-.panel-heading:hover {
-      cursor: pointer;
-}
-
-.panel-group{
-  position:relative;
-}
-
 #tip-toggle{
   padding-left:9px;
   padding-right:9px;
@@ -266,11 +424,13 @@ body {
   content:"\e114";
 
 }
+.panel-heading:hover {
+      cursor: pointer;
+}
 
-
-
-
-
+.panel-group{
+  position:relative;
+}
 
 
 
@@ -283,28 +443,40 @@ body {
 
 .chat-body{
   height:200px;
+  padding-top:5px;
   overflow-y: auto;
 
 }
-
+.users-body{
+  height:200px;
+  padding-top:5px;
+  overflow-y: auto;
+}
 .chat-panel{
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
   border-top-style: none;
+    border:0px;
 }
 .video-panel{
     margin-bottom: 0px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+    border:0px;
 }
-
 
 
 
 // Small devices (landscape phones, 544px and up)
 @media (min-width: 544px) {
 
+  #tip-value{
+    padding-left: 7px;
+  }
+
 }
+
+
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) {
   body {
@@ -312,54 +484,81 @@ body {
   }
   .footer {
     height: 120px;
+    color: #FFFFFF;
   }
   .navbar-toggle{
    position:absolute;
    margin-top:6px;
    right:0px;
-  }
 
-  .no-padding-sm{
-    padding-left: 15px;
-    padding-right: 15px;
-  }
+   .navbar-fixed-top
+     {
+     position: relative;
+     top: auto;
+     }
 
+     #chatTabs{
+       text-align: right;
+       margin: 0;
+       padding-left: 5px;
+       padding-right:5px;
+       padding-top: 0px;
+       padding-bottom: 0px;
+     }
+
+
+
+
+
+ }
   #main-navbar-collapse{
-    background-color:transparent;
-  }
-  #chatWindow{
-    padding-left:0px;
-  }
-  #videoWindow{
-    padding-right:0px;
-  }
+  background-color:transparent;
+}
 
-  .chat-body{
-    height:380px;
+#videoWindow{
+  padding-right:0px;
+}
+#chatWindow{
+  padding-left:0px;
+}
 
-  }
-  .chat-panel{
-    height: 415px;
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-    border-left-style: none;
-    border-top-style: solid;
-        border:0px;
+.chat-body{
+  height:340px;
 
-  }
+}
+.users-body{
+  height:370px;
+
+}
+.chat-panel{
+  height: 377px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-left-style: none;
+  border-top-style: solid;
+
+}
+
+.chat-divide{
+  background:#FFF;
+}
+
+.video-panel{
+    height: 410px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border:0px;
+
+}
+
+
   .chat-divide{
     background:#FFFFFF;
   }
   #verifyFooter{
     height:55px;
   }
-  .video-panel{
-      height: 550px;
-      border-top-right-radius: 0px;
-      border-bottom-right-radius: 0px;
-          border:0px;
-  }
-}
+
 
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) {
@@ -372,6 +571,8 @@ body {
 
 
 }
+
+
 
 //spinny guy
 .spinner {
@@ -399,4 +600,5 @@ body {
     transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
     -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
   }
+}
 }

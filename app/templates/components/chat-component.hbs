@@ -1,0 +1,32 @@
+
+
+<ul class="nav nav-tabs nav-pills nav-justified hidden-xs" id="chatTabs">
+  <li role="presentation" class=" tab-btn active" {{action "openChatTab"}}><a href="#chat"  aria-controls="chat" role="tab" data-toggle="tab">Chat</a></li>
+  <li role="presentation" class="tab-btn"{{action "openChatTab"}}><a href="#userstab" aria-controls="userstab" role="tab" data-toggle="tab">Users</a></li>
+</ul>
+
+<div class="tab-content">
+   <div role="tabpanel" class="tab-pane active" id="chat">
+
+     <div class="panel-body chat-body">
+         <ul id="messages"></ul>
+     </div>
+
+   <form  name="userMessage"  autocomplete="off">
+   <div class="input-group" >
+   <input  type="text"  autocomplete="off" name="usermsg"  id="usermsg" style="border-radius:0px" class="form-control" placeholder="Enter Chat Message...">
+   <span class="input-group-btn">
+    <button name="submitmsg" id="chat-input" class="btn btn-primary" {{action "sendUserMessage"}}>Send</button>
+   </span>
+   </div>
+   </form>
+
+   </div>
+   <div role="tabpanel" class="tab-pane" id="userstab">
+     <div class="panel-body users-body">
+         <ul id="users"></ul>
+     </div>
+
+   </div>
+
+      </div>

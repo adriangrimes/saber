@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row">
+    <div class ="col-xs-12 col-sm-6">
+      <h2>Favorite Users</h2>
+
+      <div class="panel-body manage-users-panel">
+        <ul id="favoriteUsersList">
+          {{#each model as |usersList|}}
+              {{#if usersList.isFavorite}}
+                <li>{{usersList.username}} <a class="remove" type="button"  {{action "removeFavoriteUser" usersList}}><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
+              {{/if}}
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+    <div class ="col-xs-12 col-sm-6">
+      <h2>Blocked Users</h2>
+
+      <div class="panel-body manage-users-panel">
+        <ul id="blockedUsersList">
+          {{#each model as |usersList|}}
+            {{#if usersList.isBlocked}}
+            <li>{{usersList.username}} <a class="remove" type="button"  {{action "removeBlockedUser" usersList}}><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
+            {{/if}}
+          {{/each}}
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{{outlet}}
