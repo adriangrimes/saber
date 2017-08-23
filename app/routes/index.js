@@ -2,89 +2,138 @@ import Ember from 'ember';
 
 
 let broadcaster =[{
-   id: 1,
+  userid: 1,
    username: 'Test Caster1',
-   photo: '/testimg.jpg'
+   photo: '/testimg.jpg',
+   online: true,
+   topic: 'text topic of things and stuff wooo long topic example yaaaeeeaaaa'
 },
 {
-   id: 2,
+    userid: 2,
    username: 'Test Caster2',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: true,
+   topic: 'text topic of things and stuff'
+
 },
 {
-   id: 3,
+    userid: 3,
    username: 'Test Caster3',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: true,
+   topic: 'text topic of things and stuff'
+
 },
 {
-   id: 4,
+    userid: 4,
    username: 'Test Caster4',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: true,
+   topic: 'text topic of things and stuff'
+
 },
 {
-   id: 5,
+    userid: 5,
    username: 'Test Caster5',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: false,
+   topic: 'text topic of things and stuff'
+
 },
 {
-   id: 6,
+    userid: 6,
    username: 'Test Caster6',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: false,
+   topic: 'text topic of things and stuff'
+
 },
 {
-   id: 7,
+    userid: 7,
    username: 'Test Caster7',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: false,
+   topic: 'text topic of things and stuff'
 },
 {
-   id: 8,
+    userid: 8,
    username: 'Test Caster8',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: false,
+   topic: 'text topic of things and stuff'
+
 },
 {
-   id: 9,
+    userid: 9,
    username: 'Test Caster9',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: false,
+   topic: 'text topic of things and stuff'
+
 },
 {
-   id: 10,
+    userid: 10,
    username: 'Test Caster10',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: false,
+   topic: 'text topic of things and stuff'
+
 },
 {
-   id: 11,
+    userid: 11,
    username: 'Test Caster11',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: false,
+   topic: 'text topic of things and stuff'
+
 },
 {
-   id: 12,
+    userid: 12,
    username: 'Test Caster12',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: false,
+   topic: 'text topic of things and stuff'
+
 },
 {
-   id: 13,
+    userid: 13,
    username: 'Test Caster13',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: false,
+   topic: 'text topic of things and stuff'
+
 },
 {
-   id: 14,
+    userid: 14,
    username: 'Test Caster14',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: false,
+   topic: 'text topic of things and stuff'
+
 },
 {
-   id: 15,
+    userid: 15,
    username: 'Test Caster15',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: true,
+   topic: 'text topic of things and stuff'
+
 },
 {
-   id: 16,
+    userid: 16,
    username: 'Test Caster16',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: false,
+   topic: 'text topic of things and stuff'
+
 },
 {
-   id: 17,
+    userid: 17,
    username: 'Test Caster17',
-   photo: '/usericon.svg'
+   photo: '/usericon.svg',
+   online: true,
+   topic: 'text topic of things and stuff'
+
 }];
 export default Ember.Route.extend({
 

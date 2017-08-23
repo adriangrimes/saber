@@ -6,31 +6,82 @@
           <span aria-hidden="true">&times;</span>
         </button>
         <h4 class="editprofilemodal">
-            Edit Profile
+            Edit Public Profile
         </h4>
       </div>
 
-        <form>
+        <form autocomplete="off">
           <div class="modal-body">
+        {{#if loginState.broadcaster}}
+          <div class="form-group">
+            <label for="inputaboutme">About Me</label>
+            <textarea type="text" class="form-control" id="inputAboutMe" placeholder="A little about yourself, the type of games you like to play, your streaming schedule etc."></textarea>
+          </div>
+<label for="inputsex">Your Sex</label>
+          <form class="form-inline">
+          <div class="form-group">
 
+            <div class="radio">
+              <label>
+                <input type="radio" name="select-sex" id="sex-female" value="sex-female"  checked>
+              <b> Female</b> &nbsp; &nbsp; &nbsp;
+              </label>
+                    <label>
+              <input type="radio"  name="select-sex" id="sex-male" value="sex-male" >
+            <b> Male</b> &nbsp; &nbsp; &nbsp;
+            </label>
+            </div>
+            <label>
+              <input type="radio"  name="select-sex" id="sex-other" value="sex-other"  >
+              <input type="text" class="form-control" id="inputsex" placeholder="Other">
+            </label>
+          </div>
+        </form>
+        {{else if loginState.developer}}
+        <div class="form-group">
+          <label for="inputaboutme">About Me</label>
+          <textarea type="text" class="form-control" id="inputAboutMe" placeholder="A short bio about yourself and your games"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="inputsex">Sex</label>
+          <input type="text" class="form-control" id="inputsex" placeholder="Your sex">
+        </div>
+
+
+        {{else}}
             <div class="form-group">
               <label for="inputaboutme">About Me</label>
-              <textarea type="text" class="form-control" id="inputAboutMe" placeholder="Your Text Here"></textarea>
+              <textarea type="text" class="form-control" id="inputAboutMe" placeholder="A little about yourself, your favorite games etc."></textarea>
             </div>
-          <div class="form-group">
-            <label for="inputsex">Sex</label>
-            <input type="text" class="form-control" id="inputsex" placeholder="Your Text Here">
-          </div>
-          <div class="form-group">
-            <label for="inputlocation">Location</label>
-            <input type="text" class="form-control" id="inputlocation" placeholder="Your Text Here">
-          </div>
-          <div class="form-group">
-            <label for="inputtags">Tags</label>
-            <input type="text" class="form-control" id="inputtag1" placeholder="Your Text Here">
+            <div class="form-group">
+              <label for="inputsex">Sex</label>
+              <input type="text" class="form-control" id="inputsex" placeholder="Your sex">
+            </div>
 
-          </div>
-  <br>  <br>
+        {{/if}}
+
+        <div class="form-group">
+          <label for="inputlocation">Location</label>
+          <input type="text" class="form-control" id="inputlocation" placeholder="Your general location">
+        </div>
+
+          {{#if loginState.broadcaster}}
+
+          <div class="form-group">
+            <label >Tags (choose up to 10)</label>
+
+            {{#tag-input
+                tags=tags
+                addTag=(action 'addTag')
+                removeTagAtIndex=(action 'removeTagAtIndex')
+                as |tag|
+              }}
+                {{tag}}
+              {{/tag-input}}
+            </div>
+            {{/if}}
+
+  <br>
 
             <button type="submit" class="btn btn-primary">Submit</button>
             <button  data-dismiss="modal" class="btn btn-link">Cancel</button>

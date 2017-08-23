@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 
   isFavorite: false,
+  tags: ['dragons','dungeons','wednesday', 'cheeser','toodles'],
 
   actions: {
     toggleFav(){
@@ -10,7 +11,8 @@ export default Ember.Controller.extend({
     },
     setupController: function(controller, model) {
       controller.set('user', model);
-    },
+    }
+
   }
 
 });

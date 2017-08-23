@@ -1,16 +1,22 @@
 
 @import "bootstrap";
 
+// Extra small devices (portrait phones, less than 544px)
+// No media query since this is the default in Bootstrap
+
 *{
 
   font-family: 'Lato', sans-serif;
 }
 
-//generic classes
+//////////////////////generic classes
 
 .no-padding{
-  padding-left: 0px;
-  padding-right:0px;
+  padding: 0px;
+}
+.small-side-padding{
+  padding-left: 10px;
+  padding-right:10px;
 }
 #large-glyphicon{
   font-size: 75px;
@@ -19,7 +25,80 @@
 {
    clear: both;
 }
-//Navbar Classes
+
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 400px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 400px;
+  background-color: #232528;
+}
+
+.container {
+  width: auto;
+  max-width: 960px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+
+
+
+.btn-primary{
+  background:#B80000;
+  border-color:#cccccc;
+}
+.btn-primary:hover{
+  background:#ef0202;
+  border-color:#cccccc;
+}
+.btn-primary:focus, .btn-primary:active:hover, .btn-primary.active, .btn-primary.active.focus{
+  background:#800000;
+  border-color:#cccccc;
+}
+
+
+/////////////////////////////// Collapsable Wellss
+.panel-heading.accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family:'Glyphicons Halflings';
+    /* essential for enabling glyphicon */
+    content:"\e114";
+    position: absolute;
+    right:10px;
+    top: 7px;
+    font-size: 15pt;
+    color: grey;
+}
+.panel-heading.accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content:"\e080";
+}
+
+.panel-heading:hover {
+      cursor: pointer;
+}
+
+.panel-group{
+  position:relative;
+}
+
+//////////////////////////////////////Navbar Classes
 #nav-links{
   color: #FFFFFF;
   background-color:transparent;
@@ -43,7 +122,55 @@
   background-color:#FFFFFF;
 }
 
-//chat classes
+
+
+
+.navbar-default{
+  min-height:10px;
+	background: #B80000; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, #B80000 , #800000); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #B80000, #800000); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #B80000, #800000); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #B80000 , #800000); /* Standard syntax */
+}
+
+#searchTabs{
+  color: #000000;
+
+}
+
+//////////////////////// homepage classes
+
+.broadcaster-panel{
+  margin: 3px;
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 3px;
+  color: #000000;
+
+}
+.broadcaster-avatar{
+  width: 100%;
+  max-height: 180px;
+}
+.broadcaster-footer{
+  padding: 7px;
+}
+.broadcaster-topic{
+    max-width: 100%;
+    overflow-x: hidden;
+    white-space: nowrap;
+
+}
+.online{
+  border-color: #B80000;
+
+}
+.offline{
+  border-color: #000000;
+
+}
+/////////////////////chat classes
 #usermsg{
 border-radius:0px;
 }
@@ -95,8 +222,27 @@ text-align: right;
 }
 
 
+.chat-divide{
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#999999+0,727272+0&0.65+0,0+5,0+36 */
+  background: -moz-linear-gradient(top, rgba(114,114,114,0.65) 0%, rgba(114,114,114,0) 5%, rgba(114,114,114,0) 36%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(114,114,114,0.65) 0%,rgba(114,114,114,0) 5%,rgba(114,114,114,0) 36%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(114,114,114,0.65) 0%,rgba(114,114,114,0) 5%,rgba(114,114,114,0) 36%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6727272', endColorstr='#00727272',GradientType=0 ); /* IE6-9 */
+}
 
-// Profile Classes
+/////////////////////////////// Profile Classes
+.emberTagInput-tag{
+  background-color:#e5e5e5;
+  border-radius: 7px;
+  color: #000000;
+}
+.emberTagInput-remove {
+    color: #ff0000;
+    font-weight: bold;
+}
+.emberTagInput--readOnly {
+    border-width: 0px;
+}
 #profile-links{
   color: #B80000;
   font-size:24px;
@@ -112,13 +258,31 @@ padding-left: 10px;
   font-size:20px;
   position:absolute;
   top:12px;
-  right:30px;
+  right:20px;
 }
 #edit-links:hover, #edit-links:active, #edit-links:focus{
   color: #ef0202;
 
 }
 
+#tip-toggle{
+  padding-left:9px;
+  padding-right:9px;
+}
+
+#tip-toggle:after{
+  /* symbol for "opening" panels */
+  font-family:'Glyphicons Halflings';
+  /* essential for enabling glyphicon */
+  content:"\e113";
+  font-size: 12px;
+
+
+}
+#tip-toggle.collapsed:after{
+  content:"\e114";
+
+}
 #creditSelect{
   padding:20px;
   font-size:18px;
@@ -171,7 +335,19 @@ padding-left: 10px;
     margin-bottom: 10px;
   }
 
-  //Private Messenger Classes
+
+  .game-panel{
+    height: 190px;
+  }
+  .profile-controls{
+  padding-top:10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  min-height: 54px;
+    background-color: #bcbcbc;
+  }
+
+  //////////////////////////////////Private Messenger Classes
   #private-messenger-window{
     position:fixed;
     z-index: 10000;
@@ -197,7 +373,33 @@ padding-left: 10px;
     border-radius: 0px;
   }
 
-//Pop Up Alert Classes
+  .chat-body{
+    height:200px;
+    padding-top:5px;
+    overflow-y: auto;
+
+  }
+  .users-body{
+    height:200px;
+    padding-top:5px;
+    overflow-y: auto;
+  }
+  .chat-panel{
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-top-style: none;
+      border:0px;
+  }
+  .video-panel{
+      margin-bottom: 0px;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+      border:0px;
+  }
+
+
+
+//////////////////////////Pop Up Alert Classes
   #popup-alert-window{
     position:fixed;
     z-index: 10000;
@@ -219,60 +421,15 @@ padding-left: 10px;
     padding-bottom: 10px;
 
   }
-
-
-
-
-  #newEmailBody{
-   height: 300px;
+  #closeAlert{
+    float:right;
+    padding-right: 5px;
+    font-color: #686868;
   }
 
 
-  .profile-controls{
-    padding:10px;
-    min-height: 54px;
 
-
-}
-
-
-#private-messenger-window{
-  position:fixed;
-  z-index: 10000;
-  bottom:0px;
-
-  right: 10px;
-  width: 300px;
-  margin-bottom: 0px;
-  border-bottom-right-radius:0px;
-  border-bottom-left-radius: 0px;
-}
-#private-messenger-panel{
-  height:280px;
-  overflow-y:auto;
-}
-#closePM{
-  float:left;
-  padding-left:5px;
-  padding-right: 20px;
-  font-color: #686868;
-}
-
-#gameHeading{
-  margin-top:0px;
-  margin-bottom: 10px;
-}
-#day-select{
-  width: 15%;
-}
-#dashboard-button{
-  width:100%;
-
-}
-#dashboard-button-row{
-  margin-bottom: 10px;
-}
-
+//////////////////////////account classes
 .manage-users-panel{
   overflow-y:auto;
   height: 500px;
@@ -320,150 +477,6 @@ padding-left: 10px;
     cursor: pointer;
   }
 }
-.game-panel{
-  height: 190px;
-}
-.profile-controls{
-padding-top:10px;
-padding-bottom: 10px;
-padding-right: 10px;
-min-height: 54px;
-  background-color: #bcbcbc;
-}
-
-
-.btn-primary{
-  background:#B80000;
-  border-color:#cccccc;
-}
-.btn-primary:hover{
-  background:#ef0202;
-  border-color:#cccccc;
-}
-.btn-primary:focus, .btn-primary:active:hover, .btn-primary.active, .btn-primary.active.focus{
-  background:#800000;
-  border-color:#cccccc;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-body {
-  margin-bottom: 400px;
-}
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 400px;
-  background-color: #232528;
-}
-
-.container {
-  width: auto;
-  max-width: 960px;
-  padding: 0 15px;
-  padding-bottom: 30px;
-}
-.form-inline .form-control {
-    display: inline-block;
-    width: auto;
-    vertical-align: middle;
-}
-.navbar-default{
-  min-height:10px;
-	background: #B80000; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(left, #B80000 , #800000); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(right, #B80000, #800000); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(right, #B80000, #800000); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to right, #B80000 , #800000); /* Standard syntax */
-}
-
-.chat-divide{
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#999999+0,727272+0&0.65+0,0+5,0+36 */
-  background: -moz-linear-gradient(top, rgba(114,114,114,0.65) 0%, rgba(114,114,114,0) 5%, rgba(114,114,114,0) 36%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, rgba(114,114,114,0.65) 0%,rgba(114,114,114,0) 5%,rgba(114,114,114,0) 36%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, rgba(114,114,114,0.65) 0%,rgba(114,114,114,0) 5%,rgba(114,114,114,0) 36%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6727272', endColorstr='#00727272',GradientType=0 ); /* IE6-9 */
-}
-
-
-// Collapsable Wellss
-.panel-heading.accordion-toggle:after {
-    /* symbol for "opening" panels */
-    font-family:'Glyphicons Halflings';
-    /* essential for enabling glyphicon */
-    content:"\e114";
-    position: absolute;
-    right:10px;
-    top: 7px;
-    font-size: 15pt;
-    color: grey;
-}
-.panel-heading.accordion-toggle.collapsed:after {
-    /* symbol for "collapsed" panels */
-    content:"\e080";
-}
-#tip-toggle{
-  padding-left:9px;
-  padding-right:9px;
-}
-
-#tip-toggle:after{
-  /* symbol for "opening" panels */
-  font-family:'Glyphicons Halflings';
-  /* essential for enabling glyphicon */
-  content:"\e113";
-  font-size: 12px;
-
-
-}
-#tip-toggle.collapsed:after{
-  content:"\e114";
-
-}
-.panel-heading:hover {
-      cursor: pointer;
-}
-
-.panel-group{
-  position:relative;
-}
-
-
-
-// Extra small devices (portrait phones, less than 544px)
-// No media query since this is the default in Bootstrap
-
-#verifyFooter{
-  height:160px;
-}
-
-.chat-body{
-  height:200px;
-  padding-top:5px;
-  overflow-y: auto;
-
-}
-.users-body{
-  height:200px;
-  padding-top:5px;
-  overflow-y: auto;
-}
-.chat-panel{
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-  border-top-style: none;
-    border:0px;
-}
-.video-panel{
-    margin-bottom: 0px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border:0px;
-}
 
 
 
@@ -473,6 +486,10 @@ body {
   #tip-value{
     padding-left: 7px;
   }
+.broadcaster-avatar{
+  max-height: 123px;
+}
+
 
 }
 
@@ -482,6 +499,9 @@ body {
   body {
     margin-bottom: 120px;
   }
+
+
+
   .footer {
     height: 120px;
     color: #FFFFFF;
@@ -497,19 +517,18 @@ body {
      top: auto;
      }
 
-     #chatTabs{
-       text-align: right;
-       margin: 0;
-       padding-left: 5px;
-       padding-right:5px;
-       padding-top: 0px;
-       padding-bottom: 0px;
-     }
+ }
 
-
-
-
-
+      #chat-tabs{
+        text-align: right;
+        margin: 0;
+        padding-left: 5px;
+        padding-right:5px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+      }
+ .chat-tab{
+   color:#000000;
  }
   #main-navbar-collapse{
   background-color:transparent;
@@ -523,11 +542,11 @@ body {
 }
 
 .chat-body{
-  height:340px;
+  height:350px;
 
 }
 .users-body{
-  height:370px;
+  height:385px;
 
 }
 .chat-panel{

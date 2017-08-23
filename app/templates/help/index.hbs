@@ -1,52 +1,85 @@
-<div class="container">
-  <div class="row">
-    <h2>Help</h2>
+<div class="container " style="padding-left:10px;padding-right:10px;">
+  <h2>Help</h2>
+  <div class="row " style="margin:0px;">
 
-    <div id="account">
-      <br><br>
-      <h3>Account and Sign Up</h3>
-      <br>
+    <br>
+    <div class="col-xs-12 col-sm-4 col-sm-push-8 ">
+    <a  href="#accountSignupAccordion" >  <button class="btn btn-block btn-primary" data-toggle="collapse" data-parent="#accountSignupAccordion" data-target="#collapseAccountSignup">Account and Sign Up</button></a><br>
+      <a  href="#rulesAccordion" >  <button class="btn btn-block btn-primary" data-toggle="collapse" data-parent="#rulesAccordion" data-target="#collapseRules">Site Rules</button></a><br>
+    <a href="#bugsAccordion"  >    <button class="btn btn-block btn-primary"  data-toggle="collapse" data-parent="#bugsAccordion" data-target="#collapseBugs">Bugs and Issues</button></a><br>
 
-      <b>Q.</b>  Why do you hate giraffes?
       <br>
-      <b>A.</b>  No comment.
-
-      <br><br>
-      <b>Q.</b>  Can I put games I've developed on the site?
-      <br>
-      {{#if loginState.loggedIn}}
-        <b>A.</b>  Yes, <a href="/account/developer">click here to become a developer.</a>
-      {{else}}
-        <b>A.</b>  Yes, <a href="/signup/developer">click here to become a developer.</a>
-      {{/if}}
-      <br><br>
-      <b>Q.</b>  How can I stream on your site?
-      <br>
-      {{#if loginState.loggedIn}}
-        <b>A.</b>  Yes, <a href="/account/broadcaster">click here to become a broadcaster.</a>
-      {{else}}
-        <b>A.</b>  Yes, <a href="/signup/broadcaster">click here to become a broadcaster.</a>
-      {{/if}}
-      <br><br>
-      <b>Q.</b>  Can I delete my account?
-      <br>
-      <b>A.</b>  Yes, while logged in <a href="/account/delete">click here to delete your account.</a>
-
-
     </div>
-    <div id="bugs">
-      <br><br>
-      <h3>Bugs and Issues</h3>
-      <br>
 
-      <b>Q.</b>  I've found a bug! How can I report it?
-      <br>
-      <b>A.</b>  <a href="/contact">Click here to report a bug or issue with the website.</a>
-      <br><br>
-    </div>
+
+
+    <div class="col-xs-12 col-sm-8 col-sm-pull-4">
+          <div class="panel-group" id="accountSignupAccordion">
+            <div class="panel panel-default">
+                <div class="panel-heading accordion-toggle " data-toggle="collapse" data-parent="#accountSignupAccordion" data-target="#collapseAccountSignup">
+                <h3 class="panel-title"> Account and Sign Up</h3>
+            </div>
+            <div id="collapseAccountSignup" class="panel-collapse collapse in">
+                  <div class="panel-body">
+                    <b>Q.</b>  Can I put games I've developed on the site?
+                    <br>
+                    {{#if loginState.loggedIn}}
+                      <b>A.</b>  Yes, <a href="/account/developer">click here to become a developer.</a>
+                    {{else}}
+                      <b>A.</b>  Yes, <a href="/signup/developer">click here to become a developer.</a>
+                    {{/if}}
+                    <br><br>
+                    <b>Q.</b>  How can I stream on your site?
+                    <br>
+                    {{#if loginState.loggedIn}}
+                      <b>A.</b>  Yes, <a href="/account/broadcaster">click here to become a broadcaster.</a>
+                    {{else}}
+                      <b>A.</b>  Yes, <a href="/signup/broadcaster">click here to become a broadcaster.</a>
+                    {{/if}}
+                    <br><br>
+                    <b>Q.</b>  Can I delete my account?
+                    <br>
+                    <b>A.</b>  Yes, while logged in <a href="/account/delete">click here to delete your account.</a>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel-group" id="rulesAccordion">
+              <div class="panel panel-default">
+                  <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#rulesAccordion" data-target="#collapseRules">
+                  <h3 class="panel-title">Site Rules</h3>
+              </div>
+              <div id="collapseRules" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      All users must be at least 18 years of age, or the age of majority in their state, to use this website.
+                      <br><br>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <div class="panel-group" id="bugsAccordion">
+              <div class="panel panel-default">
+                  <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#bugsAccordion" data-target="#collapseBugs">
+                  <h3 class="panel-title"> Bugs and Issues</h3>
+              </div>
+              <div id="collapseBugs" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <b>Q.</b>  I've found a bug! How can I report it?
+                      <br>
+                      <b>A.</b>  <a href="/contact">Click here to report a bug or issue with the website.</a>
+                      <br><br>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+      </div>
+
   </div>
 
-  <div class="row">
+  <div class="row" style="margin:0px;">
     <div class="text-center">
       Still need help? Click below to send us a message.<br><br>
       <a class="btn btn-primary" href="/contact" role="button">Contact Us</a>

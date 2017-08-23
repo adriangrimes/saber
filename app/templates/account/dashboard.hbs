@@ -8,6 +8,7 @@
   </div>
   {{#if loginState.broadcaster}}
   <div class="row">
+
     <div class="col-xs-6 col-sm-4">
       <br><br>
       <a class="btn btn-primary btn-block btn-lg visible-xs" title="Stream with minimal set up right from your web browser." role="button">Quick<br/>Stream</a>
@@ -21,13 +22,40 @@
       <br><br>
     </div>
 
-    <div class="col-xs-12 col-sm-4">
 
-              {{stream-scheduler}}
+            <div class="col-xs-12 col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row" id="dashboard-button-row">
+            <div class="col-xs-6">
+              <a  id="dashboard-button" href="/profile" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-edit"></span> <br/>Edit Profile</a>
+            </div>
+            <div class="col-xs-6">
+              <a id="dashboard-button" href="/account/messages" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-inbox"></span> <br/>Inbox</a>
+            </div>
+          </div>
+          <div class="row"  id="dashboard-button-row">
+            <div class="col-xs-6">
+              <a id="dashboard-button" href="/account" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-cog"></span> <br/>Account</a>
+            </div>
+            <div class="col-xs-6">
+              <a id="dashboard-button" href="#" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-question-sign"></span> <br/>Help</a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-6">
+              <a  id="dashboard-button" href="#" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-stats"></span> <br/>Earnings</a>
+            </div>
+            <div class="col-xs-6">
+              <a id="dashboard-button" href="#" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-user"></span> <br/>Referals</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  {{/if}}
 
+    </div>
+  {{/if}}
     <div class="row">
         <div class="col-xs-12 col-sm-8">
 
@@ -51,25 +79,34 @@
 
                        </form>
                      <form>
-
+                       <br>
                         <br>
-                    <label class="form-check-label">
-                      <input type="checkbox" class="form-check-input">
-                      Allow users to Shoopdawoop you
-                      </label>
-
                   <div class="form-check">
+
+
+                      <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" checked>
+                          Allow users to suggest games.
+                      </label>
+                      <br><br>
+                          </div>
+                        </form>
+
+                          <form class ="form-inline">
+                      <h4>Private Sessions and Tips</h4>
+  <br>
+                      <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" checked>
+                        Enable Tipping.
+                      </label>
+                      <br>
                     <label class="form-check-label">
                       <input type="checkbox" class="form-check-input">
-                        Allow users to werwerwer with you
                     </label>
                   </div>
+</form>
                   <br>
-
-                    <label for="example-number-input" >Number</label>
-                      <input class="form-control" type="number" min="10" max="500" value="42" id="number-input">
-
-                  <br>
+                  <form>
                   <div class=text-right>
 
                   <button type="submit" class="btn btn-primary">Submit</button>
@@ -164,6 +201,7 @@
 
         </div>
         <div class="col-xs-12 col-sm-4">
+          {{#if loginState.developer}}
           <div class="panel panel-default">
             <div class="panel-body">
               <div class="row" id="dashboard-button-row">
@@ -179,7 +217,7 @@
                   <a id="dashboard-button" href="/account" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-cog"></span> <br/>Account</a>
                 </div>
                 <div class="col-xs-6">
-                  <a id="dashboard-button" href="#" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-sunglasses"></span> <br/>Cool Stuff</a>
+                  <a id="dashboard-button" href="#" class="btn btn-primary btn" role="button"><span class="glyphicon glyphicon-question-sign"></span> <br/>Help</a>
                 </div>
               </div>
               <div class="row">
@@ -192,13 +230,11 @@
               </div>
             </div>
           </div>
+          {{/if}}
+
         </div>
     </div>
-    {{#if loginState.developer}}
-    <div class="row">
 
-    </div>
-    {{/if}}
 
 
   {{else}}

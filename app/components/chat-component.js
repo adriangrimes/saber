@@ -1,5 +1,5 @@
 import Ember from 'ember';
-var name = prompt('Username:');
+var name = 'TestName';//prompt('Username:');
 
 
 export default Ember.Component.extend({
@@ -73,9 +73,6 @@ export default Ember.Component.extend({
         $(this).tab('show');
 
     },
-    openUserTab: function() {
-      $(this).tab('show');
-
-    },
+  
   }
 });
