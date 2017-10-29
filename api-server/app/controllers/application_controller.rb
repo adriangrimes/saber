@@ -2,22 +2,28 @@ class ApplicationController < ActionController::API
   include ActionController::MimeResponds
   include ActionController::HttpAuthentication::Token::ControllerMethods
 
-  before_action :authenticate_user_from_token!
+  acts_as_token_authentication_handler_for User
 
+  before_action :authenticate_user_from_token!
   # Enter the normal Devise authentication path,
   # using the token authenticated user if available
   before_action :authenticate_user!
 
-  private
+  protected
 
   def authenticate_user_from_token!
+    puts "======authenticate_user_from_token======"
     authenticate_with_http_token do |token, options|
+      puts "======authenticate_user_from_token EMAIL PRESENCE======"
       user_email = options[:email].presence
       user = user_email && User.find_by_email(user_email)
 
       if user && Devise.secure_compare(user.authentication_token, token)
+        puts "==== authenticate_user_from_token  sign in user ===="
         sign_in user, store: false
       end
     end
   end
+
+
 end

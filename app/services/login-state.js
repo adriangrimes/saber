@@ -17,32 +17,40 @@ export default Ember.Service.extend({
       return false;
     }
   }),
+  errorMessage: '',
+  signupSuccess: false,
+
 
   init() {
     this._super(...arguments);
 
-    // //jenk autologin for now
-    // var user = document.cookie.match(new RegExp('username' + '=([^;]+)'));
-    // var password = document.cookie.match(new RegExp('password' + '=([^;]+)'));
-    // if (user && password) {
-    //   if (user[1] != null && password[1] != null) {
-    //     this.set('loggedIn', false);
-    //     console.log("autologging in: " + user[1]);
-    //     this.logIn(user[1], password[1]);
-    //   }
-    // }
-    //if some sort of cookie found run logIn()??? for autologin
-    //how do sites even do that
   },
 
   //do login work here
   logIn(identification, password) {
-    console.log('login');
-    this.get('session').authenticate('authenticator:devise', identification, password).catch((reason) => {
-      this.set('errorMessage', reason.error || reason);
-    });
+    if (identification && password) {
 
-    Ember.$('#loginModal').modal('hide'); //close log in modal
+      //add a spinner and remove text
+      Ember.$('#loginModal > div > div > form > div > button > div').addClass('spinner');
+      Ember.$("#loginModal > div > div > form > div > button > div").contents().filter(function () {
+        console.log('activating spinner - removing text');
+        return this.nodeType === 3; // Text nodes only
+      }).remove();
+
+      console.log('authenticate go!');
+      this.get('session').authenticate('authenticator:devise', identification, password).then(() => {
+        Ember.$('#loginModal').modal('hide'); //close log in modal
+      }).catch((reason) => {
+        this.set('errorMessage', reason.error || reason);
+      });
+    } else {
+      this.set('errorMessage',
+        [{
+          title: 'Missing Info',
+          detail: 'Your login or password is missing.'
+        }]
+      );
+    }
     // TODO input validation
     // let that = this;
     //
@@ -84,6 +92,57 @@ export default Ember.Service.extend({
 
   },
 
+  signUp(user, email, pw, pwconfirm) {
+    var self = this;
+    //TODO input validation
+    if (email && user) {
+      if (pw === pwconfirm) {
+
+
+        let newUser = this.get('store').createRecord('user', {
+          email: email,
+          username: user,
+          password: pw,
+          passwordConfirmation: pwconfirm
+        });
+
+
+
+
+        console.log('before save');
+        newUser.save().then(displaySignupSuccess).catch(failure);
+
+        //   //Ember.$('#loginModal').modal('hide'); //close log in modal
+      } else {
+        console.log('setting error passwords do not match');
+        this.set('errorMessage',
+          [{
+            title: 'Passwords',
+            detail: 'Passwords do not match.'
+          }]
+        );
+      }
+    } else {
+      console.log('setting error no info');
+      this.set('errorMessage',
+        [{
+          title: 'Missing Info',
+          detail: 'Please enter the information below to sign up.'
+        }]
+      );
+    }
+
+    function displaySignupSuccess() {
+      console.log('signupsuccess');
+      self.set('errorMessage', null);
+      self.set('signupSuccess', true);
+    }
+
+    function failure(reason) {
+      self.set('errorMessage', reason.errors || reason);
+    }
+  },
+
   logOut() {
     //do logout work here
     //TODO input validation
@@ -109,24 +168,6 @@ export default Ember.Service.extend({
     document.cookie ="password=;path=/; expires=" + date.toGMTString();
     this.get('store').unloadAll('user');
     this.get('store').unloadAll('user-pref');
-  },
-
-  signUp(user, email, pw, pwconfirm) {
-    //TODO input validation
-    if (pw === pwconfirm) {
-      var signup = this.get('store').createRecord('user', {
-        username: user,
-        email: email,
-        password: pw
-      });
-      signup.save().then(function(){
-        console.log("signed up");
-        Ember.$('#loginModal').modal('hide'); //close log in modal
-      });
-
-    } else {
-      console.log('error: passwords do not match');
-    }
   },
 
 });

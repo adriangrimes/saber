@@ -14,5 +14,6 @@ export default JSONAPIAdapter.extend({
 });
 
 export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
+  host: 'http://localhost:3000',
   authorizer: 'authorizer:devise'
 });

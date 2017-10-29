@@ -1,51 +1,69 @@
+<h4>
+  {{#if signupform}}
+    <b>Sign up</b>     or <a href="" {{action 'toggleSignUp'}}><u>Log in</u></a>
+  {{else}}
+    <b>Log in</b>      or <a href="" {{action 'toggleSignUp'}}><u>Sign up</u></a>
+  {{/if}}
+</h4>
+<br>
 
-        <h4>
-          {{#if signupform}}
-            <b>Sign up</b>     or <a href="" {{action 'toggleSignUp'}}><u>Log in</u></a>
-          {{else}}
-            <b>Log in</b>      or <a href="" {{action 'toggleSignUp'}}><u>Sign up</u></a>
-          {{/if}}
-        </h4>
-        <br>
+{{#if loginState.errorMessage}}
+  <p class="alert alert-danger fade in">
+    {{#each loginState.errorMessage as |error|}}
+    - {{error.detail}}<br>
+    {{/each}}
+  </p>
+{{/if}}
 
+<form>
+  {{#if signupform}}
+    {{#if loginState.signupSuccess}}
+      <p class="alert alert-success fade in">
+        Account created! Check your email to confirm and activate your account.
+      </p>
+    {{/if}}
 
-        <form>
-          <div class="form-group-sm">
-            <label for="inputusername">Email</label>
-            {{input class="form-control" value=inputUsername id="inputusername" placeholder="Enter Email"}}
-          </div>
-          {{#if signupform}}
-            <br>
-            <div class="form-group-sm">
-              <label for="inputemailAddress">Email address</label>
-              {{input type="email" class="form-control" value=inputemailaddress id="inputemailAddress" placeholder="Enter email address"}}
-            </div>
-          {{/if}}
-            <br>
-            <div class="form-group-sm">
-              <label for="inputpassword">Password</label>
-              {{input class="form-control" value=inputPassword id="inputpassword" placeholder="Enter Password"}}
-            </div>
-          {{#if signupform}}
-            <br>
-            <div class="form-group-sm">
-              <label for="inputpasswordconfirm">Confirm Password</label>
-              {{input type="password" class="form-control" value=inputpasswordconfirm id="inputpasswordconfirm" placeholder="Password"}}
-            </div>
-            <label class="form-check-label">
-              <br>
-              <input type="checkbox" class="form-check-input">
-              Yes, I am over the age of 18 and agree to the <a href="/terms" target="_blank"><u>terms of service</u></a>
-            </label>
-            <br>
-            <br>
+    <div class="form-group-sm">
+      <label for="username">Username</label>
+      {{input type="login" class="form-control" id="username" value=inputusername}}
+    </div>
+    <br>
+    <div class="form-group-sm">
+      <label for="email">Email address</label>
+      {{input type="email" class="form-control" id="email" value=inputemailaddress}}
+    </div>
+    <br>
+    <div class="form-group-sm">
+      <label for="password">Password</label>
+      {{input class="form-control" id="password" value=inputpassword}}
+    </div>
+    <br>
+    <div class="form-group-sm">
+      <label for="pwconfirm">Confirm Password</label>
+      {{input type="password" class="form-control" id="pwconfirm" value=inputpasswordconfirm}}
+    </div>
+    <label class="form-check-label">
+      <br>
+      <input type="checkbox" class="form-check-input">
+    </label>
+    <br>
+    <br>
+    <button type="button" class="signup-button btn btn-primary btn-block" {{action "signup"}}>Sign me up!</button>
 
-            <button type="button" class="signup-button btn btn-primary btn-block" data-dismiss="modal" {{action "signup"}}>Sign me up!</button>
-          {{else}}
-            <br>
-            <button type="button" class="btn btn-primary btn-block" data-dismiss="" {{action "authenticate"}}><div>Log In</div></button>
-          {{/if}}
-          {{#if errorMessage}}
-            {{errorMessage}}
-          {{/if}}
-      </form>
+{{else}}
+
+    <div class="form-group-sm">
+      <label for="username">Username / Email</label>
+      {{input class="form-control" id="username" value=inputusername}}
+    </div>
+    <br>
+    <div class="form-group-sm">
+      <label for="password">Password</label>
+      {{input class="form-control" id="password" value=inputpassword}}
+    </div>
+    <br>
+    <button type="button" class="btn btn-primary btn-block" {{action "authenticate"}}><div>Log In</div></button>
+
+  {{/if}}
+
+</form>

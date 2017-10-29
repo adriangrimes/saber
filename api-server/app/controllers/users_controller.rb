@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:index, :show, :create, :update, :destroy]
 
+  respond_to :jsonapi
+
   # GET /users
   def index
     #sleep 2 #Add server latency
@@ -25,16 +27,23 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
+    raise "posted to users controller create function - this probably shouldnt happen"
+    # puts "Going to create"
+    # @user = User.new(user_params)
+    #
+    # #if @user.params[:password] and @user.params[:password] == @user.params[:password_confirmation]
+    #
+    #   respond_to do |format|
+    #     if @user.save
+    #       format.jsonapi { render jsonapi: @user, status: :created, location: @user }
+    #     else
+    #       format.jsonapi { render jsonapi: @user.errors, status: :unprocessable_entity }
+    #     end
+    #   end
 
-    @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-        format.jsonapi { render jsonapi: @user, status: :created, location: @user }
-      else
-        format.jsonapi { render jsonapi: @user.errors, status: :unprocessable_entity }
-      end
-    end
+    #else
+    #  format.jsonapi { render jsonapi: @user.errors, status: :unprocessable_entity }
+    #end
   end
 
   # PATCH/PUT /users/1
@@ -63,6 +72,7 @@ class UsersController < ApplicationController
         [ :email,
           :username,
           :password,
+          :password_confirmation,
           :first_name,
           :middle_name,
           :account_status,

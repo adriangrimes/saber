@@ -1,3 +1,5 @@
 import Devise from 'ember-simple-auth/authorizers/devise';
 
-export default Devise.extend({});
+export default Devise.extend({
+  identificationAttributeName: 'login'
+});

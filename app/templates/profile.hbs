@@ -4,7 +4,7 @@
 <div class="container">
   <div class="row">
     <div class ="col-xs-12">
-      {{#if loginState.loggedIn}}
+      {{#if session.isAuthenticated}}
       <h2>Your Profile</h2>
       {{else}}
       <h2>Someone Else  <a role="button" class="btn btn-primary collapsed" style="float:right" data-toggle="collapse"  data-target="#share-form" ><span title="Share this profile"  class="glyphicon glyphicon-share-alt"  aria-hidden="true" ></span></a>
@@ -43,7 +43,7 @@
     <div class="col-xs-12 col-sm-8 no-padding"  id="videoWindow">
       <div class="panel panel-default video-panel">
         <div class="profile-controls">
-            {{#if loginState.loggedIn}}
+          {{#if session.isAuthenticated}}
             <a  id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal" style="top:70px"><span title="Edit Avatar" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 
             {{else}}
@@ -89,7 +89,7 @@
                       </div>
                           <div class="input-group col-xs-8 col-sm-9" >
 
-                               <input type="text"  autocomplete="off" class="form-control"  placeholder="Optional Note">
+                               <input type="text"  autocomplete="off" class="form-control"  placeholder="Include an optional chat note">
                                <span class="input-group-btn">
                                  <button class="btn btn-primary" type="submit">Send Tip</button>
                                </span>
@@ -123,12 +123,7 @@
           <div class="panel-body" id="game-Window">
             <div class="row">
               <div class="col-xs-8">
-              {{#if loginState.loggedIn}}
-              <h4 id="gameHeading">Next Stream Starts</h4>
-              <br>
-              <b> Tuesday, March 14th</b> 9:00pm
 
-              {{else}}
 
               <h4 id="gameHeading">Play 8 Ball Pool</h4>
 
@@ -140,25 +135,21 @@
               <br>
               <b>Number of Players:</b> 2
               <br><br>
-              {{/if}}
+
 
 
 
 
             </div>
             <div class="col-xs-4">
-              {{#if loginState.loggedIn}}
-              {{else}}
+
 
               <img src="/usericon.svg"  class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
 
-              {{/if}}
             </div>
 
 
           </div>
-          {{#if loginState.loggedIn}}
-          {{else}}
 
           <div class="row">
             <div class="col-xs-6" id="play-button">
@@ -171,7 +162,6 @@
              </div>
            </div>
 
-            {{/if}}
             </div>
 
 
@@ -179,7 +169,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 no-padding" >
         <div class="well" id="photo-gallery">
-          {{#if loginState.loggedIn}}
+          {{#if session.isAuthenticated}}
 
           <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal"><span title="Edit Photos" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
           {{/if}}
@@ -197,7 +187,7 @@
         <div class="row">
             <div class="col-xs-12 no-padding">
               <div class="well">
-                {{#if loginState.loggedIn}}
+                {{#if session.isAuthenticated}}
 
           <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editProfileModal"><span title="Edit Details" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
           {{/if}}
@@ -205,14 +195,22 @@
                 Lorem Ipsum all the homes. placerat velit tempor sit amet. Suspendisse potenti. Morbi luctus iaculis quam ac euismod. Vivamus nec velit non ex sollicitudin ultricies. Nunc sed rhoncus tu
                 <br>
                 <br>
-                <b>Sex:</b> Male
+                <label >Sex:</label>  Male
                 <br>
-                <b>Location:</b>  Earth
+              <label >Location:</label>  Earth
                 <br>
-                <b>Languages:</b>  English, Fake Latin
+                <label >Languages:</label> English, Fake Latin
                 <br>
-                <b>Tags:</b> RPG, Monopoly, Cheese, Crackers, Pizza
-
+                <div class="form-group">
+                  <label >Tags:</label>
+                {{#tag-input
+                    tags=tags
+                    readOnly=true
+                    as |tag|
+                  }}
+                    {{tag}}
+                  {{/tag-input}}
+                        </div>
               </div>
             </div>
           </div>

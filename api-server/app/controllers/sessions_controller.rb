@@ -1,15 +1,27 @@
+include ErrorSerializer
+
 class SessionsController < Devise::SessionsController
-  respond_to :json
 
   def create
-    super do |user|
-      if request.format.json?
+    puts "==== session create start ===="
+    self.resource = warden.authenticate!(auth_options)
+    puts "==== after session warden authenticate ====="
+    sign_in(resource_name, resource)
+    puts "==== session yield ===="
+    yield resource if block_given?
+
+    respond_to do |format|
+      format.json do
+        puts "==== session created, responding ===="
         data = {
-          token: user.authentication_token,
-          email: user.email
+          user_id: resource.id,
+          login: resource.login,
+          token: resource.authentication_token
         }
-        render json: data, status: 201 and return
+
+        render json: data, status: 201
       end
     end
   end
+
 end
