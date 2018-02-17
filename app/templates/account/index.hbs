@@ -20,9 +20,11 @@
                 <form>
                   <h4>Send me an email...</h4>
                   <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" checked>
-                      When my favorites are online.
-                    </label>
+                    <!-- <input type="checkbox" class="form-check-input" checked={{value}} onchange={{action "settingChanged" value="target.value"}}> -->
+                    <input type="checkbox" class="form-check-input" checked={{sendEmailFavoritesOnlineCB}}>
+
+                      When my favorites are online. {{sendEmailFavoritesOnlineCB}}
+                  </label>
 
                 <div class="form-check">
                   <label class="form-check-label">
@@ -40,7 +42,7 @@
 
                 <br>
             <div class=text-right>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" {{action "submitEmailSettings"}}>Submit</button>
               </div>
 
               </form>
@@ -55,18 +57,34 @@
         <div class="panel panel-default">
 
             <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#siteSettingsAccordion" data-target="#collapseSiteSettings">
-              <h4 class="panel-title"> Site and Search Settings</h4>
+              <h3 class="panel-title"> Site and Search Settings</h3>
 
             </div>
             <div id="collapseSiteSettings" class="panel-collapse collapse">
               <div class="panel-body">
+                <h4> Default Search Settings:</h4>
 
+                Show:
                 <form>
-                  <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input">
-                      Dark Mode
                     </label>
-                    <br>
+                  </div>
+                          <br>
+                          <br>
+                <h4> Site Graphics Style:</h4>
+
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="skin-options" id="skin-default" value="skin-default" checked>
+                  <b>  Default </b>
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="skin-options" id="skin-dark" value="skin-dark" >
+                <b>    Dark Mode</b>
+                  </label>
+                </div>
+                      <br>
                     <div class=text-right>
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
@@ -98,11 +116,11 @@
 
                           <div class="form-group">
                             <label for="inputemailAddress">New Email address</label>
-                            <input type="email" class="form-control" id="inputemailAddress"  placeholder="New email address">
+                            <input type="email" class="form-control" id="inputnewemailAddress"  placeholder="New email address">
                           </div>
                           <div class="form-group">
-                            <label for="inputemailAddress">Confirm New Email address</label>
-                            <input type="email" class="form-control" id="inputemailAddress"  placeholder="New email address">
+                            <label for="inputnewemailAddressConfirm">Confirm New Email address</label>
+                            <input type="email" class="form-control" id="inputnewemailAddressConfirm"  placeholder="New email address">
                           </div>
 
                           <div class="form-group">

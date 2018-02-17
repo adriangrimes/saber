@@ -5,7 +5,6 @@
 // No media query since this is the default in Bootstrap
 
 *{
-
   font-family: 'Lato', sans-serif;
 }
 
@@ -14,11 +13,14 @@
 .no-padding{
   padding: 0px;
 }
+.no-margin{
+  margin:0px;
+}
 .small-side-padding{
   padding-left: 10px;
   padding-right:10px;
 }
-#large-glyphicon{
+.large-glyphicon{
   font-size: 75px;
 }
 .clearFix
@@ -98,14 +100,56 @@ body {
   position:relative;
 }
 
+/////////////splash page classes
+
+#splash-text{
+  font-size: 18px;
+}
+#splash-email-input{
+  width: 75%;
+}
+.splash-horizontal-rule{
+  border-color: #bcbcbc;
+}
+
 //////////////////////////////////////Navbar Classes
-#nav-links{
+
+.navbar-default .navbar-brand{
+  color: #FFFFFF;
+}
+
+.navbar-brand {
+  padding-left: 5px;
+  padding-top: 9px;
+}
+.navbar-brand>img {
+  display: inline;
+  float: top;
+  margin-right: 5px;
+}
+#logo-with-text{
+  display:none;
+}
+.nav-links{
   color: #FFFFFF;
   background-color:transparent;
 }
-#nav-links:hover, #nav-links:active, #nav-links:focus{
+.nav-links:hover, #nav-links:active, #nav-links:focus{
   color: #bcbcbc;
 }
+.navbar-toggle{
+ position:absolute;
+ margin-top:6px;
+ right:0px;
+
+ .navbar-fixed-top
+   {
+   position: relative;
+   top: auto;
+   }
+
+}
+
 #footer-links{
   color: #FFFFFF;
 }
@@ -127,11 +171,15 @@ body {
 
 .navbar-default{
   min-height:10px;
+  height: 50px;
 	background: #B80000; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(left, #B80000 , #800000); /* For Safari 5.1 to 6.0 */
+  background: -webkit-linear-gradient(left,  #B80000, #800000); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(right, #B80000, #800000); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(right, #B80000, #800000); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to right, #B80000 , #800000); /* Standard syntax */
+  background: -moz-linear-gradient(right, #B80000,#800000 ); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right,#B80000 ,#800000); /* Standard syntax */
+  border-radius: 0px;
+  border: 0px;
+    color: #FFFFFF;
 }
 
 #searchTabs{
@@ -486,9 +534,9 @@ padding-left: 10px;
   #tip-value{
     padding-left: 7px;
   }
-.broadcaster-avatar{
-  max-height: 123px;
-}
+  .broadcaster-avatar{
+    max-height: 123px;
+  }
 
 
 }
@@ -500,24 +548,23 @@ padding-left: 10px;
     margin-bottom: 120px;
   }
 
+#logo-with-text{
+  display:block;
+}
+#logo-no-text{
+  display:none;
+}
+
+#splash-email-input{
+  width: 50%;
+}
 
 
   .footer {
     height: 120px;
     color: #FFFFFF;
   }
-  .navbar-toggle{
-   position:absolute;
-   margin-top:6px;
-   right:0px;
 
-   .navbar-fixed-top
-     {
-     position: relative;
-     top: auto;
-     }
-
- }
 
       #chat-tabs{
         text-align: right;
@@ -542,7 +589,7 @@ padding-left: 10px;
 }
 
 .chat-body{
-  height:350px;
+  height:339px;
 
 }
 .users-body{
@@ -550,7 +597,7 @@ padding-left: 10px;
 
 }
 .chat-panel{
-  height: 377px;
+  height: 339px;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   border-left-style: none;

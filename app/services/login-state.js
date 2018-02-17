@@ -4,6 +4,7 @@ export default Ember.Service.extend({
 
   store: Ember.inject.service(),
   session: Ember.inject.service(),
+  isOnline: true,
   userId: '',
   username: '',
   broadcaster: false,
