@@ -39,8 +39,12 @@ export default Ember.Service.extend({
 
       console.log('authenticate go!');
       this.get('session').authenticate('authenticator:devise', identification, password).then(() => {
+        console.log('username: ' + this.get('session.data.authenticated.username'));
         Ember.$('#loginModal').modal('hide'); //close log in modal
+        return this.get('store').findRecord('user', this.get('session.data.authenticated.user_id'));
+
       }).catch((reason) => {
+        console.log('error logging in');
         this.set('errorMessage', reason.error || reason);
       });
     } else {
@@ -167,7 +171,6 @@ export default Ember.Service.extend({
     document.cookie ="username=;path=/; expires=" + date.toGMTString();
     document.cookie ="password=;path=/; expires=" + date.toGMTString();
     this.get('store').unloadAll('user');
-    this.get('store').unloadAll('user-pref');
   },
 
 });

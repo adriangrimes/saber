@@ -3,15 +3,16 @@ class UsersController < ApplicationController
 
   respond_to :jsonapi
 
-  # GET /users
+  # GET all /users
   def index
-    #sleep 2 #Add server latency
-    @user = User.find_by!(username: params[:username], password: params[:password])
+    #Add server latency
+    #sleep 2
 
+    #@user = User.find_by!(username: params[:username], password: params[:password])
 
     respond_to do |format|
       if @user
-        format.jsonapi { render jsonapi: @user, include: 'user_pref' }
+        format.jsonapi { render jsonapi: @user, status: :ok }
       else
         format.jsonapi { render jsonapi: @user.errors, status: :unprocessable_entity }
       end
@@ -22,7 +23,13 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
-    render json: @user
+    respond_to do |format|
+      if @user
+        format.jsonapi { render jsonapi: @user, status: :ok }
+      else
+        format.jsonapi { render jsonapi: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # POST /users
@@ -49,7 +56,8 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      render json: @user
+      puts "hey ur doin it live updating something"
+      render json: @user, status: :ok
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -61,6 +69,7 @@ class UsersController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       #@user = User.find(params[:id])
@@ -80,16 +89,15 @@ class UsersController < ApplicationController
           :broadcaster,
           :developer,
           :stream_key,
-          :address_line_1,
-          :address_line_2,
-          :address_line_3,
+          :address_line1,
+          :address_line2,
+          :address_line3,
           :timezone,
           :last_name,
           :birthdate,
           :include,
 
           #userPrefs parameters
-          :user_id,
           :dark_mode,
           :send_email_favorites_online,
           :send_email_site_news,

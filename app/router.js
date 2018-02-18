@@ -14,7 +14,7 @@ Router.map(function() {
     this.route('delete');
     this.route('messages');
     this.route('dashboard');
-    this.route('manageUsers');
+    this.route('manage-users');
   });
   this.route('signup', function() {
     this.route('broadcaster');

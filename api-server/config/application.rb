@@ -42,5 +42,7 @@ module ApiServer
       end
     end
 
+    config.middleware.use ActionDispatch::Flash
+
   end
 end

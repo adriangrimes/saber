@@ -34,7 +34,7 @@
            <li class="hidden-xs dropdown">
              <a href="" id="nav-links" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span   title="Menu" class="glyphicon glyphicon-align-right" aria-hidden="true"></span></a>
                <ul class="dropdown-menu">
-                 <li class="dropdown-header">Hi {{loginState.username}}</li>
+                 <li class="dropdown-header">Hi {{session.data.authenticated.username}}</li>
                  <li><a href="/account/messages">Messages&nbsp;&nbsp;<span class="badge">42</span></a></li>
                  {{#if loginState.devCaster}}
                     <li><a href="/account/dashboard">Dashboard</a></li>

@@ -5,8 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :lockable
 
-  has_one :user_pref, dependent: :destroy
-
   attr_accessor :login
   #attr_accessor :password_confirmation
   validates :username, presence: true, :uniqueness => { :case_sensitive => false }
@@ -26,6 +24,7 @@ class User < ApplicationRecord
   end
 
   def validate_username
+    #if email matches an already used username, return error
     if User.where(email: username).exists?
       errors.add(:username, :invalid)
     end
@@ -38,10 +37,10 @@ class User < ApplicationRecord
   end
 
   def self.find_for_database_authentication(warden_conditions)
-    puts "====find_for start======"
+    puts "====find login from passed params start======"
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      puts "====find_for login conditions delete======"
+      puts "=====find login from passed params if====="
       where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
     end
   end

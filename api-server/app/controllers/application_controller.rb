@@ -14,8 +14,10 @@ class ApplicationController < ActionController::API
   def authenticate_user_from_token!
     puts "======authenticate_user_from_token======"
     authenticate_with_http_token do |token, options|
-      puts "======authenticate_user_from_token EMAIL PRESENCE======"
-      user_email = options[:email].presence
+      puts options.inspect
+      puts "======AUFT EMAIL PRESENCE======".concat(token)
+      puts "email: ".concat(options[:email])
+      user_email = options[:email].presence #this may always return true??? unsafe
       user = user_email && User.find_by_email(user_email)
 
       if user && Devise.secure_compare(user.authentication_token, token)

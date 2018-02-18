@@ -5,7 +5,6 @@ Rails.application.routes.draw do
       registrations: 'users/registrations'
     }
 
-  resources :user_prefs
   resources :private_messages
   resources :contests
   resources :contest_votes

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170307044101) do
+ActiveRecord::Schema.define(version: 20170228073509) do
 
   create_table "contest_votes", force: :cascade do |t|
     t.integer  "user_id"
@@ -90,8 +90,24 @@ ActiveRecord::Schema.define(version: 20170307044101) do
     t.datetime "updated_at",        null: false
   end
 
-  create_table "user_prefs", force: :cascade do |t|
-    t.integer  "user_id"
+  create_table "users", force: :cascade do |t|
+    t.string   "username"
+    t.string   "email",                                    default: "",    null: false
+    t.string   "encrypted_password",                       default: "",    null: false
+    t.string   "authentication_token"
+    t.string   "account_status"
+    t.boolean  "admin_status",                             default: false
+    t.string   "stream_key",                  limit: 64
+    t.string   "first_name"
+    t.string   "middle_name"
+    t.string   "last_name"
+    t.datetime "birthdate"
+    t.boolean  "broadcaster",                              default: false
+    t.boolean  "developer",                                default: false
+    t.string   "address_line1"
+    t.string   "address_line2"
+    t.string   "address_line3"
+    t.string   "timezone"
     t.boolean  "dark_mode",                                default: false
     t.boolean  "send_email_favorites_online",              default: false
     t.boolean  "send_email_site_news",                     default: false
@@ -101,33 +117,10 @@ ActiveRecord::Schema.define(version: 20170307044101) do
     t.integer  "profile_age",                 limit: 3
     t.string   "profile_location",            limit: 32
     t.string   "profile_languages",           limit: 32
-    t.datetime "created_at",                                               null: false
-    t.datetime "updated_at",                                               null: false
-    t.index ["user_id"], name: "index_user_prefs_on_user_id"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string   "username"
-    t.string   "email",                             default: "",    null: false
-    t.string   "encrypted_password",                default: "",    null: false
-    t.string   "authentication_token"
-    t.string   "account_status"
-    t.boolean  "admin_status",                      default: false
-    t.string   "stream_key",             limit: 64
-    t.string   "first_name"
-    t.string   "middle_name"
-    t.string   "last_name"
-    t.datetime "birthdate"
-    t.boolean  "broadcaster",                       default: false
-    t.boolean  "developer",                         default: false
-    t.string   "address_line_1"
-    t.string   "address_line_2"
-    t.string   "address_line_3"
-    t.string   "timezone"
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0,     null: false
+    t.integer  "sign_in_count",                            default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -136,11 +129,11 @@ ActiveRecord::Schema.define(version: 20170307044101) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",                   default: 0,     null: false
+    t.integer  "failed_attempts",                          default: 0,     null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

@@ -1,7 +1,6 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  userPref: DS.belongsTo('user-pref'),
 
   email: DS.attr('string'),
   username: DS.attr('string'),
@@ -20,5 +19,18 @@ export default DS.Model.extend({
   addressLine1: DS.attr('string'),
   addressLine2: DS.attr('string'),
   addressLine3: DS.attr('string'),
-  timezone: DS.attr('string')
+  timezone: DS.attr('string'),
+
+  darkMode: DS.attr('boolean'),
+  sendEmailFavoritesOnline: DS.attr('boolean'),
+  sendEmailSiteNews: DS.attr('boolean'),
+
+  profilePhotoId: DS.attr('number'),
+  profileSex: DS.attr('string'),
+  profileAboutMe: DS.attr('string'),
+  profileAge: DS.attr('number'),
+  profileLocation: DS.attr('string'),
+  profileLanguages: DS.attr('string')
+  //profilePlatforms: DS.attr('boolean')
+
 });

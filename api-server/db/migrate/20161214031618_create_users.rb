@@ -20,10 +20,22 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.boolean :broadcaster, default: false
       t.boolean :developer, default: false
 
-      t.string :address_line_1
-      t.string :address_line_2
-      t.string :address_line_3
+      t.string :address_line1
+      t.string :address_line2
+      t.string :address_line3
       t.string :timezone
+
+      t.boolean :dark_mode, default: false
+      t.boolean :send_email_favorites_online, default: false
+      t.boolean :send_email_site_news, default: false
+
+      t.integer :profile_photo_id
+      t.string :profile_sex, limit: 16
+      t.text :profile_about_me, limit: 2048
+      t.integer :profile_age, limit: 3
+      t.string :profile_location, limit: 32
+      t.string :profile_languages, limit: 32
+      #t.text :profile_platforms, limit: 2048
 
       ## Recoverable
       t.string   :reset_password_token
@@ -51,7 +63,6 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.datetime :locked_at
 
       t.timestamps
-
 
     end
 

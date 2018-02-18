@@ -16,7 +16,9 @@ class SessionsController < Devise::SessionsController
         data = {
           user_id: resource.id,
           login: resource.login,
-          token: resource.authentication_token
+          token: resource.authentication_token,
+          email: resource.email,
+          username: resource.username
         }
 
         render json: data, status: 201
