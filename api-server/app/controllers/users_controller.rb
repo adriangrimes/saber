@@ -34,7 +34,8 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    raise "posted to users controller create function - this probably shouldnt happen"
+    raise "ERROR: posted to users controller create function - this probably shouldnt happen"
+    
     # puts "Going to create"
     # @user = User.new(user_params)
     #
