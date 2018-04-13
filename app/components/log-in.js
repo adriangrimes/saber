@@ -1,12 +1,13 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject } from '@ember/service';
 
-//Component - log-in
-export default Ember.Component.extend({
+// log-in
+export default Component.extend({
 
   signupform: false,
 
-  loginState: Ember.inject.service('login-state'),
-  session: Ember.inject.service('session'),
+  loginState: inject.service('login-state'),
+  session: inject.service('session'),
   inputUsername: '',
   inputPassword: '',
 
@@ -16,7 +17,7 @@ export default Ember.Component.extend({
 
       let identification = this.get('inputusername');
       let password = this.get('inputpassword');
-      
+
       this.get('loginState').logIn(identification, password);
     },
 

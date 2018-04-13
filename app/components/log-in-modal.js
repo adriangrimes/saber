@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject } from '@ember/service';
 
-export default Ember.Component.extend({
-    loginState: Ember.inject.service('login-state'),
+export default Component.extend({
+    loginState: inject.service('login-state'),
 
     actions: {
       closeModal() {

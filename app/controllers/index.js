@@ -1,9 +1,10 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import $ from 'jquery';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
+  
   openSearchTab: function() {
-      Ember.$(this).tab('show');
-
+    $(this).tab('show');
   },
 
 });

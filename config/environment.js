@@ -1,42 +1,42 @@
-/* jshint node: true */
+'use strict';
 
 module.exports = function(environment) {
-  var ENV = {
+  let ENV = {
     modulePrefix: 'sa',
-    environment: environment,
+    environment,
     rootURL: '/',
     locationType: 'auto',
     contentSecurityPolicy: {
-      'connect-src': "*"
+      'default-src': "'none'",
+      'script-src': "'self' 'unsafe-inline' 'unsafe-eval'",
+      'font-src': "'self'",
+      'connect-src': "'self' ws://localhost:7000 localhost:7000",
+      'img-src': "'self'",
+      'report-uri':"'localhost'",
+      'style-src': "'self' 'unsafe-inline'",
+      'frame-src': "'none'"
     },
     moment: {
-    // Options:
-    // 'all' - all years, all timezones
-    // '2010-2020' - 2010-2020, all timezones
-    // 'none' - no data, just timezone API
-    includeTimezone: 'all'
+      // Options:
+      // 'all' - all years, all timezones
+      // '2010-2020' - 2010-2020, all timezones
+      // 'none' - no data, just timezone API
+      includeTimezone: 'all'
     },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
+      },
+      EXTEND_PROTOTYPES: {
+        // Prevent Ember Data from overriding Date.parse.
+        Date: false
       }
     },
-
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-    },
-    contentSecurityPolicy: {
-        'default-src': "'none'",
-        'script-src': "'self' 'unsafe-inline' 'unsafe-eval'",
-        'font-src': "'self'",
-        'connect-src': "'self' ws://localhost:7000 localhost:7000",
-        'img-src': "'self'",
-        'report-uri':"'localhost'",
-        'style-src': "'self' 'unsafe-inline'",
-        'frame-src': "'none'"
-      }
+    }
   };
 
   ENV['ember-simple-auth'] = {
@@ -67,10 +67,11 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
+    ENV.APP.autoboot = false;
   }
 
   if (environment === 'production') {
-
+    //production things here
   }
 
   return ENV;

@@ -1,5 +1,5 @@
 
-@import "bootstrap";
+//@import "bootstrap";
 
 // Extra small devices (portrait phones, less than 544px)
 // No media query since this is the default in Bootstrap
@@ -668,3 +668,5 @@ padding-left: 10px;
   }
 }
 }
+
+@import "ember-bootstrap/bootstrap";

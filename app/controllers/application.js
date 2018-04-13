@@ -1,17 +1,13 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 
 //Controller - application
-export default Ember.Controller.extend({
-
+export default Controller.extend({
 
   actions: {
-
-    logout(){
+    logout() {
       this.get('loginState').logOut();
       this.transitionToRoute('index');
-    },
-
+    }
   }
-
 
 });

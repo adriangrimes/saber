@@ -1,9 +1,12 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Service from '@ember/service';
+import { inject as service } from '@ember/service';
+import $ from 'jquery';
 
-export default Ember.Service.extend({
+export default Service.extend({
 
-  store: Ember.inject.service(),
-  session: Ember.inject.service(),
+  store: service(),
+  session: service(),
   isOnline: true,
   userId: '',
   username: '',
@@ -11,7 +14,7 @@ export default Ember.Service.extend({
   developer: false,
   adminStatus: false,
   darkMode: false,
-  devCaster: Ember.computed('broadcaster', 'developer', function() {
+  devCaster: computed('broadcaster', 'developer', function() {
     if (this.get('broadcaster') === true || this.get('developer') === true) {
       return true;
     } else {
@@ -32,8 +35,8 @@ export default Ember.Service.extend({
     if (identification && password) {
 
       //add a spinner and remove text
-      Ember.$('#loginModal > div > div > form > div > button > div').addClass('spinner');
-      Ember.$("#loginModal > div > div > form > div > button > div").contents().filter(function () {
+      $('#loginModal > div > div > form > div > button > div').addClass('spinner');
+      $("#loginModal > div > div > form > div > button > div").contents().filter(function () {
         console.log('activating spinner - removing text');
         return this.nodeType === 3; // Text nodes only
       }).remove();
@@ -41,7 +44,7 @@ export default Ember.Service.extend({
       console.log('authenticate go!');
       this.get('session').authenticate('authenticator:devise', identification, password).then(() => {
         console.log('username: ' + this.get('session.data.authenticated.username'));
-        Ember.$('#loginModal').modal('hide'); //close log in modal
+        $('#loginModal').modal('hide'); //close log in modal
         return this.get('store').findRecord('user', this.get('session.data.authenticated.user_id'));
 
       }).catch((reason) => {

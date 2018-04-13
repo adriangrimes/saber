@@ -1,7 +1,6 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 
-//Component edit-photos
-export default Ember.Component.extend({
-
+// edit-photos
+export default Component.extend({
 
 });

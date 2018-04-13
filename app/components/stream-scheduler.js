@@ -1,15 +1,16 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
-actions:{
+export default Component.extend({
+  
+  actions:{
 
-  displayDate(){
-    var x = document.getElementById('selected-date-display');
-    if (x.style.display === 'none'){
-      x.style.display = 'block';
+    displayDate(){
+      var x = document.getElementById('selected-date-display');
+      if (x.style.display === 'none'){
+        x.style.display = 'block';
+      }
     }
-  },
 
-}
+  }
 
 });

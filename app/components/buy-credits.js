@@ -1,12 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 
 //Component - log-in
-export default Ember.Component.extend({
-
+export default Component.extend({
 
   actions: {
-
-
   }
 
 });

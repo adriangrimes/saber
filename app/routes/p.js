@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
 
 let profile =[
@@ -11,7 +11,7 @@ let profile =[
   username: 'Two',
 }];
 
-export default Ember.Route.extend({
+export default Route.extend({
 
     model: function(){
       return profile;
