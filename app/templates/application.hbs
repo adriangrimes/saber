@@ -1,86 +1,66 @@
-<!-- {{log-in-modal}} -->
+{{log-in-modal}}
 {{buy-credits}}
 <!-- These don't function yet, just graphical stand ins -->
 <!-- {{private-messenger}} -->
 <!-- {{popup-alert}} -->
 
-<nav class="navbar navbar-default" id="nav-bar">
-  <div class="container-fluid">
+<nav class="navbar navbar-default navbar-expand-sm" id="nav-bar"  style="padding-left:.5rem">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      {{#if session.isAuthenticated}}
-        <button class=" nav-links navbar-toggle collapsed" type="button" style="border:none" data-toggle="collapse" data-target="#main-navbar-collapse" aria-expanded="false">       <span class="sr-only">Toggle navigation</span>
-          <span class="sr-only">Toggle navigation</span>
-          <span class="glyphicon glyphicon-align-right" aria-hidden="true"></span>
-        </button>
-      {{else}}
-        <a  id="login-button" class="navbar-toggle visible-lg visible-md visible-sm visible-xs" role="button" data-toggle="modal" data-target="#loginModal"  aria-expanded="false" >Log In</a>
-
-      {{/if}}
-        <a class="navbar-brand" id="logo-with-text" href="/home"> <img src="/logo.svg" height="32px" width ="32px">Saber</a>
-        <a class="navbar-brand" id="logo-no-text" href="/home"> <img src="/logo.svg" height="32px" width ="32px"></a>
-
-    </div>
-    {{#if session.isAuthenticated}}
     <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="main-navbar-collapse">
-        <ul class="nav navbar-nav navbar-right" >
-          <li><a  class="hidden-xs nav-links" role="button"  data-toggle="modal" data-target="#buyCreditsModal" > <span  title="Buy Credits" class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span></a></li>
-           <li><a class="hidden-xs nav-links"  href="/games" > <span  title="Games" class="glyphicon glyphicon-tower" aria-hidden="true"></span></a></li>
-           {{#if loginState.devCaster}}
-              <li><a class="hidden-xs nav-links" href="/account/dashboard"> <span  title="Dashboard" class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
-           {{else}}
-              <li><a class="hidden-xs nav-links" href="/account"> <span  title="Account Settings" class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
-           {{/if}}
+  <div class="collapse navbar-collapse">
+    <ul class="nav navbar-nav ml-auto" >
 
+      {{#if session.isAuthenticated}}
+            <li><button class="d-xs-none btn btn-outline-light border-0 px-2 mx-1"  data-toggle="modal" data-target="#buyCreditsModal" >  <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></button></li>
+             <li><a class="d-xs-none   btn btn-outline-light border-0 px-1 mx-1"  href="/games" ><i title="Games" class="fa fa-gamepad" aria-hidden="true"></i></a></li>
+             {{#if loginState.devCaster}}
+                <li><a class="d-xs-none   btn btn-outline-light border-0 px-2 mx-1" href="/account/dashboard"> <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i></a></li>
+             {{else}}
+                <li><a class="d-xs-none   btn btn-outline-light border-0 px-2 mx-1" href="/account"> <i title="My Account" class="fa fa-user" aria-hidden="true"></i></a></li>
+             {{/if}}
 
-           <li class="hidden-xs dropdown">
-             <a href=""class="dropdown-toggle nav-links" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span   title="Menu" class="glyphicon glyphicon-align-right" aria-hidden="true"></span></a>
-               <ul class="dropdown-menu">
-                 <li class="dropdown-header">Hi {{session.data.authenticated.username}}</li>
-                 <li><a href="/account/messages">Messages&nbsp;&nbsp;<span class="badge">42</span></a></li>
+        {{else}}
+          <a id="login-button" class="btn d-block" role="button" data-toggle="modal" data-target="#loginModal"  aria-expanded="false"   style="margin-right:.5rem">Log In</a>
+        {{/if}}
+
+    </ul>
+  </div><!-- /.navbar-collapse -->
+    <ul class="nav navbar-nav ml-auto" >
+      <li class="dropdown ">
+             <button class="dropdown-toggle  btn btn-outline-light border-0 px-2 mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i title="Menu" class="fa fa-align-right"></i></button>
+               <ul class="dropdown-menu dropdown-menu-right ">
+                 <li class="dropdown-item dropdown-header">Hi {{session.data.authenticated.username}}</li>
+                 <li class= "dropdown-item"><a href="/account/messages">Messages&nbsp;&nbsp;<span class="badge badge-dark badge-pill">42</span></a></li>
                  {{#if loginState.devCaster}}
-                    <li><a href="/account/dashboard">Dashboard</a></li>
+                    <li class= "dropdown-item"><a href="/account/dashboard">Dashboard</a></li>
                  {{/if}}
-                 <li><a href="/profile/{{loginState.username}}">Profile</a></li>
-                 <li><a href="/account">Account Settings</a></li>
-                 <li><a href="/games">Games</a></li>
-                 <li role="separator" class="divider"></li>
-                 <li class="dropdown-header">You have <span  class="glyphicon glyphicon-bitcoin"></span><b>2,000</b> Credits</li>
-                 <li><a role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a></li>
-                 <li role="separator" class="divider"></li>
-                 <li><a role="button" {{action "logout"}}>Log Out</a></li>
+                 <li class= "dropdown-item"><a href="/profile/{{loginState.username}}">Profile</a></li>
+                 <li class= "dropdown-item"><a href="/account">Account Settings</a></li>
+                 <li class= "dropdown-item"><a href="/games">Games</a></li>
+                 <li role="separator" class="dropdown-item dropdown-divider"></li>
+                 <li class="dropdown-item dropdown-header">You have&nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i><b>&nbsp;&nbsp;2,000</b> Credits</li>
+                 <li class= "dropdown-item"><a role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a></li>
+                 <li role="separator" class="dropdown-item dropdown-divider"></li>
+                 <li class= "dropdown-item"><a role="button" {{action "logout"}}>Log Out</a></li>
                </ul>
            </li>
-           <li class="visible-xs-block dropdown-header">Hi {{loginState.username}}</li>
-           <li><a class="visible-xs-block" href="/account/messages">Messages&nbsp;&nbsp;<span class="badge">42</span></a></li>
-           {{#if loginState.devCaster}}
-              <li><a class="visible-xs-block" href="/account/dashboard">Dashboard</a></li>
-            {{/if}}
-            <li><a class="visible-xs-block" href="/profile/{{loginState.username}}">Profile</a></li>
-            <li><a class="visible-xs-block" href="/account">Account Settings</a></li>
-            <li><a class="visible-xs-block" href="/games">Games</a></li>
-            <li><a class="visible-xs-block" role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a></li>
-            <li><a class="visible-xs-block" role="button" {{action "logout"}}>Log Out</a></li>
-
-        </ul>
-      </div><!-- /.navbar-collapse -->
-      {{/if}}
-
-</div><!-- /.container-fluid -->
+       </ul>
 </nav>
 
 <!-- on page alert attempt
 <div class="alert alert-info text-center" role="alert">Welcome {{loginState.username}}! Click <a href="/account">Here</a> to configure your email settings. (You can do this any time from your account page)</div>
 -->
+<div class="container">
 {{outlet}}
+</div>
+
 <div class="footer">
   <div class="container-fluid">
 
         <div class="row text-center">
           <div class="col-xs-12 col-sm-4">
             <ul  class="nav nav-pills nav-justified">
-            <li><a id="footer-links" href="/contact">Contact Us</a></li>
+            <li class="nav-item"><a class="nav-link" id="footer-links" href="/contact">Contact Us</a></li>
           </ul>
           </div>
           <div class="col-xs-12 col-sm-4 col-sm-push-4">
@@ -88,9 +68,9 @@
 
               {{#if session.isAuthenticated}}
 
-              <li><a id="footer-links"  href="/account">Account Settings</a></li>
+              <li class="nav-item"><a class="nav-link" id="footer-links"  href="/account">Account Settings</a></li>
               {{else}}
-              <li><a id="footer-links"  href="/signup">Sign Up</a></li>
+              <li class="nav-item"><a class="nav-link" id="footer-links"  href="/signup">Sign Up</a></li>
 
               {{/if}}
 
@@ -98,19 +78,19 @@
           </div>
           <div class="col-xs-12 col-sm-4 col-sm-pull-4">
             <ul class="nav nav-pills nav-justified">
-              <li><a id="footer-links" href="/terms">Terms of Service</a></li>
+              <li class="nav-item"><a class="nav-link" id="footer-links" href="/terms">Terms of Service</a></li>
             </ul>
           </div>
         </div>
         <div class="row text-center">
           <div class="col-xs-12 col-sm-4">
             <ul class="nav nav-pills nav-justified">
-              <li><a id="footer-links" href="/help">Help</a></li>
+              <li class="nav-item"><a class="nav-link" id="footer-links" href="/help">Help</a></li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4">
             <ul class="nav nav-pills nav-justified">
-              <li><a id="footer-links" href="/privacy">Privacy Policy</a></li>
+              <li class="nav-item"><a class="nav-link" id="footer-links" href="/privacy">Privacy Policy</a></li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4">
@@ -118,12 +98,12 @@
 
               {{#if session.isAuthenticated}}
                     {{#if loginState.broadcaster}}
-                      <li><a id="footer-links"  href="/account/dashboard">Dashboard</a></li>
+                      <li class="nav-item"><a class="nav-link" id="footer-links"  href="/account/dashboard">Dashboard</a></li>
                     {{else}}
-                      <li><a id="footer-links"  href="/account/broadcaster">Become a Broadcaster</a></li>
+                      <li class="nav-item"><a class="nav-link" id="footer-links"  href="/account/broadcaster">Become a Broadcaster</a></li>
                     {{/if}}
               {{else}}
-              <li><a id="footer-links"  href="/signup/broadcaster">Become a Broadcaster</a></li>
+              <li class="nav-item"><a class="nav-link" id="footer-links"  href="/signup/broadcaster">Become a Broadcaster</a></li>
 
               {{/if}}
 

@@ -14,6 +14,7 @@ export default Service.extend({
   developer: false,
   adminStatus: false,
   darkMode: false,
+
   devCaster: computed('broadcaster', 'developer', function() {
     if (this.get('broadcaster') === true || this.get('developer') === true) {
       return true;

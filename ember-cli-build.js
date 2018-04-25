@@ -25,6 +25,6 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
   app.import('node_modules/bootstrap/scss/bootstrap.scss');
   app.import('node_modules/bootstrap/dist/js/bootstrap.js');
-  
+
   return app.toTree();
 };

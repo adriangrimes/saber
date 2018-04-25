@@ -1,6 +1,17 @@
 
 //@import "bootstrap";
 
+
+@import "ember-bootstrap/bootstrap";
+@import "ember-bootstrap/functions";
+@import "ember-bootstrap/variables";
+@import "ember-bootstrap/mixins";
+@import "ember-bootstrap/root";
+@import "ember-bootstrap/print";
+@import "ember-bootstrap/reboot";
+@import "ember-bootstrap/type";
+@import "ember-bootstrap/buttons";
+
 // Extra small devices (portrait phones, less than 544px)
 // No media query since this is the default in Bootstrap
 
@@ -10,15 +21,20 @@
 
 //////////////////////generic classes
 
+
 .no-padding{
   padding: 0px;
 }
+
 .no-margin{
   margin:0px;
 }
 .small-side-padding{
   padding-left: 10px;
   padding-right:10px;
+}
+.small-bottom-margin{
+  margin-bottom: 10px;
 }
 .large-glyphicon{
   font-size: 75px;
@@ -62,42 +78,82 @@ body {
 
 
 .btn-primary{
-  background:#B80000;
+  background-color:#B80000;
   border-color:#cccccc;
 }
+
 .btn-primary:hover{
-  background:#ef0202;
+  background-color:#ef0202;
   border-color:#cccccc;
 }
 .btn-primary:focus, .btn-primary:active:hover, .btn-primary.active, .btn-primary.active.focus{
-  background:#800000;
+  background-color:#800000;
   border-color:#cccccc;
 }
 
 
 /////////////////////////////// Collapsable Wellss
-.panel-heading.accordion-toggle:after {
-    /* symbol for "opening" panels */
-    font-family:'Glyphicons Halflings';
+.card{
+  border-color: #bcbcbc;
+}
+.card-heading{
+  border-color: #bcbcbc;
+  background-color: #bcbcbc;
+}
+.card-title{
+  padding-left:8px;
+  padding-top:5px;
+}
+.card-heading.accordion-toggle:after {
+    /* symbol for "opening" cards */
+    font-family:'FontAwesome';
     /* essential for enabling glyphicon */
-    content:"\e114";
+    content:"\f078";
     position: absolute;
     right:10px;
     top: 7px;
     font-size: 15pt;
     color: grey;
 }
-.panel-heading.accordion-toggle.collapsed:after {
-    /* symbol for "collapsed" panels */
-    content:"\e080";
+.card-heading.accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" cards */
+    content:"\f054";
 }
 
-.panel-heading:hover {
+.card-heading:hover {
       cursor: pointer;
 }
 
-.panel-group{
-  position:relative;
+
+
+
+/////////////spinny guy
+.spinner {
+  width: 50px;
+  height: 15px;
+  background-color: #FFF;
+
+  margin: 2px auto;
+  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+  animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+@-webkit-keyframes sk-rotateplane {
+  0% { -webkit-transform: perspective(120px) }
+  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+}
+@keyframes sk-rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+  } 50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+  } 100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+
 }
 
 /////////////splash page classes
@@ -130,13 +186,7 @@ body {
 #logo-with-text{
   display:none;
 }
-.nav-links{
-  color: #FFFFFF;
-  background-color:transparent;
-}
-.nav-links:hover, #nav-links:active, #nav-links:focus{
-  color: #bcbcbc;
-}
+
 .navbar-toggle{
  position:absolute;
  margin-top:6px;
@@ -148,6 +198,8 @@ body {
    top: auto;
    }
 
+
+
 }
 
 #footer-links{
@@ -155,9 +207,6 @@ body {
 }
 #footer-links:hover{
   color:#000000;
-}
-#main-navbar-collapse{
-  background-color:#e6e6e6;
 }
 
 #login-button{
@@ -198,7 +247,7 @@ body {
 
 }
 .broadcaster-avatar{
-  width: 100%;
+  width:100%;
   max-height: 180px;
 }
 .broadcaster-footer{
@@ -291,7 +340,7 @@ text-align: right;
 .emberTagInput--readOnly {
     border-width: 0px;
 }
-#profile-links{
+.profile-links{
   color: #B80000;
   font-size:24px;
 height: 44px;
@@ -320,15 +369,15 @@ padding-left: 10px;
 
 #tip-toggle:after{
   /* symbol for "opening" panels */
-  font-family:'Glyphicons Halflings';
+  font-family:'FontAwesome';
   /* essential for enabling glyphicon */
-  content:"\e113";
+  content:"\f078";
   font-size: 12px;
 
 
 }
 #tip-toggle.collapsed:after{
-  content:"\e114";
+  content:"\f054";
 
 }
 #creditSelect{
@@ -528,22 +577,23 @@ padding-left: 10px;
 
 
 
-// Small devices (landscape phones, 544px and up)
-@media (min-width: 544px) {
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
 
+  .padding-sides-sm{
+    //side padding on small or larger devices
+    padding-left:10px;
+    padding-right:10px;
+  }
+  #splash-email-input{
+    width: 50%;
+  }
   #tip-value{
     padding-left: 7px;
   }
   .broadcaster-avatar{
     max-height: 123px;
   }
-
-
-}
-
-
-// Medium devices (tablets, 768px and up)
-@media (min-width: 768px) {
   body {
     margin-bottom: 120px;
   }
@@ -555,9 +605,7 @@ padding-left: 10px;
   display:none;
 }
 
-#splash-email-input{
-  width: 50%;
-}
+
 
 
   .footer {
@@ -577,9 +625,6 @@ padding-left: 10px;
  .chat-tab{
    color:#000000;
  }
-  #main-navbar-collapse{
-  background-color:transparent;
-}
 
 #videoWindow{
   padding-right:0px;
@@ -625,6 +670,13 @@ padding-left: 10px;
     height:55px;
   }
 
+}
+
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+
+}
 
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) {
@@ -633,40 +685,7 @@ padding-left: 10px;
 }
 
 // Extra large devices (large desktops, 1200px and up)
-@media (min-width: 1200px) {
+@media (min-width: 1200px){
 
 
 }
-
-
-
-//spinny guy
-.spinner {
-  width: 50px;
-  height: 15px;
-  background-color: #FFF;
-
-  margin: 2px auto;
-  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
-  animation: sk-rotateplane 1.2s infinite ease-in-out;
-}
-@-webkit-keyframes sk-rotateplane {
-  0% { -webkit-transform: perspective(120px) }
-  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
-  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
-}
-@keyframes sk-rotateplane {
-  0% {
-    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
-  } 50% {
-    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
-  } 100% {
-    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-  }
-}
-}
-
-@import "ember-bootstrap/bootstrap";

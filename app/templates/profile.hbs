@@ -1,78 +1,78 @@
-{{edit-profile}}
-{{edit-photos}}
-
-<div class="container">
+<!--{{edit-profile}}
+{{edit-photos}} -->
   <div class="row no-margin">
     <div class ="col-xs-12" >
-      {{#if loginState.isOnline}}
+      {{#if session.isAuthenticated}}
         <h2>Your Profile</h2>
         {{else}}
-        <h2>Someone Else  <a role="button" class="btn btn-primary collapsed" style="float:right" data-toggle="collapse"  data-target="#share-form" ><span title="Share this profile"  class="glyphicon glyphicon-share-alt"  aria-hidden="true" ></span></a>
+        <h2>
+          Someone Else  <a role="button" class="btn btn-primary collapsed" data-toggle="collapse"  data-target="#share-form" ><span title="Share this profile"  class="fa fa-share-alt"  aria-hidden="true" ></span></a>
         </h2>
         <div class="collapse " id="share-form" >
-          <div class="col-xs-8 hidden-sm">
-          </div>
           <!-- Share Profile Menu -->
-          <div class="col-xs-12 col-md-4">
-              <h4> Share this profile:
-                 <a href="https://twitter.com/intent/tweet?text=Check+out+this+site+at+http://site.com%21+%23woo" target="_blank" type="button" class="btn btn-default pull-right" title="Tweet"><span class="glyphicon glyphicon-bullhorn"></span></a>
-                 <a href="http://www.reddit.com/submit?url=http://site.com/yet/another/test&title=Check+out+this+site%21" target="_blank" type="button" class="btn btn-default pull-right" title="Reddit" style="margin-left:10px;margin-right:10px" ><span class="glyphicon glyphicon-thumbs-up"></span></a>
-                 <a href="http://www.tumblr.com/share/link?url=http://www.site.com" target="_blank" type="button" class="btn btn-default pull-right" title="Tumblr" ><span class="glyphicon glyphicon-fire"></span></a>
-              </h4>
-              <br>
-              <div class="input-group pull-right">
-                 <input type="text" autocomplete="off" class="form-control input-sm " value="http://site.com/woo/42">
-                 <span class="input-group-btn"><button class="btn btn-default btn-sm" type="button"><span class="glyphicon glyphicon-link"></span></button></span>
-              </div>
+
+            <h4> Share this profile:
+               <a href="https://twitter.com/intent/tweet?text=Check+out+this+site+at+http://site.com%21+%23woo" target="_blank" type="button" class="btn btn-secondary" title="Tweet"><span class="fa fa-twitter"></span></a>
+               <a href="http://www.reddit.com/submit?url=http://site.com/yet/another/test&title=Check+out+this+site%21" target="_blank" type="button" class="btn btn-secondary" title="Reddit" style="margin-left:10px;margin-right:10px" ><span class="fa fa-reddit-alien"></span></a>
+               <a href="http://www.tumblr.com/share/link?url=http://www.site.com" target="_blank" type="button" class="btn btn-secondary" title="Tumblr" ><span class="fa fa-tumblr"></span></a>
+            </h4>
+            <br>
+
+            <div class="input-group">
+               <input type="text" autocomplete="off" class="form-control " value="http://site.com/woo/42">
+               <div class="input-group-append">
+                 <button class="btn btn-secondary btn-sm" type="button"><span class="fa fa-link"></span></button>
+               </div>
             </div>
-          </div>
+
+        </div>
         {{/if}}
-    </div>
+      </div>
   </div>
     <br>
       <!--- Video and Chat Panels --->
-      <div class="row no-margin" style="padding-bottom:20px;">
+  <div class="row no-margin" style="padding-bottom:20px;">
         <!--Video Window -->
         <div class="col-xs-12 col-sm-8 no-padding"  id="videoWindow">
           <div class="panel panel-default video-panel">
             <div class="profile-controls">
               {{#if session.isAuthenticated}}
                 <a  id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal" style="top:70px">
-                  <span title="Edit Avatar" class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                  <span title="Edit Avatar" class="fa fa-edit" ></span>
                 </a>
               {{else}}
                   {{#if isFavorite}}
-                    <a role="button" id="profile-links">
-                      <span  title="Remove From Favorites" class="glyphicon glyphicon-heart" aria-hidden="true"{{action "toggleFav"}}></span>
-                    </a>
+
+                  <button type="button" class="btn btn-link"> <span  title="Remove From Favorites" class=" profile-links fa fa-heart"{{action "toggleFav"}}></span></button>
                   {{else}}
-                    <a role="button" id="profile-links" >
-                      <span  title="Add to Favorites" class="glyphicon glyphicon-heart-empty" aria-hidden="true"{{action "toggleFav"}}></span>
-                    </a>
+
+                  <button type="button" class="btn btn-link">  <span  title="Add to Favorites" class=" profile-links fa fa-heart-o" {{action "toggleFav"}}></span></button>
                   {{/if}}
-                  <a href="/account/messages" id="profile-links" >
-                    <span title="Send Message" class="glyphicon glyphicon-envelope" aria-hidden="true" ></span>
-                  </a>
+
+                  <button type="button" class="btn btn-link">  <span title="Send Message" class=" profile-links fa fa-envelope" ></span></button>
                   <div class="input-group col-xs-4 col-sm-4" id="simple-tip-form" >
-                     <span class="input-group-btn button-group" data-toggle="buttons">
-                        <label class="btn btn-default">
+                     <span class="input-group-prepend button-group">
+                        <label class="btn btn-secondary">
                           <input type="radio" name="tipAmount1" value="10" >
                             10
                         </label>
-                        <label class="btn btn-default">
+                        <label class="btn btn-secondary">
                           <input type="radio" name="tipAmount2" value="25" >
                             25
                         </label>
-                        <label class="btn btn-default">
+                        <label class="btn btn-secondary">
                           <input type="radio" name="tipAmount3" value="50" >
                             50
                           </label>
-                        <label class="btn btn-default hidden-xs">
+                        <label class="btn btn-secondary hidden-xs">
                           <input type="radio" name="tipAmount4" value="100" >
                             100
                         </label>
+                      </span>
+                      <span class="input-grou-append button-group">
+
                         <button class="btn btn-primary" type="submit">Send Tip</button>
-                        <button class="btn btn-primary collapsed" id="tip-toggle"  data-toggle="collapse"  data-target="#tip-form" type="button"><span title="Tip Options"  aria-hidden="true" {{action "toggleTip"}}></span></button>
+                        <button class="btn btn-primary collapsed" id="tip-toggle"  data-toggle="collapse"  data-target="#tip-form" type="button"><span title="Tip Options"></span></button>
                       </span>
                     </div>
                     <div class="collapse" id="tip-form" >
@@ -110,9 +110,9 @@
                     <div class="collapse" id="userOptionsMenu" >
                         <div class="input-group col-xs-2" >
                             <span class="input-group-btn">
-                              <button class="btn btn-primary" title="7 Day Ban" type="submit"><span class="glyphicon glyphicon-time">{{userID}}</span></button>
-                              <button class="btn btn-primary" title="Block" type="submit"><span class="glyphicon glyphicon-remove-circle">{{userID}}</span></button>
-                              <button class="btn btn-primary" title="Message" type="submit"><span class="glyphicon glyphicon-envelope">{{userID}}</span></button>
+                              <button class="btn btn-primary" title="7 Day Ban" type="submit"><span class="fa fa-time">{{userID}}</span></button>
+                              <button class="btn btn-primary" title="Block" type="submit"><span class="fa fa-remove-circle">{{userID}}</span></button>
+                              <button class="btn btn-primary" title="Message" type="submit"><span class="fa fa-envelope">{{userID}}</span></button>
                             </span>
                         </div>
                     </div>
@@ -148,10 +148,6 @@
               </div>
           </div>
   </div>
-
-  <br>
-</div>
-
 
   <div class="row no-margin">
       <div class="col-xs-12 col-sm-6  no-padding" >
@@ -192,7 +188,7 @@
         <div class="well" id="photo-gallery">
           {{#if session.isAuthenticated}}
 
-          <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal"><span title="Edit Photos" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+          <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal"><span title="Edit Photos" class="fa fa-edit" aria-hidden="true"></span></a>
           {{/if}}
 
           <br>
@@ -210,7 +206,7 @@
               <div class="well">
                 {{#if session.isAuthenticated}}
 
-          <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editProfileModal"><span title="Edit Details" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+          <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editProfileModal"><span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span></a>
           {{/if}}
                <h4>About Me:</h4>
                 Lorem Ipsum all the homes. placerat velit tempor sit amet. Suspendisse potenti. Morbi luctus iaculis quam ac euismod. Vivamus nec velit non ex sollicitudin ultricies. Nunc sed rhoncus tu

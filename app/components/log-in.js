@@ -6,8 +6,8 @@ export default Component.extend({
 
   signupform: false,
 
-  loginState: inject.service('login-state'),
-  session: inject.service('session'),
+  loginState: inject('login-state'),
+  session: inject('session'),
   inputUsername: '',
   inputPassword: '',
 

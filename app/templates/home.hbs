@@ -1,73 +1,56 @@
-<div class="container">
-  <div class="panel panel-default">
-    <div class="panel-heading">
+
       <div class ="row">
-        <div class ="col-xs-12 col-sm-6">
+        <div class ="col-xs-11 col-sm-6">
           <h4>Active Broadcasters</h4>
+          <br>
         </div>
-        <div class ="col-xs-12 col-sm-6">
+        <div class ="col-xs-11 col-sm-6">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Search Broadcasters">
             <span class="input-group-btn">
               <button class="btn btn-default" type="button">Search</button>
             </span>
           </div>
-          <br>
-
         </div>
       </div>
-    </div>
-    <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="All">
-        <div class="panel-body">
-                  {{#each model as |broadcaster|}}
-                      {{#if broadcaster.online}}
-                      <a href="/p/{{broadcaster.userid}}" title="{{broadcaster.username}}">
-                      <div class="col-xs-12 col-sm-3 no-padding">
+      <br>
 
-                          <div class="panel panel-default broadcaster-panel online">
-                            <div class ="panel-body no-padding ">
-                              <img  class="broadcaster-avatar online" src={{broadcaster.photo}}>
-                            </div>
-                            <div class="panel-footer broadcaster-footer">
-                              {{broadcaster.username}}
-                              <br>
-                              <div class="broadcaster-topic">
-                                "{{broadcaster.topic}}"
-                              </div>
-                            </div>
-                          </div>
-                      </div>
-                    </a>
-
-                      {{/if}}
-                  {{/each}}
-                  {{#each model as |broadcaster|}}
-
-                      {{#if broadcaster.online}}
-                      {{else}}
-                        <a href="/p/{{broadcaster.userid}}" title="{{broadcaster.username}}">
-                      <div class="col-xs-12 col-sm-3 no-padding">
-                        <div class="panel panel-default broadcaster-panel offline">
-                          <div class ="panel-body no-padding">
-                     <img  class="broadcaster-avatar offline" src={{broadcaster.photo}} >
-                      </div>
-                      <div class="panel-footer broadcaster-footer">
-                        {{broadcaster.username}}
-                          <br>
-                          <br>
-
+      <div class="row">
+        {{#each model as |broadcaster|}}
+          {{#if broadcaster.online}}
+            <div class="col-xs-12 col-sm-3 no-padding">
+              <a href="/p/{{broadcaster.userid}}" title="{{broadcaster.username}}">
+                <div class=" broadcaster-panel online">
+                    <img  class="broadcaster-avatar" src={{broadcaster.photo}}>
+                    <div class="broadcaster-footer">
+                      {{broadcaster.username}}
+                      <br>
+                      <div class="broadcaster-topic">
+                        "{{broadcaster.topic}}"
                       </div>
                     </div>
                   </div>
-                  </a>
-                      {{/if}}
-                  {{/each}}
+                </a>
+            </div>
+          {{/if}}
+        {{/each}}
+        {{#each model as |broadcaster|}}
+          {{#if broadcaster.online}}
+          {{else}}
+          <div class="col-xs-12 col-sm-3  no-padding">
+            <a href="/p/{{broadcaster.userid}}" title="{{broadcaster.username}}">
+              <div class=" broadcaster-panel offline">
+                  <img  class="broadcaster-avatar" src={{broadcaster.photo}} >
+                  <div class="broadcaster-footer">
+                    {{broadcaster.username}}
+                    <br>
+                    <br>
+                  </div>
+                </div>
+            </a>
           </div>
-        </div>
-    
-      </div>
-  </div>
-</div>
+          {{/if}}
+        {{/each}}
+    </div>
 
 {{outlet}}
