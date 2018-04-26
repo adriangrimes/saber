@@ -7,11 +7,12 @@ class User < ApplicationRecord
 
   attr_accessor :login
   #attr_accessor :password_confirmation
-  validates :username, presence: true, :uniqueness => { :case_sensitive => false }
+
+  #validates :username, presence: true, :uniqueness => { :case_sensitive => false }
   validates_format_of :username, with: /^[a-zA-Z0-9_]*$/, :multiline => true
   validate :validate_username
   validates :email, presence: true #, :uniqueness => { :case_sensitive => false }
-  validates :password, presence: true #, confirmation: true
+  #validates :password, presence: true #, confirmation: true
 
   before_save :ensure_authentication_token
 

@@ -9,9 +9,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   setupController(controller,model) {
     this._super(controller, model);
-    // Implement your custom setup after
-    let sEFO = model.get('sendEmailFavoritesOnline');
-    console.log('sEFO: ' + sEFO);
-    controller.set('sendEmailFavoritesOnline', sEFO);
+    // Set account settings to settings pulled from db
+    controller.set('sendEmailFavoritesOnline', model.get('sendEmailFavoritesOnline'));
+    controller.set('sendEmailSiteNews', model.get('sendEmailSiteNews'));
   }
 });

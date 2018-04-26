@@ -54,7 +54,8 @@
     "loader.js": "^4.2.3"
   },
   "dependencies": {
-    "ember-font-awesome": "^4.0.0-rc.2",
+    "ember-font-awesome": "^4.0.0-rc.3",
+    "font-awesome": "^4.7.0",
     "moment": "^2.22.0",
     "ws": "^5.1.1"
   },
