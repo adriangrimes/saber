@@ -5,6 +5,7 @@ export default Controller.extend({
 
   store: inject(),
   session: inject(),
+  settingsSaved: false,
 
   actions: {
 
@@ -23,6 +24,7 @@ export default Controller.extend({
         // Save record to db
         user.save().then(function() {
           console.log('submitEmailSettings saved');
+
         }).catch(function() {
           console.log('save failed');
         });

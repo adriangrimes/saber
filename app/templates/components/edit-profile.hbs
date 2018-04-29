@@ -2,12 +2,14 @@
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
       <div class="modal-header">
+
+                <h4 class="modal-title">
+                    Edit Public Profile
+                </h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="editprofilemodal">
-            Edit Public Profile
-        </h4>
+           <span aria-hidden="true">&times;</span>
+         </button>
+
       </div>
 
         <form autocomplete="off">
@@ -15,13 +17,12 @@
         {{#if loginState.broadcaster}}
           <div class="form-group">
             <label for="inputaboutme">About Me</label>
-            <textarea type="text" class="form-control" id="inputAboutMe" placeholder="A little about yourself, the type of games you like to play, your streaming schedule etc."></textarea>
+            <textarea type="text" rows="5" class="form-control" id="inputAboutMe" placeholder="A little about yourself, the type of games you like to play, your streaming schedule etc."></textarea>
           </div>
-<label for="inputsex">Your Sex</label>
-          <form class="form-inline">
+<label for="inputsex">Sex</label>
           <div class="form-group">
 
-            <div class="radio">
+            <div class="form-check">
               <label>
                 <input type="radio" name="select-sex" id="sex-female" value="sex-female"  checked>
               <b> Female</b> &nbsp; &nbsp; &nbsp;
@@ -30,13 +31,14 @@
               <input type="radio"  name="select-sex" id="sex-male" value="sex-male" >
             <b> Male</b> &nbsp; &nbsp; &nbsp;
             </label>
-            </div>
+            <input type="radio"  name="select-sex" id="sex-other" value="sex-other"  >
+
             <label>
-              <input type="radio"  name="select-sex" id="sex-other" value="sex-other"  >
-              <input type="text" class="form-control" id="inputsex" placeholder="Other">
+              <input type="text" autocomplete="off" class="form-control" id="inputsex" >
             </label>
+            </div>
+
           </div>
-        </form>
         {{else if loginState.developer}}
         <div class="form-group">
           <label for="inputaboutme">About Me</label>

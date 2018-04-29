@@ -21,21 +21,6 @@
 
 //////////////////////generic classes
 
-
-.no-padding{
-  padding: 0px;
-}
-
-.no-margin{
-  margin:0px;
-}
-.small-side-padding{
-  padding-left: 10px;
-  padding-right:10px;
-}
-.small-bottom-margin{
-  margin-bottom: 10px;
-}
 .large-glyphicon{
   font-size: 75px;
 }
@@ -89,6 +74,14 @@ body {
 .btn-primary:focus, .btn-primary:active:hover, .btn-primary.active, .btn-primary.active.focus{
   background-color:#800000;
   border-color:#cccccc;
+}
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active{
+  background-color:#800000;
+  border-color:#cccccc;
+}
+
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+    outline: 0;
 }
 
 
@@ -423,13 +416,6 @@ padding-left: 10px;
   }
   #day-select{
     width: 15%;
-  }
-  #dashboard-button{
-    width:100%;
-
-  }
-  #dashboard-button-row{
-    margin-bottom: 10px;
   }
 
 

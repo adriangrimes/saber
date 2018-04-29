@@ -10,8 +10,8 @@ export default Service.extend({
   isOnline: true,
   userId: '',
   username: '',
-  broadcaster: false,
-  developer: false,
+  broadcaster: true,
+  developer: true,
   adminStatus: false,
   darkMode: false,
 
@@ -22,6 +22,8 @@ export default Service.extend({
       return false;
     }
   }),
+
+
   errorMessage: '',
   signupSuccess: false,
 

@@ -25,26 +25,29 @@
 
     </ul>
   </div><!-- /.navbar-collapse -->
+
+        {{#if session.isAuthenticated}}
     <ul class="nav navbar-nav ml-auto" >
-      <li class="dropdown ">
-             <button class="dropdown-toggle  btn btn-outline-light border-0 px-2 mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i title="Menu" class="fa fa-align-right"></i></button>
-               <ul class="dropdown-menu dropdown-menu-right ">
-                 <li class="dropdown-item dropdown-header">Hi {{session.data.authenticated.username}}</li>
-                 <li class= "dropdown-item"><a href="/account/messages">Messages&nbsp;&nbsp;<span class="badge badge-dark badge-pill">42</span></a></li>
+      <div class="dropdown" >
+             <button class="nav-link dropdown-toggle  btn btn-outline-light border-0 px-2 mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i title="Menu" class="fa fa-align-right"></i></button>
+               <div class="dropdown-menu position-absolute dropdown-menu-right" >
+                 <div class="dropdown-item dropdown-header">Hi <strong>{{session.data.authenticated.username}}</strong></div>
+                <a class="dropdown-item" href="/account/messages">Messages&nbsp;&nbsp;<span class="badge badge-dark badge-pill">42</span></a>
                  {{#if loginState.devCaster}}
-                    <li class= "dropdown-item"><a href="/account/dashboard">Dashboard</a></li>
+                <a class="dropdown-item" href="/account/dashboard">Dashboard</a>
                  {{/if}}
-                 <li class= "dropdown-item"><a href="/profile/{{loginState.username}}">Profile</a></li>
-                 <li class= "dropdown-item"><a href="/account">Account Settings</a></li>
-                 <li class= "dropdown-item"><a href="/games">Games</a></li>
-                 <li role="separator" class="dropdown-item dropdown-divider"></li>
-                 <li class="dropdown-item dropdown-header">You have&nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i><b>&nbsp;&nbsp;2,000</b> Credits</li>
-                 <li class= "dropdown-item"><a role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a></li>
-                 <li role="separator" class="dropdown-item dropdown-divider"></li>
-                 <li class= "dropdown-item"><a role="button" {{action "logout"}}>Log Out</a></li>
-               </ul>
-           </li>
+                 <a class="dropdown-item"href="/profile/{{loginState.username}}">Profile</a>
+                 <a  class="dropdown-item" href="/account">Account Settings</a>
+                 <a class="dropdown-item"href="/games">Games</a>
+                   <div class="dropdown-divider"></div>
+                  <div class="dropdown-item dropdown-header">You have&nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i><strong>&nbsp;&nbsp;2,000</strong> Credits</div>
+                  <a class="dropdown-item" role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" role="button" {{action "logout"}}>Log Out</a>
+               </div>
+           </div>
        </ul>
+         {{/if}}
 </nav>
 
 <!-- on page alert attempt

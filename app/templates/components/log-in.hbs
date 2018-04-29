@@ -42,12 +42,12 @@
       <label for="pwconfirm">Confirm Password</label>
       {{input type="password" class="form-control" id="pwconfirm" value=inputpasswordconfirm}}
     </div>
-    <label class="form-check-label">
-      <br>
-      <input type="checkbox" class="form-check-input">
-    </label>
-    <br>
-    <br>
+    <div class="form-check mb-3">
+      <label class=" form-check-label">
+        <br>
+        <input type="checkbox" class=" form-check-input">
+      </label>
+    </div>
     <button type="button" class="signup-button btn btn-primary btn-block" {{action "signup"}}>Sign me up!</button>
 
 {{else}}
