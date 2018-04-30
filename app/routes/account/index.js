@@ -10,7 +10,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
   setupController(controller,model) {
     this._super(controller, model);
     // Set account settings to settings pulled from db
+
     controller.set('sendEmailFavoritesOnline', model.get('sendEmailFavoritesOnline'));
     controller.set('sendEmailSiteNews', model.get('sendEmailSiteNews'));
+    controller.set('darkMode', model.get('darkMode'));
   }
 });

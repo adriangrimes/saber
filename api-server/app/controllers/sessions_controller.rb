@@ -3,6 +3,7 @@ include ErrorSerializer
 class SessionsController < Devise::SessionsController
 
   def create
+    #sleep 2
     puts "==== session create start ===="
     self.resource = warden.authenticate!(auth_options)
     puts "==== after session warden authenticate ====="

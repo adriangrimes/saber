@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
 
   respond_to :jsonapi
+  
 
   # GET all /users
   def index
     #Add server latency
-    #sleep 2
 
     #@user = User.find_by!(username: params[:username], password: params[:password])
 
@@ -20,6 +20,8 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
+    # request.headers['Authorization'])
+
     @user = User.find(params[:id])
 
     respond_to do |format|

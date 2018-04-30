@@ -8,6 +8,18 @@ module.exports = function(defaults) {
       'bootstrapVersion': 4,
       'importBootstrapFont': false,
       'importBootstrapCSS': false
+    },
+    outputPaths: {
+      app: {
+        css: {
+          'default': '/assets/default.css',
+          'dark': '/assets/dark.css'
+        }
+      }
+    },
+    fingerprint: {
+      enabled: EmberApp.env() === 'production',// - Boolean. Enables fingerprinting if true. True by default if current environment is production.
+      generateAssetMap: true
     }
   });
 

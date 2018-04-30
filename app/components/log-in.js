@@ -4,25 +4,28 @@ import { inject } from '@ember/service';
 // log-in
 export default Component.extend({
 
-  signupform: false,
-
   loginState: inject('login-state'),
   session: inject('session'),
-  inputUsername: '',
-  inputPassword: '',
+
+  signupform: false,
+
+  // Temporarily default login info
+  didInsertElement() {
+    this.set('inputusername', 'testuser0');
+    this.set('inputpassword', '12345670');
+  },
 
   actions: {
-    authenticate() {
-      this.set('loginState.errorMessage','');
 
+    // Passes form fields as paramters to login-state.logIn function
+    authenticate() {
       let identification = this.get('inputusername');
       let password = this.get('inputpassword');
-
       this.get('loginState').logIn(identification, password);
     },
 
+    // Passes form fields as parameters to login-state.signUp function
     signup(){
-      this.set('loginState.errorMessage','');
       if (this.get('session.isAuthenticated') === false) {
         const username = this.get('inputusername');
         const email = this.get('inputemailaddress');
@@ -37,7 +40,7 @@ export default Component.extend({
 
     toggleSignUp() {
       this.toggleProperty('signupform');
-      //clear errors and fields
+      // Clear errors and fields
       this.set('inputusername','');
       this.set('inputpassword','');
       this.set('loginState.errorMessage','');

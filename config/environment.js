@@ -23,6 +23,11 @@ module.exports = function(environment) {
       // 'none' - no data, just timezone API
       includeTimezone: 'all'
     },
+    theme: {
+      // Add themes for ember-theme-changer
+      themes: [ 'default', 'dark'], // MANDATORY
+      defaultTheme: 'default', // OPTIONAL
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
