@@ -11,8 +11,8 @@ export default Service.extend({
   isOnline: true,
   userId: '',
   username: '',
-  broadcaster: true,
-  developer: true,
+  broadcaster: false,
+  developer: false,
   adminStatus: false,
   darkMode: false,
   devCaster: computed('broadcaster', 'developer', function() {
@@ -40,6 +40,7 @@ export default Service.extend({
       }).then((user) => {
         this.set('broadcaster', user.data.broadcaster);
         this.set('developer', user.data.developer);
+
         // Set theme to dark if true, otherwise default theme
         this.get('themeChanger').set('theme', user.data.darkMode ? 'dark' : 'default');
         console.log('Session successfully authenticated for: ' + this.get('session.data.authenticated.username'));
@@ -97,6 +98,8 @@ export default Service.extend({
     this.set('broadcaster', false);
     this.set('developer', false);
     this.set('adminStatus', false);
+    this.get('themeChanger').set('theme', 'default');
+
     console.log("logged out");
   },
 

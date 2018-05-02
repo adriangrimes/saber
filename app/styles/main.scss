@@ -5,20 +5,6 @@
 
 //////////////////////generic classes
 
-.no-padding {
-  padding: 0px;
-}
-
-.no-margin {
-  margin: 0px;
-}
-.small-side-padding {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-.small-bottom-margin {
-  margin-bottom: 10px;
-}
 .large-glyphicon {
   font-size: 75px;
 }
@@ -59,6 +45,18 @@ body {
   vertical-align: middle;
 }
 
+///// Dropdown Menu
+.dropdown {
+}
+.dropdown ul.dropdown-menu {
+  width: 100%;
+}
+.dropdown-item {
+  height: 44px;
+  padding-top: 0.5rem;
+}
+
+///////////////////// Buttons
 .btn-primary {
   background-color: #b80000;
   border-color: #cccccc;
@@ -81,12 +79,13 @@ body {
   border-color: #bcbcbc;
 }
 .card-heading {
+  padding-top: 0.25rem;
   border-color: #bcbcbc;
   background-color: #bcbcbc;
 }
 .card-title {
-  padding-left: 8px;
-  padding-top: 5px;
+  padding-left: 1rem;
+  padding-top: 0.35rem;
 }
 .card-heading.accordion-toggle:after {
   /* symbol for "opening" cards */
@@ -94,8 +93,8 @@ body {
   /* essential for enabling glyphicon */
   content: "\f078";
   position: absolute;
-  right: 10px;
-  top: 7px;
+  right: 1rem;
+  top: 12px;
   font-size: 15pt;
   color: grey;
 }
@@ -348,23 +347,22 @@ body {
   color: #b80000;
   font-size: 24px;
   height: 44px;
-  padding-left: 10px;
 }
 #profile-links:hover,
 #profile-links:active,
 #profile-links:focus {
   color: #ef0202;
 }
-#edit-links {
+.edit-links {
   color: #b80000;
   font-size: 20px;
   position: absolute;
   top: 12px;
   right: 20px;
 }
-#edit-links:hover,
-#edit-links:active,
-#edit-links:focus {
+.edit-links:hover,
+.edit-links:active,
+.edit-links:focus {
   color: #ef0202;
 }
 
@@ -436,9 +434,6 @@ body {
   height: 190px;
 }
 .profile-controls {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-right: 10px;
   min-height: 54px;
   background-color: #bcbcbc;
 }
@@ -570,11 +565,15 @@ body {
 
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {
-  .padding-sides-sm {
-    //side padding on small or larger devices
-    padding-left: 10px;
-    padding-right: 10px;
+  .dropdown ul.dropdown-menu {
+    width: 210px;
+    margin-right: 10px;
   }
+  .dropdown-item {
+    height: 30px;
+    padding-top: 0rem;
+  }
+
   #splash-email-input {
     width: 50%;
   }
@@ -612,18 +611,11 @@ body {
     color: #000000;
   }
 
-  #videoWindow {
-    padding-right: 0px;
-  }
-  #chatWindow {
-    padding-left: 0px;
-  }
-
   .chat-body {
-    height: 339px;
+    height: 334px;
   }
   .users-body {
-    height: 385px;
+    height: 372px;
   }
   .chat-panel {
     height: 339px;

@@ -1,160 +1,165 @@
 {{edit-profile}}
 {{edit-photos}}
   <div class="row m-0">
-    <div class ="col-xs-12" >
+    <div class ="col-12" >
       {{#if session.isAuthenticated}}
         <h2>Your Profile</h2>
         {{else}}
-        <h2>
-          Someone Else  <a role="button" class="btn btn-primary collapsed" data-toggle="collapse"  data-target="#share-form" ><span title="Share this profile"  class="fa fa-share-alt"  aria-hidden="true" ></span></a>
+        <h2 class="pb-2">
+          Someone Else  <button class="btn btn-primary collapsed" data-toggle="collapse"  data-target="#share-form" ><span title="Share this profile"  class="fa fa-share-alt"  aria-hidden="true" ></span></button>
         </h2>
-        <div class="collapse " id="share-form" >
+        <div class="collapse pb-4 " id="share-form" >
           <!-- Share Profile Menu -->
 
             <h4> Share this profile:
-               <a href="https://twitter.com/intent/tweet?text=Check+out+this+site+at+http://site.com%21+%23woo" target="_blank" type="button" class="btn btn-secondary" title="Tweet"><span class="fa fa-twitter"></span></a>
-               <a href="http://www.reddit.com/submit?url=http://site.com/yet/another/test&title=Check+out+this+site%21" target="_blank" type="button" class="btn btn-secondary" title="Reddit" style="margin-left:10px;margin-right:10px" ><span class="fa fa-reddit-alien"></span></a>
-               <a href="http://www.tumblr.com/share/link?url=http://www.site.com" target="_blank" type="button" class="btn btn-secondary" title="Tumblr" ><span class="fa fa-tumblr"></span></a>
+               <button href="https://twitter.com/intent/tweet?text=Check+out+this+site+at+http://site.com%21+%23woo" target="_blank" type="button" class="btn btn-primary" title="Tweet"><span class="fa fa-twitter"></span></button>
+               <button href="http://www.reddit.com/submit?url=http://site.com/yet/another/test&title=Check+out+this+site%21" target="_blank" type="button" class="btn btn-primary" title="Reddit" style="margin-left:10px;margin-right:10px" ><span class="fa fa-reddit-alien"></span></button>
+               <button href="http://www.tumblr.com/share/link?url=http://www.site.com" target="_blank" type="button" class="btn btn-primary" title="Tumblr" ><span class="fa fa-tumblr px-1"></span></button>
             </h4>
-            <br>
-
-            <div class="input-group">
+            <div class="input-group w-50">
                <input type="text" autocomplete="off" class="form-control " value="http://site.com/woo/42">
                <div class="input-group-append">
-                 <button class="btn btn-secondary btn-sm" type="button"><span class="fa fa-link"></span></button>
+                 <button class="btn btn-primary btn-sm" type="button"><span class="fa fa-link"></span></button>
                </div>
             </div>
+
 
         </div>
         {{/if}}
       </div>
+
   </div>
-    <br>
-      <!--- Video and Chat Panels --->
-  <div class="row m-0" style="padding-bottom:20px;">
-        <!--Video Window -->
-        <div class="col-xs-12 col-sm-8 no-padding"  id="videoWindow">
-          <div class="panel panel-default video-panel">
-            <div class="profile-controls">
-              {{#if session.isAuthenticated}}
-                <a  id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal" style="top:70px">
-                  <span title="Edit Avatar" class="fa fa-edit" ></span>
-                </a>
+      <!--- Video and Chat Panels -->
+  <div class="row m-0 mb-4">
+    <div class="col-12 col-sm-8 p-0 m-0"  id="videoWindow">
+      <div class="card   video-panel">
+        <div class="profile-controls pt-2">
+          {{#if session.isAuthenticated}}
+            <a  class="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal" style="top:70px">
+              <span title="Edit Avatar" class="fa fa-edit"></span>
+            </a>
+            {{else}}
+              {{#if isFavorite}}
+                <button type="button" class="btn btn-link pl-4"> <span  title="Remove From Favorites" class=" profile-links fa fa-heart"{{action "toggleFav"}}></span></button>
               {{else}}
-                  {{#if isFavorite}}
-
-                  <button type="button" class="btn btn-link"> <span  title="Remove From Favorites" class=" profile-links fa fa-heart"{{action "toggleFav"}}></span></button>
-                  {{else}}
-
-                  <button type="button" class="btn btn-link">  <span  title="Add to Favorites" class=" profile-links fa fa-heart-o" {{action "toggleFav"}}></span></button>
-                  {{/if}}
-
-                  <button type="button" class="btn btn-link">  <span title="Send Message" class=" profile-links fa fa-envelope" ></span></button>
-                  <div class="input-group col-xs-4 col-sm-4" id="simple-tip-form" >
-                     <span class="input-group-prepend button-group">
-                        <label class="btn btn-secondary">
-                          <input type="radio" name="tipAmount1" value="10" >
-                            10
-                        </label>
-                        <label class="btn btn-secondary">
-                          <input type="radio" name="tipAmount2" value="25" >
-                            25
-                        </label>
-                        <label class="btn btn-secondary">
-                          <input type="radio" name="tipAmount3" value="50" >
-                            50
-                          </label>
-                        <label class="btn btn-secondary hidden-xs">
-                          <input type="radio" name="tipAmount4" value="100" >
-                            100
-                        </label>
-                      </span>
-                      <span class="input-grou-append button-group">
-
-                        <button class="btn btn-primary" type="submit">Send Tip</button>
-                        <button class="btn btn-primary collapsed" id="tip-toggle"  data-toggle="collapse"  data-target="#tip-form" type="button"><span title="Tip Options"></span></button>
-                      </span>
-                    </div>
-                    <div class="collapse" id="tip-form" >
-                      <div class="col-xs-3 col-sm-3" id="tip-value">
-                        <input type="number" class="form-control"   min="1" max="10000"  value="50">
-                      </div>
-                      <div class="input-group col-xs-8 col-sm-9" >
-                        <input type="text"  autocomplete="off" class="form-control"  placeholder="Include an optional chat note">
-                          <span class="input-group-btn">
-                            <button class="btn btn-primary" type="submit">Send Tip</button>
-                          </span>
-                      </div>
-                    </div>
+                <button type="button" class="btn btn-link pl-4">  <span  title="Add to Favorites" class=" profile-links fa fa-heart-o" {{action "toggleFav"}}></span></button>
               {{/if}}
-            </div>
-            <div class="panel-body" style="padding:0px" >
-              <img src="/testimg.jpg"  class="img-responsive center-block" alt="default user video" width="100%">
-            </div>
-          </div>
-        </div>
-        <!-- Chat Window -->
-        <div class="col-xs-12 col-sm-4 no-padding" id="chatWindow">
-          <!-- Chat Navigation Tabs -->
-          <ul class="nav nav-tabs nav-pills nav-justified hidden-xs" id="chat-tabs">
-            <li role="presentation" class=" tab-btn active" {{action "openChatTab"}}><a href="#chat" class="chat-tab" aria-controls="chat" role="tab" data-toggle="tab">Chat</a></li>
-            <li role="presentation" class="tab-btn"{{action "openChatTab"}}><a href="#userstab" class="chat-tab"  aria-controls="userstab" role="tab" data-toggle="tab">Users</a></li>
-            <li role="presentation" class="tab-btn"{{action "openChatTab"}}><a href="#settingstab" class="chat-tab"  aria-controls="settingstab" role="tab" data-toggle="tab">Settings</a></li>
-          </ul>
-          <!-- Chat Tab Container -->
-          <div class="tab-content">
-            <!-- Chat Tab Content -->
-            <div role="tabpanel" class="tab-pane active" id="chat">
-                 <div class="panel-body chat-body" id="chat-body">
-                    <!-- User Options Menu. Collapsed by default. handlebars userID currently does nothing-->
-                    <div class="collapse" id="userOptionsMenu" >
-                        <div class="input-group col-xs-2" >
-                            <span class="input-group-btn">
-                              <button class="btn btn-primary" title="7 Day Ban" type="submit"><span class="fa fa-time">{{userID}}</span></button>
-                              <button class="btn btn-primary" title="Block" type="submit"><span class="fa fa-remove-circle">{{userID}}</span></button>
-                              <button class="btn btn-primary" title="Message" type="submit"><span class="fa fa-envelope">{{userID}}</span></button>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- Example of a link that toggles the User Options Menu -->
-                    <a class="collapsed" data-toggle="collapse" data-target="#userOptionsMenu">Toggle User Options Menu</a>
 
-                    <!-- Chat Messages appear in this ul -->
-                    <ul id="messages">
-                    </ul>
+              <button type="button" class="btn btn-link">  <span title="Send Message" class=" profile-links fa fa-envelope" ></span></button>
+              <div class="w-75  " id="simple-tip-form" >
+                <div class="input-group justify-content-end">
+                 <div class="input-group-prepend">
+                    <label class="btn btn-secondary">
+                      <input type="radio" name="tipAmountOptions" id="tipAmount10" value="10" >
+                        10
+                    </label>
+                    <label class="btn btn-secondary">
+                      <input type="radio" name="tipAmountOptions" id="tipAmount25" value="25" >
+                        25
+                    </label>
+                    <label class="btn btn-secondary">
+                      <input type="radio" name="tipAmountOptions" id="tipAmount50" value="50" >
+                        50
+                      </label>
+                    <label class="btn btn-secondary d-none d-sm-block">
+                      <input type="radio" name="tipAmountOptions" id="tipAmount100" value="100" >
+                        100
+                    </label>
                   </div>
-                  <!-- Chat Input Field -->
-                  <form  name="userMessage"  autocomplete="off">
-                    <div class="input-group" >
-                       <input  type="text"  autocomplete="off" name="usermsg"  id="usermsg" style="border-radius:0px" class="form-control" placeholder="Enter Chat Message...">
-                       <span class="input-group-btn">
-                         <button name="submitmsg" id="chat-input" class="btn btn-primary" {{action "sendUserMessage"}}>Send</button>
-                       </span>
-                    </div>
-                  </form>
-              </div>
-              <!-- Users List Tab Content -->
-              <div role="tabpanel" class="tab-pane" id="userstab">
-                <div class="panel-body users-body">
-                  <ul id="users"></ul>
-                </div>
-              </div>
-              <!-- Settings Tab Content -->
-              <div role="tabpanel" class="tab-pane" id="settingstab">
-                <div class="panel-body settings-body">
-                  Settings: <br>
-                  <button class="btn btn-primary" id="slowChatButton"{{action "switchChatSpeed"}}>Enable Slow Chat</button>
-                </div>
-              </div>
-          </div>
-  </div>
 
-  <div class="row m-0">
-      <div class="col-xs-12 col-sm-6  no-padding" >
-        <div class="panel panel-default game-panel" >
-          <div class="panel-body" id="game-Window">
+                  <div class="input-group-append mr-2 ">
+                    <div class="btn-group "  role="group" style="height:38px" >
+                    <button class="btn btn-primary border-0" type="submit">Send Tip</button>
+                    <button class="btn btn-primary border-0 collapsed" id="tip-toggle"  data-toggle="collapse"  data-target="#tip-form" type="button"><span title="Tip Options"></span></button>
+                  </div>
+                </div>
+                </div>
+
+
+                <div class="collapse" id="tip-form" >
+                  <div class="input-group w-75">
+                    <div class="w-25" id="tip-value">
+                    <input type="number" class="form-control"   min="1" max="10000"  value="50">
+                    </div>
+                    <input type="text"  autocomplete="off" class="form-control"  placeholder="Include an optional chat note">
+                      <span class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Send Tip</button>
+                      </span>
+                  </div>
+                </div>
+
+              </div>
+          {{/if}}
+        </div>
+        <div class="card-body p-0" >
+          <img src="/testimg.jpg"  class="img-responsive center-block" alt="default user video" width="100%">
+        </div>
+      </div>
+    </div>
+    <!-- Chat Window -->
+    <div class="col-12 col-sm-4 p-0 m-0" id="chatWindow">
+      <!-- Chat Navigation Tabs -->
+      <ul class="nav nav-tabs nav-justified " id="chat-tabs">
+        <li role="presentation" class="nav-item"{{action "openChatTab"}}><a href="#chat" class="chat-tab nav-link active" aria-controls="chat" role="tab" data-toggle="tab">Chat</a></li>
+        <li role="presentation" class="nav-item"{{action "openChatTab"}}><a href="#userstab" class="chat-tab nav-link"  aria-controls="userstab" role="tab" data-toggle="tab">Users</a></li>
+        <li role="presentation" class="nav-item"{{action "openChatTab"}}><a href="#settingstab" class="chat-tab nav-link"  aria-controls="settingstab" role="tab" data-toggle="tab">Settings</a></li>
+      </ul>
+      <!-- Chat Tab Container -->
+      <div class="tab-content">
+        <!-- Chat Tab Content -->
+        <div role="tabpanel" class="tab-pane active" id="chat">
+             <div class="card-body chat-body" id="chat-body">
+                <!-- User Options Menu. Collapsed by default. handlebars userID currently does nothing-->
+                <div class="collapse" id="userOptionsMenu" >
+                    <div class="input-group col-2" >
+                        <span class="input-group-btn">
+                          <button class="btn btn-primary" title="7 Day Ban" type="submit"><span class="fa fa-time">{{userID}}</span></button>
+                          <button class="btn btn-primary" title="Block" type="submit"><span class="fa fa-remove-circle">{{userID}}</span></button>
+                          <button class="btn btn-primary" title="Message" type="submit"><span class="fa fa-envelope">{{userID}}</span></button>
+                        </span>
+                    </div>
+                </div>
+                <!-- Example of a link that toggles the User Options Menu -->
+                <a class="collapsed" data-toggle="collapse" data-target="#userOptionsMenu">Toggle User Options Menu</a>
+
+                <!-- Chat Messages appear in this ul -->
+                <ul id="messages"></ul>
+              </div>
+              <!-- Chat Input Field -->
+              <form  name="userMessage"  autocomplete="off">
+                <div class="input-group" >
+                   <input  type="text"  autocomplete="off" name="usermsg"  id="usermsg" style="border-radius:0px" class="form-control" placeholder="Enter Chat Message...">
+                   <span class="input-group-btn">
+                     <button name="submitmsg" id="chat-input" class="btn btn-primary" {{action "sendUserMessage"}}>Send</button>
+                   </span>
+
+                </div>
+              </form>
+        </div>
+          <!-- Users List Tab Content -->
+        <div role="tabpanel" class="tab-pane" id="userstab">
+            <div class="card-body users-body">
+              <ul id="users"></ul>
+            </div>
+        </div>
+          <!-- Settings Tab Content -->
+        <div role="tabpanel" class="tab-pane" id="settingstab">
+            <div class="card-body users-body">
+              Settings:
+              <button class="btn btn-primary" id="slowChatButton"{{action "switchChatSpeed"}}>Enable Slow Chat</button>
+            </div>
+          </div>
+
+      </div>
+    </div>
+</div>
+
+  <div class="row m-0 mb-4">
+      <div class="col-12 col-sm-6  p-0" >
+        <div class="card   game-panel" >
+          <div class="card-body p-1" id="game-Window">
             <div class="row">
-              <div class="col-xs-8">
+              <div class="col-8">
 
                 <h4 id="gameHeading">Play 8 Ball Pool</h4>
 
@@ -165,17 +170,14 @@
                 <b>Entry Fee:</b> 100Cr
                 <br>
                 <b>Number of Players:</b> 2
-                <br><br>
+                <br>
+
+
+                  <button class="btn btn-primary mt-1" title="Play Game">Play Game</button>
+
               </div>
-              <div class="col-xs-4">
+              <div class="col-4">
                 <img src="/usericon.svg"  class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6" id="play-button">
-                <a class="btn btn-primary" title="Play Game" role="button">Play Game</a>
-              </div>
-              <div class="col-xs-6">
                 <div class="text-right" id="suggest-game-button">
                   <a class="btn btn-link" title="Suggest Game" role="button">Suggest Game</a>
                 </div>
@@ -184,11 +186,11 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 no-padding" >
+      <div class="col-12 col-sm-6 p-0" >
         <div class="well" id="photo-gallery">
           {{#if session.isAuthenticated}}
 
-          <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal"><span title="Edit Photos" class="fa fa-edit" aria-hidden="true"></span></a>
+          <a align="right" class="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal"><span title="Edit Photos" class="fa fa-edit" aria-hidden="true"></span></a>
           {{/if}}
 
           <br>
@@ -202,11 +204,11 @@
 
 
   <div class="row m-0">
-            <div class="col-xs-12 no-padding">
+            <div class="col-12 p-0">
               <div class="well">
                 {{#if session.isAuthenticated}}
 
-          <a align="right" id="edit-links" role="button" data-toggle="modal" data-target="#editProfileModal"><span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span></a>
+          <a align="right" class="edit-links" role="button" data-toggle="modal" data-target="#editProfileModal"><span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span></a>
           {{/if}}
                <h4>About Me:</h4>
                 Lorem Ipsum all the homes. placerat velit tempor sit amet. Suspendisse potenti. Morbi luctus iaculis quam ac euismod. Vivamus nec velit non ex sollicitudin ultricies. Nunc sed rhoncus tu
