@@ -4,24 +4,21 @@
 <!-- These don't function yet, just graphical stand ins -->
 <!-- {{private-messenger}} -->
 <!-- {{popup-alert}} -->
-
-<nav class="navbar navbar-default navbar-expand-sm" id="nav-bar"  style="padding-left:.5rem">
+<div class="d-block d-sm-none red-bar"></div>
+<nav class="navbar navbar-default navbar-expand-sm pl-1 pr-1" id="nav-bar" >
     <!-- Brand and toggle get grouped for better mobile display -->
     <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav ml-auto" >
 
       {{#if session.isAuthenticated}}
-            <li><button class="d-xs-none btn btn-outline-light border-0 px-2 mx-1"  data-toggle="modal" data-target="#buyCreditsModal" >  <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></button></li>
-             <li><a class="d-xs-none   btn btn-outline-light border-0 px-1 mx-1"  href="/games" ><i title="Games" class="fa fa-gamepad" aria-hidden="true"></i></a></li>
+            <li><button class=" btn btn-outline-light border-0 px-2 mx-1"  data-toggle="modal" data-target="#buyCreditsModal" >  <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></button></li>
+             <li><a class="    btn btn-outline-light border-0 px-1 mx-1"  href="/games" ><i title="Games" class="fa fa-gamepad" aria-hidden="true"></i></a></li>
              {{#if loginState.devCaster}}
-                <li><a class="d-xs-none   btn btn-outline-light border-0 px-2 mx-1" href="/account/dashboard"> <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i></a></li>
+                <li><a class="  btn btn-outline-light border-0 px-2 mx-1" href="/account/dashboard"> <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i></a></li>
              {{else}}
-                <li><a class="d-xs-none   btn btn-outline-light border-0 px-2 mx-1" href="/account"> <i title="My Account" class="fa fa-user" aria-hidden="true"></i></a></li>
+                <li><a class="   btn btn-outline-light border-0 px-2 mx-1" href="/account"> <i title="My Account" class="fa fa-user" aria-hidden="true"></i></a></li>
              {{/if}}
-
-        {{else}}
-          <a id="login-button" class="btn d-block" role="button" data-toggle="modal" data-target="#loginModal"  aria-expanded="false"   style="margin-right:.5rem">Log In</a>
         {{/if}}
 
     </ul>
@@ -29,25 +26,29 @@
 
         {{#if session.isAuthenticated}}
     <ul class="nav navbar-nav ml-auto" >
-      <div class="dropdown" >
-             <button class="nav-link dropdown-toggle  btn btn-outline-light border-0 px-2 mx-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i title="Menu" class="fa fa-align-right"></i></button>
-               <div class="dropdown-menu position-absolute dropdown-menu-right" >
+      <li class="dropdown position-static" >
+             <button class="nav-link dropdown-toggle  btn btn-outline-light border-0 px-2 mx-0 " id="nav-dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i title="Menu" class="fa fa-align-right"></i></button>
+               <ul class="dropdown-menu position-absolute dropdown-menu-right" >
                  <div class="dropdown-item dropdown-header">Hi <strong>{{session.data.authenticated.username}}</strong></div>
-                <a class="dropdown-item" href="/account/messages">Messages&nbsp;&nbsp;<span class="badge badge-dark badge-pill">42</span></a>
+                 <a class="dropdown-item" href="/account/messages">Messages&nbsp;&nbsp;<span class="badge badge-dark badge-pill">42</span></a>
                  {{#if loginState.devCaster}}
-                <a class="dropdown-item" href="/account/dashboard">Dashboard</a>
+                 <a class="dropdown-item" href="/account/dashboard">Dashboard</a>
                  {{/if}}
                  <a class="dropdown-item"href="/profile/{{loginState.username}}">Profile</a>
                  <a  class="dropdown-item" href="/account">Account Settings</a>
                  <a class="dropdown-item"href="/games">Games</a>
-                   <div class="dropdown-divider"></div>
-                  <div class="dropdown-item dropdown-header">You have&nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i><strong>&nbsp;&nbsp;2,000</strong> Credits</div>
-                  <a class="dropdown-item" role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" role="button" {{action "logout"}}>Log Out</a>
-               </div>
-           </div>
+                 <div class="dropdown-divider"></div>
+                 <div class="dropdown-item dropdown-header">You have&nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i><strong>&nbsp;&nbsp;2,000</strong> Credits</div>
+                 <a class="dropdown-item" role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a>
+                 <div class="dropdown-divider"></div>
+                <a class="dropdown-item" role="button" {{action "logout"}}>Log Out</a>
+               </ul>
+           </li>
        </ul>
+
+         {{else}}
+           <a id="login-button" class="btn d-block mr-1" role="button" data-toggle="modal" data-target="#loginModal"  aria-expanded="false" >Log In</a>
+
          {{/if}}
 </nav>
 
@@ -59,55 +60,72 @@
 </div>
 
 <div class="footer">
+
+    <div class=" red-bar"></div>
   <div class="container-fluid">
 
         <div class="row text-center">
-          <div class="col-xs-12 col-sm-4">
-            <ul  class="nav nav-pills nav-justified">
-            <li class="nav-item"><a class="nav-link" id="footer-links" href="/contact">Contact Us</a></li>
-          </ul>
-          </div>
-          <div class="col-xs-12 col-sm-4 col-sm-push-4">
+          <div class="col-xs-12 col-sm-4 px-0 mx-0 d-block d-sm-none ">
             <ul class="nav nav-pills nav-justified">
-
               {{#if session.isAuthenticated}}
 
-              <li class="nav-item"><a class="nav-link" id="footer-links"  href="/account">Account Settings</a></li>
+              <li class="nav-item"><a class="nav-link footer-links"    href="/account">Account Settings</a></li>
               {{else}}
-              <li class="nav-item"><a class="nav-link" id="footer-links"  href="/signup">Sign Up</a></li>
+              <li class="nav-item"><a class="nav-link footer-links"    href="/signup">Sign Up</a></li>
 
               {{/if}}
 
             </ul>
           </div>
-          <div class="col-xs-12 col-sm-4 col-sm-pull-4">
+          <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
+            <ul  class="nav nav-pills nav-justified">
+              <li class="nav-item "><a class="nav-link footer-links"   href="/help">Help</a></li>
+
+          </ul>
+          </div>
+          <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item"><a class="nav-link" id="footer-links" href="/terms">Terms of Service</a></li>
+              <li class="nav-item d-block d-sm-none"><a class="nav-link footer-links"   href="/contact">Contact Us</a></li>
+              <li class="nav-item d-none d-sm-block"><a class="nav-link footer-links"   href="/terms">Terms of Service</a></li>
+
+            </ul>
+          </div>
+          <div class="col-xs-12 col-sm-4 px-0 mx-0 d-none d-sm-block">
+            <ul class="nav nav-pills nav-justified">
+              {{#if session.isAuthenticated}}
+
+              <li class="nav-item"><a class="nav-link footer-links"    href="/account">Account Settings</a></li>
+              {{else}}
+              <li class="nav-item"><a class="nav-link footer-links"    href="/signup">Sign Up</a></li>
+
+              {{/if}}
+
             </ul>
           </div>
         </div>
         <div class="row text-center">
-          <div class="col-xs-12 col-sm-4">
+          <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item"><a class="nav-link" id="footer-links" href="/help">Help</a></li>
+              <li class="nav-item d-block d-sm-none"><a class="nav-link footer-links"   href="/terms">Terms of Service</a></li>
+              <li class="nav-item d-none d-sm-block"><a class="nav-link footer-links"   href="/contact">Contact Us</a></li>
             </ul>
           </div>
-          <div class="col-xs-12 col-sm-4">
+          <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item"><a class="nav-link" id="footer-links" href="/privacy">Privacy Policy</a></li>
+              <li class="nav-item"><a class="nav-link footer-links"   href="/privacy">Privacy Policy</a></li>
             </ul>
           </div>
-          <div class="col-xs-12 col-sm-4">
+          <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
 
               {{#if session.isAuthenticated}}
                     {{#if loginState.broadcaster}}
-                      <li class="nav-item"><a class="nav-link" id="footer-links"  href="/account/dashboard">Dashboard</a></li>
+                      <li class="nav-item"><a class="nav-link footer-links"    href="/account/dashboard">Dashboard</a></li>
                     {{else}}
-                      <li class="nav-item"><a class="nav-link" id="footer-links"  href="/account/broadcaster">Become a Broadcaster</a></li>
+                      <li class="nav-item"><a class="nav-link footer-links"    href="/account/broadcaster">Become a Broadcaster</a></li>
                     {{/if}}
               {{else}}
-              <li class="nav-item"><a class="nav-link" id="footer-links"  href="/signup/broadcaster">Become a Broadcaster</a></li>
+              <li class="nav-item"><a class="nav-link footer-links"    href="/signup/broadcaster">Become a Broadcaster</a></li>
 
               {{/if}}
 
@@ -115,49 +133,52 @@
           </div>
         </div>
         <div class="row text-center">
-          <div class="col-xs-12 col-sm-4 hidden-sm hidden-md hidden-lg">
+          <div class="col-xs-12 col-sm-4 d-block d-sm-none px-0 mx-0  ">
             <ul class="nav nav-pills nav-justified">
 
               {{#if session.isAuthenticated}}
                   {{#if loginState.developer}}
-                    <li><a id="footer-links"  href="/account/dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link footer-links"    href="/account/dashboard">Dashboard</a></li>
                   {{else}}
-                    <li><a id="footer-links"  href="/account/developer">Become a Game Developer</a></li>
+                    <li class="nav-item"><a class="nav-link footer-links"    href="/account/developer">Become a Game Developer</a></li>
                   {{/if}}
               {{else}}
-              <li><a id="footer-links"  href="/signup/developer">Become a Game Developer</a></li>
+              <li class="nav-item"><a class="nav-link footer-links"    href="/signup/developer">Become a Game Developer</a></li>
 
               {{/if}}
             </ul>
           </div>
-          <div class="col-xs-12 col-sm-4 hidden-xs">
+          <div class="col-xs-12 col-sm-4 d-none d-sm-block px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
-              <li><a id="footer-links" href="/">© 2016 Brand Inc</a></li>
+              <li class="nav-item"><a  class="nav-link footer-links"   href="/">© {{copyrightYear}}</a></li>
             </ul>
           </div>
-          <div class="col-xs-12 col-sm-4">
+          <div class="col-xs-12 col-sm-4 px-0 mx-0">
             <ul class="nav nav-pills nav-justified">
-              <li><a id="footer-links" href="/legal">Legal Stuff</a></li>
+              <li class="nav-item"><a class="nav-link footer-links"   href="/legal"> Legal Stuff</a></li>
             </ul>
           </div>
-          <div class="col-xs-12 col-sm-4 hidden-sm hidden-md hidden-lg">
+          <div class="col-xs-12 col-sm-4 d-block d-sm-none px-0 mx-0">
             <ul class="nav nav-pills nav-justified">
-              <li><a id="footer-links" href="/">© 2016 Brand Inc</a></li>
+              <li class="nav-item"><a class="nav-link footer-links"   href="/">© {{copyrightYear}}</a></li>
             </ul>
           </div>
-          <div class="col-xs-12 col-sm-4 hidden-xs">
+          <div class="col-xs-12 col-sm-4 d-none d-sm-block px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
               {{#if session.isAuthenticated}}
                             {{#if loginState.developer}}
-                              <li><a id="footer-links"  href="/games">Games</a></li>
+                              <li class="nav-item"><a class="nav-link footer-links"    href="/games">Games</a></li>
                             {{else}}
-                              <li><a id="footer-links"  href="/account/developer">Become a Game Developer</a></li>
+                              <li class="nav-item"><a class="nav-link footer-links"    href="/account/developer">Become a Game Developer</a></li>
                             {{/if}}
                           {{else}}
-                          <li><a id="footer-links"  href="/signup/developer">Become a Game Developer</a></li>
+                          <li class="nav-item"><a class="nav-link footer-links"    href="/signup/developer">Become a Game Developer</a></li>
                           {{/if}}
             </ul>
           </div>
         </div>
   </div>
+
+  <span class="fa fa-chevron-up border rounded border-primary" {{action "scrollToTop"}} id="scrollToTopBtn" title="Go to top"></span>
+
 </div>
