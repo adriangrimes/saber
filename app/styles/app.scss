@@ -9,3 +9,27 @@
 @import "ember-bootstrap/reboot";
 @import "ember-bootstrap/type";
 @import "ember-bootstrap/buttons";
+$ember-power-select-line-height: 2.5;
+
+@import "ember-power-select";
+
+
+///////////////////// Overriding Bootstrap
+
+.btn-primary{
+  background-color:#B80000;
+  border-color:#cccccc;
+}
+
+.btn-primary:hover{
+  background-color:#ef0202;
+  border-color:#cccccc;
+}
+.btn-primary:focus, .btn-primary:active:hover, .btn-primary.active, .btn-primary.active.focus{
+  background-color:#800000;
+  border-color:#cccccc;
+}
+
+.border-primary{
+  border-color: #B80000!important;
+}

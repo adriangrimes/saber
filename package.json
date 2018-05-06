@@ -56,6 +56,8 @@
   },
   "dependencies": {
     "ember-font-awesome": "^4.0.0-rc.3",
+    "ember-power-select": "^2.0.0",
+    "ember-radio-buttons": "^4.1.0",
     "font-awesome": "^4.7.0",
     "moment": "^2.22.0",
     "ws": "^5.1.1"

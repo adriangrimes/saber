@@ -1,82 +1,41 @@
 import Route from '@ember/routing/route';
+import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-  let photo =[{
-     id: 1,
-     photo: '/usericon.svg'
+export default Route.extend(AuthenticatedRouteMixin, {
+
+  model() {
+    return this.get('store').findRecord('user', this.get('session.data.authenticated.user_id') );
   },
-  {
-     id: 2,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 3,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 4,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 5,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 6,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 7,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 8,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 9,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 10,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 11,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 12,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 13,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 14,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 15,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 16,
-     photo: '/usericon.svg'
-  },
-  {
-     id: 17,
-     photo: '/usericon.svg'
-  }];
+
+  setupController(controller,model) {
+    this._super(controller, model);
+    // Set profile info to settings pulled from db in display profile and edit modal
+    controller.set('displayAboutMe', model.get('profileAboutMe'));
+    controller.set('inputaboutme', model.get('profileAboutMe'));
+
+    controller.set('displaySex', model.get('profileSex'));
+    controller.set('inputSex', model.get('profileSex'));
+
+    if (model.get('profileSex') == 'Male'){
+      controller.set('otherSexText', '');
+
+    }else if (model.get('profileSex') == 'Female'){
+      controller.set('otherSexText', '');
+
+    }else{
+    controller.set('otherSexText', model.get('profileSex'));
+    }
 
 
 
-export default Route.extend({
-  model: function(){
-    return photo;
+    controller.set('displayAge', model.get('profileAge'));
+    controller.set('inputAge', model.get('profileAge'));
+
+    controller.set('displayLocation', model.get('profileLocation'));
+    controller.set('inputlocation', model.get('profileLocation'));
+
+    controller.set('displayLanguages', model.get('profileLanguages'));
+    controller.set('inputLanguages', model.get('profileLanguages'));
 
   }
-
-
-
 });

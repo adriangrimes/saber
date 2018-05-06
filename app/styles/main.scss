@@ -48,6 +48,10 @@ body {
     vertical-align: middle;
 }
 
+#streamKeyDisplayID{
+ height: 8rem;
+}
+
 ///// Dropdown Menu
 .dropdown {
 
@@ -57,31 +61,16 @@ width: 100%;
 }
 .dropdown-item{
   height: 44px;
-  padding-top: .5rem;
+  padding-top: .6rem;
 }
 
-
-.border-primary{
-  border-color: #B80000!important;
+.dropdown-item:hover{
+  background-color: #eeeeee;
 }
-
-///////////////////// Buttons
-
-.btn-primary{
-  background-color:#B80000;
-  border-color:#cccccc;
+.dropdown-item:active{
+  background-color: #bbbbbb;
 }
-
-.btn-primary:hover{
-  background-color:#ef0202;
-  border-color:#cccccc;
-}
-.btn-primary:focus, .btn-primary:active:hover, .btn-primary.active, .btn-primary.active.focus{
-  background-color:#800000;
-  border-color:#cccccc;
-}
-
-
+/////Buttons
 #scrollToTopBtn{
   color: #999999;
   position: fixed;
@@ -101,7 +90,6 @@ width: 100%;
 #scrollToTopBtn:active{
   color: #b80000;
 }
-
 
 /////////////////////////////// Collapsable Wellss
 .card{
@@ -584,6 +572,10 @@ text-align: right;
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {
 
+  #streamKeyDisplayID{
+   height: 4rem; 
+  }
+
 /// Navbar Classes
 .navbar-default{
 	background: #B80000; /* For browsers that do not support gradients */
@@ -611,8 +603,9 @@ text-align: right;
   }
   .dropdown-item{
     height: 30px;
-    padding-top: 0rem;
+    padding-top: .15rem;
   }
+
 
   #scrollToTopBtn{
     bottom: 2rem;

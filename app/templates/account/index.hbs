@@ -1,8 +1,18 @@
-<div class="row m-0 mb-3">
+<div class="row m-0 mb-3 ml-2">
+  <div class="col-8 col-sm-6 col-md-5 col-lg-4 p-0 pt-1 pl-1">
     <h2>Account Settings</h2>
+  </div>
+  <div class="col-4 p-0">
+    {{#if loginState.broadcaster}}
+      <div>Broadcaster<span class="fa fa-video-camera pl-1"></span></div>
+    {{/if}}
+    {{#if loginState.developer}}
+      <div>Developer<span class="fa fa-file-code-o pl-1"></span></div>
+    {{/if}}
+  </div>
 </div>
 <div class="row m-0">
-    <div class="col-xs-12 col-sm-8 ">
+    <div class="col-xs-12 col-sm-7 col-md-8 ">
       {{#if loginState.devCaster}}
       <a class="btn btn-primary btn-block d-block d-sm-none" href="/account/dashboard" role="button">View Dashboard &nbsp;<span class="fa fa-dashboard" aria-hidden="true"></span></a>
       {{/if}}
@@ -14,7 +24,9 @@
                   </div>
                   <div id="collapsePayoutSettings" class="card-collapse collapse">
                     <div class="card-body">
-                            <h4> Select Payout Method:</h4>
+                            <h5> Select Payout Method:</h5>
+
+                  <form {{action "submitPayoutSettings" on="submit"}}>
                       <div id="payoutSelect" class="btn-group" data-toggle="buttons">
 
                         <label id="payoutMethod" class="btn active">
@@ -31,10 +43,46 @@
                         <label for="inputbitcoinaddress">Bitcoin Address</label>
                         <input type="text" class="form-control" id="inputbitcoinaddress" placeholder="Your Bitcoin Address">
                       </div>
-                        {{address-select}}
+                          <div class="form-group">
+                            <label for="inputaddress1">Address Line 1</label>
+                            {{input type="text" class="form-control" value=inputaddress1 }}
+                          </div>
+
+
+                          <div class="form-group">
+                            <label for="inputaddress2">Address Line 2</label>
+                            {{input type="text" class="form-control" value=inputaddress2 }}
+                          </div>
+                          <div class="form-group">
+                            <label for="inputCity">City</label>
+                            {{input type="text" class="form-control" value=inputCity }}
+                          </div>
+                          <div class="form-group">
+                            <label for="inputRegion">State / Province / Region</label>
+                            {{input type="text" class="form-control" value=inputRegion }}
+                          </div>
+                          <div class="form-group">
+                            <label for="inputZipcode">Zip / Postal Code</label>
+                            {{input type="tel" class="form-control" value=inputZipcode }}
+                          </div>
+                          <div class="form-group">
+                          <label for="inputCountry">Country</label>
+                          {{#power-select
+                                selected=inputCountry
+                                id="inputCountry"
+                                options=countriesList
+                                onchange=(action (mut inputCountry))
+                                oninput=(action "checkLength")
+                                as |name|}}
+                                {{name}}
+                              {{/power-select}}
+                          </div>
+                    <br>
+
                         <div class=text-right>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                          <button type="submit" id="payoutsettingsubmit" class="btn btn-primary">Save</button>
                       </div>
+                        </form>
                     </div>
                   </div>
               </div>
@@ -42,11 +90,11 @@
 
           <div  class="card mb-3"   id="emailSettingsAccordion">
               <div class="card-heading accordion-toggle " data-toggle="collapse" data-parent="#emailSettingsAccordion" data-target="#collapseEmailSettings">
-                   <h3 class="card-title">Email Settings</h3>
+                   <h3 class="card-title">Notification Settings</h3>
               </div>
           <div id="collapseEmailSettings" class="card-collapse show">
             <div class="card-body">
-                <h4>Send me an email...</h4>
+                <h5>Email Subscriptions </h5>
                 <form {{action "submitEmailSettings" on="submit"}}>
 
                 <div class="form-check">
@@ -54,25 +102,23 @@
                     <!-- <input type="checkbox" class="form-check-input" checked={{value}} onchange={{action "settingChanged" value="target.value"}}> -->
                     <!-- <input type="checkbox" class="form-check-input" checked={{sendEmailFavoritesOnlineCB}}> -->
                     {{input type="checkbox" class="form-check-input" name="sendEmailFavoritesOnline" checked=sendEmailFavoritesOnline}}
-                      When my favorites are online.
+                      Favorite Broadcasters streaming notification.
                   </label>
                 </div>
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input">
-                      When I get a new private message
-                  </label>
-              </div>
+
               <div class="form-check">
                 <label class="form-check-label">
                   <!-- <input type="checkbox" class="form-check-input" checked> -->
                   {{input type="checkbox" class="form-check-input" name="sendEmailSiteNews" checked=sendEmailSiteNews}}
                     With the monthly site newsletter
                   </label>
-            </div>
+              </div>
+
+
+
 
             <div class=text-right>
-                <button type="submit" name="settingsubmit" class="btn btn-primary">Save</button>
+                <button type="submit" id="emailsettingsubmit" class="btn btn-primary">Save</button>
               </div>
 
               </form>
@@ -86,29 +132,8 @@
         </div>
         <div id="collapseSiteSettings" class="card-collapse collapse">
           <div class="card-body">
-            <h4> Default Search Settings:</h4>
-                Show:
-                <form {{action "submitDisplaySettings" on="submit"}}>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="default-search-options" id="default-all" value="default-all" checked>
-                    <b>  All broadcasters</b>
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="default-search-options" id="default-female" value="default-female" >
-                  <b>    Female broadcasters only</b>
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="default-search-options" id="default-male" value="default-male" >
-                    <b>  Male broadcasters only</b>
-                    </label>
-                  </div>
-                      <hr class="splash-horizontal-rule">
-                <h4> Site Graphics Style:</h4>
+  
+                <h5> Site Graphics Style</h5>
 
                 <div class="form-check">
                   <label class="form-check-label">
@@ -117,9 +142,15 @@
                       Dark mode
                     </label>
               </div>
+              <hr class="splash-horizontal-rule">
+            <h5>Set Time Zone</h5>
+
+              <div class="form-group">
+                {{input type="text" class="form-control" value=inputTimeZone }}
+              </div>
 
                     <div class=text-right>
-                    <button type="submit" name="settingsubmit" class="btn btn-primary">Save</button>
+                    <button type="submit" id="sitesettingsubmit" class="btn btn-primary">Save</button>
                   </div>
               </form>
                 </div>
@@ -130,22 +161,25 @@
               <div  class="card mb-3"  id="securitySettingsAccordion">
 
                   <div class="card-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#securitySettingsAccordion" data-target="#collapseSecuritySettings">
-                    <h3 class="card-title">Change Email or Password</h3>
+                    <h3 class="card-title">Change Password or Email</h3>
 
                   </div>
                   <div id="collapseSecuritySettings" class="card-collapse collapse">
                     <div class="card-body">
 
                         <form>
-                          <div class="form-group">
-                            <label for="inputemailAddress">New Email address</label>
-                            <input type="email" class="form-control" id="inputnewemailAddress"  placeholder="New email address">
-                          </div>
-                          <div class="form-group">
-                            <label for="inputnewemailAddressConfirm">Confirm New Email address</label>
-                            <input type="email" class="form-control" id="inputnewemailAddressConfirm"  placeholder="New email address">
-                          </div>
-                            <hr class="splash-horizontal-rule">
+                          <h5>Change your email address</h5>
+
+                        <div class="form-group">
+                          <label for="inputemailAddress">New Email address</label>
+                          <input type="email" class="form-control" id="inputnewemailAddress"  placeholder="New email address">
+                        </div>
+                        <div class="form-group">
+                          <label for="inputnewemailAddressConfirm">Confirm New Email address</label>
+                          <input type="email" class="form-control" id="inputnewemailAddressConfirm"  placeholder="New email address">
+                        </div>
+
+                          <h5>Change your password</h5>
                           <div class="form-group">
                             <label for="inputpassword">New Password</label>
                             <input type="password" class="form-control" id="inputpasswordnew" placeholder="New Password">
@@ -154,6 +188,7 @@
                             <label for="inputpasswordconfirm">Confrim New Password</label>
                             <input type="password" class="form-control" id="inputpasswordconfirm" placeholder="New Password">
                           </div>
+
                                 <hr class="splash-horizontal-rule">
                           <div class="form-group">
                             <label for="inputpassword">Current Password</label>
@@ -161,7 +196,7 @@
                           </div>
 
                           <div class=text-right>
-                          <button type="" class="btn btn-primary">Save</button>
+                            <button type="submit" id="securitysettingsubmit" class="btn btn-primary">Save</button>
                         </div>
                       </form>
                       </div>
@@ -172,30 +207,32 @@
 
           </div>
 
-            <div class="col-xs-12 col-sm-4">
+            <div class="col-xs-12 col-sm-5 col-md-4">
               {{#if loginState.devCaster}}
-              <a class="btn btn-primary btn-block d-none d-sm-block" href="/account/dashboard" role="button">View Dashboard &nbsp;<span class="fa fa-dashboard" aria-hidden="true"></span></a>
+              <a class="btn btn-primary btn-block d-none d-sm-block mb-4" href="/account/dashboard" role="button">View Dashboard &nbsp;<span class="fa fa-dashboard" aria-hidden="true"></span></a>
               {{/if}}
-                  <a class="btn btn-primary btn-block d-none d-sm-block mt-5" href="/profile" role="button">Edit Profile &nbsp;<span class="fa fa-edit" aria-hidden="true"></span></a>
+                  <a class="btn btn-primary btn-block d-none d-sm-block" href="/profile" role="button">Edit Profile &nbsp;<span class="fa fa-edit" aria-hidden="true"></span></a>
 
                 {{#if loginState.broadcaster}}
                 {{else}}
-                <a class="btn btn-primary btn-block d-none d-sm-block" href="/fullSignup" role="button">Become a Broadcaster &nbsp;<span class="fa fa-video-camera" aria-hidden="true"></span></a>
+                <a class="btn btn-primary btn-block d-none d-sm-block" href="/account/broadcaster" role="button">Become a Broadcaster &nbsp;<span class="fa fa-video-camera" aria-hidden="true"></span></a>
                 {{/if}}
                 {{#if loginState.developer}}
                 {{else}}
-                <a class="btn btn-primary btn-block d-none d-sm-block" href="/fullSignup" role="button">Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span></a>
+                <a class="btn btn-primary btn-block d-none d-sm-block" href="/account/developer" role="button">Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span></a>
                 {{/if}}
+
+                {{#if loginState.broadcaster}}
+                {{else}}
+                <a class="btn btn-primary btn-block d-block d-sm-none" href="/account/broadcaster" role="button">Become a Broadcaster &nbsp;<span class="fa fa-video-camera" aria-hidden="true"></span></a>
+                {{/if}}
+                {{#if loginState.developer}}
+                {{else}}
+                <a class="btn btn-primary btn-block d-block d-sm-none" href="/account/developer" role="button">Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span></a>
+                {{/if}}
+
                 <a class="btn btn-outline-dark btn-block mt-5" href="/account/delete"><u>Delete Account</u></a>
 
-                {{#if loginState.broadcaster}}
-                {{else}}
-                <a class="btn btn-primary btn-block d-block d-sm-none" href="/fullSignup" role="button">Become a Broadcaster &nbsp;<span class="fa fa-video-camera" aria-hidden="true"></span></a>
-                {{/if}}
-                {{#if loginState.developer}}
-                {{else}}
-                <a class="btn btn-primary btn-block d-block d-sm-none" href="/fullSignup" role="button">Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span></a>
-                {{/if}}
               </div>
 
 </div>

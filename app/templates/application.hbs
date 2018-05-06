@@ -4,7 +4,7 @@
 <!-- These don't function yet, just graphical stand ins -->
 <!-- {{private-messenger}} -->
 <!-- {{popup-alert}} -->
-<div class="d-block d-sm-none red-bar"></div>
+<div class="d-block d-sm-none red-bar position-absolute"></div>
 <nav class="navbar navbar-default navbar-expand-sm pl-1 pr-1" id="nav-bar" >
     <!-- Brand and toggle get grouped for better mobile display -->
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -138,7 +138,7 @@
 
               {{#if session.isAuthenticated}}
                   {{#if loginState.developer}}
-                    <li class="nav-item"><a class="nav-link footer-links"    href="/account/dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link footer-links"    href="/games">Games</a></li>
                   {{else}}
                     <li class="nav-item"><a class="nav-link footer-links"    href="/account/developer">Become a Game Developer</a></li>
                   {{/if}}
