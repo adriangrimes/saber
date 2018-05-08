@@ -10,6 +10,7 @@ export default Controller.extend({
   streamKeyDisplay: '********************',
   streamKeyHidden: true,
 
+  
 
    actions: {
           showStreamKey(){

@@ -15,14 +15,17 @@ Router.map(function() {
     this.route('messages');
     this.route('dashboard');
     this.route('manage-users');
+    this.route('affiliate');
   });
   this.route('signup', function() {
     this.route('broadcaster');
     this.route('developer');
+    this.route('affiliate');
   });
   this.route('help', function() {
     this.route('developer');
     this.route('broadcaster');
+    this.route('affiliate');
   });
   this.route('terms');
   this.route('privacy');

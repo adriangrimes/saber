@@ -52,6 +52,12 @@ body {
  height: 8rem;
 }
 
+.userTypeBadges{
+  font-size: 12px;
+}
+.delete-account-btn{
+  margin-top: 4rem;
+}
 ///// Dropdown Menu
 .dropdown {
 
@@ -379,10 +385,7 @@ text-align: right;
   padding:20px;
   font-size:18px;
  }
- #payoutSelect{
-   width:100%;
-  }
- #payoutMethod{
+ .payout-method{
    padding:20px;
    width:50%;
    font-size:18px;
@@ -573,7 +576,11 @@ text-align: right;
 @media (min-width: 576px) {
 
   #streamKeyDisplayID{
-   height: 4rem; 
+   height: 4rem;
+  }
+
+  .delete-account-btn{
+    margin-top: 12rem;
   }
 
 /// Navbar Classes

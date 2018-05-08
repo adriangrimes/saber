@@ -7,33 +7,37 @@
   <div class="row m-0">
     <div class="col-xs-12 col-md-8">
       <div class="well">
-
+<form {{action "submitContactMessage" on="submit"}}>
         <div class="form-group">
           <label for="inputemailAddress">Email Address</label>
-          <input type="email" class="form-control" id="inputemailAddress" placeholder="Email Address">
+          {{input type="text" class="form-control" value=inputemailAddress }}
+
         </div>
         <div class="form-group">
           <label for="topic">Topic&nbsp;</label><br>
-          <select class="form-control" id="topicSelect">
-            <option value="" selected="selected">(Select a Topic)</option>
-            <option>Bug Report</option>
-            <option>Feature Request</option>
-            <option>Sign up Help</option>
-            <option>Billing Help</option>
-            <option>Other</option>
-          </select>
+          {{#power-select
+                selected=topicSelect
+                id="topicSelect"
+                options=topicList
+                onchange=(action (mut topicSelect))
+                oninput=(action "checkLength")
+                as |name|}}
+                {{name}}
+              {{/power-select}}
+
         </div>
         <div class="form-group">
           <label for="inputSubject">Subject</label>
-          <input type="text" class="form-control" id="inputSubject"placeholder="Subject">
+          {{input type="text" class="form-control" value=inputSubject }}
         </div>
         <div class="form-group">
           <label for="comment">Message</label>
-          <textarea class="form-control" rows="5" id="message"placeholder="Message"></textarea>
+          {{textarea rows="5" type="text" class="form-control" value=inputMessage }}
         </div>
         <br>
-        <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+        <button type="submit" id="submitContactButton" class="btn btn-primary btn-block">Send Message</button>
         <br><br>
+      </form>
       </div>
     </div>
     <div class="col-xs-12 col-md-4 mt-4">

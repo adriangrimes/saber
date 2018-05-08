@@ -6,9 +6,9 @@ let helpTopic =[
    shortTitle: 'accountSignupHelp',
    title: 'Account and Sign Up',
    all: true,
-   devCasters: true,
-   broadcasters: true,
-   developers: true,
+   isContractedOnly: false,
+   broadcastersOnly: false,
+   developersOnly: false,
 
    helpSections: [
           {
@@ -25,9 +25,10 @@ let helpTopic =[
    shortTitle: 'rulesHelp',
    title: 'Site Rules',
    all: true,
-   devCasters: true,
-   broadcasters: true,
-   developers: true,
+   isContractedOnly: false,
+   broadcastersOnly: false,
+   developersOnly: false,
+
    helpSections: [
           {
 
@@ -42,9 +43,10 @@ let helpTopic =[
    shortTitle: 'payoutHelp',
    title: 'Getting Paid',
    all: false,
-   devCasters: true,
-   broadcasters: true,
-   developers: true,
+   isContractedOnly: true,
+   broadcastersOnly: false,
+   developersOnly: false,
+
    helpSections: [
           {
             'sectionTitle' : 'This should be visible by Devs and Broadcasters',
@@ -57,10 +59,9 @@ let helpTopic =[
    shortTitle: 'devHelp',
    title: 'Game Development',
    all: false,
-   devCasters: true,
-   broadcasters: false,
-   developers: true,
-   helpSections: [
+   isContractedOnly: false,
+   broadcastersOnly: false,
+   developersOnly: true,
 
           {
           'sectionTitle' : 'Where do documentations live?',
@@ -72,9 +73,10 @@ let helpTopic =[
    shortTitle: 'streamHelp',
    title: 'Live Streaming',
    all: false,
-   devCasters: true,
-   broadcasters: true,
-   developers: false,
+   isContractedOnly: false,
+   broadcastersOnly: true,
+   developersOnly: false,
+
    helpSections: [
           {
             'sectionTitle' : 'This should be visible by Broadcasters',

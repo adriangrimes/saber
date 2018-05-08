@@ -1,0 +1,121 @@
+
+  <div class="row m-0">
+
+ {{#if loginState.isContracted}}
+    <div class="col-12">
+      You are already an affiliate, congrats!
+    </div>
+      <div class="col-12 pt-3">
+      <a href="/account" class="btn btn-primary">Account Settings</a>
+
+    </div>
+  {{else}}
+    <div class="col-xs-12 col-sm-5">
+        {{affiliate-blurb}}
+    </div>
+    <div class="col-xs-12 col-sm-7">
+      <form {{action "submitAffiliateVerification" on="submit"}}>
+
+              <div class="form-group">
+                  <label for="inputfirstName">First Name</label>
+                    {{input type="text" class="form-control" value=inputfirstName }}
+                  </div>
+                  <div class="form-group">
+                    <label for="inputmiddleName">Middle Name</label>
+                    {{input type="text" class="form-control" value=inputmiddleName }}
+                  </div>
+                  <div class="form-group">
+                    <label for="inputlastName">Last Name</label>
+                    {{input type="text" class="form-control" value=inputlastName }}
+                  </div>
+              <label for="inputDay">Date of Birth</label>
+                  <div class="row m-0 pb-2">
+                    <div class="col">
+                      {{#power-select
+                            selected=inputMonth
+                            id="inputMonth"
+                            options=monthsList
+                            onchange=(action (mut inputMonth))
+                            oninput=(action "checkLength")
+                            as |name|}}
+                            {{name}}
+                      {{/power-select}}
+                    </div>
+                    <div class="col">
+                      {{#power-select
+                            selected=inputDay
+                            id="inputDay"
+                            options=daysList
+                            onchange=(action (mut inputDay))
+                            oninput=(action "checkLength")
+                            as |name|}}
+                            {{name}}
+                      {{/power-select}}
+
+                    </div>
+                    <div class="col">
+                      {{#power-select
+                            selected=inputYear
+                            id="inputYear"
+                            options=yearsList
+                            onchange=(action (mut inputYear))
+                            oninput=(action "checkLength")
+                            as |name|}}
+                            {{name}}
+                      {{/power-select}}
+                    </div>
+
+
+                  </div>
+
+                  <div class="form-group">
+                    <label for="inputaddress1">Address Line 1</label>
+                    {{input type="text" class="form-control" value=inputaddress1 }}
+                  </div>
+                  <div class="form-group">
+                    <label for="inputaddress2">Address Line 2</label>
+                    {{input type="text" class="form-control" value=inputaddress2 }}
+                  </div>
+                  <div class="form-group">
+                    <label for="inputCity">City</label>
+                    {{input type="text" class="form-control" value=inputCity }}
+                  </div>
+                  <div class="form-group">
+                    <label for="inputRegion">State / Province / Region</label>
+                    {{input type="text" class="form-control" value=inputRegion }}
+                  </div>
+                  <div class="form-group">
+                    <label for="inputZipcode">Zip / Postal Code</label>
+                    {{input type="tel" class="form-control" value=inputZipcode }}
+                  </div>
+                  <div class="form-group">
+                  <label for="inputCountry">Country</label>
+                  {{#power-select
+                        selected=inputCountry
+                        id="inputCountry"
+                        options=countriesList
+                        onchange=(action (mut inputCountry))
+                        oninput=(action "checkLength")
+                        as |name|}}
+                        {{name}}
+                  {{/power-select}}
+                  </div>
+
+                  <br>
+
+
+                  <button id="affiliateSaveForLater" class="btn btn-outline-dark" {{action "affiliateSaveForLater"}}>Save for later</button>
+
+                  <div class="float-right">
+                    <button type="submit" id="affiliateVerifySubmit" class="btn btn-primary">Submit Verification</button>
+                  </div>
+
+
+
+  </form>
+
+    </div>
+
+    {{/if}}
+
+  </div>
