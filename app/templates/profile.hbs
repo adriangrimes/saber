@@ -2,94 +2,18 @@
 {{edit-photos}}
   <div class="row m-0">
     <div class ="col-12" >
-      {{#if session.isAuthenticated}}
         <h2>Your Profile</h2>
-        {{else}}
-        <h2 class="pb-2">
-          Someone Else  <button class="btn btn-primary collapsed" data-toggle="collapse"  data-target="#share-form" ><span title="Share this profile"  class="fa fa-share-alt"  aria-hidden="true" ></span></button>
-        </h2>
-        <div class="collapse pb-4 " id="share-form" >
-          <!-- Share Profile Menu -->
-
-            <h4> Share this profile:
-               <button href="https://twitter.com/intent/tweet?text=Check+out+this+site+at+http://site.com%21+%23woo" target="_blank" type="button" class="btn btn-primary" title="Tweet"><span class="fa fa-twitter"></span></button>
-               <button href="http://www.reddit.com/submit?url=http://site.com/yet/another/test&title=Check+out+this+site%21" target="_blank" type="button" class="btn btn-primary" title="Reddit" style="margin-left:10px;margin-right:10px" ><span class="fa fa-reddit-alien"></span></button>
-               <button href="http://www.tumblr.com/share/link?url=http://www.site.com" target="_blank" type="button" class="btn btn-primary" title="Tumblr" ><span class="fa fa-tumblr px-1"></span></button>
-            </h4>
-            <div class="input-group w-50">
-               <input type="text" autocomplete="off" class="form-control " value="http://site.com/woo/42">
-               <div class="input-group-append">
-                 <button class="btn btn-primary btn-sm" type="button"><span class="fa fa-link"></span></button>
-               </div>
-            </div>
-
-
-        </div>
-        {{/if}}
       </div>
-
   </div>
       <!--- Video and Chat Panels -->
   <div class="row m-0 mb-4">
     <div class="col-12 col-sm-8 p-0 m-0"  id="videoWindow">
       <div class="card   video-panel">
         <div class="profile-controls pt-2">
-          {{#if session.isAuthenticated}}
             <a  class="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal" style="top:70px">
               <span title="Edit Avatar" class="fa fa-edit"></span>
             </a>
-            {{else}}
-              {{#if isFavorite}}
-                <button type="button" class="btn btn-link pl-4"> <span  title="Remove From Favorites" class=" profile-links fa fa-heart"{{action "toggleFav"}}></span></button>
-              {{else}}
-                <button type="button" class="btn btn-link pl-4">  <span  title="Add to Favorites" class=" profile-links fa fa-heart-o" {{action "toggleFav"}}></span></button>
-              {{/if}}
 
-              <button type="button" class="btn btn-link">  <span title="Send Message" class=" profile-links fa fa-envelope" ></span></button>
-              <div class="w-75  " id="simple-tip-form" >
-                <div class="input-group justify-content-end">
-                 <div class="input-group-prepend">
-                    <label class="btn btn-secondary">
-                      <input type="radio" name="tipAmountOptions" id="tipAmount10" value="10" >
-                        10
-                    </label>
-                    <label class="btn btn-secondary">
-                      <input type="radio" name="tipAmountOptions" id="tipAmount25" value="25" >
-                        25
-                    </label>
-                    <label class="btn btn-secondary">
-                      <input type="radio" name="tipAmountOptions" id="tipAmount50" value="50" >
-                        50
-                      </label>
-                    <label class="btn btn-secondary d-none d-sm-block">
-                      <input type="radio" name="tipAmountOptions" id="tipAmount100" value="100" >
-                        100
-                    </label>
-                  </div>
-
-                  <div class="input-group-append mr-2 ">
-                    <div class="btn-group "  role="group" style="height:38px" >
-                    <button class="btn btn-primary border-0" type="submit">Send Tip</button>
-                    <button class="btn btn-primary border-0 collapsed" id="tip-toggle"  data-toggle="collapse"  data-target="#tip-form" type="button"><span title="Tip Options"></span></button>
-                  </div>
-                </div>
-                </div>
-
-
-                <div class="collapse" id="tip-form" >
-                  <div class="input-group w-75">
-                    <div class="w-25" id="tip-value">
-                    <input type="number" class="form-control"   min="1" max="10000"  value="50">
-                    </div>
-                    <input type="text"  autocomplete="off" class="form-control"  placeholder="Include an optional chat note">
-                      <span class="input-group-append">
-                        <button class="btn btn-primary" type="submit">Send Tip</button>
-                      </span>
-                  </div>
-                </div>
-
-              </div>
-          {{/if}}
         </div>
         <div class="card-body p-0" >
           <img src="/testimg.jpg"  class="img-responsive center-block" alt="default user video" width="100%">
@@ -109,16 +33,7 @@
             <div class="row m-0">
               <div class="col-8">
 
-                <h4 id="gameHeading">Play 8 Ball Pool</h4>
 
-                <b>If you win:</b> Pizza!
-                <br>
-                <b>Consolation Prize:</b> No Pizza :(
-                <br>
-                <b>Entry Fee:</b> 100Cr
-                <br>
-                <b>Number of Players:</b> 2
-                <br>
 
 
                   <button class="btn btn-primary mt-1" title="Play Game">Play Game</button>
@@ -136,10 +51,8 @@
       </div>
       <div class="col-12 col-sm-6 p-0" >
         <div class="well" id="photo-gallery">
-          {{#if session.isAuthenticated}}
-
           <a align="right" class="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal"><span title="Edit Photos" class="fa fa-edit" aria-hidden="true"></span></a>
-          {{/if}}
+
 
           <br>
           {{#each model as |photo|}}
@@ -153,14 +66,13 @@
 
   <div class="row m-0">
             <div class="col-12 p-0">
-              <div class="well">
-                {{#if session.isAuthenticated}}
+              <div class="well" id="viewProfileCollapse">
 
-          <a align="right" class="edit-links" role="button" data-toggle="modal" data-target="#editProfileModal"><span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span></a>
-          {{/if}}
+                <a align="right" class="edit-links" role="button" data-toggle="collapse" data-target="#editProfileCollapse"><span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span></a>
+
                <h4>About Me:</h4>
                {{displayAboutMe}}
-  <br>
+                <br>
                 <br>
                 <label >Age:</label>
                 {{displayAge}}
@@ -186,115 +98,98 @@
                         {{/tag-input}}
                 </div>
               </div>
-            </div>
-      </div>
-  {{#if session.isAuthenticated}}
+              <div class="collapse well" id="editProfileCollapse">
 
-      <div class="editProfileModal modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
 
-                      <h4 class="modal-title">
-                          Edit Public Profile
-                      </h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-               </button>
 
-            </div>
 
-              <form autocomplete="off"{{action "submitProfileSettings" on="submit"}}>
+                <form autocomplete="off"{{action "submitProfileSettings" on="submit"}}>
 
-                <div class="modal-body">
-              {{#if loginState.broadcaster}}
-                <div class="form-group">
-                  <label for="inputaboutme">About Me</label>
-                  {{textarea  rows="5" class="form-control" value=inputaboutme placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
-                </div>
-                {{else if loginState.developer}}
-                <div class="form-group">
-                  <label for="inputaboutme">About Me</label>
-                  {{textarea   class="form-control" value=inputaboutme placeholder="A little about yourselfand your games"}}
-                </div>
-                {{else}}
-                    <div class="form-group">
-                      <label for="inputaboutme">About Me</label>
-                      {{textarea   class="form-control" value=inputaboutme placeholder="A little about yourself, your favorite games etc."}}
-                    </div>
-                {{/if}}
-
-                <div class="form-group">
-                  <label for="inputsex">Sex</label>
-                  <br>
-                  <div class="form-check form-check-inline">
-                    {{radio-button value='Female' id="inputSexFemale" name=inputSex checked=inputSex}}
-                    <label class="form-check-label" for="inputSex">Female</label>
-                  </div>
-
-                  <div class="form-check form-check-inline">
-                    {{radio-button value='Male' id="inputSexMale" name=inputSex checked=inputSex}}
-                    <label class="form-check-label" for="inputSex">Male</label>
-                  </div>
-
-                  <div class="form-check form-check-inline">
-                    {{radio-button value='Other' id="inputSexOther" checked=inputSex}}
-                    <div {{action "checkOtherSex"}}>
-                    {{input type="text" class="form-control" value=otherSexText }}
-                    </div>
-                  </div>
-
-                </div>
-
-              <div class="form-group">
-                <label for="inputlocation">Location</label>
-                {{input type="text" class="form-control" value=inputlocation placeholder="Your general location" }}
-
-              </div>
-              <div class="form-group">
-                <label for="inputLanguages">Languages</label>
-                {{input type="text" class="form-control" value=inputLanguages placeholder="I can speak..." }}
-
-              </div>
-              <div class="form-group">
-                <label for="inputAge">Age</label>
-                {{input type="number" min="18"   step="1" class="form-control" value=inputAge  }}
-
-              </div>
-
+                  <div class="modal-body">
                 {{#if loginState.broadcaster}}
-
-                <div class="form-group">
-                  <label >Tags (choose up to 15)</label>
-
-                  {{#tag-input
-                      tags=tags
-                      addTag=(action 'addTag')
-                      removeTagAtIndex=(action 'removeTagAtIndex')
-                      as |tag|
-                    }}
-                      {{tag}}
-                    {{/tag-input}}
+                  <div class="form-group">
+                    <label for="inputaboutme">About Me</label>
+                    {{textarea  rows="5" class="form-control" value=inputaboutme placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
                   </div>
+                  {{else if loginState.developer}}
+                  <div class="form-group">
+                    <label for="inputaboutme">About Me</label>
+                    {{textarea   class="form-control" value=inputaboutme placeholder="A little about yourselfand your games"}}
+                  </div>
+                  {{else}}
+                      <div class="form-group">
+                        <label for="inputaboutme">About Me</label>
+                        {{textarea   class="form-control" value=inputaboutme placeholder="A little about yourself, your favorite games etc."}}
+                      </div>
                   {{/if}}
 
-        <br>
+                  <div class="form-group">
+                    <label for="inputsex">Sex</label>
+                    <br>
+                    <div class="form-check form-check-inline">
+                      {{radio-button value='Female' id="inputSexFemale" name=inputSex checked=inputSex}}
+                      <label class="form-check-label" for="inputSex">Female</label>
+                    </div>
 
+                    <div class="form-check form-check-inline">
+                      {{radio-button value='Male' id="inputSexMale" name=inputSex checked=inputSex}}
+                      <label class="form-check-label" for="inputSex">Male</label>
+                    </div>
 
+                    <div class="form-check form-check-inline">
+                      {{radio-button value='Other' id="inputSexOther" checked=inputSex}}
+                      <div {{action "checkOtherSex"}}>
+                      {{input type="text" class="form-control" value=otherSexText }}
+                      </div>
+                    </div>
 
-                  <button  data-dismiss="modal" class="btn btn-link">Cancel</button>
-                  <div class="float-right">
-                    <button type="submit" class="btn btn-primary" id="profileSettingSubmit">Save</button>
                   </div>
-                  <br>
+
+                <div class="form-group">
+                  <label for="inputlocation">Location</label>
+                  {{input type="text" class="form-control" value=inputlocation placeholder="Your general location" }}
+
                 </div>
-            </form>
+                <div class="form-group">
+                  <label for="inputLanguages">Languages</label>
+                  {{input type="text" class="form-control" value=inputLanguages placeholder="I can speak..." }}
 
+                </div>
+                <div class="form-group">
+                  <label for="inputAge">Age</label>
+                  {{input type="number" min="13"   step="1" class="form-control" value=inputAge  }}
 
+                </div>
 
-          </div>
-        </div>
+                  {{#if loginState.broadcaster}}
+
+                  <div class="form-group">
+                    <label >Tags (choose up to 15)</label>
+
+                    {{#tag-input
+                        tags=tags
+                        addTag=(action 'addTag')
+                        removeTagAtIndex=(action 'removeTagAtIndex')
+                        as |tag|
+                      }}
+                        {{tag}}
+                      {{/tag-input}}
+                    </div>
+                    {{/if}}
+
+          <br>
+
+                    <div class="float-right">
+                      <button type="submit" class="btn btn-primary" id="profileSettingSubmit">Save</button>
+                    </div>
+                    <br>
+                  </div>
+              </form>
+
+              </div>
+
+            </div>
       </div>
-{{/if}}
+
 
 {{outlet}}

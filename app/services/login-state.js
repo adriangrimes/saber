@@ -13,7 +13,7 @@ export default Service.extend({
   username: '',
   broadcaster: false,
   developer: false,
-  affiliate: true,
+  affiliate: false,
   adminStatus: false,
   darkMode: false,
   isContracted: computed('broadcaster', 'developer', 'affiliate', function() {

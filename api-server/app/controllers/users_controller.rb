@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   respond_to :jsonapi
-  
+
 
   # GET all /users
   def index

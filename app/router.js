@@ -46,6 +46,10 @@ Router.map(function() {
   });
   this.route('home');
   this.route('login');
+  this.route('g', {
+//    path: 'p/:game_id'
+  });
+
 });
 
 export default Router;

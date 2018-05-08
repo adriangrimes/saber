@@ -1,2 +1,172 @@
+
+{{edit-photos}}
+  <div class="row m-0">
+    <div class ="col-12" >
+
+        <h2 class="pb-2">
+          {{model.username}}  <button class="btn btn-primary collapsed" data-toggle="collapse"  data-target="#share-form" ><span title="Share this profile"  class="fa fa-share-alt"  aria-hidden="true" ></span></button>
+        </h2>
+        <div class="collapse pb-4 " id="share-form" >
+          <!-- Share Profile Menu -->
+
+            <h4> Share this profile:
+               <a href="https://twitter.com/intent/tweet?text=Check+out+{{model.username}}+at+https://saber.tv/p/{{model.user_id}}" target="_blank" class="btn btn-primary" title="Tweet"><span class="fa fa-twitter"></span></a>
+               <a href="http://www.reddit.com/submit?url=https://saber.tv/p/{{model.user_id}}&title=Check+out+{{model.username}}+Live%21" target="_blank"  class="btn btn-primary" title="Reddit" style="margin-left:10px;margin-right:10px" ><span class="fa fa-reddit-alien"></span></a>
+               <a href="http://www.tumblr.com/share/link?url=https://saber.tv/p/{{model.user_id}}" target="_blank" class="btn btn-primary" title="Tumblr" ><span class="fa fa-tumblr px-1"></span></a>
+            </h4>
+            <div class="input-group w-50">
+               <input type="text" autocomplete="off" class="form-control " value="https://saber.tv/p/{{model.user_id}}">
+               <div class="input-group-append">
+                 <button class="btn btn-primary btn-sm" type="button"><span class="fa fa-link"></span></button>
+               </div>
+            </div>
+
+
+        </div>
+      </div>
+
+  </div>
+      <!--- Video and Chat Panels -->
+  <div class="row m-0 mb-4">
+    <div class="col-12 col-sm-8 p-0 m-0"  id="videoWindow">
+      <div class="card   video-panel">
+        <div class="profile-controls pt-2">
+
+              {{#if isFavorite}}
+                <button type="button" class="btn btn-link pl-4"> <span  title="Remove From Favorites" class=" profile-links fa fa-heart"{{action "toggleFav" model.user_id}}></span></button>
+              {{else}}
+                <button type="button" class="btn btn-link pl-4">  <span  title="Add to Favorites" class=" profile-links fa fa-heart-o" {{action "toggleFav" model.user_id}}></span></button>
+              {{/if}}
+
+
+
+
+              <button type="button" class="btn btn-link">  <span title="Send Message" class=" profile-links fa fa-envelope" ></span></button>
+              <div class="w-75  " id="simple-tip-form" >
+                <form>
+                <div class="input-group justify-content-end">
+                 <div class="input-group-prepend">
+                    <label class="btn btn-secondary">
+                      {{radio-button value='10' id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
+                        10
+                    </label>
+                    <label class="btn btn-secondary">
+                      {{radio-button value='25' id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
+                        25
+                    </label>
+                    <label class="btn btn-secondary">
+                      {{radio-button value='50' id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
+                        50
+                      </label>
+                    <label class="btn btn-secondary d-none d-sm-block">
+                      {{radio-button value='100' id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
+                        100
+                    </label>
+                  </div>
+
+                  <div class="input-group-append mr-2 ">
+                    <div class="btn-group "  role="group" style="height:38px" >
+                    <button class="btn btn-primary border-0" {{action "sendTip" }}>Send Tip</button>
+                    <button class="btn btn-primary border-0 collapsed" id="tip-toggle"  data-toggle="collapse"  data-target="#tip-form" type="button"><span title="Tip Options"></span></button>
+                  </div>
+                </div>
+                </div>
+
+
+                <div class="collapse" id="tip-form" >
+                  <div class="input-group w-75">
+                    <div class="w-25" id="tip-value">
+                      {{input type="number" class="form-control" min="1" max="10000" value=tipAmountOptions placeholder="Amount" }}
+                    </div>
+                    {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Include an optional chat note" }}
+                      <span class="input-group-append">
+                        <button class="btn btn-primary"  {{action "sendTip" }}>Send Tip</button>
+                      </span>
+                  </div>
+                </div>
+              </form>
+              </div>
+
+        </div>
+        <div class="card-body p-0" >
+          <img src="/testimg.jpg"  class="img-responsive center-block" alt="default user video" width="100%">
+        </div>
+      </div>
+    </div>
+    <!-- Chat Window -->
+    <div class="col-12 col-sm-4 p-0 " id="chatWindow">
+      {{chat-component userJoined=model.username idJoined=model.userID}}
+    </div>
+</div>
+
+  <div class="row m-0 mb-4">
+      <div class="col-12 col-sm-6  p-0" >
+        <div class="card   game-panel" >
+          <div class="card-body p-1" id="game-Window">
+            <div class="row m-0">
+              <div class="col-8">
+
+
+
+                  <button class="btn btn-primary mt-1" title="Play Game">Play Game</button>
+
+              </div>
+              <div class="col-4">
+                <img src="/usericon.svg"  class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+                <div class="text-right" id="suggest-game-button">
+                  <a class="btn btn-link" title="Suggest Game" role="button">Suggest Game</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 p-0" >
+        <div class="well" id="photo-gallery">
+
+          <br>
+          {{#each model as |photo|}}
+            <img src="{{photo.photo}}" height="100" width="100">
+
+          {{/each}}
+        </div>
+      </div>
+  </div>
+
+
+  <div class="row m-0">
+            <div class="col-12 p-0">
+              <div class="well">
+
+               <h4>About Me:</h4>
+               {{model.profileAboutMe}}
+  <br>
+                <br>
+                <label >Age:</label>
+                {{model.profileAge}}
+                <br>
+                <label >Sex:</label>
+               {{model.profileSex}}
+                <br>
+              <label >Location:</label>
+                {{model.profileLocation}}
+                <br>
+                <label >Languages:</label>
+                {{model.profileLanguages}}
+                <br>
+
+                <div class="form-group">
+                    <label >Tags:</label>
+                      {{#tag-input
+                          tags=tags
+                          readOnly=true
+                          as |tag|
+                        }}
+                          {{tag}}
+                        {{/tag-input}}
+                </div>
+              </div>
+            </div>
+      </div>
+
 {{outlet}}
-<h3>This is profile {{profile.username}}</h3>

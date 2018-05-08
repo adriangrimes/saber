@@ -19,9 +19,7 @@ export default Controller.extend({
 
 
   actions: {
-    toggleFav(){
-      this.toggleProperty('isFavorite');
-    },
+  
     addTag(tag) {
       if (this.tags.length < 15){
         this.tags.pushObject(tag);

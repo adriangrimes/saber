@@ -3,8 +3,8 @@ import { inject as service } from '@ember/service';
 import $ from 'jquery';
 
 // use the prompt code instead of hard coded variables to enter the username or id at the launch of the webpage.
-var thisUserName = "testUser"; // prompt('user name:');
-var userID = 111;// prompt('user ID:');
+var thisUserName = ''; // prompt('user name:');
+var userID = '';// prompt('user ID:');
 var messageLimitTime = 5000;
 var messageLimitNumber = 2;
 var isSlowChat = false;
@@ -13,6 +13,23 @@ var recentMessages = 0;
 
 export default Component.extend({
   websockets: service(),
+
+
+  //sets up websockets
+  init: function() {
+    this._super();
+
+    this.set('thisUserName', this.get('userJoined'));
+    this.set('userID', this.get('idJoined'));
+
+    var socket = this.get('websockets').socketFor('ws://localhost:7000/');
+    socket.on('open', this.myOpenHandler, this);
+    socket.on('message', this.myMessageHandler, this);
+    socket.on('close', this.myCloseHandler, this);
+  },
+
+
+
   actions:{
         submitmsg(){
           var clientmsg = this.$("#usermsg").val();
@@ -20,9 +37,7 @@ export default Component.extend({
           console.log(clientmsg);
           return false;
         },
-        setupController: function(controller, model) {
-          controller.set('user', model);
-        },
+
         // user wants to send a message so...
         sendUserMessage: function() {
           var currentTime = Date.now();
@@ -54,7 +69,7 @@ export default Component.extend({
             }
           }
         },
-      
+
         // switches between the 3 tabs at the top of the chat panel
         openChatTab: function() {
           $(this).tab('show');
@@ -62,16 +77,7 @@ export default Component.extend({
       },
 
 
-        //sets up websockets
-        init: function() {
-          this._super();
 
-
-          var socket = this.get('websockets').socketFor('ws://localhost:7000/');
-          socket.on('open', this.myOpenHandler, this);
-          socket.on('message', this.myMessageHandler, this);
-          socket.on('close', this.myCloseHandler, this);
-        },
         myOpenHandler: function(/*event*/) {
 
           //This message shown on entering the chat room
@@ -81,8 +87,8 @@ export default Component.extend({
           var socket = this.get('websockets').socketFor('ws://localhost:7000/');
           var nameToBroadcast = JSON.stringify({
             type: "userName",
-            chatUserName: thisUserName,
-            userID: userID
+            chatUserName: this.get('thisUserName'),
+            userID: this.get('userID'),
           });
 
             socket.send(nameToBroadcast);

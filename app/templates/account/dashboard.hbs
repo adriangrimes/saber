@@ -1,5 +1,5 @@
 
-  {{#if loginState.devCaster}}
+  {{#if loginState.isContracted}}
   <div class="row m-0">
     <div class="col mb-2">
       <h2>Your Dashboard</h2>
@@ -33,17 +33,10 @@
                   <a   href="/help" class=" w-100 btn btn-secondary "  ><span class="fa fa-question"></span> <br/>Help</a>
                 </div>
               </div>
-              <div class="row">
-                <div class="col  p-1 mb-2">
-                  <a    href="#" class=" w-100 btn btn-secondary "  ><span class="fa fa-bar-chart"></span> <br/>Earnings</a>
-                </div>
-                <div class="col  p-1 mb-2">
-                  <a   href="#" class=" w-100 btn btn-secondary "  ><span class="fa fa-bullhorn"></span> <br/>Referals</a>
-                </div>
-              </div>
+
 
     </div>
-  {{#if loginState.devCaster}}
+  {{#if loginState.isContracted}}
   <div class="col-xs-12 col-md-8 order-md-1">
 
     {{#if loginState.broadcaster}}
