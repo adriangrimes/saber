@@ -14,7 +14,7 @@
       {{#if session.isAuthenticated}}
             <li><button class=" btn btn-outline-light border-0 px-2 mx-1"  data-toggle="modal" data-target="#buyCreditsModal" >  <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></button></li>
              <li><a class="    btn btn-outline-light border-0 px-1 mx-1"  href="/games" ><i title="Games" class="fa fa-gamepad" aria-hidden="true"></i></a></li>
-             {{#if loginState.devCaster}}
+             {{#if loginState.isContracted}}
                 <li><a class="  btn btn-outline-light border-0 px-2 mx-1" href="/account/dashboard"> <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i></a></li>
              {{else}}
                 <li><a class="   btn btn-outline-light border-0 px-2 mx-1" href="/account"> <i title="My Account" class="fa fa-user" aria-hidden="true"></i></a></li>
@@ -31,10 +31,10 @@
                <ul class="dropdown-menu position-absolute dropdown-menu-right" >
                  <div class="dropdown-item dropdown-header">Hi <strong>{{session.data.authenticated.username}}</strong></div>
                  <a class="dropdown-item" href="/account/messages">Messages&nbsp;&nbsp;<span class="badge badge-dark badge-pill">42</span></a>
-                 {{#if loginState.devCaster}}
+                 {{#if loginState.isContracted}}
                  <a class="dropdown-item" href="/account/dashboard">Dashboard</a>
                  {{/if}}
-                 <a class="dropdown-item"href="/profile/{{loginState.username}}">Profile</a>
+                 <a class="dropdown-item"href="/profile">Edit Profile</a>
                  <a  class="dropdown-item" href="/account">Account Settings</a>
                  <a class="dropdown-item"href="/games">Games</a>
                  <div class="dropdown-divider"></div>
@@ -47,7 +47,7 @@
        </ul>
 
          {{else}}
-           <a id="login-button" class="btn d-block mr-1" role="button" data-toggle="modal" data-target="#loginModal"  aria-expanded="false" >Log In</a>
+           <a id="login-button" class="btn d-block mr-1 mt-1 mt-sm-0" role="button" data-toggle="modal" data-target="#loginModal"  aria-expanded="false" >Log In</a>
 
          {{/if}}
 </nav>

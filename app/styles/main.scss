@@ -4,7 +4,7 @@
 }
 
 //////////////////////generic classes
-
+///////////// Extra Small Screens, Optimizing for 320px and up.
 
 .large-glyphicon{
   font-size: 75px;
@@ -13,7 +13,6 @@
 {
    clear: both;
 }
-
 
 html {
   position: relative;
@@ -51,6 +50,9 @@ body {
 #streamKeyDisplayID{
  height: 8rem;
 }
+#usernameDisplay{
+  overflow: hidden;
+}
 
 .userTypeBadges{
   font-size: 12px;
@@ -77,6 +79,8 @@ width: 100%;
   background-color: #bbbbbb;
 }
 /////Buttons
+
+
 #scrollToTopBtn{
   color: #999999;
   position: fixed;
@@ -347,7 +351,7 @@ text-align: right;
   font-size:24px;
   height: 44px;
 }
-#profile-links:hover, #profile-links:active, #profile-links:focus{
+.profile-links:hover, #profile-links:active, #profile-links:focus{
   color: #ef0202;
 
 }
@@ -368,19 +372,7 @@ text-align: right;
   padding-right:9px;
 }
 
-#tip-toggle:after{
-  /* symbol for "opening" panels */
-  font-family:'FontAwesome';
-  /* essential for enabling glyphicon */
-  content:"\f078";
-  font-size: 12px;
 
-
-}
-#tip-toggle.collapsed:after{
-  content:"\f054";
-
-}
 #creditSelect{
   padding:20px;
   font-size:18px;
@@ -391,7 +383,6 @@ text-align: right;
    font-size:18px;
   }
   #game-window{
-        height: 190px;
   }
     #photo-gallery{
       overflow-x: auto;
@@ -403,18 +394,7 @@ text-align: right;
 
     }
 
-  #simple-tip-form{
-    float:right;
-  }
-  #tip-form{
-    position: absolute;
-    padding-top: 20px;
-    width: 96%;
-    -webkit-transition: height .1s ease;
-    -o-transition: height .1s ease;
-    transition: height .1s ease;
 
-  }
   #gameHeading{
     margin-top:0px;
     margin-bottom: 10px;
@@ -431,12 +411,15 @@ text-align: right;
   }
 
 
-  .game-panel{
-    height: 190px;
-  }
   .profile-controls{
-    min-height: 54px;
+    height:  46px;
     background-color: #bcbcbc;
+  }
+  .profile-buttons{
+  height:38px;
+  }
+  .large-controls{
+    height: 92px;
   }
 
   //////////////////////////////////Private Messenger Classes
@@ -578,6 +561,9 @@ text-align: right;
   #streamKeyDisplayID{
    height: 4rem;
   }
+  .large-controls{
+    height: 46px;
+  }
 
   .delete-account-btn{
     margin-top: 12rem;
@@ -621,9 +607,7 @@ text-align: right;
   #splash-email-input{
     width: 50%;
   }
-  #tip-value{
-    padding-left: 7px;
-  }
+
   .broadcaster-avatar{
     max-height: 123px;
   }
@@ -661,15 +645,15 @@ text-align: right;
 
 
 .chat-body{
-  height:334px;
+  height:326px;
 
 }
 .users-body{
-  height:372px;
+  height:364px;
 
 }
 .chat-panel{
-  height: 339px;
+  height: 331px;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   border-left-style: none;
@@ -682,7 +666,7 @@ text-align: right;
 }
 
 .video-panel{
-    height: 410px;
+    height: 406px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
     border:0px;

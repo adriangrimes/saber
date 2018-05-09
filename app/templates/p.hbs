@@ -1,144 +1,180 @@
 
 {{edit-photos}}
   <div class="row m-0">
-    <div class ="col-12" >
+    <div class ="col-xs-12 col-md-6" >
+        <h4  id="usernameDisplay">
+          xXxGlitterSparklesWooopxXx
+        </h4>
+   </div>
+    <div class="col-xs-12 col-md-6 d-flex justify-content-end">
+        <div class="btn-group">
+         <button type="button" class="btn btn-link  collapsed"   data-toggle="collapse"  data-target="#share-form,#share-form2"><span title="Open Share Form"  class=" profile-links fa fa-share-alt"></span></button>
+         {{#if isFavorite}}
+           <button type="button" class="btn btn-link pl-2"> <span  title="Remove From Favorites" class=" profile-links fa fa-heart"{{action "toggleFav" model.user_id}}></span></button>
+         {{else}}
+         <button type="button" class="btn btn-link pl-2">  <span  title="Add to Favorites" class=" profile-links fa fa-heart-o" {{action "toggleFav" model.user_id}}></span></button>
+         {{/if}}
+         <button type="button" class="btn btn-link">  <span title="Send Message" class=" profile-links fa fa-envelope" ></span></button>
+       </div>
+    </div>
 
-        <h2 class="pb-2">
-          {{model.username}}  <button class="btn btn-primary collapsed" data-toggle="collapse"  data-target="#share-form" ><span title="Share this profile"  class="fa fa-share-alt"  aria-hidden="true" ></span></button>
-        </h2>
-        <div class="collapse pb-4 " id="share-form" >
+  </div>
+  <div class="row m-0 collapse px-2" id="share-form">
+        <div class="col-xs-12 col-sm-8  px-0 pb-3">
           <!-- Share Profile Menu -->
+          <div class="input-group justify-content-end">
 
-            <h4> Share this profile:
-               <a href="https://twitter.com/intent/tweet?text=Check+out+{{model.username}}+at+https://saber.tv/p/{{model.user_id}}" target="_blank" class="btn btn-primary" title="Tweet"><span class="fa fa-twitter"></span></a>
-               <a href="http://www.reddit.com/submit?url=https://saber.tv/p/{{model.user_id}}&title=Check+out+{{model.username}}+Live%21" target="_blank"  class="btn btn-primary" title="Reddit" style="margin-left:10px;margin-right:10px" ><span class="fa fa-reddit-alien"></span></a>
-               <a href="http://www.tumblr.com/share/link?url=https://saber.tv/p/{{model.user_id}}" target="_blank" class="btn btn-primary" title="Tumblr" ><span class="fa fa-tumblr px-1"></span></a>
-            </h4>
-            <div class="input-group w-50">
-               <input type="text" autocomplete="off" class="form-control " value="https://saber.tv/p/{{model.user_id}}">
-               <div class="input-group-append">
-                 <button class="btn btn-primary btn-sm" type="button"><span class="fa fa-link"></span></button>
-               </div>
+            <h6 class="pr-2 pt-2"> Share this profile:</h6>
+            <div class="btn-group " role="group" >
+              <a href="https://twitter.com/intent/tweet?text=Check+out+{{model.username}}+at+https://saber.tv/p/{{model.user_id}}" target="_blank" class="btn btn-primary" title="Twitter"><span class="fa fa-twitter"></span></a>
+              <a href="http://www.reddit.com/submit?url=https://saber.tv/p/{{model.user_id}}&title=Check+out+{{model.username}}+Live%21" target="_blank"  class="btn btn-primary" title="Reddit"  ><span class="fa fa-reddit-alien"></span></a>
+              <a href="http://www.tumblr.com/share/link?url=https://saber.tv/p/{{model.user_id}}" target="_blank" class="btn btn-primary" title="Tumblr" ><span class="fa fa-tumblr px-1"></span></a>
             </div>
-
-
         </div>
       </div>
-
+      <div class="col-xs-12 col-sm-4  pr-0 pb-3">
+          <div class="input-group w-100" {{action "copyUrlToClipboard"}}>
+             <input type="text" autocomplete="off" class="form-control " id="urlDisplay" value="https://saber.tv/p/{{model.user_id}}">
+             <div class="input-group-append">
+               <button class="btn btn-primary btn-sm" type="button"><span id="copyUrlBtn" class="fa fa-link"></span></button>
+             </div>
+          </div>
+      </div>
   </div>
       <!--- Video and Chat Panels -->
   <div class="row m-0 mb-4">
-    <div class="col-12 col-sm-8 p-0 m-0"  id="videoWindow">
+    <div class="col-12 col-sm-8 p-0 m-0 mb-2"  id="videoWindow">
       <div class="card   video-panel">
-        <div class="profile-controls pt-2">
-
-              {{#if isFavorite}}
-                <button type="button" class="btn btn-link pl-4"> <span  title="Remove From Favorites" class=" profile-links fa fa-heart"{{action "toggleFav" model.user_id}}></span></button>
-              {{else}}
-                <button type="button" class="btn btn-link pl-4">  <span  title="Add to Favorites" class=" profile-links fa fa-heart-o" {{action "toggleFav" model.user_id}}></span></button>
-              {{/if}}
-
-
-
-
-              <button type="button" class="btn btn-link">  <span title="Send Message" class=" profile-links fa fa-envelope" ></span></button>
-              <div class="w-75  " id="simple-tip-form" >
-                <form>
-                <div class="input-group justify-content-end">
-                 <div class="input-group-prepend">
-                    <label class="btn btn-secondary">
-                      {{radio-button value='10' id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
-                        10
-                    </label>
-                    <label class="btn btn-secondary">
-                      {{radio-button value='25' id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
-                        25
-                    </label>
-                    <label class="btn btn-secondary">
-                      {{radio-button value='50' id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
-                        50
-                      </label>
-                    <label class="btn btn-secondary d-none d-sm-block">
-                      {{radio-button value='100' id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
-                        100
-                    </label>
-                  </div>
-
-                  <div class="input-group-append mr-2 ">
-                    <div class="btn-group "  role="group" style="height:38px" >
-                    <button class="btn btn-primary border-0" {{action "sendTip" }}>Send Tip</button>
-                    <button class="btn btn-primary border-0 collapsed" id="tip-toggle"  data-toggle="collapse"  data-target="#tip-form" type="button"><span title="Tip Options"></span></button>
-                  </div>
-                </div>
-                </div>
-
-
-                <div class="collapse" id="tip-form" >
-                  <div class="input-group w-75">
-                    <div class="w-25" id="tip-value">
-                      {{input type="number" class="form-control" min="1" max="10000" value=tipAmountOptions placeholder="Amount" }}
-                    </div>
-                    {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Include an optional chat note" }}
-                      <span class="input-group-append">
-                        <button class="btn btn-primary"  {{action "sendTip" }}>Send Tip</button>
-                      </span>
-                  </div>
-                </div>
-              </form>
-              </div>
-
-        </div>
         <div class="card-body p-0" >
           <img src="/testimg.jpg"  class="img-responsive center-block" alt="default user video" width="100%">
         </div>
+        <div class="profile-controls pt-1" id="profileControls">
+
+              <div class="btn-toolbar justify-content-between" role="toolbar" >
+
+                      <div class="input-group  d-flex " id="simple-tip-form">
+
+                        <div class="input-group-prepend " >
+                          <button class="btn btn-dark border-0 px-0 profile-buttons"  type="button"  title="Tip Options" {{action "tipToggle"}}><span class="fa fa-bars" id="tip-toggle" ></span></button>
+
+                           <label class="btn btn-dark px-2">
+                             {{radio-button value=10 id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
+                               10
+                           </label>
+                           <label class="btn btn-dark px-2 d-none d-sm-block ">
+                             {{radio-button value=25 id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
+                               25
+                           </label>
+                           <label class="btn btn-dark px-2">
+                             {{radio-button value=50 id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
+                               50
+                             </label>
+                           <label class="btn btn-dark  px-2 d-none d-sm-block">
+                             {{radio-button value=100 id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
+                               100
+                           </label>
+                              </div>
+                           <div class="input-group-append mr-1 profile-buttons"   >
+                             <button class="btn btn-primary border-0" {{action "confirmTip" }}>Tip</button>
+                         </div>
+
+                    </div>
+
+                  <div class=" justify-content-end d-none pt-2 pt-sm-0 pb-2" id="tip-form" >
+                    <button class="btn btn-dark border-0 px-0 ml-1 profile-buttons"  type="button"  title="Tip Options" {{action "tipToggle"}}><span class="fa fa-bars" id="tip-toggle" ></span></button>
+
+                      <div style="width:130px" >
+                        {{input type="number" class="form-control" min="1" max="10000" value=tipAmountOptions }}
+                      </div>
+                      <div class="w-75" >
+                      {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Chat note (optional)" }}
+                      </div>
+                      <div class="input-group-append mr-1 ">
+                        <div class="btn-group profile-buttons"  role="group" >
+                          <button class="btn btn-primary border-0" {{action "confirmTip" }}>Tip</button>
+                        </div>
+                      </div>
+                </div>
+                <div class=" justify-content-end d-none pt-1 pt-sm-0 pb-2 mr-1 float-right" id="confirm-tip-form" >
+                  <h5 class="pt-1 pr-2"> Tip {{tipAmountOptions}}<span class="fa fa-database" ></span> ?</h5>
+                  <button class="btn btn-success border-0 mr-2" {{action "sendTip" }}><span class="fa fa-check"></span></button>
+                  <button class="btn btn-danger border-0 " {{action "cancelTip" }}><span class="fa fa-times"></span></button>
+
+                </div>
+              </div>
+
+        </div>
       </div>
+
     </div>
     <!-- Chat Window -->
     <div class="col-12 col-sm-4 p-0 " id="chatWindow">
       {{chat-component userJoined=model.username idJoined=model.userID}}
     </div>
+
+
+
 </div>
 
   <div class="row m-0 mb-4">
-      <div class="col-12 col-sm-6  p-0" >
-        <div class="card   game-panel" >
+      <div class="col-12 col-md-6  p-0" >
+        <div class="card game-panel " >
           <div class="card-body p-1" id="game-Window">
             <div class="row m-0">
-              <div class="col-8">
+              <div class="col-xs-12 col-sm-8 px-2">
+
+                      <button class="btn btn-primary float-right mt-1 d-block d-sm-none" title="Join Game"{{action "joinGame" }}>Join Game</button>
 
 
 
-                  <button class="btn btn-primary mt-1" title="Play Game">Play Game</button>
+                <h4 id="gameHeading">8 Ball Pool</h4>
+                <b>If you win:</b> Pizza!
+                <br>
+                <b>Consolation Prize:</b> No Pizza :(
+                <br>
+                <b>Entry Fee:</b> 100Cr
+                <br>
+                <b>Number of Players:</b> 2
+                <br>
 
               </div>
-              <div class="col-4">
-                <img src="/usericon.svg"  class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
-                <div class="text-right" id="suggest-game-button">
-                  <a class="btn btn-link" title="Suggest Game" role="button">Suggest Game</a>
-                </div>
+              <div class="col-xs-12 col-sm-4">
+                <img src="/usericon.svg"  class="center-block" title="Click to view rules and controls" alt="Game Icon" style="width:100%;max-width:300px">
               </div>
+            </div>
+            <div class="row m-0 ">
+              <div class="col-12 d-flex">
+                <a class="btn btn-link btn-block" title="Suggest Game" role="button">Suggest Game</a>
+
+                  <button class="btn btn-primary ml-auto mt-1 d-none d-sm-block" title="Play Game">Play Game</button>
+
+              </div>
+
             </div>
           </div>
         </div>
       </div>
-      <div class="col-12 col-sm-6 p-0" >
-        <div class="well" id="photo-gallery">
+      <div class="col-12 col-md-6 p-0" >
+        <div  id="photo-gallery">
 
           <br>
-          {{#each model as |photo|}}
-            <img src="{{photo.photo}}" height="100" width="100">
-
-          {{/each}}
+            <img src="/usericon.svg" height="100" width="100">
+            <img src="/usericon.svg" height="100" width="100">
+            <img src="/usericon.svg" height="100" width="100">
+            <img src="/usericon.svg" height="100" width="100">
+            <img src="/usericon.svg" height="100" width="100">
+            <img src="/usericon.svg" height="100" width="100">
+            <img src="/usericon.svg" height="100" width="100">
         </div>
       </div>
   </div>
 
 
   <div class="row m-0">
-            <div class="col-12 p-0">
-              <div class="well">
+            <div class="col-12 px-2">
+              <div class="">
 
-               <h4>About Me:</h4>
+               <h4>About {{model.username}}:</h4>
                {{model.profileAboutMe}}
   <br>
                 <br>
