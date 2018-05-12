@@ -11,11 +11,11 @@ Router.map(function() {
   this.route('account', function() {
     this.route('developer');
     this.route('broadcaster');
-    this.route('delete');
     this.route('messages');
     this.route('dashboard');
     this.route('manage-users');
     this.route('affiliate');
+    this.route('close');
   });
   this.route('signup', function() {
     this.route('broadcaster');

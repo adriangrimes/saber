@@ -57,7 +57,7 @@ body {
 .userTypeBadges{
   font-size: 12px;
 }
-.delete-account-btn{
+.close-account-btn{
   margin-top: 4rem;
 }
 ///// Dropdown Menu
@@ -134,7 +134,19 @@ width: 100%;
       cursor: pointer;
 }
 
-
+.text-heading.accordion-toggle:after {
+    /* symbol for "opening" cards */
+    font-family:'FontAwesome';
+    /* essential for enabling glyphicon */
+    content:"\f078";
+    position: absolute;
+    top:0px;
+    right:0px;
+}
+.text-heading.accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" cards */
+    content:"\f054";
+}
 
 
 /////////////spinny guy
@@ -565,7 +577,7 @@ text-align: right;
     height: 46px;
   }
 
-  .delete-account-btn{
+  .close-account-btn{
     margin-top: 12rem;
   }
 

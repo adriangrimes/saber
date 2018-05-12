@@ -66,10 +66,8 @@
 
   <div class="row m-0">
             <div class="col-12 p-0">
-              <div class="well" id="viewProfileCollapse">
-
-                <a align="right" class="edit-links" role="button" data-toggle="collapse" data-target="#editProfileCollapse"><span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span></a>
-
+              <div class="collapse show" id="viewProfileCollapse">
+                <a align="right" class="edit-links" role="button" data-toggle="collapse" data-target="#editProfileCollapse,#viewProfileCollapse"><span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span></a>
                <h4>About Me:</h4>
                {{displayAboutMe}}
                 <br>
@@ -98,11 +96,8 @@
                         {{/tag-input}}
                 </div>
               </div>
-              <div class="collapse well" id="editProfileCollapse">
 
-
-
-
+              <div class="collapse " id="editProfileCollapse">
                 <form autocomplete="off"{{action "submitProfileSettings" on="submit"}}>
 
                   <div class="modal-body">
@@ -178,6 +173,7 @@
                     {{/if}}
 
           <br>
+                  <a  class="btn btn-link" data-toggle="collapse" data-target="#editProfileCollapse,#viewProfileCollapse"><span title="Cancel"></span> Cancel</a>
 
                     <div class="float-right">
                       <button type="submit" class="btn btn-primary" id="profileSettingSubmit">Save</button>

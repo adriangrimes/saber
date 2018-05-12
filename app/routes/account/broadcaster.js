@@ -11,9 +11,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   setupController(controller,model) {
     this._super(controller, model);
     // Set account settings to settings pulled from db
-    controller.set('inputfirstName', model.get('firstName'));
-    controller.set('inputmiddleName', model.get('middleName'));
-    controller.set('inputlastName', model.get('lastName'));
+    controller.set('inputfullName', model.get('fullName'));
     if (model.get('birthdate') != null){
       var bday = model.get('birthdate').toString();
       var bdaystr = bday.split(" ");
@@ -34,6 +32,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.set('inputRegion', address3[1]);
       controller.set('inputZipcode', address3[2]);
      controller.set('inputCountry', address3[3]);
+      if (address3[3] == "United States"){
+     controller.set('isUSA', true)
+      }
     }
   }
 });

@@ -409,6 +409,37 @@ export default Controller.extend({
        return text.length >= 3;
      }
    },
+   setCountry(country){
+     this.set('inputCountry', country);
+     if (country =="United States"){
+       this.set('isUSA', true);
+     }else{
+       this.set('isUSA', false);
+     }
+
+   },
+   checkThis(toBeChecked){
+     $("#"+toBeChecked).prop('checked', true).change();
+
+
+   },
+   checkBitcoin(toBeChecked){
+     $("#"+toBeChecked).prop('checked', true).change();
+
+     if(toBeChecked =="inputPayoutBitcoin"){
+        this.set('payoutIsBitcoin', true);
+     }else{
+       this.set('payoutIsBitcoin', false);
+     }
+
+   },
+   showEntityMenu(){
+     console.log('is busines');
+     this.set('isBusiness', true);
+
+   },
+
+
    submitDeveloperVerification(){
 
    },

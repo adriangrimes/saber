@@ -1,0 +1,21 @@
+<div class="row m-0 pb-4">
+  <h2>Close Account</h2>
+</div>
+<div class="row m-0 pb-3">
+  <div class="col">
+  <h4>Are you sure you would like to close your account?</h4>
+
+    <div class="form-group w-50">
+      Please enter "close my account" below:
+      {{input type="text" class="form-control" value=inputCloseAccount }}
+    </div>
+  </div>
+</div>
+<div class="row m-0">
+  <div class="col">
+    <button class="btn btn-outline-dark mr-5" href="/account" ><strong>No, Go Back</strong></button>
+    <button class="btn btn-primary ml-5">Yes, Close Account</button>
+  </div>
+</div>
+
+{{outlet}}

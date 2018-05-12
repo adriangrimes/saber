@@ -175,21 +175,36 @@
               <div class="">
 
                <h4>About {{model.username}}:</h4>
-               {{model.profileAboutMe}}
-  <br>
+               {{#if noAboutMe}}
+               {{else}}
+                  {{model.profileAboutMe}}
+               {{/if}}
                 <br>
-                <label >Age:</label>
-                {{model.profileAge}}
                 <br>
-                <label >Sex:</label>
-               {{model.profileSex}}
-                <br>
-              <label >Location:</label>
-                {{model.profileLocation}}
-                <br>
+                {{#if noAge}}
+                {{else}}
+                  <label >Age:</label>
+                  {{model.profileAge}}
+                  <br>
+                {{/if}}
+                {{#if noSex}}
+                {{else}}
+                  <label >Sex:</label>
+                  {{model.profileSex}}
+                  <br>
+                {{/if}}
+                {{#if noLocation}}
+                {{else}}
+                  <label >Location:</label>
+                  {{model.profileLocation}}
+                  <br>
+                {{/if}}
+                {{#if noLanguage}}
+                {{else}}
                 <label >Languages:</label>
                 {{model.profileLanguages}}
                 <br>
+                {{/if}}
 
                 <div class="form-group">
                     <label >Tags:</label>

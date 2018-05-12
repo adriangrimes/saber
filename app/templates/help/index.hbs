@@ -1,6 +1,17 @@
 <div class="row m-0">
-  <div class="col pb-2" >
-    <h2>Help</h2>
+  <div class="col-2 pb-2 pt-1" >
+    <h2>Help {{#if loginState.isContracted}}for{{/if}}</h2> 
+  </div>
+  <div class="col-3 p-0 userTypeBadges">
+    {{#if loginState.affiliate}}
+      <div>Affiliates<span class="fa fa-bullhorn pl-1"></span></div>
+    {{/if}}
+    {{#if loginState.broadcaster}}
+      <div>Broadcasters<span class="fa fa-video-camera pl-1"></span></div>
+    {{/if}}
+    {{#if loginState.developer}}
+      <div>Developers<span class="fa fa-file-code-o pl-1"></span></div>
+    {{/if}}
   </div>
 </div>
 <div class="row m-0 " >

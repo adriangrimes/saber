@@ -14,102 +14,237 @@
         {{broadcaster-blurb}}
     </div>
     <div class="col-xs-12 col-sm-7">
+
+
+      {{#if loginState.isContracted}}
+
+      {{else}}
+      <a href="#why"><button class=" pb-2 btn btn-link float-right accordion-toggle collapsed" data-toggle="collapse" data-parent="#why" data-target="#why">Why do we collect this info?</button></a>
+
+      {{/if}}
+
+
       <form {{action "submitBroadcasterVerification" on="submit"}}>
 
       {{#if loginState.developer}}
-        <div>
+      <div class="pb-3">
+        As a developer you have already submited your payment details.<br><br>
         Upload your verification documents below to become a developer and broadcaster. <br>
+        To sign up for a separate broadcaster account log out, and then visit <a href="/signup/broadcaster">Saber.tv/signup/broadcaster</a>
       </div>
+      {{else if loginState.affiliate}}
+        <div class="pb-3">
+          As an affiliate you have already submited your payment details.<br><br>
+          Upload your verification documents below to become an affiliate and broadcaster. <br>
+          To sign up for a separate broadcaster account log out, and then visit <a href="/signup/broadcaster">Saber.tv/signup/broadcaster</a>
+        </div>
       {{else}}
 
-              <div class="form-group">
-                  <label for="inputfirstName">First Name</label>
-                    {{input type="text" class="form-control" value=inputfirstName }}
-                  </div>
-                  <div class="form-group">
-                    <label for="inputmiddleName">Middle Name</label>
-                    {{input type="text" class="form-control" value=inputmiddleName }}
-                  </div>
-                  <div class="form-group">
-                    <label for="inputlastName">Last Name</label>
-                    {{input type="text" class="form-control" value=inputlastName }}
-                  </div>
-              <label for="inputDay">Date of Birth</label>
-                  <div class="row m-0 pb-2">
-                    <div class="col">
-                      {{#power-select
-                            selected=inputMonth
-                            id="inputMonth"
-                            options=monthsList
-                            onchange=(action (mut inputMonth))
-                            oninput=(action "checkLength")
-                            as |name|}}
-                            {{name}}
-                      {{/power-select}}
-                    </div>
-                    <div class="col">
-                      {{#power-select
-                            selected=inputDay
-                            id="inputDay"
-                            options=daysList
-                            onchange=(action (mut inputDay))
-                            oninput=(action "checkLength")
-                            as |name|}}
-                            {{name}}
-                      {{/power-select}}
-
-                    </div>
-                    <div class="col">
-                      {{#power-select
-                            selected=inputYear
-                            id="inputYear"
-                            options=yearsList
-                            onchange=(action (mut inputYear))
-                            oninput=(action "checkLength")
-                            as |name|}}
-                            {{name}}
-                      {{/power-select}}
-                    </div>
+      <h5> Tax and Payment Information</h5>
 
 
+      <div class="form-group">
+          <label for="inputFullName">Full Name</label>
+            {{input type="text" class="form-control" value=inputFullName }}
+          </div>
+          <div class="form-group">
+            <label for="inputbusinessName">Business Name</label>
+            {{input type="text" class="form-control" value=inputbusinessName placeholder="optional" key-press="showEntityMenu"}}
+          </div>
+          {{#if isBusiness}}
+          <div  class="form-check pb-3">
+            <h5>Entity Type:</h5>
+            <div class="row m-0">
+              <div class="col-6">
+                {{radio-button value="IndividualSoleProprietor" id="inputEntitySole" name=inputEntityType checked=inputEntityType}}
+                <label class="form-check-label" for="inputEntitySole" {{action "checkThis" "inputEntitySole"}}>Individual / Sole Proprietor</label>
+              </div>
+              <div class="col-6">
+                {{radio-button value="sCorp" id="inputEntitySCorp" name=inputEntityType checked=inputEntityType}}
+                <label class="form-check-label" for="inputEntitySCorp" {{action "checkThis" "inputEntitySCorp"}}>S Corporation</label>
+              </div>
+          </div>
+          <div class="row m-0">
+
+            <div class="col-6">
+            {{radio-button value="Partnership" id="inputEntityPartner" name=inputEntityType checked=inputEntityType}}
+            <label class="form-check-label" for="inputEntityPartner" {{action "checkThis" "inputEntityPartner"}}>Partnership</label>
+            </div>
+
+            <div class="col-6">
+              {{radio-button value="cCorp" id="inputEntityCCorp" name=inputEntityType checked=inputEntityType}}
+              <label class="form-check-label" for="inputEntityCCorp" {{action "checkThis" "inputEntityCCorp"}}>C Corporation</label>
+            </div>
+          </div>
+          <div class="row m-0">
+            <div class="col-6">
+              <div class="form-check form-check-inline">
+                {{radio-button value='Other' id="inputEntityOther" name=inputEntityType checked=inputEntityType}}
+                <div {{action "checkThis" "inputEntityOther"}} >
+                  {{input type="text" class="form-control" value=otherEntityText placeholder="other"}}
+                </div>
+              </div>
+          </div>
+          </div>
+        </div>
+          {{/if}}
+
+      <label for="inputDay">Date of Birth</label>
+          <div class="row m-0 pb-2">
+            <div class="col">
+              {{#power-select
+                    selected=inputMonth
+                    id="inputMonth"
+                    options=monthsList
+                    onchange=(action (mut inputMonth))
+                    oninput=(action "checkLength")
+                    as |name|}}
+                    {{name}}
+              {{/power-select}}
+            </div>
+            <div class="col">
+              {{#power-select
+                    selected=inputDay
+                    id="inputDay"
+                    options=daysList
+                    onchange=(action (mut inputDay))
+                    oninput=(action "checkLength")
+                    as |name|}}
+                    {{name}}
+              {{/power-select}}
+
+            </div>
+            <div class="col">
+              {{#power-select
+                    selected=inputYear
+                    id="inputYear"
+                    options=yearsList
+                    onchange=(action (mut inputYear))
+                    oninput=(action "checkLength")
+                    as |name|}}
+                    {{name}}
+              {{/power-select}}
+            </div>
+          </div>
+
+
+          <h5> Select Payout Method:</h5>
+              <div  class="form-check form-check-inline w-100 pb-3">
+                <div class=" w-50 mx-0 payout-method btn btn-block btn-light "  {{action "checkBitcoin" "inputPayoutCheck"}}>
+                  {{radio-button value='Mailed Check' id="inputPayoutCheck" name=inputPayoutType checked=inputPayoutType}}
+                  <label class="form-check-label" for="inputPayoutType">Mailed Check</label>
+                </div>
+                  <div class=" w-50 mx-0 mt-0 payout-method btn btn-block btn-light " {{action "checkBitcoin" "inputPayoutBitcoin"}}>
+                    {{radio-button value='Bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=inputPayoutType}}
+                    <label class="form-check-label" for="inputPayoutType">Bitcoin</label>
                   </div>
+              </div>
+              {{#if payoutIsBitcoin}}
+              <div class="form-group" id="bitcoinAddressInputDiv">
+                <label for="inputbitcoinaddress">Bitcoin Address</label>
+                {{input type="text" class="form-control" value=inputbitcoinaddress }}
+              </div>
+              {{/if}}
+
+
+          <div class="form-group">
+            <label for="inputaddress1">Address Line 1</label>
+            {{input type="text" class="form-control" value=inputaddress1 }}
+          </div>
+          <div class="form-group">
+            <label for="inputaddress2">Address Line 2</label>
+            {{input type="text" class="form-control" value=inputaddress2 placeholder="optional"}}
+          </div>
+          <div class="form-group">
+            <label for="inputCity">City</label>
+            {{input type="text" class="form-control" value=inputCity }}
+          </div>
+          <div class="form-group">
+            <label for="inputRegion">State / Province / Region</label>
+            {{input type="text" class="form-control" value=inputRegion }}
+          </div>
+          <div class="form-group">
+            <label for="inputZipcode">Zip / Postal Code</label>
+            {{input type="number" class="form-control" value=inputZipcode }}
+          </div>
+          <div class="form-group">
+          <label for="inputCountry">Country</label>
+          {{#power-select
+                selected=inputCountry
+                id="inputCountry"
+                options=countriesList
+                onchange=(action "setCountry")
+                oninput=(action "checkLength")
+                as |name|}}
+                {{name}}
+          {{/power-select}}
+          </div>
+
+{{#if isUSA}}
+          <div class="form-group">
+            <label for="inputTID">Taxpayer Identification Number </label>
+            {{input type="text" class="form-control" value=inputTID placeholder="SSN, EIN, or ITIN, including dashes" }}
+          </div>
+
+        <div class="form-check py-3">
+          <label class="form-check-label" for="withholdingInput" style="font-size:14px;">
+          <strong>Under penalties of perjury, I certify that:</strong>
+        <br>    1.  I am a U.S. citizen or other U.S. person, and
+        <br>    2.  The number shown on this form is my correct taxpayer identification number (TIN), and
+        <br>    3. (select one):<br>
+
+        <div class="form-check form-check-inline accordion-toggle collapsed text-heading" data-toggle="collapse" data-target="#exemptHelp">
+            {{radio-button value='no withholding' id="notSubjectToWithholding" name=withholdingInput checked=withholdingInput}}
+
+          <div class=" pl-2 pr-4 " {{action "checkThis" "notSubjectToWithholding"}}>
+              <strong>I am not subject to backup withholding.</strong>
+          </div>
+        </div>
+          <div id="exemptHelp" class=" collapse pb-2">
+            I am (a) exempt from back up withholding, or (b) I have not been notified by the
+            Internal Revenue Service (IRS) that I am subject to backup withholding as a result of a failure to report all interest or dividends, or
+            (c) the IRS has notified me that I am no longer subject to backup withholding)
+          </div>
+    <div class="form-check form-check-inline accordion-toggle collapsed text-heading" data-toggle="collapse"data-target="#notExemptHelp">
+         {{radio-button value='WITHHOLDING' id="subjectToWithholding" name=withholdingInput checked=withholdingInput}}
+       <div class=" pl-2 pr-4 " {{action "checkThis" "subjectToWithholding"}}>
+            <strong>I am subject to backup withholding. </strong>
+        </div>
+      </div>
+        <div id="notExemptHelp" class=" collapse">
+          I have been notified by the IRS that I am subject to backup withholding as a result of a
+          failure to report all interest or dividends, and I have not been notified by the IRS that I am no longer subject to back withholding.
+        </div>
+      </label>
+      </div>
+
+{{else}}
+    <strong>Under penalties of perjury, I certify that:</strong>
+  <br>    1. I am not a U.S. citizen, and
+  <br>    2. I perform all my work on Saber from locations outside of the United States, and
+  <br>    3. I will receive all payments to a foreign address or payment instrument, and
+  <br>    4. That the information provided is to the best of my knowledge and believe it to be true, correct and complete.
+  <br><br>
+{{/if}}
+
+    <div class="form-group">
+        <label for="inputElecSig">Electronic Signature</label>
+        {{input type="text" class="form-control" value=inputElecSig placeholder="type your full name again" }}
+    </div>
+{{/if}}
+<hr class="splash-horizontal-rule">
+
+<h5>Age Confirmation</h5>
 
                   <div class="form-group">
-                    <label for="inputaddress1">Address Line 1</label>
-                    {{input type="text" class="form-control" value=inputaddress1 }}
+                    <label for="verificationUpload">
+                <br>    <br> Please upload both:
+                <br>    1. A picture of the broadcaster with their face up-close and clearly visible,
+                <br>    2. A picture of the broadcaster with both their face and valid photo ID. The photo ID must be clearly readable and include a first and last name.
+</label>
+                    <br>
+                    <input type="file" id="verificationDocs">
                   </div>
-                  <div class="form-group">
-                    <label for="inputaddress2">Address Line 2</label>
-                    {{input type="text" class="form-control" value=inputaddress2 }}
-                  </div>
-                  <div class="form-group">
-                    <label for="inputCity">City</label>
-                    {{input type="text" class="form-control" value=inputCity }}
-                  </div>
-                  <div class="form-group">
-                    <label for="inputRegion">State / Province / Region</label>
-                    {{input type="text" class="form-control" value=inputRegion }}
-                  </div>
-                  <div class="form-group">
-                    <label for="inputZipcode">Zip / Postal Code</label>
-                    {{input type="tel" class="form-control" value=inputZipcode }}
-                  </div>
-                  <div class="form-group">
-                  <label for="inputCountry">Country</label>
-                  {{#power-select
-                        selected=inputCountry
-                        id="inputCountry"
-                        options=countriesList
-                        onchange=(action (mut inputCountry))
-                        oninput=(action "checkLength")
-                        as |name|}}
-                        {{name}}
-                  {{/power-select}}
-                  </div>
-
-
-                    {{/if}}
-                  <br>
 
                   <button id="broadcasterSaveForLater" class="btn btn-outline-dark" {{action "broadcasterSaveForLater"}}>Save for later</button>
 
@@ -117,7 +252,11 @@
                     <button type="submit" id="broadcasterVerifySubmit" class="btn btn-primary">Submit Verification</button>
                   </div>
 
+                  {{#if loginState.isContracted}}
 
+                  {{else}}
+                      {{w-9-help}}
+                  {{/if}}
 
   </form>
 
