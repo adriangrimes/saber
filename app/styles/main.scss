@@ -3,8 +3,57 @@
   font-family: 'Lato', sans-serif;
 }
 
-//////////////////////generic classes
+
 ///////////// Extra Small Screens, Optimizing for 320px and up.
+
+///////////////////// Overriding Bootstrap
+
+
+.btn-outline-dark{
+  border-color: $btnOutlineDarkBorderColor;
+  color: $btnOutlineDarkTextColor;
+}
+
+
+
+// overriding ember-power-select
+.ember-power-select-trigger{
+ background-color: $dropdownBackgroundColor;
+ border-color: $formBorderColor;
+}
+.ember-power-select-trigger.focus, .ember-power-select-trigger:focus{
+  border-color: $formBorderColor;
+  outline: 0;
+  background-color: $dropdownHoverColor;
+}
+.ember-power-select-option{
+  background-color: $dropdownBackgroundColor;
+}
+.ember-power-select-option:hover{
+  background-color: $dropdownHoverColor;
+}
+.ember-power-select-option[aria-selected="true"]{
+  background-color: $dropdownSelectedColor;
+}
+.ember-power-select-option[aria-current="true"]{
+  background-color: $dropdownHoverColor;
+}
+
+.ember-power-select-dropdown{
+border-color: $formBorderColor;
+}
+.ember-power-select-search{
+  background-color: $dropdownBackgroundColor;
+}
+.ember-power-select-search-input{
+  background-color: $formBackgroundColor;
+  color: $formTextColor;
+  outline: 0;
+}
+
+
+
+//////////////////////generic classes
 
 .large-glyphicon{
   font-size: 75px;
@@ -24,6 +73,22 @@ body {
   color: $bodyFontColor;
   width: 100%;
 }
+a {
+ color: $linkTextColor;
+}
+.btn-link{
+  color: $linkTextColor;
+  text-decoration: underline;
+}
+.btn-link:hover{
+  color: $linkHoverTextColor;
+}
+.btn-link:active{
+  color: $linkActiveTextColor;
+}
+
+
+
 
 .footer {
   position: absolute;
@@ -46,6 +111,34 @@ body {
     width: auto;
     vertical-align: middle;
 }
+.form-control{
+  background-color: $formBackgroundColor;
+  border-color: $formBorderColor;
+  color: $formTextColor;
+}
+
+.form-control.focus, .form-control:focus{
+  background-color: $formActiveBackgroundColor;
+  border-color: $formActiveBorderColor;
+  color: $formTextColor;
+}
+
+*::-webkit-input-placeholder {
+    color: $formPlaceholderColor!important;
+}
+*:-moz-placeholder {
+    /* FF 4-18 */
+    color: $formPlaceholderColor!important;
+}
+*::-moz-placeholder {
+    /* FF 19+ */
+    color: $formPlaceholderColor!important;
+}
+*:-ms-input-placeholder {
+    /* IE 10+ */
+    color: $formPlaceholderColor!important;
+}
+
 
 #streamKeyDisplayID{
  height: 8rem;
@@ -101,14 +194,17 @@ width: 100%;
   color: #b80000;
 }
 
+
+
 /////////////////////////////// Collapsable Wellss
 .card{
-  border-color: #bcbcbc;
+  border-color:  $cardBorderColor;
+  background-color:  $cardBackgroundColor;
 }
 .card-heading{
   padding-top:.25rem;
   border-color: #bcbcbc;
-  background-color: #bcbcbc;
+  background-color: $cardHeadingBackgroundColor;
 }
 .card-title{
   padding-left:1rem;
@@ -212,16 +308,6 @@ width: 100%;
 #nav-dropdown-toggle{
   color: #999999;
 }
-.footer-links{
-  padding-left: 0px;
-  padding-right: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
-  color: #FFFFFF;
-}
-.footer-links:hover{
-  color:#000000;
-}
 
 
 #login-button{
@@ -245,6 +331,37 @@ width: 100%;
   color: #000000;
 
 }
+.nav-tabs{
+  background-color: $navtabBackgroundColor;
+}
+.nav-link{
+  color: $navtabTextColor;
+}
+.nav-link:hover {
+  color: $navtabHoverTextColor;
+  border-color: #444444;
+}
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
+  background-color: $navtabActiveBackgroundColor;
+  color: $navtabActiveTextColor;
+}
+
+.footer-links{
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  color: #FFFFFF;
+}
+.footer-links:hover{
+  color:#aaaaaa;
+}
+
+
+
+
+
+
 .red-bar{
   width: 100%;
   height: 5px;
@@ -261,7 +378,7 @@ width: 100%;
   border-width: 3px;
   border-style: solid;
   border-radius: 3px;
-  color: #000000;
+  color: $broadcasterPanelTextColor;
 
 }
 .broadcaster-avatar{
@@ -359,12 +476,12 @@ text-align: right;
     border-width: 0px;
 }
 .profile-links{
-  color: #B80000;
+  color: #800000;
   font-size:24px;
   height: 44px;
 }
 .profile-links:hover, #profile-links:active, #profile-links:focus{
-  color: #ef0202;
+  color: #B80000;
 
 }
 .edit-links{
@@ -425,7 +542,7 @@ text-align: right;
 
   .profile-controls{
     height:  46px;
-    background-color: #bcbcbc;
+    background-color: $cardHeadingBackgroundColor;
   }
   .profile-buttons{
   height:38px;
@@ -595,6 +712,9 @@ text-align: right;
 #nav-dropdown-toggle{
   color: #FFFFFF;
 }
+#nav-dropdown-toggle:hover{
+  color: #333333;
+}
 
 #login-button{
   color: #000000;
@@ -605,10 +725,18 @@ text-align: right;
   .dropdown ul.dropdown-menu {
   width: 210px;
   margin-right:10px;
+  background-color: $navDropDownBackgroundColor;
+  color: $bodyFontColor;
   }
   .dropdown-item{
     height: 30px;
     padding-top: .15rem;
+    color: $bodyFontColor;
+
+  }
+  .dropdown-item:hover, .dropdown-item:active{
+    background-color: $navDropDownHoverBackgroundColor;
+      color: $bodyFontColor;
   }
 
 
@@ -635,6 +763,20 @@ text-align: right;
 }
 
 
+.modal-content{
+  background-color: $bodyBackgroundColor;
+  color: $bodyFontColor;
+}
+.close{
+  color: $bodyFontColor;
+}
+.close:hover{
+  color: $bodyFontHoverColor;
+}
+.close:active, .close:focus{
+    color: $bodyFontActiveColor;
+    outline: 0;
+}
 
 
 .footer {
@@ -651,9 +793,7 @@ text-align: right;
         padding-top: 0px;
         padding-bottom: 0px;
       }
- .chat-tab{
-   color:#000000;
- }
+
 
 
 .chat-body{

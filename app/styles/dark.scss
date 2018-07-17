@@ -1,6 +1,51 @@
 // Dark theme overrides:
-$bodyBackgroundColor: #222;
-$bodyFontColor: #aaa;
+
+//body
+$bodyBackgroundColor: #222222;
+$bodyFontColor: #eeeeee;
+$bodyFontHoverColor: #999999;
+$bodyFontActiveColor: #444444;
+$linkTextColor: #ffffff;
+$linkHoverTextColor: #b80000;
+$linkActiveTextColor: #800000;
+
+
+
+//cards
+$cardBackgroundColor: #333333;
+$cardBorderColor: #111111;
+$cardHeadingBackgroundColor: #111111;
+
+$broadcasterPanelTextColor: #aaaaaa;
+
+// buttons
+$btnOutlineDarkBorderColor: #eeeeee;
+$btnOutlineDarkTextColor: #eeeeee;
+
+$navDropDownBackgroundColor: #333333;
+$navDropDownHoverBackgroundColor: #222222;
+
+$navtabBackgroundColor: #333333;
+$navtabTextColor: #dddddd;
+$navtabHoverTextColor: #FFFFFF;
+$navtabActiveBackgroundColor: #111111;
+$navtabActiveTextColor: #FFFFFF;
+
+
+//forms
+$formBackgroundColor: #444444;
+$formBorderColor: #111111;
+
+$formActiveBackgroundColor: #555555;
+$formActiveBorderColor: #aaaaaa;
+
+$formTextColor: #eeeeee;
+$formPlaceholderColor: #999999;
+
+$dropdownBackgroundColor: #333333;
+$dropdownHoverColor: #222222;
+$dropdownSelectedColor: #222222;
+
 
 // Append main.scss to this file
 @import 'main';

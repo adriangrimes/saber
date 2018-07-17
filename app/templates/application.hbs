@@ -15,9 +15,9 @@
             <li><button class=" btn btn-outline-light border-0 px-2 mx-1"  data-toggle="modal" data-target="#buyCreditsModal" >  <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></button></li>
              <li><a class="    btn btn-outline-light border-0 px-1 mx-1"  href="/games" ><i title="Games" class="fa fa-gamepad" aria-hidden="true"></i></a></li>
              {{#if loginState.isContracted}}
-                <li><a class="  btn btn-outline-light border-0 px-2 mx-1" href="/account/dashboard"> <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i></a></li>
+                <li><a class=" btn btn-outline-light border-0 px-2 mx-1" href="/account/dashboard"> <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i></a></li>
              {{else}}
-                <li><a class="   btn btn-outline-light border-0 px-2 mx-1" href="/account"> <i title="My Account" class="fa fa-user" aria-hidden="true"></i></a></li>
+                <li><a class=" btn btn-outline-light border-0 px-2 mx-1" href="/account"> <i title="My Account" class="fa fa-user" aria-hidden="true"></i></a></li>
              {{/if}}
         {{/if}}
 
@@ -69,9 +69,9 @@
             <ul class="nav nav-pills nav-justified">
               {{#if session.isAuthenticated}}
 
-              <li class="nav-item"><a class="nav-link footer-links"    href="/account">Account Settings</a></li>
+              <li class="nav-item"><a class="footer-links nav-link "    href="/account">Account Settings</a></li>
               {{else}}
-              <li class="nav-item"><a class="nav-link footer-links"    href="/signup">Sign Up</a></li>
+              <li class="nav-item"><a class="footer-links nav-link"    href="/signup">Sign Up</a></li>
 
               {{/if}}
 
@@ -79,14 +79,14 @@
           </div>
           <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
             <ul  class="nav nav-pills nav-justified">
-              <li class="nav-item "><a class="nav-link footer-links"   href="/help">Help</a></li>
+              <li class="nav-item "><a class="footer-links nav-link"   href="/help">Help</a></li>
 
           </ul>
           </div>
           <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item d-block d-sm-none"><a class="nav-link footer-links"   href="/contact">Contact Us</a></li>
-              <li class="nav-item d-none d-sm-block"><a class="nav-link footer-links"   href="/terms">Terms of Service</a></li>
+              <li class="nav-item d-block d-sm-none"><a class="footer-links nav-link"   href="/contact">Contact Us</a></li>
+              <li class="nav-item d-none d-sm-block"><a class="footer-links nav-link"   href="/terms">Terms of Service</a></li>
 
             </ul>
           </div>
@@ -94,9 +94,9 @@
             <ul class="nav nav-pills nav-justified">
               {{#if session.isAuthenticated}}
 
-              <li class="nav-item"><a class="nav-link footer-links"    href="/account">Account Settings</a></li>
+              <li class="nav-item"><a class="footer-links nav-link"    href="/account">Account Settings</a></li>
               {{else}}
-              <li class="nav-item"><a class="nav-link footer-links"    href="/signup">Sign Up</a></li>
+              <li class="nav-item"><a class="footer-links nav-link"    href="/signup">Sign Up</a></li>
 
               {{/if}}
 
@@ -106,13 +106,13 @@
         <div class="row text-center">
           <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item d-block d-sm-none"><a class="nav-link footer-links"   href="/terms">Terms of Service</a></li>
-              <li class="nav-item d-none d-sm-block"><a class="nav-link footer-links"   href="/contact">Contact Us</a></li>
+              <li class="nav-item d-block d-sm-none"><a class="footer-links nav-link"   href="/terms">Terms of Service</a></li>
+              <li class="nav-item d-none d-sm-block"><a class="footer-links nav-link"   href="/contact">Contact Us</a></li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item"><a class="nav-link footer-links"   href="/privacy">Privacy Policy</a></li>
+              <li class="nav-item"><a class="footer-links nav-link"   href="/privacy">Privacy Policy</a></li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
@@ -120,12 +120,12 @@
 
               {{#if session.isAuthenticated}}
                     {{#if loginState.broadcaster}}
-                      <li class="nav-item"><a class="nav-link footer-links"    href="/account/dashboard">Dashboard</a></li>
+                      <li class="nav-item"><a class="footer-links nav-link"    href="/account/dashboard">Dashboard</a></li>
                     {{else}}
-                      <li class="nav-item"><a class="nav-link footer-links"    href="/account/broadcaster">Become a Broadcaster</a></li>
+                      <li class="nav-item"><a class="footer-links nav-link"    href="/account/broadcaster">Become a Broadcaster</a></li>
                     {{/if}}
               {{else}}
-              <li class="nav-item"><a class="nav-link footer-links"    href="/signup/broadcaster">Become a Broadcaster</a></li>
+              <li class="nav-item"><a class="footer-links nav-link"    href="/signup/broadcaster">Become a Broadcaster</a></li>
 
               {{/if}}
 
@@ -138,12 +138,12 @@
 
               {{#if session.isAuthenticated}}
                   {{#if loginState.developer}}
-                    <li class="nav-item"><a class="nav-link footer-links"    href="/help/developer">API Docs</a></li>
+                    <li class="nav-item"><a class="footer-links nav-link"    href="/help/developer">API Docs</a></li>
                   {{else}}
-                    <li class="nav-item"><a class="nav-link footer-links"    href="/account/developer">Become a Game Developer</a></li>
+                    <li class="nav-item"><a class="footer-links nav-link"    href="/account/developer">Become a Game Developer</a></li>
                   {{/if}}
               {{else}}
-              <li class="nav-item"><a class="nav-link footer-links"    href="/signup/developer">Become a Game Developer</a></li>
+              <li class="nav-item"><a class="footer-links nav-link"    href="/signup/developer">Become a Game Developer</a></li>
 
               {{/if}}
             </ul>
