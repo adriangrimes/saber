@@ -79,6 +79,7 @@ a {
 .btn-link{
   color: $linkTextColor;
   text-decoration: underline;
+  cursor: pointer;
 }
 .btn-link:hover{
   color: $linkHoverTextColor;
@@ -476,7 +477,7 @@ text-align: right;
     border-width: 0px;
 }
 .profile-links{
-  color: #800000;
+  color: $profileLinkColor;
   font-size:24px;
   height: 44px;
 }
@@ -511,23 +512,19 @@ text-align: right;
    width:50%;
    font-size:18px;
   }
-  #game-window{
-  }
-    #photo-gallery{
+
+    #photos-panel{
       overflow-x: auto;
       overflow-y:hidden;
 
     	white-space: nowrap;
       padding-bottom:0px;
-      height: 190px;
+      height: 236px;
 
     }
 
 
-  #gameHeading{
-    margin-top:0px;
-    margin-bottom: 10px;
-  }
+
   #day-select{
     width: 15%;
   }
@@ -581,6 +578,9 @@ text-align: right;
     height:200px;
     padding-top:5px;
     overflow-y: auto;
+    overflow-x: hidden;
+
+    word-wrap: break-word;
 
   }
   .users-body{
@@ -588,20 +588,30 @@ text-align: right;
     padding-top:5px;
     overflow-y: auto;
   }
-  .chat-panel{
+  #chat-panel{
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
     border-top-style: none;
       border:0px;
   }
-  .video-panel{
+  #video-panel{
       margin-bottom: 0px;
       border-bottom-left-radius: 0px;
       border-bottom-right-radius: 0px;
       border:0px;
   }
 
+  #game-entry-panel{
+    height:200px;
 
+  }
+
+  #game-icon{
+      width: 140px;
+      position: absolute;
+      right: 0px;
+      bottom: 5px;
+      }
 
 //////////////////////////Pop Up Alert Classes
   #popup-alert-window{
@@ -681,6 +691,61 @@ text-align: right;
     cursor: pointer;
   }
 }
+.chat-tab-panel{
+  position: absolute;
+  right: 0px;
+  border-bottom: none;
+  display: flex;
+  flex-flow: column nowrap;
+
+    background-color: #000000aa;
+
+    margin: 0;
+    padding: 0;
+    border-radius: .25rem;
+}
+
+.chat-tab{
+ padding-left: .5rem;
+ padding-right: .5rem;
+ padding-top: .25rem;
+ padding-bottom: .25rem;
+}
+.chat-tab:hover, .chat-tab.hover, .chat-tab:active, .chat-tab.active{
+
+  border-bottom-right-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+
+
+.modal-content{
+  background-color: $bodyBackgroundColor;
+  color: $bodyFontColor;
+}
+.close{
+  color: $bodyFontColor;
+}
+.close:hover{
+  color: $bodyFontHoverColor;
+}
+.close:active, .close:focus{
+    color: $bodyFontActiveColor;
+    outline: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -763,21 +828,6 @@ text-align: right;
 }
 
 
-.modal-content{
-  background-color: $bodyBackgroundColor;
-  color: $bodyFontColor;
-}
-.close{
-  color: $bodyFontColor;
-}
-.close:hover{
-  color: $bodyFontHoverColor;
-}
-.close:active, .close:focus{
-    color: $bodyFontActiveColor;
-    outline: 0;
-}
-
 
 .footer {
   height: 130px;
@@ -785,26 +835,17 @@ text-align: right;
 
 
 
-      #chat-tabs{
-        text-align: right;
-        margin: 0;
-        padding-left: 5px;
-        padding-right:5px;
-        padding-top: 0px;
-        padding-bottom: 0px;
-      }
-
 
 
 .chat-body{
-  height:326px;
+  height:368px;
 
 }
 .users-body{
-  height:364px;
+  height:408px;
 
 }
-.chat-panel{
+#chat-panel{
   height: 331px;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
@@ -817,7 +858,7 @@ text-align: right;
   background:#FFF;
 }
 
-.video-panel{
+#video-panel{
     height: 406px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
@@ -832,6 +873,11 @@ text-align: right;
   #verifyFooter{
     height:55px;
   }
+#game-icon{
+  position: relative;
+
+}
+
 
 }
 

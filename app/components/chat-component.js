@@ -115,7 +115,7 @@ export default Component.extend({
             //$('#messages').append('<li><b><span class="collapsed" data-toggle="collapse" data-target="#userOptionsMenu" data-userID="'+messageToDisplay.userID+'" type="button">'+messageToDisplay.chatUserName+':</span></b> '+messageToDisplay.message+'</li>');
 
             //Below is the functional stand in code. Clicking the username links to the users profile. Default userID is 111, Default userName is testUser
-            $('#messages').append('<li><b><a href="/p/'+messageToDisplay.userID+'" type="button">'+messageToDisplay.chatUserName+':</a></b> '+messageToDisplay.message+'</li>');
+            $('#messages').append('<li><b><a href="/p/'+messageToDisplay.userID+'">'+messageToDisplay.chatUserName+':</a></b> '+messageToDisplay.message+'</li>');
 
             // scrolls the chat when a new message is posted
             $('#chat-body').scrollTop($('#chat-body')[0].scrollHeight);

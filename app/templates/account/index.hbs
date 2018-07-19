@@ -107,18 +107,24 @@
                     <!-- <input type="checkbox" class="form-check-input" checked={{value}} onchange={{action "settingChanged" value="target.value"}}> -->
                     <!-- <input type="checkbox" class="form-check-input" checked={{sendEmailFavoritesOnlineCB}}> -->
                     {{input type="checkbox" class="form-check-input" name="sendEmailFavoritesOnline" checked=sendEmailFavoritesOnline}}
-                      Favorite Broadcasters streaming notification.
+                      "Now Streaming" notifications from your favorited  ( <i class="fa fa-heart" aria-hidden="true"></i> ) broadcasters
                   </label>
                 </div>
 
               <div class="form-check">
                 <label class="form-check-label">
                   <!-- <input type="checkbox" class="form-check-input" checked> -->
-                  {{input type="checkbox" class="form-check-input" name="sendEmailSiteNews" checked=sendEmailSiteNews}}
-                    Monthly  Newsletter
+                  {{input type="checkbox" class="form-check-input" name="sendEmailPrivateMessage" checked=sendEmailPrivateMessage}}
+                    Private message notifications
                   </label>
               </div>
-
+              <div class="form-check">
+                <label class="form-check-label">
+                  <!-- <input type="checkbox" class="form-check-input" checked> -->
+                  {{input type="checkbox" class="form-check-input" name="sendEmailSiteNews" checked=sendEmailSiteNews}}
+                    Monthly Site Newsletter
+                  </label>
+              </div>
 
 
 
@@ -137,23 +143,9 @@
         </div>
         <div id="collapseSiteSettings" class="card-collapse collapse">
           <div class="card-body">
-            <h5> Default Search Settings</h5>
-                Show:
+        
                 <form {{action "submitDisplaySettings" on="submit"}}>
-                  <div  class="form-check  w-100 pb-3">
-                    <div class=" "  {{action "checkThis" "inputDefaultAll"}}>
-                      {{radio-button value='All' id="inputDefaultAll" name=inputDefaultSearch checked=inputDefaultSearch}}
-                      <label class="form-check-label" for="inputDefaultSearch">All broadcasters</label>
-                    </div>
-                      <div class=" "  {{action "checkThis" "inputDefaultFemale"}}>
-                        {{radio-button value='Female' id="inputDefaultFemale" name=inputDefaultSearch checked=inputDefaultSearch}}
-                        <label class="form-check-label" for="inputDefaultSearch">Female broadcasters only</label>
-                      </div>
-                      <div class=""  {{action "checkThis" "inputDefaultMale"}}>
-                        {{radio-button value='Male' id="inputDefaultMale" name=inputDefaultSearch checked=inputDefaultSearch}}
-                        <label class="form-check-label" for="inputDefaultSearch">Male broadcasters only</label>
-                      </div>
-                  </div>
+
 
                       <hr class="splash-horizontal-rule">
                 <h5> Site Graphics Style</h5>
