@@ -11,24 +11,30 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.boolean :admin_status, default: false
       t.string :stream_key, default: nil, limit: 64
 
-      ## Profile
-      t.string :first_name
-      t.string :middle_name
-      t.string :last_name
-      t.datetime :birthdate
-
+      ## Account type
       t.boolean :broadcaster, default: false
       t.boolean :developer, default: false
+      t.boolean :affiliate, default: false
 
+      ## Profile
+      t.string :full_name
+      t.datetime :birthdate
       t.string :address_line1
       t.string :address_line2
       t.string :address_line3
       t.string :timezone
+      t.string :business_name
+      t.string :business_entity_type
+      t.string :subject_to_backup_withholding, default: false, null: false
 
+      ## Site settings
       t.boolean :dark_mode, default: false
+      t.string :search_gender, default: "female"
       t.boolean :send_email_favorites_online, default: false
       t.boolean :send_email_site_news, default: false
+      t.boolean :private_message_email_notifications, default: true
 
+      ## Public profile
       t.integer :profile_photo_id
       t.string :profile_sex, limit: 16
       t.text :profile_about_me, limit: 2048

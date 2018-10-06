@@ -29,7 +29,16 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.set('inputZipcode', address3[2]);
      controller.set('inputCountry', address3[3]);
     }
-
-
    }
+
+  // actions: {
+  //   loading(transition) {
+  //     let start = new Date();
+  //     transition.promise.finally(() => {
+  //       console.log(`Took ${new Date() - start}ms to load`);
+  //     });
+  //
+  //     return true;
+  //   }
+  // }
 });

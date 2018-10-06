@@ -35,17 +35,23 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
+    puts ""
+    puts "==========================================="
     raise "ERROR: posted to users controller create function - this probably shouldnt happen"
   end
 
   # PATCH/PUT /users/1
   def update
+    puts ""
     puts "USER PARAMS -----V to hash"
+    puts ""
     @user = User.find(user_params[:data][:id])
 
     respond_to do |format|
       if @user.update(user_params[:data][:attributes])
+        puts ""
         puts "hey ur doin it live updating something"
+        puts ""
         format.jsonapi { render jsonapi: @user, status: :ok }
       else
         format.jsonapi { render jsonapi: @user.errors, status: :unprocessable_entity }
@@ -66,7 +72,9 @@ class UsersController < ApplicationController
     end
 
     def user_params
+      puts ""
       puts "parameters"
+      puts ""
       #devise_parameter_sanitizer
       params.permit(
         data: [
@@ -77,8 +85,7 @@ class UsersController < ApplicationController
             #:email,
             #:password,
             #:password_confirmation,
-            :first_name,
-            :middle_name,
+            :full_name,
             #:account_status,
             #:admin_status,
             :broadcaster,
@@ -88,7 +95,6 @@ class UsersController < ApplicationController
             :address_line2,
             :address_line3,
             :timezone,
-            :last_name,
             :birthdate,
 
             #userPrefs parameters

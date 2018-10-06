@@ -44,6 +44,8 @@ export default Service.extend({
       }).then((user) => {
         this.set('broadcaster', user.data.broadcaster);
         this.set('developer', user.data.developer);
+        this.set('affiliate', user.data.affiliate);
+
 
         // Set theme to dark if true, otherwise default theme
         this.get('themeChanger').set('theme', user.data.darkMode ? 'dark' : 'default');

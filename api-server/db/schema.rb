@@ -94,19 +94,22 @@ ActiveRecord::Schema.define(version: 2017_02_28_073509) do
     t.string "account_status"
     t.boolean "admin_status", default: false
     t.string "stream_key", limit: 64
-    t.string "first_name"
-    t.string "middle_name"
-    t.string "last_name"
-    t.datetime "birthdate"
     t.boolean "broadcaster", default: false
     t.boolean "developer", default: false
+    t.boolean "affiliate", default: false
+    t.string "full_name"
+    t.datetime "birthdate"
     t.string "address_line1"
     t.string "address_line2"
     t.string "address_line3"
     t.string "timezone"
+    t.string "business_name"
+    t.string "business_entity_type"
+    t.string "subject_to_backup_withholding", default: "f", null: false
     t.boolean "dark_mode", default: false
     t.boolean "send_email_favorites_online", default: false
     t.boolean "send_email_site_news", default: false
+    t.boolean "private_message_email_notifications", default: true
     t.integer "profile_photo_id"
     t.string "profile_sex", limit: 16
     t.text "profile_about_me", limit: 2048

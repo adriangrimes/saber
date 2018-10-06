@@ -2,29 +2,36 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
 
-  email: DS.attr('string'),
   username: DS.attr('string'),
-  password: DS.attr('string'),
-  firstName: DS.attr('string'),
-  middleName: DS.attr('string'),
-  lastName: DS.attr('string'),
-  birthdate: DS.attr('date'),
-
+  email: DS.attr('string'),
   accountStatus: DS.attr('string'),
   adminStatus: DS.attr('boolean'),
-  broadcaster: DS.attr('boolean'),
-  developer: DS.attr('boolean'),
   streamKey: DS.attr('string'),
 
+  // Account type
+  broadcaster: DS.attr('boolean'),
+  developer: DS.attr('boolean'),
+  affiliate: DS.attr('boolean'),
+  spendsCredits: DS.attr('boolean'),
+
+  // Profile
+  fullName: DS.attr('string'),
+  birthdate: DS.attr('date'),
   addressLine1: DS.attr('string'),
   addressLine2: DS.attr('string'),
   addressLine3: DS.attr('string'),
   timezone: DS.attr('string'),
+  businessName: DS.attr('string'),
+  businessEntityType: DS.attr('string'),
+  subjectToBackupWithholding: DS.attr('boolean'),
 
+  // Site settings
   darkMode: DS.attr('boolean'),
   sendEmailFavoritesOnline: DS.attr('boolean'),
   sendEmailSiteNews: DS.attr('boolean'),
+  privateMessageEmailNotifications: DS.attr('boolean'),
 
+  // Public profile
   profilePhotoId: DS.attr('number'),
   profileSex: DS.attr('string'),
   profileAboutMe: DS.attr('string'),
