@@ -1,4 +1,5 @@
 import Controller from '@ember/controller';
+import $ from 'jquery';
 
 export default Controller.extend({
 
@@ -34,7 +35,7 @@ export default Controller.extend({
 
 
 
-    toggleFav(user){
+    toggleFav(/*user*/){
       this.toggleProperty('isFavorite');
     },
     confirmTip(){

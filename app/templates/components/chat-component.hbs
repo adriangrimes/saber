@@ -10,12 +10,12 @@
     <!-- Chat Tab Content -->
     <div role="tabpanel" class="tab-pane active" id="chat">
          <div class="card-body chat-body" id="chat-body">
-            <!-- User Options Menu. Collapsed by default. handlebars userID currently does nothing-->
+            <!-- User Options Menu. Collapsed by default. handlebars userId currently does nothing-->
             <div class="collapse" id="userOptionsMenu" >
                 <div class="input-group " >
-                      <button class=" input-group-prepend btn btn-primary" title="7 Day Ban" type="submit"><span class="fa fa-time">{{userID}}</span></button>
-                      <button class="input-group-prepend  btn btn-primary" title="Block" type="submit"><span class="fa fa-remove-circle">{{userID}}</span></button>
-                      <button class=" input-group-prepend  btn btn-primary" title="Message" type="submit"><span class="fa fa-envelope">{{userID}}</span></button>
+                      <button class=" input-group-prepend btn btn-primary" title="7 Day Ban" type="submit"><span class="fa fa-time">{{userOptionsMenuId}}</span></button>
+                      <button class="input-group-prepend  btn btn-primary" title="Block" type="submit"><span class="fa fa-remove-circle">{{userId}}</span></button>
+                      <button class=" input-group-prepend  btn btn-primary" title="Message" type="submit"><span class="fa fa-envelope">{{userId}}</span></button>
 
                 </div>
             </div>
@@ -29,7 +29,7 @@
           <!-- Chat Input Field -->
           <form  name="userMessage"  autocomplete="off">
             <div class="input-group" >
-               <input  type="text"  autocomplete="off" name="usermsg"  id="usermsg" style="border-radius:0px" class="form-control" placeholder="Enter Chat Message...">
+               <input  type="text"  autocomplete="off" name="usermsg"  id="usermsg" style="border-radius:0px" class="form-control" placeholder="Enter Chat Message..." data-lpignore="true">
                <span class="input-group-btn">
                  <button name="submitmsg" id="chat-input" class="btn btn-primary" {{action "sendUserMessage"}}>Send</button>
                </span>
@@ -42,7 +42,7 @@
           <ul id="users"></ul>
         </div>
     </div>
-      <!-- Settings Tab Content
+      <!-- Settings Tab Content (slow chat, moderation, etc)
     <div role="tabpanel" class="tab-pane" id="settingstab">
         <div class="card-body users-body">
           Settings:
