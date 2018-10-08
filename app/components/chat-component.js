@@ -1,8 +1,10 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { once } from '@ember/runloop';
 import $ from 'jquery';
 
 // use the prompt code instead of hard coded variables to enter the username or id at the launch of the webpage.
+var socket; // Global socket var
 var messageLimitTime = 5000;
 var messageLimitNumber = 2;
 var isSlowChat = false;
@@ -11,16 +13,19 @@ var recentMessages = 0;
 
 export default Component.extend({
   websockets: service(),
-  userOptionsMenuId: 0,
+  chatUserMenuUserId: 0,
 
-  //sets up websockets
+  // Initialize chat-component
   init: function() {
     this._super(...arguments);
 
-    var socket = this.get('websockets').socketFor('ws://localhost:7000/');
-    socket.on('open', this.myOpenHandler, this);
-    socket.on('message', this.myMessageHandler, this);
-    socket.on('close', this.myCloseHandler, this);
+    // Store chat messages in array of objects
+    this.chatMessagesList = [];
+
+    socket = this.get('websockets').socketFor('ws://localhost:7000/');
+    socket.on('open', this.onSocketOpened, this);
+    socket.on('message', this.onMessageRecieved, this);
+    socket.on('close', this.onSocketClosed, this);
   },
 
   actions:{
@@ -33,11 +38,14 @@ export default Component.extend({
         // if its not too soon
         if (recentMessages > messageLimitNumber && lastMessageSent+messageLimitTime > currentTime) {
           if (isSlowChat) {
-            $this('#messages').append('<li><b>Slow Chat is enabled. Please wait a while before trying again.</b></li>');
+            this.get('chatMessagesList').pushObject(
+              { message: 'Slow Chat is enabled. Please wait a while before trying again.',
+                systemMessage: true });
           } else {
-            $('#messages').append('<li><b>You are sending messages too fast, wait a moment and try again.</b></li>');
+            this.get('chatMessagesList').pushObject(
+              { message: 'You are sending messages too fast, wait a moment and try again.',
+                systemMessage: true });
           }
-          $('#chat-body').scrollTop($('#chat-body')[0].scrollHeight);
         } else if (recentMessages > 0 && lastMessageSent+messageLimitTime < currentTime) {
           recentMessages = 0;
         } else {
@@ -45,7 +53,6 @@ export default Component.extend({
             lastMessageSent = currentTime;
           }
           // then you can send the message to the server
-          var socket = this.get('websockets').socketFor('ws://localhost:7000/');
           var messageToSend = JSON.stringify({
             type: "chatMessage",
             data: usermsg.value
@@ -58,9 +65,9 @@ export default Component.extend({
       }
     },
 
-    setUserOptionsTooltip(id) {
-      console.log("setUserOptionsTooltip " + id);
-      this.set('userOptionsMenuId', id);
+    openChatUserMenu(event) {
+      console.log(event.clientX +" x "+event.clientY); // Location of mouse click
+      this.set('chatUserMenuUserId', event.srcElement.attributes["data-user-id"].value); // User ID of clicked name
     },
 
     // switches between the 3 tabs at the top of the chat panel
@@ -70,12 +77,11 @@ export default Component.extend({
 
   }, // End actions
 
-  myOpenHandler: function(/*event*/) {
+  onSocketOpened: function(/*event*/) {
     //This message shown on entering the chat room
-    $('#messages').append('<li><b>Welcome to the Chat! Playing Super Cheese Time today Woohoo!</b></li>');
-
-    // this code sends the new user info to the server
-    var socket = this.get('websockets').socketFor('ws://localhost:7000/');
+    this.get('chatMessagesList').pushObject(
+      { message: 'Welcome to the Chat! Playing Super Cheese Time today Woohoo!',
+        systemMessage: true });
 
     if (this.get('session.isAuthenticated')) {
       var nameToBroadcast = JSON.stringify({
@@ -89,13 +95,14 @@ export default Component.extend({
   },
 
   // when a message is received from the server
-  myMessageHandler: function(event) {
+  onMessageRecieved: function(event) {
     var messageToDisplay = JSON.parse(event.data);
     //if it's a new user add them to the users list and annouce their joining to the chatroom
     if (messageToDisplay.type === "userName") {
       console.log(messageToDisplay);
-      $('#messages').append('<li>'+messageToDisplay.chatUserName+' has joined the chat</li>');
-      $('#chat-body').scrollTop($('#chat-body')[0].scrollHeight);
+      this.get('chatMessagesList').pushObject(
+        { message: messageToDisplay.chatUserName+' has joined the chat',
+          userJoinMessage: true });
       //if a change has been made to the users list, wipe the local one and replace it with the new list
     } else if (messageToDisplay.type === "userlist") {
       $('#users').empty();
@@ -115,24 +122,27 @@ export default Component.extend({
       });
     } else {
       // All other message types are actual chat messages
-      //Below is the partially functioning code. it successfully opens the #userOptionsMenu accordion object, but does not pass it any data currently  data-userId= is not read by any other part of the code right now.
-      $('#messages').append('<li><b><span class="collapsed btn-default" data-toggle="collapse" data-target="#userOptionsMenu" data-userId="'+messageToDisplay.userId+'" type="button">'+messageToDisplay.chatUserName+':</span></b> '+messageToDisplay.message+'</li>');
-
-      //Try {{#each}} in template and .push ing messages into an array to allow templates to render
-      //See https://guides.emberjs.com/release/templates/displaying-a-list-of-items/ !!!
-
-      //Below is the functional stand in code. Clicking the username links to the users profile. Default userId is 111, Default userName is testUser
-      //$('#messages').append('<li><b><a href="/p/'+messageToDisplay.userId+'">'+messageToDisplay.chatUserName+':</a></b> '+messageToDisplay.message+'</li>');
-
-      // scrolls the chat when a new message is posted
-      $('#chat-body').scrollTop($('#chat-body')[0].scrollHeight);
+      this.get('chatMessagesList').pushObject(
+        { chatUserName: messageToDisplay.chatUserName,
+          userId: messageToDisplay.userId,
+          message: messageToDisplay.message });
     }
   },
 
   // If Websocket connection has been closed, but the user is still on the page
-  myCloseHandler: function(/*event*/){
-    $('#messages').append('<li><b>Chat connection was lost. Please refresh the page.</b></li>');
-    $('#chat-body').scrollTop($('#chat-body')[0].scrollHeight);
+  onSocketClosed: function(/*event*/){
+    this.get('chatMessagesList').pushObject(
+      { message: 'Chat connection was lost. Please refresh the page.',
+        systemMessage: true });
+  },
+
+  didRender() {
+    this._super(...arguments);
+    // Scroll chat to bottom when a message is added to chatMessagesList
+    // (via template re-render)
+    once(this, function() {
+      $('#chat-body').scrollTop($('#chat-body')[0].scrollHeight);
+    });
   },
 
   willDestroyElement() {

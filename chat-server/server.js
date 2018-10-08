@@ -20,40 +20,43 @@ s.on('connection', function connection(ws) {
 
   // On Message Recieved
   ws.on('message', function incoming(message) {
-    var messageRecieved = JSON.parse(message);
-    console.log('INFO: received: %s', util.format(messageRecieved));
-    // if server received a new User, set that socket to store their username and userId, then broadcast a new userList
-    if (messageRecieved.type == "userName") {
-      var user = Object.create(User);
-      user.init(messageRecieved.chatUserName, messageRecieved.userId);
-      ws.socketChatUserName = messageRecieved.chatUserName;
-      ws.socketUserId = messageRecieved.userId;
-      userList.push(user);
-      console.log("INFO: userlist:");
-      console.log(userList);
-      console.log("____________________________________");
+    if (messageIsValid(message) === true) {
 
-      var updatedUsersList = JSON.stringify({
-        type: "userlist",
-        data: userList
-      });
+      var messageRecieved = JSON.parse(message);
+      console.log('INFO: received: %s', util.format(messageRecieved));
+      // if server received a new User, set that socket to store their username and userId, then broadcast a new userList
+      if (messageRecieved.type == "userName") {
+        var user = Object.create(User);
+        user.init(messageRecieved.chatUserName, messageRecieved.userId);
+        ws.socketChatUserName = messageRecieved.chatUserName;
+        ws.socketUserId = messageRecieved.userId;
+        userList.push(user);
+        console.log("INFO: userlist:");
+        console.log(userList);
+        console.log("____________________________________");
 
-      s.clients.forEach(function e(client){
-        client.send(message);
-        client.send(updatedUsersList);
-      });
-    }
+        var updatedUsersList = JSON.stringify({
+          type: "userlist",
+          data: userList
+        });
 
-    // If server received a standard message, set the username and userId to the sockets username and userId, then broadcast the message.
-    if (messageRecieved.type == "chatMessage") {
-      var messageToSend = JSON.stringify({
-        chatUserName: ws.socketChatUserName,
-        userId: ws.socketUserId,
-        message: messageRecieved.data
-      });
-      s.clients.forEach(function e(client) {
-        client.send(messageToSend);
-      });
+        s.clients.forEach(function e(client){
+          client.send(message);
+          client.send(updatedUsersList);
+        });
+      }
+
+      // If server received a standard message, set the username and userId to the sockets username and userId, then broadcast the message.
+      if (messageRecieved.type == "chatMessage") {
+        var messageToSend = JSON.stringify({
+          chatUserName: ws.socketChatUserName,
+          userId: ws.socketUserId,
+          message: messageRecieved.data
+        });
+        s.clients.forEach(function e(client) {
+          client.send(messageToSend);
+        });
+      }
     }
   });
 
@@ -75,6 +78,16 @@ s.on('connection', function connection(ws) {
   });
 
 });
+
+function messageIsValid(message) {
+  // Message is invalid if sent by userId 0. No user 0 exists.
+  if (message.userId == 0 || message.data == '') {
+    console.log("WARNING: Invalid message recieved and discarded.")
+    return false;
+  } else {
+    return true;
+  }
+}
 
 function writeToTextFile(data) {
   if (data !== undefined) {
