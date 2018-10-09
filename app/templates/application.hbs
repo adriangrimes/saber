@@ -7,17 +7,23 @@
 <div class="d-block d-sm-none red-bar position-absolute"></div>
 <nav class="navbar navbar-default navbar-expand-sm pl-1 pr-1" id="nav-bar" >
     <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+      <a class="navbar-brand" id="logo-with-text" href="/home"> <img src="/logo.svg" height="32px" width ="32px">Saber</a>
+      <a class="navbar-brand" id="logo-no-text" href="/home"> <img src="/logo.svg" height="32px" width ="32px"></a>
+  </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav ml-auto" >
 
       {{#if session.isAuthenticated}}
-            <li><button class=" btn btn-outline-light border-0 px-2 mx-1"  data-toggle="modal" data-target="#buyCreditsModal" >  <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></button></li>
-             <li><a class="    btn btn-outline-light border-0 px-1 mx-1"  href="/games" ><i title="Games" class="fa fa-gamepad" aria-hidden="true"></i></a></li>
+
+              <li><button class=" btn btn-outline-dark border-0 px-2 mx-1"  data-toggle="modal" data-target="#buyCreditsModal" >  <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></button></li>
+
+
              {{#if loginState.isContracted}}
-                <li><a class=" btn btn-outline-light border-0 px-2 mx-1" href="/account/dashboard"> <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i></a></li>
+                <li><a class=" btn btn-outline-dark border-0 px-2 mx-1" href="/account/dashboard"> <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i></a></li>
              {{else}}
-                <li><a class=" btn btn-outline-light border-0 px-2 mx-1" href="/account"> <i title="My Account" class="fa fa-user" aria-hidden="true"></i></a></li>
+                <li><a class=" btn btn-outline-dark border-0 px-2 mx-1" href="/account"> <i title="My Account" class="fa fa-user" aria-hidden="true"></i></a></li>
              {{/if}}
         {{/if}}
 
@@ -27,20 +33,30 @@
         {{#if session.isAuthenticated}}
     <ul class="nav navbar-nav ml-auto" >
       <li class="dropdown position-static" >
-             <button class="nav-link dropdown-toggle  btn btn-outline-light border-0 px-2 mx-0 " id="nav-dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i title="Menu" class="fa fa-align-right"></i></button>
-               <ul class="dropdown-menu position-absolute dropdown-menu-right" >
+             <button class="nav-link dropdown-toggle  btn btn-outline-dark border-0 px-2 mx-0 " id="nav-dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i title="Menu" class="fa fa-align-right"></i></button>
+               <ul class=" dropdown-menu position-absolute dropdown-menu-right" >
                  <div class="dropdown-item dropdown-header">Hi <strong>{{session.data.authenticated.username}}</strong></div>
-                 <a class="dropdown-item" href="/account/messages">Messages&nbsp;&nbsp;<span class="badge badge-dark badge-pill">42</span></a>
+                 <a class="dropdown-item" href="/account/messages">Messages&nbsp;&nbsp;<span class="badge badge-primary badge-pill">42</span></a>
                  {{#if loginState.isContracted}}
                  <a class="dropdown-item" href="/account/dashboard">Dashboard</a>
                  {{/if}}
                  <a class="dropdown-item"href="/profile">Edit Profile</a>
                  <a  class="dropdown-item" href="/account">Account Settings</a>
-                 <a class="dropdown-item"href="/games">Games</a>
+                  <form {{action "toggleDarkMode" on="change"}}>
+                      <a class="dropdown-item d-inline-block pr-2 "> Dark Mode
+                       <label class="switch float-right" >
+                         {{input type="checkbox" name="darkMode" id="darkModeToggle" checked=darkModeCheckbox}}
+                        <span class="slider"></span>
+                      </label>
+                    </a>
+                  </form>
+
                  <div class="dropdown-divider"></div>
-                 <div class="dropdown-item dropdown-header">You have&nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i><strong>&nbsp;&nbsp;2,000</strong> Credits</div>
-                 <a class="dropdown-item" role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a>
-                 <div class="dropdown-divider"></div>
+
+                   <div class="dropdown-item dropdown-header">You have&nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i><strong>&nbsp;&nbsp;2,000</strong> Credits</div>
+                   <a class="dropdown-item" role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a>
+                   <div class="dropdown-divider"></div>
+              
                 <a class="dropdown-item" role="button" {{action "logout"}}>Log Out</a>
                </ul>
            </li>
@@ -150,29 +166,29 @@
           </div>
           <div class="col-xs-12 col-sm-4 d-none d-sm-block px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item"><a  class="nav-link footer-links"   href="/">© {{copyrightYear}}</a></li>
+              <li class="nav-item"><a  class="footer-links nav-link"   href="/">© {{copyrightYear}}</a></li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 px-0 mx-0">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item"><a class="nav-link footer-links"   href="/legal"> Legal Stuff</a></li>
+              <li class="nav-item"><a class="footer-links nav-link"   href="/legal">Legal</a></li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 d-block d-sm-none px-0 mx-0">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item"><a class="nav-link footer-links"   href="/">© {{copyrightYear}}</a></li>
+              <li class="nav-item"><a class="footer-links nav-link"   href="/">© {{copyrightYear}} </a></li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 d-none d-sm-block px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
               {{#if session.isAuthenticated}}
                             {{#if loginState.developer}}
-                              <li class="nav-item"><a class="nav-link footer-links"    href="/games">Games</a></li>
+                              <li class="nav-item"><a class="footer-links nav-link"    href="/help/developer">API Docs</a></li>
                             {{else}}
-                              <li class="nav-item"><a class="nav-link footer-links"    href="/account/developer">Become a Game Developer</a></li>
+                              <li class="nav-item"><a class="footer-links nav-link"    href="/account/developer">Become a Game Developer</a></li>
                             {{/if}}
                           {{else}}
-                          <li class="nav-item"><a class="nav-link footer-links"    href="/signup/developer">Become a Game Developer</a></li>
+                          <li class="nav-item"><a class="footer-links nav-link"    href="/signup/developer">Become a Game Developer</a></li>
                           {{/if}}
             </ul>
           </div>

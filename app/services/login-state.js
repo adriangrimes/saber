@@ -30,6 +30,21 @@ export default Service.extend({
 
   init() {
     this._super(...arguments);
+    console.log('At Login State Init session isAuthenticated: '+this.get('session.isAuthenticated'));
+
+      if (this.get('session.isAuthenticated')) {
+        console.log('setting up loginstate');
+        return this.get('store').findRecord('user', this.get('session.data.authenticated.user_id'));
+        this.set('broadcaster', user.data.broadcaster);
+        this.set('developer', user.data.developer);
+        this.set('affiliate', user.data.affiliate);
+        this.set('darkMode', user.data.darkMode);
+        console.log('At Login State Init user.data.darkMode: '+user.data.darkMode);
+
+      }
+
+      console.log('At Login State Init loginstate.darkMode: '+this.get('darkMode'))
+
   },
 
   // Main login function
@@ -45,6 +60,8 @@ export default Service.extend({
         this.set('broadcaster', user.data.broadcaster);
         this.set('developer', user.data.developer);
         this.set('affiliate', user.data.affiliate);
+        this.set('darkMode', user.data.darkMode);
+        console.log('At Login State Log In loginstate.darkMode: '+this.get('darkMode'))
 
 
         // Set theme to dark if true, otherwise default theme

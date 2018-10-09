@@ -306,16 +306,17 @@ export default Controller.extend({
       var updateTimeZone = this.get('inputTimeZone');
 
 
-      if (this.get('darkMode')) {
+      if (this.get('accountDarkModeCheckbox')) {
         this.get('themeChanger').set('theme', 'dark');
       } else {
         this.get('themeChanger').set('theme', 'default');
       }
+      console.log('At /account display settings save loginstate.darkMode: '+this.get('loginState.darkMode'))
 
       this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
 
         // Modify record pulled from db to variable
-        user.set('darkMode', this.get('darkMode'));
+        user.set('darkMode', this.get('accountDarkModeCheckbox'));
         user.set('timezone', updateTimeZone);
 
 

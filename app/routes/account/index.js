@@ -15,9 +15,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.set('payoutIsBitcoin', true);
     }
 
+
     controller.set('sendEmailFavoritesOnline', model.get('sendEmailFavoritesOnline'));
     controller.set('sendEmailSiteNews', model.get('sendEmailSiteNews'));
-    controller.set('darkMode', model.get('darkMode'));
+    controller.set('accountDarkModeCheckbox', model.get('darkMode'));
     controller.set('inputTimeZone', model.get('timezone'));
     controller.set('inputaddress1', model.get('addressLine1'));
     controller.set('inputaddress2', model.get('addressLine2'));
