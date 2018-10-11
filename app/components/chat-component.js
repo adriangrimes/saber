@@ -22,6 +22,7 @@ export default Component.extend({
 
     // Store chat messages in array of objects
     this.chatMessagesList = [];
+    this.chatUsersList = [];
 
     socket = this.get('websockets').socketFor('ws://localhost:7000/');
     socket.on('open', this.onSocketOpened, this);
@@ -113,6 +114,7 @@ export default Component.extend({
   // when a message is received from the server
   onMessageRecieved: function(event) {
     var messageToDisplay = JSON.parse(event.data);
+
     //if it's a new user add them to the users list and annouce their joining to the chatroom
     if (messageToDisplay.type === "userName") {
       console.log(messageToDisplay);
@@ -123,8 +125,8 @@ export default Component.extend({
           });
       //if a change has been made to the users list, wipe the local one and replace it with the new list
     } else if (messageToDisplay.type === "userlist") {
-      $('#users').empty();
-      console.log(messageToDisplay.data);
+      this.set('chatUsersList', []);
+
       // Sort users alphabetically
       messageToDisplay.data.sort(function(a, b) {
         var m1 = a.username.toLowerCase();
@@ -133,17 +135,24 @@ export default Component.extend({
         if(m1 > m2) return 1;
         return 0;
       })
+
+
       // Display them
+      var chatUserListArray = this.get('chatUsersList');
       messageToDisplay.data.forEach(function(user){
-        console.log(user)
-        $('#users').append('<li>'+user.username+'</li>');
+
+        chatUserListArray.pushObject(
+          { chatUserName: user.username,
+            userId: user.id,
+            });
       });
-    } else {
+
+     } else {
       // All other message types are actual chat messages
       this.get('chatMessagesList').pushObject(
-        { chatUserName: messageToDisplay.chatUserName+': ',
+        { chatUserName: messageToDisplay.chatUserName,
           userId: messageToDisplay.userId,
-          message: messageToDisplay.message });
+          message: ': '+messageToDisplay.message });
     }
   },
 

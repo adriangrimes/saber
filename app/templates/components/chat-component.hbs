@@ -4,7 +4,7 @@
   <div class="d-none" id="chatUserMenu" >
 
 
-    <a href="/p/{{chatUserMenuUserId}}" target="_blank" class=" round-top-left-corner-only btn btn-primary pt-1" title="Open users profile in new tab"><span class="fa fa-user">  {{chatUserMenuUserName}}</span></a>
+    <a href="/p/{{chatUserMenuUserId}}" target="_blank" class=" round-top-left-corner-only btn btn-primary pt-1" title="Open users profile in new tab"><span class="fa fa-user pr-2"> </span>{{chatUserMenuUserName}}</a>
 
     <button class=" round-top-right-corner-only btn btn-primary float-right pt-1" title="Close" {{action "closeChatUserMenu"}}><span class="fa fa-close"></span></button>
 
@@ -76,13 +76,12 @@
   <div role="tabpanel" class="tab-pane" id="userstab">
       <div class="card-body users-body">
         <ul id="users">
-          {{#each chatUserList as |chatUser|}}
-            {{#if chatUser.systemMessage}}
-              <li><b><span class="chat-username" onclick={{action "openChatUserMenu"}} data-user-id="{{chatMessage.userId}}" >
-                  {{chatUser.chatUserName}}:
+          {{#each chatUsersList as |chatUser|}}
+              <li><b><span class="chat-username" onclick={{action "openChatUserMenu"}} data-user-id="{{chatUser.userId}}"  data-user-name="{{chatUser.chatUserName}}">
+                  {{chatUser.chatUserName}}
                 </span></b>
               </li>
-            {{/if}}
+
           {{/each}}
 
 
