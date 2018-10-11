@@ -10,11 +10,12 @@ var messageLimitNumber = 2;
 var isSlowChat = false;
 var lastMessageSent = 0;
 var recentMessages = 0;
+var userChatMenuIsOpen = false;
 
 export default Component.extend({
   websockets: service(),
   chatUserMenuUserId: 0,
-
+  chatUserMenuUserName: 'unspecified',
   // Initialize chat-component
   init: function() {
     this._super(...arguments);
@@ -66,13 +67,28 @@ export default Component.extend({
     },
 
     openChatUserMenu(event) {
-      console.log(event.clientX +" x "+event.clientY); // Location of mouse click
+
+      var menuYPos = (event.pageY - $('#chat-panel').offset().top + 14);
+      $('#chatUserMenu').css({ 'top': menuYPos });
       this.set('chatUserMenuUserId', event.srcElement.attributes["data-user-id"].value); // User ID of clicked name
+      this.set('chatUserMenuUserName', event.srcElement.attributes["data-user-name"].value); // User name of clicked name
+      $('#chatUserMenu').removeClass('d-none');
+      $('#chatUserMenu').addClass('d-inline-block');
+
     },
 
-    // switches between the 3 tabs at the top of the chat panel
-    openChatTab: function() {
-      $(this).tab('show');
+    closeChatUserMenu(){
+       $('#chatUserMenu').removeClass('d-inline-block');
+       $('#chatUserMenu').addClass('d-none');
+    },
+
+    blockUser(user){
+      console.log("You blocked "+user);
+
+    },
+    sendPrivateMessage(user){
+      console.log("You opend Private Messages with "+user);
+
     },
 
   }, // End actions
@@ -101,8 +117,10 @@ export default Component.extend({
     if (messageToDisplay.type === "userName") {
       console.log(messageToDisplay);
       this.get('chatMessagesList').pushObject(
-        { message: messageToDisplay.chatUserName+' has joined the chat',
-          userJoinMessage: true });
+        { chatUserName: messageToDisplay.chatUserName,
+          userId: messageToDisplay.userId,
+          message: '  has joined the chat!',
+          });
       //if a change has been made to the users list, wipe the local one and replace it with the new list
     } else if (messageToDisplay.type === "userlist") {
       $('#users').empty();
@@ -123,7 +141,7 @@ export default Component.extend({
     } else {
       // All other message types are actual chat messages
       this.get('chatMessagesList').pushObject(
-        { chatUserName: messageToDisplay.chatUserName,
+        { chatUserName: messageToDisplay.chatUserName+': ',
           userId: messageToDisplay.userId,
           message: messageToDisplay.message });
     }

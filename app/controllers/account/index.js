@@ -271,7 +271,7 @@ export default Controller.extend({
      if(toBeChecked =="inputPayoutBitcoin"){
         this.set('payoutIsBitcoin', true);
      }else{
-       this.set('payoutIsBitcoin', false);
+        this.set('payoutIsBitcoin', false);
      }
 
    },
