@@ -4,27 +4,26 @@ import { inject } from '@ember/service';
 // log-in
 export default Component.extend({
 
-  loginState: inject('login-state'),
   session: inject('session'),
 
   signupform: false,
 
-  // Temporarily default login info
   didInsertElement() {
+    // Temporarily default login info
     this.set('inputusername', 'testuser1');
     this.set('inputpassword', '12345671');
   },
 
   actions: {
 
-    // Passes form fields as paramters to login-state.logIn function
+    // Passes form fields as paramters to current-user.logIn function
     authenticate() {
       let identification = this.get('inputusername');
       let password = this.get('inputpassword');
-      this.get('loginState').logIn(identification, password);
+      this.get('currentUser').logIn(identification, password);
     },
 
-    // Passes form fields as parameters to login-state.signUp function
+    // Passes form fields as parameters to current-user.signUp function
     signup(){
       if (this.get('session.isAuthenticated') === false) {
         const username = this.get('inputusername');
@@ -34,7 +33,7 @@ export default Component.extend({
 
         console.log( this.get('inputusername')+this.get('inputemailaddress')+
           this.get('inputpassword')+this.get('inputpasswordconfirm'));
-        this.get('loginState').signUp(username,email,pw,pwconfirm);
+        this.get('currentUser').signUp(username,email,pw,pwconfirm);
       }
     },
 
@@ -43,7 +42,7 @@ export default Component.extend({
       // Clear errors and fields
       this.set('inputusername','');
       this.set('inputpassword','');
-      this.set('loginState.errorMessage','');
+      this.set('currentUser.errorMessage','');
     }
   }
 

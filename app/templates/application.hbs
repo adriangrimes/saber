@@ -19,8 +19,7 @@
 
               <li><button class=" btn btn-outline-dark border-0 px-2 mx-1"  data-toggle="modal" data-target="#buyCreditsModal" >  <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></button></li>
 
-
-             {{#if loginState.isContracted}}
+             {{#if currentUser.isContracted}}
                 <li><a class=" btn btn-outline-dark border-0 px-2 mx-1" href="/account/dashboard"> <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i></a></li>
              {{else}}
                 <li><a class=" btn btn-outline-dark border-0 px-2 mx-1" href="/account"> <i title="My Account" class="fa fa-user" aria-hidden="true"></i></a></li>
@@ -37,15 +36,16 @@
                <ul class=" dropdown-menu position-absolute dropdown-menu-right" >
                  <div class="dropdown-item dropdown-header">Hi <strong>{{session.data.authenticated.username}}</strong></div>
                  <a class="dropdown-item" href="/account/messages">Messages&nbsp;&nbsp;<span class="badge badge-primary badge-pill">42</span></a>
-                 {{#if loginState.isContracted}}
+                 {{#if currentUser.isContracted}}
                  <a class="dropdown-item" href="/account/dashboard">Dashboard</a>
                  {{/if}}
+                 {{if currentUser.user.darkMode "true" "false"}}
                  <a class="dropdown-item"href="/profile">Edit Profile</a>
                  <a  class="dropdown-item" href="/account">Account Settings</a>
                   <form {{action "toggleDarkMode" on="change"}}>
                       <a class="dropdown-item d-inline-block pr-2 "> Dark Mode
                        <label class="switch float-right" >
-                         {{input type="checkbox" name="darkMode" id="darkModeToggle" checked=darkModeCheckbox}}
+                         {{input type="checkbox" name="darkMode" id="darkModeToggle" checked=currentUser.user.darkMode}}
                         <span class="slider"></span>
                       </label>
                     </a>
@@ -69,7 +69,7 @@
 </nav>
 
 <!-- on page alert attempt
-<div class="alert alert-info text-center" role="alert">Welcome {{loginState.username}}! Click <a href="/account">Here</a> to configure your email settings. (You can do this any time from your account page)</div>
+<div class="alert alert-info text-center" role="alert">Welcome {{currentUser.username}}! Click <a href="/account">Here</a> to configure your email settings. (You can do this any time from your account page)</div>
 -->
 <div class="container">
 {{outlet}}
@@ -135,7 +135,7 @@
             <ul class="nav nav-pills nav-justified">
 
               {{#if session.isAuthenticated}}
-                    {{#if loginState.broadcaster}}
+                    {{#if currentUser.user.broadcaster}}
                       <li class="nav-item"><a class="footer-links nav-link"    href="/account/dashboard">Dashboard</a></li>
                     {{else}}
                       <li class="nav-item"><a class="footer-links nav-link"    href="/account/broadcaster">Become a Broadcaster</a></li>
@@ -153,7 +153,7 @@
             <ul class="nav nav-pills nav-justified">
 
               {{#if session.isAuthenticated}}
-                  {{#if loginState.developer}}
+                  {{#if currentUser.user.developer}}
                     <li class="nav-item"><a class="footer-links nav-link"    href="/help/developer">API Docs</a></li>
                   {{else}}
                     <li class="nav-item"><a class="footer-links nav-link"    href="/account/developer">Become a Game Developer</a></li>
@@ -182,7 +182,7 @@
           <div class="col-xs-12 col-sm-4 d-none d-sm-block px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
               {{#if session.isAuthenticated}}
-                            {{#if loginState.developer}}
+                            {{#if currentUser.user.developer}}
                               <li class="nav-item"><a class="footer-links nav-link"    href="/help/developer">API Docs</a></li>
                             {{else}}
                               <li class="nav-item"><a class="footer-links nav-link"    href="/account/developer">Become a Game Developer</a></li>

@@ -10,7 +10,7 @@ var messageLimitNumber = 2;
 var isSlowChat = false;
 var lastMessageSent = 0;
 var recentMessages = 0;
-var userChatMenuIsOpen = false;
+//var userChatMenuIsOpen = false;
 
 export default Component.extend({
   websockets: service(),

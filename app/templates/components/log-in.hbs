@@ -9,9 +9,9 @@
 </h4>
 <br>
 
-{{#if loginState.errorMessage}}
-  <p class="alert alert-danger fade in">
-    {{#each loginState.errorMessage as |error|}}
+{{#if currentUser.errorMessage}}
+  <p class="alert alert-danger">
+    {{#each currentUser.errorMessage as |error|}}
     - {{error.detail}}<br>
     {{/each}}
   </p>
@@ -19,8 +19,8 @@
 
 <form>
   {{#if signupform}}
-    {{#if loginState.signupSuccess}}
-      <p class="alert alert-success fade in">
+    {{#if currentUser.signupSuccess}}
+      <p class="alert alert-success">
         Account created! Check your email to confirm and activate your account.
       </p>
     {{/if}}

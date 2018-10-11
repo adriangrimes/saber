@@ -1,5 +1,5 @@
   <div class="row m-0">
-    {{#if loginState.developer}}
+    {{#if currentUser.developer}}
        <div class="col-12">
          You are already a developer, congrats!
        </div>
@@ -17,7 +17,7 @@
     </div>
     <div class="col-xs-12 col-sm-7">
 
-    {{#if loginState.broadcaster}}
+    {{#if currentUser.broadcaster}}
           <div>
           As a verified broadcaster you have already submited your payment details, so there's nothing more to do but get into the code! <br><br>
           Click the button below to also become a developer. <br>
@@ -28,7 +28,7 @@
         <div class="pt-5 mt-5">
           To sign up for a separate developer account log out, and then visit <a href="/signup/developer">saber.tv/signup/developer</a>
         </div>
-    {{else if loginState.affiliate}}
+    {{else if currentUser.affiliate}}
           <div>
           As an affiliate you have already submited your payment details, so there's nothing more to do but get into the code! <br><br>
           Click the button below to also become a developer. <br>
@@ -133,11 +133,11 @@
 
                     <h5> Select Payout Method:</h5>
                         <div  class="form-check form-check-inline w-100 pb-3">
-                          <div class=" w-50 mx-0 payout-method btn btn-block btn-light "  {{action "checkBitcoin" "inputPayoutCheck"}}>
+                          <div class=" w-50 mx-0 mr-2 payout-method btn btn-block btn-outline-dark "  {{action "checkBitcoin" "inputPayoutCheck"}}>
                             {{radio-button value='Mailed Check' id="inputPayoutCheck" name=inputPayoutType checked=inputPayoutType}}
                             <label class="form-check-label" for="inputPayoutType">Mailed Check</label>
                           </div>
-                            <div class=" w-50 mx-0 mt-0 payout-method btn btn-block btn-light " {{action "checkBitcoin" "inputPayoutBitcoin"}}>
+                            <div class=" w-50 mx-0 mt-0 ml-2 payout-method btn btn-block btn-outline-dark  " {{action "checkBitcoin" "inputPayoutBitcoin"}}>
                               {{radio-button value='Bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=inputPayoutType}}
                               <label class="form-check-label" for="inputPayoutType">Bitcoin</label>
                             </div>
@@ -242,7 +242,7 @@
                 </form>
 
                 {{/if}}
-                {{#if loginState.isContracted}}
+                {{#if currentUser.isContracted}}
 
                 {{else}}
                     {{w-9-help}}

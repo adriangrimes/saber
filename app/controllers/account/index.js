@@ -281,7 +281,7 @@ export default Controller.extend({
       var sESN = this.get('sendEmailSiteNews');
 
       this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
-
+        console.log(user);
         // Modify record pulled from db to variable
         user.set('sendEmailFavoritesOnline', sEFO);
         user.set('sendEmailSiteNews', sESN);
@@ -306,17 +306,17 @@ export default Controller.extend({
       var updateTimeZone = this.get('inputTimeZone');
 
 
-      if (this.get('accountDarkModeCheckbox')) {
+      if (this.get('currentUser.user.darkMode')) {
         this.get('themeChanger').set('theme', 'dark');
       } else {
         this.get('themeChanger').set('theme', 'default');
       }
-      console.log('At /account display settings save loginstate.darkMode: '+this.get('loginState.darkMode'))
+      console.log('At /account display settings save currentUser.darkMode: '+this.get('currentUser.user.darkMode'))
 
       this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
-
+        console.log(user);
         // Modify record pulled from db to variable
-        user.set('darkMode', this.get('accountDarkModeCheckbox'));
+        user.set('darkMode', this.get('currentUser.user.darkMode'));
         user.set('timezone', updateTimeZone);
 
 

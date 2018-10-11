@@ -1,7 +1,7 @@
 
   <div class="row m-0">
 
- {{#if loginState.isContracted}}
+ {{#if currentUser.isContracted}}
     <div class="col-12">
       You are already an affiliate, congrats!
     </div>
@@ -106,11 +106,11 @@
 
                   <h5> Select Payout Method:</h5>
                       <div  class="form-check form-check-inline w-100 pb-3">
-                        <div class=" w-50 mx-0 payout-method btn btn-block btn-light "  {{action "checkBitcoin" "inputPayoutCheck"}}>
+                        <div class=" w-50 mx-0 mr-2 payout-method btn btn-block btn-outline-dark "  {{action "checkBitcoin" "inputPayoutCheck"}}>
                           {{radio-button value='Mailed Check' id="inputPayoutCheck" name=inputPayoutType checked=inputPayoutType}}
                           <label class="form-check-label" for="inputPayoutType">Mailed Check</label>
                         </div>
-                          <div class=" w-50 mx-0 mt-0 payout-method btn btn-block btn-light " {{action "checkBitcoin" "inputPayoutBitcoin"}}>
+                          <div class=" w-50 mx-0 mt-0 ml-2 payout-method btn btn-block btn-outline-dark  " {{action "checkBitcoin" "inputPayoutBitcoin"}}>
                             {{radio-button value='Bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=inputPayoutType}}
                             <label class="form-check-label" for="inputPayoutType">Bitcoin</label>
                           </div>
@@ -217,7 +217,7 @@
 
 
   </form>
-  {{#if loginState.isContracted}}
+  {{#if currentUser.isContracted}}
 
   {{else}}
       {{w-9-help}}

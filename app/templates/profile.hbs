@@ -36,14 +36,11 @@
 
 
 
-                  <button class="btn btn-primary mt-1" title="Play Game">Play Game</button>
 
               </div>
               <div class="col-4">
                 <img src="/usericon.svg"  class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
-                <div class="text-right" id="suggest-game-button">
-                  <a class="btn btn-link" title="Suggest Game" role="button">Suggest Game</a>
-                </div>
+
               </div>
             </div>
           </div>
@@ -101,12 +98,12 @@
                 <form autocomplete="off"{{action "submitProfileSettings" on="submit"}}>
 
                   <div class="modal-body">
-                {{#if loginState.broadcaster}}
+                {{#if currentUser.broadcaster}}
                   <div class="form-group">
                     <label for="inputaboutme">About Me</label>
                     {{textarea  rows="5" class="form-control" value=inputaboutme placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
                   </div>
-                  {{else if loginState.developer}}
+                  {{else if currentUser.developer}}
                   <div class="form-group">
                     <label for="inputaboutme">About Me</label>
                     {{textarea   class="form-control" value=inputaboutme placeholder="A little about yourselfand your games"}}
@@ -156,7 +153,7 @@
 
                 </div>
 
-                  {{#if loginState.broadcaster}}
+                  {{#if currentUser.broadcaster}}
 
                   <div class="form-group">
                     <label >Tags (choose up to 15)</label>
