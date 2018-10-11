@@ -10,11 +10,14 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string :account_status
       t.boolean :admin_status, default: false
       t.string :stream_key, default: nil, limit: 64
+      t.string :security_questions
 
-      ## Account type
-      t.boolean :broadcaster, default: false
+      ## Account type (Account settings?)
+      t.boolean :broadcaster, default: false #TODO maybe only let the backend change these, via successful signup or form submition from front end?
       t.boolean :developer, default: false
       t.boolean :affiliate, default: false
+      t.boolean :allow_tips
+      t.boolean :allow_suggested_games
 
       ## Profile
       t.string :full_name
@@ -23,9 +26,15 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string :address_line2
       t.string :address_line3
       t.string :timezone
+
+      ## Payment (TODO most of these are probably not safe in terms of user security)
       t.string :business_name
       t.string :business_entity_type
-      t.string :subject_to_backup_withholding, default: false, null: false
+      t.string :payout_method
+      t.string :bitcoin_address
+      t.string :bank_account_number
+      t.string :bank_routing_number
+      t.boolean :subject_to_backup_withholding, default: false, null: false
 
       ## Site settings
       t.boolean :dark_mode, default: false
@@ -35,6 +44,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.boolean :private_message_email_notifications, default: true
 
       ## Public profile
+      t.string :user_custom_tags
       t.integer :profile_photo_id
       t.string :profile_sex, limit: 16
       t.text :profile_about_me, limit: 2048
