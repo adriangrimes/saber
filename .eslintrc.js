@@ -4,37 +4,11 @@ module.exports = {
     ecmaVersion: 2017,
     sourceType: 'module'
   },
-  plugins: [
-    'ember'
-  ],
-  extends: [
-    'eslint:recommended',
-    'plugin:ember/recommended'
-  ],
+  extends: 'eslint:recommended',
   env: {
     browser: true
   },
   rules: {
-    'no-console': 'off',
-    'no-undef': 'off',
-  },
-  overrides: [
-    // node files
-    {
-      files: [
-        'ember-cli-build.js',
-        'testem.js',
-        'config/**/*.js',
-        'lib/*/index.js'
-      ],
-      parserOptions: {
-        sourceType: 'script',
-        ecmaVersion: 2015
-      },
-      env: {
-        browser: false,
-        node: true
-      }
-    }
-  ]
+    "no-console": "off" //TODO: possibly remove this when/before put in production
+  }
 };

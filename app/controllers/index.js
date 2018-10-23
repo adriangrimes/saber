@@ -1,7 +1,5 @@
 import Controller from '@ember/controller';
-import $ from 'jquery';
+//import $ from 'jquery';
 
 export default Controller.extend({
-
-
 });

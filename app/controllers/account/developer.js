@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import { inject } from '@ember/service';
+//import { inject } from '@ember/service';
 import $ from 'jquery';
 
 export default Controller.extend({
@@ -399,7 +399,6 @@ export default Controller.extend({
   'Zambia',
   'Zimbabwe',
 ],
-
 
    actions: {
      checkLength(text, select /*, event */) {

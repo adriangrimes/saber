@@ -30,11 +30,12 @@ export default Component.extend({
     socket.on('close', this.onSocketClosed, this);
   },
 
-  actions:{
+  actions: {
 
     // User wants to send a message so...
     sendUserMessage: function() {
       var currentTime = Date.now();
+      var usermsg = $('#usermsg')[0];
       // if its not blank
       if (usermsg.value !== '') {
         // if its not too soon
