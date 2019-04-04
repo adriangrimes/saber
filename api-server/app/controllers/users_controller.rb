@@ -1,35 +1,29 @@
 class UsersController < ApplicationController
+  include ActionController::HttpAuthentication::Token::ControllerMethods
 
+  before_action :authenticate_user_from_token!
   respond_to :jsonapi
-
 
   # GET all /users
   def index
-    #Add server latency
+    @user = User.all
 
-    #@user = User.find_by!(username: params[:username], password: params[:password])
-
-    respond_to do |format|
-      if @user
-        format.jsonapi { render jsonapi: @user, status: :ok }
-      else
-        format.jsonapi { render jsonapi: @user.errors, status: :unprocessable_entity }
-      end
+    if @user
+      render jsonapi: @user, status: :ok
+    else
+      render jsonapi: @user.errors, status: :unprocessable_entity
     end
   end
 
   # GET /users/1
   def show
-    # request.headers['Authorization'])
-
+    puts "Authorization header:"
+    puts request.headers['Authorization']
     @user = User.find(params[:id])
-
-    respond_to do |format|
-      if @user
-        format.jsonapi { render jsonapi: @user, status: :ok }
-      else
-        format.jsonapi { render jsonapi: @user.errors, status: :unprocessable_entity }
-      end
+    if @user
+      render jsonapi: @user, status: :ok
+    else
+      render jsonapi: @user.errors, status: :unprocessable_entity
     end
   end
 
@@ -65,6 +59,22 @@ class UsersController < ApplicationController
   end
 
   private
+
+    def authenticate_user_from_token!
+      puts "======authenticate_user_from_token======"
+      authenticate_with_http_token do |token, options|
+        puts options.inspect
+        puts "======AUFT EMAIL PRESENCE======".concat(token)
+        puts "email: ".concat(options[:email])
+        user_email = options[:email].presence #this may always return true??? unsafe
+        user = user_email && User.find_by_email(user_email)
+
+        if user && Devise.secure_compare(user.authentication_token, token)
+          puts "==== authenticate_user_from_token  sign in user ===="
+          sign_in user, store: false
+        end
+      end
+    end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_user

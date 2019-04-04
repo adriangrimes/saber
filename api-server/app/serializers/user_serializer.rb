@@ -3,10 +3,10 @@ class UserSerializer < ActiveModel::Serializer
   attributes :id,
 
   ## Database authenticatable
-  :username,
-  :email,
-  :encrypted_password,
-  :authentication_token,
+  #:username,
+  #:email,
+  #:encrypted_password,
+  #:authentication_token,
   :account_status,
   :admin_status,
   :stream_key,

@@ -5,7 +5,9 @@ Rails.application.routes.draw do
       sessions: 'sessions',
       registrations: 'users/registrations'
     }
-
+  # TODO: If your application has many RESTful routes, using :only and :except to
+  # generate only the routes that you actually need can cut down on memory use
+  # and speed up the routing process.
   resources :private_messages
   resources :contests
   resources :contest_votes

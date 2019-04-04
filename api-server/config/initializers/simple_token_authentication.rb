@@ -5,7 +5,7 @@ SimpleTokenAuthentication.configure do |config|
   # If true, user is stored in the session and the authentication token and
   # email may be provided only once.
   # If false, users must provide their authentication token and email at every request.
-  config.sign_in_token = true
+  config.sign_in_token = false
 
   # Configure the name of the HTTP headers watched for authentication.
   #
