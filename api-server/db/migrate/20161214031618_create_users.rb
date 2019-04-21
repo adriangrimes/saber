@@ -3,31 +3,32 @@ class CreateUsers < ActiveRecord::Migration[5.0]
     create_table :users do |t|
 
       ## Database authenticatable
-      t.string :username
-      t.string :email,              null: false, default: ""
+      t.string :username, null: false
+      t.string :email, null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
-      t.string :authentication_token
-      t.string :account_status
-      t.boolean :admin_status, default: false
-      t.string :stream_key, default: nil, limit: 64
-      t.string :security_questions
+      t.string :authentication_token, null: false #TODO: encrypt
 
-      ## Account type (Account settings?)
+      ## Account data
       t.boolean :broadcaster, default: false #TODO maybe only let the backend change these, via successful signup or form submition from front end?
       t.boolean :developer, default: false
       t.boolean :affiliate, default: false
-      t.boolean :allow_tips
-      t.boolean :allow_suggested_games
+      t.string :account_status#, default: "UNVERIFIED"
+      t.boolean :admin_status, default: false
+      t.string :security_questions
+      t.string :stream_key, default: nil, limit: 64
 
-      ## Profile
+      ## Site settings
+      t.boolean :dark_mode, default: false
+      t.boolean :send_email_favorites_online, default: false
+      t.boolean :send_email_site_news, default: false
+      t.boolean :private_message_email_notifications, default: true
+
+      ## Payment profile (TODO most of these are probably not safe in terms of user security)
       t.string :full_name
       t.datetime :birthdate
       t.string :address_line1
       t.string :address_line2
       t.string :address_line3
-      t.string :timezone
-
-      ## Payment (TODO most of these are probably not safe in terms of user security)
       t.string :business_name
       t.string :business_entity_type
       t.string :payout_method
@@ -36,23 +37,6 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string :bank_routing_number
       t.boolean :subject_to_backup_withholding, default: false, null: false
 
-      ## Site settings
-      t.boolean :dark_mode, default: false
-      t.string :search_gender, default: "female"
-      t.boolean :send_email_favorites_online, default: false
-      t.boolean :send_email_site_news, default: false
-      t.boolean :private_message_email_notifications, default: true
-
-      ## Public profile
-      t.string :user_custom_tags
-      t.integer :profile_photo_id
-      t.string :profile_sex, limit: 16
-      t.text :profile_about_me, limit: 2048
-      t.integer :profile_age, limit: 3
-      t.string :profile_location, limit: 32
-      t.string :profile_languages, limit: 32
-      #t.text :profile_platforms, limit: 2048
-
       ## Recoverable
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at
@@ -60,7 +44,8 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       ## Rememberable
       t.datetime :remember_created_at
 
-      ## Trackable
+      ## Trackable # Currently using a workaround in sessions controller to prevent
+      # unneccessary sign_in_count increments until Devise 5.0
       t.integer  :sign_in_count, default: 0, null: false
       t.datetime :current_sign_in_at
       t.datetime :last_sign_in_at
@@ -84,6 +69,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
 
     add_index :users, :username,             unique: true
     add_index :users, :email,                unique: true
+    add_index :users, :authentication_token, unique: true
     add_index :users, :reset_password_token, unique: true
     add_index :users, :confirmation_token,   unique: true
     add_index :users, :unlock_token,         unique: true

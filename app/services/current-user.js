@@ -1,23 +1,22 @@
 import { computed } from '@ember/object';
+import { isEmpty } from '@ember/utils';
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
+import { resolve } from 'rsvp';
 import $ from 'jquery';
 
 export default Service.extend({
 
-  store: service(),
   session: service(),
+  store: service(),
   themeChanger: service(),
-  isOnline: true,
-  userId: '',
-  username: '',
-  broadcaster: false,
-  developer: false,
-  affiliate: false,
-  adminStatus: false,
-  darkMode: false,
-  isContracted: computed('broadcaster', 'developer', 'affiliate', function() {
-    if (this.get('broadcaster') === true || this.get('developer') === true || this.get('affiliate') === true) {
+
+  signupSuccess: false,
+
+  // All other user data is at {{currentUser.user.fullName}} etc.
+  // Computed properties dont seem to like being anything but top level
+  isContracted: computed('user.{broadcaster,developer,affiliate}', function() {
+    if (this.get('user.broadcaster') === true || this.get('user.developer') === true || this.get('user.affiliate') === true) {
       return true;
     } else {
       return false;
@@ -26,57 +25,52 @@ export default Service.extend({
   isPlayer: computed('isContracted', function() {
       return !this.get('isContracted');
   }),
-  signupSuccess: false,
 
   init() {
     this._super(...arguments);
-    console.log('At Login State Init session isAuthenticated: '+this.get('session.isAuthenticated'));
+    this.errorMessage = [];
+  },
 
-      if (this.get('session.isAuthenticated')) {
-        console.log('setting up loginstate');
-        return this.get('store').findRecord('user', this.get('session.data.authenticated.user_id'));
-        this.set('broadcaster', user.data.broadcaster);
-        this.set('developer', user.data.developer);
-        this.set('affiliate', user.data.affiliate);
-        this.set('darkMode', user.data.darkMode);
-        console.log('At Login State Init user.data.darkMode: '+user.data.darkMode);
-
-      }
-
-      console.log('At Login State Init loginstate.darkMode: '+this.get('darkMode'))
-
+  load() {
+    console.log('currentUser.load()');
+    console.log('user_id: ' + this.get('session.data.authenticated.user_id'));
+    let userId = this.get('session.data.authenticated.user_id');
+    if (!isEmpty(userId)) {
+      return this.get('store').findRecord('user', userId).then((user) => {
+        this.set('user', user); // Set data returned in user record to currentUser.user
+      });
+    } else {
+      return resolve();
+    }
   },
 
   // Main login function
   logIn(identification, password) {
-    if (identification && password) {
-      console.log('authenticate go!');
 
+    if (identification && password) {
+      console.log('starting currentUser.logIn() function');
       // Submit authentication parameters to api server
       this.get('session').authenticate('authenticator:devise', identification, password).then(() => {
         // Now that we're authenticated, request user data from api server
+        console.log('session authenticated');
+        console.log(this.get('session.data'));
         return this.get('store').findRecord('user', this.get('session.data.authenticated.user_id'));
       }).then((user) => {
-        this.set('broadcaster', user.data.broadcaster);
-        this.set('developer', user.data.developer);
-        this.set('affiliate', user.data.affiliate);
-        this.set('darkMode', user.data.darkMode);
-        console.log('At Login State Log In loginstate.darkMode: '+this.get('darkMode'))
-
-
+        console.log("login authenticate");
         // Set theme to dark if true, otherwise default theme
-        this.get('themeChanger').set('theme', user.data.darkMode ? 'dark' : 'default');
+        this.get('themeChanger').set('theme', user.darkMode ? 'dark' : 'default');
         console.log('Session successfully authenticated for: ' + this.get('session.data.authenticated.username'));
         $('#loginModal').modal('hide'); //close log in modal
       }).catch((err) => {
+        this.set('errorMessage', []);
         console.log('error loading session data');
         this.set('errorMessage', err.error || err);
       });
     } else {
-      this.set('errorMessage',
-              [{ title:  'Missing Info',
-                 detail: 'Your login or password is missing.' }]
-      );
+      this.set('errorMessage', [{
+                 title:  'Missing Info',
+                 detail: 'Your login or password is missing.'
+              }]);
     }
   },
 
@@ -115,14 +109,8 @@ export default Service.extend({
   logOut() {
     this.get('session').invalidate();
     this.get('store').unloadAll('user');
-    this.set('loggedIn', false);
-    this.set('userId', '');
-    this.set('username', '');
-    this.set('broadcaster', false);
-    this.set('developer', false);
-    this.set('adminStatus', false);
+    this.set('user', {});
     this.get('themeChanger').set('theme', 'default');
-
     console.log("logged out");
   },
 

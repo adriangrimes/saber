@@ -20,8 +20,8 @@
     "bootstrap": "~4.1.0",
     "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^3.0.0",
-    "ember-bootstrap": "^1.2.2",
-    "ember-cli": "~3.1.1",
+    "ember-bootstrap": "^2.6.0",
+    "ember-cli": "^3.8.1",
     "ember-cli-app-version": "^3.0.0",
     "ember-cli-babel": "^6.6.0",
     "ember-cli-dependency-checker": "^2.0.0",
@@ -60,6 +60,7 @@
     "ember-radio-buttons": "^4.1.0",
     "font-awesome": "^4.7.0",
     "moment": "^2.22.0",
+    "windows-build-tools": "^5.1.0",
     "ws": "^5.1.1"
   },
   "engines": {

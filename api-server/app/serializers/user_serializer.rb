@@ -1,40 +1,23 @@
 class UserSerializer < ActiveModel::Serializer
 
+  has_one :user_public_datum
+
   attributes :id,
 
   ## Database authenticatable
-  #:username,
-  #:email,
+  :username,
+  :email,
   #:encrypted_password,
   #:authentication_token,
-  :account_status,
-  :admin_status,
-  :stream_key,
-  :security_questions,
 
-  ## Account type (Account settings?)
+  ## Account data
   :broadcaster,
   :developer,
   :affiliate,
-  :allow_tips,
-  :allow_suggested_games,
-
-  ## Profile
-  :full_name,
-  :birthdate,
-  :address_line1,
-  :address_line2,
-  :address_line3,
-  :timezone,
-
-  ## Payment
-  :business_name,
-  :business_entity_type,
-  :payout_method,
-  :bitcoin_address,
-  :bank_account_number,
-  :bank_routing_number,
-  :subject_to_backup_withholding,
+  #:account_status,
+  #:admin_status,
+  :security_questions,
+  :stream_key,
 
   ## Site settings
   :dark_mode,
@@ -42,13 +25,17 @@ class UserSerializer < ActiveModel::Serializer
   :send_email_site_news,
   :private_message_email_notifications,
 
-  ## Public profile
-  :user_custom_tags,
-  :profile_photo_id,
-  :profile_sex,
-  :profile_about_me,
-  :profile_age,
-  :profile_location,
-  :profile_languages
-  #:profile_platforms
+  ## Payment profile (TODO most of these are probably not safe in terms of user security)
+  :full_name,
+  :birthdate,
+  :address_line1,
+  :address_line2,
+  :address_line3,
+  :business_name,
+  :business_entity_type,
+  :payout_method,
+  :bitcoin_address,
+  :bank_account_number,
+  :bank_routing_number,
+  :subject_to_backup_withholding
 end

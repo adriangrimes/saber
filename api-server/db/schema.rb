@@ -86,37 +86,16 @@ ActiveRecord::Schema.define(version: 2017_02_28_073509) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "user_public_data", force: :cascade do |t|
+    t.integer "user_id"
     t.string "username"
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "authentication_token"
-    t.string "account_status"
-    t.boolean "admin_status", default: false
-    t.string "stream_key", limit: 64
-    t.string "security_questions"
-    t.boolean "broadcaster", default: false
-    t.boolean "developer", default: false
-    t.boolean "affiliate", default: false
+    t.string "online_status"
+    t.string "channel_topic"
+    t.integer "current_game_id"
+    t.string "streamnail_path"
     t.boolean "allow_tips"
     t.boolean "allow_suggested_games"
-    t.string "full_name"
-    t.datetime "birthdate"
-    t.string "address_line1"
-    t.string "address_line2"
-    t.string "address_line3"
     t.string "timezone"
-    t.string "business_name"
-    t.string "business_entity_type"
-    t.string "payout_method"
-    t.string "bitcoin_address"
-    t.string "bank_account_number"
-    t.string "bank_routing_number"
-    t.boolean "subject_to_backup_withholding", default: false, null: false
-    t.boolean "dark_mode", default: false
-    t.boolean "send_email_favorites_online", default: false
-    t.boolean "send_email_site_news", default: false
-    t.boolean "private_message_email_notifications", default: true
     t.string "user_custom_tags"
     t.integer "profile_photo_id"
     t.string "profile_sex", limit: 16
@@ -124,6 +103,40 @@ ActiveRecord::Schema.define(version: 2017_02_28_073509) do
     t.integer "profile_age", limit: 3
     t.string "profile_location", limit: 32
     t.string "profile_languages", limit: 32
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_public_data_on_user_id", unique: true
+    t.index ["username"], name: "index_user_public_data_on_username", unique: true
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "username", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "authentication_token", null: false
+    t.boolean "broadcaster", default: false
+    t.boolean "developer", default: false
+    t.boolean "affiliate", default: false
+    t.string "account_status"
+    t.boolean "admin_status", default: false
+    t.string "security_questions"
+    t.string "stream_key", limit: 64
+    t.boolean "dark_mode", default: false
+    t.boolean "send_email_favorites_online", default: false
+    t.boolean "send_email_site_news", default: false
+    t.boolean "private_message_email_notifications", default: true
+    t.string "full_name"
+    t.datetime "birthdate"
+    t.string "address_line1"
+    t.string "address_line2"
+    t.string "address_line3"
+    t.string "business_name"
+    t.string "business_entity_type"
+    t.string "payout_method"
+    t.string "bitcoin_address"
+    t.string "bank_account_number"
+    t.string "bank_routing_number"
+    t.boolean "subject_to_backup_withholding", default: false, null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -141,6 +154,7 @@ ActiveRecord::Schema.define(version: 2017_02_28_073509) do
     t.datetime "locked_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

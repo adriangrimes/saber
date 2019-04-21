@@ -10,7 +10,7 @@ export default Component.extend({
 
   didInsertElement() {
     // Temporarily default login info
-    this.set('inputusername', 'testuser1');
+    this.set('inputusername', 'UserTester1');
     this.set('inputpassword', '12345671');
   },
 

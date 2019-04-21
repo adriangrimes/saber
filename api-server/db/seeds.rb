@@ -1,68 +1,115 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
 
-samepass1 = User.new(
-  email: "samepass1@email.com",
-  username: "SamePass1",
-  password: "password",
-  full_name: "Sam1|E|Pas",
-  dark_mode: true,
-  profile_age: 30,
-  send_email_favorites_online: true
-)
-samepass1.skip_confirmation!
-samepass1.save!
+if Rails.env.development?
+  # Set how many of each user type to seed
+  usercount = 10
 
-samepass2 = User.new(
-  email: "samepass2@email.com",
-  username: "SamePass2",
-  password: "password",
-  full_name: "Sam2|E|Pas",
-  dark_mode: true,
-  profile_age: 30,
-  send_email_favorites_online: false
-)
-samepass2.skip_confirmation!
-samepass2.save!
-
-5.times do |i|
-  userseed = User.new(
-    email: "testuser#{i+1}@email.com",
-    username: "testuser#{i+1}",
-    password: "1234567#{i+1}",
-    full_name: "John#{i+1}|K#{i+1}|Der#{i+1}",
-    dark_mode: true,
-    profile_age: 28
+  # User for testing database defaults
+  # Email, username, password, and a user_public_datum record are the minimum
+  # required to save a user
+  emptyuser = User.new(
+    email: "emptyuser@email.com",
+    username: "EmptyUser",
+    password: "password"
   )
-  userseed.skip_confirmation!
-  userseed.save!
-
-  broadcasterseed = User.new(
-    email: "testbroadcaster#{i+1}@email.com",
-    username: "testbroadcaster#{i+1}",
-    password: "1234567#{i+1}",
-    full_name: "Streamer#{i+1}|C#{i+1}|Aster#{i+1}",
-    broadcaster: true,
-    dark_mode: false,
-    profile_age: 20
+  emptyuser.skip_confirmation!
+  emptyuser.build_user_public_datum(
+    username: emptyuser.username
   )
-  broadcasterseed.skip_confirmation!
-  broadcasterseed.save!
+  emptyuser.save!
 
-  developerseed = User.new(
-    email: "testdeveloper#{i+1}@email.com",
-    username: "testdeveloper#{i+1}",
-    password: "1234567#{i+1}",
-    full_name: "Wert#{i+1}|C#{i+1}|Fort#{i+1}",
-    developer: true,
-    dark_mode: true,
-    profile_age: 25
-  )
-  developerseed.skip_confirmation!
-  developerseed.save!
+  # Users for checking that password encryption is working correctly when two users
+  # have the same password
+  2.times do |i|
+    samepass = User.new(
+      email: "samepass#{i+1}@email.com",
+      username: "SamePass#{i+1}",
+      password: "password"
+    )
+    samepass.skip_confirmation!
+    samepass.build_user_public_datum(
+      username: samepass.username
+    )
+    samepass.save!
+  end
+
+  usercount.times do |i|
+    # Test users
+    testuser = User.new(
+      email: "usertester#{i+1}@email.com",
+      username: "UserTester#{i+1}",
+      password: "1234567#{i+1}",
+      full_name: "User#{i+1}|K#{i+1}|Basic#{i+1}",
+      dark_mode: true,
+      send_email_favorites_online: true,
+    )
+    testuser.skip_confirmation!
+    testuser.build_user_public_datum(
+      username: testuser.username,
+      profile_age: Random.new.rand(13..100)
+    )
+    testuser.save!
+
+    # Test broadcasters
+    testbroadcaster = User.new(
+      email: "broadcastertester#{i+1}@email.com",
+      username: "BroadcasterTester#{i+1}",
+      password: "1234567#{i+1}",
+      full_name: "Streamer#{i+1}|C#{i+1}|Aster#{i+1}",
+      dark_mode: false,
+      broadcaster: true,
+      affiliate: true,
+      send_email_favorites_online: false
+    )
+    testbroadcaster.skip_confirmation!
+    onlinestatus = [true, false, false, false].sample # ~25% of users as online
+    testbroadcaster.build_user_public_datum(
+      username: testbroadcaster.username,
+      online_status: onlinestatus,
+      channel_topic: "Channel topic for describing the topic of the channel",
+      current_game_id: if onlinestatus then Random.new.rand(1..10) else 0 end,
+      streamnail_path: if onlinestatus then "/streamnails/usericon.svg" else "/streamnails/404_streamnail.png" end,
+      profile_age: Random.new.rand(13..100),
+      profile_about_me: "Hey, I'm new here. Also hello from the seeds.rb file!"
+    )
+    testbroadcaster.save!
+
+    # Test developers
+    testdeveloper = User.new(
+      email: "developertester#{i+1}@email.com",
+      username: "DeveloperTester#{i+1}",
+      password: "1234567#{i+1}",
+      full_name: "Dev#{i+1}|E#{i+1}|Loper#{i+1}",
+      dark_mode: false,
+      developer: true,
+      affiliate: true,
+      send_email_favorites_online: false
+    )
+    testdeveloper.skip_confirmation!
+    testdeveloper.build_user_public_datum(
+      username: testdeveloper.username,
+      profile_age: Random.new.rand(13..100),
+      profile_about_me: "just developin"
+    )
+    testdeveloper.save!
+
+    # Test affiliates
+    testaffiliate = User.new(
+      email: "affiliatetester#{i+1}@email.com",
+      username: "AffiliateTester#{i+1}",
+      password: "1234567#{i+1}",
+      full_name: "Aff#{i+1}|Ili#{i+1}|Ate#{i+1}",
+      dark_mode: false,
+      affiliate: true,
+      send_email_favorites_online: false,
+    )
+    testaffiliate.skip_confirmation!
+    testaffiliate.build_user_public_datum(
+      username: testaffiliate.username,
+      profile_age: Random.new.rand(13..100)
+    )
+    testaffiliate.save!
+  end
+
 end

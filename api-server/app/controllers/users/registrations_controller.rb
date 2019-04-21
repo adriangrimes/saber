@@ -3,8 +3,6 @@ include ErrorSerializer
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :sign_up_params, only: [:create]
 
-  respond_to :jsonapi
-
   # GET /resource/sign_up
   # def new
   #   super
@@ -15,6 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     puts "================ after new"
     puts sign_up_params.inspect
     @user = User.new(sign_up_params)
+    @user.build_user_public_datum(username: param[:username])
     puts "=============== after new"
     if @user.save
       render status: :created
@@ -53,7 +52,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def sign_up_params
-    params.permit(:login, :username, :email, :password, :password_confirmation)
+    params.require(:login, :username, :email, :password, :password_confirmation)
   end
 
   # If you have extra params to permit, append them to the sanitizer.

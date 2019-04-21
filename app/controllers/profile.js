@@ -2,13 +2,9 @@ import Controller from '@ember/controller';
 //import { inject as service } from '@ember/service';
 import $ from 'jquery';
 
-
-
 export default Controller.extend({
 
   isFavorite: false,
-
-
 
   init: function() {
     this._super(...arguments);
@@ -17,7 +13,7 @@ export default Controller.extend({
 
   actions: {
     addTag(tag) {
-      if (this.tags.length < 15){
+      if (this.tags.length < 15) {
         this.tags.pushObject(tag);
       }
     },
@@ -26,11 +22,11 @@ export default Controller.extend({
       this.tags.removeAt(index);
     },
 
-    checkOtherSex(){
+    checkOtherSex() {
       $("#inputSexOther").prop('checked', true).change();
     },
 
-    submitProfileSettings(){
+    submitProfileSettings() {
       // Get current state of setting from page and set to a variable
       var updateaboutMe = this.get('inputaboutme');
       var updateAge = this.get('inputAge');
@@ -40,8 +36,8 @@ export default Controller.extend({
       }
       var updateLocation = this.get('inputlocation');
       var updateLanguages = this.get('inputLanguages');
-
-      this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+      console.log('before warning');
+      this.get('store').queryRecord('user-public-datum', { user_id: this.get('session.data.authenticated.user_id') }).then((user) => {
         // Modify record pulled from db to variable
         user.set('profileAboutMe', updateaboutMe);
         user.set('profileSex', updateSex);

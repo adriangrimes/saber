@@ -4,11 +4,12 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default Route.extend(AuthenticatedRouteMixin, {
 
   model() {
-    return this.get('store').findRecord('user', this.get('session.data.authenticated.user_id') );
+    return this.get('store').queryRecord('user-public-datum', { user_id: this.get('session.data.authenticated.user_id') });
   },
 
-  setupController(controller,model) {
+  setupController(controller, model) {
     this._super(controller, model);
+
     // Set profile info to settings pulled from db in display profile and edit modal
     controller.set('displayAboutMe', model.get('profileAboutMe'));
     controller.set('inputaboutme', model.get('profileAboutMe'));
@@ -18,15 +19,11 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     if (model.get('profileSex') == 'Male'){
       controller.set('otherSexText', '');
-
-    }else if (model.get('profileSex') == 'Female'){
+    } else if (model.get('profileSex') == 'Female'){
       controller.set('otherSexText', '');
-
-    }else{
-    controller.set('otherSexText', model.get('profileSex'));
+    } else {
+      controller.set('otherSexText', model.get('profileSex'));
     }
-
-
 
     controller.set('displayAge', model.get('profileAge'));
     controller.set('inputAge', model.get('profileAge'));
@@ -36,6 +33,5 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     controller.set('displayLanguages', model.get('profileLanguages'));
     controller.set('inputLanguages', model.get('profileLanguages'));
-
   }
 });

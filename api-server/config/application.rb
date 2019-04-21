@@ -5,6 +5,7 @@ require "rails"
 require "active_model/railtie"
 require "active_job/railtie"
 require "active_record/railtie"
+require "active_storage/engine"
 require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
@@ -32,6 +33,8 @@ module ApiServer
 
     config.autoload_paths += %W(#{config.root}/lib)
 
+	config.active_record.sqlite3.represent_boolean_as_integer = true
+	
     config.action_mailer.delivery_method = :mailjet_api
     config.action_mailer.default_url_options = { :host => "strip-arcade.com" }
     config.to_prepare do

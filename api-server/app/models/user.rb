@@ -1,18 +1,26 @@
 class User < ApplicationRecord
-  acts_as_token_authenticatable
+  #acts_as_token_authenticatable
 
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable
+  has_one :user_public_datum, dependent: :delete#, autosave: true
+
+  devise :database_authenticatable,
+    :registerable,
+    :recoverable,
+    :rememberable,
+    #:trackable, # Workaround in sessions controller until Devise 5.0 is released
+    :validatable,
+    :confirmable,
+    :lockable
 
   attr_accessor :login
   #attr_accessor :password_confirmation
 
-  #validates :username, presence: true, :uniqueness => { :case_sensitive => false }
+  validates :username, presence: true, :uniqueness => { :case_sensitive => false }
   validates_format_of :username, with: /^[a-zA-Z0-9_]*$/, :multiline => true
   validate :validate_username
-  validates :email, presence: true #, :uniqueness => { :case_sensitive => false }
+  validates :email, presence: true, :uniqueness => { :case_sensitive => false }
   #validates :password, presence: true #, confirmation: true
+  validates :user_public_datum, :presence => true
 
   before_save :ensure_authentication_token
 

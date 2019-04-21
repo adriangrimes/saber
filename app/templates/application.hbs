@@ -6,15 +6,14 @@
 <!-- {{popup-alert}} -->
 <div class="d-block d-sm-none red-bar position-absolute"></div>
 <nav class="navbar navbar-default navbar-expand-sm pl-1 pr-1" id="nav-bar" >
-    <!-- Brand and toggle get grouped for better mobile display -->
+  <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
       <a class="navbar-brand" id="logo-with-text" href="/home"> <img src="/logo.svg" height="32px" width ="32px">Saber</a>
       <a class="navbar-brand" id="logo-no-text" href="/home"> <img src="/logo.svg" height="32px" width ="32px"></a>
   </div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
+  <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav ml-auto" >
-
       {{#if session.isAuthenticated}}
 
               <li><button class=" btn btn-outline-dark border-0 px-2 mx-1"  data-toggle="modal" data-target="#buyCreditsModal" >  <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></button></li>
@@ -26,6 +25,12 @@
              {{/if}}
         {{/if}}
 
+        {{#if currentUser.isContracted}}
+          <li><a class=" btn btn-outline-dark border-0 px-2 mx-1" href="/account/dashboard"> <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i></a></li>
+        {{else}}
+          <li><a class=" btn btn-outline-dark border-0 px-2 mx-1" href="/account"> <i title="My Account" class="fa fa-user" aria-hidden="true"></i></a></li>
+        {{/if}}
+      {{/if}}
     </ul>
   </div><!-- /.navbar-collapse -->
 
@@ -37,14 +42,13 @@
                  <div class="dropdown-item dropdown-header">Hi <strong>{{session.data.authenticated.username}}</strong></div>
                  <a class="dropdown-item" href="/account/messages">Messages&nbsp;&nbsp;<span class="badge badge-primary badge-pill">42</span></a>
                  {{#if currentUser.isContracted}}
-                 <a class="dropdown-item" href="/account/dashboard">Dashboard</a>
+                  <a class="dropdown-item" href="/account/dashboard">Dashboard</a>
                  {{/if}}
-                 {{if currentUser.user.darkMode "true" "false"}}
                  <a class="dropdown-item"href="/profile">Edit Profile</a>
                  <a  class="dropdown-item" href="/account">Account Settings</a>
                   <form {{action "toggleDarkMode" on="change"}}>
-                      <a class="dropdown-item d-inline-block pr-2 "> Dark Mode
-                       <label class="switch float-right" >
+                      <a class="dropdown-item d-inline-block pr-2 ">Dark Mode
+                       <label class="switch float-right">
                          {{input type="checkbox" name="darkMode" id="darkModeToggle" checked=currentUser.user.darkMode}}
                         <span class="slider"></span>
                       </label>
