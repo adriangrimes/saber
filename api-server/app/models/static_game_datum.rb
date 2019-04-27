@@ -1,0 +1,2 @@
+class StaticGameDatum < ApplicationRecord
+end

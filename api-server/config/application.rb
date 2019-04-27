@@ -33,10 +33,10 @@ module ApiServer
 
     config.autoload_paths += %W(#{config.root}/lib)
 
-	config.active_record.sqlite3.represent_boolean_as_integer = true
-	
+    config.active_record.sqlite3.represent_boolean_as_integer = true
+
     config.action_mailer.delivery_method = :mailjet_api
-    config.action_mailer.default_url_options = { :host => "strip-arcade.com" }
+    config.action_mailer.default_url_options = { :host => "saber.tv" }
     config.to_prepare do
       DeviseController.respond_to :jsonapi
     end

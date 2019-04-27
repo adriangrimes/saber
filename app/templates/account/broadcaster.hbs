@@ -1,7 +1,7 @@
 
   <div class="row m-0">
 
- {{#if currentUser.broadcaster}}
+ {{#if currentUser.user.broadcaster}}
     <div class="col-12">
       You are already a verified broadcaster, congrats!
     </div>
@@ -26,12 +26,12 @@
 
       <form {{action "submitBroadcasterVerification" on="submit"}}>
 
-      {{#if currentUser.developer}}
+      {{#if currentUser.user.developer}}
       <div class="pb-3">
         As a developer you have already submited your payment details. Upload your verification documents below to become a developer and broadcaster. <br>
         To sign up for a separate broadcaster account log out, and then visit <a href="/signup/broadcaster">Saber.tv/signup/broadcaster</a>
       </div>
-      {{else if currentUser.affiliate}}
+      {{else if currentUser.user.affiliate}}
         <div class="pb-3">
           As an affiliate you have already submited your payment details. Upload your verification documents below to become an affiliate and broadcaster. <br>
           To sign up for a separate broadcaster account log out, and then visit <a href="/signup/broadcaster">Saber.tv/signup/broadcaster</a>

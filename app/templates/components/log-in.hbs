@@ -1,17 +1,17 @@
 <h4>
   {{#if signupform}}
-    <b>Sign up</b>     or <a href="" {{action 'toggleSignUp'}}><u>Log in</u></a>
+    <b>Sign up</b>
+    <small> or <a href="" {{action 'toggleSignUp'}}><u>Log in</u></a></small>
   {{else}}
-    <b>Log in</b>      or <a href="" {{action 'toggleSignUp'}}><u>Sign up</u></a>
+    <b>Log in</b>
+    <small> or <a href="" {{action 'toggleSignUp'}}><u>Sign up</u></a></small>
   {{/if}}
-
-
 </h4>
-<br>
 
-{{#if currentUser.errorMessage}}
+<!-- Error or message display -->
+{{#if currentUser.errorMessages}}
   <p class="alert alert-danger">
-    {{#each currentUser.errorMessage as |error|}}
+    {{#each currentUser.errorMessages as |error|}}
     - {{error.detail}}<br>
     {{/each}}
   </p>
@@ -19,41 +19,8 @@
 
 <form>
   {{#if signupform}}
-    {{#if currentUser.signupSuccess}}
-      <p class="alert alert-success">
-        Account created! Check your email to confirm and activate your account.
-      </p>
-    {{/if}}
-
-    <div class="form-group-sm">
-      <label for="username">Username</label>
-      {{input type="login" class="form-control" id="username" value=inputusername}}
-    </div>
-    <br>
-    <div class="form-group-sm">
-      <label for="email">Email address</label>
-      {{input type="email" class="form-control" id="email" value=inputemailaddress}}
-    </div>
-    <br>
-    <div class="form-group-sm">
-      <label for="password">Password</label>
-      {{input class="form-control" id="password" value=inputpassword}}
-    </div>
-    <br>
-    <div class="form-group-sm">
-      <label for="pwconfirm">Confirm Password</label>
-      {{input type="password" class="form-control" id="pwconfirm" value=inputpasswordconfirm}}
-    </div>
-    <div class="form-check mb-3">
-      <label class=" form-check-label">
-        <br>
-        <input type="checkbox" class=" form-check-input">
-      </label>
-    </div>
-    <button type="button" class="signup-button btn btn-primary btn-block" {{action "signup"}}>Sign me up!</button>
-
-{{else}}
-
+    {{sign-up "user"}}
+  {{else}}
     <div class="form-group-sm">
       <label for="username">Username / Email</label>
       {{input class="form-control" id="username" value=inputusername placeholder="UserTester1"}}
@@ -63,9 +30,12 @@
       <label for="password">Password</label>
       {{input class="form-control" id="password" value=inputpassword placeholder="12345670"}}
     </div>
+    <div>
+      <a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank">
+        <u><small>Forgot your password?</small></u>
+      </a>
+    </div>
     <br>
     <button type="button" class="btn btn-primary btn-block" {{action "authenticate"}}><div>Log In</div></button>
-
   {{/if}}
-
 </form>

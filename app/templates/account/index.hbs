@@ -225,11 +225,11 @@
               {{/if}}
                   <a class="btn btn-primary btn-block d-none d-sm-block mb-4" href="/profile" role="button">Edit Profile &nbsp;<span class="fa fa-edit" aria-hidden="true"></span></a>
 
-                {{#if currentUser.broadcaster}}
+                {{#if currentUser.user.broadcaster}}
                 {{else}}
                 <a class="btn btn-primary btn-block d-none d-sm-block" href="/account/broadcaster" role="button">Become a Broadcaster &nbsp;<span class="fa fa-video-camera" aria-hidden="true"></span></a>
                 {{/if}}
-                {{#if currentUser.developer}}
+                {{#if currentUser.user.developer}}
                 {{else}}
                 <a class="btn btn-primary btn-block d-none d-sm-block" href="/account/developer" role="button">Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span></a>
                 {{/if}}
@@ -237,11 +237,11 @@
                 <a class="btn btn-primary btn-block d-none d-sm-block" href="/account/affiliate" role="button">Become an Affiliate &nbsp;<span class="fa fa-bullhorn" aria-hidden="true"></span></a>
                 {{/if}}
 
-                {{#if currentUser.broadcaster}}
+                {{#if currentUser.user.broadcaster}}
                 {{else}}
                 <a class="btn btn-primary btn-block d-block d-sm-none" href="/account/broadcaster" role="button">Become a Broadcaster &nbsp;<span class="fa fa-video-camera" aria-hidden="true"></span></a>
                 {{/if}}
-                {{#if currentUser.developer}}
+                {{#if currentUser.user.developer}}
                 {{else}}
                 <a class="btn btn-primary btn-block d-block d-sm-none" href="/account/developer" role="button">Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span></a>
                 {{/if}}

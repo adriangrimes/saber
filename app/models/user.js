@@ -7,6 +7,7 @@ export default DS.Model.extend({
   // Account data
   username: DS.attr('string'),
   email: DS.attr('string'),
+  password: DS.attr('string'),
 
   broadcaster: DS.attr('boolean'),
   developer: DS.attr('boolean'),
@@ -17,13 +18,13 @@ export default DS.Model.extend({
   streamKey: DS.attr('string'),
 
   // Site settings
-  spendsCredits: DS.attr('boolean'),
   darkMode: DS.attr('boolean'),
   sendEmailFavoritesOnline: DS.attr('boolean'),
   sendEmailSiteNews: DS.attr('boolean'),
   privateMessageEmailNotifications: DS.attr('boolean'),
 
-  // Payment profile  (TODO most of these are probably not safe in terms of user security)
+  // Payment profile  (TODO most of these are probably not safe in terms of
+  // user security)
   fullName: DS.attr('string'),
   birthdate: DS.attr('date'),
   addressLine1: DS.attr('string'),

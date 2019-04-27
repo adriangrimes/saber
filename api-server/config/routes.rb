@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :static_game_data
   devise_for :users,
     controllers: {
       sessions: 'sessions',

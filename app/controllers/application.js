@@ -39,11 +39,11 @@ export default Controller.extend({
         // Save record to db
         user.save().catch((reason) => {
           console.log('error saving user record: ' + reason);
-          this.set('errorMessage', reason.error || reason);
+          this.set('errorMessage', reason.errors || reason);
         });
       }).catch((reason) => {
         console.log('error finding user record: ' + reason);
-        this.set('errorMessage', reason.error || reason);
+        this.set('errorMessage', reason.errors || reason);
       });
 
     }

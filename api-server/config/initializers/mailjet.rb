@@ -2,7 +2,7 @@
 Mailjet.configure do |config|
   config.api_key = '26c6be7bbb1d5cf4f6898e7cd60937f6'
   config.secret_key = 'e2f43ae6d231802e3868b27b3110e6a0'
-  config.default_from = 'noreply@strip-arcade.com'
+  config.default_from = '"Saber" <noreply@saber.tv>'
   # Mailjet API v3.1 is at the moment limited to Send API.
   # We’ve not set the version to it directly since there is no other endpoint in that version.
   # We recommend you create a dedicated instance of the wrapper set with it to send your emails.

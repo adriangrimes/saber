@@ -25,7 +25,7 @@ class UserPublicDataController < ApplicationController
     if @user_public_datum = UserPublicDatum.find_by(user_id: params[:data][:attributes][:user_id])
       if authenticate_user_from_token(@user_public_datum.user_id)
         if @user_public_datum.update(public_params)
-          render json: @user_public_datum
+          render json: @user_public_datum, status: :ok
         else
           render json: @user_public_datum.errors, status: :unprocessable_entity
         end

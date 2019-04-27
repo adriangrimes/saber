@@ -52,11 +52,11 @@ export default Controller.extend({
           $('[id=profileSettingSubmit]').addClass('fa fa-check');
         }).catch((reason) => {
           console.log('error saving user record: ' + reason);
-          this.set('errorMessage', reason.error || reason);
+          this.set('errorMessage', reason.errors || reason);
         });
       }).catch((reason) => {
         console.log('error finding user record: ' + reason);
-        this.set('errorMessage', reason.error || reason);
+        this.set('errorMessage', reason.errors || reason);
       });
       setTimeout(function() {
         window.location.reload(true);

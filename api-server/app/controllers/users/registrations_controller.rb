@@ -10,17 +10,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    puts "================ after new"
-    puts sign_up_params.inspect
     @user = User.new(sign_up_params)
-    @user.build_user_public_datum(username: param[:username])
-    puts "=============== after new"
+    @user.build_user_public_datum(username: sign_up_params[:username])
     if @user.save
-      render status: :created
+      render json: @user, status: :created
     else
-      puts @user.errors.full_messages
-      puts "=====else user.save error====="
+      puts @user.errors.inspect
       render json: ErrorSerializer.serialize(@user.errors), status: :unprocessable_entity
+      #render json: @user.errors, status: :unprocessable_entity
     end
   end
 
@@ -52,7 +49,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def sign_up_params
-    params.require(:login, :username, :email, :password, :password_confirmation)
+    params.require(:data)
+      .require(:attributes)
+      .permit(:login, :username, :email, :password,
+        :broadcaster, :developer, :affiliate, :full_name)
   end
 
   # If you have extra params to permit, append them to the sanitizer.

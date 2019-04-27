@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2017_02_28_073509) do
+ActiveRecord::Schema.define(version: 2019_04_22_213159) do
 
   create_table "contest_votes", force: :cascade do |t|
     t.integer "user_id"
@@ -63,6 +63,17 @@ ActiveRecord::Schema.define(version: 2017_02_28_073509) do
     t.text "message", limit: 1024
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "static_game_data", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "title"
+    t.integer "photo_id"
+    t.string "description"
+    t.integer "instructions"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_static_game_data_on_user_id", unique: true
   end
 
   create_table "user_blocks", force: :cascade do |t|
@@ -156,7 +167,6 @@ ActiveRecord::Schema.define(version: 2017_02_28_073509) do
     t.datetime "updated_at", null: false
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true

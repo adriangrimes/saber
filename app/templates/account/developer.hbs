@@ -1,5 +1,5 @@
   <div class="row m-0">
-    {{#if currentUser.developer}}
+    {{#if currentUser.user.developer}}
        <div class="col-12">
          You are already a developer, congrats!
        </div>
@@ -17,7 +17,7 @@
     </div>
     <div class="col-xs-12 col-sm-7">
 
-    {{#if currentUser.broadcaster}}
+    {{#if currentUser.user.broadcaster}}
           <div>
           As a verified broadcaster you have already submited your payment details, so there's nothing more to do but get into the code! <br><br>
           Click the button below to also become a developer. <br>
@@ -28,7 +28,7 @@
         <div class="pt-5 mt-5">
           To sign up for a separate developer account log out, and then visit <a href="/signup/developer">saber.tv/signup/developer</a>
         </div>
-    {{else if currentUser.affiliate}}
+    {{else if currentUser.user.affiliate}}
           <div>
           As an affiliate you have already submited your payment details, so there's nothing more to do but get into the code! <br><br>
           Click the button below to also become a developer. <br>

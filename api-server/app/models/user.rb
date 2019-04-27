@@ -1,41 +1,37 @@
 class User < ApplicationRecord
   #acts_as_token_authenticatable
 
-  has_one :user_public_datum, dependent: :delete#, autosave: true
-
   devise :database_authenticatable,
     :registerable,
     :recoverable,
     :rememberable,
     #:trackable, # Workaround in sessions controller until Devise 5.0 is released
-    :validatable,
+    :validatable, # Handles email and password validation
     :confirmable,
     :lockable
 
-  attr_accessor :login
-  #attr_accessor :password_confirmation
+  # Used as a virtual attribute for find_for_database_authentication
+  attr_writer :login
 
-  validates :username, presence: true, :uniqueness => { :case_sensitive => false }
-  validates_format_of :username, with: /^[a-zA-Z0-9_]*$/, :multiline => true
-  validate :validate_username
-  validates :email, presence: true, :uniqueness => { :case_sensitive => false }
-  #validates :password, presence: true #, confirmation: true
+  has_one :user_public_datum, dependent: :delete#, autosave: true
   validates :user_public_datum, :presence => true
 
+  validates :username, :uniqueness => { :case_sensitive => false },
+    format: { with: /^[a-zA-Z0-9_]*$/, :multiline => true },
+    length: { minimum: 3, maximum: 26 }
+  validates :full_name, presence: true, if: :is_contractor?
+
+  before_save :ensure_online_status
   before_save :ensure_authentication_token
 
-  def login=(login)
-    @login = login
-  end
-
+  # Used as a virtual attribute for find_for_database_authentication
   def login
     @login || self.username || self.email
   end
 
-  def validate_username
-    #if email matches an already used username, return error
-    if User.where(email: username).exists?
-      errors.add(:username, :invalid)
+  def ensure_online_status
+    if self.broadcaster == true
+      self.user_public_datum.online_status = [true, false, false, false].sample
     end
   end
 
@@ -50,12 +46,33 @@ class User < ApplicationRecord
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
       puts "=====find login from passed params if====="
-      where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      # TODO: MySQL users: the use of the SQL lower function below is most
+      # likely unnecessary and will cause any index on the email column to be ignored.
+      where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value",
+        { :value => login.downcase }]).first
     end
+  end
+
+  def is_contractor?
+    if self.broadcaster == true ||
+      self.developer == true ||
+      self.affiliate == true
+      return true
+    else
+      return false
+    end
+  end
+
+  # Overrides Devise User Mail function send_devise_notification.
+  # Delivers User registration email async instead of blocking all other requests
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
   end
 
   private
 
+    # Loop ensures in the unlikely event a token is generated that matches
+    # another user, it will continue generating until a unique one is found
     def generate_authentication_token
       loop do
         token = Devise.friendly_token

@@ -3,7 +3,7 @@
   <div class="modal-content">
 
     <div class="modal-body">
-      <button {{action "closeModal"}} type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <button {{action this.currentUser.cleanUpModal}} type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
       {{log-in user=model}}

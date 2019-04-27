@@ -16,8 +16,8 @@ class SessionsController < Devise::SessionsController
       username: resource.username
     }
 
-    # Workaround to make Devise only modify trackable fields on sign in/session create
-    # instead of every user table call. Will be fixed in Devise 5.0
+    # Workaround to make Devise only modify trackable fields on sign in and
+    # session create instead of every User table call. Will be fixed in Devise 5.0
     datenow = DateTime.now
     unless resource.current_sign_in_at.nil?
       resource.last_sign_in_at = resource.current_sign_in_at
@@ -30,6 +30,7 @@ class SessionsController < Devise::SessionsController
     resource.current_sign_in_ip = request.remote_ip
     resource.sign_in_count += 1
 
+    # Save to session if session is enabled, and render json to client
     if resource.save!
       render json: data, status: :created
     else

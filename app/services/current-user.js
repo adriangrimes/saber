@@ -1,5 +1,5 @@
 import { computed } from '@ember/object';
-import { isEmpty } from '@ember/utils';
+//import { isEmpty } from '@ember/utils';
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { resolve } from 'rsvp';
@@ -12,11 +12,15 @@ export default Service.extend({
   themeChanger: service(),
 
   signupSuccess: false,
+  hasModalOpen: false,
 
   // All other user data is at {{currentUser.user.fullName}} etc.
-  // Computed properties dont seem to like being anything but top level
+  // Computed properties set to currentUser.user will be removed once the
+  // model has been populated below.
   isContracted: computed('user.{broadcaster,developer,affiliate}', function() {
-    if (this.get('user.broadcaster') === true || this.get('user.developer') === true || this.get('user.affiliate') === true) {
+    if (this.get('user.broadcaster') === true ||
+      this.get('user.developer') === true ||
+      this.get('user.affiliate') === true) {
       return true;
     } else {
       return false;
@@ -28,16 +32,27 @@ export default Service.extend({
 
   init() {
     this._super(...arguments);
-    this.errorMessage = [];
+    this.errorMessages = [];
+  },
+
+  setupModal() {
+    this.currentUser.set('hasModalOpen', true);
+    this.currentUser.set('errorMessages', []);
+  },
+  cleanUpModal() {
+    this.currentUser.set('hasModalOpen', false);
+    this.currentUser.set('errorMessages', []);
   },
 
   load() {
-    console.log('currentUser.load()');
-    console.log('user_id: ' + this.get('session.data.authenticated.user_id'));
+    console.log('currentUser.load() user_id: ' +
+      this.get('session.data.authenticated.user_id'));
     let userId = this.get('session.data.authenticated.user_id');
-    if (!isEmpty(userId)) {
+    if (!isNaN(userId)) {
       return this.get('store').findRecord('user', userId).then((user) => {
-        this.set('user', user); // Set data returned in user record to currentUser.user
+        this.set('user', user); // Set data returned to currentUser.user
+      }).catch((err) => {
+        this.set('errorMessages', err.errors || err);
       });
     } else {
       return resolve();
@@ -46,72 +61,80 @@ export default Service.extend({
 
   // Main login function
   logIn(identification, password) {
-
+    this.set('errorMessages', []);
     if (identification && password) {
-      console.log('starting currentUser.logIn() function');
       // Submit authentication parameters to api server
-      this.get('session').authenticate('authenticator:devise', identification, password).then(() => {
+      this.get('session').authenticate('authenticator:devise',
+          identification.trim(),
+          password)
+          .then(() => {
         // Now that we're authenticated, request user data from api server
-        console.log('session authenticated');
-        console.log(this.get('session.data'));
-        return this.get('store').findRecord('user', this.get('session.data.authenticated.user_id'));
+        return this.get('store').findRecord('user',
+          this.get('session.data.authenticated.user_id'));
       }).then((user) => {
-        console.log("login authenticate");
         // Set theme to dark if true, otherwise default theme
-        this.get('themeChanger').set('theme', user.darkMode ? 'dark' : 'default');
-        console.log('Session successfully authenticated for: ' + this.get('session.data.authenticated.username'));
+        this.themeChanger.set('theme', user.darkMode ? 'dark' : 'default');
         $('#loginModal').modal('hide'); //close log in modal
       }).catch((err) => {
-        this.set('errorMessage', []);
-        console.log('error loading session data');
-        this.set('errorMessage', err.error || err);
+        this.set('errorMessages', err.errors || err);
       });
     } else {
-      this.set('errorMessage', [{
-                 title:  'Missing Info',
-                 detail: 'Your login or password is missing.'
-              }]);
+      this.set('errorMessages',
+        [{ title: 'Missing Info', detail: 'Your login or password is missing' }]);
     }
   },
 
-  signUp(user, email, pw, pwconfirm) {
-    if (email && user && pw) {
-      if (pw === pwconfirm) {
-        let newUser = this.get('store').createRecord('user', {
-          email: email,
-          username: user,
-          password: pw,
-          passwordConfirmation: pwconfirm
-        });
-        console.log('before sign up POST');
-        newUser.save().then(() => {
-          console.log('signup success');
-          this.set('errorMessage', null);
-          this.set('signupSuccess', true);
-        }).catch((err) => {
-          this.set('errorMessage', err.errors || err);
-        });
-        //Ember.$('#loginModal').modal('hide'); //close log in modal
-      } else {
-        console.log('setting error passwords do not match');
-        this.set('errorMessage', [{ title: 'Passwords',
-                                    detail: 'Passwords do not match.' }]
-        );
+  // Registration
+  signUp(username, email, pw, fullname, contractor) {
+    this.set('errorMessages', []);
+    if (username && email && pw) {
+      let newUser = this.get('store').createRecord('user', {
+        email: email.trim(),
+        username: username.trim(),
+        password: pw // Do not trim password
+      });
+      if (contractor === 'broadcaster') {
+        newUser.set('broadcaster', true);
+        newUser.set('affiliate', true);
       }
+      if (contractor === 'developer') {
+        newUser.set('developer', true);
+        newUser.set('affiliate', true);
+      }
+      if (contractor === 'affiliate') {
+        newUser.set('affiliate', true);
+      }
+      if (fullname) {
+        // Removes any extra spaces, and trims whitespace from ends
+        let cleanedFullName = fullname.replace(/\s+/g,' ').trim();
+        let spaceCount = (cleanedFullName.split(' ').length - 1);
+        console.log(spaceCount);
+        if (spaceCount > 1) {
+          newUser.set('fullName', cleanedFullName.trim().split(' ').join('|'));
+        } else {
+          newUser.set('fullName', cleanedFullName.trim().replace(' ', '||'));
+        }
+      }
+      newUser.save().then(() => {
+        this.set('errorMessages', []);
+        this.set('signupSuccess', true);
+      }).catch((err) => {
+        newUser.deleteRecord();
+        this.set('errorMessages', err.errors || err);
+      });
     } else {
-      console.log('setting error no info');
-      this.set('errorMessage', [{ title: 'Missing Info',
-                                  detail: 'Please enter the information below to sign up.' }]
+      this.set('errorMessages',
+        [{ title: 'Missing Info',
+        detail: 'Please fill in all fields below to sign up' }]
       );
     }
   },
 
   logOut() {
-    this.get('session').invalidate();
     this.get('store').unloadAll('user');
     this.set('user', {});
+    this.get('session').invalidate();
     this.get('themeChanger').set('theme', 'default');
-    console.log("logged out");
   },
 
 });

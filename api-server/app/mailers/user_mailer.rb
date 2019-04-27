@@ -7,4 +7,5 @@ class UserMailer < Devise::Mailer
     #headers["Custom-header"] = "Bar"
     super
   end
+  
 end

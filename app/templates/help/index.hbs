@@ -3,13 +3,13 @@
     <h2>Help {{#if currentUser.isContracted}}for{{/if}}</h2> 
   </div>
   <div class="col-3 p-0 userTypeBadges">
-    {{#if currentUser.affiliate}}
+    {{#if currentUser.user.affiliate}}
       <div>Affiliates<span class="fa fa-bullhorn pl-1"></span></div>
     {{/if}}
-    {{#if currentUser.broadcaster}}
+    {{#if currentUser.user.broadcaster}}
       <div>Broadcasters<span class="fa fa-video-camera pl-1"></span></div>
     {{/if}}
-    {{#if currentUser.developer}}
+    {{#if currentUser.user.developer}}
       <div>Developers<span class="fa fa-file-code-o pl-1"></span></div>
     {{/if}}
   </div>
@@ -28,12 +28,12 @@
                 <a href="#{{helpTopic.shortTitle}}" > <button class="btn btn-block btn-primary mb-2" data-toggle="collapse" data-parent="#{{helpTopic.shortTitle}}" data-target="#{{helpTopic.shortTitle}}Collapse">{{helpTopic.title}}</button></a>
               {{/if}}
           {{/if}}
-          {{#if currentUser.broadcaster}}
+          {{#if currentUser.user.broadcaster}}
               {{#if helpTopic.broadcastersOnly}}
                 <a href="#{{helpTopic.shortTitle}}" > <button class="btn btn-block btn-primary mb-2" data-toggle="collapse" data-parent="#{{helpTopic.shortTitle}}" data-target="#{{helpTopic.shortTitle}}Collapse">{{helpTopic.title}}</button></a>
               {{/if}}
           {{/if}}
-          {{#if currentUser.developer}}
+          {{#if currentUser.user.developer}}
               {{#if helpTopic.developersOnly}}
                 <a href="#{{helpTopic.shortTitle}}" > <button class="btn btn-block btn-primary mb-2" data-toggle="collapse" data-parent="#{{helpTopic.shortTitle}}" data-target="#{{helpTopic.shortTitle}}Collapse">{{helpTopic.title}}</button></a>
               {{/if}}
@@ -89,7 +89,7 @@
                 </div>
             {{/if}}
         {{/if}}
-        {{#if currentUser.broadcaster}}
+        {{#if currentUser.user.broadcaster}}
             {{#if helpTopic.broadcastersOnly}}
             <div id="{{helpTopic.shortTitle}}">
                 <div class="card mb-3">
@@ -111,7 +111,7 @@
 
         {{/if}}
         {{/if}}
-        {{#if currentUser.developer}}
+        {{#if currentUser.user.developer}}
             {{#if helpTopic.developersOnly}}
             <div id="{{helpTopic.shortTitle}}">
                 <div class="card mb-3">

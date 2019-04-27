@@ -1,0 +1,34 @@
+{{#if currentUser.signupSuccess}}
+  <p class="alert alert-success">
+    Account created! Check your email to confirm and activate your account.
+  </p>
+{{/if}}
+
+<div class="form-group-sm">
+  <label for="username">Username</label>
+  {{input type="login" class="form-control" value=inputusername}}
+</div>
+<br>
+<div class="form-group-sm">
+  <label for="email">Email address</label>
+  {{input type="email" class="form-control" value=inputemailaddress}}
+  <div>
+    <small>Your email will not be published anywhere on or off the site.
+    It is only used for sign-in and password recovery.</small>
+  </div>
+</div>
+<br>
+{{#if contractorSignup}}
+  <div class="form-group">
+      <label for="inputFullName">Full Name</label>
+        {{input type="text" class="form-control" value=inputFullName }}
+      </div>
+  <br>
+{{/if}}
+<div class="form-group-sm">
+  <label for="password">Password</label>
+  {{input class="form-control" value=inputpassword}}
+</div>
+<button type="button" class="signup-button btn btn-primary btn-block" {{action "signUp"}}>
+  Sign me up!
+</button>

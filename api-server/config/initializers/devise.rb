@@ -12,7 +12,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'noreply@strip-arcade.com'
+  config.mailer_sender = '"Saber" <noreply@saber.tv>'
 
   # Configure the class responsible to send e-mails.
   config.mailer = 'UserMailer'
@@ -244,6 +244,9 @@ Devise.setup do |config|
   #
   # The "*/*" below is required to match Internet Explorer requests.
   # config.navigational_formats = ['*/*', :html]
+  # Set navigational formats to empty array to prevent errors when Devise tries
+  # to call flash[] in an API-only Rails 5 instance
+  config.navigational_formats = []
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
@@ -258,7 +261,7 @@ Devise.setup do |config|
   # change the failure app, you can configure them inside the config.warden block.
   #
   config.warden do |manager|
-    manager.failure_app = CustomFailure
+    manager.failure_app = JsonApiFailureApp
     #manager.intercept_401 = false
     #manager.default_strategies(scope: :user).unshift :some_external_strategy
   end

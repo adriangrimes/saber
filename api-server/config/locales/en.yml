@@ -30,4 +30,20 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      user:
+        username: "Username"
+    errors:
+      models:
+        user:
+          attributes:
+            username:
+              invalid: "is invalid (only alphanumeric characters are allowed)."
+              #too_short: "is too short (minimum is %{count} characters)"
+            email:
+              blank: "is required."
+            password:
+              blank: "is required."
+            full_name:
+              blank: "is required."
