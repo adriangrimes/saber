@@ -17,6 +17,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
     controller.set('displaySex', model.get('profileSex'));
     controller.set('inputSex', model.get('profileSex'));
 
+    controller.set('tags', model.get('userCustomTags'));
+    //controller.set('inputSex', model.get('profileSex'));
+
     if (model.get('profileSex') == 'Male') {
       controller.set('otherSexText', '');
     } else if (model.get('profileSex') == 'Female') {

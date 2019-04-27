@@ -23,12 +23,14 @@
   {{else}}
     <div class="form-group-sm">
       <label for="username">Username / Email</label>
-      {{input class="form-control" id="username" value=inputusername placeholder="UserTester1"}}
+      {{#focus-input}}
+        {{input class="form-control" id="username" spellcheck=false value=inputusername placeholder="UserTester1"}}
+      {{/focus-input}}
     </div>
     <br>
     <div class="form-group-sm">
       <label for="password">Password</label>
-      {{input class="form-control" id="password" value=inputpassword placeholder="12345670"}}
+      {{input class="form-control" id="password" spellcheck=false value=inputpassword placeholder="12345670"}}
     </div>
     <div>
       <a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank">
@@ -36,6 +38,6 @@
       </a>
     </div>
     <br>
-    <button type="button" class="btn btn-primary btn-block" {{action "authenticate"}}><div>Log In</div></button>
+    <button type="submit" class="btn btn-primary btn-block" {{action "authenticate"}}><div>Log In</div></button>
   {{/if}}
 </form>

@@ -37,14 +37,15 @@ export default Controller.extend({
       var updateLocation = this.get('inputlocation');
       var updateLanguages = this.get('inputLanguages');
       console.log('before warning');
-      this.get('store').queryRecord('user-public-datum', { user_id: this.get('session.data.authenticated.user_id') }).then((user) => {
+      this.get('store').queryRecord('user-public-datum',
+        { user_id: this.get('session.data.authenticated.user_id') }).then((user) => {
         // Modify record pulled from db to variable
         user.set('profileAboutMe', updateaboutMe);
         user.set('profileSex', updateSex);
         user.set('profileAge', updateAge);
         user.set('profileLocation', updateLocation);
         user.set('profileLanguages', updateLanguages);
-
+        user.set('userCustomTags', this.tags);
         // Save record to db
         user.save().then(() => {
           console.log('submitProfileSettings saved');

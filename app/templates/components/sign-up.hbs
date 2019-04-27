@@ -6,29 +6,33 @@
 
 <div class="form-group-sm">
   <label for="username">Username</label>
-  {{input type="login" class="form-control" value=inputusername}}
+  {{#focus-input}}
+    {{input type="login" class="form-control" spellcheck=false value=inputusername}}
+  {{/focus-input}}
 </div>
 <br>
 <div class="form-group-sm">
   <label for="email">Email address</label>
-  {{input type="email" class="form-control" value=inputemailaddress}}
+  {{input type="email" class="form-control" spellcheck=false value=inputemailaddress}}
   <div>
-    <small>Your email will not be published anywhere on or off the site.
-    It is only used for sign-in and password recovery.</small>
+    <small>
+      Your email will not be published anywhere on or off the site.
+      It is only used for sign-in, password recovery, and account notifications.
+    </small>
   </div>
 </div>
 <br>
 {{#if contractorSignup}}
   <div class="form-group">
       <label for="inputFullName">Full Name</label>
-        {{input type="text" class="form-control" value=inputFullName }}
+        {{input type="text" class="form-control" spellcheck=false value=inputFullName }}
       </div>
   <br>
 {{/if}}
 <div class="form-group-sm">
   <label for="password">Password</label>
-  {{input class="form-control" value=inputpassword}}
+  {{input class="form-control" spellcheck=false value=inputpassword}}
 </div>
-<button type="button" class="signup-button btn btn-primary btn-block" {{action "signUp"}}>
+<button type="submit" class="signup-button btn btn-primary btn-block" {{action "signUp"}}>
   Sign me up!
 </button>

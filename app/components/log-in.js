@@ -10,6 +10,9 @@ export default Component.extend({
     // TODO Temporarily default login info
     this.set('inputusername', 'UserTester1');
     this.set('inputpassword', '12345671');
+    // $('#loginModal').on('shown.bs.modal', function() {
+    //   $('#username').trigger('focus');
+    // });
   },
 
   actions: {
@@ -26,6 +29,9 @@ export default Component.extend({
       this.set('inputusername','');
       this.set('inputpassword','');
       this.set('currentUser.errorMessages', []);
+      // $('#loginModal').on('shown.bs.modal', function() {
+      //   $('#username').trigger('focus');
+      // });
     }
   }
 
