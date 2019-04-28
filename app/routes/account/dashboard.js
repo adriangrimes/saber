@@ -11,6 +11,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
   setupController(controller,model) {
     this._super(controller, model);
     // Set account settings to settings pulled from db
-    controller.set('streamKey', model.get('streamKey'));
+    controller.set('currentStreamKey', model.get('streamKey'));
+    controller.set('enableTips', model.get('allowTips'));
+
   }
 });

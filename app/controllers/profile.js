@@ -8,7 +8,9 @@ export default Controller.extend({
 
   init: function() {
     this._super(...arguments);
+
     this.tags = [];
+
   },
 
   actions: {
@@ -36,7 +38,7 @@ export default Controller.extend({
       }
       var updateLocation = this.get('inputlocation');
       var updateLanguages = this.get('inputLanguages');
-      console.log('before warning');
+      var updateTags = this.get('tags');
       this.get('store').queryRecord('user-public-datum',
         { user_id: this.get('session.data.authenticated.user_id') }).then((user) => {
         // Modify record pulled from db to variable
@@ -45,7 +47,7 @@ export default Controller.extend({
         user.set('profileAge', updateAge);
         user.set('profileLocation', updateLocation);
         user.set('profileLanguages', updateLanguages);
-        user.set('userCustomTags', this.tags);
+        user.set('userCustomTags', updateTags);
         // Save record to db
         user.save().then(() => {
           console.log('submitProfileSettings saved');

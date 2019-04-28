@@ -46,8 +46,8 @@
             {{input type="text" class="form-control" value=inputFullName }}
           </div>
           <div class="form-group">
-            <label for="inputbusinessName">Business Name</label>
-            {{input type="text" class="form-control" value=inputbusinessName placeholder="optional" key-press="showEntityMenu"}}
+            <label for="inputBusinessName">Business Name</label>
+            {{input type="text" class="form-control" value=inputBusinessName placeholder="optional" key-press="showEntityMenu"}}
           </div>
           {{#if isBusiness}}
           <div  class="form-check pb-3">
@@ -128,12 +128,12 @@
 
           <h5> Select Payout Method:</h5>
               <div  class="form-check form-check-inline w-100 pb-3">
-                <div class=" w-50 mx-0 mr-2 payout-method btn btn-block btn-outline-dark "  {{action "checkBitcoin" "inputPayoutCheck"}}>
-                  {{radio-button value='Mailed Check' id="inputPayoutCheck" name=inputPayoutType checked=inputPayoutType}}
+                <div class=" w-50 mx-0 mr-2 payout-method btn btn-block btn-outline-dark "  {{action "checkThis" "inputPayoutCheck"}}>
+                  {{radio-button value='check' id="inputPayoutCheck" name=inputPayoutType checked=inputPayoutType}}
                   <label class="form-check-label" for="inputPayoutType">Mailed Check</label>
                 </div>
-                  <div class=" w-50 mx-0 mt-0 ml-2 payout-method btn btn-block btn-outline-dark  " {{action "checkBitcoin" "inputPayoutBitcoin"}}>
-                    {{radio-button value='Bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=inputPayoutType}}
+                  <div class=" w-50 mx-0 mt-0 ml-2 payout-method btn btn-block btn-outline-dark  " {{action "checkThis" "inputPayoutBitcoin"}}>
+                    {{radio-button value='bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=inputPayoutType}}
                     <label class="form-check-label" for="inputPayoutType">Bitcoin</label>
                   </div>
               </div>
@@ -180,8 +180,8 @@
 
 {{#if isUSA}}
           <div class="form-group">
-            <label for="inputTID">Taxpayer Identification Number </label>
-            {{input type="text" class="form-control" value=inputTID placeholder="SSN, EIN, or ITIN, including dashes" }}
+            <label for="inputTIN">Taxpayer Identification Number </label>
+            {{input type="text" class="form-control" value=inputTIN placeholder="SSN, EIN, or ITIN, including dashes" }}
           </div>
 
         <div class="form-check py-3">
@@ -192,7 +192,7 @@
         <br>    3. (select one):<br>
 
         <div class="form-check form-check-inline accordion-toggle collapsed text-heading" data-toggle="collapse" data-target="#exemptHelp">
-            {{radio-button value='no withholding' id="notSubjectToWithholding" name=withholdingInput checked=withholdingInput}}
+            {{radio-button value=false id="notSubjectToWithholding" name=withholdingInput checked=withholdingInput}}
 
           <div class=" pl-2 pr-4 " {{action "checkThis" "notSubjectToWithholding"}}>
               <strong>I am not subject to backup withholding.</strong>
@@ -204,7 +204,7 @@
             (c) the IRS has notified me that I am no longer subject to backup withholding)
           </div>
     <div class="form-check form-check-inline accordion-toggle collapsed text-heading" data-toggle="collapse"data-target="#notExemptHelp">
-         {{radio-button value='WITHHOLDING' id="subjectToWithholding" name=withholdingInput checked=withholdingInput}}
+         {{radio-button value=true id="subjectToWithholding" name=withholdingInput checked=withholdingInput}}
        <div class=" pl-2 pr-4 " {{action "checkThis" "subjectToWithholding"}}>
             <strong>I am subject to backup withholding. </strong>
         </div>

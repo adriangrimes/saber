@@ -31,12 +31,12 @@
 
                   <form {{action "submitPayoutSettings" on="submit"}}>
                       <div  class="form-check form-check-inline w-100 pb-3">
-                        <div class=" w-50 mx-0 payout-method btn btn-block btn-light "  {{action "checkBitcoin" "inputPayoutCheck"}}>
-                          {{radio-button value='Mailed Check' id="inputPayoutCheck" name=inputPayoutType checked=inputPayoutType}}
+                        <div class=" w-50 mx-0 payout-method btn btn-block btn-light "  {{action "checkThis" "inputPayoutCheck"}}>
+                          {{radio-button value='check' id="inputPayoutCheck" name=inputPayoutType checked=inputPayoutType}}
                           <label class="form-check-label" for="inputPayoutType">Mailed Check</label>
                         </div>
-                          <div class=" w-50 mx-0 mt-0 payout-method btn btn-block btn-light " {{action "checkBitcoin" "inputPayoutBitcoin"}}>
-                            {{radio-button value='Bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=inputPayoutType}}
+                          <div class=" w-50 mx-0 mt-0 payout-method btn btn-block btn-light " {{action "checkThis" "inputPayoutBitcoin"}}>
+                            {{radio-button value='bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=inputPayoutType}}
                             <label class="form-check-label" for="inputPayoutType">Bitcoin</label>
                           </div>
                       </div>
@@ -104,8 +104,6 @@
 
                 <div class="form-check">
                   <label class="form-check-label">
-                    <!-- <input type="checkbox" class="form-check-input" checked={{value}} onchange={{action "settingChanged" value="target.value"}}> -->
-                    <!-- <input type="checkbox" class="form-check-input" checked={{sendEmailFavoritesOnlineCB}}> -->
                     {{input type="checkbox" class="form-check-input" name="sendEmailFavoritesOnline" checked=sendEmailFavoritesOnline}}
                       "Now Streaming" notifications from your favorited  ( <i class="fa fa-heart" aria-hidden="true"></i> ) broadcasters
                   </label>
@@ -113,16 +111,14 @@
 
               <div class="form-check">
                 <label class="form-check-label">
-                  <!-- <input type="checkbox" class="form-check-input" checked> -->
-                  {{input type="checkbox" class="form-check-input" name="sendEmailPrivateMessage" checked=sendEmailPrivateMessage}}
+                  {{input type="checkbox" class="form-check-input" name="privateMessageEmailNotifications" checked=privateMessageEmailNotifications}}
                     Private message notifications
                   </label>
               </div>
               <div class="form-check">
                 <label class="form-check-label">
-                  <!-- <input type="checkbox" class="form-check-input" checked> -->
                   {{input type="checkbox" class="form-check-input" name="sendEmailSiteNews" checked=sendEmailSiteNews}}
-                    Monthly Site Newsletter
+                    Monthly site newsletter
                   </label>
               </div>
 
@@ -153,7 +149,7 @@
                 <div class="form-check">
                   <label class="form-check-label">
                     <!-- <input type="checkbox" class="form-check-input" checked> -->
-                    {{input type="checkbox" class="form-check-input" name="darkMode" checked=currentUser.user.darkMode}}
+                    {{input type="checkbox" class="form-check-input" name="darkMode" checked=currentUser.user.darkMode }}
                       Dark mode
                     </label>
               </div>
@@ -161,8 +157,20 @@
             <h5>Set Time Zone</h5>
 
               <div class="form-group">
-                {{input type="text" class="form-control" value=inputTimeZone }}
-              </div>
+                <label for="inputTimeZone">Your Time Zone</label>
+                {{#power-select
+                      options=timezoneList
+                      selected=inputTimeZone
+                      id="inputTimeZone"
+                      onchange=(action (mut inputTimeZone))
+                      oninput=(action "checkLength")
+                      as |name|}}
+                      {{name}}
+                    {{/power-select}}
+
+
+              <!--use matcher=timeZoneSearch instead of searchField for more advanced search -->
+                 </div>
 
                     <div class=text-right>
                     <button type="submit" id="sitesettingsubmit" class="btn btn-primary">Save</button>
@@ -173,11 +181,11 @@
           </div>
             <div class="card mb-3"  id="securitySettingsAccordion">
               <div class="card-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#securitySettingsAccordion" data-target="#collapseSecuritySettings">
-                  <h3 class="card-title">Change Password or Email</h3>
+                  <h3 class="card-title">Email and Security Settings</h3>
               </div>
               <div id="collapseSecuritySettings" class="card-collapse collapse">
                 <div class="card-body">
-                        <form>
+                  <form {{action "submitSecuritySettings" on="submit"}}>
                           <h5>Change your email address</h5>
                         <div class="form-group">
                           <label for="inputemailAddress">New Email address</label>
@@ -189,7 +197,6 @@
                           {{input type="email" class="form-control" autocomplete="email" value=inputnewemailAddressConfirm }}
 
                         </div>
-
                           <h5>Change your password</h5>
                           <div class="form-group">
                             <label for="inputpassword">New Password</label>
@@ -201,14 +208,60 @@
                             {{input type="password" class="form-control" autocomplete="new-password" value=inputpasswordconfirm }}
                           </div>
 
-                                <hr class="splash-horizontal-rule">
+                          <h5>Change your Security Questions</h5>
+                          <label >Question 1</label>
+                          {{#power-select
+                                selected=inputQuestion1
+                                id="inputQuestion1"
+                                options=questionsList
+                                onchange=(action (mut inputQuestion1))
+                                oninput=(action "checkLength")
+                                as |name|}}
+                                {{name}}
+                              {{/power-select}}
+                          <div class="form-group">
+                            <label for="inputAnswer1">Answer 1</label>
+                            {{input type="text" class="form-control" value=inputAnswer1 }}
+                          </div>
+                          <label >Question 2</label>
+                          {{#power-select
+                                selected=inputQuestion2
+                                id="inputQuestion2"
+                                options=questionsList
+                                onchange=(action (mut inputQuestion2))
+                                oninput=(action "checkLength")
+                                as |name|}}
+                                {{name}}
+                              {{/power-select}}
+                          <div class="form-group">
+                            <label for="inputAnswer1">Answer 2</label>
+                            {{input type="text" class="form-control" value=inputAnswer2 }}
+                          </div>
+                          <label >Question 3</label>
+                          {{#power-select
+                                selected=inputQuestion3
+                                id="inputQuestion3"
+                                options=questionsList
+                                onchange=(action (mut inputQuestion3))
+                                oninput=(action "checkLength")
+                                as |name|}}
+                                {{name}}
+                              {{/power-select}}
+                          <div class="form-group">
+                            <label for="inputAnswer3">Answer 3</label>
+                            {{input type="text" class="form-control" value=inputAnswer3 }}
+                          </div>
+
+
+
+                        <hr class="splash-horizontal-rule">
                           <div class="form-group">
                             <label for="inputpassword">Current Password</label>
                             {{input type="password" class="form-control" autocomplete="current-password" value=inputpassword }}
                           </div>
 
                           <div class=text-right>
-                            <button type="submit" id="securitysettingsubmit" class="btn btn-primary">Save</button>
+                            <button type="submit" id="submitSecuritySettings" class="btn btn-primary">Save</button>
                         </div>
                       </form>
                       </div>
@@ -233,7 +286,7 @@
                 {{else}}
                 <a class="btn btn-primary btn-block d-none d-sm-block" href="/account/developer" role="button">Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span></a>
                 {{/if}}
-                {{#if currentUser.isPlayer}}
+                {{#if currentUser.user.isPlayer}}
                 <a class="btn btn-primary btn-block d-none d-sm-block" href="/account/affiliate" role="button">Become an Affiliate &nbsp;<span class="fa fa-bullhorn" aria-hidden="true"></span></a>
                 {{/if}}
 
@@ -245,7 +298,7 @@
                 {{else}}
                 <a class="btn btn-primary btn-block d-block d-sm-none" href="/account/developer" role="button">Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span></a>
                 {{/if}}
-                {{#if currentUser.isPlayer}}
+                {{#if currentUser.user.isPlayer}}
                 <a class="btn btn-primary btn-block d-block d-sm-none" href="/account/affiliate" role="button">Become an Affiliate &nbsp;<span class="fa fa-bullhorn" aria-hidden="true"></span></a>
                 {{/if}}
                 <div class="close-account-btn">

@@ -17,16 +17,15 @@ export default Route.extend(AuthenticatedRouteMixin, {
     controller.set('displaySex', model.get('profileSex'));
     controller.set('inputSex', model.get('profileSex'));
 
-    controller.set('tags', model.get('userCustomTags'));
-    //controller.set('inputSex', model.get('profileSex'));
-
-    if (model.get('profileSex') == 'Male') {
+    if (model.get('profileSex') == 'Male'){
       controller.set('otherSexText', '');
     } else if (model.get('profileSex') == 'Female') {
       controller.set('otherSexText', '');
     } else {
       controller.set('otherSexText', model.get('profileSex'));
     }
+
+
 
     controller.set('displayAge', model.get('profileAge'));
     controller.set('inputAge', model.get('profileAge'));
@@ -36,5 +35,12 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     controller.set('displayLanguages', model.get('profileLanguages'));
     controller.set('inputLanguages', model.get('profileLanguages'));
+    controller.set('displayTags', model.get('userCustomTags'));
+
+    if (model.get('userCustomTags') != null){
+     var displayTags = model.get('userCustomTags').split(",");
+       controller.set('tags', displayTags);
+    }
+
   }
 });

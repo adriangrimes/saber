@@ -413,28 +413,24 @@ export default Controller.extend({
      this.set('inputCountry', country);
      if (country =="United States"){
        this.set('isUSA', true);
+       this.set('notUSA', false);
      }else{
        this.set('isUSA', false);
+       this.set('notUSA', true);
      }
 
    },
    checkThis(toBeChecked){
      $("#"+toBeChecked).prop('checked', true).change();
 
-
-   },
-   checkBitcoin(toBeChecked){
-     $("#"+toBeChecked).prop('checked', true).change();
-
      if(toBeChecked =="inputPayoutBitcoin"){
         this.set('payoutIsBitcoin', true);
-     }else{
+     }else if (toBeChecked =="inputPayoutCheck"){
        this.set('payoutIsBitcoin', false);
      }
-
    },
+
    showEntityMenu(){
-     console.log('is busines');
      this.set('isBusiness', true);
 
    },
@@ -445,12 +441,13 @@ export default Controller.extend({
    },
    broadcasterSaveForLater(){
      // Get current state of setting from page and set to a variable
-     var updateFirstName = this.get('inputfirstName');
-     var updateMiddleName = this.get('inputmiddleName');
-     var updateLastName = this.get('inputlastName');
-     var updateMonth = this.get('inputMonth');
-     var updateDay = this.get('inputDay');
-     var updateYear = this.get('inputYear');
+    var updateFullName = this.get('inputFullName');
+    var updateBusinessName = this.get('inputBusinessName');
+    var updateMonth = this.get('inputMonth');
+    var updateDay = this.get('inputDay');
+    var updateYear = this.get('inputYear');
+    var payoutMethod = this.get('inputPayoutType');
+    var bitcoinAddress = this.get('inputbitcoinaddress');
     var address1 = this.get('inputaddress1');
     var address2 = this.get('inputaddress2');
     var city = this.get('inputCity');
@@ -459,19 +456,31 @@ export default Controller.extend({
     var country = this.get('inputCountry');
     var address3 = (city+'|'+region+'|'+zipcode+'|'+country);
     var dateofbirth = new Date(updateMonth+" "+updateDay+", "+updateYear);
-    console.log(dateofbirth);
+    var updateEntityType = this.get('inputEntityType');
+     if (updateEntityType == "Other"){
+       updateEntityType =  'Other|'+this.get('otherEntityText');
+     }
+     var backupWithholding = this.get('withholdingInput');
+     var updateTIN = this.get('inputTIN');
 
 
      this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
 
        // Modify record pulled from db to variable
-       user.set('firstName', updateFirstName);
-       user.set('middleName', updateMiddleName);
-       user.set('lastName', updateLastName);
+       user.set('fullName', updateFullName);
+       user.set('businessName', updateBusinessName);
+       user.set('businessEntityType', updateEntityType);
        user.set('birthdate', dateofbirth);
+       user.set('payoutMethod', payoutMethod);
+       user.set('bitcoinAddress', bitcoinAddress);
        user.set('addressLine1', address1);
        user.set('addressLine2', address2);
        user.set('addressLine3', address3);
+       user.set('subjectToBackupWithholding', backupWithholding);
+
+       user.set('TIN', updateTIN);
+       // Record that they have started, but not finished the application
+       user.set('accountStatus', 'Started Broadcaster Application')
 
        // Save record to db
        user.save().then(() => {

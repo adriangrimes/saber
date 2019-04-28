@@ -10,12 +10,12 @@ export default Controller.extend({
   streamKeyDisplay: '********************',
   streamKeyHidden: true,
 
-  
+
 
    actions: {
           showStreamKey(){
           if ( this.get('streamKeyHidden')){
-              $('[id=streamKeyDisplayID]').val(this.get('streamKey'));
+              $('[id=streamKeyDisplayID]').val(this.get('currentStreamKey'));
               this.set('streamKeyHidden', false);
               $('[id=showStreamKeyBtn]').text('Hide Stream Key');
             }else{
@@ -37,7 +37,8 @@ export default Controller.extend({
              $('[id=streamKeyDisplayID]').val(newStreamKey);
            }
 
-       this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+           this.set('currentStreamKey', newStreamKey);
+           this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
 
          // Modify record pulled from db to variable
          user.set('streamKey', newStreamKey);
@@ -59,30 +60,60 @@ export default Controller.extend({
          console.log('error finding user record: ' + reason);
          this.set('errorMessage', reason.errors || reason);
        });
-       this.set('streamKey', newStreamKey);
+       $('[id=newCopySuccess]').addClass('d-block');
+       $('[id=newCopySuccess]').removeClass('d-hide');
+
+       setTimeout(function() {
+       $('[id=newCopySuccess]').addClass('d-hide');
+       $('[id=newCopySuccess]').removeClass('d-block');
+     }, 3000);
+
 
       },
       copyStreamKeyToClipboard(){
-        /* Get the text field */
-        var copyText =document.getElementById("streamKeyDisplayID");
 
-        /* Select the text field */
-        copyText.select();
+          if (this.get('streamKeyHidden') == false){
+            var copyText = document.getElementById("streamKeyDisplayID");
 
-        /* Copy the text inside the text field */
-        document.execCommand("Copy");
+            copyText.select();
 
-        /* notify the user */
-        $('[id=keyCopySuccess]').addClass('d-block');
-        $('[id=keyCopySuccess]').removeClass('d-hide');
+            document.execCommand("Copy");
 
-        setTimeout(function() {
-        $('[id=keyCopySuccess]').addClass('d-hide');
-        $('[id=keyCopySuccess]').removeClass('d-block');
-        }, 3000);
+            $('[id=keyCopySuccess]').addClass('d-block');
+            $('[id=keyCopySuccess]').removeClass('d-hide');
+
+            setTimeout(function() {
+            $('[id=keyCopySuccess]').addClass('d-hide');
+            $('[id=keyCopySuccess]').removeClass('d-block');
+          }, 3000);
+          }
+      },
+
+      submitStreamSettings() {
+        // Get current state of setting from page and set to a variable
+       var updateEnableTips = this.get('enableTips');
 
 
+
+        this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+
+          // Modify record pulled from db to variable
+          user.set('allowTips', updateEnableTips);
+
+
+          // Save record to db
+          user.save().then(() => {
+            console.log('submitPayoutSettings saved');
+            $('[id=streamSettingsSubmit]').text('');
+            $('[id=streamSettingsSubmit]').addClass('fa fa-check');
+          }).catch((reason) => {
+            console.log('error saving user record: ' + reason);
+            this.set('errorMessage', reason.error || reason);
+          });
+        }).catch((reason) => {
+          console.log('error finding user record: ' + reason);
+          this.set('errorMessage', reason.error || reason);
+        });
       },
   }
-
 });
