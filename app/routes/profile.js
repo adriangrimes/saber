@@ -1,45 +1,32 @@
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+// import { A } from '@ember/array';
+// import ArrayProxy from '@ember/array/proxy';
 
 export default Route.extend(AuthenticatedRouteMixin, {
 
   model() {
-    return this.get('store').queryRecord('user-public-datum', { user_id: this.get('session.data.authenticated.user_id') });
+    return this.get('store').queryRecord('user-public-datum',
+      { user_id: this.get('session.data.authenticated.user_id') });
   },
 
   setupController(controller, model) {
+    // Set profile info to settings pulled from db in display profile and edit modal
     this._super(controller, model);
 
-    // Set profile info to settings pulled from db in display profile and edit modal
-    controller.set('displayAboutMe', model.get('profileAboutMe'));
-    controller.set('inputaboutme', model.get('profileAboutMe'));
-
-    controller.set('displaySex', model.get('profileSex'));
-    controller.set('inputSex', model.get('profileSex'));
-
-    if (model.get('profileSex') == 'Male'){
-      controller.set('otherSexText', '');
+    controller.set('tempSexText', '');
+    if (model.get('profileSex') == 'Male') {
+      controller.set('tempSexSelection', 'Male');
     } else if (model.get('profileSex') == 'Female') {
-      controller.set('otherSexText', '');
+      controller.set('tempSexSelection', 'Female');
     } else {
-      controller.set('otherSexText', model.get('profileSex'));
+      controller.set('tempSexSelection', 'Other');
+      controller.set('tempSexText', model.get('profileSex'));
+      controller.set('checkOtherSex', true);
     }
 
-
-
-    controller.set('displayAge', model.get('profileAge'));
-    controller.set('inputAge', model.get('profileAge'));
-
-    controller.set('displayLocation', model.get('profileLocation'));
-    controller.set('inputlocation', model.get('profileLocation'));
-
-    controller.set('displayLanguages', model.get('profileLanguages'));
-    controller.set('inputLanguages', model.get('profileLanguages'));
-    controller.set('displayTags', model.get('userCustomTags'));
-
-    if (model.get('userCustomTags') != null){
-     var displayTags = model.get('userCustomTags').split(",");
-       controller.set('tags', displayTags);
+    if (model.get('userCustomTags') != null) {
+      controller.set('tags', model.get('userCustomTags').split(","));
     }
 
   }

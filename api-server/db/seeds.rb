@@ -40,9 +40,9 @@ if Rails.env.development?
       email: "usertester#{i+1}@email.com",
       username: "UserTester#{i+1}",
       password: "1234567#{i+1}",
-      full_name: "User#{i+1}|K#{i+1}|Basic#{i+1}",
+      full_name: "User#{i+1} K#{i+1} Basic#{i+1}",
       dark_mode: true,
-      send_email_favorites_online: true,
+      send_email_favorites_online: true
     )
     testuser.skip_confirmation!
     testuser.build_user_public_datum(
@@ -56,7 +56,7 @@ if Rails.env.development?
       email: "broadcastertester#{i+1}@email.com",
       username: "BroadcasterTester#{i+1}",
       password: "1234567#{i+1}",
-      full_name: "Streamer#{i+1}|C#{i+1}|Aster#{i+1}",
+      full_name: "Streamer#{i+1} C#{i+1} Aster#{i+1}",
       dark_mode: false,
       broadcaster: true,
       affiliate: true,
@@ -80,7 +80,7 @@ if Rails.env.development?
       email: "developertester#{i+1}@email.com",
       username: "DeveloperTester#{i+1}",
       password: "1234567#{i+1}",
-      full_name: "Dev#{i+1}|E#{i+1}|Loper#{i+1}",
+      full_name: "Dev#{i+1} E#{i+1} Loper#{i+1}",
       dark_mode: false,
       developer: true,
       affiliate: true,
@@ -99,10 +99,10 @@ if Rails.env.development?
       email: "affiliatetester#{i+1}@email.com",
       username: "AffiliateTester#{i+1}",
       password: "1234567#{i+1}",
-      full_name: "Aff#{i+1}|Ili#{i+1}|Ate#{i+1}",
+      full_name: "Aff#{i+1} Ili#{i+1} Ate#{i+1}",
       dark_mode: false,
       affiliate: true,
-      send_email_favorites_online: false,
+      send_email_favorites_online: false
     )
     testaffiliate.skip_confirmation!
     testaffiliate.build_user_public_datum(

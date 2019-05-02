@@ -1,0 +1,10 @@
+<!-- Error or message display -->
+{{#unless currentUser.hasModalOpen}}
+  {{#if currentUser.errorMessages}}
+    <p class="alert alert-danger">
+      {{#each currentUser.errorMessages as |error|}}
+      - {{error.detail}}<br>
+      {{/each}}
+    </p>
+  {{/if}}
+{{/unless}}

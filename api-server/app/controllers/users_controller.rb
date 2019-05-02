@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action { authenticate_user_from_token(params[:id]) }
+  before_action :is_user_authorized?
 
   # Render Unauthorized 401 even when a record is not found
   rescue_from ActiveRecord::RecordNotFound, with: :render_unauthorized
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     if @authenticated_user.update(user_params)
       render json: @authenticated_user, status: :ok
     else
-      render json: @authenticated_user.errors, status: :unprocessable_entity
+      render json: ErrorSerializer.serialize(@authenticated_user.errors), status: :unprocessable_entity
     end
   end
 
@@ -23,13 +23,13 @@ class UsersController < ApplicationController
     if @authenticated_user.destroy
       render json: @authenticated_user, status: :ok
     else
-      render json: @authenticated_user.errors, status: :unprocessable_entity
+      render json: ErrorSerializer.serialize(@authenticated_user.errors), status: :unprocessable_entity
     end
   end
 
   # GET all /users
   def index
-    render status: :unauthorized
+    render_not_authenticated
   end
 
   # POST /users
@@ -41,6 +41,15 @@ class UsersController < ApplicationController
   private
 
     # before_actions
+
+    def is_user_authorized?
+      if token_is_authorized_for_id?(params[:id])
+        return true
+      else
+        clean_up_and_render_unauthorized
+        return false
+      end
+    end
 
     # def user_id
     #   params.require(:data).require(:id)

@@ -13,7 +13,7 @@ class UserPublicDataController < ApplicationController
       if @user_public_datum = UserPublicDatum.find_by(user_id: params[:user_id])
         render json: @user_public_datum, status: :ok
       else
-        render json: @user_public_datum.errors, status: :unprocessable_entity
+        render json: ErrorSerializer.serialize(@user_public_datum.errors), status: :unprocessable_entity
       end
     else
       render status: :not_found
@@ -22,12 +22,18 @@ class UserPublicDataController < ApplicationController
 
   # PATCH/PUT /user_public_data/1
   def update
-    if @user_public_datum = UserPublicDatum.find_by(user_id: params[:data][:attributes][:user_id])
-      if authenticate_user_from_token(@user_public_datum.user_id)
+    if @user_public_datum = UserPublicDatum.find(params[:id])#user_id: params[:data][:attributes][:user_id])
+      puts "found user id"
+      puts @user_public_datum.user_id
+      if token_is_authorized_for_id?(@user_public_datum.user_id)
+
         if @user_public_datum.update(public_params)
           render json: @user_public_datum, status: :ok
         else
-          render json: @user_public_datum.errors, status: :unprocessable_entity
+
+          errors = ErrorSerializer.serialize(@user_public_datum.errors)
+          puts errors
+          render json: errors, status: :unprocessable_entity
         end
       else
         render status: :unauthorized
@@ -58,6 +64,8 @@ class UserPublicDataController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def public_params
       ## Public profile
+      # params[:data][:attributes][:user_custom_tags] = JSON.parse(
+      #   params[:data][:attributes][:user_custom_tags])
       params.require(:data)
         .require(:attributes)
         .permit(:username,

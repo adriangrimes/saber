@@ -21,6 +21,7 @@ class User < ApplicationRecord
     length: { minimum: 3, maximum: 26 }
   validates :full_name, presence: true, if: :is_contractor?
 
+  #validates_associated :user_public_datum
   before_save :ensure_online_status
   before_save :ensure_authentication_token
 

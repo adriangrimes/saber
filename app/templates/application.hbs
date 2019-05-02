@@ -76,17 +76,6 @@
 <div class="alert alert-info text-center" role="alert">Welcome {{currentUser.username}}! Click <a href="/account">Here</a> to configure your email settings. (You can do this any time from your account page)</div>
 -->
 <div class="container">
-  <!-- Error or message display -->
-  {{#unless currentUser.hasModalOpen}}
-    {{#if currentUser.errorMessages}}
-      <p class="alert alert-danger">
-        {{#each currentUser.errorMessages as |error|}}
-        - {{error.detail}}<br>
-        {{/each}}
-      </p>
-    {{/if}}
-  {{/unless}}
-
   {{outlet}}
 </div>
 

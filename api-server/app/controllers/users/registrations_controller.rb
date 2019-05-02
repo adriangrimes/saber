@@ -1,5 +1,3 @@
-include ErrorSerializer
-
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :sign_up_params, only: [:create]
 

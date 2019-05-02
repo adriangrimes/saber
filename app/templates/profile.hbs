@@ -1,188 +1,168 @@
-
-{{edit-photos}}
-  <div class="row m-0">
-    <div class ="col-12" >
-        <h2>Your Profile</h2>
-      </div>
+<div class="row m-0">
+  <div class ="col-12" >
+    <h2>Your Profile</h2>
   </div>
-      <!--- Video and Chat Panels -->
-  <div class="row m-0 mb-4">
-    <div class="col-12 col-sm-8 p-0 m-0"  id="videoWindow">
-      <div class="card   video-panel">
-        <div class="profile-controls pt-2">
-            <a  class="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal" style="top:70px">
-              <span title="Edit Avatar" class="fa fa-edit"></span>
-            </a>
-
-        </div>
-        <div class="card-body p-0" >
-          <img src="/testimg.jpg"  class="img-responsive center-block" alt="default user video" width="100%">
-        </div>
-      </div>
-    </div>
-    <!-- Chat Window -->
-    <div class="col-12 col-sm-4 p-0 " id="chatWindow">
-      {{chat-component}}
-    </div>
 </div>
 
-  <div class="row m-0 mb-4">
-      <div class="col-12 col-sm-6  p-0" >
-        <div class="card   game-panel" >
-          <div class="card-body p-1" id="game-Window">
-            <div class="row m-0">
-              <div class="col-8">
+<!--- Video and Chat Panels -->
+<div class="row m-0 mb-4">
+  <div class="col-12 col-sm-8 p-0 m-0" id="videoWindow">
+    <div class="card video-panel">
+      <div class="profile-controls pt-2">
+        <a class="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal" style="top:70px">
+          <span title="Edit Avatar" class="fa fa-edit"></span>
+        </a>
+        {{edit-photos}}
+      </div>
+      <div class="card-body p-0" >
+        <img src="/testimg.jpg" class="img-responsive center-block" alt="default user video" width="100%">
+      </div>
+    </div>
+  </div>
 
+  <!-- Chat Window -->
+  <div class="col-12 col-sm-4 p-0" id="chat-panel">
+    {{chat-component}}
+  </div>
+</div>
 
-
-
-
-              </div>
-              <div class="col-4">
-                <img src="/usericon.svg"  class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
-
-              </div>
-            </div>
+<div class="row m-0 mb-4">
+  <div class="col-12 col-sm-6 p-0">
+    <div class="card game-panel">
+      <div class="card-body p-1" id="game-Window">
+        <div class="row m-0">
+          <div class="col-8">
+            <b>Number of Players:</b> 2
+            <br>
+          </div>
+          <div class="col-4">
+            <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
           </div>
         </div>
       </div>
-      <div class="col-12 col-sm-6 p-0" >
-        <div class="well" id="photo-gallery">
-          <a align="right" class="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal"><span title="Edit Photos" class="fa fa-edit" aria-hidden="true"></span></a>
-
-
-          <br>
-          {{#each model as |photo|}}
-            <img src="{{photo.photo}}" height="100" width="100">
-
-          {{/each}}
-        </div>
-      </div>
+    </div>
   </div>
+  <div class="col-12 col-sm-6 p-0">
+    <div class="well" id="photo-gallery">
+      <a align="right" class="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal"><span title="Edit Photos" class="fa fa-edit" aria-hidden="true"></span></a>
+      <br>
+      {{#each model as |user|}}
+        <img src="{{user.photo}}" height="100" width="100">
+      {{/each}}
+    </div>
+  </div>
+</div>
 
-
-  <div class="row m-0">
-            <div class="col-12 p-0">
-              <div class="collapse show" id="viewProfileCollapse">
-                <a align="right" class="edit-links" role="button" data-toggle="collapse" data-target="#editProfileCollapse,#viewProfileCollapse"><span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span></a>
-               <h4>About Me:</h4>
-               {{displayAboutMe}}
-                <br>
-                <br>
-                <label >Age:</label>
-                {{displayAge}}
-                <br>
-                <label >Sex:</label>
-               {{displaySex}}
-                <br>
-              <label >Location:</label>
-                {{displayLocation}}
-                <br>
-                <label >Languages:</label>
-                {{displayLanguages}}
-                <br>
-
-                <div class="form-group">
-                    <label >Tags:</label>
-                      {{#tag-input
-                          tags=tags
-                          readOnly=true
-                          as |tag|
-                        }}
-                          {{tag}}
-                        {{/tag-input}}
-                </div>
-              </div>
-
-              <div class="collapse " id="editProfileCollapse">
-                <form autocomplete="off"{{action "submitProfileSettings" on="submit"}}>
-
-                  <div class="modal-body">
-                {{#if currentUser.user.broadcaster}}
-                  <div class="form-group">
-                    <label for="inputaboutme">About Me</label>
-                    {{textarea  rows="5" class="form-control" value=inputaboutme placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
-                  </div>
-                  {{else if currentUser.user.developer}}
-                  <div class="form-group">
-                    <label for="inputaboutme">About Me</label>
-                    {{textarea   class="form-control" value=inputaboutme placeholder="A little about yourselfand your games"}}
-                  </div>
-                  {{else}}
-                      <div class="form-group">
-                        <label for="inputaboutme">About Me</label>
-                        {{textarea   class="form-control" value=inputaboutme placeholder="A little about yourself, your favorite games etc."}}
-                      </div>
-                  {{/if}}
-
-                  <div class="form-group">
-                    <label for="inputsex">Sex</label>
-                    <br>
-                    <div class="form-check form-check-inline">
-                      {{radio-button value='Female' id="inputSexFemale" name=inputSex checked=inputSex}}
-                      <label class="form-check-label" for="inputSex">Female</label>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                      {{radio-button value='Male' id="inputSexMale" name=inputSex checked=inputSex}}
-                      <label class="form-check-label" for="inputSex">Male</label>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                      {{radio-button value='Other' id="inputSexOther" checked=inputSex}}
-                      <div {{action "checkOtherSex"}}>
-                      {{input type="text" class="form-control" value=otherSexText }}
-                      </div>
-                    </div>
-
-                  </div>
-
-                <div class="form-group">
-                  <label for="inputlocation">Location</label>
-                  {{input type="text" class="form-control" value=inputlocation placeholder="Your general location" }}
-
-                </div>
-                <div class="form-group">
-                  <label for="inputLanguages">Languages</label>
-                  {{input type="text" class="form-control" value=inputLanguages placeholder="I can speak..." }}
-
-                </div>
-                <div class="form-group">
-                  <label for="inputAge">Age</label>
-                  {{input type="number" min="13"   step="1" class="form-control" value=inputAge  }}
-
-                </div>
-
-                  {{#if currentUser.user.broadcaster}}
-
-                  <div class="form-group">
-                    <label >Tags (choose up to 15)</label>
-
-                    {{#tag-input
-                        tags=tags
-                        addTag=(action 'addTag')
-                        removeTagAtIndex=(action 'removeTagAtIndex')
-                        as |tag|
-                      }}
-                        {{tag}}
-                      {{/tag-input}}
-                    </div>
-                    {{/if}}
-
-          <br>
-                  <a  class="btn btn-link" data-toggle="collapse" data-target="#editProfileCollapse,#viewProfileCollapse"><span title="Cancel"></span> Cancel</a>
-
-                    <div class="float-right">
-                      <button type="submit" class="btn btn-primary" id="profileSettingSubmit">Save</button>
-                    </div>
-                    <br>
-                  </div>
-              </form>
-
-              </div>
-
-            </div>
+<div class="row m-0">
+  <div class="col-12 p-0">
+    {{error-display}}
+    <div class="collapse show" id="viewProfileCollapse">
+      <a align="right" class="edit-links" role="button" data-toggle="collapse" data-target="#editProfileCollapse,#viewProfileCollapse"><span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span></a>
+      <h4>About Me:</h4>
+      {{model.profileAboutMe}}
+      <br>
+      <br>
+      <label >Age:</label>
+      {{model.profileAge}}
+      <br>
+      <label >Sex:</label>
+      {{model.profileSex}}
+      <br>
+      <label >Location:</label>
+      {{model.profileLocation}}
+      <br>
+      <label >Languages:</label>
+      {{model.profileLanguages}}
+      <br>
+      <div class="form-group">
+        <label >Tags:</label>
+        {{#tag-input
+          tags=tags
+          readOnly=true
+          as |tag|
+        }}
+          {{tag}}
+        {{/tag-input}}
       </div>
+    </div>
 
+    <div class="collapse" id="editProfileCollapse">
+      <form autocomplete="off"{{action "submitProfileSettings" on="submit"}}>
+        <div class="modal-body">
+          {{#if currentUser.user.broadcaster}}
+            <div class="form-group">
+              <label for="inputaboutme">About Me</label>
+              {{textarea rows="5" class="form-control" value=model.profileAboutMe placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
+            </div>
+            {{else if currentUser.user.developer}}
+            <div class="form-group">
+              <label for="inputaboutme">About Me</label>
+              {{textarea class="form-control" value=model.profileAboutMe placeholder="A little about yourself and your games"}}
+            </div>
+          {{else}}
+            <div class="form-group">
+              <label for="inputaboutme">About Me</label>
+              {{textarea class="form-control" value=model.profileAboutMe placeholder="A little about yourself, your favorite games etc."}}
+            </div>
+          {{/if}}
+          <div class="form-group">
+            <label>Sex</label>
+            <div class="form-inline">
+              <div class="form-check pr-3">
+                <label class="form-check-label">
+                  {{radio-button class="form-check-input" value='Female' groupValue=tempSexSelection checked=tempSexSelection}}
+                  Female
+                </label>
+              </div>
+              <div class="form-check pr-3">
+                <label class="form-check-label">
+                  {{radio-button class="form-check-input" value='Male' groupValue=tempSexSelection checked=tempSexSelection}}
+                  Male
+                </label>
+              </div>
+              <div class="form-check pr-3">
+                <label class="form-check-label" {{action "checkOtherSex"}}>
+                  {{radio-button class="form-check-input" value='Other' groupValue=tempSexSelection id="inputSexOther" checked=tempSexSelection}}
+                  {{input type="text" class="form-control" spellcheck=false value=tempSexText placeholder="Other"}}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputlocation">Location</label>
+            {{input type="text" class="form-control" value=model.profileLocation placeholder="Your general location" }}
+          </div>
+          <div class="form-group">
+            <label for="inputLanguages">Languages</label>
+            {{input type="text" class="form-control" value=model.profileLanguages placeholder="I can speak..." }}
+          </div>
+          <div class="form-group">
+            <label for="inputAge">Age</label>
+            {{input type="number" min="13" max="100000" step="1" class="form-control" value=model.profileAge }}
+          </div>
+          {{#if currentUser.user.broadcaster}}
+            <div class="form-group">
+              <label >Tags (choose up to 15)</label>
+              {{#tag-input
+                tags=tags
+                addTag=(action 'addTag')
+                removeTagAtIndex=(action 'removeTagAtIndex')
+                as |tag|
+              }}
+                {{tag}}
+              {{/tag-input}}
+            </div>
+          {{/if}}
+          <br>
+          <a class="btn btn-link" data-toggle="collapse" data-target="#editProfileCollapse,#viewProfileCollapse" {{action "cancelProfileChanges"}}><span title="Cancel"></span> Cancel</a>
+          <div class="float-right">
+            <button type="submit" class="btn btn-primary" id="profileSettingSubmit">Save</button>
+          </div>
+          <br>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 {{outlet}}

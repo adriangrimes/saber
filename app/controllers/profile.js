@@ -1,4 +1,5 @@
 import Controller from '@ember/controller';
+import { alias } from '@ember/object/computed';
 //import { inject as service } from '@ember/service';
 import $ from 'jquery';
 
@@ -8,14 +9,16 @@ export default Controller.extend({
 
   init: function() {
     this._super(...arguments);
-
     this.tags = [];
-
+    this.temporaryTags = [];
   },
 
   actions: {
     addTag(tag) {
-      if (this.tags.length < 15) {
+      console.log('tag length:');
+      console.log(this.tags.length);
+      if (this.get('tagCount') < 15) {
+        console.log('adding tag: '+ tag);
         this.tags.pushObject(tag);
       }
     },
@@ -29,46 +32,42 @@ export default Controller.extend({
     },
 
     submitProfileSettings() {
-      // Get current state of setting from page and set to a variable
-      var updateaboutMe = this.get('inputaboutme');
-      var updateAge = this.get('inputAge');
-      var updateSex = this.get('inputSex');
-      if (updateSex == "Other"){
-        updateSex = this.get('otherSexText');
-      }
-      var updateLocation = this.get('inputlocation');
-      var updateLanguages = this.get('inputLanguages');
-      var updateTags = this.get('tags');
       this.get('store').queryRecord('user-public-datum',
         { user_id: this.get('session.data.authenticated.user_id') }).then((user) => {
         // Modify record pulled from db to variable
-        user.set('profileAboutMe', updateaboutMe);
-        user.set('profileSex', updateSex);
-        user.set('profileAge', updateAge);
-        user.set('profileLocation', updateLocation);
-        user.set('profileLanguages', updateLanguages);
-        user.set('userCustomTags', updateTags);
+        // Get current state of setting from page and set to a variable
+        user.setProperties(this.get('model'));
+
+        if (this.get('tempSexSelection') == 'Male' || this.get('tempSexSelection') == 'Female') {
+          user.set('profileSex', this.get('tempSexSelection'));
+        } else {
+          user.set('profileSex', this.get('tempSexText'));
+        }
+
+        user.set('userCustomTags', this.tags);
+
         // Save record to db
         user.save().then(() => {
           console.log('submitProfileSettings saved');
-          $('[id=profileSettingSubmit]').text('');
-          $('[id=profileSettingSubmit]').addClass('fa fa-check');
-        }).catch((reason) => {
-          console.log('error saving user record: ' + reason);
-          this.set('errorMessage', reason.errors || reason);
+          if (this.get('tempSexSelection') == 'Male' || this.get('tempSexSelection') == 'Female') {
+            this.set('tempSexText', '');
+          }
+          this.currentUser.set('errorMessages', []);
+          $('[id=viewProfileCollapse]').addClass('show');
+          $('[id=editProfileCollapse]').removeClass('show');
+        }).catch((response) => {
+          console.log('error saving user record: ' + response);
+          this.currentUser.set('errorMessages', response.errors || response);
         });
-      }).catch((reason) => {
-        console.log('error finding user record: ' + reason);
-        this.set('errorMessage', reason.errors || reason);
+      }).catch((response) => {
+        console.log('error finding user record: ' + response);
+        this.currentUser.set('errorMessages', response.errors || response);
       });
-      setTimeout(function() {
-        window.location.reload(true);
-      }, 600);
-
     },
 
-  },
-
-
+    cancelProfileChanges() {
+      this.get('model').rollbackAttributes();
+    }
+  }
 
 });

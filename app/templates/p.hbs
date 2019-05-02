@@ -8,7 +8,7 @@
    </div>
     <div class="col-xs-12 col-md-6 d-flex justify-content-end">
         <div class="btn-group">
-         <button type="button" class="btn btn-link  collapsed"   data-toggle="collapse"  data-target="#share-form,#share-form2"><span title="Open Share Form"  class=" profile-links fa fa-share-alt"></span></button>
+         <button type="button" class="btn btn-link  collapsed" data-toggle="collapse" data-target="#share-form,#share-form2"><span title="Open Share Form"  class=" profile-links fa fa-share-alt"></span></button>
          {{#if isFavorite}}
            <button type="button" class="btn btn-link pl-2"> <span  title="Remove From Favorites" class=" profile-links fa fa-heart"{{action "toggleFav" model.user_id}}></span></button>
          {{else}}
