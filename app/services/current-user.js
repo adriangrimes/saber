@@ -26,7 +26,7 @@ export default Service.extend({
     }
   }),
   isPlayer: computed('isContracted', function() {
-      return !this.get('isContracted');
+      return !this.isContracted;
   }),
 
   init() {

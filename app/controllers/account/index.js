@@ -425,11 +425,11 @@ questionsList: [
 
     submitEmailSettings() {
       // Get current state of setting from page and set to a variable
-      var sEFO = this.get('sendEmailFavoritesOnline');
-      var sPMEN = this.get('privateMessageEmailNotifications');
-       var sESN = this.get('sendEmailSiteNews');
+      var sEFO = this.sendEmailFavoritesOnline;
+      var sPMEN = this.privateMessageEmailNotifications;
+       var sESN = this.sendEmailSiteNews;
 
-      this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+      this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
         console.log(user);
         // Modify record pulled from db to variable
         user.set('sendEmailFavoritesOnline', sEFO);
@@ -455,17 +455,16 @@ questionsList: [
        // Get current state of setting from page and set to a variable
 
 
-    var updateTimeZone = this.get('inputTimeZone');
-    var updateSearchDefault = this.get('inputDefaultSearch');
+    var updateTimeZone = this.inputTimeZone;
 
        if (this.get('currentUser.user.darkMode')) {
-         this.get('themeChanger').set('theme', 'dark');
+         this.themeChanger.set('theme', 'dark');
        } else {
-         this.get('themeChanger').set('theme', 'default');
+         this.themeChanger.set('theme', 'default');
        }
        console.log('At /account display settings save currentUser.darkMode: '+this.get('currentUser.user.darkMode'))
 
-       this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+       this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
          console.log(user);
          // Modify record pulled from db to variable
          user.set('darkMode', this.get('currentUser.user.darkMode'));
@@ -490,18 +489,18 @@ questionsList: [
 
      submitPayoutSettings() {
        // Get current state of setting from page and set to a variable
-     var payoutMethod = this.get('inputPayoutType');
-     var bitcoinAddress = this.get('inputbitcoinaddress');
-       var address1 = this.get('inputaddress1');
-       var address2 = this.get('inputaddress2');
-       var city = this.get('inputCity');
-       var region = this.get('inputRegion');
-       var zipcode = this.get('inputZipcode');
-       var country = this.get('inputCountry');
+     var payoutMethod = this.inputPayoutType;
+     var bitcoinAddress = this.inputbitcoinaddress;
+       var address1 = this.inputaddress1;
+       var address2 = this.inputaddress2;
+       var city = this.inputCity;
+       var region = this.inputRegion;
+       var zipcode = this.inputZipcode;
+       var country = this.inputCountry;
      var address3 = (city+'|'+region+'|'+zipcode+'|'+country);
 
 
-      this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+      this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
 
         // Modify record pulled from db to variable
         user.set('addressLine1', address1);
@@ -527,16 +526,16 @@ questionsList: [
      },
     submitSecuritySettings() {
       // Get current state of setting from page and set to a variable
-     var question1 = this.get('inputQuestion1');
-     var question2 = this.get('inputQuestion2');
-     var question3 = this.get('inputQuestion3');
-     var answer1 = this.get('inputAnswer1');
-     var answer2 = this.get('inputAnswer2');
-     var answer3 = this.get('inputAnswer3');
+     var question1 = this.inputQuestion1;
+     var question2 = this.inputQuestion2;
+     var question3 = this.inputQuestion3;
+     var answer1 = this.inputAnswer1;
+     var answer2 = this.inputAnswer2;
+     var answer3 = this.inputAnswer3;
      var updateSecurityQuestions = (question1+'|'+answer1+'|'+question2+'|'+answer2+'|'+question3+'|'+answer3);
 
 
-      this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+      this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
 
         // Modify record pulled from db to variable
         user.set('securityQuestions', updateSecurityQuestions);

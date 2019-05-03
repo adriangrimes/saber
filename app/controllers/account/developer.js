@@ -444,24 +444,24 @@ export default Controller.extend({
    },
    devSaveForLater(){
      // Get current state of setting from page and set to a variable
-     var updateFirstName = this.get('inputfirstName');
-     var updateMiddleName = this.get('inputmiddleName');
-     var updateLastName = this.get('inputlastName');
-     var updateMonth = this.get('inputMonth');
-     var updateDay = this.get('inputDay');
-     var updateYear = this.get('inputYear');
-    var address1 = this.get('inputaddress1');
-    var address2 = this.get('inputaddress2');
-    var city = this.get('inputCity');
-    var region = this.get('inputRegion');
-    var zipcode = this.get('inputZipcode');
-    var country = this.get('inputCountry');
+     var updateFirstName = this.inputfirstName;
+     var updateMiddleName = this.inputmiddleName;
+     var updateLastName = this.inputlastName;
+     var updateMonth = this.inputMonth;
+     var updateDay = this.inputDay;
+     var updateYear = this.inputYear;
+    var address1 = this.inputaddress1;
+    var address2 = this.inputaddress2;
+    var city = this.inputCity;
+    var region = this.inputRegion;
+    var zipcode = this.inputZipcode;
+    var country = this.inputCountry;
     var address3 = (city+'|'+region+'|'+zipcode+'|'+country);
     var dateofbirth = new Date(updateMonth+" "+updateDay+", "+updateYear);
     console.log(dateofbirth);
 
 
-     this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+     this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
 
        // Modify record pulled from db to variable
        user.set('firstName', updateFirstName);

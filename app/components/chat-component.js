@@ -24,7 +24,7 @@ export default Component.extend({
     this.chatMessagesList = [];
     this.chatUsersList = [];
 
-    socket = this.get('websockets').socketFor('ws://localhost:7000/');
+    socket = this.websockets.socketFor('ws://localhost:7000/');
     socket.on('open', this.onSocketOpened, this);
     socket.on('message', this.onMessageRecieved, this);
     socket.on('close', this.onSocketClosed, this);
@@ -41,11 +41,11 @@ export default Component.extend({
         // if its not too soon
         if (recentMessages > messageLimitNumber && lastMessageSent+messageLimitTime > currentTime) {
           if (isSlowChat) {
-            this.get('chatMessagesList').pushObject(
+            this.chatMessagesList.pushObject(
               { message: 'Slow Chat is enabled. Please wait a while before trying again.',
                 systemMessage: true });
           } else {
-            this.get('chatMessagesList').pushObject(
+            this.chatMessagesList.pushObject(
               { message: 'You are sending messages too fast, wait a moment and try again.',
                 systemMessage: true });
           }
@@ -97,7 +97,7 @@ export default Component.extend({
 
   onSocketOpened: function(/*event*/) {
     //This message shown on entering the chat room
-    this.get('chatMessagesList').pushObject(
+    this.chatMessagesList.pushObject(
       { message: 'Welcome to the Chat! Playing Super Cheese Time today Woohoo!',
         systemMessage: true });
 
@@ -119,7 +119,7 @@ export default Component.extend({
     //if it's a new user add them to the users list and annouce their joining to the chatroom
     if (messageToDisplay.type === "userName") {
       console.log(messageToDisplay);
-      this.get('chatMessagesList').pushObject(
+      this.chatMessagesList.pushObject(
         { chatUserName: messageToDisplay.chatUserName,
           userId: messageToDisplay.userId,
           message: '  has joined the chat!',
@@ -139,7 +139,7 @@ export default Component.extend({
 
 
       // Display them
-      var chatUserListArray = this.get('chatUsersList');
+      var chatUserListArray = this.chatUsersList;
       messageToDisplay.data.forEach(function(user){
 
         chatUserListArray.pushObject(
@@ -150,7 +150,7 @@ export default Component.extend({
 
      } else {
       // All other message types are actual chat messages
-      this.get('chatMessagesList').pushObject(
+      this.chatMessagesList.pushObject(
         { chatUserName: messageToDisplay.chatUserName,
           userId: messageToDisplay.userId,
           message: ': '+messageToDisplay.message });
@@ -159,7 +159,7 @@ export default Component.extend({
 
   // If Websocket connection has been closed, but the user is still on the page
   onSocketClosed: function(/*event*/){
-    this.get('chatMessagesList').pushObject(
+    this.chatMessagesList.pushObject(
       { message: 'Chat connection was lost. Please refresh the page.',
         systemMessage: true });
   },
@@ -174,6 +174,6 @@ export default Component.extend({
   },
 
   willDestroyElement() {
-    this.get('websockets').closeSocketFor('ws://localhost:7000/');
+    this.websockets.closeSocketFor('ws://localhost:7000/');
   },
 });

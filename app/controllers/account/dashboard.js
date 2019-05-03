@@ -14,8 +14,8 @@ export default Controller.extend({
 
    actions: {
           showStreamKey(){
-          if ( this.get('streamKeyHidden')){
-              $('[id=streamKeyDisplayID]').val(this.get('currentStreamKey'));
+          if ( this.streamKeyHidden){
+              $('[id=streamKeyDisplayID]').val(this.currentStreamKey);
               this.set('streamKeyHidden', false);
               $('[id=showStreamKeyBtn]').text('Hide Stream Key');
             }else{
@@ -33,12 +33,12 @@ export default Controller.extend({
          for (var i = 0; i < 64; i++){
            newStreamKey += possible.charAt(Math.floor(Math.random() * possible.length));
          }
-         if ( this.get('streamKeyHidden') == false){
+         if ( this.streamKeyHidden == false){
              $('[id=streamKeyDisplayID]').val(newStreamKey);
            }
 
            this.set('currentStreamKey', newStreamKey);
-           this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+           this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
 
          // Modify record pulled from db to variable
          user.set('streamKey', newStreamKey);
@@ -72,7 +72,7 @@ export default Controller.extend({
       },
       copyStreamKeyToClipboard(){
 
-          if (this.get('streamKeyHidden') == false){
+          if (this.streamKeyHidden == false){
             var copyText = document.getElementById("streamKeyDisplayID");
 
             copyText.select();
@@ -91,11 +91,11 @@ export default Controller.extend({
 
       submitStreamSettings() {
         // Get current state of setting from page and set to a variable
-       var updateEnableTips = this.get('enableTips');
+       var updateEnableTips = this.enableTips;
 
 
 
-        this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+        this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
 
           // Modify record pulled from db to variable
           user.set('allowTips', updateEnableTips);

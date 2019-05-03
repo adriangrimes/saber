@@ -17,7 +17,7 @@ export default Controller.extend({
   actions: {
 
     logout() {
-      this.get('currentUser').logOut();
+      this.currentUser.logOut();
       //this.transitionToRoute('index');
     },
 
@@ -28,12 +28,12 @@ export default Controller.extend({
     toggleDarkMode() {
       // Get current state of setting from page and set to a variable
       if (this.get('currentUser.user.darkMode')) {
-        this.get('themeChanger').set('theme', 'dark');
+        this.themeChanger.set('theme', 'dark');
       } else {
-        this.get('themeChanger').set('theme', 'default');
+        this.themeChanger.set('theme', 'default');
       }
       // Get record to save darkMode
-      this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+      this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
         // Modify record pulled from db to variable
         user.set('darkMode', this.get('currentUser.user.darkMode'));
         // Save record to db

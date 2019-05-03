@@ -8,9 +8,9 @@ export default Component.extend({
     return this.params[0];
   }),
   contractorSignup: computed('signUpType', function() {
-    if (this.get('signUpType') === 'broadcaster' ||
-      this.get('signUpType') === 'developer' ||
-      this.get('signUpType') === 'affiliate') {
+    if (this.signUpType === 'broadcaster' ||
+      this.signUpType === 'developer' ||
+      this.signUpType === 'affiliate') {
         return true;
     } else {
       return false;
@@ -20,7 +20,7 @@ export default Component.extend({
   actions: {
     // Passes form fields as parameters to current-user.signUp function
     signUp() {
-      console.log(this.get('contractorSignup'));
+      console.log(this.contractorSignup);
       if (this.get('session.isAuthenticated') === false) {
         this.get('currentUser').signUp(
           this.get('inputusername'),

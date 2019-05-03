@@ -6,7 +6,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default Route.extend(AuthenticatedRouteMixin, {
 
   model() {
-    return this.get('store').queryRecord('user-public-datum',
+    return this.store.queryRecord('user-public-datum',
       { user_id: this.get('session.data.authenticated.user_id') });
   },
 

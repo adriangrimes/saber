@@ -12,6 +12,6 @@ module('Integration | Helper | compare', function(hooks) {
 
     await render(hbs`{{compare inputValue}}`);
 
-    assert.equal(this.element.textContent.trim(), '1234');
+    assert.dom(this.element).hasText('1234');
   });
 });

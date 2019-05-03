@@ -57,7 +57,7 @@ export default Controller.extend({
       $('[id=confirm-tip-form]').removeClass('d-flex');
       $('[id=confirm-tip-form]').addClass('d-none');
       //Then Show the last tip form
-      if(this.get('tipToggled')){
+      if(this.tipToggled){
 
           $('[id=tip-form]').removeClass('d-none');
           $('[id=tip-form]').addClass('d-flex');
@@ -86,7 +86,7 @@ export default Controller.extend({
       $('[id=confirm-tip-form]').removeClass('d-flex');
       $('[id=confirm-tip-form]').addClass('d-none');
       //Then Show the last tip form
-      if(this.get('tipToggled')){
+      if(this.tipToggled){
 
           $('[id=tip-form]').removeClass('d-none');
           $('[id=tip-form]').addClass('d-flex');
@@ -227,7 +227,7 @@ export default Controller.extend({
 
     tipToggle(){
 
-      if(this.get('tipToggled')){
+      if(this.tipToggled){
         $('[id=tip-form]').removeClass('d-flex');
         $('[id=simple-tip-form]').removeClass('d-none');
           $('[id=tip-form]').addClass('d-none');

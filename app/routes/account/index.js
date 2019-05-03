@@ -4,7 +4,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default Route.extend(AuthenticatedRouteMixin, {
 
   model() {
-    return this.get('store').findRecord('user', this.get('session.data.authenticated.user_id') );
+    return this.store.findRecord('user', this.get('session.data.authenticated.user_id') );
   },
 
   setupController(controller,model) {

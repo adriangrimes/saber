@@ -441,30 +441,30 @@ export default Controller.extend({
    },
    broadcasterSaveForLater(){
      // Get current state of setting from page and set to a variable
-    var updateFullName = this.get('inputFullName');
-    var updateBusinessName = this.get('inputBusinessName');
-    var updateMonth = this.get('inputMonth');
-    var updateDay = this.get('inputDay');
-    var updateYear = this.get('inputYear');
-    var payoutMethod = this.get('inputPayoutType');
-    var bitcoinAddress = this.get('inputbitcoinaddress');
-    var address1 = this.get('inputaddress1');
-    var address2 = this.get('inputaddress2');
-    var city = this.get('inputCity');
-    var region = this.get('inputRegion');
-    var zipcode = this.get('inputZipcode');
-    var country = this.get('inputCountry');
+    var updateFullName = this.inputFullName;
+    var updateBusinessName = this.inputBusinessName;
+    var updateMonth = this.inputMonth;
+    var updateDay = this.inputDay;
+    var updateYear = this.inputYear;
+    var payoutMethod = this.inputPayoutType;
+    var bitcoinAddress = this.inputbitcoinaddress;
+    var address1 = this.inputaddress1;
+    var address2 = this.inputaddress2;
+    var city = this.inputCity;
+    var region = this.inputRegion;
+    var zipcode = this.inputZipcode;
+    var country = this.inputCountry;
     var address3 = (city+'|'+region+'|'+zipcode+'|'+country);
     var dateofbirth = new Date(updateMonth+" "+updateDay+", "+updateYear);
-    var updateEntityType = this.get('inputEntityType');
+    var updateEntityType = this.inputEntityType;
      if (updateEntityType == "Other"){
-       updateEntityType =  'Other|'+this.get('otherEntityText');
+       updateEntityType =  'Other|'+this.otherEntityText;
      }
-     var backupWithholding = this.get('withholdingInput');
-     var updateTIN = this.get('inputTIN');
+     var backupWithholding = this.withholdingInput;
+     var updateTIN = this.inputTIN;
 
 
-     this.get('store').findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+     this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
 
        // Modify record pulled from db to variable
        user.set('fullName', updateFullName);

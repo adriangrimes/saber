@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import { alias } from '@ember/object/computed';
+//import { alias } from '@ember/object/computed';
 //import { inject as service } from '@ember/service';
 import $ from 'jquery';
 
@@ -17,7 +17,7 @@ export default Controller.extend({
     addTag(tag) {
       console.log('tag length:');
       console.log(this.tags.length);
-      if (this.get('tagCount') < 15) {
+      if (this.tagCount < 15) {
         console.log('adding tag: '+ tag);
         this.tags.pushObject(tag);
       }
@@ -32,16 +32,16 @@ export default Controller.extend({
     },
 
     submitProfileSettings() {
-      this.get('store').queryRecord('user-public-datum',
+      this.store.queryRecord('user-public-datum',
         { user_id: this.get('session.data.authenticated.user_id') }).then((user) => {
         // Modify record pulled from db to variable
         // Get current state of setting from page and set to a variable
-        user.setProperties(this.get('model'));
+        user.setProperties(this.model);
 
-        if (this.get('tempSexSelection') == 'Male' || this.get('tempSexSelection') == 'Female') {
-          user.set('profileSex', this.get('tempSexSelection'));
+        if (this.tempSexSelection == 'Male' || this.tempSexSelection == 'Female') {
+          user.set('profileSex', this.tempSexSelection);
         } else {
-          user.set('profileSex', this.get('tempSexText'));
+          user.set('profileSex', this.tempSexText);
         }
 
         user.set('userCustomTags', this.tags);
@@ -49,7 +49,7 @@ export default Controller.extend({
         // Save record to db
         user.save().then(() => {
           console.log('submitProfileSettings saved');
-          if (this.get('tempSexSelection') == 'Male' || this.get('tempSexSelection') == 'Female') {
+          if (this.tempSexSelection == 'Male' || this.tempSexSelection == 'Female') {
             this.set('tempSexText', '');
           }
           this.currentUser.set('errorMessages', []);
@@ -66,7 +66,7 @@ export default Controller.extend({
     },
 
     cancelProfileChanges() {
-      this.get('model').rollbackAttributes();
+      this.model.rollbackAttributes();
     }
   }
 
