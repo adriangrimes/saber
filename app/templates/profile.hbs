@@ -9,13 +9,15 @@
   <div class="col-12 col-sm-8 p-0 m-0" id="videoWindow">
     <div class="card video-panel">
       <div class="profile-controls pt-2">
-        <a class="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal" style="top:70px">
-          <span title="Edit Avatar" class="fa fa-edit"></span>
+        <a class="edit-links" role="button" data-toggle="modal"
+          data-target="#editPhotosModal" style="top:70px">
+            <span title="Edit Avatar" class="fa fa-edit"></span>
         </a>
         {{edit-photos}}
       </div>
       <div class="card-body p-0" >
-        <img src="/testimg.jpg" class="img-responsive center-block" alt="default user video" width="100%">
+        <img src="/testimg.jpg" class="img-responsive center-block"
+          alt="default user video" width="100%">
       </div>
     </div>
   </div>
@@ -36,7 +38,8 @@
             <br>
           </div>
           <div class="col-4">
-            <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+            <img src="/usericon.svg" class="img-responsive center-block"
+              title="Click to view rules and controls" alt="Game Icon" width="100%">
           </div>
         </div>
       </div>
@@ -44,7 +47,10 @@
   </div>
   <div class="col-12 col-sm-6 p-0">
     <div class="well" id="photo-gallery">
-      <a align="right" class="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal"><span title="Edit Photos" class="fa fa-edit" aria-hidden="true"></span></a>
+      <a align="right" class="edit-links" role="button" data-toggle="modal"
+        data-target="#editPhotosModal">
+        <span title="Edit Photos" class="fa fa-edit" aria-hidden="true"></span>
+      </a>
       <br>
       {{#each model as |user|}}
         <img src="{{user.photo}}" height="100" width="100">
@@ -57,7 +63,10 @@
   <div class="col-12 p-0">
     {{error-display}}
     <div class="collapse show" id="viewProfileCollapse">
-      <a align="right" class="edit-links" role="button" data-toggle="collapse" data-target="#editProfileCollapse,#viewProfileCollapse"><span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span></a>
+      <a align="right" class="edit-links" role="button" data-toggle="collapse"
+        data-target="#editProfileCollapse,#viewProfileCollapse">
+          <span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span>
+      </a>
       <h4>About Me:</h4>
       {{model.profileAboutMe}}
       <br>
@@ -92,17 +101,20 @@
           {{#if currentUser.user.broadcaster}}
             <div class="form-group">
               <label for="inputaboutme">About Me</label>
-              {{textarea rows="5" class="form-control" value=model.profileAboutMe placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
+              {{textarea rows="5" class="form-control" value=model.profileAboutMe
+                placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
             </div>
             {{else if currentUser.user.developer}}
             <div class="form-group">
               <label for="inputaboutme">About Me</label>
-              {{textarea class="form-control" value=model.profileAboutMe placeholder="A little about yourself and your games"}}
+              {{textarea class="form-control" value=model.profileAboutMe
+                placeholder="A little about yourself and your games"}}
             </div>
           {{else}}
             <div class="form-group">
               <label for="inputaboutme">About Me</label>
-              {{textarea class="form-control" value=model.profileAboutMe placeholder="A little about yourself, your favorite games etc."}}
+              {{textarea class="form-control" value=model.profileAboutMe
+                placeholder="A little about yourself, your favorite games etc."}}
             </div>
           {{/if}}
           <div class="form-group">
@@ -110,31 +122,37 @@
             <div class="form-inline">
               <div class="form-check pr-3">
                 <label class="form-check-label">
-                  {{radio-button class="form-check-input" value='Female' groupValue=tempSexSelection checked=tempSexSelection}}
+                  {{radio-button class="form-check-input" value='Female'
+                    groupValue=tempSexSelection checked=tempSexSelection}}
                   Female
                 </label>
               </div>
               <div class="form-check pr-3">
                 <label class="form-check-label">
-                  {{radio-button class="form-check-input" value='Male' groupValue=tempSexSelection checked=tempSexSelection}}
+                  {{radio-button class="form-check-input" value='Male'
+                    groupValue=tempSexSelection checked=tempSexSelection}}
                   Male
                 </label>
               </div>
               <div class="form-check pr-3">
                 <label class="form-check-label" {{action "checkOtherSex"}}>
-                  {{radio-button class="form-check-input" value='Other' groupValue=tempSexSelection id="inputSexOther" checked=tempSexSelection}}
-                  {{input type="text" class="form-control" spellcheck=false value=tempSexText placeholder="Other"}}
+                  {{radio-button class="form-check-input" value='Other'
+                    groupValue=tempSexSelection id="inputSexOther" checked=tempSexSelection}}
+                  {{input type="text" class="form-control" spellcheck=false
+                    value=tempSexText placeholder="Other"}}
                 </label>
               </div>
             </div>
           </div>
           <div class="form-group">
             <label for="inputlocation">Location</label>
-            {{input type="text" class="form-control" value=model.profileLocation placeholder="Your general location" }}
+            {{input type="text" class="form-control" value=model.profileLocation
+              placeholder="Your general location" }}
           </div>
           <div class="form-group">
             <label for="inputLanguages">Languages</label>
-            {{input type="text" class="form-control" value=model.profileLanguages placeholder="I can speak..." }}
+            {{input type="text" class="form-control" value=model.profileLanguages
+              placeholder="I can speak..." }}
           </div>
           <div class="form-group">
             <label for="inputAge">Age</label>
@@ -154,9 +172,16 @@
             </div>
           {{/if}}
           <br>
-          <a class="btn btn-link" data-toggle="collapse" data-target="#editProfileCollapse,#viewProfileCollapse" {{action "cancelProfileChanges"}}><span title="Cancel"></span> Cancel</a>
+          <a class="btn btn-link" data-toggle="collapse"
+            data-target="#editProfileCollapse,#viewProfileCollapse"
+            {{action "cancelProfileChanges"}}>
+              <span title="Cancel"></span>
+              Cancel
+          </a>
           <div class="float-right">
-            <button type="submit" class="btn btn-primary" id="profileSettingSubmit">Save</button>
+            <button type="submit" class="btn btn-primary" id="profileSettingSubmit">
+              Save
+            </button>
           </div>
           <br>
         </div>

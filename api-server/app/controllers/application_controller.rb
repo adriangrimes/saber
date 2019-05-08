@@ -2,6 +2,7 @@ class ApplicationController < ActionController::API
   # Used for authenticate_with_http_token
   include ActionController::HttpAuthentication::Token::ControllerMethods
   include ErrorSerializer
+
   #if Rails.env.production?
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
   #end
@@ -36,7 +37,7 @@ class ApplicationController < ActionController::API
 
   def clean_up_and_render_unauthorized
     @authenticated_user = nil
-    render json: ErrorSerializer.serialize(errors), status: :unauthorized
+    render status: :unauthorized
   end
 
   def render_not_found(exception)

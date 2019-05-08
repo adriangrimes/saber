@@ -1,7 +1,5 @@
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
-// import { A } from '@ember/array';
-// import ArrayProxy from '@ember/array/proxy';
 
 export default Route.extend(AuthenticatedRouteMixin, {
 
@@ -11,9 +9,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   setupController(controller, model) {
-    // Set profile info to settings pulled from db in display profile and edit modal
+    // Sets profile view and edit panel input fields with loaded store data
     this._super(controller, model);
-
+    // Set up gender selection inputs with loaded store data
     controller.set('tempSexText', '');
     if (model.get('profileSex') == 'Male') {
       controller.set('tempSexSelection', 'Male');
@@ -24,10 +22,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.set('tempSexText', model.get('profileSex'));
       controller.set('checkOtherSex', true);
     }
-
+    // Set up user tags
     if (model.get('userCustomTags') != null) {
       controller.set('tags', model.get('userCustomTags').split(","));
     }
-
   }
+
 });

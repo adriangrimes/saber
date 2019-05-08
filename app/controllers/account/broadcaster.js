@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 //import { inject } from '@ember/service';
-import $ from 'jquery';
+import jQuery from 'jquery';
 
 export default Controller.extend({
 
@@ -400,104 +400,126 @@ export default Controller.extend({
   'Zimbabwe',
 ],
 
+  actions: {
+    checkLength(text, select /*, event */) {
+      if (select.searchText.length >= 3 && text.length < 3) {
+        return '';
+      } else {
+        return text.length >= 3;
+      }
+    },
 
-   actions: {
-     checkLength(text, select /*, event */) {
-     if (select.searchText.length >= 3 && text.length < 3) {
-       return '';
-     } else {
-       return text.length >= 3;
-     }
-   },
-   setCountry(country){
-     this.set('inputCountry', country);
-     if (country =="United States"){
-       this.set('isUSA', true);
-       this.set('notUSA', false);
-     }else{
-       this.set('isUSA', false);
-       this.set('notUSA', true);
-     }
+    setCountry(country) {
+      this.set('inputCountry', country);
+      if (country =="United States") {
+        this.set('isUSA', true);
+        this.set('notUSA', false);
+      } else {
+        this.set('isUSA', false);
+        this.set('notUSA', true);
+      }
+    },
 
-   },
-   checkThis(toBeChecked){
-     $("#"+toBeChecked).prop('checked', true).change();
-
-     if(toBeChecked =="inputPayoutBitcoin"){
+    checkThis(toBeChecked) {
+      jQuery("#"+toBeChecked).prop('checked', true).change();
+      if(toBeChecked =="inputPayoutBitcoin") {
         this.set('payoutIsBitcoin', true);
-     }else if (toBeChecked =="inputPayoutCheck"){
-       this.set('payoutIsBitcoin', false);
-     }
-   },
+      } else if (toBeChecked =="inputPayoutCheck") {
+        this.set('payoutIsBitcoin', false);
+      }
+    },
 
-   showEntityMenu(){
-     this.set('isBusiness', true);
+    showEntityMenu() {
+      this.set('isBusiness', true);
+    },
 
-   },
+    uploadIdentification(blob) {
+      let usermodel = this.get('model.uploadedIdentification')
+      usermodel.pushObject({ signed_id: blob.signedId, delete: false});
+      if (usermodel.length > 2) {
+        this.set('uploadErrors',
+          [{title: 'More than 2 uploads',
+            detail: 'You may not upload more than 2 images, please delete one before trying again.' }])
+      }
+      // Attach upload to user account
+      this.model.save().then( () => {
+        console.log('model saved');
+      }).catch( () => {
+        console.log('model failed to save');
+      });
+    },
 
+    deleteFile(imageBlob) {
+      console.log(imageBlob.signed_id);
+      imageBlob.delete = true;
+      this.model.save().then( () => {
+        console.log('model saved');
+        // this.set('model.uploadedIdentification', '');
+      }).catch( () => {
+        console.log('model failed to save');
+      });
+      // this.get('model.uploadedIdentification').get()
+    },
 
-   submitBroadcasterVerification(){
+    submitBroadcasterVerification() {
+    },
 
-   },
-   broadcasterSaveForLater(){
-     // Get current state of setting from page and set to a variable
-    var updateFullName = this.inputFullName;
-    var updateBusinessName = this.inputBusinessName;
-    var updateMonth = this.inputMonth;
-    var updateDay = this.inputDay;
-    var updateYear = this.inputYear;
-    var payoutMethod = this.inputPayoutType;
-    var bitcoinAddress = this.inputbitcoinaddress;
-    var address1 = this.inputaddress1;
-    var address2 = this.inputaddress2;
-    var city = this.inputCity;
-    var region = this.inputRegion;
-    var zipcode = this.inputZipcode;
-    var country = this.inputCountry;
-    var address3 = (city+'|'+region+'|'+zipcode+'|'+country);
-    var dateofbirth = new Date(updateMonth+" "+updateDay+", "+updateYear);
-    var updateEntityType = this.inputEntityType;
-     if (updateEntityType == "Other"){
-       updateEntityType =  'Other|'+this.otherEntityText;
-     }
-     var backupWithholding = this.withholdingInput;
-     var updateTIN = this.inputTIN;
+    broadcasterSaveForLater() {
+      // Get current state of setting from page and set to a variable
+      var updateFullName = this.inputFullName;
+      var updateBusinessName = this.inputBusinessName;
+      var updateMonth = this.inputMonth;
+      var updateDay = this.inputDay;
+      var updateYear = this.inputYear;
+      var payoutMethod = this.inputPayoutType;
+      var bitcoinAddress = this.inputbitcoinaddress;
+      var address1 = this.inputaddress1;
+      var address2 = this.inputaddress2;
+      var city = this.inputCity;
+      var region = this.inputRegion;
+      var zipcode = this.inputZipcode;
+      var country = this.inputCountry;
+      var address3 = (city+'|'+region+'|'+zipcode+'|'+country);
+      var dateofbirth = new Date(updateMonth+" "+updateDay+", "+updateYear);
+      var updateEntityType = this.inputEntityType;
+      if (updateEntityType == "Other") {
+        updateEntityType =  'Other|'+this.otherEntityText;
+      }
+      var backupWithholding = this.withholdingInput;
+      var updateTIN = this.inputTIN;
 
+      this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+        // Modify record pulled from db to variable
+        user.set('fullName', updateFullName);
+        user.set('businessName', updateBusinessName);
+        user.set('businessEntityType', updateEntityType);
+        user.set('birthdate', dateofbirth);
+        user.set('payoutMethod', payoutMethod);
+        user.set('bitcoinAddress', bitcoinAddress);
+        user.set('addressLine1', address1);
+        user.set('addressLine2', address2);
+        user.set('addressLine3', address3);
+        user.set('subjectToBackupWithholding', backupWithholding);
 
-     this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+        user.set('TIN', updateTIN);
+        // Record that they have started, but not finished the application
+        user.set('accountStatus', 'Started Broadcaster Application')
 
-       // Modify record pulled from db to variable
-       user.set('fullName', updateFullName);
-       user.set('businessName', updateBusinessName);
-       user.set('businessEntityType', updateEntityType);
-       user.set('birthdate', dateofbirth);
-       user.set('payoutMethod', payoutMethod);
-       user.set('bitcoinAddress', bitcoinAddress);
-       user.set('addressLine1', address1);
-       user.set('addressLine2', address2);
-       user.set('addressLine3', address3);
-       user.set('subjectToBackupWithholding', backupWithholding);
+        // Save record to db
+        user.save().then(() => {
+          console.log('broadcasterSaveForLater saved');
+          jQuery('[id=broadcasterSaveForLater]').text('');
+          jQuery('[id=broadcasterSaveForLater]').addClass('fa fa-check');
+        }).catch((reason) => {
+          console.log('error saving user record: ' + reason);
+          this.set('errorMessages', reason.errors || reason);
+        });
+      }).catch((reason) => {
+        console.log('error finding user record: ' + reason);
+        this.set('errorMessages', reason.errors || reason);
+      });
+    },
 
-       user.set('TIN', updateTIN);
-       // Record that they have started, but not finished the application
-       user.set('accountStatus', 'Started Broadcaster Application')
-
-       // Save record to db
-       user.save().then(() => {
-         console.log('broadcasterSaveForLater saved');
-         $('[id=broadcasterSaveForLater]').text('');
-         $('[id=broadcasterSaveForLater]').addClass('fa fa-check');
-       }).catch((reason) => {
-         console.log('error saving user record: ' + reason);
-         this.set('errorMessage', reason.errors || reason);
-       });
-     }).catch((reason) => {
-       console.log('error finding user record: ' + reason);
-       this.set('errorMessage', reason.errors || reason);
-     });
-
-
-   },
   }
 
 });

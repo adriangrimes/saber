@@ -1,8 +1,8 @@
-import { computed } from '@ember/object';
 import Service from '@ember/service';
+import { not as computedNot, or as computedOr } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { resolve } from 'rsvp';
-import $ from 'jquery';
+import jQuery from 'jquery';
 
 export default Service.extend({
 
@@ -12,22 +12,12 @@ export default Service.extend({
   themeChanger: service(),
 
   // All other user data is at {{currentUser.user.fullName}} etc.
-  // Any properties set to currentUser.user will be removed once the
-  // model has been populated below.
+  // Any properties set to currentUser.user will be removed once the model has
+  // been populated below.
   signupSuccess: false,
   hasModalOpen: false,
-  isContracted: computed('user.{broadcaster,developer,affiliate}', function() {
-    if (this.get('user.broadcaster') === true ||
-      this.get('user.developer') === true ||
-      this.get('user.affiliate') === true) {
-      return true;
-    } else {
-      return false;
-    }
-  }),
-  isPlayer: computed('isContracted', function() {
-      return !this.isContracted;
-  }),
+  isContracted: computedOr('user.{broadcaster,developer,affiliate}'),
+  isPlayer: computedNot('isContracted'),
 
   init() {
     this._super(...arguments);
@@ -50,7 +40,7 @@ export default Service.extend({
         // Set theme to dark if true, otherwise default theme
         this.themeChanger.set('theme', user.darkMode ? 'dark' : 'default');
         // Close log in modal
-        $('#loginModal').modal('hide');
+        jQuery('#loginModal').modal('hide');
       }).catch((err) => {
         this.set('errorMessages', err.errors || err);
       });
@@ -104,13 +94,16 @@ export default Service.extend({
       }
       // Submit new record to back-end
       newUser.save().then(() => {
+        // Clean up
         this.set('errorMessages', []);
         this.set('signupSuccess', true);
       }).catch((err) => {
+        // Save/sign-up failed
         newUser.deleteRecord();
         this.set('errorMessages', err.errors || err);
       });
     } else {
+      // Fields missing
       this.set('errorMessages',
         [{ title: 'Missing Info',
         detail: 'Please fill in all fields below to sign up' }]

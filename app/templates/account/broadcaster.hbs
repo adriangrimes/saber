@@ -232,10 +232,25 @@
 {{/if}}
 <hr class="splash-horizontal-rule">
 
-<h5>Age Confirmation</h5>
-
                   <div class="form-group">
                     <input type="file" id="verificationDocs">
+                    <br>
+                    {{file-upload
+                      onFileUploaded=(action 'uploadIdentification')
+                      uploadErrors=uploadErrors
+                      maximumUploads=2
+                    }}
+
+                    {{#each model.uploadedIdentification as |image|}}
+                      {{#if image.file_url}}
+                        <div>
+                          <img src={{image.file_url}} alt="Identification upload" height="150">
+                          <button {{action "deleteFile" image}}> Detele </button>
+                        </div>
+                        <br>
+                      {{/if}}
+                    {{/each}}
+                    <br>
                   </div>
 
                   <button id="broadcasterSaveForLater" class="btn btn-outline-dark" {{action "broadcasterSaveForLater"}}>Save for later</button>

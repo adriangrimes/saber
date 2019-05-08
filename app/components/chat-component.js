@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { once } from '@ember/runloop';
-import $ from 'jquery';
+import jQuery from 'jquery';
 
 // use the prompt code instead of hard coded variables to enter the username or id at the launch of the webpage.
 var socket; // Global socket var
@@ -35,7 +35,7 @@ export default Component.extend({
     // User wants to send a message so...
     sendUserMessage: function() {
       var currentTime = Date.now();
-      var usermsg = $('#usermsg')[0];
+      var usermsg = jQuery('#usermsg')[0];
       // if its not blank
       if (usermsg.value !== '') {
         // if its not too soon
@@ -70,18 +70,18 @@ export default Component.extend({
 
     openChatUserMenu(event) {
 
-      var menuYPos = (event.pageY - $('#chat-panel').offset().top + 14);
-      $('#chatUserMenu').css({ 'top': menuYPos });
+      var menuYPos = (event.pageY - jQuery('#chat-panel').offset().top + 14);
+      jQuery('#chatUserMenu').css({ 'top': menuYPos });
       this.set('chatUserMenuUserId', event.srcElement.attributes["data-user-id"].value); // User ID of clicked name
       this.set('chatUserMenuUserName', event.srcElement.attributes["data-user-name"].value); // User name of clicked name
-      $('#chatUserMenu').removeClass('d-none');
-      $('#chatUserMenu').addClass('d-inline-block');
+      jQuery('#chatUserMenu').removeClass('d-none');
+      jQuery('#chatUserMenu').addClass('d-inline-block');
 
     },
 
     closeChatUserMenu(){
-       $('#chatUserMenu').removeClass('d-inline-block');
-       $('#chatUserMenu').addClass('d-none');
+       jQuery('#chatUserMenu').removeClass('d-inline-block');
+       jQuery('#chatUserMenu').addClass('d-none');
     },
 
     blockUser(user){
@@ -169,7 +169,7 @@ export default Component.extend({
     // Scroll chat to bottom when a message is added to chatMessagesList
     // (via template re-render)
     once(this, function() {
-      $('#chat-body').scrollTop($('#chat-body')[0].scrollHeight);
+      jQuery('#chat-body').scrollTop(jQuery('#chat-body')[0].scrollHeight);
     });
   },
 

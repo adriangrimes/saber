@@ -21,6 +21,7 @@ Router.map(function() {
     this.route('broadcaster');
     this.route('developer');
     this.route('affiliate');
+    this.route('confirm');
   });
   this.route('help', function() {
     this.route('developer');

@@ -1,4 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
+  include Rails.application.routes.url_helpers
 
   has_one :user_public_datum
 
@@ -37,5 +38,24 @@ class UserSerializer < ActiveModel::Serializer
   :bitcoin_address,
   :bank_account_number,
   :bank_routing_number,
-  :subject_to_backup_withholding
+  :subject_to_backup_withholding,
+  :uploaded_identification
+
+  def uploaded_identification
+    # uploaded_identification.each do |image|
+    if object.uploaded_identification.attached?
+      array = []
+      object.uploaded_identification.each do |image|
+        array.push({
+          signed_id: image.signed_id,
+          file_url: url_for(image),
+          filename: image.filename,
+          delete: false
+          #filetype: image.filetype
+        })
+      end
+      array
+    end
+  end
+
 end

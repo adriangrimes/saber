@@ -1,6 +1,9 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
+  changeTracker: {auto: true,
+    only: ['uploadedIdentification']}, // settings for user models
+
   // Has one user account datum record
   userPublicDatum: DS.belongsTo('user-public-datum'),
 
@@ -36,5 +39,7 @@ export default DS.Model.extend({
   bitcoinAddress: DS.attr('string'),
   bankAccountNumber: DS.attr('string'),
   bankRoutingNumber: DS.attr('string'),
-  subjectToBackupWithholding: DS.attr('boolean')
+  subjectToBackupWithholding: DS.attr('boolean'),
+  
+  uploadedIdentification: DS.attr('activestorage')
 });

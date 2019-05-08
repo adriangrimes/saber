@@ -1,0 +1,18 @@
+{{#if uploadErrors}}
+  {{#each uploadErrors as |error|}}
+  <p class="alert alert-danger">
+    - {{error.detail}}<br>
+  </p>
+  {{/each}}
+{{/if}}
+<input multiple="false"
+  onchange={{action "upload"}}
+  accept="image/png,image/jpeg"
+  type="file" />
+<p>
+  {{#if (gt uploadProgress 0)}}
+    {{#if (lt uploadProgress 100)}}
+      Progress: {{uploadProgress}}%
+    {{/if}}
+  {{/if}}
+</p>

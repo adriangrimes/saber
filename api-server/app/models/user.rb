@@ -12,9 +12,11 @@ class User < ApplicationRecord
 
   # Used as a virtual attribute for find_for_database_authentication
   attr_writer :login
-
+  # Public profile data
   has_one :user_public_datum, dependent: :delete#, autosave: true
   validates :user_public_datum, :presence => true
+  # ID files uploaded for verification
+  has_many_attached :uploaded_identification
 
   validates :username, :uniqueness => { :case_sensitive => false },
     format: { with: /^[a-zA-Z0-9_]*$/, :multiline => true },

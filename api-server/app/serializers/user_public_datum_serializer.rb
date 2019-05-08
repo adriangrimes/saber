@@ -21,4 +21,10 @@ class UserPublicDatumSerializer < ActiveModel::Serializer
   :profile_location,
   :profile_languages
   #:profile_platforms
+
+  # :profile_images
+  # def profile_images
+  #   url_for(object.profile_images) if object.profile_images.attached?
+  # end
+
 end

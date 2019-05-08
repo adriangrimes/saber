@@ -1,6 +1,5 @@
 import Controller from '@ember/controller';
 import { inject } from '@ember/service';
-//import $ from 'jquery';
 
 //Controller - application
 export default Controller.extend({
@@ -10,15 +9,14 @@ export default Controller.extend({
   themeChanger: inject(),
   //copyrightYear: is set in app/instance-initializer/application
 
-  // init() {
-  //   this._super(...arguments);
-  // },
+  init() {
+    this._super(...arguments);
+  },
 
   actions: {
 
     logout() {
       this.currentUser.logOut();
-      //this.transitionToRoute('index');
     },
 
     scrollToTop() {
@@ -32,15 +30,16 @@ export default Controller.extend({
       } else {
         this.themeChanger.set('theme', 'default');
       }
-      // Get record to save darkMode
-      this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
-        // Modify record pulled from db to variable
-        user.set('darkMode', this.get('currentUser.user.darkMode'));
-        // Save record to db
-        user.save().catch((reason) => {
-          console.log('error saving user record: ' + reason);
-          this.set('errorMessage', reason.errors || reason);
-        });
+      // Get record to save darkMode to
+      this.store.findRecord('user', this.get('session.data.authenticated.user_id'))
+        .then((user) => {
+          // Modify record pulled from db to variable
+          user.set('darkMode', this.get('currentUser.user.darkMode'));
+          // Save record to db
+          user.save().catch((reason) => {
+            console.log('error saving user record: ' + reason);
+            this.set('errorMessage', reason.errors || reason);
+          });
       }).catch((reason) => {
         console.log('error finding user record: ' + reason);
         this.set('errorMessage', reason.errors || reason);
