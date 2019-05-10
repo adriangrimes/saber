@@ -134,6 +134,30 @@ export default Service.extend({
     } else {
       return resolve();
     }
-  }
+  },
+
+  uploadIdentification(blob) {
+    this.get('model.uploadedIdentification').pushObject({
+      signed_id: blob.signedId,
+      delete: false
+    });
+    // Attach upload to user account
+    this.model.save().then( () => {
+      console.log('model saved');
+    }).catch( () => {
+      console.log('model failed to save');
+    });
+  },
+
+  deleteFile(file) {
+    file.delete = true;
+    // Set delete property to true on file, and save model to back-end to delete
+    // file attachment and blob
+    this.model.save().then( () => {
+      console.log('model saved');
+    }).catch( () => {
+      console.log('model failed to save');
+    });
+  },
 
 });

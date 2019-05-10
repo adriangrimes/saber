@@ -18,7 +18,7 @@
   {{#each model as |broadcaster|}}
     {{#if (compare broadcaster.onlineStatus '===' 't')}}
       <div class="col-xs-12 col-sm-3 p-0">
-        <a href="/p/{{broadcaster.userId}}" title="{{broadcaster.username}}">
+        {{#link-to "p" broadcaster.userId title=broadcaster.username}}
           <div class=" broadcaster-panel online">
             <img class="broadcaster-avatar" src="{{if broadcaster.onlineStatus broadcaster.streamnailPath "/streamnails/404_streamnail.png"}}">
             <div class="broadcaster-footer">
@@ -29,7 +29,7 @@
               </div>
             </div>
           </div>
-        </a>
+        {{/link-to}}
       </div>
     {{/if}}
   {{/each}}
@@ -37,7 +37,7 @@
   {{#each model as |broadcaster|}}
     {{#if (compare broadcaster.onlineStatus '===' 'f')}}
       <div class="col-xs-12 col-sm-3 p-0">
-        <a href="/p/{{broadcaster.userId}}" title="{{broadcaster.username}}">
+        {{#link-to "p" broadcaster.userId title=broadcaster.username}}
           <div class=" broadcaster-panel offline">
             <img class="broadcaster-avatar" src="/streamnails/404_streamnail.png">
             <div class="broadcaster-footer">
@@ -46,7 +46,7 @@
               <br>
             </div>
           </div>
-        </a>
+        {{/link-to}}
       </div>
     {{/if}}
   {{/each}}

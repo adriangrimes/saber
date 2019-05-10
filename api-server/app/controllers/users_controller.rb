@@ -14,6 +14,7 @@ class UsersController < ApplicationController
 
     # Process to attach already directly uploaded files to the user record
     unless params[:data][:attributes][:uploaded_identification].blank?
+      identification_upload_limit = 2
       params[:data][:attributes][:uploaded_identification].each do |blob|
         # TODO moving this outside of each loop may improve performance in DB search
         blob_id = ActiveStorage::Blob.find_signed(blob[:signed_id]).id
@@ -21,7 +22,7 @@ class UsersController < ApplicationController
         # attach to current user
         # TODO moving this outside of each loop may improve performance in DB search
         if ActiveStorage::Attachment.find_by(blob_id: blob_id).nil?
-          if @authenticated_user.uploaded_identification.count < 2
+          if @authenticated_user.uploaded_identification.count < identification_upload_limit
             puts 'attaching blob'
             @authenticated_user.uploaded_identification.attach(blob[:signed_id])
           else
@@ -98,7 +99,7 @@ class UsersController < ApplicationController
         return false
       end
     end
-    
+
     def user_params
       # Devise devise_parameter_sanitizer?
       params.require(:data)

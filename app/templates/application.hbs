@@ -8,8 +8,11 @@
 <nav class="navbar navbar-default navbar-expand-sm pl-1 pr-1" id="nav-bar" >
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
-      <a class="navbar-brand" id="logo-with-text" href="/home"> <img src="/logo.svg" height="32px" width ="32px">Saber</a>
-      <a class="navbar-brand" id="logo-no-text" href="/home"> <img src="/logo.svg" height="32px" width ="32px"></a>
+    {{#link-to "home" class="navbar-brand" id="logo-with-text"}}
+      <img src="/logo.svg" height="32px" width ="32px">
+      Saber
+    {{/link-to}}
+    <a class="navbar-brand" id="logo-no-text" href="/home"> <img src="/logo.svg" height="32px" width ="32px"></a>
   </div>
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse">
@@ -44,8 +47,8 @@
                  {{#if currentUser.isContracted}}
                   <a class="dropdown-item" href="/account/dashboard">Dashboard</a>
                  {{/if}}
-                 <a class="dropdown-item"href="/profile">Edit Profile</a>
-                 <a  class="dropdown-item" href="/account">Account Settings</a>
+                 {{link-to "Edit Profile" "profile" class="dropdown-item"}}
+                 {{link-to "Account Settings" "account" class="dropdown-item"}}
                   <form {{action "toggleDarkMode" on="change"}}>
                       <a class="dropdown-item d-inline-block pr-2 ">Dark Mode
                        <label class="switch float-right">
@@ -142,7 +145,7 @@
                     {{#if currentUser.user.broadcaster}}
                       <li class="nav-item"><a class="footer-links nav-link"    href="/account/dashboard">Dashboard</a></li>
                     {{else}}
-                      <li class="nav-item"><a class="footer-links nav-link"    href="/account/broadcaster">Become a Broadcaster</a></li>
+                      <li class="nav-item">{{#link-to "account.broadcaster" class="footer-links nav-link"}}Become a Broadcaster{{/link-to}}</li>
                     {{/if}}
               {{else}}
               <li class="nav-item"><a class="footer-links nav-link"    href="/signup/broadcaster">Become a Broadcaster</a></li>

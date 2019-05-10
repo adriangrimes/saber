@@ -5,14 +5,20 @@
   </p>
   {{/each}}
 {{/if}}
-<input multiple="false"
-  onchange={{action "upload"}}
+{{input
+  multiple="false"
+  change=(action "upload")
   accept="image/png,image/jpeg"
-  type="file" />
+  type="file"
+  disabled=disableUploads
+}}
 <p>
   {{#if (gt uploadProgress 0)}}
     {{#if (lt uploadProgress 100)}}
       Progress: {{uploadProgress}}%
     {{/if}}
+  {{/if}}
+  {{#if disableUploads}}
+    You may only upload {{maximumUploads}} images.
   {{/if}}
 </p>
