@@ -29,7 +29,7 @@ export default Controller.extend({
 
     submitProfileSettings() {
       this.store.queryRecord('user-public-datum',
-        { user_id: this.get('session.data.authenticated.user_id') }).then((user) => {
+        { username: this.get('session.data.authenticated.username') }).then((user) => {
         // Get user public data record from the store and apply the currently
         // changed properties to the record.
         user.setProperties(this.model);

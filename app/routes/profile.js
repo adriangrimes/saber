@@ -5,7 +5,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   model() {
     return this.store.queryRecord('user-public-datum',
-      { user_id: this.get('session.data.authenticated.user_id') });
+      { username: this.get('session.data.authenticated.username') });
   },
 
   setupController(controller, model) {

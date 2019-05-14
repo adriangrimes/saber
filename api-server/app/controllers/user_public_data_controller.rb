@@ -11,10 +11,10 @@ class UserPublicDataController < ApplicationController
       @user_public_data = UserPublicDatum.all
       render json: @user_public_data, status: :ok
     # Else if the user_id param is present and an integer, render single record
-  elsif params[:username] #= Integer(params[:user_id]) rescue false
+    elsif params[:username] #= Integer(params[:user_id]) rescue false
       if @user_public_datum = UserPublicDatum
         .where("lower(username) = ?", params[:username].downcase).first
-          
+
           render json: @user_public_datum, status: :ok
       else
         render status: :not_found
