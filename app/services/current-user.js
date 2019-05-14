@@ -116,6 +116,7 @@ export default Service.extend({
     this.currentUser.set('errorMessages', []);
   },
   cleanUpModal() {
+    jQuery('#loginModal').modal('hide');
     this.currentUser.set('hasModalOpen', false);
     this.currentUser.set('errorMessages', []);
   },

@@ -1,6 +1,7 @@
 <div class="row m-0 mb-3 ml-2">
   <div class="col-8 col-sm-6 col-md-5 col-lg-4 p-0 pt-1 pl-1">
     <h2>Account Settings</h2>
+    {{error-display}}
   </div>
   <div class="col-4 p-0 userTypeBadges">
     {{#if currentUser.user.affiliate}}
@@ -180,99 +181,132 @@
             </div>
           </div>
             <div class="card mb-3"  id="securitySettingsAccordion">
-              <div class="card-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#securitySettingsAccordion" data-target="#collapseSecuritySettings">
+              <div class="card-heading accordion-toggle collapsed"
+                data-toggle="collapse" data-parent="#securitySettingsAccordion"
+                data-target="#collapseSecuritySettings">
                   <h3 class="card-title">Email and Security Settings</h3>
               </div>
               <div id="collapseSecuritySettings" class="card-collapse collapse">
                 <div class="card-body">
-                  <form {{action "submitSecuritySettings" on="submit"}}>
-                          <h5>Change your email address</h5>
-                        <div class="form-group">
-                          <label for="inputemailAddress">New Email address</label>
-                          {{input type="email" class="form-control" autocomplete="email" value=inputnewemailAddress }}
+                  <form {{action "submitEmailChange" on="submit"}}>
+                    <h5>Change your email address</h5>
+                    <div class="form-group">
+                      <label for="inputemailAddress">New Email address</label>
+                      {{input type="email" class="form-control" required=true
+                        autocomplete="email" value=inputnewemailAddress }}
+                    </div>
+                    <div class="form-group">
+                      <label for="inputnewemailAddressConfirm">Confirm New Email address</label>
+                      {{input type="email" class="form-control" required=true
+                        autocomplete="email" value=inputnewemailAddressConfirm }}
+                    </div>
+                    <div class="form-group">
+                      <label for="inputpassword">Current Password</label>
+                      {{input type="password" class="form-control" required=true
+                        autocomplete="current-password" value=inputEmailCurrentPassword }}
+                    </div>
+                    <div class=text-right>
+                      <button type="submit" id="submitEmailChange" class="btn btn-primary">
+                          Save
+                      </button>
+                    </div>
+                  </form>
 
-                        </div>
-                        <div class="form-group">
-                          <label for="inputnewemailAddressConfirm">Confirm New Email address</label>
-                          {{input type="email" class="form-control" autocomplete="email" value=inputnewemailAddressConfirm }}
+                  <hr class="splash-horizontal-rule">
 
-                        </div>
-                          <h5>Change your password</h5>
-                          <div class="form-group">
-                            <label for="inputpassword">New Password</label>
-                            {{input type="password" class="form-control" autocomplete="new-password" value=inputnewpassword }}
+                  <form {{action "submitPasswordChange" on="submit"}}>
+                    <h5>Change your password</h5>
+                    <div class="form-group">
+                      <label for="inputpassword">New Password</label>
+                      {{input type="password" class="form-control" required=true
+                        autocomplete="new-password" value=inputnewpassword }}
+                    </div>
+                    <div class="form-group">
+                      <label for="inputpasswordconfirm">Confirm New Password</label>
+                      {{input type="password" class="form-control" required=true
+                        autocomplete="new-password" value=inputpasswordconfirm }}
+                    </div>
+                    <div class="form-group">
+                      <label for="inputpassword">Current Password</label>
+                      {{input type="password" class="form-control" required=true
+                        autocomplete="current-password" value=inputPasswordCurrentPassword }}
+                    </div>
+                    <div class=text-right>
+                      <button type="submit" id="submitPasswordChange" class="btn btn-primary">
+                          Save
+                      </button>
+                    </div>
+                  </form>
 
-                          </div>
-                          <div class="form-group">
-                            <label for="inputpasswordconfirm">Confrim New Password</label>
-                            {{input type="password" class="form-control" autocomplete="new-password" value=inputpasswordconfirm }}
-                          </div>
+                  <hr class="splash-horizontal-rule">
 
-                          <h5>Change your Security Questions</h5>
-                          <label >Question 1</label>
-                          {{#power-select
-                                selected=inputQuestion1
-                                id="inputQuestion1"
-                                options=questionsList
-                                onchange=(action (mut inputQuestion1))
-                                oninput=(action "checkLength")
-                                as |name|}}
-                                {{name}}
-                              {{/power-select}}
-                          <div class="form-group">
-                            <label for="inputAnswer1">Answer 1</label>
-                            {{input type="text" class="form-control" value=inputAnswer1 }}
-                          </div>
-                          <label >Question 2</label>
-                          {{#power-select
-                                selected=inputQuestion2
-                                id="inputQuestion2"
-                                options=questionsList
-                                onchange=(action (mut inputQuestion2))
-                                oninput=(action "checkLength")
-                                as |name|}}
-                                {{name}}
-                              {{/power-select}}
-                          <div class="form-group">
-                            <label for="inputAnswer1">Answer 2</label>
-                            {{input type="text" class="form-control" value=inputAnswer2 }}
-                          </div>
-                          <label >Question 3</label>
-                          {{#power-select
-                                selected=inputQuestion3
-                                id="inputQuestion3"
-                                options=questionsList
-                                onchange=(action (mut inputQuestion3))
-                                oninput=(action "checkLength")
-                                as |name|}}
-                                {{name}}
-                              {{/power-select}}
-                          <div class="form-group">
-                            <label for="inputAnswer3">Answer 3</label>
-                            {{input type="text" class="form-control" value=inputAnswer3 }}
-                          </div>
-
-
-
-                        <hr class="splash-horizontal-rule">
-                          <div class="form-group">
-                            <label for="inputpassword">Current Password</label>
-                            {{input type="password" class="form-control" autocomplete="current-password" value=inputpassword }}
-                          </div>
-
-                          <div class=text-right>
-                            <button type="submit" id="submitSecuritySettings" class="btn btn-primary">Save</button>
-                        </div>
-                      </form>
-                      </div>
-                  </div>
+                  <form {{action "submitSecurityQuestionChange" on="submit"}}>
+                    <h5>Change your Security Questions</h5>
+                    <div class="form-group">
+                      <label >Question 1</label>
+                      {{#power-select
+                        selected=inputQuestion1
+                        id="inputQuestion1"
+                        options=questionsList
+                        onchange=(action (mut inputQuestion1))
+                        oninput=(action "checkLength")
+                        as |name|}}
+                          {{name}}
+                      {{/power-select}}
+                    </div>
+                    <div class="form-group">
+                      <label for="inputAnswer1">Answer 1</label>
+                      {{input type="text" class="form-control" value=inputAnswer1 }}
+                    </div>
+                    <div class="form-group">
+                      <label >Question 2</label>
+                      {{#power-select
+                        selected=inputQuestion2
+                        id="inputQuestion2"
+                        options=questionsList
+                        onchange=(action (mut inputQuestion2))
+                        oninput=(action "checkLength")
+                        as |name|}}
+                          {{name}}
+                      {{/power-select}}
+                    </div>
+                    <div class="form-group">
+                      <label for="inputAnswer1">Answer 2</label>
+                      {{input type="text" class="form-control" value=inputAnswer2 }}
+                    </div>
+                    <div class="form-group">
+                      <label >Question 3</label>
+                      {{#power-select
+                        selected=inputQuestion3
+                        id="inputQuestion3"
+                        options=questionsList
+                        onchange=(action (mut inputQuestion3))
+                        oninput=(action "checkLength")
+                        as |name|}}
+                          {{name}}
+                      {{/power-select}}
+                    </div>
+                    <div class="form-group">
+                      <label for="inputAnswer3">Answer 3</label>
+                      {{input type="text" class="form-control" value=inputAnswer3 }}
+                    </div>
+                    <div class="form-group">
+                      <label for="inputpassword">Current Password</label>
+                      {{input type="password" class="form-control" required=true
+                        autocomplete="current-password" value=inputSecurityQuestionCurrentPassword }}
+                    </div>
+                    <div class=text-right>
+                      <button type="submit" id="submitSecurityQuestionChange" class="btn btn-primary">
+                          Save
+                      </button>
+                    </div>
+                  </form>
                 </div>
-
-
-
+              </div>
+            </div>
           </div>
 
-            <div class="col-xs-12 col-sm-5 col-md-4">
+          <div class="col-xs-12 col-sm-5 col-md-4">
               {{#if currentUser.isContracted}}
               <a class="btn btn-primary btn-block d-none d-sm-block mb-4" href="/account/dashboard" role="button">View Dashboard &nbsp;<span class="fa fa-dashboard" aria-hidden="true"></span></a>
               {{/if}}

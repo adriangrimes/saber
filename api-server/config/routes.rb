@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   devise_for :users,
     controllers: {
       sessions: 'sessions',
-      registrations: 'users/registrations'
+      registrations: 'users/registrations',
+      passwords: 'users/passwords'
     }
 
   # TODO: If your application has many RESTful routes, using :only and :except to

@@ -11,7 +11,8 @@ export default DS.Model.extend({
   username: DS.attr('string'),
   email: DS.attr('string'),
   password: DS.attr('string'),
-
+  currentPassword: DS.attr('string'),
+  
   broadcaster: DS.attr('boolean'),
   developer: DS.attr('boolean'),
   affiliate: DS.attr('boolean'),
@@ -40,6 +41,6 @@ export default DS.Model.extend({
   bankAccountNumber: DS.attr('string'),
   bankRoutingNumber: DS.attr('string'),
   subjectToBackupWithholding: DS.attr('boolean'),
-  
+
   uploadedIdentification: DS.attr('activestorage')
 });

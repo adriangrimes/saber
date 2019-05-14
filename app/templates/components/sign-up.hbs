@@ -7,7 +7,7 @@
 <div class="form-group-sm">
   <label for="username">Username</label>
   {{#focus-input}}
-    {{input type="login" class="form-control" spellcheck=false value=inputusername}}
+    {{input type="text" class="form-control" spellcheck=false value=inputusername}}
   {{/focus-input}}
 </div>
 <br>
@@ -31,7 +31,7 @@
 {{/if}}
 <div class="form-group-sm">
   <label for="password">Password</label>
-  {{input class="form-control" spellcheck=false value=inputpassword}}
+  {{input type="password" class="form-control" spellcheck=false value=inputpassword}}
 </div>
 <button type="submit" class="signup-button btn btn-primary btn-block" {{action "signUp"}}>
   Sign me up!

@@ -1,12 +1,13 @@
 {{head-layout}}
 {{log-in-modal}}
 {{buy-credits}}
-<!-- These don't function yet, just graphical stand ins -->
-<!-- {{private-messenger}} -->
-<!-- {{popup-alert}} -->
-<div class="d-block d-sm-none red-bar position-absolute"></div>
-<nav class="navbar navbar-default navbar-expand-sm pl-1 pr-1" id="nav-bar" >
-  <!-- Brand and toggle get grouped for better mobile display -->
+{{! These don't function yet, just graphical stand ins }}
+{{! private-messenger}}
+{{! popup-alert}}
+
+<div class="d-block d-sm-none red-bar position-absolute fixed-top"></div>
+<nav class="navbar navbar-default navbar-expand-sm fixed-top pl-1 pr-1" id="nav-bar" style="z-index: 900;">
+  {{! Brand and toggle get grouped for better mobile display }}
   <div class="navbar-header">
     {{#link-to "home" class="navbar-brand" id="logo-with-text"}}
       <img src="/logo.svg" height="32px" width ="32px">
@@ -18,15 +19,8 @@
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav ml-auto" >
       {{#if session.isAuthenticated}}
+          <li><button class=" btn btn-outline-dark border-0 px-2 mx-1"  data-toggle="modal" data-target="#buyCreditsModal" >  <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></button></li>
 
-              <li><button class=" btn btn-outline-dark border-0 px-2 mx-1"  data-toggle="modal" data-target="#buyCreditsModal" >  <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></button></li>
-
-             {{#if currentUser.isContracted}}
-                <li><a class=" btn btn-outline-dark border-0 px-2 mx-1" href="/account/dashboard"> <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i></a></li>
-             {{else}}
-                <li><a class=" btn btn-outline-dark border-0 px-2 mx-1" href="/account"> <i title="My Account" class="fa fa-user" aria-hidden="true"></i></a></li>
-             {{/if}}
-        {{/if}}
 
         {{#if currentUser.isContracted}}
           <li><a class=" btn btn-outline-dark border-0 px-2 mx-1" href="/account/dashboard"> <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i></a></li>
@@ -59,11 +53,9 @@
                   </form>
 
                  <div class="dropdown-divider"></div>
-
                    <div class="dropdown-item dropdown-header">You have&nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i><strong>&nbsp;&nbsp;2,000</strong> Credits</div>
                    <a class="dropdown-item" role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a>
                    <div class="dropdown-divider"></div>
-              
                 <a class="dropdown-item" role="button" {{action "logout"}}>Log Out</a>
                </ul>
            </li>
@@ -74,7 +66,9 @@
 
          {{/if}}
 </nav>
-
+{{! dummy navbar for padding}}
+<nav class="navbar navbar-default navbar-expand-sm pl-1 pr-1">
+</nav>
 <!-- on page alert attempt
 <div class="alert alert-info text-center" role="alert">Welcome {{currentUser.username}}! Click <a href="/account">Here</a> to configure your email settings. (You can do this any time from your account page)</div>
 -->

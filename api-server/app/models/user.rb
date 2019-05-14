@@ -12,6 +12,7 @@ class User < ApplicationRecord
 
   # Used as a virtual attribute for find_for_database_authentication
   attr_writer :login
+
   # Public profile data
   has_one :user_public_datum, dependent: :delete#, autosave: true
   validates :user_public_datum, :presence => true
@@ -26,6 +27,7 @@ class User < ApplicationRecord
   #validates_associated :user_public_datum
   before_save :ensure_online_status
   before_save :ensure_authentication_token
+  before_save :regenerate_authentication_token, if: :encrypted_password_changed?
 
   # Used as a virtual attribute for find_for_database_authentication
   def login
@@ -81,6 +83,10 @@ class User < ApplicationRecord
         token = Devise.friendly_token
         break token unless User.where(authentication_token: token).first
       end
+    end
+
+    def regenerate_authentication_token
+      self.authentication_token = generate_authentication_token
     end
 
 end

@@ -57,9 +57,21 @@ class UsersController < ApplicationController
     end
 
     # Save submitted params to user record
-    if @authenticated_user.update(user_params)
-      render json: @authenticated_user,
-        status: :ok
+    # If current_password is present, update sensitive attributes.
+    if user_params[:current_password]&.present?
+      if @authenticated_user.update_with_password(user_params)
+        render json: @authenticated_user,
+          status: :ok
+      else
+        render json: ErrorSerializer.serialize(@authenticated_user.errors),
+          status: :unprocessable_entity
+      end
+    # Else update attributes that don't require a password. Exclude sensitive
+    # attributes.
+    elsif @authenticated_user.update(user_params
+      .except("password", "current_password", "email", "security_questions"))
+        render json: @authenticated_user,
+          status: :ok
     else
       render json: ErrorSerializer.serialize(@authenticated_user.errors),
         status: :unprocessable_entity
@@ -106,7 +118,8 @@ class UsersController < ApplicationController
         .require(:attributes)
         .permit(:username,
           :email,
-          #:encrypted_password
+          :password,
+          :current_password,
           #:authentication_token
           #:account_status,
           #:admin_status,
@@ -117,8 +130,6 @@ class UsersController < ApplicationController
           :broadcaster,
           :developer,
           :affiliate,
-          :security_questions,
-          :stream_key,
 
           ## Site settings
           :dark_mode,

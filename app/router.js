@@ -1,7 +1,9 @@
 import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
+// Scrolls page to top on page transition
+import RouterScroll from 'ember-router-scroll';
 
-const Router = EmberRouter.extend({
+const Router = EmberRouter.extend(RouterScroll, {
   location: config.locationType,
   rootURL: config.rootURL
 });
@@ -35,7 +37,7 @@ Router.map(function() {
   this.route('legal');
 
   this.route('p', {
-    path: 'p/:profile_id'
+    path: 'p/:username'
   });
 
   this.route('page-not-found', {
@@ -51,6 +53,9 @@ Router.map(function() {
 //    path: 'p/:game_id'
   });
 
+  this.route('forgot-password');
+  this.route('reset-password');
+  this.route('unlock-account');
 });
 
 export default Router;

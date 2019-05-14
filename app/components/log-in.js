@@ -20,9 +20,7 @@ export default Component.extend({
   actions: {
     // Passes form fields as paramters to current-user.logIn function
     authenticate() {
-      this.currentUser.logIn(
-        this.inputusername,
-        this.inputpassword)
+      this.currentUser.logIn(this.inputusername, this.inputpassword)
     },
 
     toggleSignUp() {

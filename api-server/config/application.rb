@@ -30,6 +30,7 @@ module ApiServer
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+    config.active_job.queue_adapter = :sucker_punch
 
     config.autoload_paths += %W(#{config.root}/lib)
 
@@ -41,6 +42,7 @@ module ApiServer
       DeviseController.respond_to :jsonapi
     end
 
+    # TODO determine appropriate cors settings
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'

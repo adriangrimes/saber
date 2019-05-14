@@ -8,7 +8,7 @@
   {{/if}}
 </h4>
 
-<!-- Error or message display -->
+{{! Error or message display }}
 {{#if currentUser.errorMessages}}
   <p class="alert alert-danger">
     {{#each currentUser.errorMessages as |error|}}
@@ -24,18 +24,18 @@
     <div class="form-group-sm">
       <label for="username">Username / Email</label>
       {{#focus-input}}
-        {{input class="form-control" id="username" spellcheck=false value=inputusername placeholder="UserTester1"}}
+        {{input type="text" class="form-control" id="username" spellcheck=false value=inputusername placeholder="username / email" autocomplete="username"}}
       {{/focus-input}}
     </div>
     <br>
     <div class="form-group-sm">
       <label for="password">Password</label>
-      {{input class="form-control" id="password" spellcheck=false value=inputpassword placeholder="12345670"}}
+      {{input type="password" class="form-control" id="password" spellcheck=false value=inputpassword placeholder="password" autocomplete="password"}}
     </div>
     <div>
-      <a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank">
-        <u><small>Forgot your password?</small></u>
-      </a>
+      {{#link-to "forgot-password"}}
+        <u><small {{action this.currentUser.cleanUpModal}}>Forgot your password?</small></u>
+      {{/link-to}}
     </div>
     <br>
     <button type="submit" class="btn btn-primary btn-block" {{action "authenticate"}}><div>Log In</div></button>

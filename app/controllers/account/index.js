@@ -1,13 +1,12 @@
 import Controller from '@ember/controller';
 import { inject } from '@ember/service';
-import $ from 'jquery';
+import jQuery from 'jquery';
 
 export default Controller.extend({
 
   store: inject(),
   session: inject(),
   themeChanger: inject(),
-
 
   timezoneList: [
     '(GMT, UTC+00:00) Monrovia, Reykjavik',
@@ -401,160 +400,233 @@ questionsList: [
   'What is the name of a college you applied to but didn’t attend?',
   'What is the name of the first video game you played?',
 ],
+
   actions: {
-     checkLength(text, select /*, event */) {
-     if (select.searchText.length >= 1 && text.length < 1) {
-         return '';
-       } else {
-       return text.length >= 1;
-       }
-     },
+    checkLength(text, select /*, event */) {
+      if (select.searchText.length >= 1 && text.length < 1) {
+        return '';
+      } else {
+        return text.length >= 1;
+      }
+    },
 
-     checkThis(toBeChecked){
-       $("#"+toBeChecked).prop('checked', true).change();
+    checkThis(toBeChecked) {
+      jQuery("#"+toBeChecked).prop('checked', true).change();
 
-          if(toBeChecked =="inputPayoutBitcoin"){
-             this.set('payoutIsBitcoin', true);
-             this.set('inputPayoutType', 'bitcoin');
-          }else if (toBeChecked=="inputPayoutCheck"){
-             this.set('payoutIsBitcoin', false);
-             this.set('inputPayoutType', 'check');
-          }
+      if (toBeChecked =="inputPayoutBitcoin") {
+        this.set('payoutIsBitcoin', true);
+        this.set('inputPayoutType', 'bitcoin');
+      } else if (toBeChecked=="inputPayoutCheck") {
+        this.set('payoutIsBitcoin', false);
+        this.set('inputPayoutType', 'check');
+      }
 
-   },
+    },
 
     submitEmailSettings() {
       // Get current state of setting from page and set to a variable
       var sEFO = this.sendEmailFavoritesOnline;
       var sPMEN = this.privateMessageEmailNotifications;
-       var sESN = this.sendEmailSiteNews;
+      var sESN = this.sendEmailSiteNews;
 
-      this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
-        console.log(user);
-        // Modify record pulled from db to variable
-        user.set('sendEmailFavoritesOnline', sEFO);
-        user.set('privateMessageEmailNotifications', sPMEN);
-        user.set('sendEmailSiteNews', sESN);
+      this.store.findRecord('user',
+        this.get('session.data.authenticated.user_id')).then((user) => {
+          console.log(user);
+          // Modify record pulled from db to variable
+          user.set('sendEmailFavoritesOnline', sEFO);
+          user.set('privateMessageEmailNotifications', sPMEN);
+          user.set('sendEmailSiteNews', sESN);
 
-         // Save record to db
-         user.save().then(() => {
-           console.log('submitEmailSettings saved');
-           $('[id=emailsettingsubmit]').text('');
-           $('[id=emailsettingsubmit]').addClass('fa fa-check');
-         }).catch((reason) => {
-           console.log('error saving user record: ' + reason);
-           this.set('errorMessage', reason.errors || reason);
-         });
-       }).catch((reason) => {
-         console.log('error finding user record: ' + reason);
-         this.set('errorMessage', reason.errors || reason);
-       });
-     },
+          // Save record to db
+          user.save().then(() => {
+            console.log('submitEmailSettings saved');
+            jQuery('[id=emailsettingsubmit]').text('');
+            jQuery('[id=emailsettingsubmit]').addClass('fa fa-check');
+          }).catch((reason) => {
+            console.log('error saving user record: ' + reason);
+            this.set('errorMessage', reason.errors || reason);
+          });
+      }).catch((reason) => {
+        console.log('error finding user record: ' + reason);
+        this.set('errorMessage', reason.errors || reason);
+      });
+    },
 
-     submitDisplaySettings() {
-       // Get current state of setting from page and set to a variable
-
-
-    var updateTimeZone = this.inputTimeZone;
-
-       if (this.get('currentUser.user.darkMode')) {
-         this.themeChanger.set('theme', 'dark');
-       } else {
-         this.themeChanger.set('theme', 'default');
-       }
-       console.log('At /account display settings save currentUser.darkMode: '+this.get('currentUser.user.darkMode'))
-
-       this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
-         console.log(user);
-         // Modify record pulled from db to variable
-         user.set('darkMode', this.get('currentUser.user.darkMode'));
-         user.set('timezone', updateTimeZone);
-
-        console.log('timezone: '+ updateTimeZone);
-
-         // Save record to db
-         user.save().then(() => {
-           console.log('submitDisplaySettings saved');
-           $('[id=sitesettingsubmit]').text('');
-           $('[id=sitesettingsubmit]').addClass('fa fa-check');
-         }).catch((reason) => {
-           console.log('error saving user record: ' + reason);
-           this.set('errorMessage', reason.errors || reason);
-         });
-       }).catch((reason) => {
-         console.log('error finding user record: ' + reason);
-         this.set('errorMessage', reason.errors || reason);
-       });
-     },
-
-     submitPayoutSettings() {
-       // Get current state of setting from page and set to a variable
-     var payoutMethod = this.inputPayoutType;
-     var bitcoinAddress = this.inputbitcoinaddress;
-       var address1 = this.inputaddress1;
-       var address2 = this.inputaddress2;
-       var city = this.inputCity;
-       var region = this.inputRegion;
-       var zipcode = this.inputZipcode;
-       var country = this.inputCountry;
-     var address3 = (city+'|'+region+'|'+zipcode+'|'+country);
-
-
-      this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
-
-        // Modify record pulled from db to variable
-        user.set('addressLine1', address1);
-        user.set('addressLine2', address2);
-        user.set('addressLine3', address3);
-        user.set('payoutMethod', payoutMethod);
-        user.set('bitcoinAddress', bitcoinAddress);
-
-
-         // Save record to db
-         user.save().then(() => {
-           console.log('submitPayoutSettings saved');
-           $('[id=payoutsettingsubmit]').text('');
-           $('[id=payoutsettingsubmit]').addClass('fa fa-check');
-         }).catch((reason) => {
-           console.log('error saving user record: ' + reason);
-           this.set('errorMessage', reason.errors || reason);
-         });
-       }).catch((reason) => {
-         console.log('error finding user record: ' + reason);
-         this.set('errorMessage', reason.errors || reason);
-       });
-     },
-    submitSecuritySettings() {
+    submitDisplaySettings() {
       // Get current state of setting from page and set to a variable
-     var question1 = this.inputQuestion1;
-     var question2 = this.inputQuestion2;
-     var question3 = this.inputQuestion3;
-     var answer1 = this.inputAnswer1;
-     var answer2 = this.inputAnswer2;
-     var answer3 = this.inputAnswer3;
-     var updateSecurityQuestions = (question1+'|'+answer1+'|'+question2+'|'+answer2+'|'+question3+'|'+answer3);
+      var updateTimeZone = this.inputTimeZone;
+      var updateSearchDefault = this.inputDefaultSearch;
 
+      if (this.get('currentUser.user.darkMode')) {
+        this.themeChanger.set('theme', 'dark');
+      } else {
+        this.themeChanger.set('theme', 'default');
+      }
 
-      this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+      console.log('At /account display settings save currentUser.darkMode: '
+        +this.get('currentUser.user.darkMode'))
 
-        // Modify record pulled from db to variable
-        user.set('securityQuestions', updateSecurityQuestions);
+      this.store.findRecord('user',
+        this.get('session.data.authenticated.user_id')).then((user) => {
+          console.log(user);
+          // Modify record pulled from db to variable
+          user.set('darkMode', this.get('currentUser.user.darkMode'));
+          user.set('timezone', updateTimeZone);
+          console.log('timezone: '+ updateTimeZone);
 
+          // Save record to db
+          user.save().then(() => {
+            console.log('submitDisplaySettings saved');
+            jQuery('[id=sitesettingsubmit]').text('');
+            jQuery('[id=sitesettingsubmit]').addClass('fa fa-check');
+          }).catch((reason) => {
+            console.log('error saving user record: ' + reason);
+            this.set('errorMessage', reason.errors || reason);
+          });
+      }).catch((reason) => {
+        console.log('error finding user record: ' + reason);
+        this.set('errorMessage', reason.errors || reason);
+      });
+    },
 
-        // Save record to db
-        user.save().then(() => {
-          console.log('submitSecuritySettings saved');
-          $('[id=submitSecuritySettings]').text('');
-          $('[id=submitSecuritySettings]').addClass('fa fa-check');
+    submitPayoutSettings() {
+      // Get current state of setting from page and set to a variable
+      var payoutMethod = this.inputPayoutType;
+      var bitcoinAddress = this.inputbitcoinaddress;
+      var address1 = this.inputaddress1;
+      var address2 = this.inputaddress2;
+      var city = this.inputCity;
+      var region = this.inputRegion;
+      var zipcode = this.inputZipcode;
+      var country = this.inputCountry;
+      var address3 = (city+'|'+region+'|'+zipcode+'|'+country);
+
+      this.store.findRecord('user',
+        this.get('session.data.authenticated.user_id')).then((user) => {
+          // Modify record pulled from db to variable
+          user.set('addressLine1', address1);
+          user.set('addressLine2', address2);
+          user.set('addressLine3', address3);
+          user.set('payoutMethod', payoutMethod);
+          user.set('bitcoinAddress', bitcoinAddress);
+
+          // Save record to db
+          user.save().then(() => {
+            console.log('submitPayoutSettings saved');
+            jQuery('[id=payoutsettingsubmit]').text('');
+            jQuery('[id=payoutsettingsubmit]').addClass('fa fa-check');
+          }).catch((reason) => {
+            console.log('error saving user record: ' + reason);
+            this.set('errorMessage', reason.errors || reason);
+          });
+      }).catch((reason) => {
+        console.log('error finding user record: ' + reason);
+        this.set('errorMessage', reason.errors || reason);
+      });
+    },
+
+    submitEmailChange() {
+      if (this.get('inputnewemailAddress') == this.get('inputnewemailAddressConfirm')) {
+        this.store.findRecord('user',
+          this.get('session.data.authenticated.user_id')).then((user) => {
+            // Modify record pulled from db to variable
+            user.set('email', this.get('inputnewemailAddress'));
+            user.set('currentPassword', this.get('inputEmailCurrentPassword'));
+            // Save record to db
+            user.save().then(() => {
+              this.currentUser.set('errorMessages',
+                [{ title: 'Email changed',
+                detail: 'Your email address has been changed, please check the confirmation email to complete the process.' }]);
+              console.log('submitEmailChange saved');
+              jQuery('[id=submitEmailChange]').text('');
+              jQuery('[id=submitEmailChange]').addClass('fa fa-check');
+            }).catch((reason) => {
+              this.model.rollbackAttributes();
+              console.log('error saving user record: ' + reason);
+              this.currentUser.set('errorMessages', reason.errors || reason);
+            });
         }).catch((reason) => {
-          console.log('error saving user record: ' + reason);
-          this.set('errorMessage', reason.error || reason);
+          console.log('error finding user record: ' + reason);
+          this.currentUser.set('errorMessages', reason.errors || reason);
         });
+      } else {
+        this.currentUser.set('errorMessages',
+          [{ title: 'Email fields must match',
+          detail: 'The email fields must match.' }]);
+      }
+    },
+
+    submitPasswordChange() {
+      if (this.get('inputnewpassword') == this.get('inputpasswordconfirm')) {
+        this.store.findRecord('user',
+          this.get('session.data.authenticated.user_id')).then((user) => {
+            // Modify record pulled from db to variable
+            user.set('password', this.get('inputnewpassword'));
+            user.set('currentPassword', this.get('inputPasswordCurrentPassword'));
+            // Save record to db
+            user.save().then(() => {
+              this.currentUser.logIn(this.get('session.data.authenticated.login'),
+                this.get('inputnewpassword'))
+              this.currentUser.set('errorMessages',
+                [{ title: 'Password changed',
+                detail: 'Your password has been changed.' }]);
+              console.log('submitPasswordChange saved');
+              jQuery('[id=submitPasswordChange]').text('');
+              jQuery('[id=submitPasswordChange]').addClass('fa fa-check');
+              // Ember.run.later((function() {
+              //   //do something in here that will run in 2 seconds
+
+              // }), 2000);
+
+            }).catch((reason) => {
+              this.model.rollbackAttributes();
+              console.log('error saving user record: ' + reason);
+              this.currentUser.set('errorMessages', reason.errors || reason);
+            });
+        }).catch((reason) => {
+          console.log('error finding user record: ' + reason);
+          this.currentUser.set('errorMessages', reason.errors || reason);
+        });
+      } else {
+        this.currentUser.set('errorMessages',
+          [{ title: 'Password fields must match',
+          detail: 'The password fields must match.' }]);
+      }
+    },
+
+    submitSecurityQuestionChange() {
+      // Get current state of setting from page and set to a variable
+      var question1 = this.inputQuestion1;
+      var question2 = this.inputQuestion2;
+      var question3 = this.inputQuestion3;
+      var answer1 = this.inputAnswer1;
+      var answer2 = this.inputAnswer2;
+      var answer3 = this.inputAnswer3;
+      var updateSecurityQuestions = (question1+'|'+answer1+'|'+question2+'|'+answer2+'|'+question3+'|'+answer3);
+
+      this.store.findRecord('user',
+        this.get('session.data.authenticated.user_id')).then((user) => {
+          // Modify record pulled from db to variable
+          user.set('securityQuestions', updateSecurityQuestions);
+          user.set('currentPassword',
+            this.get('inputSecurityQuestionCurrentPassword'));
+          // Save record to db
+          user.save().then(() => {
+            this.currentUser.set('errorMessages',
+              [{ title: 'Security questions updated',
+              detail: 'Your security questions have been updated.' }]);
+            console.log('submitSecuritySettings saved');
+            jQuery('[id=submitSecuritySettings]').text('');
+            jQuery('[id=submitSecuritySettings]').addClass('fa fa-check');
+          }).catch((reason) => {
+            console.log('error saving user record: ' + reason);
+            this.currentUser.set('errorMessages', reason.errors || reason);
+          });
       }).catch((reason) => {
         console.log('error finding user record: ' + reason);
         this.set('errorMessage', reason.error || reason);
       });
     },
-   }
+  }
 
 });

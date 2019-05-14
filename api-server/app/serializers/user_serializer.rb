@@ -8,6 +8,8 @@ class UserSerializer < ActiveModel::Serializer
   ## Database authenticatable
   :username,
   :email,
+  :password,
+  :current_password,
   #:encrypted_password,
   #:authentication_token,
 
@@ -40,6 +42,14 @@ class UserSerializer < ActiveModel::Serializer
   :bank_routing_number,
   :subject_to_backup_withholding,
   :uploaded_identification
+
+  def current_password
+    nil
+  end
+  
+  def password
+    nil
+  end
 
   def uploaded_identification
     # uploaded_identification.each do |image|
