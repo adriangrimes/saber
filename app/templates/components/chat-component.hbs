@@ -4,7 +4,7 @@
   <div class="d-none" id="chatUserMenu" >
 
 
-    <a href="/p/{{chatUserMenuUserId}}" target="_blank" class=" round-top-left-corner-only btn btn-primary pt-1" title="Open users profile in new tab"><span class="fa fa-user pr-2"> </span>{{chatUserMenuUserName}}</a>
+    <a href="/p/{{lower-case chatUserMenuUserName}}" target="_blank" class=" round-top-left-corner-only btn btn-primary pt-1" title="Open users profile in new tab"><span class="fa fa-user pr-2"> </span>{{chatUserMenuUserName}}</a>
 
     <button class=" round-top-right-corner-only btn btn-primary float-right pt-1" title="Close" {{action "closeChatUserMenu"}}><span class="fa fa-close"></span></button>
 
@@ -47,7 +47,7 @@
           {{#if chatMessage.systemMessage}}
             <li><b>{{chatMessage.message}}</b></li>
           {{else}}
-          <li><b><span class="chat-username" onclick={{action "openChatUserMenu"}} data-user-id="{{chatMessage.userId}}" data-user-name="{{chatMessage.chatUserName}}" >
+          <li><b><span class="chat-username" onclick={{action "openChatUserMenu"}} data-user-id="{{lower-case chatMessage.chatUserName}}" data-user-name="{{chatMessage.chatUserName}}" >
               {{chatMessage.chatUserName}}
             </span></b>
             {{chatMessage.message}}
@@ -77,7 +77,7 @@
       <div class="card-body users-body">
         <ul id="users">
           {{#each chatUsersList as |chatUser|}}
-              <li><b><span class="chat-username" onclick={{action "openChatUserMenu"}} data-user-id="{{chatUser.userId}}"  data-user-name="{{chatUser.chatUserName}}">
+              <li><b><span class="chat-username" onclick={{action "openChatUserMenu"}} data-user-id="{{chatUser.chatUserName}}"  data-user-name="{{chatUser.chatUserName}}">
                   {{chatUser.chatUserName}}
                 </span></b>
               </li>
