@@ -5,7 +5,6 @@ import { resolve } from 'rsvp';
 import jQuery from 'jquery';
 
 export default Service.extend({
-
   // Services
   session: service(),
   store: service(),
@@ -29,24 +28,28 @@ export default Service.extend({
     this.set('errorMessages', []);
     if (identification && password) {
       // Submit authentication parameters to back-end
-      this.session.authenticate('authenticator:devise',
-        identification.trim(),
-        password)
+      this.session
+        .authenticate('authenticator:devise', identification.trim(), password)
         .then(() => {
           // Now that we have a token, request user data from back-end
-          return this.store.findRecord('user',
-            this.get('session.data.authenticated.user_id'));
-      }).then((user) => {
-        // Set theme to dark if true, otherwise default theme
-        this.themeChanger.set('theme', user.darkMode ? 'dark' : 'default');
-        // Close log in modal
-        jQuery('#loginModal').modal('hide');
-      }).catch((err) => {
-        this.set('errorMessages', err.errors || err);
-      });
+          return this.store.findRecord(
+            'user',
+            this.get('session.data.authenticated.user_id')
+          );
+        })
+        .then(user => {
+          // Set theme to dark if true, otherwise default theme
+          this.themeChanger.set('theme', user.darkMode ? 'dark' : 'default');
+          // Close log in modal
+          jQuery('#loginModal').modal('hide');
+        })
+        .catch(err => {
+          this.set('errorMessages', err.errors || err);
+        });
     } else {
-      this.set('errorMessages',
-        [{ title: 'Missing Info', detail: 'Your login or password is missing' }]);
+      this.set('errorMessages', [
+        { title: 'Missing Info', detail: 'Your login or password is missing' }
+      ]);
     }
   },
 
@@ -84,30 +87,37 @@ export default Service.extend({
       }
       if (isContractor) {
         if (fullname) {
-            newUser.set('fullName', fullname);
+          newUser.set('fullName', fullname);
         } else {
-          this.set('errorMessages',
-            [{ title: 'Missing Info',
-            detail: 'Please fill in all fields below to sign up' }]
-          );
+          this.set('errorMessages', [
+            {
+              title: 'Missing Info',
+              detail: 'Please fill in all fields below to sign up'
+            }
+          ]);
         }
       }
       // Submit new record to back-end
-      newUser.save().then(() => {
-        // Clean up
-        this.set('errorMessages', []);
-        this.set('signupSuccess', true);
-      }).catch((err) => {
-        // Save/sign-up failed
-        newUser.deleteRecord();
-        this.set('errorMessages', err.errors || err);
-      });
+      newUser
+        .save()
+        .then(() => {
+          // Clean up
+          this.set('errorMessages', []);
+          this.set('signupSuccess', true);
+        })
+        .catch(err => {
+          // Save/sign-up failed
+          newUser.deleteRecord();
+          this.set('errorMessages', err.errors || err);
+        });
     } else {
       // Fields missing
-      this.set('errorMessages',
-        [{ title: 'Missing Info',
-        detail: 'Please fill in all fields below to sign up' }]
-      );
+      this.set('errorMessages', [
+        {
+          title: 'Missing Info',
+          detail: 'Please fill in all fields below to sign up'
+        }
+      ]);
     }
   },
 
@@ -122,16 +132,21 @@ export default Service.extend({
   },
 
   load() {
-    console.log('currentUser.load() user_id: ' +
-      this.get('session.data.authenticated.user_id'));
+    console.log(
+      'currentUser.load() user_id: ' +
+        this.get('session.data.authenticated.user_id')
+    );
     let userId = this.get('session.data.authenticated.user_id');
     if (!isNaN(userId)) {
-      return this.store.findRecord('user', userId).then((user) => {
-        // Set data returned to currentUser.user
-        this.set('user', user);
-      }).catch((err) => {
-        this.set('errorMessages', err.errors || err);
-      });
+      return this.store
+        .findRecord('user', userId)
+        .then(user => {
+          // Set data returned to currentUser.user
+          this.set('user', user);
+        })
+        .catch(err => {
+          this.set('errorMessages', err.errors || err);
+        });
     } else {
       return resolve();
     }
@@ -143,22 +158,27 @@ export default Service.extend({
       delete: false
     });
     // Attach upload to user account
-    this.model.save().then( () => {
-      console.log('model saved');
-    }).catch( () => {
-      console.log('model failed to save');
-    });
+    this.model
+      .save()
+      .then(() => {
+        console.log('model saved');
+      })
+      .catch(() => {
+        console.log('model failed to save');
+      });
   },
 
   deleteFile(file) {
-    file.delete = true;
     // Set delete property to true on file, and save model to back-end to delete
+    file.delete = true;
     // file attachment and blob
-    this.model.save().then( () => {
-      console.log('model saved');
-    }).catch( () => {
-      console.log('model failed to save');
-    });
-  },
-
+    this.model
+      .save()
+      .then(() => {
+        console.log('model saved');
+      })
+      .catch(() => {
+        console.log('model failed to save');
+      });
+  }
 });

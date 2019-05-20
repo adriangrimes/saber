@@ -124,7 +124,12 @@
     <!-- Chat Window -->
 
     <div class="col-12 col-sm-4 p-0 order-2" id="chat-panel">
-      {{chat-component userJoined=model.username idJoined=model.userID}}
+      {{chat-component
+        chatChannel=(lower-case model.username)
+
+      }}
+      {{!userJoined=this.currentUser.user.username
+      idJoined=this.currentUser.user.id}}
     </div>
     <!-- Game Window -->
 
@@ -209,14 +214,12 @@
             <div class="row m-0 ">
               <div class="col-12 d-flex">
                 <div id="suggest-game-button" class="btn float-right btn-link" title="Suggest Game" {{action "openSuggestionPanel" }}>Suggest Game</div>
-
-                <div class="d-none  ml-auto" id="confirm-join-game-form-sm" >
-                    <h5 class="pr-3 pt-1" >Join Game?</h5>
-                    <button class="btn btn-success border-0 mr-2" {{action "joinGame" }}><span class="fa fa-check"></span></button>
-                    <button class="btn btn-danger border-0 " {{action "cancelJoinGame" }}><span class="fa fa-times"></span></button>
-                </div>
+                  <div class="d-none  ml-auto" id="confirm-join-game-form-sm" >
+                      <h5 class="pr-3 pt-1" >Join Game?</h5>
+                      <button class="btn btn-success border-0 mr-2" {{action "joinGame" }}><span class="fa fa-check"></span></button>
+                      <button class="btn btn-danger border-0 " {{action "cancelJoinGame" }}><span class="fa fa-times"></span></button>
+                  </div>
                   <button id="join-game-button-sm" class="btn btn-primary ml-auto mr-3 mt-1 d-none d-sm-block" title="Play Game" {{action "confirmJoinGame" }}>Play Game</button>
-
               </div>
 
             </div>

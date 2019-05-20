@@ -90,7 +90,8 @@ class UsersController < ApplicationController
 
   # GET all /users
   def index
-    render_not_authenticated
+    puts params
+    render status: :ok
   end
 
   # POST /users

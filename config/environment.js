@@ -12,7 +12,7 @@ module.exports = function(environment) {
       'font-src': "'self'",
       'connect-src': "'self' ws://localhost:7000 localhost:7000",
       'img-src': "'self'",
-      'report-uri':"'localhost'",
+      'report-uri': "'localhost'",
       'style-src': "'self' 'unsafe-inline'",
       'frame-src': "'none'"
     },
@@ -25,8 +25,8 @@ module.exports = function(environment) {
     },
     theme: {
       // Add themes for ember-theme-changer
-      themes: [ 'default', 'dark'], // MANDATORY
-      defaultTheme: 'default', // OPTIONAL
+      themes: ['default', 'dark'], // MANDATORY
+      defaultTheme: 'default' // OPTIONAL
     },
     EmberENV: {
       FEATURES: {
@@ -48,7 +48,7 @@ module.exports = function(environment) {
     baseURL: 'index',
     authenticationRoute: 'index',
     routeAfterAuthentication: '/account/dashboard',
-    routeIfAlreadyAuthenticated: '/account/dashboard',
+    routeIfAlreadyAuthenticated: '/account/dashboard'
   };
 
   if (environment === 'development') {

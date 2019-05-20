@@ -23,6 +23,18 @@ export default Route.extend(ApplicationRouteMixin, {
   _loadCurrentUser() {
     console.log('R3 _loadCurrentUser()');
     return this.currentUser.load().catch(() => this.session.invalidate());
+  },
+
+  actions: {
+    loading(transition) {
+      let controller = this.controllerFor('application');
+      controller.set('currentlyLoading', true);
+      transition.promise.finally(function() {
+          controller.set('currentlyLoading', false);
+      });
+      return true;
+    }
   }
+
 
 });

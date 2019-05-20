@@ -1,104 +1,78 @@
-
-<!-- Chat User Menu. hidden by default.-->
-
-  <div class="d-none" id="chatUserMenu" >
-
-
-    <a href="/p/{{lower-case chatUserMenuUserName}}" target="_blank" class=" round-top-left-corner-only btn btn-primary pt-1" title="Open users profile in new tab"><span class="fa fa-user pr-2"> </span>{{chatUserMenuUserName}}</a>
-
-    <button class=" round-top-right-corner-only btn btn-primary float-right pt-1" title="Close" {{action "closeChatUserMenu"}}><span class="fa fa-close"></span></button>
-
+{{!-- Chat user context menu, hidden by default.--}}
+<div class="d-none" id="chatUserMenu" >
+  <a href="/p/{{lower-case chatUserMenuUserName}}" target="_blank" class=" round-top-left-corner-only btn btn-primary pt-1" title="Open users profile in new tab"><span class="fa fa-user pr-2"> </span>{{chatUserMenuUserName}}</a>
+  <button class=" round-top-right-corner-only btn btn-primary float-right pt-1" title="Close" {{action "closeChatUserMenu"}}><span class="fa fa-close"></span></button>
   <div class="input-group">
     <div class="input-group-prepend w-50 mr-0 ">
-      <!-- Just display, functions not done Yet-->
+      {{!-- TODO These are just display, functions not done yet--}}
       <button class="btn btn-block btn-primary sharp-bottom-corners" title="Message" {{action "sendPrivateMessage" chatUserMenuUserId}}><span class="fa fa-envelope"></span></button>
-
     </div>
-    <div class="input-group-append w-50 ">
+    <div class="input-group-append w-50">
       <button class="btn btn-block btn-primary sharp-bottom-corners " title="Kick and Block this user" {{action "blockUser" chatUserMenuUserId}}><span class="fa fa-ban"></span></button>
-
-</div>
     </div>
-    <!-- End of Just display -->
+  </div>
+</div>{{!-- End of context menu display --}}
 
-</div>
-<!-- Chat Navigation Tabs -->
+{{!-- Chat Navigation Tabs --}}
 <ul class="nav nav-tabs chat-tab-panel float-right">
   <li role="presentation" class="nav-item"><a href="#chat" class="chat-tab nav-link active" aria-controls="chat" role="tab" data-toggle="tab" title="Chat Window"><span class="fa fa-comments-o"></span></a></li>
   <li role="presentation" class="nav-item"><a href="#userstab" class="chat-tab nav-link"  aria-controls="userstab" role="tab" data-toggle="tab" title="Users Window"><span class="fa fa-users"></span></a></li>
-  <!--  <li role="presentation" class="nav-item"{{action "openChatTab"}}><a href="#settingstab" class="chat-tab nav-link"  aria-controls="settingstab" role="tab" data-toggle="tab">Settings</a></li>-->
+  {{!--  <li role="presentation" class="nav-item"{{action "openChatTab"}}><a href="#settingstab" class="chat-tab nav-link"  aria-controls="settingstab" role="tab" data-toggle="tab">Settings</a></li>--}}
 </ul>
 
-<!-- Chat Tab Container -->
+{{!-- Chat and userlist container --}}
 <div class="tab-content">
-
-  <!-- Chat Tab Content -->
+  {{!-- Chat message tab content --}}
   <div role="tabpanel" class="tab-pane active" id="chat">
-
-
-
+    {{!-- Chat messages --}}
     <div class="card-body chat-body" id="chat-body">
-
-
-
-      <!-- Chat message list -->
       <ul id="messages">
         {{#each chatMessagesList as |chatMessage|}}
           {{#if chatMessage.systemMessage}}
             <li><b>{{chatMessage.message}}</b></li>
           {{else}}
-          <li><b><span class="chat-username" onclick={{action "openChatUserMenu"}} data-user-id="{{lower-case chatMessage.chatUserName}}" data-user-name="{{chatMessage.chatUserName}}" >
-              {{chatMessage.chatUserName}}
-            </span></b>
-            {{chatMessage.message}}
-          </li>
+            <li>
+              <span class="chat-username" onclick={{action "openChatUserMenu"}}>
+                <b>{{chatMessage.chatUserName}}</b>
+              </span>
+              {{chatMessage.message}}
+            </li>
           {{/if}}
         {{/each}}
       </ul>
-
-
-
-    </div> <!-- Chat body end -->
-
-    <!-- Chat Input Field -->
-    <form  name="userMessage"  autocomplete="off">
-      <div class="input-group" >
-         <input  type="text"  autocomplete="off" name="usermsg"  id="usermsg" style="border-radius:0px" class="form-control" placeholder="Enter Chat Message..." data-lpignore="true">
-         <span class="input-group-btn">
-           <button name="submitmsg" id="chat-input" class="btn btn-primary" {{action "sendUserMessage"}}>Send</button>
-         </span>
+    </div> {{!-- /Chat messages --}}
+    {{!-- Chat Input Field --}}
+    <form {{action "sendUserMessage" on="submit"}} name="userMessage" autocomplete="off">
+      <div class="input-group">
+        {{input value=userMessage type="text" autocomplete=false name="usermsg" style="border-radius:0px" class="form-control" placeholder="Chat here..." data-lpignore="true" }}
+        <button type="submit" name="submitmsg" id="chat-input" class="input-group-btn btn btn-primary">Send</button>
       </div>
-    </form>
+    </form>{{!-- /Chat Input Field --}}
+  </div> {{!-- /Chat message tab content --}}
 
-  </div> <!-- Chat tab content end -->
-
-  <!-- Users List Tab Content -->
+  {{!-- Users List Tab Content --}}
   <div role="tabpanel" class="tab-pane" id="userstab">
-      <div class="card-body users-body">
-        <ul id="users">
-          {{#each chatUsersList as |chatUser|}}
-              <li><b><span class="chat-username" onclick={{action "openChatUserMenu"}} data-user-id="{{chatUser.chatUserName}}"  data-user-name="{{chatUser.chatUserName}}">
-                  {{chatUser.chatUserName}}
-                </span></b>
-              </li>
-
-          {{/each}}
-
-
-
-        </ul>
-      </div>
+    <div class="card-body users-body">
+      <ul id="users">
+        {{#each chatUsersList as |chatUser|}}
+          <li>
+            <span class="chat-username" onclick={{action "openChatUserMenu"}} data-user-id="{{chatUser.chatUserName}}"  data-user-name="{{chatUser.chatUserName}}">
+              <b>{{chatUser.chatUserName}}</b>
+            </span>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
   </div>
 
-  <!-- Settings Tab Content (slow chat, moderation, etc)
+  {{!-- Settings Tab Content (slow chat, moderation, etc)
   <div role="tabpanel" class="tab-pane" id="settingstab">
       <div class="card-body users-body">
         Settings:
       </div>
     </div>
-  -->
+  --}}
 
-
-</div> <!-- Chat Tab Container end -->
+</div> {{!-- /Chat and userlist container --}}
 
 {{yield}}
