@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :chat_tickets
   devise_for :users,
     controllers: {
       sessions: 'sessions',

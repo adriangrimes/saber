@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import jQuery from 'jquery';
+import config from '../config/environment';
 
 export default Controller.extend({
 
@@ -12,7 +13,7 @@ export default Controller.extend({
         let that = this;
         let data = { email: this.get('emailToResetPassword') };
         let jqxhr = jQuery.post(
-          'http://localhost:3000/users/password', data, function() {
+          `${config.apiHost}/users/password`, data, function() {
         })
         .done(function() {
           that.currentUser.set('errorMessages',

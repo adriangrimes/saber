@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import jQuery from 'jquery';
+import config from '../../config/environment';
 
 export default Route.extend({
   model(params) {
@@ -7,7 +8,7 @@ export default Route.extend({
     if (params.confirmation_token) {
       let that = this;
       let jqxhr = jQuery.get(
-        "http://localhost:3000/users/confirmation?confirmation_token=" +
+        `${config.apiHost}/users/confirmation?confirmation_token=` +
         params['confirmation_token'], function() {
       })
       .done(function() {

@@ -30,8 +30,7 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options)
   # config.active_storage.service = :local
 
-  # config.action_mailer.default_url_options = { :host => "localhost", port: 25 }
-  config.action_mailer.default_url_options = {  :host => "localhost",
+  config.action_mailer.default_url_options = {  :host => "192.168.21.103",
                                                 :port => 3000 }
   config.action_mailer.delivery_method = :letter_opener
   # config.action_mailer.delivery_method = :mailjet
@@ -50,7 +49,10 @@ Rails.application.configure do
 
   # Store files locally.
   config.active_storage.service = :local
-  Rails.application.routes.default_url_options[:host] = 'http://localhost:3000'
+  Rails.application.routes.default_url_options[:host] = 'http://192.168.21.103:3000'
+
+  # Set front-end hostname
+  config.front_end_hostname = 'http://192.168.21.103:4200'
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

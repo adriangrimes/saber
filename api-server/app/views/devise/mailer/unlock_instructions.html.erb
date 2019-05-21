@@ -4,4 +4,4 @@
 
 <p>Click the link below to unlock your account:</p>
 
-<p><%= link_to 'Unlock my account', 'http://localhost:4200/unlock-account?unlock_token='.concat(@token) %></p>
+<p><%= link_to 'Unlock my account', "#{Rails.configuration.front_end_hostname}/unlock-account?unlock_token=#{@token}" %></p>

@@ -1,20 +1,15 @@
-// const http = require('http');
+const http = require('http');
 const WebSocket = require('ws');
 const fs = require('fs'); //DEBUG - for writeToTextFile()
 const util = require('util'); //DEBUG - for writeToTextFile() and displaying objects as strings
 const shortid = require('./shortid'); // For generating IDs
-const request = require('request'); // HTTP Gets for authentication
+const requestLibrary = require('request'); // HTTP Gets for authentication
+const apiHost = 'http://192.168.21.103';
 
-// const server = http.createServer({port: 7000});
+const server = http.createServer();
 let wsServer = new WebSocket.Server({
-  // noServer: true,
-  port: 7000,
-  clientTracking: true,
-  verifyClient: (info) => {
-    return verifyClientAuthentication(info);
-    // const verificationResult = { userId: 123 };
-    // callback(true, verificationResult);
-  }
+  noServer: true,
+  clientTracking: true
 });
 let wsState = {
   connections: 0,
@@ -37,18 +32,16 @@ setInterval(function() {
 }, 5000);
 
 //On connection
-wsServer.on('connection', function connection(wsClient) {
+wsServer.on('connection', function connection(wsClient, req) {
   console.log('INFO: Connection with client opened');
-  writeToTextFile(JSON.stringify(wsServer) + '====' + JSON.stringify(wsClient));
+  //writeToTextFile(JSON.stringify(wsServer) + '====' + JSON.stringify(wsClient));
 
-console.log(wsClient);
   // Assign ID to chat client and update room list
   wsClient.id = shortid();
+  wsClient.roomUrl = req.url;
   wsState.connections = wsState.connections + 1;
-  wsState.rooms[wsClient.upgradeReq.url] =
-    wsState.rooms[wsClient.upgradeReq.url] || 0;
-  wsState.rooms[wsClient.upgradeReq.url] =
-    wsState.rooms[wsClient.upgradeReq.url] + 1;
+  wsState.rooms[wsClient.roomUrl] = wsState.rooms[wsClient.roomUrl] || 0;
+  wsState.rooms[wsClient.roomUrl] = wsState.rooms[wsClient.roomUrl] + 1;
 
   // On Message Recieved
   wsClient.on('message', function incoming(message) {
@@ -76,7 +69,7 @@ console.log(wsClient);
         // broadcast message to all connected clients in the room
         wsServer.clients.forEach(function(c) {
           formattedJsonLogger('all clients: ', c.id);
-          if (c.upgradeReq.url === wsClient.upgradeReq.url) {
+          if (c.roomUrl === wsClient.roomUrl) {
             if (c && c.readyState === WebSocket.OPEN) {
               c.send(message);
               c.send(updatedUsersList);
@@ -97,7 +90,7 @@ console.log(wsClient);
         // broadcast message to all connected clients in the room
         wsServer.clients.forEach(function(c) {
           formattedJsonLogger('all clients: ', c.id);
-          if (c.upgradeReq.url === wsClient.upgradeReq.url) {
+          if (c.roomUrl === wsClient.roomUrl) {
             if (c && c.readyState === WebSocket.OPEN) {
               c.send(messageToSend);
             }
@@ -112,10 +105,9 @@ console.log(wsClient);
   // TODO: Possibly devise a way to only send the changes to the list to reduce traffic
   wsClient.on('close', function() {
     wsState.connections = wsState.connections - 1;
-    wsState.rooms[wsClient.upgradeReq.url] =
-      wsState.rooms[wsClient.upgradeReq.url] - 1;
-    if (wsState.rooms[wsClient.upgradeReq.url] === 0) {
-      delete wsState.rooms[wsClient.upgradeReq.url];
+    wsState.rooms[wsClient.roomUrl] = wsState.rooms[wsClient.roomUrl] - 1;
+    if (wsState.rooms[wsClient.roomUrl] === 0) {
+      delete wsState.rooms[wsClient.roomUrl];
     }
     console.log(
       'INFO: Connection with client closed and removed from userList'
@@ -138,41 +130,39 @@ console.log(wsClient);
 console.log('INFO: Chat server started and listening..');
 
 // // During connection upgrade? Verify client here
-// server.on('upgrade', async function upgrade(request, socket, head) {
-//   console.log('upgrade hit');
-//   // Do what you normally do in `verifyClient()` here and then use
-//   // `WebSocketServer.prototype.handleUpgrade()`.
-//   let args;
-//   //
-//   try {
-//     args = verifyClientAuthentication(1);
-//   } catch (e) {
-//     socket.destroy();
-//     return;
-//   }
-//
-//   wsServer.handleUpgrade(request, socket, head, function done(ws) {
-//     wsServer.emit('connection', ws, request, ...args);
-//   });
-// });
-//
-// server.listen(7000);
+server.on('upgrade', function upgrade(request, socket, head) {
+  console.log('start upgrading connection');
+  checkClientAuthAndHandleUpgrade(request, socket, head);
+});
+server.listen(7000);
 
-function verifyClientAuthentication(info) {
-  let verified = true;
-  //
-  // request('http://', { json: true }, (err, res, body) => {
-  //   if (err) { return false; }
-  //   console.log(body.url);
-  //   console.log(body.explanation);
+// Functions
 
-    if (verified) {
-      console.log('user verified');
-      return true
-    }
-    console.log('user denied');
-    return false;
-  // });
+function checkClientAuthAndHandleUpgrade(request, socket, head) {
+  let verified = false;
+  request.isAuthenticated = false;
+  writeToTextFile(request);
+
+
+  requestLibrary(apiHost + '/chat_tickets', { json: true }, (err, res, body) => {
+    console.log(res);
+    // console.log(body.url);
+    console.log(body);
+    // if (res.status) {
+    //   request.isAuthenticated = true;
+    // }
+
+    wsServer.handleUpgrade(request, socket, head, function done(ws) {
+      wsServer.emit('connection', ws, request);
+    });
+
+    // if (verified) {
+    //   console.log('user verified');
+    //   return true;
+    // }
+    // console.log('user denied');
+    // return false;
+  });
 }
 
 function formattedJsonLogger(description, data) {

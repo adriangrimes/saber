@@ -2,15 +2,15 @@ import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { once } from '@ember/runloop';
 import jQuery from 'jquery';
+import config from '../config/environment';
 
 // Use the prompt code instead of hard coded variables to enter the username or
 // id at the launch of the webpage.
-var socket; // Global socket var
-let chatChannelFullUrl = '';
+let socket; // Global socket var
+// let chatChannelFullUrl = '';
 //var userChatMenuIsOpen = false;
 
 export default Component.extend({
-
   websockets: service(),
 
   chatUserMenuUserId: 0,
@@ -24,12 +24,9 @@ export default Component.extend({
     // Store chat messages in array of objects
     this.chatMessagesList = [];
     this.chatUsersList = [];
-    chatChannelFullUrl = 'ws://localhost:7000/' + this.get('chatChannel');
+    this.chatChannelFullUrl = `${config.chatServer}/` + this.get('chatChannel');
 
-    socket = this.websockets.socketFor(chatChannelFullUrl);
-    socket.on('open', this.onSocketOpened, this);
-    socket.on('message', this.onMessageRecieved, this);
-    socket.on('close', this.onSocketClosed, this);
+    this.startChatConnection();
   },
 
   actions: {
@@ -39,7 +36,7 @@ export default Component.extend({
       // console.log(userMessage);
       console.log('sendUserMessage hit');
       // if its not blank
-      if (this.get('userMessage').trim() !== '') {
+      if (userMessage !== '') {
         // then you can send the message to the server
         var messageToSend = JSON.stringify({
           type: 'chatMessage',
@@ -75,7 +72,6 @@ export default Component.extend({
   }, // End actions
 
   onSocketOpened: function(/*event*/) {
-
     this.set('chatUsersList', []);
     //This message shown on entering the chat room
     this.chatMessagesList.pushObject({
@@ -83,7 +79,7 @@ export default Component.extend({
       systemMessage: true
     });
 
-console.log('socket opened');
+    console.log('socket opened');
 
     if (this.get('session.isAuthenticated')) {
       console.log('session authenticated');
@@ -155,6 +151,46 @@ console.log('socket opened');
     });
   },
 
+  startChatConnection() {
+    if (this.get('session.isAuthenticated')) {
+      this.createAuthenticatedChatConnection(this.get('chatChannelFullUrl'));
+    } else {
+      this.createChatConnection(this.get('chatChannelFullUrl'));
+    }
+  },
+
+  createChatConnection(url) {
+    // Set up websocket
+    console.log('setting up websocket');
+    socket = this.websockets.socketFor(url);
+    socket.on('open', this.onSocketOpened, this);
+    socket.on('message', this.onMessageRecieved, this);
+    socket.on('close', this.onSocketClosed, this);
+  },
+
+  createAuthenticatedChatConnection(url) {
+    // Set Authorization header and post to chat_ticket route
+    let { email, token, user_id } = this.get('session.data.authenticated');
+    let authData = `Token token="${token}", email="${email}"`;
+    let self = this;
+    let jqxhr = jQuery
+      .post({
+        url: `${config.apiHost}/chat_tickets`,
+        dataType: 'json',
+        data: { id: user_id },
+        headers: { Authorization: authData }
+      })
+      .done(function() {
+        console.log('chat ticket created successfully');
+        // Connect to chat server now that a ticket has been made to allow the
+        // verified user to chat
+        self.createChatConnection(url);
+      })
+      .fail(function() {
+        console.log('failed to create chat ticket with ' + jqxhr.status);
+      });
+  },
+
   didRender() {
     this._super(...arguments);
     // Scroll chat to bottom when a message is added to chatMessagesList
@@ -165,6 +201,7 @@ console.log('socket opened');
   },
 
   willDestroyElement() {
-    this.websockets.closeSocketFor(chatChannelFullUrl);
+    this.websockets.closeSocketFor(this.get('chatChannelFullUrl'));
+    this._super(...arguments);
   }
 });
