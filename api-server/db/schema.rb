@@ -130,7 +130,8 @@ ActiveRecord::Schema.define(version: 2019_05_20_223332) do
   create_table "user_public_data", force: :cascade do |t|
     t.integer "user_id"
     t.string "username"
-    t.string "online_status"
+    t.boolean "broadcaster", null: false
+    t.boolean "online_status"
     t.string "channel_topic"
     t.integer "current_game_id"
     t.string "streamnail_path"
@@ -166,6 +167,7 @@ ActiveRecord::Schema.define(version: 2019_05_20_223332) do
     t.boolean "send_email_favorites_online", default: false
     t.boolean "send_email_site_news", default: false
     t.boolean "private_message_email_notifications", default: true
+    t.text "private_user_notes", limit: 2048
     t.string "full_name"
     t.datetime "birthdate"
     t.string "address_line1"

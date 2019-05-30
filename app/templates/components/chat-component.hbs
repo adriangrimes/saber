@@ -1,14 +1,14 @@
-{{!-- Chat user context menu, hidden by default.--}}
+{{!-- Chat user context menu, hidden until a username is clicked --}}
 <div class="d-none" id="chatUserMenu" >
-  <a href="/p/{{lower-case chatUserMenuUserName}}" target="_blank" class=" round-top-left-corner-only btn btn-primary pt-1" title="Open users profile in new tab"><span class="fa fa-user pr-2"> </span>{{chatUserMenuUserName}}</a>
+  <a href="/p/{{lower-case chatUserMenuUsername}}" target="_blank" class=" round-top-left-corner-only btn btn-primary pt-1" title="Open users profile in new tab"><span class="fa fa-user pr-2"> </span>{{chatUserMenuUsername}}</a>
   <button class=" round-top-right-corner-only btn btn-primary float-right pt-1" title="Close" {{action "closeChatUserMenu"}}><span class="fa fa-close"></span></button>
   <div class="input-group">
     <div class="input-group-prepend w-50 mr-0 ">
       {{!-- TODO These are just display, functions not done yet--}}
-      <button class="btn btn-block btn-primary sharp-bottom-corners" title="Message" {{action "sendPrivateMessage" chatUserMenuUserId}}><span class="fa fa-envelope"></span></button>
+      <button class="btn btn-block btn-primary sharp-bottom-corners" title="Message" {{action "sendPrivateMessage"}}><span class="fa fa-envelope"></span></button>
     </div>
     <div class="input-group-append w-50">
-      <button class="btn btn-block btn-primary sharp-bottom-corners " title="Kick and Block this user" {{action "blockUser" chatUserMenuUserId}}><span class="fa fa-ban"></span></button>
+      <button class="btn btn-block btn-primary sharp-bottom-corners " title="Kick and Block this user" {{action "blockUser"}}><span class="fa fa-ban"></span></button>
     </div>
   </div>
 </div>{{!-- End of context menu display --}}
@@ -16,8 +16,10 @@
 {{!-- Chat Navigation Tabs --}}
 <ul class="nav nav-tabs chat-tab-panel float-right">
   <li role="presentation" class="nav-item"><a href="#chat" class="chat-tab nav-link active" aria-controls="chat" role="tab" data-toggle="tab" title="Chat Window"><span class="fa fa-comments-o"></span></a></li>
-  <li role="presentation" class="nav-item"><a href="#userstab" class="chat-tab nav-link"  aria-controls="userstab" role="tab" data-toggle="tab" title="Users Window"><span class="fa fa-users"></span></a></li>
+  <li {{action "getChannelChatUserList"}} role="presentation" class="nav-item"><a href="#userstab" class="chat-tab nav-link"  aria-controls="userstab" role="tab" data-toggle="tab" title="Users Window"><span class="fa fa-users"></span></a></li>
   {{!--  <li role="presentation" class="nav-item"{{action "openChatTab"}}><a href="#settingstab" class="chat-tab nav-link"  aria-controls="settingstab" role="tab" data-toggle="tab">Settings</a></li>--}}
+  <li role="presentation" class="nav-item">P: {{chatChannelUserCount}}</li>
+  <li {{action "updateChannelTopic"}} role="presentation" class="nav-item">UC</li>
 </ul>
 
 {{!-- Chat and userlist container --}}
@@ -29,13 +31,15 @@
       <ul id="messages">
         {{#each chatMessagesList as |chatMessage|}}
           {{#if chatMessage.systemMessage}}
-            <li><b>{{chatMessage.message}}</b></li>
+            <li><b>{{chatMessage.data}}</b></li>
+          {{else if chatMessage.topicMessage}}
+            <li><b>New topic: {{chatMessage.data}}</b></li>
           {{else}}
             <li>
               <span class="chat-username" onclick={{action "openChatUserMenu"}}>
-                <b>{{chatMessage.chatUserName}}</b>
+                <b>{{chatMessage.chatUsername}}</b>
               </span>
-              {{chatMessage.message}}
+              {{chatMessage.data}}
             </li>
           {{/if}}
         {{/each}}
@@ -54,13 +58,26 @@
   <div role="tabpanel" class="tab-pane" id="userstab">
     <div class="card-body users-body">
       <ul id="users">
+        {{! Display users}}
         {{#each chatUsersList as |chatUser|}}
           <li>
-            <span class="chat-username" onclick={{action "openChatUserMenu"}} data-user-id="{{chatUser.chatUserName}}"  data-user-name="{{chatUser.chatUserName}}">
-              <b>{{chatUser.chatUserName}}</b>
+            <span class="chat-username" onclick={{action "openChatUserMenu"}}>
+              <b>{{chatUser}}</b>
             </span>
           </li>
         {{/each}}
+        {{! Display guests, if any}}
+        {{#if (gt chatUsersListGuestCount 0)}}
+          <li>
+            <span>
+              {{#if (gt chatUsersListGuestCount 1)}}
+                {{chatUsersListGuestCount}} spies
+              {{else}}
+                1 spy
+              {{/if}}
+            </span>
+          </li>
+        {{/if}}
       </ul>
     </div>
   </div>

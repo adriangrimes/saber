@@ -6,6 +6,7 @@ class UserPublicDatumSerializer < ActiveModel::Serializer
   attributes :id,
   :user_id,
   :username,
+  :broadcaster,
   :online_status,
   :channel_topic,
   :current_game_id,

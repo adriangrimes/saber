@@ -22,6 +22,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.boolean :send_email_favorites_online, default: false
       t.boolean :send_email_site_news, default: false
       t.boolean :private_message_email_notifications, default: true
+      t.text :private_user_notes, limit: 2048
 
       ## Payment profile (TODO most of these are probably not safe in terms of user security)
       t.string :full_name

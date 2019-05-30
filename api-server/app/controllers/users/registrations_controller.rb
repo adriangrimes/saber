@@ -9,7 +9,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     @user = User.new(sign_up_params)
-    @user.build_user_public_datum(username: sign_up_params[:username])
+    if sign_up_params[:broadcaster] == true
+      broadcaster = true
+    else
+      broadcaster = false
+    end
+    @user.build_user_public_datum(username: sign_up_params[:username], broadcaster: broadcaster)
     if @user.save
       render json: @user, status: :created
     else

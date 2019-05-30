@@ -6,7 +6,8 @@ class CreateUserPublicData < ActiveRecord::Migration[5.2]
 
       ## Public profile
       t.string :username
-      t.string :online_status
+      t.boolean :broadcaster, null: false
+      t.boolean :online_status
       t.string :channel_topic
       t.integer :current_game_id
       t.string :streamnail_path

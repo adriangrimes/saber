@@ -15,7 +15,8 @@ if Rails.env.development?
   )
   emptyuser.skip_confirmation!
   emptyuser.build_user_public_datum(
-    username: emptyuser.username
+    username: emptyuser.username,
+    broadcaster: false
   )
   emptyuser.save!
 
@@ -29,7 +30,8 @@ if Rails.env.development?
     )
     samepass.skip_confirmation!
     samepass.build_user_public_datum(
-      username: samepass.username
+      username: samepass.username,
+      broadcaster: false
     )
     samepass.save!
   end
@@ -47,6 +49,7 @@ if Rails.env.development?
     testuser.skip_confirmation!
     testuser.build_user_public_datum(
       username: testuser.username,
+      broadcaster: false,
       profile_age: Random.new.rand(13..100)
     )
     testuser.save!
@@ -63,11 +66,12 @@ if Rails.env.development?
       send_email_favorites_online: false
     )
     testbroadcaster.skip_confirmation!
-    onlinestatus = [true, false, false, false].sample # ~25% of users as online
+    onlinestatus = [true, false].sample # ~X% of users as online
     testbroadcaster.build_user_public_datum(
       username: testbroadcaster.username,
+      broadcaster: testbroadcaster.broadcaster,
       online_status: onlinestatus,
-      channel_topic: "Channel topic for describing the topic of the channel",
+      channel_topic: "Channel topic for describing the topic of BroadcasterTester#{i+1}'s channel",
       current_game_id: if onlinestatus then Random.new.rand(1..10) else 0 end,
       streamnail_path: if onlinestatus then "/streamnails/usericon.svg" else "/streamnails/404_streamnail.png" end,
       profile_age: Random.new.rand(13..100),
@@ -89,6 +93,7 @@ if Rails.env.development?
     testdeveloper.skip_confirmation!
     testdeveloper.build_user_public_datum(
       username: testdeveloper.username,
+      broadcaster: false,
       profile_age: Random.new.rand(13..100),
       profile_about_me: "just developin"
     )
@@ -107,6 +112,7 @@ if Rails.env.development?
     testaffiliate.skip_confirmation!
     testaffiliate.build_user_public_datum(
       username: testaffiliate.username,
+      broadcaster: false,
       profile_age: Random.new.rand(13..100)
     )
     testaffiliate.save!

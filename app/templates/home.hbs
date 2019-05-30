@@ -16,38 +16,42 @@
 
 <div class="row m-0">
   {{#each model as |broadcaster|}}
-    {{#if (compare broadcaster.onlineStatus '===' 't')}}
-      <div class="col-xs-12 col-sm-3 p-0">
-        {{#link-to "p" (lower-case broadcaster.username) title=broadcaster.username}}
-          <div class=" broadcaster-panel online">
-            <img class="broadcaster-avatar" src="{{if broadcaster.onlineStatus broadcaster.streamnailPath "/streamnails/404_streamnail.png"}}">
-            <div class="broadcaster-footer">
-              {{broadcaster.username}}
-              <br>
-              <div class="broadcaster-topic" title="{{broadcaster.channelTopic}}">
-                {{broadcaster.channelTopic}}
+    {{#if broadcaster.broadcaster}}
+      {{#if broadcaster.onlineStatus}}
+        <div class="col-xs-12 col-sm-3 p-0">
+          {{#link-to "p" (lower-case broadcaster.username) title=broadcaster.username}}
+            <div class=" broadcaster-panel online">
+              <img class="broadcaster-avatar" src="{{if broadcaster.onlineStatus broadcaster.streamnailPath "/streamnails/404_streamnail.png"}}">
+              <div class="broadcaster-footer">
+                {{broadcaster.username}}
+                <br>
+                <div class="broadcaster-topic" title="{{broadcaster.channelTopic}}">
+                  <small>{{broadcaster.channelTopic}}</small>
+                </div>
               </div>
             </div>
-          </div>
-        {{/link-to}}
-      </div>
+          {{/link-to}}
+        </div>
+      {{/if}}
     {{/if}}
   {{/each}}
 
   {{#each model as |broadcaster|}}
-    {{#if (compare broadcaster.onlineStatus '===' 'f')}}
-      <div class="col-xs-12 col-sm-3 p-0">
-        {{#link-to "p" (lower-case broadcaster.username) title=broadcaster.username}}
-          <div class=" broadcaster-panel offline">
-            <img class="broadcaster-avatar" src="/streamnails/404_streamnail.png">
-            <div class="broadcaster-footer">
-              {{broadcaster.username}}
-              <br>
-              <br>
+    {{#if broadcaster.broadcaster}}
+      {{#unless broadcaster.onlineStatus}}
+        <div class="col-xs-12 col-sm-3 p-0">
+          {{#link-to "p" (lower-case broadcaster.username) title=broadcaster.username}}
+            <div class=" broadcaster-panel offline">
+              <img class="broadcaster-avatar" src="/streamnails/404_streamnail.png">
+              <div class="broadcaster-footer">
+                {{broadcaster.username}}
+                <br>
+                <br>
+              </div>
             </div>
-          </div>
-        {{/link-to}}
-      </div>
+          {{/link-to}}
+        </div>
+      {{/unless}}
     {{/if}}
   {{/each}}
 </div>

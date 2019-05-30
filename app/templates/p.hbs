@@ -116,24 +116,17 @@
           End Game
           </div>
       </div>
-
     </div>
 
-
-
-    <!-- Chat Window -->
-
+    {{! Chat Window }}
     <div class="col-12 col-sm-4 p-0 order-2" id="chat-panel">
       {{chat-component
         chatChannel=(lower-case model.username)
-
+        model=model
       }}
-      {{!userJoined=this.currentUser.user.username
-      idJoined=this.currentUser.user.id}}
     </div>
-    <!-- Game Window -->
 
-
+    {{! Game Window }}
       <div class="col-12 col-sm-6  p-0 mt-4 order-3" id="game-panel" >
         <div class="card" >
           <div class="card-body p-1 d-none" id="game-playing-panel">

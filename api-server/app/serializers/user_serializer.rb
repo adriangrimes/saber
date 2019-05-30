@@ -27,6 +27,7 @@ class UserSerializer < ActiveModel::Serializer
   :send_email_favorites_online,
   :send_email_site_news,
   :private_message_email_notifications,
+  :private_user_notes,
 
   ## Payment profile (TODO most of these are probably not safe in terms of user security)
   :full_name,
@@ -46,7 +47,7 @@ class UserSerializer < ActiveModel::Serializer
   def current_password
     nil
   end
-  
+
   def password
     nil
   end

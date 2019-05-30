@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :chat_tickets
+
   devise_for :users,
     controllers: {
       sessions: 'sessions',
@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :game_logs
   resources :credit_transfers
   resources :credit_purchases
+  resources :chat_tickets
 
   resources :static_game_data
 

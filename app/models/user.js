@@ -1,8 +1,7 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  changeTracker: {auto: true,
-    only: ['uploadedIdentification']}, // settings for user models
+  changeTracker: { auto: true, only: ['uploadedIdentification'] }, // settings for user models
 
   // Has one user account datum record
   userPublicDatum: DS.belongsTo('user-public-datum'),
@@ -12,7 +11,7 @@ export default DS.Model.extend({
   email: DS.attr('string'),
   password: DS.attr('string'),
   currentPassword: DS.attr('string'),
-  
+
   broadcaster: DS.attr('boolean'),
   developer: DS.attr('boolean'),
   affiliate: DS.attr('boolean'),
@@ -26,6 +25,7 @@ export default DS.Model.extend({
   sendEmailFavoritesOnline: DS.attr('boolean'),
   sendEmailSiteNews: DS.attr('boolean'),
   privateMessageEmailNotifications: DS.attr('boolean'),
+  privateUserNotes: DS.attr('string'),
 
   // Payment profile  (TODO most of these are probably not safe in terms of
   // user security)

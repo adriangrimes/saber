@@ -7,7 +7,8 @@ export default DS.Model.extend({
   // Public profile
   userId: DS.attr('number'),
   username: DS.attr('string'),
-  onlineStatus: DS.attr('string'),
+  broadcaster: DS.attr('boolean'),
+  onlineStatus: DS.attr('boolean'),
   channelTopic: DS.attr('string'),
   currentGameId: DS.attr('number'),
   streamnailPath: DS.attr('string'),

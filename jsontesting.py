@@ -9,12 +9,12 @@ payload = {"data":{"id":"4","type":"users","attributes":{"username":"UserTester1
 headers = {'Authorization': 'Token token="urbrhAyWDjEgrzbbyers", email="usertester1@email.com"'}
 #headers = {'Content-Type': 'application/vnd.api+json'}
 #r = requests.post('http://localhost:3000/users/sign_in', json=payload)
-# r = requests.get('http://localhost:3000/users/4', headers=headers)
+r = requests.get('http://localhost:3000/chat_tickets?identifier=localhost')
 # r = requests.patch('http://localhost:3000/users/4', headers=headers, json=payload)
-while 1 < 2:
+# while 1 < 2:
     # time.sleep(0.2)
-    r = requests.get('http://localhost:3000/user_public_data')
-    r = requests.patch('http://localhost:3000/users/4', headers=headers, json=payload)
+    # r = requests.get('http://localhost:3000/user_public_data')
+    # r = requests.patch('http://localhost:3000/users/4', headers=headers, json=payload)
     # number += 1
     # print('creating account')
     # print(number)
