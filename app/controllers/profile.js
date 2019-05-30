@@ -3,7 +3,6 @@ import jQuery from 'jquery';
 
 export default Controller.extend({
 
-  isFavorite: false,
 
   init: function() {
     this._super(...arguments);
@@ -11,21 +10,8 @@ export default Controller.extend({
   },
 
   actions: {
-    addTag(tag) {
-      console.log('tags length: ' + this.tags.length);
-      if (this.tags.length < 15) {
-        console.log('adding tag: '+ tag);
-        this.tags.pushObject(tag);
-      }
-    },
 
-    removeTagAtIndex(index) {
-      this.tags.removeAt(index);
-    },
 
-    checkOtherSex() {
-      jQuery("#inputSexOther").prop('checked', true).change();
-    },
 
     submitProfileSettings() {
       this.store.queryRecord('user-public-datum',

@@ -26,6 +26,13 @@ export default Route.extend({
     if (model.profileLanguages === null) {
       controller.set('noLanguage', true);
     }
+
+    // Set up user tags
+    if (model.get('userCustomTags') != null) {
+      controller.set('tags', model.get('userCustomTags').split(","));
+    }
+
+
   }
 
 });

@@ -13,19 +13,32 @@
       <img src="/logo.svg" height="32px" width ="32px">
       Saber
     {{/link-to}}
-    <a class="navbar-brand" id="logo-no-text" href="/home"> <img src="/logo.svg" height="32px" width ="32px"></a>
+    {{#link-to "home" class="navbar-brand" id="logo-no-text"}}
+      <img src="/logo.svg" height="32px" width ="32px">
+    {{/link-to}}
   </div>
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav ml-auto" >
       {{#if session.isAuthenticated}}
+        {{#if this.currentUser.user.spendsCredits}}
           <li><button class=" btn btn-outline-dark border-0 px-2 mx-1"  data-toggle="modal" data-target="#buyCreditsModal" >  <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></button></li>
+        {{/if}}
+
+        {{#if this.currentUser.isContracted}}
 
 
-        {{#if currentUser.isContracted}}
-          <li><a class=" btn btn-outline-dark border-0 px-2 mx-1" href="/account/dashboard"> <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i></a></li>
+          <li>
+            {{#link-to "account.dashboard" class=" btn btn-outline-dark border-0 px-2 mx-1"}}
+              <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i>
+            {{/link-to}}
+          </li>
         {{else}}
-          <li><a class=" btn btn-outline-dark border-0 px-2 mx-1" href="/account"> <i title="My Account" class="fa fa-user" aria-hidden="true"></i></a></li>
+          <li>
+            {{#link-to "account" class=" btn btn-outline-dark border-0 px-2 mx-1"}}
+            <i title="My Account" class="fa fa-user" aria-hidden="true"></i>
+            {{/link-to}}
+          </li>
         {{/if}}
       {{/if}}
     </ul>
@@ -36,26 +49,32 @@
       <li class="dropdown position-static" >
              <button class="nav-link dropdown-toggle  btn btn-outline-dark border-0 px-2 mx-0 " id="nav-dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i title="Menu" class="fa fa-align-right"></i></button>
                <ul class=" dropdown-menu position-absolute dropdown-menu-right" >
-                 <div class="dropdown-item dropdown-header">Hi <strong>{{session.data.authenticated.username}}</strong></div>
-                 <a class="dropdown-item" href="/account/messages">Messages&nbsp;&nbsp;<span class="badge badge-primary badge-pill">42</span></a>
-                 {{#if currentUser.isContracted}}
-                  <a class="dropdown-item" href="/account/dashboard">Dashboard</a>
+                 <div class="dropdown-header">Hi <strong class="ml-1">{{session.data.authenticated.username}}</strong></div>
+                 {{#link-to "account.messages" class="dropdown-item"}}
+                  Messages <span class="ml-2 badge badge-primary badge-pill">42</span>
+                 {{/link-to}}
+                 {{#if this.currentUser.isContracted}}
+                 {{link-to "Dashboard" "account.dashboard" class="dropdown-item"}}
                  {{/if}}
-                 {{link-to "Edit Profile" "profile" class="dropdown-item"}}
+                 {{#link-to "p" session.data.authenticated.username class="dropdown-item"}}
+                  My Profile
+                 {{/link-to}}
                  {{link-to "Account Settings" "account" class="dropdown-item"}}
                   <form {{action "toggleDarkMode" on="change"}}>
                       <a class="dropdown-item d-inline-block pr-2 ">Dark Mode
                        <label class="switch float-right">
-                         {{input type="checkbox" name="darkMode" id="darkModeToggle" checked=currentUser.user.darkMode}}
+                         {{input type="checkbox" name="darkMode" id="darkModeToggle" checked=this.currentUser.user.darkMode}}
                         <span class="slider"></span>
                       </label>
                     </a>
                   </form>
 
                  <div class="dropdown-divider"></div>
+                 {{#if this.currentUser.user.spendsCredits}}
                    <div class="dropdown-item dropdown-header">You have&nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i><strong>&nbsp;&nbsp;2,000</strong> Credits</div>
                    <a class="dropdown-item" role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a>
                    <div class="dropdown-divider"></div>
+                 {{/if}}
                 <a class="dropdown-item" role="button" {{action "logout"}}>Log Out</a>
                </ul>
            </li>
@@ -86,9 +105,13 @@
             <ul class="nav nav-pills nav-justified">
               {{#if session.isAuthenticated}}
 
-              <li class="nav-item"><a class="footer-links nav-link "    href="/account">Account Settings</a></li>
+              <li class="nav-item">
+                {{link-to "Account Settings" "account" class="footer-links nav-link " }}
+              </li>
               {{else}}
-              <li class="nav-item"><a class="footer-links nav-link"    href="/signup">Sign Up</a></li>
+              <li class="nav-item">
+                {{link-to "Sign Up" "signup" class="footer-links nav-link " }}
+              </li>
 
               {{/if}}
 
@@ -96,14 +119,22 @@
           </div>
           <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
             <ul  class="nav nav-pills nav-justified">
-              <li class="nav-item "><a class="footer-links nav-link"   href="/help">Help</a></li>
+              <li class="nav-item ">
+                {{link-to "Help" "help" class="footer-links nav-link " }}
+
+              </li>
 
           </ul>
           </div>
           <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item d-block d-sm-none"><a class="footer-links nav-link"   href="/contact">Contact Us</a></li>
-              <li class="nav-item d-none d-sm-block"><a class="footer-links nav-link"   href="/terms">Terms of Service</a></li>
+              <li class="nav-item d-block d-sm-none">
+                {{link-to "Contact Us" "contact" class="footer-links nav-link " }}
+              </li>
+              <li class="nav-item d-none d-sm-block">
+                {{link-to "Terms of Service" "terms" class="footer-links nav-link " }}
+
+              </li>
 
             </ul>
           </div>
@@ -111,9 +142,11 @@
             <ul class="nav nav-pills nav-justified">
               {{#if session.isAuthenticated}}
 
-              <li class="nav-item"><a class="footer-links nav-link"    href="/account">Account Settings</a></li>
+              <li class="nav-item">
+                {{link-to "Account Settings" "account" class="footer-links nav-link " }}
+              </li>
               {{else}}
-              <li class="nav-item"><a class="footer-links nav-link"    href="/signup">Sign Up</a></li>
+                {{link-to "Sign Up" "signup" class="footer-links nav-link " }}
 
               {{/if}}
 
@@ -123,26 +156,40 @@
         <div class="row text-center">
           <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item d-block d-sm-none"><a class="footer-links nav-link"   href="/terms">Terms of Service</a></li>
-              <li class="nav-item d-none d-sm-block"><a class="footer-links nav-link"   href="/contact">Contact Us</a></li>
+              <li class="nav-item d-block d-sm-none">
+                {{link-to "Terms of Service" "terms" class="footer-links nav-link " }}
+
+              </li>
+              <li class="nav-item d-none d-sm-block">
+                {{link-to "Contact Us" "contact" class="footer-links nav-link " }}
+
+              </li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item"><a class="footer-links nav-link"   href="/privacy">Privacy Policy</a></li>
+              <li class="nav-item">
+                {{link-to "Privacy Policy" "privacy" class="footer-links nav-link " }}
+
+              </li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
 
               {{#if session.isAuthenticated}}
-                    {{#if currentUser.user.broadcaster}}
-                      <li class="nav-item"><a class="footer-links nav-link"    href="/account/dashboard">Dashboard</a></li>
+                    {{#if this.currentUser.user.broadcaster}}
+                      <li class="nav-item">
+                        {{link-to "Dashboard" "account.dashboard" class="footer-links nav-link " }}
+
+                      </li>
                     {{else}}
-                      <li class="nav-item">{{#link-to "account.broadcaster" class="footer-links nav-link"}}Become a Broadcaster{{/link-to}}</li>
+                      <li class="nav-item">
+                        {{link-to "Become a Broadcaster" "account.broadcaster" class="footer-links nav-link"}}
+                      </li>
                     {{/if}}
               {{else}}
-              <li class="nav-item"><a class="footer-links nav-link"    href="/signup/broadcaster">Become a Broadcaster</a></li>
+              {{link-to "Become a Broadcaster" "signup.broadcaster" class="footer-links nav-link"}}
 
               {{/if}}
 
@@ -155,41 +202,65 @@
 
               {{#if session.isAuthenticated}}
                   {{#if currentUser.user.developer}}
-                    <li class="nav-item"><a class="footer-links nav-link"    href="/help/developer">API Docs</a></li>
+                    <li class="nav-item">
+                      {{link-to "API Docs" "help.developer" class="footer-links nav-link"}}
+                    </li>
                   {{else}}
-                    <li class="nav-item"><a class="footer-links nav-link"    href="/account/developer">Become a Game Developer</a></li>
+                    <li class="nav-item">
+                      {{link-to "Become a Game Developer" "account.developer" class="footer-links nav-link"}}
+                    </li>
                   {{/if}}
               {{else}}
-              <li class="nav-item"><a class="footer-links nav-link"    href="/signup/developer">Become a Game Developer</a></li>
+              <li class="nav-item">
+                {{link-to "Become a Game Developer" "signup.developer" class="footer-links nav-link"}}
+              </li>
 
               {{/if}}
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 d-none d-sm-block px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item"><a  class="footer-links nav-link"   href="/">© {{copyrightYear}}</a></li>
+              <li class="nav-item">
+                {{#link-to  "home" class="footer-links nav-link"}}
+                      © {{copyrightYear}}
+                {{/link-to}}
+              </li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 px-0 mx-0">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item"><a class="footer-links nav-link"   href="/legal">Legal</a></li>
+              <li class="nav-item">
+                {{#link-to "legal" class="footer-links nav-link"}}
+                 Legal
+                 {{/link-to}}
+              </li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 d-block d-sm-none px-0 mx-0">
             <ul class="nav nav-pills nav-justified">
-              <li class="nav-item"><a class="footer-links nav-link"   href="/">© {{copyrightYear}} </a></li>
+              <li class="nav-item">
+                {{#link-to  "home" class="footer-links nav-link"}}
+                      © {{copyrightYear}}
+                {{/link-to}}
+               </li>
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 d-none d-sm-block px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
               {{#if session.isAuthenticated}}
-                            {{#if currentUser.user.developer}}
-                              <li class="nav-item"><a class="footer-links nav-link"    href="/help/developer">API Docs</a></li>
+                            {{#if this.currentUser.user.developer}}
+                              <li class="nav-item">
+                                {{link-to "API Docs" "help.developer" class="footer-links nav-link"}}
+                              </li>
                             {{else}}
-                              <li class="nav-item"><a class="footer-links nav-link"    href="/account/developer">Become a Game Developer</a></li>
+                              <li class="nav-item">
+                                {{link-to "Become a Game Developer" "account.developer" class="footer-links nav-link"}}
+                              </li>
                             {{/if}}
                           {{else}}
-                          <li class="nav-item"><a class="footer-links nav-link"    href="/signup/developer">Become a Game Developer</a></li>
+                          <li class="nav-item">
+                            {{link-to "Become a Game Developer" "signup.developer" class="footer-links nav-link"}}
+                          </li>
                           {{/if}}
             </ul>
           </div>

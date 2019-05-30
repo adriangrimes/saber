@@ -3,12 +3,11 @@
 
  {{#if currentUser.isContracted}}
     <div class="col-12">
-      You are already an affiliate, congrats!
+      You are already an affiliate.
     </div>
-      <div class="col-12 pt-3">
-      <a href="/account" class="btn btn-primary">Account Settings</a>
+      <div class="col-3 pt-3">
+      {{link-to "Account Settings" "account" class="btn btn-primary"}}
     </div>
-
   {{else}}
     <div class="col-xs-12 col-sm-5">
         {{affiliate-blurb}}

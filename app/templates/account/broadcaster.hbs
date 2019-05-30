@@ -3,12 +3,11 @@
 
  {{#if currentUser.user.broadcaster}}
     <div class="col-12">
-      You are already a verified broadcaster, congrats!
+      You are already a verified broadcaster.
     </div>
-      <div class="col-12 pt-3">
-      <a href="/account" class="btn btn-primary">Account Settings</a>
-
-    </div>
+    <div class="col-3 pt-3">
+    {{link-to "Account Settings" "account" class="btn btn-primary"}}
+  </div>
   {{else}}
     <div class="col-xs-12 col-sm-5">
         {{broadcaster-blurb}}
@@ -26,17 +25,6 @@
 
       <form {{action "submitBroadcasterVerification" on="submit"}}>
 
-      {{#if currentUser.user.developer}}
-      <div class="pb-3">
-        As a developer you have already submited your payment details. Upload your verification documents below to become a developer and broadcaster. <br>
-        To sign up for a separate broadcaster account log out, and then visit <a href="/signup/broadcaster">Saber.tv/signup/broadcaster</a>
-      </div>
-      {{else if currentUser.user.affiliate}}
-        <div class="pb-3">
-          As an affiliate you have already submited your payment details. Upload your verification documents below to become an affiliate and broadcaster. <br>
-          To sign up for a separate broadcaster account log out, and then visit <a href="/signup/broadcaster">Saber.tv/signup/broadcaster</a>
-        </div>
-      {{else}}
 
       <h5> Tax and Payment Information</h5>
 
@@ -216,14 +204,15 @@
       </label>
       </div>
 
-{{else}}
-    <strong>Under penalties of perjury, I certify that:</strong>
-  <br>    1. I am not a U.S. citizen, and
-  <br>    2. I perform all my work on Saber from locations outside of the United States, and
-  <br>    3. I will receive all payments to a foreign address or payment instrument, and
-  <br>    4. That the information provided is to the best of my knowledge and believe it to be true, correct and complete.
-  <br><br>
-{{/if}}
+  {{/if}}
+      {{#if notUSA}}
+              <strong>Under penalties of perjury, I certify that:</strong>
+            <br>    1. I am not a U.S. citizen, and
+            <br>    2. I perform all my work on Saber from locations outside of the United States, and
+            <br>    3. I will receive all payments to a foreign address or payment instrument, and
+            <br>    4. That the information provided is to the best of my knowledge and believe it to be true, correct and complete.
+
+      {{/if}}
 
     <div class="form-group">
         <label for="inputElecSig">Electronic Signature</label>
@@ -232,26 +221,7 @@
 {{/if}}
 <hr class="splash-horizontal-rule">
 
-                  <div class="form-group">
-                    <input type="file" id="verificationDocs">
-                    <br>
-                    {{file-upload
-                      onFileUploaded=(action this.currentUser.uploadIdentification)
-                      currentUploads=model.uploadedIdentification.length
-                      maximumUploads=2
-                    }}
 
-                    {{#each model.uploadedIdentification as |image|}}
-                      {{#if image.file_url}}
-                        <div>
-                          <img src={{image.file_url}} alt="Identification upload" height="150">
-                          <button {{action this.currentUser.deleteFile image}}> Detele </button>
-                        </div>
-                        <br>
-                      {{/if}}
-                    {{/each}}
-                    <br>
-                  </div>
 
                   <button id="broadcasterSaveForLater" class="btn btn-outline-dark" {{action "broadcasterSaveForLater"}}>Save for later</button>
 

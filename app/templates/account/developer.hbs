@@ -1,12 +1,11 @@
   <div class="row m-0">
     {{#if currentUser.user.developer}}
        <div class="col-12">
-         You are already a developer, congrats!
+         You are already a developer.
        </div>
-         <div class="col-12 pt-3">
-         <a href="/account" class="btn btn-primary">Account Settings</a>
-
-       </div>
+       <div class="col-3 pt-3">
+          {{link-to "Account Settings" "account" class="btn btn-primary"}}
+        </div>
      {{else}}
 
 
@@ -26,7 +25,7 @@
           <button id="casterToDev" class="btn btn-primary">Become Developer</button>
         </div>
         <div class="pt-5 mt-5">
-          To sign up for a separate developer account log out, and then visit <a href="/signup/developer">saber.tv/signup/developer</a>
+          To sign up for a separate developer account log out, and then visit {{link-to "saber.tv/signup/developer" "signup.developer"}}
         </div>
     {{else if currentUser.user.affiliate}}
           <div>
@@ -37,7 +36,7 @@
           <button id="casterToDev" class="btn btn-primary">Become Developer</button>
         </div>
         <div class="pt-5 mt-5">
-          To sign up for a separate developer account log out, and then visit <a href="/signup/developer">saber.tv/signup/developer</a>
+          To sign up for a separate developer account log out, and then visit {{link-to "saber.tv/signup/developer" "signup.developer" }}
         </div>
     {{else}}
 

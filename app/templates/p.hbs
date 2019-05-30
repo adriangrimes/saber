@@ -1,20 +1,19 @@
 {{edit-photos}}
 {{rules-modal}}
   <div class="row m-0">
-    <div class ="col-xs-12 col-md-6" >
+    <div class ="col-10" >
         <h4  id="usernameDisplay">
           {{model.username}}
         </h4>
    </div>
-    <div class="col-xs-12 col-md-6 d-flex justify-content-end">
+    <div class="col-2 d-flex justify-content-end">
         <div class="btn-group">
          <button type="button" class="btn btn-link  collapsed" data-toggle="collapse" data-target="#share-form,#share-form2"><span title="Open Share Form"  class=" profile-links fa fa-share-alt"></span></button>
-         {{#if isFavorite}}
-           <button type="button" class="btn btn-link pl-2"> <span  title="Remove From Favorites" class=" profile-links fa fa-heart"{{action "toggleFav" model.user_id}}></span></button>
+         {{#if isFollowed}}
+           <button type="button" class="btn btn-link pl-2"> <span  title="Unfollow {{model.username}}" class=" profile-links fa fa-bell"{{action "toggleFollow" model.user_id}}></span></button>
          {{else}}
-         <button type="button" class="btn btn-link pl-2">  <span  title="Add to Favorites" class=" profile-links fa fa-heart-o" {{action "toggleFav" model.user_id}}></span></button>
+         <button type="button" class="btn btn-link pl-2">  <span  title="Follow {{model.username}}" class=" profile-links fa fa-bell-o" {{action "toggleFollow" model.user_id}}></span></button>
          {{/if}}
-         <button type="button" class="btn btn-link">  <span title="Send Message" class=" profile-links fa fa-envelope" ></span></button>
        </div>
     </div>
 
@@ -28,7 +27,6 @@
             <div class="btn-group " role="group" >
               <a href="https://twitter.com/intent/tweet?text=Check+out+{{model.username}}+at+https://saber.tv/p/{{model.user_id}}" target="_blank" class="btn btn-primary" title="Twitter"><span class="fa fa-twitter"></span></a>
               <a href="http://www.reddit.com/submit?url=https://saber.tv/p/{{model.user_id}}&title=Check+out+{{model.username}}+Live%21" target="_blank"  class="btn btn-primary" title="Reddit"  ><span class="fa fa-reddit-alien"></span></a>
-              <a href="http://www.tumblr.com/share/link?url=https://saber.tv/p/{{model.user_id}}" target="_blank" class="btn btn-primary" title="Tumblr" ><span class="fa fa-tumblr px-1"></span></a>
             </div>
         </div>
       </div>
@@ -46,13 +44,11 @@
     <div class="col-12 col-sm-8 p-0 m-0 mb-2 order-1"  id="video-panel">
       <div class="card">
         <div class="card-body p-0" >
-          <img src="/testimg.jpg"  class="img-responsive center-block" alt="default user video" width="100%">
-        </div>
+
+                    </div>
         <div class="profile-controls pt-1" id="profileControls">
-
+              {{#if currentUser.user.spendsCredits}}
               <div class="btn-toolbar justify-content-between" role="toolbar" >
-
-
 
 
                       <div class="input-group  d-flex " id="simple-tip-form">
@@ -105,7 +101,7 @@
 
                 </div>
               </div>
-
+            {{/if}}
         </div>
       </div>
       <div class=" d-none" id="game-options-panel">
@@ -129,10 +125,29 @@
     {{! Game Window }}
       <div class="col-12 col-sm-6  p-0 mt-4 order-3" id="game-panel" >
         <div class="card" >
-          <div class="card-body p-1 d-none" id="game-playing-panel">
-            <object width="100%" height="400"   data="/game.swf"></object>
+          <div class="card-body p-1" id="game-Window">
+            <div class="row m-0">
+              <div class="col-3">
+                <img src="/usericon.svg"  class="img-responsive center-block pl-2" title="Click to view rules and controls" alt="Game Icon" width="100%">
+                {{#if currentUser.user.spendsCredits}}
+                <button class="btn btn-primary mt-2" id="joinGameButton"  {{action "joinGame" }}>Join Game</button>
 
+                  <div class=" justify-content-end d-none d-sm-none pt-1 pt-sm-0 pb-2 mr-1 float-right" id="confirm-join-game-form" >
+                    <h5 class="pr-3 pt-1" >Join Game?</h5>
+
+                      <button class="btn btn-success border-0 mr-2" {{action "joinGame" }}><span class="fa fa-check"></span></button>
+                      <button class="btn btn-danger border-0 " {{action "cancelJoinGame" }}><span class="fa fa-times"></span></button>
+                  </div>
+
+                  <button  class="btn btn-primary float-right mt-1 d-block d-sm-none" title="Play Game" id="join-game-button"{{action "confirmJoinGame" }}>Play Game</button>
+                {{/if}}
+
+              </div>
+
+
+            </div>
           </div>
+
           <div class="card-body p-1 d-none" id="game-suggestion-panel">
             <div class="row m-0 mb-2">
               <div class="col-12  px-2">
@@ -172,16 +187,6 @@
             <div class="row m-0">
               <div class="col-xs-12 col-sm-8 px-2">
 
-                      <div class=" justify-content-end d-none d-sm-none pt-1 pt-sm-0 pb-2 mr-1 float-right" id="confirm-join-game-form" >
-                        <h5 class="pr-3 pt-1" >Join Game?</h5>
-
-                          <button class="btn btn-success border-0 mr-2" {{action "joinGame" }}><span class="fa fa-check"></span></button>
-                          <button class="btn btn-danger border-0 " {{action "cancelJoinGame" }}><span class="fa fa-times"></span></button>
-                      </div>
-
-                      <button  class="btn btn-primary float-right mt-1 d-block d-sm-none" title="Play Game" id="join-game-button"{{action "confirmJoinGame" }}>Play Game</button>
-
-
 
                     <h4 class="mt-1 mb-2">Quick Chess</h4>
                 <b>If you win:</b> Pizza!
@@ -207,12 +212,14 @@
             <div class="row m-0 ">
               <div class="col-12 d-flex">
                 <div id="suggest-game-button" class="btn float-right btn-link" title="Suggest Game" {{action "openSuggestionPanel" }}>Suggest Game</div>
+                {{#if currentUser.user.spendsCredits}}
                   <div class="d-none  ml-auto" id="confirm-join-game-form-sm" >
                       <h5 class="pr-3 pt-1" >Join Game?</h5>
                       <button class="btn btn-success border-0 mr-2" {{action "joinGame" }}><span class="fa fa-check"></span></button>
                       <button class="btn btn-danger border-0 " {{action "cancelJoinGame" }}><span class="fa fa-times"></span></button>
                   </div>
                   <button id="join-game-button-sm" class="btn btn-primary ml-auto mr-3 mt-1 d-none d-sm-block" title="Play Game" {{action "confirmJoinGame" }}>Play Game</button>
+                {{/if}}
               </div>
 
             </div>
@@ -224,6 +231,11 @@
           <!-- Photos Window -->
 
           <div  class="col-12 col-sm-6 p-0 mt-4 order-4" id="photos-panel">
+            <a align="right" class="edit-links" role="button" data-toggle="modal"
+              data-target="#editPhotosModal">
+              <span title="Edit Photos" class="fa fa-edit" aria-hidden="true">
+              </span>
+            </a>
                 <img src="/usericon.svg" height="200" width="200">
                 <img src="/usericon.svg" height="200" width="200">
                 <img src="/usericon.svg" height="200" width="200">
@@ -235,56 +247,135 @@
           </div>
 
   </div>
-
-
   <div class="row m-0">
-            <div class="col-12 px-2">
-              <div class="">
+    <div class="col-12 p-0">
+      {{error-display}}
+      <div class="collapse show" id="viewProfileCollapse">
+        <a align="right" class="edit-links" role="button" data-toggle="collapse"
+          data-target="#editProfileCollapse,#viewProfileCollapse">
+            <span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span>
+        </a>
+        <h4>About Me:</h4>
+        {{model.profileAboutMe}}
+        <br>
+        <br>
+        <label >Age:</label>
+        {{model.profileAge}}
+        <br>
+        <label >Sex:</label>
+        {{model.profileSex}}
+        <br>
+        <label >Location:</label>
+        {{model.profileLocation}}
+        <br>
+        <label >Languages:</label>
+        {{model.profileLanguages}}
+        <br>
+        <div class="form-group">
+          <label >Tags:</label>
+          {{#tag-input
+            tags=tags
+            readOnly=true
+            as |tag|
+          }}
+            {{tag}}
+          {{/tag-input}}
+        </div>
+      </div>
 
-               <h4>About {{model.username}}:</h4>
-               {{#if noAboutMe}}
-               {{else}}
-                  {{model.profileAboutMe}}
-               {{/if}}
-                <br>
-                <br>
-                {{#if noAge}}
-                {{else}}
-                  <label >Age:</label>
-                  {{model.profileAge}}
-                  <br>
-                {{/if}}
-                {{#if noSex}}
-                {{else}}
-                  <label >Sex:</label>
-                  {{model.profileSex}}
-                  <br>
-                {{/if}}
-                {{#if noLocation}}
-                {{else}}
-                  <label >Location:</label>
-                  {{model.profileLocation}}
-                  <br>
-                {{/if}}
-                {{#if noLanguage}}
-                {{else}}
-                <label >Languages:</label>
-                {{model.profileLanguages}}
-                <br>
-                {{/if}}
-
-                <div class="form-group">
-                    <label >Tags:</label>
-                      {{#tag-input
-                          tags=tags
-                          readOnly=true
-                          as |tag|
-                        }}
-                          {{tag}}
-                        {{/tag-input}}
+      <div class="collapse" id="editProfileCollapse">
+        <form autocomplete="off"{{action "submitProfileSettings" on="submit"}}>
+          <div class="modal-body">
+            {{#if currentUser.user.broadcaster}}
+              <div class="form-group">
+                <label for="inputaboutme">About Me</label>
+                {{textarea rows="5" class="form-control" value=model.profileAboutMe
+                  placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
+              </div>
+              {{else if currentUser.user.developer}}
+              <div class="form-group">
+                <label for="inputaboutme">About Me</label>
+                {{textarea class="form-control" value=model.profileAboutMe
+                  placeholder="A little about yourself and your games"}}
+              </div>
+            {{else}}
+              <div class="form-group">
+                <label for="inputaboutme">About Me</label>
+                {{textarea class="form-control" value=model.profileAboutMe
+                  placeholder="A little about yourself, your favorite games etc."}}
+              </div>
+            {{/if}}
+            <div class="form-group">
+              <label>Sex</label>
+              <div class="form-inline">
+                <div class="form-check pr-3">
+                  <label class="form-check-label">
+                    {{radio-button class="form-check-input" value='Female'
+                      groupValue=tempSexSelection checked=tempSexSelection}}
+                    Female
+                  </label>
+                </div>
+                <div class="form-check pr-3">
+                  <label class="form-check-label">
+                    {{radio-button class="form-check-input" value='Male'
+                      groupValue=tempSexSelection checked=tempSexSelection}}
+                    Male
+                  </label>
+                </div>
+                <div class="form-check pr-3">
+                  <label class="form-check-label" {{action "checkOtherSex"}}>
+                    {{radio-button class="form-check-input" value='Other'
+                      groupValue=tempSexSelection id="inputSexOther" checked=tempSexSelection}}
+                    {{input type="text" class="form-control" spellcheck=false
+                      value=tempSexText placeholder="Other"}}
+                  </label>
                 </div>
               </div>
             </div>
+            <div class="form-group">
+              <label for="inputlocation">Location</label>
+              {{input type="text" class="form-control" value=model.profileLocation
+                placeholder="Your general location" }}
+            </div>
+            <div class="form-group">
+              <label for="inputLanguages">Languages</label>
+              {{input type="text" class="form-control" value=model.profileLanguages
+                placeholder="I can speak..." }}
+            </div>
+            <div class="form-group">
+              <label for="inputAge">Age</label>
+              {{input type="number" min="18" max="100000" step="1" class="form-control"
+                value=model.profileAge }}
+            </div>
+            {{#if currentUser.user.broadcaster}}
+              <div class="form-group">
+                <label >Tags (choose up to 15)</label>
+                {{#tag-input
+                  tags=tags
+                  addTag=(action 'addTag')
+                  removeTagAtIndex=(action 'removeTagAtIndex')
+                  as |tag|
+                }}
+                  {{tag}}
+                {{/tag-input}}
+              </div>
+            {{/if}}
+            <br>
+            <a class="btn btn-link" data-toggle="collapse"
+              data-target="#editProfileCollapse,#viewProfileCollapse"
+              {{action "cancelProfileChanges"}}>
+                <span title="Cancel"></span>
+                Cancel
+            </a>
+            <div class="float-right">
+              <button type="submit" class="btn btn-primary" id="profileSettingSubmit">
+                Save
+              </button>
+            </div>
+            <br>
+          </div>
+        </form>
       </div>
-
+    </div>
+  </div>
 {{outlet}}
