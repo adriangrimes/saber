@@ -15,6 +15,7 @@ export default Controller.extend({
   ],
 
   tipToggled:false,
+  isFavorite: false,
 
   init: function() {
     this._super(...arguments);
@@ -34,9 +35,11 @@ export default Controller.extend({
         this.tags.removeAt(index);
       },
 
+
       checkOtherSex() {
         jQuery("#inputSexOther").prop('checked', true).change();
       },
+
       submitProfileSettings() {
         this.store.queryRecord('user-public-datum',
           { username: this.get('session.data.authenticated.username') }).then((user) => {
@@ -77,6 +80,9 @@ export default Controller.extend({
         });
       },
 
+
+
+
       cancelProfileChanges() {
         // Rollback model to original values pulled from the store
         this.model.rollbackAttributes();
@@ -94,6 +100,7 @@ export default Controller.extend({
         // Rollback tag selection
         this.set('tags', this.model.get('userCustomTags').split(","));
       },
+
 
 
     checkLength(text, select /*, event */) {

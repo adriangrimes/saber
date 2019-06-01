@@ -58,7 +58,7 @@ export default Component.extend({
     updateChannelTopic() {
       if (this.get('session.isAuthenticated')) {
         console.log('updateChannelTopic()');
-        let channelTopic = this.get('userMessage');
+        let channelTopic = this.get('channelTopic');
         this.store
           .queryRecord('user-public-datum', {
             username: this.get('session.data.authenticated.username')

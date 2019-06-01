@@ -1,4 +1,6 @@
 
+<div class="container">
+
   {{#if this.currentUser.isContracted}}
   <div class="row m-0">
     <div class="col mb-2">
@@ -90,7 +92,7 @@
 
                 <div class="form-check mt-2">
                   <label class="form-check-label">
-                    {{input type="checkbox" class="form-check-input" name="enableTips" checked=enableTips}}
+                    {{input type="checkbox" class="form-check-input" checked=model.userPublicDatum.allowTips}}
                     Enable Tipping.
                   </label>
                 </div>
@@ -108,15 +110,25 @@
     {{/if}}
 
 
-                  <div class="card mb-3 " id="statsAccordion">
+                  <div class="card mb-3 " id="notesAccordion">
 
-                      <div class="card-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#statsAccordion" data-target="#statsCollapse">
-                        <h4 class="card-title"><span class="fa fa-bar-chart" aria-hidden="true"></span>&nbsp; Stats</h4>
+                      <div class="card-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#notesAccordion" data-target="#notesCollapse">
+                        <h4 class="card-title"><span class="fa fa-bar-chart" aria-hidden="true"></span>&nbsp; Private Notepad</h4>
 
                       </div>
-                      <div id="statsCollapse" class="card-collapse collapse">
+                      <div id="notesCollapse" class="card-collapse collapse">
                         <div class="card-body">
-                          woo stats congrats on the stats
+
+                          <form {{action "submitUserNotes" on="submit"}}>
+                            {{textarea class="form-control"  id="privateUserNotes" value=model.user.privateUserNotes placeholder="Only you can see this notepad."}}
+                            <div class="text-right pt-3">
+                              <button type="submit"
+                                      id="notesSubmit"
+                                      class="btn btn-primary">Save
+                              </button>
+                            </div>
+                          </form>
+
                           </div>
                       </div>
                     </div>
@@ -215,5 +227,5 @@
   </div>
   {{/if}}
 
-
+</div>
 {{outlet}}

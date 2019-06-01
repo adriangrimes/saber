@@ -1,57 +1,69 @@
 {{edit-photos}}
 {{rules-modal}}
-  <div class="row m-0">
-    <div class ="col-10" >
-        <h4  id="usernameDisplay">
-          {{model.username}}
-        </h4>
-   </div>
-    <div class="col-2 d-flex justify-content-end">
-        <div class="btn-group">
-         <button type="button" class="btn btn-link  collapsed" data-toggle="collapse" data-target="#share-form,#share-form2"><span title="Open Share Form"  class=" profile-links fa fa-share-alt"></span></button>
-         {{#if isFollowed}}
-           <button type="button" class="btn btn-link pl-2"> <span  title="Unfollow {{model.username}}" class=" profile-links fa fa-bell"{{action "toggleFollow" model.user_id}}></span></button>
-         {{else}}
-         <button type="button" class="btn btn-link pl-2">  <span  title="Follow {{model.username}}" class=" profile-links fa fa-bell-o" {{action "toggleFollow" model.user_id}}></span></button>
-         {{/if}}
-       </div>
-    </div>
+<div class="container-fluid">
 
-  </div>
-  <div class="row m-0 collapse px-2" id="share-form">
-        <div class="col-xs-12 col-sm-8  px-0 pb-3">
-          <!-- Share Profile Menu -->
-          <div class="input-group justify-content-end">
-
-            <h6 class="pr-2 pt-2"> Share this profile:</h6>
-            <div class="btn-group " role="group" >
-              <a href="https://twitter.com/intent/tweet?text=Check+out+{{model.username}}+at+https://saber.tv/p/{{model.user_id}}" target="_blank" class="btn btn-primary" title="Twitter"><span class="fa fa-twitter"></span></a>
-              <a href="http://www.reddit.com/submit?url=https://saber.tv/p/{{model.user_id}}&title=Check+out+{{model.username}}+Live%21" target="_blank"  class="btn btn-primary" title="Reddit"  ><span class="fa fa-reddit-alien"></span></a>
-            </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-4  pr-0 pb-3">
-          <div class="input-group w-100" {{action "copyUrlToClipboard"}}>
-             <input type="text" autocomplete="off" class="form-control " id="urlDisplay" value="https://saber.tv/p/{{model.user_id}}">
-             <div class="input-group-append">
-               <button class="btn btn-primary btn-sm" type="button"><span id="copyUrlBtn" class="fa fa-link"></span></button>
-             </div>
-          </div>
-      </div>
-  </div>
+{{#if model.broadcaster}}
       <!--- Video and Chat Panels -->
   <div class="row m-0 mb-4">
     <div class="col-12 col-sm-8 p-0 m-0 mb-2 order-1"  id="video-panel">
+      <div class="row pt-3 m-0" id="usernameRow">
+        <div class ="col-10 pb-0" >
+            <h4 id="usernameDisplay">
+              {{model.username}}
+            </h4>
+       </div>
+        <div class="col-2 d-flex justify-content-end">
+            <div class="btn-group ">
+             <button type="button" class="btn btn-link pb-0 collapsed" data-toggle="collapse" data-target="#share-form,#share-form2"><span title="Open Share Form"  class=" profile-links fa fa-share-alt"></span></button>
+
+             {{#if (eq session.data.authenticated.username model.username)}}
+             {{else}}
+               {{#if isFollowed}}
+                 <button type="button" class="btn btn-link pb-0 pl-2"> <span  title="Unfollow {{model.username}}" class=" profile-links fa fa-bell"{{action "toggleFollow" model.user_id}}></span></button>
+               {{else}}
+               <button type="button" class="btn btn-link pb-0 pl-2">  <span  title="Follow {{model.username}}" class=" profile-links fa fa-bell-o" {{action "toggleFollow" model.user_id}}></span></button>
+               {{/if}}
+             {{/if}}
+
+
+           </div>
+        </div>
+
+      </div>
+      <div class="row m-0 collapse px-2" id="share-form">
+            <div class="col-xs-12 col-sm-8  px-0 pb-3">
+              <!-- Share Profile Menu -->
+              <div class="input-group justify-content-end">
+
+                <h6 class="pr-2 pt-2"> Share this profile:</h6>
+                <div class="btn-group " role="group" >
+                  <a href="https://twitter.com/intent/tweet?text=Check+out+{{model.username}}+at+https://saber.tv/p/{{model.user_id}}" target="_blank" class="btn btn-primary" title="Twitter"><span class="fa fa-twitter"></span></a>
+                  <a href="http://www.reddit.com/submit?url=https://saber.tv/p/{{model.user_id}}&title=Check+out+{{model.username}}+Live%21" target="_blank"  class="btn btn-primary" title="Reddit"  ><span class="fa fa-reddit-alien"></span></a>
+                </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-4  pr-0 pb-3">
+              <div class="input-group w-100" {{action "copyUrlToClipboard"}}>
+                 <input type="text" autocomplete="off" class="form-control " id="urlDisplay" value="https://saber.tv/p/{{model.user_id}}">
+                 <div class="input-group-append">
+                   <button class="btn btn-primary btn-sm" type="button"><span id="copyUrlBtn" class="fa fa-link"></span></button>
+                 </div>
+              </div>
+          </div>
+      </div>
+
+
       <div class="card">
         <div class="card-body p-0" >
 
+            <embed src="/testimg.jpg" width="100%" height="100%">
                     </div>
         <div class="profile-controls pt-1" id="profileControls">
               {{#if currentUser.user.spendsCredits}}
               <div class="btn-toolbar justify-content-between" role="toolbar" >
 
 
-                      <div class="input-group  d-flex " id="simple-tip-form">
+     <div class="input-group  d-flex " id="simple-tip-form">
 
                         <div class="input-group-prepend " >
                           <button class="btn btn-dark border-0 px-0 profile-buttons"  type="button"  title="Tip Options" {{action "tipToggle"}}><span class="fa fa-bars" id="tip-toggle" ></span></button>
@@ -116,80 +128,39 @@
 
     {{! Chat Window }}
     <div class="col-12 col-sm-4 p-0 order-2" id="chat-panel">
+
       {{chat-component
         chatChannel=(lower-case model.username)
+        channelTopic=model.channelTopic
         model=model
       }}
     </div>
+  </div>
 
+  <div class="row m-0">
     {{! Game Window }}
-      <div class="col-12 col-sm-6  p-0 mt-4 order-3" id="game-panel" >
+      <div class="col-12 col-sm-6  p-0 mt-4 order-3">
         <div class="card" >
-          <div class="card-body p-1" id="game-Window">
-            <div class="row m-0">
-              <div class="col-3">
-                <img src="/usericon.svg"  class="img-responsive center-block pl-2" title="Click to view rules and controls" alt="Game Icon" width="100%">
-                {{#if currentUser.user.spendsCredits}}
-                <button class="btn btn-primary mt-2" id="joinGameButton"  {{action "joinGame" }}>Join Game</button>
-
-                  <div class=" justify-content-end d-none d-sm-none pt-1 pt-sm-0 pb-2 mr-1 float-right" id="confirm-join-game-form" >
-                    <h5 class="pr-3 pt-1" >Join Game?</h5>
-
-                      <button class="btn btn-success border-0 mr-2" {{action "joinGame" }}><span class="fa fa-check"></span></button>
-                      <button class="btn btn-danger border-0 " {{action "cancelJoinGame" }}><span class="fa fa-times"></span></button>
-                  </div>
-
-                  <button  class="btn btn-primary float-right mt-1 d-block d-sm-none" title="Play Game" id="join-game-button"{{action "confirmJoinGame" }}>Play Game</button>
-                {{/if}}
-
-              </div>
-
-
-            </div>
-          </div>
-
-          <div class="card-body p-1 d-none" id="game-suggestion-panel">
-            <div class="row m-0 mb-2">
-              <div class="col-12  px-2">
-
-
-                <label for="inputGame">Select Game:</label>
-                {{#power-select
-                      selected=inputGame
-                      id="inputGame"
-                      options=gamesList
-                      onchange=(action "setGame")
-                      oninput=(action "checkLength")
-                      as |name|}}
-                      {{name}}
-                {{/power-select}}
-
-                <div class="form-group pt-2 ">
-                  <label for="inputPrize">Prize: </label>
-                  {{input type="text" class="form-control " value=inputPrize }}
-                </div>
-              </div>
-
-            </div>
-            <div class="row m-0 ">
-              <div class="col-12 d-flex">
-                <a  class="btn btn-link btn-block d-block" title="Cancel Suggestion" role="button" {{action "closeSuggestionPanel" }}>Cancel</a>
-
-                  <button class="btn btn-primary ml-auto mt-1 d-block" title="Send Suggestion" >Send Suggestion</button>
-
-              </div>
-
-            </div>
           </div>
 
 
-          <div class="card-body p-1 d-block" id="game-entry-panel">
+            <div class="card-body p-1 pt-4 game-panel">
+
             <div class="row m-0">
-              <div class="col-xs-12 col-sm-8 px-2">
+              <div class="text-center col-xs-12 col-sm-4 btn-link"
+                   title="Click to view rules and controls"
+                   data-toggle="modal"
+                   data-target="#rulesModal"
+                   id="game-icon">
+                <small class="d-sm-block d-none">Rules and Controls</small>
+                <img src="/usericon.svg"  width="100px"  alt="Game Icon" >
+                <small class="d-sm-none d-block">Rules and Controls</small>
 
+              </div>
 
-                    <h4 class="mt-1 mb-2">Quick Chess</h4>
-                <b>If you win:</b> Pizza!
+              <div class="col-8">
+                <h4 id="gameHeading">8 Ball Pool</h4>
+                <b>If you win:</b> Long reward title is long yup.
                 <br>
                 <b>Consolation Prize:</b> No Pizza :(
                 <br>
@@ -197,185 +168,260 @@
                 <br>
                 <b>Number of Players:</b> 2
                 <br>
-
               </div>
-
-              <div class="text-center col-xs-12 col-sm-4 btn-link"  title="Click to view rules and controls" data-toggle="modal" data-target="#rulesModal" id="game-icon">
-                <small class="d-sm-block d-none">Rules and Controls</small>
-                <img src="/usericon.svg"  width="100px"  alt="Game Icon" >
-                <small class="d-sm-none d-block">Rules and Controls</small>
-
-              </div>
-
-
             </div>
             <div class="row m-0 ">
               <div class="col-12 d-flex">
-                <div id="suggest-game-button" class="btn float-right btn-link" title="Suggest Game" {{action "openSuggestionPanel" }}>Suggest Game</div>
                 {{#if currentUser.user.spendsCredits}}
+                <div id="suggest-game-button" class="btn float-right btn-link" title="Suggest Game" {{action "openSuggestionPanel" }}>Suggest Game</div>
+
                   <div class="d-none  ml-auto" id="confirm-join-game-form-sm" >
                       <h5 class="pr-3 pt-1" >Join Game?</h5>
                       <button class="btn btn-success border-0 mr-2" {{action "joinGame" }}><span class="fa fa-check"></span></button>
                       <button class="btn btn-danger border-0 " {{action "cancelJoinGame" }}><span class="fa fa-times"></span></button>
                   </div>
                   <button id="join-game-button-sm" class="btn btn-primary ml-auto mr-3 mt-1 d-none d-sm-block" title="Play Game" {{action "confirmJoinGame" }}>Play Game</button>
-                {{/if}}
+                {{else if (eq session.data.authenticated.username model.username)}}
+                <div id="change-game-button" class="btn float-right btn-link" title="Change Game" {{action "openGameSettingsPanel" }}>Change Game</div>
+
+                  <button id="start-game-button-sm" class="btn btn-primary ml-auto mr-3 mt-1 d-none d-sm-block" title="Start Game" {{action "startGameNow" }}>Start Game</button>
+
+              {{/if}}
+
               </div>
 
             </div>
           </div>
-        </div>
-      </div>
 
 
-          <!-- Photos Window -->
 
-          <div  class="col-12 col-sm-6 p-0 mt-4 order-4" id="photos-panel">
-            <a align="right" class="edit-links" role="button" data-toggle="modal"
-              data-target="#editPhotosModal">
-              <span title="Edit Photos" class="fa fa-edit" aria-hidden="true">
-              </span>
-            </a>
-                <img src="/usericon.svg" height="200" width="200">
-                <img src="/usericon.svg" height="200" width="200">
-                <img src="/usericon.svg" height="200" width="200">
-                <img src="/usericon.svg" height="200" width="200">
-                <img src="/usericon.svg" height="200" width="200">
-                <img src="/usericon.svg" height="200" width="200">
-                <img src="/usericon.svg" height="200" width="200">
+
+              <div class="card-body p-1 d-none" id="game-suggestion-panel">
+                <div class="row m-0 mb-2">
+                  <div class="col-12  px-2">
+
+
+                    <label for="inputGame">Select Game:</label>
+                    {{#power-select
+                          selected=inputGame
+                          id="inputGame"
+                          options=gamesList
+                          onchange=(action "setGame")
+                          oninput=(action "checkLength")
+                          as |name|}}
+                          {{name}}
+                    {{/power-select}}
+
+                    <div class="form-group pt-2 ">
+                      <label for="inputPrize">Prize: </label>
+                      {{input type="text" class="form-control " value=inputPrize }}
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row m-0 ">
+                  <div class="col-12 d-flex">
+                    <a  class="btn btn-link btn-block d-block" title="Cancel Suggestion" role="button" {{action "closeSuggestionPanel" }}>Cancel</a>
+
+                      <button class="btn btn-primary ml-auto mt-1 d-block" title="Send Suggestion" >Send Suggestion</button>
+
+                  </div>
+
+                </div>
+
+
 
           </div>
+        </div>
+      </div>
+    <div class ="col-12 col-sm-6 p-0 mt-4 order-4 photos-panel">
 
+      <!-- Photos Window -->
+      {{#if (eq session.data.authenticated.username model.username)}}
+
+          <a align="right" class="edit-links" role="button" data-toggle="modal"
+            data-target="#editPhotosModal">
+            <span title="Edit Photos" class="fa fa-edit" aria-hidden="true">
+            </span>
+          </a>
+
+          {{/if}}
+        {{user-photos}}
+
+      </div>
   </div>
-  <div class="row m-0">
-    <div class="col-12 p-0">
-      {{error-display}}
-      <div class="collapse show" id="viewProfileCollapse">
-        <a align="right" class="edit-links" role="button" data-toggle="collapse"
-          data-target="#editProfileCollapse,#viewProfileCollapse">
-            <span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span>
-        </a>
-        <h4>About Me:</h4>
-        {{model.profileAboutMe}}
-        <br>
-        <br>
-        <label >Age:</label>
-        {{model.profileAge}}
-        <br>
-        <label >Sex:</label>
-        {{model.profileSex}}
-        <br>
-        <label >Location:</label>
-        {{model.profileLocation}}
-        <br>
-        <label >Languages:</label>
-        {{model.profileLanguages}}
-        <br>
-        <div class="form-group">
-          <label >Tags:</label>
-          {{#tag-input
-            tags=tags
-            readOnly=true
-            as |tag|
-          }}
-            {{tag}}
-          {{/tag-input}}
-        </div>
-      </div>
 
-      <div class="collapse" id="editProfileCollapse">
-        <form autocomplete="off"{{action "submitProfileSettings" on="submit"}}>
-          <div class="modal-body">
-            {{#if currentUser.user.broadcaster}}
+  {{else}}
+          <div class="row pt-3 m-0" id="usernameRow">
+            <div class ="col-10 pb-0" >
+                <h4 id="usernameDisplay">
+                  {{model.username}}
+                </h4>
+           </div>
+         </div>
+         <div class="row m-0">
+           <div class ="col-6 pb-0">
+            <embed src="/testimg.jpg" height="500px" width="100%">
+          </div>
+           <div class ="col-12 col-sm-6 p-0 mt-4 order-4">
+             {{#if (eq session.data.authenticated.username model.username)}}
+
+                 <a align="right" class="edit-links" role="button" data-toggle="modal"
+                   data-target="#editPhotosModal">
+                   <span title="Edit Photos" class="fa fa-edit" aria-hidden="true">
+                   </span>
+                 </a>
+
+                 {{/if}}
+                 <div class ="col-12 col-sm-6 p-0 mt-4 order-4 photos-panel">
+             {{user-photos}}
+           </div>
+          </div>
+         </div>
+  {{/if}}
+    <div class="row m-0 pt-4 pb-4">
+          <div class="col-12 ">
+            {{error-display}}
+            <div class="collapse show" id="viewProfileCollapse">
+              {{#if (eq session.data.authenticated.username model.username)}}
+
+              <a align="right" class="edit-links" role="button" data-toggle="collapse"
+                data-target="#editProfileCollapse,#viewProfileCollapse">
+                  <span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span>
+              </a>
+
+              {{/if}}
+
+              <h4>About Me:</h4>
+              {{model.profileAboutMe}}
+              <br>
+              <br>
+              <label >Age:</label>
+              {{model.profileAge}}
+              <br>
+              <label >Sex:</label>
+              {{model.profileSex}}
+              <br>
+              <label >Location:</label>
+              {{model.profileLocation}}
+              <br>
+              <label >Languages:</label>
+              {{model.profileLanguages}}
+              <br>
+
+              {{#if model.broadcaster}}
+
               <div class="form-group">
-                <label for="inputaboutme">About Me</label>
-                {{textarea rows="5" class="form-control" value=model.profileAboutMe
-                  placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
-              </div>
-              {{else if currentUser.user.developer}}
-              <div class="form-group">
-                <label for="inputaboutme">About Me</label>
-                {{textarea class="form-control" value=model.profileAboutMe
-                  placeholder="A little about yourself and your games"}}
-              </div>
-            {{else}}
-              <div class="form-group">
-                <label for="inputaboutme">About Me</label>
-                {{textarea class="form-control" value=model.profileAboutMe
-                  placeholder="A little about yourself, your favorite games etc."}}
-              </div>
-            {{/if}}
-            <div class="form-group">
-              <label>Sex</label>
-              <div class="form-inline">
-                <div class="form-check pr-3">
-                  <label class="form-check-label">
-                    {{radio-button class="form-check-input" value='Female'
-                      groupValue=tempSexSelection checked=tempSexSelection}}
-                    Female
-                  </label>
-                </div>
-                <div class="form-check pr-3">
-                  <label class="form-check-label">
-                    {{radio-button class="form-check-input" value='Male'
-                      groupValue=tempSexSelection checked=tempSexSelection}}
-                    Male
-                  </label>
-                </div>
-                <div class="form-check pr-3">
-                  <label class="form-check-label" {{action "checkOtherSex"}}>
-                    {{radio-button class="form-check-input" value='Other'
-                      groupValue=tempSexSelection id="inputSexOther" checked=tempSexSelection}}
-                    {{input type="text" class="form-control" spellcheck=false
-                      value=tempSexText placeholder="Other"}}
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputlocation">Location</label>
-              {{input type="text" class="form-control" value=model.profileLocation
-                placeholder="Your general location" }}
-            </div>
-            <div class="form-group">
-              <label for="inputLanguages">Languages</label>
-              {{input type="text" class="form-control" value=model.profileLanguages
-                placeholder="I can speak..." }}
-            </div>
-            <div class="form-group">
-              <label for="inputAge">Age</label>
-              {{input type="number" min="18" max="100000" step="1" class="form-control"
-                value=model.profileAge }}
-            </div>
-            {{#if currentUser.user.broadcaster}}
-              <div class="form-group">
-                <label >Tags (choose up to 15)</label>
+                <label >Tags:</label>
                 {{#tag-input
                   tags=tags
-                  addTag=(action 'addTag')
-                  removeTagAtIndex=(action 'removeTagAtIndex')
+                  readOnly=true
                   as |tag|
                 }}
                   {{tag}}
                 {{/tag-input}}
               </div>
-            {{/if}}
-            <br>
-            <a class="btn btn-link" data-toggle="collapse"
-              data-target="#editProfileCollapse,#viewProfileCollapse"
-              {{action "cancelProfileChanges"}}>
-                <span title="Cancel"></span>
-                Cancel
-            </a>
-            <div class="float-right">
-              <button type="submit" class="btn btn-primary" id="profileSettingSubmit">
-                Save
-              </button>
+
+              {{/if}}
             </div>
-            <br>
+
+            <div class="collapse" id="editProfileCollapse">
+              <form autocomplete="off"{{action "submitProfileSettings" on="submit"}}>
+                <div class="modal-body">
+                  {{#if currentUser.user.broadcaster}}
+                    <div class="form-group">
+                      <label for="inputaboutme">About Me</label>
+                      {{textarea rows="5" class="form-control" value=model.profileAboutMe
+                        placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
+                    </div>
+                    {{else if currentUser.user.developer}}
+                    <div class="form-group">
+                      <label for="inputaboutme">About Me</label>
+                      {{textarea class="form-control" value=model.profileAboutMe
+                        placeholder="A little about yourself and your games"}}
+                    </div>
+                  {{else}}
+                    <div class="form-group">
+                      <label for="inputaboutme">About Me</label>
+                      {{textarea class="form-control" value=model.profileAboutMe
+                        placeholder="A little about yourself, your favorite games etc."}}
+                    </div>
+                  {{/if}}
+                  <div class="form-group">
+                    <label>Sex</label>
+                    <div class="form-inline">
+                      <div class="form-check pr-3">
+                        <label class="form-check-label">
+                          {{radio-button class="form-check-input" value='Female'
+                            groupValue=tempSexSelection checked=tempSexSelection}}
+                          Female
+                        </label>
+                      </div>
+                      <div class="form-check pr-3">
+                        <label class="form-check-label">
+                          {{radio-button class="form-check-input" value='Male'
+                            groupValue=tempSexSelection checked=tempSexSelection}}
+                          Male
+                        </label>
+                      </div>
+                      <div class="form-check pr-3">
+                        <label class="form-check-label" {{action "checkOtherSex"}}>
+                          {{radio-button class="form-check-input" value='Other'
+                            groupValue=tempSexSelection id="inputSexOther" checked=tempSexSelection}}
+                          {{input type="text" class="form-control" spellcheck=false
+                            value=tempSexText placeholder="Other"}}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputlocation">Location</label>
+                    {{input type="text" class="form-control" value=model.profileLocation
+                      placeholder="Your general location" }}
+                  </div>
+                  <div class="form-group">
+                    <label for="inputLanguages">Languages</label>
+                    {{input type="text" class="form-control" value=model.profileLanguages
+                      placeholder="I can speak..." }}
+                  </div>
+                  <div class="form-group">
+                    <label for="inputAge">Age</label>
+                    {{input type="number" min="13" max="100000" step="1" class="form-control"
+                      value=model.profileAge }}
+                  </div>
+                  {{#if currentUser.user.broadcaster}}
+                    <div class="form-group">
+                      <label >Tags (choose up to 15)</label>
+                      {{#tag-input
+                        tags=tags
+                        addTag=(action 'addTag')
+                        removeTagAtIndex=(action 'removeTagAtIndex')
+                        as |tag|
+                      }}
+                        {{tag}}
+                      {{/tag-input}}
+                    </div>
+                  {{/if}}
+                  <br>
+                  <a class="btn btn-link" data-toggle="collapse"
+                    data-target="#editProfileCollapse,#viewProfileCollapse"
+                    {{action "cancelProfileChanges"}}>
+                      <span title="Cancel"></span>
+                      Cancel
+                  </a>
+                  <div class="float-right">
+                    <button type="submit" class="btn btn-primary" id="profileSettingSubmit">
+                      Save
+                    </button>
+                  </div>
+                  <br>
+                </div>
+              </form>
+            </div>
           </div>
-        </form>
-      </div>
+
     </div>
-  </div>
+</div>
+
+
 {{outlet}}

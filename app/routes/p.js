@@ -1,38 +1,31 @@
+
 import Route from '@ember/routing/route';
 
-export default Route.extend({
+export default Route.extend( {
 
   model(params) {
-    return this.store.queryRecord('user-public-datum', { username: params.username });
+    return this.store.queryRecord('user-public-datum',
+      { username: params.username });
   },
 
   setupController(controller, model) {
+    // Sets profile view and edit panel input fields with loaded store data
     this._super(controller, model);
-    // Set account settings to settings pulled from db
-    controller.set('tipAmountOptions', 10);
-
-    if (model.profileAboutMe === null) {
-      controller.set('noAboutMe', true);
+    // Set up gender selection inputs with loaded store data
+    controller.set('tempSexText', '');
+    if (model.get('profileSex') == 'Male') {
+      controller.set('tempSexSelection', 'Male');
+    } else if (model.get('profileSex') == 'Female') {
+      controller.set('tempSexSelection', 'Female');
+    } else {
+      controller.set('tempSexSelection', 'Other');
+      controller.set('tempSexText', model.get('profileSex'));
+      controller.set('checkOtherSex', true);
     }
-    if (model.profileAge === null) {
-      controller.set('noAge', true);
-    }
-    if (model.profileSex === null) {
-      controller.set('noSex', true);
-    }
-    if (model.profileLocation === null) {
-      controller.set('noLocation', true);
-    }
-    if (model.profileLanguages === null) {
-      controller.set('noLanguage', true);
-    }
-
     // Set up user tags
     if (model.get('userCustomTags') != null) {
       controller.set('tags', model.get('userCustomTags').split(","));
     }
-
-
   }
 
 });

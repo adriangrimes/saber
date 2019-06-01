@@ -4,7 +4,6 @@
 }
 
 
-
 ///////////// Extra Small Screens, Optimizing for 320px and up.
 
 ///////////////////// Overriding Bootstrap
@@ -129,7 +128,11 @@ a {
   border-color: $formBorderColor;
   color: $formTextColor;
 }
-
+.form-control:disabled, .form-control[readonly]{
+  background-color: $formBackgroundColor;
+  border-color: $formBorderColor;
+  color: $formTextColor;
+}
 .form-control.focus, .form-control:focus{
   background-color: $formActiveBackgroundColor;
   border-color: $formActiveBorderColor;
@@ -158,6 +161,9 @@ a {
 }
 #usernameDisplay{
   overflow: hidden;
+}
+#usernameRow{
+  height: 65px;
 }
 
 .userTypeBadges{
@@ -616,13 +622,13 @@ border-radius:0px;
    font-size:18px;
   }
 
-    #photos-panel{
+    .photos-panel{
       overflow-x: auto;
       overflow-y:hidden;
 
     	white-space: nowrap;
       padding-bottom:0px;
-      height: 236px;
+      height: 300px;
 
     }
 
@@ -673,13 +679,25 @@ border-radius:0px;
     padding-right: 20px;
     font-color: #686868;
   }
-  #chat-input{
+  .chat-input-submit{
+
     border-radius: 0px;
   }
+  .chat-input{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding:0;
+    margin:0;
+    width: 100%;
+  }
+  .topic-input{
+    padding-top:65px;
 
+  }
   .chat-body{
-    height:200px;
-    padding-top:5px;
+    height:400px;
+    padding-top: 5px;
     overflow-y: auto;
     overflow-x: hidden;
 
@@ -687,9 +705,11 @@ border-radius:0px;
 
   }
   .users-body{
-    height:200px;
-    padding-top:5px;
+    height:400px;
+    padding-top: 5px;
     overflow-y: auto;
+
+    overflow-x: hidden;
   }
   #chat-panel{
     border-top-left-radius: 0px;
@@ -704,8 +724,8 @@ border-radius:0px;
       border:0px;
   }
 
-  #game-entry-panel{
-    height:200px;
+  .game-panel{
+    height:300px;
 
   }
 
@@ -796,10 +816,9 @@ border-radius:0px;
 }
 .chat-tab-panel{
   position: absolute;
-  right: 0px;
+  right: 0;
   border-bottom: none;
   display: flex;
-  flex-flow: column nowrap;
 
     background-color: #000000aa;
 
@@ -809,12 +828,19 @@ border-radius:0px;
 }
 
 .chat-tab{
+  font-size: 24px;
+  text-align: center;
+  width: 100px;
+  height: 65px;
  padding-left: .5rem;
  padding-right: .5rem;
- padding-top: .25rem;
+ padding-top: .8rem;
  padding-bottom: .25rem;
+ border-bottom: none;
+
 }
 .chat-tab:hover, .chat-tab.hover, .chat-tab:active, .chat-tab.active{
+  border-bottom: none;
 
   border-bottom-right-radius: .25rem;
   border-bottom-left-radius: .25rem;
@@ -938,15 +964,16 @@ border-radius:0px;
 
 
 .chat-body{
-  height:368px;
+  height:530px;
 
 }
 .users-body{
-  height:408px;
+  padding-top: 65px;
+  height:530px;
 
 }
 #chat-panel{
-  height: 331px;
+  height: 650px;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   border-left-style: none;
@@ -959,7 +986,7 @@ border-radius:0px;
 }
 
 #video-panel{
-    height: 406px;
+    height: 650px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
     border:0px;

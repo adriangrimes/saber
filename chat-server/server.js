@@ -3,7 +3,7 @@ const fs = require('fs'); //DEBUG - for writeToTextFile()
 const util = require('util'); //DEBUG - for writeToTextFile() and displaying objects as strings
 const shortid = require('./shortid'); // For generating IDs
 const requestLibrary = require('request'); // HTTP Gets for authentication
-const apiHost = 'http://192.168.1.107:3000';
+const apiHost = 'http://192.168.21.105:3000';
 
 let wsServer = new WebSocket.Server({
   port: 7000,

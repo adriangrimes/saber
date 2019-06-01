@@ -15,7 +15,7 @@ export default Controller.extend({
    actions: {
           showStreamKey(){
           if ( this.streamKeyHidden){
-              $('[id=streamKeyDisplayID]').val(this.currentStreamKey);
+              $('[id=streamKeyDisplayID]').val(this.model.user.streamKey);
               this.set('streamKeyHidden', false);
               $('[id=showStreamKeyBtn]').text('Hide Stream Key');
             }else{
@@ -37,7 +37,7 @@ export default Controller.extend({
              $('[id=streamKeyDisplayID]').val(newStreamKey);
            }
 
-           this.set('currentStreamKey', newStreamKey);
+           this.set('streamKey', newStreamKey);
            this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
 
          // Modify record pulled from db to variable
@@ -90,19 +90,13 @@ export default Controller.extend({
       },
 
       submitStreamSettings() {
-        // Get current state of setting from page and set to a variable
-       var updateEnableTips = this.enableTips;
-
-
-
-        this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+        this.store.queryRecord('user-public-datum',  { username: this.get('session.data.authenticated.username') }).then((userPublicDatum) => {
 
           // Modify record pulled from db to variable
-          user.set('allowTips', updateEnableTips);
-
+          userPublicDatum.setProperties(this.model.userPublicDatum);
 
           // Save record to db
-          user.save().then(() => {
+          userPublicDatum.save().then(() => {
             console.log('submitPayoutSettings saved');
             $('[id=streamSettingsSubmit]').text('');
             $('[id=streamSettingsSubmit]').addClass('fa fa-check');
@@ -114,6 +108,28 @@ export default Controller.extend({
           console.log('error finding user record: ' + reason);
           this.set('errorMessage', reason.error || reason);
         });
+      },
+      submitUserNotes(){
+        // Get current state of setting from page and set to a variable
+        this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
+
+          // Modify record pulled from db to variable
+          user.setProperties(this.model.user);
+
+        // Save record to db
+          user.save().then(() => {
+            console.log('notesSubmit saved');
+            $('[id=notesSubmit]').text('');
+            $('[id=notesSubmit]').addClass('fa fa-check');
+          }).catch((reason) => {
+            console.log('error saving user record: ' + reason);
+            this.set('errorMessage', reason.error || reason);
+          });
+        }).catch((reason) => {
+          console.log('error finding user record: ' + reason);
+          this.set('errorMessage', reason.error || reason);
+        });
+
       },
   }
 });

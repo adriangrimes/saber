@@ -17,6 +17,10 @@ $ember-power-select-line-height: 2.5;
 
 ///////////////////// Overriding Bootstrap
 
+.container-fluid{
+  padding-left: 30px;
+  padding-right: 30px;
+}
 .btn-primary{
   background-color:#800000;
   border-style: none;
