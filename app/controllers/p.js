@@ -48,7 +48,7 @@ export default Controller.extend({
           user.setProperties(this.model);
           // If gender selection is male or female, save that to profileSex,
           // otherwise set the custom gender textfield as the gender.
-          if (this.tempSexSelection == 'Male' || this.tempSexSelection == 'Female') {
+          if (this.tempSexSelection == 'Male' || this.tempSexSelection == 'Female' || this.tempSexSelection == 'Hide') {
             user.set('profileSex', this.tempSexSelection);
           } else {
             user.set('profileSex', this.tempSexText);
@@ -92,7 +92,9 @@ export default Controller.extend({
           this.set('tempSexSelection', 'Male');
         } else if (this.model.profileSex == 'Female') {
           this.set('tempSexSelection', 'Female');
-        } else {
+        } else if (this.model.profileSex == 'Hide') {
+          this.set('tempSexSelection', 'Hide');
+        } {
           this.set('tempSexSelection', 'Other');
           this.set('tempSexText', this.model.profileSex);
           this.set('checkOtherSex', true);

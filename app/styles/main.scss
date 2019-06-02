@@ -165,6 +165,9 @@ a {
 #usernameRow{
   height: 65px;
 }
+#privateUserNotes{
+height: 8rem; 
+}
 
 .userTypeBadges{
   font-size: 12px;
@@ -185,7 +188,7 @@ width: 100%;
   cursor: pointer;
 }
 .dropdown-header{
-  color: #ffffff;
+  color: $bodyFontColor;
   height: 44px;
   padding-top: .6rem;
 }
@@ -420,6 +423,7 @@ input:checked + .slider:before {
 }
 .nav-link:hover {
   color: $navtabHoverTextColor;
+  background-color: $navtabHoverBackgroundColor;
   border-color: #444444;
 }
 .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
@@ -432,10 +436,10 @@ input:checked + .slider:before {
   padding-right: 0px;
   margin-left: 0px;
   margin-right: 0px;
-  color: #FFFFFF;
+  color: $bodyFontColor;
 }
 .footer-links:hover{
-  color:#aaaaaa;
+  color:$linkHoverTextColor;
 }
 
 

@@ -120,7 +120,7 @@
                         <div class="card-body">
 
                           <form {{action "submitUserNotes" on="submit"}}>
-                            {{textarea class="form-control"  id="privateUserNotes" value=model.user.privateUserNotes placeholder="Only you can see this notepad."}}
+                            {{textarea class="form-control"  id="privateUserNotes" maxlength="1000" value=model.user.privateUserNotes placeholder="Only you can see this notepad."}}
                             <div class="text-right pt-3">
                               <button type="submit"
                                       id="notesSubmit"

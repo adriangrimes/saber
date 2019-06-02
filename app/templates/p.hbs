@@ -12,6 +12,8 @@
               {{model.username}}
             </h4>
        </div>
+       {{!--
+
         <div class="col-2 d-flex justify-content-end">
             <div class="btn-group ">
              <button type="button" class="btn btn-link pb-0 collapsed" data-toggle="collapse" data-target="#share-form,#share-form2"><span title="Open Share Form"  class=" profile-links fa fa-share-alt"></span></button>
@@ -24,11 +26,12 @@
                <button type="button" class="btn btn-link pb-0 pl-2">  <span  title="Follow {{model.username}}" class=" profile-links fa fa-bell-o" {{action "toggleFollow" model.user_id}}></span></button>
                {{/if}}
              {{/if}}
-
-
            </div>
-        </div>
 
+
+
+        </div>
+      --}}
       </div>
       <div class="row m-0 collapse px-2" id="share-form">
             <div class="col-xs-12 col-sm-8  px-0 pb-3">
@@ -63,7 +66,7 @@
               <div class="btn-toolbar justify-content-between" role="toolbar" >
 
 
-     <div class="input-group  d-flex " id="simple-tip-form">
+                      <div class="input-group  d-flex " id="simple-tip-form">
 
                         <div class="input-group-prepend " >
                           <button class="btn btn-dark border-0 px-0 profile-buttons"  type="button"  title="Tip Options" {{action "tipToggle"}}><span class="fa fa-bars" id="tip-toggle" ></span></button>
@@ -138,8 +141,10 @@
   </div>
 
   <div class="row m-0">
-    {{! Game Window }}
+        {{! Game Window }}
       <div class="col-12 col-sm-6  p-0 mt-4 order-3">
+        {{!--
+
         <div class="card" >
           </div>
 
@@ -233,7 +238,10 @@
 
           </div>
         </div>
+           --}}
       </div>
+
+
     <div class ="col-12 col-sm-6 p-0 mt-4 order-4 photos-panel">
 
       <!-- Photos Window -->
@@ -292,36 +300,52 @@
 
               {{/if}}
 
-              <h4>About Me:</h4>
-              {{model.profileAboutMe}}
+              <h4>About {{model.username}}:</h4>
+              {{#if model.profileAboutMe}}
+                {{model.profileAboutMe}}
+              {{/if}}
               <br>
               <br>
-              <label >Age:</label>
-              {{model.profileAge}}
+              {{#if model.profileAge}}
+                <label >Age:</label>
+                {{model.profileAge}}
               <br>
-              <label >Sex:</label>
-              {{model.profileSex}}
-              <br>
-              <label >Location:</label>
-              {{model.profileLocation}}
-              <br>
-              <label >Languages:</label>
-              {{model.profileLanguages}}
-              <br>
+              {{/if}}
+              {{#if model.profileSex}}
+                {{#if (eq model.profileSex 'Hide')}}
+                {{else}}
+                <label >Sex:</label>
+                {{model.profileSex}}
+                  <br>
+                {{/if}}
+              {{/if}}
+
+              {{#if model.profileLocation}}
+                <label >Location:</label>
+                {{model.profileLocation}}
+                <br>
+              {{/if}}
+              {{#if model.profileLanguages}}
+                <label >Languages:</label>
+                {{model.profileLanguages}}
+                <br>
+              {{/if}}
 
               {{#if model.broadcaster}}
+              {{log tags}}
+                {{#if  tags}}
+                    <div class="form-group">
+                      <label >Tags:</label>
+                      {{#tag-input
+                        tags=tags
+                        readOnly=true
+                        as |tag|
+                      }}
+                        {{tag}}
+                        {{/tag-input}}
 
-              <div class="form-group">
-                <label >Tags:</label>
-                {{#tag-input
-                  tags=tags
-                  readOnly=true
-                  as |tag|
-                }}
-                  {{tag}}
-                {{/tag-input}}
-              </div>
-
+                      </div>
+                {{/if}}
               {{/if}}
             </div>
 
@@ -370,6 +394,13 @@
                             groupValue=tempSexSelection id="inputSexOther" checked=tempSexSelection}}
                           {{input type="text" class="form-control" spellcheck=false
                             value=tempSexText placeholder="Other"}}
+                        </label>
+                      </div>
+                      <div class="form-check pr-3">
+                        <label class="form-check-label">
+                          {{radio-button class="form-check-input" value='Hide'
+                            groupValue=tempSexSelection checked=tempSexSelection}}
+                          Hide
                         </label>
                       </div>
                     </div>

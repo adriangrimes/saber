@@ -17,14 +17,22 @@ export default Route.extend( {
       controller.set('tempSexSelection', 'Male');
     } else if (model.get('profileSex') == 'Female') {
       controller.set('tempSexSelection', 'Female');
-    } else {
+    } else if (model.get('profileSex') == 'Hide') {
+      controller.set('tempSexSelection', 'Hide');
+
+    }else{
       controller.set('tempSexSelection', 'Other');
       controller.set('tempSexText', model.get('profileSex'));
       controller.set('checkOtherSex', true);
     }
     // Set up user tags
     if (model.get('userCustomTags') != null) {
-      controller.set('tags', model.get('userCustomTags').split(","));
+        if ( model.get('userCustomTags') == ""){
+          controller.set('tags', []);
+        }else{
+          console.log('tags found');
+                controller.set('tags', model.get('userCustomTags').split(","));
+        }
     }
   }
 

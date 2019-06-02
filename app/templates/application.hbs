@@ -49,7 +49,7 @@
       <li class="dropdown position-static" >
              <button class="nav-link dropdown-toggle  btn btn-outline-dark border-0 px-2 mx-0 " id="nav-dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i title="Menu" class="fa fa-align-right"></i></button>
                <ul class=" dropdown-menu position-absolute dropdown-menu-right" >
-                 <div class="dropdown-header">Hi <strong class="ml-1">{{session.data.authenticated.username}}</strong></div>
+                 <div class="dropdown-header ">Hi <strong class="ml-1">{{session.data.authenticated.username}}</strong></div>
                  {{#link-to "account.messages" class="dropdown-item"}}
                   Messages <span class="ml-2 badge badge-primary badge-pill">42</span>
                  {{/link-to}}
@@ -101,17 +101,13 @@
         <div class="row text-center">
           <div class="col-xs-12 col-sm-4 px-0 mx-0 d-block d-sm-none ">
             <ul class="nav nav-pills nav-justified">
-              {{#if session.isAuthenticated}}
-
               <li class="nav-item">
-                {{link-to "Account Settings" "account" class="footer-links nav-link " }}
+                {{#if session.isAuthenticated}}
+                    {{link-to "Account Settings" "account" class="footer-links nav-link " }}
+                {{else}}
+                    {{link-to "Sign Up" "signup" class="footer-links nav-link " }}
+                {{/if}}
               </li>
-              {{else}}
-              <li class="nav-item">
-                {{link-to "Sign Up" "signup" class="footer-links nav-link " }}
-              </li>
-
-              {{/if}}
 
             </ul>
           </div>
@@ -138,15 +134,15 @@
           </div>
           <div class="col-xs-12 col-sm-4 px-0 mx-0 d-none d-sm-block">
             <ul class="nav nav-pills nav-justified">
-              {{#if session.isAuthenticated}}
-
               <li class="nav-item">
+
+              {{#if session.isAuthenticated}}
                 {{link-to "Account Settings" "account" class="footer-links nav-link " }}
-              </li>
               {{else}}
                 {{link-to "Sign Up" "signup" class="footer-links nav-link " }}
-
               {{/if}}
+            </li>
+
 
             </ul>
           </div>
@@ -174,22 +170,17 @@
           </div>
           <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
-
+              <li class="nav-item">
               {{#if session.isAuthenticated}}
                     {{#if this.currentUser.user.broadcaster}}
-                      <li class="nav-item">
                         {{link-to "Dashboard" "account.dashboard" class="footer-links nav-link " }}
-
-                      </li>
                     {{else}}
-                      <li class="nav-item">
                         {{link-to "Become a Broadcaster" "account.broadcaster" class="footer-links nav-link"}}
-                      </li>
                     {{/if}}
               {{else}}
-              {{link-to "Become a Broadcaster" "signup.broadcaster" class="footer-links nav-link"}}
-
+                    {{link-to "Become a Broadcaster" "signup.broadcaster" class="footer-links nav-link"}}
               {{/if}}
+            </li>
 
             </ul>
           </div>
@@ -197,23 +188,19 @@
         <div class="row text-center">
           <div class="col-xs-12 col-sm-4 d-block d-sm-none px-0 mx-0  ">
             <ul class="nav nav-pills nav-justified">
+              <li class="nav-item">
 
               {{#if session.isAuthenticated}}
                   {{#if currentUser.user.developer}}
-                    <li class="nav-item">
                       {{link-to "API Docs" "help.developer" class="footer-links nav-link"}}
-                    </li>
                   {{else}}
-                    <li class="nav-item">
                       {{link-to "Become a Game Developer" "account.developer" class="footer-links nav-link"}}
-                    </li>
                   {{/if}}
               {{else}}
-              <li class="nav-item">
                 {{link-to "Become a Game Developer" "signup.developer" class="footer-links nav-link"}}
-              </li>
-
               {{/if}}
+            </li>
+
             </ul>
           </div>
           <div class="col-xs-12 col-sm-4 d-none d-sm-block px-0 mx-0 ">
@@ -245,21 +232,17 @@
           </div>
           <div class="col-xs-12 col-sm-4 d-none d-sm-block px-0 mx-0 ">
             <ul class="nav nav-pills nav-justified">
-              {{#if session.isAuthenticated}}
-                            {{#if this.currentUser.user.developer}}
-                              <li class="nav-item">
-                                {{link-to "API Docs" "help.developer" class="footer-links nav-link"}}
-                              </li>
-                            {{else}}
-                              <li class="nav-item">
-                                {{link-to "Become a Game Developer" "account.developer" class="footer-links nav-link"}}
-                              </li>
-                            {{/if}}
-                          {{else}}
-                          <li class="nav-item">
-                            {{link-to "Become a Game Developer" "signup.developer" class="footer-links nav-link"}}
-                          </li>
-                          {{/if}}
+              <li class="nav-item">
+                {{#if session.isAuthenticated}}
+                      {{#if this.currentUser.user.developer}}
+                          {{link-to "API Docs" "help.developer" class="footer-links nav-link"}}
+                      {{else}}
+                          {{link-to "Become a Game Developer" "account.developer" class="footer-links nav-link"}}
+                      {{/if}}
+                {{else}}
+                      {{link-to "Become a Game Developer" "signup.developer" class="footer-links nav-link"}}
+                {{/if}}
+              </li>
             </ul>
           </div>
         </div>
