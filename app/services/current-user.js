@@ -1,4 +1,5 @@
 import Service from '@ember/service';
+// import { computed } from '@ember/object';
 import { not as computedNot, or as computedOr } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { resolve } from 'rsvp';
@@ -14,7 +15,6 @@ export default Service.extend({
   // Any properties set to currentUser.user will be removed once the model has
   // been populated below.
   signupSuccess: false,
-  hasModalOpen: false,
   isContracted: computedOr('user.{broadcaster,developer,affiliate}'),
   isPlayer: computedNot('isContracted'),
 
@@ -121,15 +121,15 @@ export default Service.extend({
     }
   },
 
-  setupModal() {
-    this.currentUser.set('hasModalOpen', true);
-    this.currentUser.set('errorMessages', []);
-  },
-  cleanUpModal() {
-    jQuery('#loginModal').modal('hide');
-    this.currentUser.set('hasModalOpen', false);
-    this.currentUser.set('errorMessages', []);
-  },
+  // setupModal() {
+  //   // this.currentUser.set('hasModalOpen', true);
+  //   // this.currentUser.set('errorMessages', []);
+  // },
+  // cleanUpModal() {
+  //   // jQuery('#loginModal').modal('hide');
+  //   // this.currentUser.set('hasModalOpen', false);
+  //   // this.currentUser.set('errorMessages', []);
+  // },
 
   load() {
     console.log(

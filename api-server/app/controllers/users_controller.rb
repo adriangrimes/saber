@@ -80,8 +80,15 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
-    if @authenticated_user.destroy
-      render json: @authenticated_user, status: :ok
+    puts "start setting user to pending deletion"
+    if user_params[:current_password]&.present?
+      if @authenticated_user.update_with_password(account_status: "PENDING DELETION")
+        render json: @authenticated_user, status: :ok
+        # TODO Send deletion confirmation email
+      else
+        render json: ErrorSerializer.serialize(@authenticated_user.errors),
+          status: :unprocessable_entity
+      end
     else
       render json: ErrorSerializer.serialize(@authenticated_user.errors),
         status: :unprocessable_entity
@@ -137,6 +144,7 @@ class UsersController < ApplicationController
           :send_email_favorites_online,
           :send_email_site_news,
           :private_message_email_notifications,
+          :private_user_notes,
 
           ## Payment profile
           :full_name,

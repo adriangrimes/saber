@@ -3,7 +3,6 @@ import { inject } from '@ember/service';
 import jQuery from 'jquery';
 
 export default Controller.extend({
-
   store: inject(),
   session: inject(),
   themeChanger: inject(),
@@ -130,9 +129,8 @@ export default Controller.extend({
     '(WGT, UTC-03:00) Greenland',
     '(U-2, UTC-02:00) Coordinated Universal Time-02',
     '(CAT, UTC-01:00) Azores',
-    '(CAT, UTC-01:00) Cabo Verde Is.',
-
-],
+    '(CAT, UTC-01:00) Cabo Verde Is.'
+  ],
   timeZoneSearch(timezone, term) {
     //not turned on or working currently
     return `${timezone.name} ${timezone.utc}`.indexOf(term);
@@ -379,27 +377,27 @@ export default Controller.extend({
     'Yemen',
     'Yugoslavia',
     'Zambia',
-    'Zimbabwe',
+    'Zimbabwe'
   ],
 
-questionsList: [
-  'What was your childhood nickname?',
-  'In what city did you meet your spouse/significant other?',
-  'What is your oldest sibling’s birthday month and year? (e.g., January 1900)',
-  'What is your oldest sibling’s middle name?',
-  'What school did you attend for sixth grade?',
-  'What is your oldest cousin’s first and last name?',
-  'What was the name of your first stuffed animal?',
-  'In what city or town did your mother and father meet?',
-  'Where were you when you had your first kiss?',
-  'What is the first name of the boy or girl that you first kissed?',
-  'What was the last name of your third grade teacher?',
-  'In what city does your nearest sibling live?',
-  'What is your maternal grandmother’s maiden name?',
-  'In what city or town was your first job?',
-  'What is the name of a college you applied to but didn’t attend?',
-  'What is the name of the first video game you played?',
-],
+  questionsList: [
+    'What was your childhood nickname?',
+    'In what city did you meet your spouse/significant other?',
+    'What is your oldest sibling’s birthday month and year? (e.g., January 1900)',
+    'What is your oldest sibling’s middle name?',
+    'What school did you attend for sixth grade?',
+    'What is your oldest cousin’s first and last name?',
+    'What was the name of your first stuffed animal?',
+    'In what city or town did your mother and father meet?',
+    'Where were you when you had your first kiss?',
+    'What is the first name of the boy or girl that you first kissed?',
+    'What was the last name of your third grade teacher?',
+    'In what city does your nearest sibling live?',
+    'What is your maternal grandmother’s maiden name?',
+    'In what city or town was your first job?',
+    'What is the name of a college you applied to but didn’t attend?',
+    'What is the name of the first video game you played?'
+  ],
 
   actions: {
     checkLength(text, select /*, event */) {
@@ -411,16 +409,31 @@ questionsList: [
     },
 
     checkThis(toBeChecked) {
-      jQuery("#"+toBeChecked).prop('checked', true).change();
+      jQuery('#' + toBeChecked)
+        .prop('checked', true)
+        .change();
 
-      if (toBeChecked =="inputPayoutBitcoin") {
+      if (toBeChecked == 'inputPayoutBitcoin') {
         this.set('payoutIsBitcoin', true);
         this.set('inputPayoutType', 'bitcoin');
-      } else if (toBeChecked=="inputPayoutCheck") {
+      } else if (toBeChecked == 'inputPayoutCheck') {
         this.set('payoutIsBitcoin', false);
         this.set('inputPayoutType', 'check');
       }
 
+      if (toBeChecked == 'inputSpendTrue') {
+        this.set('inputSpendCredits', true);
+      } else if (toBeChecked == 'inputSpendFalse') {
+        this.set('inputSpendCredits', false);
+      }
+
+      if (toBeChecked == 'inputDefaultAll') {
+        this.set('inputDefaultSearch', 'all');
+      } else if (toBeChecked == 'inputDefaultFemale') {
+        this.set('inputDefaultSearch', 'female');
+      } else if (toBeChecked == 'inputDefaultMale') {
+        this.set('inputDefaultSearch', 'male');
+      }
     },
 
     submitEmailSettings() {
@@ -429,8 +442,9 @@ questionsList: [
       var sPMEN = this.privateMessageEmailNotifications;
       var sESN = this.sendEmailSiteNews;
 
-      this.store.findRecord('user',
-        this.get('session.data.authenticated.user_id')).then((user) => {
+      this.store
+        .findRecord('user', this.get('session.data.authenticated.user_id'))
+        .then(user => {
           console.log(user);
           // Modify record pulled from db to variable
           user.set('sendEmailFavoritesOnline', sEFO);
@@ -438,18 +452,22 @@ questionsList: [
           user.set('sendEmailSiteNews', sESN);
 
           // Save record to db
-          user.save().then(() => {
-            console.log('submitEmailSettings saved');
-            jQuery('[id=emailsettingsubmit]').text('');
-            jQuery('[id=emailsettingsubmit]').addClass('fa fa-check');
-          }).catch((reason) => {
-            console.log('error saving user record: ' + reason);
-            this.set('errorMessage', reason.errors || reason);
-          });
-      }).catch((reason) => {
-        console.log('error finding user record: ' + reason);
-        this.set('errorMessage', reason.errors || reason);
-      });
+          user
+            .save()
+            .then(() => {
+              console.log('submitEmailSettings saved');
+              jQuery('[id=emailsettingsubmit]').text('');
+              jQuery('[id=emailsettingsubmit]').addClass('fa fa-check');
+            })
+            .catch(reason => {
+              console.log('error saving user record: ' + reason);
+              this.set('errorMessage', reason.errors || reason);
+            });
+        })
+        .catch(reason => {
+          console.log('error finding user record: ' + reason);
+          this.set('errorMessage', reason.errors || reason);
+        });
     },
 
     submitDisplaySettings() {
@@ -463,30 +481,37 @@ questionsList: [
         this.themeChanger.set('theme', 'default');
       }
 
-      console.log('At /account display settings save currentUser.darkMode: '
-        +this.get('currentUser.user.darkMode'))
+      console.log(
+        'At /account display settings save currentUser.darkMode: ' +
+          this.get('currentUser.user.darkMode')
+      );
 
-      this.store.findRecord('user',
-        this.get('session.data.authenticated.user_id')).then((user) => {
+      this.store
+        .findRecord('user', this.get('session.data.authenticated.user_id'))
+        .then(user => {
           console.log(user);
           // Modify record pulled from db to variable
           user.set('darkMode', this.get('currentUser.user.darkMode'));
           user.set('timezone', updateTimeZone);
-          console.log('timezone: '+ updateTimeZone);
+          console.log('timezone: ' + updateTimeZone);
 
           // Save record to db
-          user.save().then(() => {
-            console.log('submitDisplaySettings saved');
-            jQuery('[id=sitesettingsubmit]').text('');
-            jQuery('[id=sitesettingsubmit]').addClass('fa fa-check');
-          }).catch((reason) => {
-            console.log('error saving user record: ' + reason);
-            this.set('errorMessage', reason.errors || reason);
-          });
-      }).catch((reason) => {
-        console.log('error finding user record: ' + reason);
-        this.set('errorMessage', reason.errors || reason);
-      });
+          user
+            .save()
+            .then(() => {
+              console.log('submitDisplaySettings saved');
+              jQuery('[id=sitesettingsubmit]').text('');
+              jQuery('[id=sitesettingsubmit]').addClass('fa fa-check');
+            })
+            .catch(reason => {
+              console.log('error saving user record: ' + reason);
+              this.set('errorMessage', reason.errors || reason);
+            });
+        })
+        .catch(reason => {
+          console.log('error finding user record: ' + reason);
+          this.set('errorMessage', reason.errors || reason);
+        });
     },
 
     submitPayoutSettings() {
@@ -499,10 +524,12 @@ questionsList: [
       var region = this.inputRegion;
       var zipcode = this.inputZipcode;
       var country = this.inputCountry;
-      var address3 = (city+'|'+region+'|'+zipcode+'|'+country);
+      var address3 = city + '|' + region + '|' + zipcode + '|' + country;
+      var spendStatus = this.inputSpendCredits;
 
-      this.store.findRecord('user',
-        this.get('session.data.authenticated.user_id')).then((user) => {
+      this.store
+        .findRecord('user', this.get('session.data.authenticated.user_id'))
+        .then(user => {
           // Modify record pulled from db to variable
           user.set('addressLine1', address1);
           user.set('addressLine2', address2);
@@ -511,86 +538,120 @@ questionsList: [
           user.set('bitcoinAddress', bitcoinAddress);
 
           // Save record to db
-          user.save().then(() => {
-            console.log('submitPayoutSettings saved');
-            jQuery('[id=payoutsettingsubmit]').text('');
-            jQuery('[id=payoutsettingsubmit]').addClass('fa fa-check');
-          }).catch((reason) => {
-            console.log('error saving user record: ' + reason);
-            this.set('errorMessage', reason.errors || reason);
-          });
-      }).catch((reason) => {
-        console.log('error finding user record: ' + reason);
-        this.set('errorMessage', reason.errors || reason);
-      });
+          user
+            .save()
+            .then(() => {
+              console.log('submitPayoutSettings saved');
+              jQuery('[id=payoutsettingsubmit]').text('');
+              jQuery('[id=payoutsettingsubmit]').addClass('fa fa-check');
+            })
+            .catch(reason => {
+              console.log('error saving user record: ' + reason);
+              this.set('errorMessage', reason.errors || reason);
+            });
+        })
+        .catch(reason => {
+          console.log('error finding user record: ' + reason);
+          this.set('errorMessage', reason.errors || reason);
+        });
     },
 
     submitEmailChange() {
-      if (this.get('inputnewemailAddress') == this.get('inputnewemailAddressConfirm')) {
-        this.store.findRecord('user',
-          this.get('session.data.authenticated.user_id')).then((user) => {
+      if (
+        this.get('inputnewemailAddress') ==
+        this.get('inputnewemailAddressConfirm')
+      ) {
+        this.store
+          .findRecord('user', this.get('session.data.authenticated.user_id'))
+          .then(user => {
             // Modify record pulled from db to variable
             user.set('email', this.get('inputnewemailAddress'));
             user.set('currentPassword', this.get('inputEmailCurrentPassword'));
             // Save record to db
-            user.save().then(() => {
-              this.currentUser.set('errorMessages',
-                [{ title: 'Email changed',
-                detail: 'Your email address has been changed, please check the confirmation email to complete the process.' }]);
-              console.log('submitEmailChange saved');
-              jQuery('[id=submitEmailChange]').text('');
-              jQuery('[id=submitEmailChange]').addClass('fa fa-check');
-            }).catch((reason) => {
-              this.model.rollbackAttributes();
-              console.log('error saving user record: ' + reason);
-              this.currentUser.set('errorMessages', reason.errors || reason);
-            });
-        }).catch((reason) => {
-          console.log('error finding user record: ' + reason);
-          this.currentUser.set('errorMessages', reason.errors || reason);
-        });
+            user
+              .save()
+              .then(() => {
+                this.currentUser.set('errorMessages', [
+                  {
+                    title: 'Email changed',
+                    detail:
+                      'Your email address has been changed, please check the confirmation email to complete the process.'
+                  }
+                ]);
+                console.log('submitEmailChange saved');
+                jQuery('[id=submitEmailChange]').text('');
+                jQuery('[id=submitEmailChange]').addClass('fa fa-check');
+              })
+              .catch(reason => {
+                this.model.rollbackAttributes();
+                console.log('error saving user record: ' + reason);
+                this.currentUser.set('errorMessages', reason.errors || reason);
+              });
+          })
+          .catch(reason => {
+            console.log('error finding user record: ' + reason);
+            this.currentUser.set('errorMessages', reason.errors || reason);
+          });
       } else {
-        this.currentUser.set('errorMessages',
-          [{ title: 'Email fields must match',
-          detail: 'The email fields must match.' }]);
+        this.currentUser.set('errorMessages', [
+          {
+            title: 'Email fields must match',
+            detail: 'The email fields must match.'
+          }
+        ]);
       }
     },
 
     submitPasswordChange() {
       if (this.get('inputnewpassword') == this.get('inputpasswordconfirm')) {
-        this.store.findRecord('user',
-          this.get('session.data.authenticated.user_id')).then((user) => {
+        this.store
+          .findRecord('user', this.get('session.data.authenticated.user_id'))
+          .then(user => {
             // Modify record pulled from db to variable
             user.set('password', this.get('inputnewpassword'));
-            user.set('currentPassword', this.get('inputPasswordCurrentPassword'));
+            user.set(
+              'currentPassword',
+              this.get('inputPasswordCurrentPassword')
+            );
             // Save record to db
-            user.save().then(() => {
-              this.currentUser.logIn(this.get('session.data.authenticated.login'),
-                this.get('inputnewpassword'))
-              this.currentUser.set('errorMessages',
-                [{ title: 'Password changed',
-                detail: 'Your password has been changed.' }]);
-              console.log('submitPasswordChange saved');
-              jQuery('[id=submitPasswordChange]').text('');
-              jQuery('[id=submitPasswordChange]').addClass('fa fa-check');
-              // Ember.run.later((function() {
-              //   //do something in here that will run in 2 seconds
+            user
+              .save()
+              .then(() => {
+                this.currentUser.logIn(
+                  this.get('session.data.authenticated.login'),
+                  this.get('inputnewpassword')
+                );
+                this.currentUser.set('errorMessages', [
+                  {
+                    title: 'Password changed',
+                    detail: 'Your password has been changed.'
+                  }
+                ]);
+                console.log('submitPasswordChange saved');
+                jQuery('[id=submitPasswordChange]').text('');
+                jQuery('[id=submitPasswordChange]').addClass('fa fa-check');
+                // Ember.run.later((function() {
+                //   //do something in here that will run in 2 seconds
 
-              // }), 2000);
-
-            }).catch((reason) => {
-              this.model.rollbackAttributes();
-              console.log('error saving user record: ' + reason);
-              this.currentUser.set('errorMessages', reason.errors || reason);
-            });
-        }).catch((reason) => {
-          console.log('error finding user record: ' + reason);
-          this.currentUser.set('errorMessages', reason.errors || reason);
-        });
+                // }), 2000);
+              })
+              .catch(reason => {
+                this.model.rollbackAttributes();
+                console.log('error saving user record: ' + reason);
+                this.currentUser.set('errorMessages', reason.errors || reason);
+              });
+          })
+          .catch(reason => {
+            console.log('error finding user record: ' + reason);
+            this.currentUser.set('errorMessages', reason.errors || reason);
+          });
       } else {
-        this.currentUser.set('errorMessages',
-          [{ title: 'Password fields must match',
-          detail: 'The password fields must match.' }]);
+        this.currentUser.set('errorMessages', [
+          {
+            title: 'Password fields must match',
+            detail: 'The password fields must match.'
+          }
+        ]);
       }
     },
 
@@ -602,31 +663,51 @@ questionsList: [
       var answer1 = this.inputAnswer1;
       var answer2 = this.inputAnswer2;
       var answer3 = this.inputAnswer3;
-      var updateSecurityQuestions = (question1+'|'+answer1+'|'+question2+'|'+answer2+'|'+question3+'|'+answer3);
+      var updateSecurityQuestions =
+        question1 +
+        '|' +
+        answer1 +
+        '|' +
+        question2 +
+        '|' +
+        answer2 +
+        '|' +
+        question3 +
+        '|' +
+        answer3;
 
-      this.store.findRecord('user',
-        this.get('session.data.authenticated.user_id')).then((user) => {
+      this.store
+        .findRecord('user', this.get('session.data.authenticated.user_id'))
+        .then(user => {
           // Modify record pulled from db to variable
           user.set('securityQuestions', updateSecurityQuestions);
-          user.set('currentPassword',
-            this.get('inputSecurityQuestionCurrentPassword'));
+          user.set(
+            'currentPassword',
+            this.get('inputSecurityQuestionCurrentPassword')
+          );
           // Save record to db
-          user.save().then(() => {
-            this.currentUser.set('errorMessages',
-              [{ title: 'Security questions updated',
-              detail: 'Your security questions have been updated.' }]);
-            console.log('submitSecuritySettings saved');
-            jQuery('[id=submitSecuritySettings]').text('');
-            jQuery('[id=submitSecuritySettings]').addClass('fa fa-check');
-          }).catch((reason) => {
-            console.log('error saving user record: ' + reason);
-            this.currentUser.set('errorMessages', reason.errors || reason);
-          });
-      }).catch((reason) => {
-        console.log('error finding user record: ' + reason);
-        this.set('errorMessage', reason.error || reason);
-      });
-    },
+          user
+            .save()
+            .then(() => {
+              this.currentUser.set('errorMessages', [
+                {
+                  title: 'Security questions updated',
+                  detail: 'Your security questions have been updated.'
+                }
+              ]);
+              console.log('submitSecuritySettings saved');
+              jQuery('[id=submitSecuritySettings]').text('');
+              jQuery('[id=submitSecuritySettings]').addClass('fa fa-check');
+            })
+            .catch(reason => {
+              console.log('error saving user record: ' + reason);
+              this.currentUser.set('errorMessages', reason.errors || reason);
+            });
+        })
+        .catch(reason => {
+          console.log('error finding user record: ' + reason);
+          this.set('errorMessage', reason.error || reason);
+        });
+    }
   }
-
 });

@@ -5,15 +5,18 @@ import RSVP from 'rsvp';
 export default Route.extend(AuthenticatedRouteMixin, {
   model() {
     return RSVP.hash({
-      user: this.store.findRecord('user', this.get('session.data.authenticated.user_id')),
-      userPublicDatum: this.store.queryRecord('user-public-datum',
-        { username: this.get('session.data.authenticated.username') })
+      user: this.store.findRecord(
+        'user',
+        this.get('session.data.authenticated.user_id')
+      ),
+      userPublicDatum: this.store.queryRecord('user-public-datum', {
+        username: this.get('session.data.authenticated.username')
+      })
     });
-
-  },
-
-  setupController(controller,model) {
-    this._super(controller, model);
-
   }
+
+  // setupController(controller,model) {
+  //   this._super(controller, model);
+  //
+  // }
 });

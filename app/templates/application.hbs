@@ -17,17 +17,14 @@
       <img src="/logo.svg" height="32px" width ="32px">
     {{/link-to}}
   </div>
-  <!-- Collect the nav links, forms, and other content for toggling -->
+  {{!-- Collect the nav links, forms, and other content for toggling --}}
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav ml-auto" >
       {{#if session.isAuthenticated}}
         {{#if this.currentUser.user.spendsCredits}}
           <li><button class=" btn btn-outline-dark border-0 px-2 mx-1"  data-toggle="modal" data-target="#buyCreditsModal" >  <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></button></li>
         {{/if}}
-
         {{#if this.currentUser.isContracted}}
-
-
           <li>
             {{#link-to "account.dashboard" class=" btn btn-outline-dark border-0 px-2 mx-1"}}
               <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i>
@@ -42,7 +39,7 @@
         {{/if}}
       {{/if}}
     </ul>
-  </div><!-- /.navbar-collapse -->
+  </div>{{!-- /.navbar-collapse --}}
 
         {{#if session.isAuthenticated}}
     <ul class="nav navbar-nav ml-auto" >
@@ -81,17 +78,18 @@
        </ul>
 
          {{else}}
-           <a id="login-button" class="btn d-block mr-1 mt-1 mt-sm-0" role="button" data-toggle="modal" data-target="#loginModal"  aria-expanded="false" {{action this.currentUser.setupModal}}>Log In</a>
+           <a id="login-button" class="btn d-block mr-1 mt-1 mt-sm-0" role="button" data-toggle="modal" data-target="#loginModal"  aria-expanded="false">Log In</a>
 
          {{/if}}
 </nav>
 {{! dummy navbar for padding}}
 <nav class="navbar navbar-default navbar-expand-sm pl-1 pr-1">
 </nav>
-<!-- on page alert attempt
+{{!-- on page alert attempt
 <div class="alert alert-info text-center" role="alert">Welcome {{currentUser.username}}! Click <a href="/account">Here</a> to configure your email settings. (You can do this any time from your account page)</div>
--->
-  {{outlet}}
+--}}
+
+{{outlet}}
 
 <footer class="footer">
 

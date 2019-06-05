@@ -6,11 +6,15 @@
 </div>
 <div class="row m-0 pb-3">
   <div class="col">
-  <h4>Are you sure you would like to close your account?</h4>
+  <h4>Are you sure you would like to close your account?
+    <br>ANY CREDITS YOU HAVE WILL BE LOST</h4>
+    {{error-display}}
 
-    <div class="form-group w-50">
-      Please enter "close my account" below:
-      {{input type="text" class="form-control" value=inputCloseAccount }}
+    <div class="form-group w-75">
+      Please enter "{{accountCloseConfirmationPhrase}}" below, without quotes:
+      {{input type="text" class="form-control" value=inputCloseAccount data-lpignore="true"}}
+      Please enter your password:
+      {{input type="password" class="form-control w-50" value=inputCurrentPassword }}
     </div>
   </div>
 </div>
@@ -18,7 +22,7 @@
   <div class="col">
     {{link-to "No, Go Back" "account"  class="btn btn-outline-dark mr-5" }}
 
-     <button class="btn btn-primary ml-5">Yes, Close Account</button>
+     <button {{action "closeAccount"}} class="btn btn-primary ml-5">Yes, Close Account</button>
   </div>
 </div>
 </div>

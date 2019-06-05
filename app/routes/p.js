@@ -1,11 +1,10 @@
-
 import Route from '@ember/routing/route';
 
-export default Route.extend( {
-
+export default Route.extend({
   model(params) {
-    return this.store.queryRecord('user-public-datum',
-      { username: params.username });
+    return this.store.queryRecord('user-public-datum', {
+      username: params.username
+    });
   },
 
   setupController(controller, model) {
@@ -19,21 +18,19 @@ export default Route.extend( {
       controller.set('tempSexSelection', 'Female');
     } else if (model.get('profileSex') == 'Hide') {
       controller.set('tempSexSelection', 'Hide');
-
-    }else{
+    } else {
       controller.set('tempSexSelection', 'Other');
       controller.set('tempSexText', model.get('profileSex'));
       controller.set('checkOtherSex', true);
     }
     // Set up user tags
     if (model.get('userCustomTags') != null) {
-        if ( model.get('userCustomTags') == ""){
-          controller.set('tags', []);
-        }else{
-          console.log('tags found');
-                controller.set('tags', model.get('userCustomTags').split(","));
-        }
+      if (model.get('userCustomTags') == '') {
+        controller.set('tags', []);
+      } else {
+        console.log('tags found');
+        controller.set('tags', model.get('userCustomTags').split(','));
+      }
     }
   }
-
 });
