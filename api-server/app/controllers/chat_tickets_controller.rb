@@ -16,7 +16,7 @@ class ChatTicketsController < ApplicationController
         @chat_ticket.destroy
       else
         puts 'no ticket'
-        render status: :unprocessable_entity
+        render status: :not_found
       end
     else
       puts 'nothing here'

@@ -4,9 +4,9 @@ class UserMailer < Devise::Mailer
   default template_path: 'devise/mailer' # to make sure that your mailer uses the devise views
   default from: '"Saber" <noreply@saber.tv>'
 
+
   def deletion_email
     @user = params[:user]
-    # @url  = 'http://example.com/login'
     mail(to: @user.email, subject: 'Your account has been marked for deletion')
   end
 
