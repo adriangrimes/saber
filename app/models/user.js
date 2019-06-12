@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import { not as computedNot, or as computedOr } from '@ember/object/computed';
 
 export default DS.Model.extend({
   changeTracker: { auto: true, only: ['uploadedIdentification'] }, // settings for user models
@@ -23,7 +24,7 @@ export default DS.Model.extend({
 
   // Site settings
   darkMode: DS.attr('boolean'),
-  sendEmailFavoritesOnline: DS.attr('boolean'),
+  sendEmailFollowedOnline: DS.attr('boolean'),
   sendEmailSiteNews: DS.attr('boolean'),
   privateMessageEmailNotifications: DS.attr('boolean'),
   privateUserNotes: DS.attr('string'),
@@ -43,5 +44,9 @@ export default DS.Model.extend({
   bankRoutingNumber: DS.attr('string'),
   subjectToBackupWithholding: DS.attr('boolean'),
 
-  uploadedIdentification: DS.attr('activestorage')
+  uploadedIdentification: DS.attr('activestorage'),
+
+  // Computed properties
+  isContracted: computedOr('{broadcaster,developer,affiliate}'),
+  isPlayer: computedNot('isContracted')
 });

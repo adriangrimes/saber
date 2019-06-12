@@ -16,6 +16,22 @@ export default Controller.extend({
 
   tipToggled:false,
   isFavorite: false,
+  tipAmountOptions: 10,
+  tipToggleIcon: "fa fa-bars",
+  copyUrlBtnIcon: "fa fa-link",
+
+  videoPanel: "col-12 col-sm-8 p-0 m-0 mb-2 order-1",
+  chatPanel: "col-12 col-sm-4 p-0 order-2",
+  gamePanel: "card-body order-3 p-1 pt-4",
+
+
+  simpleTipForm: "d-flex input-group-prepend",
+  tipForm: " d-none input-group-prepend",
+  gameSuggestionPanel: "d-none card-body p-1",
+  gamePlayingPanel: "d-none card-body p-1 ",
+  gameOptionsPanel: "d-none",
+  viewProfileCollapse: "collapse show",
+  editProfileCollapse: "collapse",
 
   init: function() {
     this._super(...arguments);
@@ -66,6 +82,7 @@ export default Controller.extend({
               this.set('tempSexText', '');
             }
             // Close profile edit panel
+
             jQuery('[id=viewProfileCollapse]').addClass('show');
             jQuery('[id=editProfileCollapse]').removeClass('show');
           }).catch((response) => {
@@ -118,170 +135,19 @@ export default Controller.extend({
       this.set('inputGame', game);
 
     },
-
-
-
-
-
     toggleFollow(/*user*/){
       this.toggleProperty('isFollowed');
       console.log(this.get('isFollowed'));
     },
-    confirmTip(){
-        // hide tip forms
-          jQuery('[id=tip-form]').removeClass('d-flex');
-          jQuery('[id=tip-form]').addClass('d-none');
-          jQuery('[id=simple-tip-form]').removeClass('d-flex');
-          jQuery('[id=simple-tip-form]').addClass('d-none');
-        // Show Tip Confirm Form
-
-          jQuery('[id=confirm-tip-form]').removeClass('d-none');
-          jQuery('[id=confirm-tip-form]').addClass('d-flex');
-
-    },
-    cancelTip(){
-
-      //Hide Confirm Tip
-
-      jQuery('[id=confirm-tip-form]').removeClass('d-flex');
-      jQuery('[id=confirm-tip-form]').addClass('d-none');
-      //Then Show the last tip form
-      if(this.tipToggled){
-
-          jQuery('[id=tip-form]').removeClass('d-none');
-          jQuery('[id=tip-form]').addClass('d-flex');
-          jQuery('[id=simple-tip-form]').removeClass('d-flex');
-          jQuery('[id=simple-tip-form]').addClass('d-none');
-          jQuery('[id=tip-toggle]').removeClass('fa-bars');
-          jQuery('[id=tip-toggle]').addClass('fa-chevron-right');
-
-          jQuery('[id=profileControls]').addClass('large-controls');
-      }else{
-        jQuery('[id=tip-form]').removeClass('d-flex');
-        jQuery('[id=tip-form]').addClass('d-none');
-        jQuery('[id=simple-tip-form]').removeClass('d-none');
-        jQuery('[id=simple-tip-form]').addClass('d-flex');
-
-        jQuery('[id=tip-toggle]').removeClass('fa-chevron-right');
-        jQuery('[id=tip-toggle]').addClass('fa-bars');
-
-        jQuery('[id=profileControls]').removeClass('large-controls');
-      }
-    },
-    sendTip(){
-
-      //Hide Confirm Tip
-
-      jQuery('[id=confirm-tip-form]').removeClass('d-flex');
-      jQuery('[id=confirm-tip-form]').addClass('d-none');
-      //Then Show the last tip form
-      if(this.tipToggled){
-
-          jQuery('[id=tip-form]').removeClass('d-none');
-          jQuery('[id=tip-form]').addClass('d-flex');
-          jQuery('[id=simple-tip-form]').removeClass('d-flex');
-          jQuery('[id=simple-tip-form]').addClass('d-none');
-          jQuery('[id=tip-toggle]').removeClass('fa-bars');
-          jQuery('[id=tip-toggle]').addClass('fa-chevron-right');
-
-          jQuery('[id=profileControls]').addClass('large-controls');
-      }else{
-        jQuery('[id=tip-form]').removeClass('d-flex');
-        jQuery('[id=tip-form]').addClass('d-none');
-        jQuery('[id=simple-tip-form]').removeClass('d-none');
-        jQuery('[id=simple-tip-form]').addClass('d-flex');
-
-        jQuery('[id=tip-toggle]').removeClass('fa-chevron-right');
-        jQuery('[id=tip-toggle]').addClass('fa-bars');
-
-        jQuery('[id=profileControls]').removeClass('large-controls');
-
-      }
-
-    },
 
 
-
-    confirmJoinGame(){
-        // hide join game button
-        jQuery('[id=join-game-button]').addClass('d-none');
-        jQuery('[id=join-game-button]').removeClass('d-block');
-        jQuery('[id=join-game-button-sm]').removeClass('d-sm-block');
-        jQuery('[id=join-game-button-sm]').addClass('d-sm-none');
-
-        jQuery('[id=suggest-game-button]').removeClass('d-block');
-        jQuery('[id=suggest-game-button]').addClass('d-none');
-        // Show Join Game Confirm Form
-        jQuery('[id=confirm-join-game-form]').removeClass('d-none');
-        jQuery('[id=confirm-join-game-form]').addClass('d-flex');
-        jQuery('[id=confirm-join-game-form-sm]').removeClass('d-sm-none');
-        jQuery('[id=confirm-join-game-form-sm]').addClass('d-sm-flex');
-    },
-    cancelJoinGame(){
-
-      // Show join game button
-      jQuery('[id=join-game-button]').removeClass('d-none');
-      jQuery('[id=join-game-button]').addClass('d-block');
-      jQuery('[id=join-game-button-sm]').addClass('d-sm-block');
-      jQuery('[id=join-game-button-sm]').removeClass('d-sm-none');
-
-      jQuery('[id=suggest-game-button]').addClass('d-block');
-      jQuery('[id=suggest-game-button]').removeClass('d-none');
-      // Hide Join Game Confirm Form
-      jQuery('[id=confirm-join-game-form]').addClass('d-none');
-      jQuery('[id=confirm-join-game-form]').removeClass('d-flex');
-      jQuery('[id=confirm-join-game-form-sm]').addClass('d-none');
-      jQuery('[id=confirm-join-game-form-sm]').removeClass('d-sm-flex');
-
-    },
-    joinGame(){
-
-      jQuery('[id=game-entry-panel]').addClass('d-none');
-      jQuery('[id=game-entry-panel]').removeClass('d-block');
-      jQuery('[id=game-playing-panel]').addClass('d-block');
-      jQuery('[id=game-playing-panel]').removeClass('d-none');
-
-      jQuery('[id=game-panel]').addClass('order-2');
-      jQuery('[id=chat-panel]').addClass('order-3');
-
-      jQuery('[id=game-panel]').removeClass('order-3');
-      jQuery('[id=chat-panel]').removeClass('order-2');
-
-      jQuery('[id=video-panel]').height(300);
-      jQuery('[id=chat-body]').height(200);
-      jQuery('[id=users-body]').height(200);
-
-      jQuery('[id=video-panel]').removeClass('col-sm-8');
-      jQuery('[id=video-panel]').addClass('col-sm-6');
-
-      jQuery('[id=chat-panel]').removeClass('col-sm-4');
-      jQuery('[id=chat-panel]').addClass('col-sm-6');
-
-      jQuery('[id=game-options-panel]').addClass('d-block');
-      jQuery('[id=game-options-panel]').removeClass('d-none');
-
-
-    },
     endGame(){
-      jQuery('[id=game-entry-panel]').removeClass('d-none');
-      jQuery('[id=game-entry-panel]').addClass('d-block');
-      jQuery('[id=game-playing-panel]').removeClass('d-block');
-      jQuery('[id=game-playing-panel]').addClass('d-none');
+      this.set('gamePlayingPanel', "d-none card-body p-1")
 
-      jQuery('[id=game-panel]').addClass('order-3');
-      jQuery('[id=chat-panel]').addClass('order-2');
-
-      jQuery('[id=game-panel]').removeClass('order-2');
-      jQuery('[id=chat-panel]').removeClass('order-4');
-
-      jQuery('[id=video-panel]').addClass('col-sm-8');
-      jQuery('[id=video-panel]').removeClass('col-sm-6');
-
-      jQuery('[id=chat-panel]').addClass('col-sm-4');
-      jQuery('[id=chat-panel]').removeClass('col-sm-6');
-
-      jQuery('[id=game-options-panel]').removeClass('d-block');
-      jQuery('[id=game-options-panel]').addClass('d-none');
+      this.set('videoPanel', "col-12 col-sm-8 p-0 m-0 mb-2 order-1")
+      this.set('chatPanel', "col-12 col-sm-4 p-0 order-2");
+      this.set('gamePanel', "card-body order-3 p-1 pt-4")
+      this.set('gameOptionsPanel', "d-none");
 
       jQuery('[id=video-panel]').height(406);
 
@@ -289,84 +155,33 @@ export default Controller.extend({
         if (windowsize > 576) {
           jQuery('[id=chat-body]').height(344);
           jQuery('[id=users-body]').height(408);
-
         }
-
       this.send('cancelJoinGame');
     },
 
-
-    confirmJoinPrivate(){
-        // hide join game button
-        jQuery('[id=join-private-button]').addClass('d-none');
-        jQuery('[id=join-private-button]').removeClass('d-flex');
-
-        // Show Join Game Confirm Form
-        jQuery('[id=confirm-join-private-form]').removeClass('d-none');
-        jQuery('[id=confirm-join-private-form]').addClass('d-flex');
-    },
-    cancelJoinPrivate(){
-
-      // hide join game button
-      jQuery('[id=join-private-button]').removeClass('d-none');
-      jQuery('[id=join-private-button]').addClass('d-flex');
-      // Show Join Game Confirm Form
-      jQuery('[id=confirm-join-private-form]').addClass('d-none');
-      jQuery('[id=confirm-join-private-form]').removeClass('d-flex');
-
-    },
-    joinPrivate(){
-
-    },
-
     sendMessage(){
-
+      console.log("action sendMessage Triggered");
     },
 
     openSuggestionPanel(){
-      jQuery('[id=game-entry-panel]').addClass('d-none');
-      jQuery('[id=game-entry-panel]').removeClass('d-block');
-      jQuery('[id=game-suggestion-panel]').addClass('d-block');
-      jQuery('[id=game-suggestion-panel]').removeClass('d-none');
+      this.set('gameSuggestionPanel', "d-block card-body p-1");
     },
     closeSuggestionPanel(){
-      jQuery('[id=game-entry-panel]').removeClass('d-none');
-      jQuery('[id=game-entry-panel]').addClass('d-block');
-      jQuery('[id=game-suggestion-panel]').removeClass('d-block');
-      jQuery('[id=game-suggestion-panel]').addClass('d-none');
+      this.set('gameSuggestionPanel', "d-none card-body p-1");
     },
 
-
-
     tipToggle(){
-
       if(this.tipToggled){
-        jQuery('[id=tip-form]').removeClass('d-flex');
-        jQuery('[id=simple-tip-form]').removeClass('d-none');
-          jQuery('[id=tip-form]').addClass('d-none');
-          jQuery('[id=simple-tip-form]').addClass('d-flex');
-
-          jQuery('[id=tip-toggle]').removeClass('fa-chevron-right');
-          jQuery('[id=tip-toggle]').addClass('fa-bars');
-
-          jQuery('[id=profileControls]').removeClass('large-controls');
-
-
-        this.set('tipToggled', false);
+          this.set('tipToggleIcon', "fa fa-bars");
+          this.set('simpleTipForm', "d-flex input-group-prepend");
+          this.set('tipForm', "d-none input-group-prepend");
+          this.set('tipToggled', false);
       }else{
-        jQuery('[id=tip-form]').removeClass('d-none');
-        jQuery('[id=simple-tip-form]').removeClass('d-flex');
-          jQuery('[id=tip-form]').addClass('d-flex');
-          jQuery('[id=simple-tip-form]').addClass('d-none');
-          jQuery('[id=tip-toggle]').removeClass('fa-bars');
-          jQuery('[id=tip-toggle]').addClass('fa-chevron-right');
-
-          jQuery('[id=profileControls]').addClass('large-controls');
-
-        this.set('tipToggled', true);
+          this.set('tipToggleIcon', "fa fa-chevron-right");
+          this.set('simpleTipForm', "d-none input-group-prepend");
+          this.set('tipForm', "d-flex input-group-prepend");
+          this.set('tipToggled', true);
       }
-
-
     },
     copyUrlToClipboard(){
       /* Get the text field */
@@ -379,13 +194,11 @@ export default Controller.extend({
       document.execCommand("Copy");
 
       /* notify the user */
-
-      jQuery('[id=copyUrlBtn]').removeClass('fa-link');
-      jQuery('[id=copyUrlBtn]').addClass('fa-check');
+      this.set('copyUrlBtnIcon', "fa fa-check");
 
       setTimeout(function() {
-      jQuery('[id=copyUrlBtn]').removeClass('fa-check');
-      jQuery('[id=copyUrlBtn]').addClass('fa-link');
+        this.set('copyUrlBtnIcon', "fa fa-link");
+
       }, 3000);
 
 

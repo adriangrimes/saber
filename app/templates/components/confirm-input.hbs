@@ -1,0 +1,33 @@
+
+
+<div class={{this.showButton}}>
+
+  <div class="input-group-append">
+    <div class="btn btn-primary border-0 px-2 profile-buttons input-group-append"
+      {{action "openConfirm"}}>
+      {{button-title}}
+    </div>
+  </div>
+</div>
+
+<div class=" pb-2 mr-1 ">
+
+  <div class={{this.showConfirm}}>
+    {{#if titleDetail}}
+      <h5 class="pl-2 pr-3 pt-1" >{{title}} {{titleDetail}}?</h5>
+    {{else}}
+      <h5 class="pl-2 pr-3 pt-1" >{{title}}</h5>
+    {{/if}}
+      <button class="btn btn-success border-0 mr-2"
+        {{action "confirmInput"}}>
+        <span class="fa fa-check"></span>
+      </button>
+      <button class="btn btn-danger border-0 "
+        {{action "cancelInput"}}>
+        <span class="fa fa-times"></span>
+      </button>
+  </div>
+
+</div>
+
+{{yield}}

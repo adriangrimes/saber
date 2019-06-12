@@ -166,7 +166,7 @@ a {
   height: 65px;
 }
 #privateUserNotes{
-height: 8rem; 
+height: 8rem;
 }
 
 .userTypeBadges{
@@ -728,7 +728,7 @@ border-radius:0px;
       border:0px;
   }
 
-  .game-panel{
+  #game-panel{
     height:300px;
 
   }
@@ -834,7 +834,7 @@ border-radius:0px;
 .chat-tab{
   font-size: 24px;
   text-align: center;
-  width: 100px;
+  width: 65px;
   height: 65px;
  padding-left: .5rem;
  padding-right: .5rem;
@@ -968,7 +968,7 @@ border-radius:0px;
 
 
 .chat-body{
-  height:530px;
+  height:100%;
 
 }
 .users-body{
@@ -977,7 +977,7 @@ border-radius:0px;
 
 }
 #chat-panel{
-  height: 650px;
+  height: 100%;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   border-left-style: none;
@@ -990,13 +990,15 @@ border-radius:0px;
 }
 
 #video-panel{
-    height: 650px;
+    height: 100%;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
     border:0px;
 
 }
-
+#video-row{
+  height: 650px;
+}
 
   .chat-divide{
     background:#FFFFFF;

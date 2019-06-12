@@ -4,8 +4,8 @@
 
 {{#if model.broadcaster}}
       <!--- Video and Chat Panels -->
-  <div class="row m-0 mb-4">
-    <div class="col-12 col-sm-8 p-0 m-0 mb-2 order-1"  id="video-panel">
+  <div class="row m-0 mb-4" id="video-row">
+    <div class={{this.videoPanel}} id="video-panel">
       <div class="row pt-3 m-0" id="usernameRow">
         <div class ="col-10 pb-0" >
             <h4 id="usernameDisplay">
@@ -49,7 +49,7 @@
               <div class="input-group w-100" {{action "copyUrlToClipboard"}}>
                  <input type="text" autocomplete="off" class="form-control " id="urlDisplay" value="https://saber.tv/p/{{model.user_id}}">
                  <div class="input-group-append">
-                   <button class="btn btn-primary btn-sm" type="button"><span id="copyUrlBtn" class="fa fa-link"></span></button>
+                   <button class="btn btn-primary btn-sm" type="button"><span id="copyUrlBtn" class={{this.copyUrlBtnIcon}}></span></button>
                  </div>
               </div>
           </div>
@@ -62,66 +62,56 @@
             <embed src="/testimg.jpg" width="100%" height="100%">
                     </div>
         <div class="profile-controls pt-1" id="profileControls">
-              {{#if currentUser.user.spendsCredits}}
-              <div class="btn-toolbar justify-content-between" role="toolbar" >
+              <div class="btn-toolbar justify-content-between ml-2 mr-1" role="toolbar" >
 
+                      <div class="input-group d-flex" >
+                        <div class="input-group-prepend "  >
+                          <button class="btn btn-dark border-0 px-2 profile-buttons"  type="button"  title="Tip Options" {{action "tipToggle"}}><span class={{this.tipToggleIcon}}></span></button>
+                        </div>
+                        <div class={{this.simpleTipForm}}>
 
-                      <div class="input-group  d-flex " id="simple-tip-form">
+                               <label class="btn btn-dark px-2">
+                                 {{radio-button value=10 id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
+                                   10
+                               </label>
+                               <label class="btn btn-dark px-2 d-none d-sm-block ">
+                                 {{radio-button value=25 id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
+                                   25
+                               </label>
+                               <label class="btn btn-dark px-2">
+                                 {{radio-button value=50 id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
+                                   50
+                                 </label>
+                               <label class="btn btn-dark  px-2 d-none d-sm-block">
+                                 {{radio-button value=100 id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
+                                   100
+                               </label>
+                          </div>
+                          <div class={{this.tipForm}} >
+                                <div style="width:130px" >
+                                  {{input type="number" class="form-control" min="1" max="10000" value=tipAmountOptions }}
+                                </div>
+                                <div class="w-75" >
+                                {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Chat note (optional)" }}
+                                </div>
+                          </div>
 
-                        <div class="input-group-prepend " >
-                          <button class="btn btn-dark border-0 px-0 profile-buttons"  type="button"  title="Tip Options" {{action "tipToggle"}}><span class="fa fa-bars" id="tip-toggle" ></span></button>
-
-                           <label class="btn btn-dark px-2">
-                             {{radio-button value=10 id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
-                               10
-                           </label>
-                           <label class="btn btn-dark px-2 d-none d-sm-block ">
-                             {{radio-button value=25 id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
-                               25
-                           </label>
-                           <label class="btn btn-dark px-2">
-                             {{radio-button value=50 id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
-                               50
-                             </label>
-                           <label class="btn btn-dark  px-2 d-none d-sm-block">
-                             {{radio-button value=100 id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
-                               100
-                           </label>
-                              </div>
-                           <div class="input-group-append mr-1 profile-buttons"   >
-                             <button class="btn btn-primary border-0" {{action "confirmTip" }}>Tip</button>
-                         </div>
+                             {{confirm-input type="tip" title="Tip" titleDetail=this.tipAmountOptions button-title="Tip"}}
 
                     </div>
 
-                  <div class=" justify-content-end d-none pt-2 pt-sm-0 pb-2" id="tip-form" >
-                    <button class="btn btn-dark border-0 px-0 ml-1 profile-buttons"  type="button"  title="Tip Options" {{action "tipToggle"}}><span class="fa fa-bars" id="tip-toggle" ></span></button>
 
-                      <div style="width:130px" >
-                        {{input type="number" class="form-control" min="1" max="10000" value=tipAmountOptions }}
-                      </div>
-                      <div class="w-75" >
-                      {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Chat note (optional)" }}
-                      </div>
-                      <div class="input-group-append mr-1 ">
-                        <div class="btn-group profile-buttons"  role="group" >
-                          <button class="btn btn-primary border-0" {{action "confirmTip" }}>Tip</button>
-                        </div>
-                      </div>
-                </div>
-                <div class=" justify-content-end d-none pt-1 pt-sm-0 pb-2 mr-1 float-right" id="confirm-tip-form" >
-                  <h5 class="pt-1 pr-2"> Tip {{tipAmountOptions}}<span class="fa fa-database" ></span> ?</h5>
-                  <button class="btn btn-success border-0 mr-2" {{action "sendTip" }}><span class="fa fa-check"></span></button>
-                  <button class="btn btn-danger border-0 " {{action "cancelTip" }}><span class="fa fa-times"></span></button>
 
-                </div>
+
               </div>
-            {{/if}}
         </div>
       </div>
-      <div class=" d-none" id="game-options-panel">
-        <div class="float-left btn-link"  title="Click to view rules and controls" data-toggle="modal" data-target="#rulesModal">
-        Rules and Controls
+      <div class={{this.gameOptionsPanel}} id="game-options-panel">
+        <div class="float-left btn-link"
+             title="Click to view rules and controls"
+             data-toggle="modal"
+             data-target="#rulesModal">
+                Rules and Controls
         </div>
         <div class=" float-right btn-link"  title="End Game Now" {{action "endGame"}} >
           End Game
@@ -130,7 +120,7 @@
     </div>
 
     {{! Chat Window }}
-    <div class="col-12 col-sm-4 p-0 order-2" id="chat-panel">
+    <div class={{this.chatPanel}} id="chat-panel">
 
       {{chat-component
         chatChannel=(lower-case model.username)
@@ -146,10 +136,12 @@
         {{!--
 
         <div class="card" >
+          <div class={{this.gamePlayingPanel}}>
+            <object width="100%" height="400"   data="/game.swf"></object>
           </div>
 
 
-            <div class="card-body p-1 pt-4 game-panel">
+            <div class={{this.gamePanel}} id="game-panel">
 
             <div class="row m-0">
               <div class="text-center col-xs-12 col-sm-4 btn-link"
@@ -163,30 +155,14 @@
 
               </div>
 
-              <div class="col-8">
-                <h4 id="gameHeading">8 Ball Pool</h4>
-                <b>If you win:</b> Long reward title is long yup.
-                <br>
-                <b>Consolation Prize:</b> No Pizza :(
-                <br>
-                <b>Entry Fee:</b> 100Cr
-                <br>
-                <b>Number of Players:</b> 2
-                <br>
-              </div>
             </div>
             <div class="row m-0 ">
               <div class="col-12 d-flex">
                 {{#if currentUser.user.spendsCredits}}
                 <div id="suggest-game-button" class="btn float-right btn-link" title="Suggest Game" {{action "openSuggestionPanel" }}>Suggest Game</div>
 
-                  <div class="d-none  ml-auto" id="confirm-join-game-form-sm" >
-                      <h5 class="pr-3 pt-1" >Join Game?</h5>
-                      <button class="btn btn-success border-0 mr-2" {{action "joinGame" }}><span class="fa fa-check"></span></button>
-                      <button class="btn btn-danger border-0 " {{action "cancelJoinGame" }}><span class="fa fa-times"></span></button>
-                  </div>
-                  <button id="join-game-button-sm" class="btn btn-primary ml-auto mr-3 mt-1 d-none d-sm-block" title="Play Game" {{action "confirmJoinGame" }}>Play Game</button>
-                {{else if (eq session.data.authenticated.username model.username)}}
+                {{confirm-input type="joinGame" title="Join Game?" button-title="Join Game"}}
+                  {{else if (eq session.data.authenticated.username model.username)}}
                 <div id="change-game-button" class="btn float-right btn-link" title="Change Game" {{action "openGameSettingsPanel" }}>Change Game</div>
 
                   <button id="start-game-button-sm" class="btn btn-primary ml-auto mr-3 mt-1 d-none d-sm-block" title="Start Game" {{action "startGameNow" }}>Start Game</button>
@@ -201,7 +177,7 @@
 
 
 
-              <div class="card-body p-1 d-none" id="game-suggestion-panel">
+              <div class={{this.gameSuggestionPanel}}>
                 <div class="row m-0 mb-2">
                   <div class="col-12  px-2">
 
@@ -217,10 +193,6 @@
                           {{name}}
                     {{/power-select}}
 
-                    <div class="form-group pt-2 ">
-                      <label for="inputPrize">Prize: </label>
-                      {{input type="text" class="form-control " value=inputPrize }}
-                    </div>
                   </div>
 
                 </div>
@@ -290,7 +262,7 @@
     <div class="row m-0 pt-4 pb-4">
           <div class="col-12 ">
             {{error-display}}
-            <div class="collapse show" id="viewProfileCollapse">
+            <div class={{this.viewProfileCollapse}} id="viewProfileCollapse">
               {{#if (eq session.data.authenticated.username model.username)}}
 
               <a align="right" class="edit-links" role="button" data-toggle="collapse"
@@ -349,7 +321,7 @@
               {{/if}}
             </div>
 
-            <div class="collapse" id="editProfileCollapse">
+            <div class={{{this.editProfileCollapse}}} id="editProfileCollapse">
               <form autocomplete="off"{{action "submitProfileSettings" on="submit"}}>
                 <div class="modal-body">
                   {{#if currentUser.user.broadcaster}}

@@ -3,8 +3,7 @@ import Controller from '@ember/controller';
 import $ from 'jquery';
 
 export default Controller.extend({
-
-  daysList:[
+  daysList: [
     '1',
     '2',
     '3',
@@ -35,9 +34,9 @@ export default Controller.extend({
     '28',
     '29',
     '30',
-    '31',
+    '31'
   ],
-  monthsList:[
+  monthsList: [
     'January',
     'February',
     'March',
@@ -49,9 +48,9 @@ export default Controller.extend({
     'September',
     'October',
     'November',
-    'December',
+    'December'
   ],
-  yearsList:[
+  yearsList: [
     '2020',
     '2019',
     '2018',
@@ -152,341 +151,383 @@ export default Controller.extend({
     '1923',
     '1922',
     '1921',
-    '1920',
+    '1920'
   ],
 
-
   countriesList: [
-  'United States',
-  'United Kingdom',
-  'Afghanistan',
-  'Albania',
-  'Algeria',
-  'American Samoa',
-  'Andorra',
-  'Angola',
-  'Anguilla',
-  'Antarctica',
-  'Antigua and Barbuda',
-  'Argentina',
-  'Armenia',
-  'Aruba',
-  'Australia',
-  'Austria',
-  'Azerbaijan',
-  'Bahamas',
-  'Bahrain',
-  'Bangladesh',
-  'Barbados',
-  'Belarus',
-  'Belgium',
-  'Belize',
-  'Benin',
-  'Bermuda',
-  'Bhutan',
-  'Bolivia',
-  'Bosnia and Herzegowina',
-  'Botswana',
-  'Bouvet Island',
-  'Brazil',
-  'British Indian Ocean Territory',
-  'Brunei Darussalam',
-  'Bulgaria',
-  'Burkina Faso',
-  'Burundi',
-  'Cambodia',
-  'Cameroon',
-  'Canada',
-  'Cape Verde',
-  'Cayman Islands',
-  'Central African Republic',
-  'Chad',
-  'Chile',
-  'China',
-  'Christmas Island',
-  'Cocos (Keeling) Islands',
-  'Colombia',
-  'Comoros',
-  'Congo',
-  'Congo, the Democratic Republic of the',
-  'Cook Islands',
-  'Costa Rica',
-  'Cote d Ivoire',
-  'Croatia (Hrvatska)',
-  'Cuba',
-  'Cyprus',
-  'Czech Republic',
-  'Denmark',
-  'Djibouti',
-  'Dominica',
-  'Dominican Republic',
-  'East Timor',
-  'Ecuador',
-  'Egypt',
-  'El Salvador',
-  'Equatorial Guinea',
-  'Eritrea',
-  'Estonia',
-  'Ethiopia',
-  'Falkland Islands (Malvinas)',
-  'Faroe Islands',
-  'Fiji',
-  'Finland',
-  'France',
-  'France, Metropolitan',
-  'French Guiana',
-  'French Polynesia',
-  'French Southern Territories',
-  'Gabon',
-  'Gambia',
-  'Georgia',
-  'Germany',
-  'Ghana',
-  'Gibraltar',
-  'Greece',
-  'Greenland',
-  'Grenada',
-  'Guadeloupe',
-  'Guam',
-  'Guatemala',
-  'Guinea',
-  'Guinea-Bissau',
-  'Guyana',
-  'Haiti',
-  'Heard and Mc Donald Islands',
-  'Holy See (Vatican City State)',
-  'Honduras',
-  'Hong Kong',
-  'Hungary',
-  'Iceland',
-  'India',
-  'Indonesia',
-  'Iran (Islamic Republic of)',
-  'Iraq',
-  'Ireland',
-  'Israel',
-  'Italy',
-  'Jamaica',
-  'Japan',
-  'Jordan',
-  'Kazakhstan',
-  'Kenya',
-  'Kiribati',
-  'Korea, Democratic Peoples Republic of',
-  'Korea, Republic of',
-  'Kuwait',
-  'Kyrgyzstan',
-  'Lao Peoples Democratic Republic',
-  'Latvia',
-  'Lebanon',
-  'Lesotho',
-  'Liberia',
-  'Libyan Arab Jamahiriya',
-  'Liechtenstein',
-  'Lithuania',
-  'Luxembourg',
-  'Macau',
-  'Macedonia, The Former Yugoslav Republic of',
-  'Madagascar',
-  'Malawi',
-  'Malaysia',
-  'Maldives',
-  'Mali',
-  'Malta',
-  'Marshall Islands',
-  'Martinique',
-  'Mauritania',
-  'Mauritius',
-  'Mayotte',
-  'Mexico',
-  'Micronesia, Federated States of',
-  'Moldova, Republic of',
-  'Monaco',
-  'Mongolia',
-  'Montserrat',
-  'Morocco',
-  'Mozambique',
-  'Myanmar',
-  'Namibia',
-  'Nauru',
-  'Nepal',
-  'Netherlands',
-  'Netherlands Antilles',
-  'New Caledonia',
-  'New Zealand',
-  'Nicaragua',
-  'Niger',
-  'Nigeria',
-  'Niue',
-  'Norfolk Island',
-  'Northern Mariana Islands',
-  'Norway',
-  'Oman',
-  'Pakistan',
-  'Palau',
-  'Panama',
-  'Papua New Guinea',
-  'Paraguay',
-  'Peru',
-  'Philippines',
-  'Pitcairn',
-  'Poland',
-  'Portugal',
-  'Puerto Rico',
-  'Qatar',
-  'Reunion',
-  'Romania',
-  'Russian Federation',
-  'Rwanda',
-  'Saint Kitts and Nevis',
-  'Saint LUCIA',
-  'Saint Vincent and the Grenadines',
-  'Samoa',
-  'San Marino',
-  'Sao Tome and Principe',
-  'Saudi Arabia',
-  'Senegal',
-  'Seychelles',
-  'Sierra Leone',
-  'Singapore',
-  'Slovakia (Slovak Republic)',
-  'Slovenia',
-  'Solomon Islands',
-  'Somalia',
-  'South Africa',
-  'South Georgia and the South Sandwich Islands',
-  'Spain',
-  'Sri Lanka',
-  'St. Helena',
-  'St. Pierre and Miquelon',
-  'Sudan',
-  'Suriname',
-  'Svalbard and Jan Mayen Islands',
-  'Swaziland',
-  'Sweden',
-  'Switzerland',
-  'Syrian Arab Republic',
-  'Taiwan, Province of China',
-  'Tajikistan',
-  'Tanzania, United Republic of',
-  'Thailand',
-  'Togo',
-  'Tokelau',
-  'Tonga',
-  'Trinidad and Tobago',
-  'Tunisia',
-  'Turkey',
-  'Turkmenistan',
-  'Turks and Caicos Islands',
-  'Tuvalu',
-  'Uganda',
-  'Ukraine',
-  'United Arab Emirates',
-  'United Kingdom',
-  'United States',
-  'United States Minor Outlying Islands',
-  'Uruguay',
-  'Uzbekistan',
-  'Vanuatu',
-  'Venezuela',
-  'Viet Nam',
-  'Virgin Islands (British)',
-  'Virgin Islands (U.S.)',
-  'Wallis and Futuna Islands',
-  'Western Sahara',
-  'Yemen',
-  'Yugoslavia',
-  'Zambia',
-  'Zimbabwe',
-],
+    'United States',
+    'United Kingdom',
+    'Afghanistan',
+    'Albania',
+    'Algeria',
+    'American Samoa',
+    'Andorra',
+    'Angola',
+    'Anguilla',
+    'Antarctica',
+    'Antigua and Barbuda',
+    'Argentina',
+    'Armenia',
+    'Aruba',
+    'Australia',
+    'Austria',
+    'Azerbaijan',
+    'Bahamas',
+    'Bahrain',
+    'Bangladesh',
+    'Barbados',
+    'Belarus',
+    'Belgium',
+    'Belize',
+    'Benin',
+    'Bermuda',
+    'Bhutan',
+    'Bolivia',
+    'Bosnia and Herzegowina',
+    'Botswana',
+    'Bouvet Island',
+    'Brazil',
+    'British Indian Ocean Territory',
+    'Brunei Darussalam',
+    'Bulgaria',
+    'Burkina Faso',
+    'Burundi',
+    'Cambodia',
+    'Cameroon',
+    'Canada',
+    'Cape Verde',
+    'Cayman Islands',
+    'Central African Republic',
+    'Chad',
+    'Chile',
+    'China',
+    'Christmas Island',
+    'Cocos (Keeling) Islands',
+    'Colombia',
+    'Comoros',
+    'Congo',
+    'Congo, the Democratic Republic of the',
+    'Cook Islands',
+    'Costa Rica',
+    'Cote d Ivoire',
+    'Croatia (Hrvatska)',
+    'Cuba',
+    'Cyprus',
+    'Czech Republic',
+    'Denmark',
+    'Djibouti',
+    'Dominica',
+    'Dominican Republic',
+    'East Timor',
+    'Ecuador',
+    'Egypt',
+    'El Salvador',
+    'Equatorial Guinea',
+    'Eritrea',
+    'Estonia',
+    'Ethiopia',
+    'Falkland Islands (Malvinas)',
+    'Faroe Islands',
+    'Fiji',
+    'Finland',
+    'France',
+    'France, Metropolitan',
+    'French Guiana',
+    'French Polynesia',
+    'French Southern Territories',
+    'Gabon',
+    'Gambia',
+    'Georgia',
+    'Germany',
+    'Ghana',
+    'Gibraltar',
+    'Greece',
+    'Greenland',
+    'Grenada',
+    'Guadeloupe',
+    'Guam',
+    'Guatemala',
+    'Guinea',
+    'Guinea-Bissau',
+    'Guyana',
+    'Haiti',
+    'Heard and Mc Donald Islands',
+    'Holy See (Vatican City State)',
+    'Honduras',
+    'Hong Kong',
+    'Hungary',
+    'Iceland',
+    'India',
+    'Indonesia',
+    'Iran (Islamic Republic of)',
+    'Iraq',
+    'Ireland',
+    'Israel',
+    'Italy',
+    'Jamaica',
+    'Japan',
+    'Jordan',
+    'Kazakhstan',
+    'Kenya',
+    'Kiribati',
+    'Korea, Democratic Peoples Republic of',
+    'Korea, Republic of',
+    'Kuwait',
+    'Kyrgyzstan',
+    'Lao Peoples Democratic Republic',
+    'Latvia',
+    'Lebanon',
+    'Lesotho',
+    'Liberia',
+    'Libyan Arab Jamahiriya',
+    'Liechtenstein',
+    'Lithuania',
+    'Luxembourg',
+    'Macau',
+    'Macedonia, The Former Yugoslav Republic of',
+    'Madagascar',
+    'Malawi',
+    'Malaysia',
+    'Maldives',
+    'Mali',
+    'Malta',
+    'Marshall Islands',
+    'Martinique',
+    'Mauritania',
+    'Mauritius',
+    'Mayotte',
+    'Mexico',
+    'Micronesia, Federated States of',
+    'Moldova, Republic of',
+    'Monaco',
+    'Mongolia',
+    'Montserrat',
+    'Morocco',
+    'Mozambique',
+    'Myanmar',
+    'Namibia',
+    'Nauru',
+    'Nepal',
+    'Netherlands',
+    'Netherlands Antilles',
+    'New Caledonia',
+    'New Zealand',
+    'Nicaragua',
+    'Niger',
+    'Nigeria',
+    'Niue',
+    'Norfolk Island',
+    'Northern Mariana Islands',
+    'Norway',
+    'Oman',
+    'Pakistan',
+    'Palau',
+    'Panama',
+    'Papua New Guinea',
+    'Paraguay',
+    'Peru',
+    'Philippines',
+    'Pitcairn',
+    'Poland',
+    'Portugal',
+    'Puerto Rico',
+    'Qatar',
+    'Reunion',
+    'Romania',
+    'Russian Federation',
+    'Rwanda',
+    'Saint Kitts and Nevis',
+    'Saint LUCIA',
+    'Saint Vincent and the Grenadines',
+    'Samoa',
+    'San Marino',
+    'Sao Tome and Principe',
+    'Saudi Arabia',
+    'Senegal',
+    'Seychelles',
+    'Sierra Leone',
+    'Singapore',
+    'Slovakia (Slovak Republic)',
+    'Slovenia',
+    'Solomon Islands',
+    'Somalia',
+    'South Africa',
+    'South Georgia and the South Sandwich Islands',
+    'Spain',
+    'Sri Lanka',
+    'St. Helena',
+    'St. Pierre and Miquelon',
+    'Sudan',
+    'Suriname',
+    'Svalbard and Jan Mayen Islands',
+    'Swaziland',
+    'Sweden',
+    'Switzerland',
+    'Syrian Arab Republic',
+    'Taiwan, Province of China',
+    'Tajikistan',
+    'Tanzania, United Republic of',
+    'Thailand',
+    'Togo',
+    'Tokelau',
+    'Tonga',
+    'Trinidad and Tobago',
+    'Tunisia',
+    'Turkey',
+    'Turkmenistan',
+    'Turks and Caicos Islands',
+    'Tuvalu',
+    'Uganda',
+    'Ukraine',
+    'United Arab Emirates',
+    'United Kingdom',
+    'United States',
+    'United States Minor Outlying Islands',
+    'Uruguay',
+    'Uzbekistan',
+    'Vanuatu',
+    'Venezuela',
+    'Viet Nam',
+    'Virgin Islands (British)',
+    'Virgin Islands (U.S.)',
+    'Wallis and Futuna Islands',
+    'Western Sahara',
+    'Yemen',
+    'Yugoslavia',
+    'Zambia',
+    'Zimbabwe'
+  ],
 
-   actions: {
-     checkLength(text, select /*, event */) {
-     if (select.searchText.length >= 3 && text.length < 3) {
-       return '';
-     } else {
-       return text.length >= 3;
-     }
-   },
-   setCountry(country){
-     this.set('inputCountry', country);
-     if (country =="United States"){
-       this.set('isUSA', true);
-     }else{
-       this.set('isUSA', false);
-     }
+  developerVerifySubmitBtn: 'btn btn-primary',
+  developerVerifySubmitText: 'Submit Verification',
+  developerSaveForLaterBtn: 'btn btn-outline-dark',
+  developerSaveForLaterText: 'Save for Later',
 
-   },
-   checkThis(toBeChecked){
-     $("#"+toBeChecked).prop('checked', true).change();
+  actions: {
+    checkLength(text, select /*, event */) {
+      if (select.searchText.length >= 3 && text.length < 3) {
+        return '';
+      } else {
+        return text.length >= 3;
+      }
+    },
+    setCountry(country) {
+      this.set('inputCountry', country);
+      if (country == 'United States') {
+        this.set('isUSA', true);
+      } else {
+        this.set('isUSA', false);
+      }
+    },
+    checkThis(toBeChecked) {
+      $('#' + toBeChecked)
+        .prop('checked', true)
+        .change();
+    },
+    checkBitcoin(toBeChecked) {
+      $('#' + toBeChecked)
+        .prop('checked', true)
+        .change();
 
-
-   },
-   checkBitcoin(toBeChecked){
-     $("#"+toBeChecked).prop('checked', true).change();
-
-     if(toBeChecked =="inputPayoutBitcoin"){
+      if (toBeChecked == 'inputPayoutBitcoin') {
         this.set('payoutIsBitcoin', true);
-     }else{
-       this.set('payoutIsBitcoin', false);
-     }
+      } else {
+        this.set('payoutIsBitcoin', false);
+      }
+    },
+    showEntityMenu() {
+      console.log('is busines');
+      this.set('isBusiness', true);
+    },
 
-   },
-   showEntityMenu(){
-     console.log('is busines');
-     this.set('isBusiness', true);
+    submitDeveloperVerification() {
+      //Add Actual Data Handling, Copy from Save for later
+      //Change accountStatus to Pending verification
+      //Take the user to the dashboard with notification that we'll review their Application
+      //Send the user an email to confirm we got their application and will respond
+      //Send us an urgent email letting us know to review their application
 
-   },
+      this.get('store')
+        .findRecord('user', this.get('session.data.authenticated.user_id'))
+        .then(user => {
+          // var userEmail = 'user@gmail.com';
 
+          // Record that they have started, but not finished the application
+          // user.set('', 'Started developer Application');
 
-   submitDeveloperVerification(){
+          // Save record to db
+          user
+            .save()
+            .then(() => {
+              console.log('developerSaveForLater saved');
+              this.set('developerVerifySubmitText', '');
+              this.set(
+                'developerVerifySubmitBtn',
+                'btn btn-primary fa fa-check'
+              );
+            })
+            .catch(reason => {
+              console.log('error saving user record: ' + reason);
+              this.set('errorMessage', reason.error || reason);
+            });
+        })
+        .catch(reason => {
+          console.log('error finding user record: ' + reason);
+          this.set('errorMessage', reason.error || reason);
+        });
+    },
+    developerSaveForLater() {
+      // Get current state of setting from page and set to a variable
+      var updateFirstName = this.inputfirstName;
+      var updateMiddleName = this.inputmiddleName;
+      var updateLastName = this.inputlastName;
+      var updateMonth = this.inputMonth;
+      var updateDay = this.inputDay;
+      var updateYear = this.inputYear;
+      var address1 = this.inputaddress1;
+      var address2 = this.inputaddress2;
+      var city = this.inputCity;
+      var region = this.inputRegion;
+      var zipcode = this.inputZipcode;
+      var country = this.inputCountry;
+      var address3 = city + '|' + region + '|' + zipcode + '|' + country;
+      var dateofbirth = new Date(
+        updateMonth + ' ' + updateDay + ', ' + updateYear
+      );
+      console.log(dateofbirth);
 
-   },
-   devSaveForLater(){
-     // Get current state of setting from page and set to a variable
-     var updateFirstName = this.inputfirstName;
-     var updateMiddleName = this.inputmiddleName;
-     var updateLastName = this.inputlastName;
-     var updateMonth = this.inputMonth;
-     var updateDay = this.inputDay;
-     var updateYear = this.inputYear;
-    var address1 = this.inputaddress1;
-    var address2 = this.inputaddress2;
-    var city = this.inputCity;
-    var region = this.inputRegion;
-    var zipcode = this.inputZipcode;
-    var country = this.inputCountry;
-    var address3 = (city+'|'+region+'|'+zipcode+'|'+country);
-    var dateofbirth = new Date(updateMonth+" "+updateDay+", "+updateYear);
-    console.log(dateofbirth);
+      this.store
+        .findRecord('user', this.get('session.data.authenticated.user_id'))
+        .then(user => {
+          // Modify record pulled from db to variable
+          user.set('firstName', updateFirstName);
+          user.set('middleName', updateMiddleName);
+          user.set('lastName', updateLastName);
+          user.set('birthdate', dateofbirth);
+          user.set('addressLine1', address1);
+          user.set('addressLine2', address2);
+          user.set('addressLine3', address3);
 
-
-     this.store.findRecord('user', this.get('session.data.authenticated.user_id')).then((user) => {
-
-       // Modify record pulled from db to variable
-       user.set('firstName', updateFirstName);
-       user.set('middleName', updateMiddleName);
-       user.set('lastName', updateLastName);
-       user.set('birthdate', dateofbirth);
-       user.set('addressLine1', address1);
-       user.set('addressLine2', address2);
-       user.set('addressLine3', address3);
-
-       // Save record to db
-       user.save().then(() => {
-         console.log('devSaveForLater saved');
-         $('[id=devSaveForLater]').text('');
-         $('[id=devSaveForLater]').addClass('fa fa-check');
-       }).catch((reason) => {
-         console.log('error saving user record: ' + reason);
-         this.set('errorMessage', reason.errors || reason);
-       });
-     }).catch((reason) => {
-       console.log('error finding user record: ' + reason);
-       this.set('errorMessage', reason.errors || reason);
-     });
-
-   },
+          // Save record to db
+          user
+            .save()
+            .then(() => {
+              console.log('developerSaveForLater saved');
+              this.set('developerSaveForLaterText', '');
+              this.set(
+                'developerSaveForLaterBtn',
+                'btn btn-outline-dark fa fa-check'
+              );
+            })
+            .catch(reason => {
+              console.log('error saving user record: ' + reason);
+              this.set('errorMessage', reason.errors || reason);
+            });
+        })
+        .catch(reason => {
+          console.log('error finding user record: ' + reason);
+          this.set('errorMessage', reason.errors || reason);
+        });
+    }
   }
-
 });

@@ -6,6 +6,18 @@ export default Controller.extend({
   store: inject(),
   session: inject(),
   themeChanger: inject(),
+  payoutSettingSubmitBtn: 'btn btn-primary',
+  payoutSettingSubmitText: 'Save',
+  notifySettingsSubmitBtn: 'btn btn-primary',
+  notifySettingsSubmitText: 'Save',
+  siteSettingSubmitBtn: 'btn btn-primary',
+  siteSettingSubmitText: 'Save',
+  emailChangeSubmitBtn: 'btn btn-primary',
+  emailChangeSubmitText: 'Save',
+  passwordChangeSubmitBtn: 'btn btn-primary',
+  passwordChangeSubmitText: 'Save',
+  securityQuestionsSubmitBtn: 'btn btn-primary',
+  securityQuestionsSubmitText: 'Save',
 
   timezoneList: [
     '(GMT, UTC+00:00) Monrovia, Reykjavik',
@@ -436,9 +448,9 @@ export default Controller.extend({
       }
     },
 
-    submitEmailSettings() {
+    submitnotifySettings() {
       // Get current state of setting from page and set to a variable
-      var sEFO = this.sendEmailFavoritesOnline;
+      var sEFO = this.sendEmailFollowedOnline;
       var sPMEN = this.privateMessageEmailNotifications;
       var sESN = this.sendEmailSiteNews;
 
@@ -447,7 +459,7 @@ export default Controller.extend({
         .then(user => {
           console.log(user);
           // Modify record pulled from db to variable
-          user.set('sendEmailFavoritesOnline', sEFO);
+          user.set('sendEmailFollowedOnline', sEFO);
           user.set('privateMessageEmailNotifications', sPMEN);
           user.set('sendEmailSiteNews', sESN);
 
@@ -455,9 +467,12 @@ export default Controller.extend({
           user
             .save()
             .then(() => {
-              console.log('submitEmailSettings saved');
-              jQuery('[id=emailsettingsubmit]').text('');
-              jQuery('[id=emailsettingsubmit]').addClass('fa fa-check');
+              console.log('submitnotifySettings saved');
+              this.set('notifySettingsSubmitText', '');
+              this.set(
+                'notifySettingsSubmitBtn',
+                'btn btn-primary fa fa-check'
+              );
             })
             .catch(reason => {
               console.log('error saving user record: ' + reason);
@@ -470,7 +485,7 @@ export default Controller.extend({
         });
     },
 
-    submitDisplaySettings() {
+    submitSiteSettings() {
       // Get current state of setting from page and set to a variable
       var updateTimeZone = this.inputTimeZone;
       var updateSearchDefault = this.inputDefaultSearch;
@@ -499,9 +514,9 @@ export default Controller.extend({
           user
             .save()
             .then(() => {
-              console.log('submitDisplaySettings saved');
-              jQuery('[id=sitesettingsubmit]').text('');
-              jQuery('[id=sitesettingsubmit]').addClass('fa fa-check');
+              console.log('submitSiteSettings saved');
+              this.set('siteSettingSubmitText', '');
+              this.set('siteSettingSubmitBtn', 'btn btn-primary fa fa-check');
             })
             .catch(reason => {
               console.log('error saving user record: ' + reason);
@@ -542,8 +557,8 @@ export default Controller.extend({
             .save()
             .then(() => {
               console.log('submitPayoutSettings saved');
-              jQuery('[id=payoutsettingsubmit]').text('');
-              jQuery('[id=payoutsettingsubmit]').addClass('fa fa-check');
+              this.set('payoutSettingSubmitText', '');
+              this.set('payoutSettingSubmitBtn', 'btn btn-primary fa fa-check');
             })
             .catch(reason => {
               console.log('error saving user record: ' + reason);
@@ -579,8 +594,8 @@ export default Controller.extend({
                   }
                 ]);
                 console.log('submitEmailChange saved');
-                jQuery('[id=submitEmailChange]').text('');
-                jQuery('[id=submitEmailChange]').addClass('fa fa-check');
+                this.set('emailChangeSubmitText', '');
+                this.set('emailChangeSubmitBtn', 'btn btn-primary fa fa-check');
               })
               .catch(reason => {
                 this.model.rollbackAttributes();
@@ -628,8 +643,11 @@ export default Controller.extend({
                   }
                 ]);
                 console.log('submitPasswordChange saved');
-                jQuery('[id=submitPasswordChange]').text('');
-                jQuery('[id=submitPasswordChange]').addClass('fa fa-check');
+                this.set('passwordChangeSubmitText', '');
+                this.set(
+                  'passwordChangeSubmitBtn',
+                  'btn btn-primary fa fa-check'
+                );
                 // Ember.run.later((function() {
                 //   //do something in here that will run in 2 seconds
 
@@ -696,8 +714,11 @@ export default Controller.extend({
                 }
               ]);
               console.log('submitSecuritySettings saved');
-              jQuery('[id=submitSecuritySettings]').text('');
-              jQuery('[id=submitSecuritySettings]').addClass('fa fa-check');
+              this.set('securityQuestionsSubmitText', '');
+              this.set(
+                'securityQuestionsSubmitBtn',
+                'btn btn-primary fa fa-check'
+              );
             })
             .catch(reason => {
               console.log('error saving user record: ' + reason);

@@ -165,7 +165,7 @@ ActiveRecord::Schema.define(version: 2019_05_20_223332) do
     t.string "security_questions"
     t.string "stream_key", limit: 64
     t.boolean "dark_mode", default: false
-    t.boolean "send_email_favorites_online", default: false
+    t.boolean "send_email_followed_online", default: false
     t.boolean "send_email_site_news", default: false
     t.boolean "private_message_email_notifications", default: true
     t.text "private_user_notes", limit: 2048

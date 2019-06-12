@@ -237,9 +237,12 @@
                   {{input type="text" class="form-control" value=inputElecSig placeholder="type your full name again" }}
               </div>
 
-                  <button id="devSaveForLater" class="btn btn-outline-dark" {{action "devSaveForLater"}}>Save for later</button>
+
+
+                  <button {{action "developerSaveForLater"}} class={{this.developerSaveForLaterBtn}}>{{this.developerSaveForLaterText}}</button>
+
                   <div class="float-right">
-                    <button type="submit" id="devVeryifySubmit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class={{this.developerVerifySubmitBtn}}>{{this.developerVerifySubmitText}}</button>
                   </div>
                 </form>
 

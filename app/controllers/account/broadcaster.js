@@ -398,6 +398,11 @@ export default Controller.extend({
     'Zimbabwe'
   ],
 
+  broadcasterVerifySubmitBtn: 'btn btn-primary',
+  broadcasterVerifySubmitText: 'Submit Verification',
+  broadcasterSaveForLaterBtn: 'btn btn-outline-dark',
+  broadcasterSaveForLaterText: 'Save for Later',
+
   actions: {
     checkLength(text, select /*, event */) {
       if (select.searchText.length >= 3 && text.length < 3) {
@@ -435,26 +440,19 @@ export default Controller.extend({
 
     submitBroadcasterVerification() {
       //Add Actual Data Handling, Copy from Save for later
-      //Change accountStatus to Pending verification
-      //Take the user to the dashboard with notification that we'll review their Application
-      //Send the user an email to confirm we got their application and will respond
-      //Send us an urgent email letting us know to review their application
-
       this.get('store')
         .findRecord('user', this.get('session.data.authenticated.user_id'))
         .then(user => {
-          var userEmail = 'test@test.com';
-
-          // Record that they have started, but not finished the application
-          user.set('', 'Started Broadcaster Application');
-
           // Save record to db
           user
             .save()
             .then(() => {
               console.log('broadcasterSaveForLater saved');
-              jQuery('[id=broadcasterSaveForLater]').text('');
-              jQuery('[id=broadcasterSaveForLater]').addClass('fa fa-check');
+              this.set('broadcasterVerifySubmitText', '');
+              this.set(
+                'broadcasterVerifySubmitBtn',
+                'btn btn-primary fa fa-check'
+              );
             })
             .catch(reason => {
               console.log('error saving user record: ' + reason);
@@ -517,8 +515,11 @@ export default Controller.extend({
             .save()
             .then(() => {
               console.log('broadcasterSaveForLater saved');
-              jQuery('[id=broadcasterSaveForLater]').text('');
-              jQuery('[id=broadcasterSaveForLater]').addClass('fa fa-check');
+              this.set('broadcasterSaveForLaterText', '');
+              this.set(
+                'broadcasterSaveForLaterBtn',
+                'btn btn-outline-dark fa fa-check'
+              );
             })
             .catch(reason => {
               console.log('error saving user record: ' + reason);

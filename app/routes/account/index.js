@@ -2,12 +2,14 @@ import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 export default Route.extend(AuthenticatedRouteMixin, {
-
   model() {
-    return this.store.findRecord('user', this.get('session.data.authenticated.user_id') );
+    return this.store.findRecord(
+      'user',
+      this.get('session.data.authenticated.user_id')
+    );
   },
 
-  setupController(controller,model) {
+  setupController(controller, model) {
     this._super(controller, model);
     // Set account settings to settings pulled from db
     controller.set('inputPayoutType', model.get('payoutMethod'));
@@ -17,8 +19,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
     controller.set('inputbitcoinaddress', model.get('bitcoinAddress'));
     controller.set('inputaddress1', model.get('addressLine1'));
     controller.set('inputaddress2', model.get('addressLine2'));
-    if (model.get('addressLine3') != null){
-      var address3 = model.get('addressLine3').split("|");
+    if (model.get('addressLine3') != null) {
+      var address3 = model.get('addressLine3').split('|');
       controller.set('inputCity', address3[0]);
       controller.set('inputRegion', address3[1]);
       controller.set('inputZipcode', address3[2]);
@@ -26,7 +28,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     }
 
     if (model.get('securityQuestions') != null) {
-      var allQuestions = model.get('securityQuestions').split("|");
+      var allQuestions = model.get('securityQuestions').split('|');
       controller.set('inputQuestion1', allQuestions[0]);
       controller.set('inputAnswer1', allQuestions[1]);
       controller.set('inputQuestion2', allQuestions[2]);
@@ -35,12 +37,18 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.set('inputAnswer3', allQuestions[5]);
     }
 
+    controller.set('inputSpendCredits', model.get('spendsCredits'));
 
-    controller.set('sendEmailFavoritesOnline', model.get('sendEmailFavoritesOnline'));
-    controller.set('privateMessageEmailNotifications', model.get('privateMessageEmailNotifications'));
+    controller.set(
+      'sendEmailFollowedOnline',
+      model.get('sendEmailFollowedOnline')
+    );
+    controller.set(
+      'privateMessageEmailNotifications',
+      model.get('privateMessageEmailNotifications')
+    );
     controller.set('sendEmailSiteNews', model.get('sendEmailSiteNews'));
 
     controller.set('inputTimeZone', model.get('timezone'));
   }
-
 });

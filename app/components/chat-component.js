@@ -12,6 +12,7 @@ export default Component.extend({
 
   chatUserMenuUsername: '',
   userMessage: '',
+  chatUserMenu: "d-none",
 
   actions: {
     // User wants to send a message so...
@@ -37,13 +38,11 @@ export default Component.extend({
       jQuery('#chatUserMenu').css({ top: menuYPos });
       // Username of clicked name
       this.set('chatUserMenuUsername', event.srcElement.textContent);
-      jQuery('#chatUserMenu').removeClass('d-none');
-      jQuery('#chatUserMenu').addClass('d-inline-block');
+      this.set('chatUserMenu', "d-inline-block");
     },
 
     closeChatUserMenu() {
-      jQuery('#chatUserMenu').removeClass('d-inline-block');
-      jQuery('#chatUserMenu').addClass('d-none');
+      this.set('chatUserMenu', "d-none");
     },
 
     getChannelChatUserList() {

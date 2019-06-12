@@ -208,12 +208,12 @@
                 {{input type="text" class="form-control" value=inputElecSig placeholder="type your full name again" }}
             </div>
 
-                  <button id="affiliateSaveForLater" class="btn btn-outline-dark" {{action "affiliateSaveForLater"}}>Save for later</button>
+        
+                  <button {{action "affiliateSaveForLater"}} class={{this.affiliateSaveForLaterBtn}}>{{this.affiliateSaveForLaterText}}</button>
 
                   <div class="float-right">
-                    <button type="submit" id="affiliateVerifySubmit" class="btn btn-primary">Submit Verification</button>
+                    <button type="submit" class={{this.affiliateVerifySubmitBtn}}>{{this.affiliateVerifySubmitText}}</button>
                   </div>
-
 
 
   </form>

@@ -44,7 +44,7 @@ if Rails.env.development?
       password: "1234567#{i+1}",
       full_name: "User#{i+1} K#{i+1} Basic#{i+1}",
       dark_mode: true,
-      send_email_favorites_online: true
+      send_email_followed_online: true
     )
     testuser.skip_confirmation!
     testuser.build_user_public_datum(
@@ -63,7 +63,7 @@ if Rails.env.development?
       dark_mode: false,
       broadcaster: true,
       affiliate: true,
-      send_email_favorites_online: false
+      send_email_followed_online: false
     )
     testbroadcaster.skip_confirmation!
     onlinestatus = [true, false].sample # ~X% of users as online
@@ -88,7 +88,7 @@ if Rails.env.development?
       dark_mode: false,
       developer: true,
       affiliate: true,
-      send_email_favorites_online: false
+      send_email_followed_online: false
     )
     testdeveloper.skip_confirmation!
     testdeveloper.build_user_public_datum(
@@ -107,7 +107,7 @@ if Rails.env.development?
       full_name: "Aff#{i+1} Ili#{i+1} Ate#{i+1}",
       dark_mode: false,
       affiliate: true,
-      send_email_favorites_online: false
+      send_email_followed_online: false
     )
     testaffiliate.skip_confirmation!
     testaffiliate.build_user_public_datum(

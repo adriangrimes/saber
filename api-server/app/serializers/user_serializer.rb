@@ -25,7 +25,7 @@ class UserSerializer < ActiveModel::Serializer
 
   ## Site settings
   :dark_mode,
-  :send_email_favorites_online,
+  :send_email_followed_online,
   :send_email_site_news,
   :private_message_email_notifications,
   :private_user_notes,

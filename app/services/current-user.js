@@ -1,6 +1,4 @@
 import Service from '@ember/service';
-// import { computed } from '@ember/object';
-import { not as computedNot, or as computedOr } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { resolve } from 'rsvp';
 import jQuery from 'jquery';
@@ -11,12 +9,7 @@ export default Service.extend({
   store: service(),
   themeChanger: service(),
 
-  // All other user data is at {{currentUser.user.fullName}} etc.
-  // Any properties set to currentUser.user will be removed once the model has
-  // been populated below.
   signupSuccess: false,
-  isContracted: computedOr('user.{broadcaster,developer,affiliate}'),
-  isPlayer: computedNot('isContracted'),
 
   init() {
     this._super(...arguments);

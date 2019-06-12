@@ -1,5 +1,5 @@
 {{!-- Chat user context menu, hidden until a username is clicked --}}
-<div class="d-none" id="chatUserMenu" >
+<div class={{this.chatUserMenu}} id="chatUserMenu" >
   <a href="/p/{{lower-case chatUserMenuUsername}}" target="_blank" class=" round-top-left-corner-only btn btn-primary pt-1" title="Open users profile in new tab"><span class="fa fa-user pr-2"> </span>{{chatUserMenuUsername}}</a>
   <button class=" round-top-right-corner-only btn btn-primary float-right pt-1" title="Close" {{action "closeChatUserMenu"}}><span class="fa fa-close"></span></button>
   <div class="input-group">

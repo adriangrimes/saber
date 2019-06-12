@@ -9,7 +9,13 @@ export default Controller.extend({
   session: inject(),
   streamKeyDisplay: '********************',
   streamKeyHidden: true,
-
+  resetStreamKeyIcon: "fa fa-refresh",
+  keyCopySuccess: "d-none",
+  newCopySuccess: "d-none",
+  streamSettingSubmitBtn: "btn btn-primary",
+  streamSettingSubmitText: "Save",
+  notesSubmitBtn:"btn btn-primary",
+  notesSubmitText: "Save",
 
 
    actions: {
@@ -45,9 +51,10 @@ export default Controller.extend({
          // Save record to db
          user.save().then(() => {
            console.log('newStreamKey saved');
-           $('[id=resetStreamKeyIcon]').addClass('fa-spin');
+           this.set('resetStreamKeyIcon', 'fa fa-refresh fa-spin');
+           var thisParent = this;
            setTimeout(function() {
-             $('[id=resetStreamKeyIcon]').removeClass('fa-spin');
+             thisParent.set('resetStreamKeyIcon', 'fa fa-refresh');
            }, 2000);
 
 
@@ -60,12 +67,12 @@ export default Controller.extend({
          console.log('error finding user record: ' + reason);
          this.set('errorMessage', reason.errors || reason);
        });
-       $('[id=newCopySuccess]').addClass('d-block');
-       $('[id=newCopySuccess]').removeClass('d-hide');
+      this.set('newCopySuccess', "d-block");
 
+      var thisParent = this;
        setTimeout(function() {
-       $('[id=newCopySuccess]').addClass('d-hide');
-       $('[id=newCopySuccess]').removeClass('d-block');
+         thisParent.set('newCopySuccess', "d-none");
+
      }, 3000);
 
 
@@ -78,13 +85,12 @@ export default Controller.extend({
             copyText.select();
 
             document.execCommand("Copy");
+            this.set('keyCopySuccess', "d-block");
 
-            $('[id=keyCopySuccess]').addClass('d-block');
-            $('[id=keyCopySuccess]').removeClass('d-hide');
-
+            var thisParent = this;
             setTimeout(function() {
-            $('[id=keyCopySuccess]').addClass('d-hide');
-            $('[id=keyCopySuccess]').removeClass('d-block');
+              thisParent.set('keyCopySuccess', "d-none");
+
           }, 3000);
           }
       },
@@ -98,8 +104,8 @@ export default Controller.extend({
           // Save record to db
           userPublicDatum.save().then(() => {
             console.log('submitPayoutSettings saved');
-            $('[id=streamSettingsSubmit]').text('');
-            $('[id=streamSettingsSubmit]').addClass('fa fa-check');
+            this.set('streamSettingSubmitText', '');
+            this.set('streamSettingSubmitBtn', 'btn btn-primary fa fa-check');
           }).catch((reason) => {
             console.log('error saving user record: ' + reason);
             this.set('errorMessage', reason.error || reason);
@@ -119,8 +125,8 @@ export default Controller.extend({
         // Save record to db
           user.save().then(() => {
             console.log('notesSubmit saved');
-            $('[id=notesSubmit]').text('');
-            $('[id=notesSubmit]').addClass('fa fa-check');
+            this.set('notesSubmitText', '');
+            this.set('notesSubmitBtn', 'btn btn-primary fa fa-check');
           }).catch((reason) => {
             console.log('error saving user record: ' + reason);
             this.set('errorMessage', reason.error || reason);

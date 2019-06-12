@@ -14,12 +14,13 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.boolean :affiliate, default: false
       t.string :account_status#, default: "UNVERIFIED"
       t.boolean :admin_status, default: false
+      t.boolean :pending_deletion, default: false
       t.string :security_questions
       t.string :stream_key, default: nil, limit: 64
 
       ## Site settings
       t.boolean :dark_mode, default: false
-      t.boolean :send_email_favorites_online, default: false
+      t.boolean :send_email_followed_online, default: false
       t.boolean :send_email_site_news, default: false
       t.boolean :private_message_email_notifications, default: true
       t.text :private_user_notes, limit: 2048

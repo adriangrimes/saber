@@ -70,7 +70,7 @@
 
                     </div>
                     <div class="col-xs-12 col-sm-6">
-                      <button class="btn btn-block btn-dark" id="resetStreamKeyBtn"{{action "resetStreamKey"}}><span class="fa fa-refresh" id="resetStreamKeyIcon" aria-hidden="true"></span>&nbsp;Reset Key</button>
+                      <button class="btn btn-block btn-dark" id="resetStreamKeyBtn"{{action "resetStreamKey"}}><span class={{this.resetStreamKeyIcon}} id="resetStreamKeyIcon" aria-hidden="true"></span>&nbsp;Reset Key</button>
 
                     </div>
 
@@ -78,11 +78,15 @@
 
                   <div class="mb-3" {{action "copyStreamKeyToClipboard"}}>
                     {{textarea class="form-control"  id="streamKeyDisplayID" value=streamKeyDisplay readonly="true"}}
-                    <div class="float-right text-success d-none" id="keyCopySuccess">
+                    <div class={{this.keyCopySuccess}}>
+                      <div class="float-right text-success">
                           <span class="fa fa-check "></span>Copied to Clipboard
+                        </div>
                     </div>
-                    <div class="mt-0 float-right text-success d-none" id="newCopySuccess">
+                    <div class={{this.newCopySuccess}}>
+                        <div class="mt-0 float-right text-success">
                           <span class="fa fa-check "></span>New Stream Key Saved
+                       </div>
                     </div>
                   </div>
 
@@ -97,9 +101,10 @@
                   </label>
                 </div>
 
+              </div>
 
               <div class="text-right pt-3">
-                <button type="submit" id="streamSettingsSubmit" class="btn btn-primary">Save</button>
+                <button type="submit" class={{this.streamSettingSubmitBtn}}>{{this.streamSettingSubmitText}}</button>
               </div>
             </form>
 
@@ -122,10 +127,8 @@
                           <form {{action "submitUserNotes" on="submit"}}>
                             {{textarea class="form-control"  id="privateUserNotes" maxlength="1000" value=model.user.privateUserNotes placeholder="Only you can see this notepad."}}
                             <div class="text-right pt-3">
-                              <button type="submit"
-                                      id="notesSubmit"
-                                      class="btn btn-primary">Save
-                              </button>
+                              <button type="submit" class={{this.notesSubmitBtn}}>{{this.notesSubmitText}}</button>
+
                             </div>
                           </form>
 

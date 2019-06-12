@@ -26,6 +26,20 @@
 
       <form {{action "submitBroadcasterVerification" on="submit"}}>
 
+      {{#if currentUser.user.developer}}
+      <div class="pb-3">
+        As a developer you have already submited your details.<br><br>
+        Upload your verification documents below to become a developer and broadcaster. <br>
+        To sign up for a separate broadcaster account log out, and then visit {{link-to "saber.tv/signup/broadcaster" "signup.broadcaster"}}
+
+      </div>
+      {{else if currentUser.user.affiliate}}
+        <div class="pb-3">
+          As an affiliate you have already submited your details.<br><br>
+          Upload your verification documents below to become an affiliate and broadcaster. <br>
+          To sign up for a separate broadcaster account log out, and then visit{{link-to "saber.tv/signup/broadcaster" "signup.broadcaster" }}
+        </div>
+      {{else}}
 
       <h5> Tax and Payment Information</h5>
 
@@ -223,11 +237,30 @@
 <hr class="splash-horizontal-rule">
 
 
+                  <div class="form-group">
+                    <br>
+                    {{file-upload
+                      onFileUploaded=(action this.currentUser.uploadIdentification)
+                      currentUploads=model.uploadedIdentification.length
+                      maximumUploads=2
+                    }}
 
-                  <button id="broadcasterSaveForLater" class="btn btn-outline-dark" {{action "broadcasterSaveForLater"}}>Save for later</button>
+                    {{#each model.uploadedIdentification as |image|}}
+                      {{#if image.file_url}}
+                        <div>
+                          <img src={{image.file_url}} alt="Identification upload" height="150">
+                          <button {{action this.currentUser.deleteFile image}}> Detele </button>
+                        </div>
+                        <br>
+                      {{/if}}
+                    {{/each}}
+                    <br>
+                  </div>
+
+                  <button {{action "broadcasterSaveForLater"}} class={{this.broadcasterSaveForLaterBtn}}>{{this.broadcasterSaveForLaterText}}</button>
 
                   <div class="float-right">
-                    <button type="submit" id="broadcasterVerifySubmit" class="btn btn-primary">Submit Verification</button>
+                    <button type="submit" class={{this.broadcasterVerifySubmitBtn}}>{{this.broadcasterVerifySubmitText}}</button>
                   </div>
 
                   {{#if currentUser.isContracted}}
