@@ -8,8 +8,8 @@ class UserSerializer < ActiveModel::Serializer
   ## Database authenticatable
   :username,
   :email,
-  :password,
-  :current_password,
+  :password, # def below to return nil
+  :current_password, # def below to return nil
   #:encrypted_password,
   #:authentication_token,
 
@@ -17,8 +17,9 @@ class UserSerializer < ActiveModel::Serializer
   :broadcaster,
   :developer,
   :affiliate,
-  #:account_status,
+  #:account_status, # def below to return nil
   #:admin_status,
+  :pending_deletion, # def below to return nil
   :security_questions,
   :stream_key,
 
@@ -44,11 +45,15 @@ class UserSerializer < ActiveModel::Serializer
   :subject_to_backup_withholding,
   :uploaded_identification
 
+  def password
+    nil
+  end
+
   def current_password
     nil
   end
 
-  def password
+  def pending_deletion
     nil
   end
 

@@ -14,7 +14,7 @@ class UsersController < ApplicationController
 
     # Process to attach already directly uploaded files to the user record
     unless params[:data][:attributes][:uploaded_identification].blank?
-      identification_upload_limit = 2
+      identification_upload_limit = 2 # TODO move to config file
       params[:data][:attributes][:uploaded_identification].each do |blob|
         # TODO moving this outside of each loop may improve performance in DB search
         blob_id = ActiveStorage::Blob.find_signed(blob[:signed_id]).id
@@ -58,18 +58,25 @@ class UsersController < ApplicationController
 
     # Save submitted params to user record
     # If current_password is present, update sensitive attributes.
-    if user_params[:current_password]&.present?
-      if @authenticated_user.update_with_password(user_params)
+    if passworded_user_params[:current_password]&.present?
+      # Update user record with whitelisted params
+      if @authenticated_user.update_with_password(passworded_user_params)
+        puts 'update with password successful, rendering'
         render json: @authenticated_user,
           status: :ok
+        if @authenticated_user[:pending_deletion]
+          # Send a deletion email after successfully updating user
+          UserMailer
+            .with(user: @authenticated_user)
+            .deletion_email
+            .deliver_later
+        end
       else
         render json: ErrorSerializer.serialize(@authenticated_user.errors),
           status: :unprocessable_entity
       end
-    # Else update attributes that don't require a password. Exclude sensitive
-    # attributes.
-    elsif @authenticated_user.update(user_params
-      .except("password", "current_password", "email", "security_questions"))
+    # Else update attributes that don't require a password
+    elsif @authenticated_user.update(nonpassworded_user_params)
         render json: @authenticated_user,
           status: :ok
     else
@@ -80,31 +87,31 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
-    puts "start setting user to pending deletion"
-    if user_params[:current_password]&.present?
-      if @authenticated_user.update_with_password(account_status: "PENDING DELETION")
-        render json: @authenticated_user, status: :ok
-        # TODO Send deletion confirmation email
-      else
-        render json: ErrorSerializer.serialize(@authenticated_user.errors),
-          status: :unprocessable_entity
-      end
-    else
-      render json: ErrorSerializer.serialize(@authenticated_user.errors),
-        status: :unprocessable_entity
-    end
+    # puts "start setting user to pending deletion"
+    # if user_params[:current_password]&.present?
+    #   if @authenticated_user.update_with_password(account_status: "PENDING DELETION")
+    #     render json: @authenticated_user, status: :ok
+    #     # TODO Send deletion confirmation email
+    #   else
+    #     render json: ErrorSerializer.serialize(@authenticated_user.errors),
+    #       status: :unprocessable_entity
+    #   end
+    # else
+    #   render json: ErrorSerializer.serialize(@authenticated_user.errors),
+    #     status: :unprocessable_entity
+    # end
+    render status: :unprocessable_entity
   end
 
   # GET all /users
   def index
-    puts params
-    render status: :ok
+    render status: :unprocessable_entity
   end
 
   # POST /users
   def create
     #ERROR: posted to users controller create function - this probably shouldnt happen
-    render status: :internal_server_error
+    render status: :unprocessable_entity
   end
 
   private
@@ -120,46 +127,64 @@ class UsersController < ApplicationController
       end
     end
 
-    def user_params
-      # Devise devise_parameter_sanitizer?
+    def nonpassworded_user_params
       params.require(:data)
         .require(:attributes)
-        .permit(:username,
-          :email,
-          :password,
-          :current_password,
-          #:authentication_token
-          #:account_status,
-          #:admin_status,
-          :stream_key,
-          :security_questions,
+        .permit(nonpassworded_user_params_hash)
+    end
 
-          ## Account data
-          :broadcaster,
-          :developer,
-          :affiliate,
+    # Parameters that require a password to update
+    def passworded_user_params
+      hash = [
+        :username,
+        :email,
+        :password,
+        :current_password,
+        :security_questions,
+        :pending_deletion
+        # :authentication_token,
+        # :account_status,
+        # :admin_status,
+        # Exclude uploaded_identification for special processing
+        # uploaded_identification: [[:signed_id, :delete]])
+      ]
+      # Merge nonpassworded attributes to build the full whitelist
+      params.require(:data)
+        .require(:attributes)
+        .permit(hash + nonpassworded_user_params_hash)
+    end
 
-          ## Site settings
-          :dark_mode,
-          :send_email_favorites_online,
-          :send_email_site_news,
-          :private_message_email_notifications,
-          :private_user_notes,
+    def nonpassworded_user_params_hash
+      # TODO There has GOT to be a better way to do these parameters
+      # Devise devise_parameter_sanitizer?
+      hash = [
+        :stream_key,
 
-          ## Payment profile
-          :full_name,
-          :birthdate,
-          :address_line1,
-          :address_line2,
-          :address_line3,
-          :business_name,
-          :business_entity_type,
-          :payout_method,
-          :bitcoin_address,
-          :bank_account_number,
-          :bank_routing_number,
-          :subject_to_backup_withholding)
-          # Exclude uploaded_identification for special processing
-          # uploaded_identification: [[:signed_id, :delete]])
+        ## Account data
+        #:broadcaster,
+        #:developer,
+        #:affiliate,
+
+        ## Site settings
+        :dark_mode,
+        :send_email_favorites_online,
+        :send_email_site_news,
+        :private_message_email_notifications,
+        :private_user_notes,
+
+        ## Payment profile
+        :full_name,
+        :birthdate,
+        :address_line1,
+        :address_line2,
+        :address_line3,
+        :business_name,
+        :business_entity_type,
+        :payout_method,
+        :bitcoin_address,
+        :bank_account_number,
+        :bank_routing_number,
+        :subject_to_backup_withholding
+      ]
     end
 end

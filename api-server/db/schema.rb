@@ -161,6 +161,7 @@ ActiveRecord::Schema.define(version: 2019_05_20_223332) do
     t.boolean "affiliate", default: false
     t.string "account_status"
     t.boolean "admin_status", default: false
+    t.boolean "pending_deletion", default: false
     t.string "security_questions"
     t.string "stream_key", limit: 64
     t.boolean "dark_mode", default: false

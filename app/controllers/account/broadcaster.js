@@ -453,8 +453,8 @@ export default Controller.extend({
             .save()
             .then(() => {
               console.log('broadcasterSaveForLater saved');
-              $('[id=broadcasterSaveForLater]').text('');
-              $('[id=broadcasterSaveForLater]').addClass('fa fa-check');
+              jQuery('[id=broadcasterSaveForLater]').text('');
+              jQuery('[id=broadcasterSaveForLater]').addClass('fa fa-check');
             })
             .catch(reason => {
               console.log('error saving user record: ' + reason);

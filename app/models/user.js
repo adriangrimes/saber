@@ -17,6 +17,7 @@ export default DS.Model.extend({
   affiliate: DS.attr('boolean'),
   //accountStatus: DS.attr('string'),
   //adminStatus: DS.attr('boolean'),
+  pendingDeletion: DS.attr('boolean'),
   securityQuestions: DS.attr('string'), //TODO Not encrypted
   streamKey: DS.attr('string'),
 

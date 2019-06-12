@@ -52,8 +52,8 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
-    ENV.apiHost = 'http://192.168.21.109:3000';
-    ENV.chatServer = 'ws://192.168.21.109:7000';
+    ENV.apiHost = 'http://192.168.132.110:3000';
+    ENV.chatServer = 'ws://192.168.132.110:7000';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;

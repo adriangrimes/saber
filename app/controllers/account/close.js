@@ -10,8 +10,8 @@ export default Controller.extend({
     closeAccount() {
       console.log('hello');
       if (
-        this.get('inputCloseAccount') === this.accountCloseConfirmationPhrase ||
-        this.inputCurrentPassword === ''
+        this.get('inputCloseAccount') === this.accountCloseConfirmationPhrase &&
+        this.inputCurrentPassword
       ) {
         let that = this;
         this.store
@@ -19,7 +19,11 @@ export default Controller.extend({
             reload: true
           })
           .then(function(userRecord) {
-            userRecord.set('currentPassword', this.inputCurrentPassword);
+            console.log('found record, saving status');
+
+            userRecord.set('currentPassword', that.inputCurrentPassword);
+            userRecord.set('pendingDeletion', true);
+            console.log(userRecord);
             userRecord
               .save()
               .then(function() {
@@ -36,10 +40,11 @@ export default Controller.extend({
                   function() {
                     this.session.invalidate();
                   },
-                  3000
+                  5000
                 );
               })
               .catch(err => {
+                userRecord.rollbackAttributes();
                 that.currentUser.set('errorMessages', err.errors || err);
               });
           })

@@ -62,10 +62,20 @@ class User < ApplicationRecord
     if self.broadcaster == true ||
       self.developer == true ||
       self.affiliate == true
-      return true
+        return true
     else
-      return false
+        return false
     end
+  end
+
+  # Block authentication if account is pending deletion
+  def active_for_authentication?
+    super && !self.pending_deletion
+  end
+
+  # Send an error message explaining their account is pending deletion
+  def inactive_message
+    !self.pending_deletion ? super : :pending_deletion
   end
 
   # Overrides Devise User Mail function send_devise_notification.
