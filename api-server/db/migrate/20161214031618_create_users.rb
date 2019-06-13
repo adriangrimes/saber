@@ -13,6 +13,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.boolean :developer, default: false
       t.boolean :affiliate, default: false
       t.string :account_status#, default: "UNVERIFIED"
+      t.boolean :suspended_account, default: false
       t.boolean :admin_status, default: false
       t.boolean :pending_deletion, default: false
       t.string :security_questions

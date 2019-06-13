@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(version: 2019_05_20_223332) do
     t.boolean "developer", default: false
     t.boolean "affiliate", default: false
     t.string "account_status"
+    t.boolean "suspended_account", default: false
     t.boolean "admin_status", default: false
     t.boolean "pending_deletion", default: false
     t.string "security_questions"

@@ -59,12 +59,17 @@ class UsersController < ApplicationController
     # Save submitted params to user record
     # If current_password is present, update sensitive attributes.
     if passworded_user_params[:current_password]&.present?
+
+      if passworded_user_params[:pending_deletion]
+        @authenticated_user.suspended_account = true
+      end
+
       # Update user record with whitelisted params
       if @authenticated_user.update_with_password(passworded_user_params)
         puts 'update with password successful, rendering'
         render json: @authenticated_user,
           status: :ok
-        if @authenticated_user[:pending_deletion]
+        if @authenticated_user.pending_deletion
           # Send a deletion email after successfully updating user
           UserMailer
             .with(user: @authenticated_user)
@@ -141,6 +146,7 @@ class UsersController < ApplicationController
         :password,
         :current_password,
         :security_questions,
+        :suspended_account,
         :pending_deletion
         # :authentication_token,
         # :account_status,

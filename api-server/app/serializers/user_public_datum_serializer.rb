@@ -1,5 +1,14 @@
 class UserPublicDatumSerializer < ActiveModel::Serializer
 
+  # fields: { user: [
+  #   :username,
+  #   :online_status,
+  #   :channel_topic,
+  #   :current_game_id,
+  #   :streamnail_path,
+  #   :profile_photo_id]
+  # },
+
   #belongs_to :user
 
   ## Public profile

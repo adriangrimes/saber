@@ -70,12 +70,20 @@ class User < ApplicationRecord
 
   # Block authentication if account is pending deletion
   def active_for_authentication?
-    super && !self.pending_deletion
+    super && !self.suspended_account
   end
 
-  # Send an error message explaining their account is pending deletion
+  # Send an error message explaining why they are blocked from authenticating
+  # See devise.en.yml to modify the messages
   def inactive_message
-    !self.pending_deletion ? super : :pending_deletion
+    # In order of priority
+    if self.pending_deletion
+      :pending_deletion
+    elsif self.suspended_account
+      :suspended
+    else
+      super
+    end
   end
 
   # Overrides Devise User Mail function send_devise_notification.

@@ -4,23 +4,35 @@ class UserPublicDataController < ApplicationController
   # GET /user_public_data
   def index
     puts params.inspect
-    # If no user_id param is present, render all public records
-    if params[:username].nil?
+    if params[:search]
+      puts 'searching'
+      puts params[:search]
       # make some search magic happen here
       # TODO only show relevant search/browse user data
-      @user_public_data = UserPublicDatum.all
-      render json: @user_public_data, status: :ok
+      # TODO sanitize the hell out of search input
+      # TODO limit results returned
+      search_results = UserPublicDatum
+        .where("username LIKE ? AND broadcaster = true", '%' + params[:search] + '%')
+        .order(:username)
+          render json: search_results, status: :ok
     # Else if the user_id param is present and an integer, render single record
     elsif params[:username] #= Integer(params[:user_id]) rescue false
+      puts 'getting single user data'
       if @user_public_datum = UserPublicDatum
-        .where("lower(username) = ?", params[:username].downcase).first
-
+        .where("lower(username) = ?", params[:username].downcase)
+        .first
           render json: @user_public_datum, status: :ok
       else
         render status: :not_found
       end
     else
-      render status: :not_found
+      puts 'getting all data'
+      # TODO limit how unqualified browsing of broadcasters is pulled and displayed
+      public_data = UserPublicDatum
+        .where('broadcaster = true')
+        .order(:username)
+      render json: public_data, status: :ok
+      #render status: :not_found
     end
   end
 
