@@ -1,3 +1,5 @@
-class UserFileSerializer < ActiveModel::Serializer
+class UserFileSerializer
+  include FastJsonapi::ObjectSerializer
+  
   attributes :id
 end

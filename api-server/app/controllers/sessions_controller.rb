@@ -1,6 +1,5 @@
-include ErrorSerializer
-
 class SessionsController < Devise::SessionsController
+  include ErrorSerializer
 
   def create
     self.resource = warden.authenticate!(auth_options)

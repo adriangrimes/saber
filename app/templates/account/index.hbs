@@ -25,7 +25,7 @@
               View Dashboard
       {{/link-to}}
       {{/if}}
-      {{#link-to "p" session.data.authenticated.username class="btn btn-primary btn-block d-block d-sm-none mb-3"}}
+      {{#link-to "p" (lower-case session.data.authenticated.username) class="btn btn-primary btn-block d-block d-sm-none mb-3"}}
               <span class="fa fa-edit" aria-hidden="true"></span>
               Edit Profile
       {{/link-to}}
@@ -315,7 +315,7 @@
                     View Dashboard &nbsp;<span class="fa fa-dashboard" aria-hidden="true"></span>
                 {{/link-to}}
               {{/if}}
-                  {{#link-to "p" session.data.authenticated.username class="btn btn-primary btn-block d-none d-sm-block mb-4"}}
+                  {{#link-to "p" (lower-case session.data.authenticated.username) class="btn btn-primary btn-block d-none d-sm-block mb-4"}}
                       Edit Profile &nbsp;<span class="fa fa-edit" aria-hidden="true"></span>
                   {{/link-to}}
 

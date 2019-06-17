@@ -1,3 +1,5 @@
-class UserBlockSerializer < ActiveModel::Serializer
+class UserBlockSerializer
+  include FastJsonapi::ObjectSerializer
+  
   attributes :id
 end

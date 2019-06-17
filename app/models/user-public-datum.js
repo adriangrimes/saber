@@ -15,7 +15,7 @@ export default DS.Model.extend({
   allowTips: DS.attr('boolean'),
   allowSuggestedGames: DS.attr('boolean'),
   timezone: DS.attr('string'),
-  userCustomTags: DS.attr('string'),
+  userCustomTags: DS.attr(),
   profilePhotoId: DS.attr('number'),
   profileSex: DS.attr('string'),
   profileAboutMe: DS.attr('string'),

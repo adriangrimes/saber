@@ -1,3 +1,5 @@
-class UserFavoriteSerializer < ActiveModel::Serializer
+class UserFavoriteSerializer
+  include FastJsonapi::ObjectSerializer
+  
   attributes :id
 end

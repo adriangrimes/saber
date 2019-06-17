@@ -12,7 +12,7 @@ export default Component.extend({
 
   chatUserMenuUsername: '',
   userMessage: '',
-  chatUserMenu: "d-none",
+  chatUserMenu: 'd-none',
 
   actions: {
     // User wants to send a message so...
@@ -38,11 +38,11 @@ export default Component.extend({
       jQuery('#chatUserMenu').css({ top: menuYPos });
       // Username of clicked name
       this.set('chatUserMenuUsername', event.srcElement.textContent);
-      this.set('chatUserMenu', "d-inline-block");
+      this.set('chatUserMenu', 'd-inline-block');
     },
 
     closeChatUserMenu() {
-      this.set('chatUserMenu', "d-none");
+      this.set('chatUserMenu', 'd-none');
     },
 
     getChannelChatUserList() {
@@ -109,6 +109,13 @@ export default Component.extend({
   },
 
   startChatConnection() {
+    // Display connection starting message
+    this.set('chatMessagesList', [
+      {
+        data: '[connecting to chat...]',
+        systemMessage: true
+      }
+    ]);
     if (this.get('session.isAuthenticated')) {
       // If user is logged in, set Authorization header and post to chat_ticket
       // route. Valid credentials are required to create a chat ticket
@@ -151,6 +158,7 @@ export default Component.extend({
     this.set('chatUsersList', []);
     // Add 2 messages on new chat connection. Connection confirm, and the
     // current topic.
+    this.set('chatMessagesList', []);
     this.chatMessagesList.pushObject({
       data: '[connected to chat]',
       systemMessage: true

@@ -2,7 +2,10 @@
 
   <div class="row m-0">
     <div class ="col-xs-11 col-sm-6">
-      <h4>Active Broadcasters</h4>
+      <h4 {{action "reloadBrowsePageTest"}} >Active Broadcasters</h4>
+      {{#if model.length}}
+        {{model.length}} Broadcasters
+      {{/if}}
       <br>
     </div>
     <div class ="col-xs-11 col-sm-6">
@@ -17,41 +20,36 @@
   <br>
 
   <div class="row m-0">
+
     {{#each model as |broadcaster|}}
           <div class="col-xs-12 col-sm-3 p-0">
             {{#link-to "p" (lower-case broadcaster.username) title=broadcaster.username}}
-              <div class=" broadcaster-panel online">
-                <img class="broadcaster-avatar" src="{{if broadcaster.onlineStatus broadcaster.streamnailPath "/streamnails/404_streamnail.png"}}">
+              <div class=" broadcaster-panel {{if broadcaster.onlineStatus "online" "offline"}}">
+                <img class="broadcaster-avatar" src="{{if broadcaster.onlineStatus "/streamnails/usericon.svg" "/streamnails/404_streamnail.png"}}">
                 <div class="broadcaster-footer">
                   {{broadcaster.username}}
-                  <br>
-                  <div class="broadcaster-topic" title="{{broadcaster.channelTopic}}">
-                    <small>{{broadcaster.channelTopic}}</small>
-                  </div>
+                  {{#if broadcaster.onlineStatus}}
+                    <br>
+                    <div class="broadcaster-topic" title="{{broadcaster.channelTopic}}">
+                      <small>{{broadcaster.channelTopic}}</small>
+                    </div>
+                  {{/if}}
+                  {{#if broadcaster.userCustomTags}}
+                    {{#tag-input
+                      tags=broadcaster.userCustomTags
+                      readOnly=true
+                      as |tag|
+                    }}
+                      {{tag}}
+                    {{/tag-input}}
+                  {{/if}}
                 </div>
               </div>
             {{/link-to}}
           </div>
+    {{else}}
+      No results
     {{/each}}
-{{!--
-    {{#each model as |broadcaster|}}
-      {{#if broadcaster.broadcaster}}
-        {{#unless broadcaster.onlineStatus}}
-          <div class="col-xs-12 col-sm-3 p-0">
-            {{#link-to "p" (lower-case broadcaster.username) title=broadcaster.username}}
-              <div class=" broadcaster-panel offline">
-                <img class="broadcaster-avatar" src="/streamnails/404_streamnail.png">
-                <div class="broadcaster-footer">
-                  {{broadcaster.username}}
-                  <br>
-                  <br>
-                </div>
-              </div>
-            {{/link-to}}
-          </div>
-        {{/unless}}
-      {{/if}}
-    {{/each}} --}}
   </div>
 
 </div>

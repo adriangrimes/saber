@@ -1,3 +1,5 @@
-class PrivateMessageSerializer < ActiveModel::Serializer
+class PrivateMessageSerializer
+  include FastJsonapi::ObjectSerializer
+  
   attributes :id
 end

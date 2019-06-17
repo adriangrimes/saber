@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  #acts_as_token_authenticatable
 
   devise :database_authenticatable,
     :registerable,
@@ -22,6 +21,7 @@ class User < ApplicationRecord
   validates :username, :uniqueness => { :case_sensitive => false },
     format: { with: /^[a-zA-Z0-9_]*$/, :multiline => true },
     length: { minimum: 3, maximum: 26 }
+  validate :username_passes_misc_rules?
   validates :full_name, presence: true, if: :is_contractor?
 
   #validates_associated :user_public_datum
@@ -35,8 +35,13 @@ class User < ApplicationRecord
   end
 
   def ensure_online_status
+    # Only ensure status if broadcaster
     if self.broadcaster == true
-      self.user_public_datum.online_status = [true, false, false, false].sample
+      # If current online_status is not true or false, set to false
+      if self.user_public_datum.online_status != false &&
+        self.user_public_datum.online_status != true
+          self.user_public_datum.online_status = false
+      end
     end
   end
 
@@ -65,6 +70,12 @@ class User < ApplicationRecord
         return true
     else
         return false
+    end
+  end
+
+  def username_passes_misc_rules?
+    if self.username.start_with?('_')
+      errors.add(:username, :invalid)
     end
   end
 

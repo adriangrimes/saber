@@ -1,3 +1,5 @@
-class ContestSerializer < ActiveModel::Serializer
+class ContestSerializer
+  include FastJsonapi::ObjectSerializer
+  
   attributes :id
 end

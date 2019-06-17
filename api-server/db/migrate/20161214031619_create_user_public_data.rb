@@ -14,7 +14,7 @@ class CreateUserPublicData < ActiveRecord::Migration[5.2]
       t.boolean :allow_tips
       t.boolean :allow_suggested_games
       t.string :timezone
-      t.string :user_custom_tags
+      t.string :user_custom_tags, default: nil, array: true
       t.integer :profile_photo_id
       t.string :profile_sex, limit: 16
       t.text :profile_about_me, limit: 2048

@@ -1,3 +1,5 @@
-class ChatTicketSerializer < ActiveModel::Serializer
+class ChatTicketSerializer
+  include FastJsonapi::ObjectSerializer
+  
   attributes :id
 end

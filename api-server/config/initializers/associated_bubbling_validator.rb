@@ -1,3 +1,4 @@
+# Attempts to pass validation errors from associated records to the parent error object
 module ActiveRecord
   module Validations
     class AssociatedBubblingValidator < ActiveModel::EachValidator

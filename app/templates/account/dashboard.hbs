@@ -22,7 +22,7 @@
             {{/if}}
               <div class="row mt-4" >
                 <div class="col  p-1 mb-2">
-                  {{#link-to "p" session.data.authenticated.username class="w-100 btn btn-secondary"}}
+                  {{#link-to "p" (lower-case session.data.authenticated.username) class="w-100 btn btn-secondary"}}
                       <span class="fa fa-edit"></span><br>
                       Profile
                 {{/link-to}}

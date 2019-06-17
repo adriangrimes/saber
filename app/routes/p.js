@@ -23,14 +23,12 @@ export default Route.extend({
       controller.set('tempSexText', model.get('profileSex'));
       controller.set('checkOtherSex', true);
     }
+
     // Set up user tags
-    if (model.get('userCustomTags') != null) {
-      if (model.get('userCustomTags') == '') {
-        controller.set('tags', []);
-      } else {
-        console.log('tags found');
-        controller.set('tags', model.get('userCustomTags').split(','));
-      }
-    }
+    // if (model.get('userCustomTags') == []) {
+    controller.set('tags', model.get('userCustomTags'));
+    // } else {
+    //   controller.set('tags', model.get('userCustomTags').split(','));
+    // }
   }
 });

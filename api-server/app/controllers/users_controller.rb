@@ -6,12 +6,11 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render json: @authenticated_user, include: ['user_public_datum'], status: :ok
+    render json: serialize_user(@authenticated_user), status: :ok
   end
 
   # PATCH/PUT /users/1
   def update
-
     # Process to attach already directly uploaded files to the user record
     unless params[:data][:attributes][:uploaded_identification].blank?
       identification_upload_limit = 2 # TODO move to config file
@@ -67,7 +66,7 @@ class UsersController < ApplicationController
       # Update user record with whitelisted params
       if @authenticated_user.update_with_password(passworded_user_params)
         puts 'update with password successful, rendering'
-        render json: @authenticated_user,
+        render json: serialize_user(@authenticated_user),
           status: :ok
         if @authenticated_user.pending_deletion
           # Send a deletion email after successfully updating user
@@ -82,8 +81,8 @@ class UsersController < ApplicationController
       end
     # Else update attributes that don't require a password
     elsif @authenticated_user.update(nonpassworded_user_params)
-        render json: @authenticated_user,
-          status: :ok
+      render json: serialize_user(@authenticated_user),
+        status: :ok
     else
       render json: ErrorSerializer.serialize(@authenticated_user.errors),
         status: :unprocessable_entity
@@ -92,19 +91,6 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
-    # puts "start setting user to pending deletion"
-    # if user_params[:current_password]&.present?
-    #   if @authenticated_user.update_with_password(account_status: "PENDING DELETION")
-    #     render json: @authenticated_user, status: :ok
-    #     # TODO Send deletion confirmation email
-    #   else
-    #     render json: ErrorSerializer.serialize(@authenticated_user.errors),
-    #       status: :unprocessable_entity
-    #   end
-    # else
-    #   render json: ErrorSerializer.serialize(@authenticated_user.errors),
-    #     status: :unprocessable_entity
-    # end
     render status: :unprocessable_entity
   end
 
@@ -130,6 +116,12 @@ class UsersController < ApplicationController
         clean_up_and_render_unauthorized
         return false
       end
+    end
+
+    def serialize_user(user)
+      UserSerializer
+        .new(user, {params: {user: user}})
+        .serialized_json
     end
 
     def nonpassworded_user_params

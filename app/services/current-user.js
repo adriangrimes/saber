@@ -31,6 +31,8 @@ export default Service.extend({
           );
         })
         .then(user => {
+          console.log('heeloo darkmode');
+          console.log(user.darkMode);
           // Set theme to dark if true, otherwise default theme
           this.themeChanger.set('theme', user.darkMode ? 'dark' : 'default');
           // Close log in modal
@@ -54,7 +56,7 @@ export default Service.extend({
   },
 
   // Registration
-  signUp(username, email, pw, fullname, contractor) {
+  signUp(username, email, pw, fullname, contractorType) {
     this.set('errorMessages', []);
     if (username && email && pw) {
       // Create new User record
@@ -64,17 +66,17 @@ export default Service.extend({
         password: pw // Do not trim password
       });
       let isContractor = false;
-      if (contractor === 'broadcaster') {
+      if (contractorType === 'broadcaster') {
         newUser.set('broadcaster', true);
         newUser.set('affiliate', true);
         isContractor = true;
       }
-      if (contractor === 'developer') {
+      if (contractorType === 'developer') {
         newUser.set('developer', true);
         newUser.set('affiliate', true);
         isContractor = true;
       }
-      if (contractor === 'affiliate') {
+      if (contractorType === 'affiliate') {
         newUser.set('affiliate', true);
         isContractor = true;
       }
@@ -99,6 +101,7 @@ export default Service.extend({
           this.set('signupSuccess', true);
         })
         .catch(err => {
+          console.log('save sign up failed');
           // Save/sign-up failed
           newUser.deleteRecord();
           this.set('errorMessages', err.errors || err);

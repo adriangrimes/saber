@@ -1,3 +1,5 @@
-class CreditTransferSerializer < ActiveModel::Serializer
+class CreditTransferSerializer
+  include FastJsonapi::ObjectSerializer
+  
   attributes :id
 end

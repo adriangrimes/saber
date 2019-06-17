@@ -1,4 +1,5 @@
-class UserSerializer < ActiveModel::Serializer
+class UserSerializer
+  include FastJsonapi::ObjectSerializer
   include Rails.application.routes.url_helpers
 
   has_one :user_public_datum
@@ -7,20 +8,26 @@ class UserSerializer < ActiveModel::Serializer
 
   ## Database authenticatable
   :username,
-  :email,
-  :password, # def below to return nil
-  :current_password, # def below to return nil
+  :email
+  attribute :password do |object|
+    nil
+  end
+  attribute :current_password do |object|
+    nil
+  end
   #:encrypted_password,
   #:authentication_token,
 
   ## Account data
-  :broadcaster,
+  attributes :broadcaster,
   :developer,
-  :affiliate,
+  :affiliate
   #:account_status, # def below to return nil
   #:admin_status,
-  :pending_deletion, # def below to return nil
-  :security_questions,
+  attribute :pending_deletion do |object|
+    false
+  end
+  attributes :security_questions,
   :stream_key,
 
   ## Site settings
@@ -42,36 +49,53 @@ class UserSerializer < ActiveModel::Serializer
   :bitcoin_address,
   :bank_account_number,
   :bank_routing_number,
-  :subject_to_backup_withholding,
-  :uploaded_identification
+  :subject_to_backup_withholding
 
-  def password
-    nil
-  end
-
-  def current_password
-    nil
-  end
-
-  def pending_deletion
-    nil
-  end
-
-  def uploaded_identification
-    # uploaded_identification.each do |image|
-    if object.uploaded_identification.attached?
-      array = []
-      object.uploaded_identification.each do |image|
-        array.push({
+  attribute :uploaded_identification do |object, params|
+    identification_array = nil
+    if params[:user].uploaded_identification.attached?
+      puts 'serializer id photos attached'
+      identification_array = []
+      params[:user].uploaded_identification.each do |image|
+        identification_array.push({
           signed_id: image.signed_id,
-          file_url: url_for(image),
+          file_url: Rails.application.routes.url_helpers.url_for(image),
           filename: image.filename,
           delete: false
           #filetype: image.filetype
         })
       end
-      array
     end
+    identification_array
   end
+
+  # def password
+  #   nil
+  # end
+  #
+  # def current_password
+  #   nil
+  # end
+  #
+  # def pending_deletion
+  #   nil
+  # end
+
+  # def uploaded_identification
+  #   # uploaded_identification.each do |image|
+  #   if object.uploaded_identification.attached?
+  #     array = []
+  #     object.uploaded_identification.each do |image|
+  #       array.push({
+  #         signed_id: image.signed_id,
+  #         file_url: url_for(image),
+  #         filename: image.filename,
+  #         delete: false
+  #         #filetype: image.filetype
+  #       })
+  #     end
+  #     array
+  #   end
+  # end
 
 end

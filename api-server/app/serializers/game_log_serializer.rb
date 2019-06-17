@@ -1,3 +1,5 @@
-class GameLogSerializer < ActiveModel::Serializer
+class GameLogSerializer
+  include FastJsonapi::ObjectSerializer
+  
   attributes :id
 end

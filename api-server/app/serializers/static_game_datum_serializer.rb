@@ -1,3 +1,5 @@
-class StaticGameDatumSerializer < ActiveModel::Serializer
+class StaticGameDatumSerializer
+  include FastJsonapi::ObjectSerializer
+  
   attributes :id
 end
