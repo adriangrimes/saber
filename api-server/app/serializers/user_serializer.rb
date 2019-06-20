@@ -9,12 +9,8 @@ class UserSerializer
   ## Database authenticatable
   :username,
   :email
-  attribute :password do |object|
-    nil
-  end
-  attribute :current_password do |object|
-    nil
-  end
+  attribute :password do nil end
+  attribute :current_password do nil end
   #:encrypted_password,
   #:authentication_token,
 
@@ -22,13 +18,20 @@ class UserSerializer
   attributes :broadcaster,
   :developer,
   :affiliate
-  #:account_status, # def below to return nil
+  #:account_status,
   #:admin_status,
-  attribute :pending_deletion do |object|
-    false
-  end
+  attribute :pending_deletion do false end
   attributes :security_questions,
-  :stream_key,
+  :stream_key
+  attribute :credits_remaining do |user|
+    credits_remaining = CreditPurchase
+      .select(:credits_remaining)
+      .where('user_id = ?', user.id)
+      .where('cleared = true')
+      .where('cancelled = false')
+      .sum(:credits_remaining)
+    credits_remaining * 1
+  end
 
   ## Site settings
   :dark_mode,
@@ -51,12 +54,12 @@ class UserSerializer
   :bank_routing_number,
   :subject_to_backup_withholding
 
-  attribute :uploaded_identification do |object, params|
+  attribute :uploaded_identification do |user|
     identification_array = nil
-    if params[:user].uploaded_identification.attached?
+    if user.uploaded_identification.attached?
       puts 'serializer id photos attached'
       identification_array = []
-      params[:user].uploaded_identification.each do |image|
+      user.uploaded_identification.each do |image|
         identification_array.push({
           signed_id: image.signed_id,
           file_url: Rails.application.routes.url_helpers.url_for(image),

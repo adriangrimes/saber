@@ -193,6 +193,36 @@ export default Controller.extend({
       }
     },
 
+    sendTip(tipAmount) {
+      tipAmount = Number.parseInt(tipAmount);
+      if (
+        this.get('session.isAuthenticated') &&
+        Number.isInteger(tipAmount) &&
+        tipAmount >= 1
+      ) {
+        console.log('sending tip of', tipAmount);
+
+        let creditTransfer = this.store.createRecord('credit-transfer', {
+          fromUserId: this.get('session.data.authenticated.user_id'),
+          toUserId: this.get('model').get('userId'),
+          creditsTransferred: tipAmount,
+          transferType: 'tip'
+        });
+
+        creditTransfer
+          .save()
+          .then(transfer => {
+            console.log('tipped: ', transfer.creditsTransferred);
+            this.currentUser.load();
+          })
+          .catch(() => {
+            console.log('failed to tip');
+          });
+      } else {
+        console.log('invalid tip');
+      }
+    },
+
     copyUrlToClipboard() {
       /* Get the text field */
       var copyText = document.getElementById('urlDisplay');

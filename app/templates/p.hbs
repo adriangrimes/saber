@@ -81,13 +81,13 @@
                   </div>
                   <div class={{this.tipForm}}>
                     <div style="width:130px">
-                      {{input type="number" class="form-control" min="1" max="10000" value=tipAmountOptions }}
+                      {{input type="number" class="form-control" min="1" max="10000" step="1" value=tipAmountOptions }}
                     </div>
                     <div class="w-75">
                       {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Chat note (optional)" }}
                     </div>
                   </div>
-                  {{confirm-input type="tip" title="Tip" titleDetail=this.tipAmountOptions button-title="Tip"}}
+                  {{confirm-input type="tip" title="Tip" titleDetail=this.tipAmountOptions button-title="Tip" onConfirm=(action "sendTip" tipAmountOptions)}}
                 </div>
               </div>
           </div>

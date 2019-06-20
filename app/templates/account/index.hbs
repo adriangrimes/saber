@@ -1,167 +1,203 @@
 <div class="container">
 
-<div class="row m-0 mb-3 ml-2">
-  <div class="col-8 col-sm-6 col-md-5 col-lg-4 p-0 pt-1 pl-1">
-    <h2>Account Settings</h2>
-    {{error-display}}
+  <div class="row m-0 mb-3 ml-2">
+    <div class="col-8 col-sm-6 col-md-5 col-lg-4 p-0 pt-1 pl-1">
+      <h2>Account Settings</h2>
+      {{error-display}}
+    </div>
+    <div class="col-4 p-0 userTypeBadges">
+      {{#if this.currentUser.user.affiliate}}
+        <div>Affiliate<span class="fa fa-bullhorn pl-1"></span></div>
+      {{/if}}
+      {{#if this.currentUser.user.broadcaster}}
+        <div>Broadcaster<span class="fa fa-video-camera pl-1"></span></div>
+      {{/if}}
+      {{#if this.currentUser.user.developer}}
+        <div>Developer<span class="fa fa-file-code-o pl-1"></span></div>
+      {{/if}}
+    </div>
   </div>
-  <div class="col-4 p-0 userTypeBadges">
-    {{#if this.currentUser.user.affiliate}}
-      <div>Affiliate<span class="fa fa-bullhorn pl-1"></span></div>
-    {{/if}}
-    {{#if this.currentUser.user.broadcaster}}
-      <div>Broadcaster<span class="fa fa-video-camera pl-1"></span></div>
-    {{/if}}
-    {{#if this.currentUser.user.developer}}
-      <div>Developer<span class="fa fa-file-code-o pl-1"></span></div>
-    {{/if}}
-  </div>
-</div>
-<div class="row m-0">
+  <div class="row m-0">
     <div class="col-xs-12 col-sm-7 col-md-8 ">
       {{#if this.currentUser.user.isContracted}}
-      {{#link-to "account.dashboard" class="btn btn-primary btn-block d-block d-sm-none"}}
-              <span class="fa fa-dashboard" aria-hidden="true"></span>
-              View Dashboard
-      {{/link-to}}
+        {{#link-to "account.dashboard" class="btn btn-primary btn-block d-block d-sm-none"}}
+          <span class="fa fa-dashboard" aria-hidden="true"></span>
+          View Dashboard
+        {{/link-to}}
       {{/if}}
       {{#link-to "p" (lower-case session.data.authenticated.username) class="btn btn-primary btn-block d-block d-sm-none mb-3"}}
-              <span class="fa fa-edit" aria-hidden="true"></span>
-              Edit Profile
+        <span class="fa fa-edit" aria-hidden="true"></span>
+        Edit Profile
       {{/link-to}}
 
-          {{#if this.currentUser.user.isContracted}}
-              <div  class="card mb-3" id="payoutSettingsAccordion">
-                  <div class="card-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#payoutSettingsAccordion" data-target="#collapsePayoutSettings">
-                    <h3 class="card-title">Payout Settings</h3>
+      {{#if this.currentUser.user.isContracted}}
+        <div class="card mb-3" id="payoutSettingsAccordion">
+          <div class="card-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#payoutSettingsAccordion" data-target="#collapsePayoutSettings">
+            <h3 class="card-title">Payout Settings</h3>
+          </div>
+          <div id="collapsePayoutSettings" class="card-collapse collapse">
+            <div class="card-body">
+              <h5> Select Payout Method:</h5>
+
+              <form {{action "submitPayoutSettings" on="submit"}}>
+                <div class="form-check form-check-inline w-100 pb-3">
+                  <div class=" w-50 mx-0 payout-method btn btn-block btn-light " {{action "checkThis" "inputPayoutCheck"}}>
+                    {{radio-button value='check' id="inputPayoutCheck" name=inputPayoutType checked=inputPayoutType}}
+                    <label class="form-check-label" for="inputPayoutType">Mailed Check</label>
                   </div>
-                  <div id="collapsePayoutSettings" class="card-collapse collapse">
-                    <div class="card-body">
-                            <h5> Select Payout Method:</h5>
+                  <div class=" w-50 mx-0 mt-0 payout-method btn btn-block btn-light " {{action "checkThis" "inputPayoutBitcoin"}}>
+                    {{radio-button value='bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=inputPayoutType}}
+                    <label class="form-check-label" for="inputPayoutType">Bitcoin</label>
+                  </div>
+                </div>
+                {{#if payoutIsBitcoin}}
+                  <div class="form-group" id="bitcoinAddressInputDiv">
+                    <label for="inputbitcoinaddress">Bitcoin Address</label>
+                    {{input type="text" class="form-control" value=inputbitcoinaddress }}
+                  </div>
+                {{else}}
+                {{/if}}
 
-                  <form {{action "submitPayoutSettings" on="submit"}}>
-                      <div  class="form-check form-check-inline w-100 pb-3">
-                        <div class=" w-50 mx-0 payout-method btn btn-block btn-light "  {{action "checkThis" "inputPayoutCheck"}}>
-                          {{radio-button value='check' id="inputPayoutCheck" name=inputPayoutType checked=inputPayoutType}}
-                          <label class="form-check-label" for="inputPayoutType">Mailed Check</label>
-                        </div>
-                          <div class=" w-50 mx-0 mt-0 payout-method btn btn-block btn-light " {{action "checkThis" "inputPayoutBitcoin"}}>
-                            {{radio-button value='bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=inputPayoutType}}
-                            <label class="form-check-label" for="inputPayoutType">Bitcoin</label>
-                          </div>
-                      </div>
-                      {{#if payoutIsBitcoin}}
-                      <div class="form-group" id="bitcoinAddressInputDiv">
-                        <label for="inputbitcoinaddress">Bitcoin Address</label>
-                        {{input type="text" class="form-control" value=inputbitcoinaddress }}
-                      </div>
-                      {{else}}
-                      {{/if}}
-
-                          <div class="form-group">
-                            <label for="inputaddress1">Address Line 1</label>
-                            {{input type="text" class="form-control" value=inputaddress1 }}
-                          </div>
+                <div class="form-group">
+                  <label for="inputaddress1">Address Line 1</label>
+                  {{input type="text" class="form-control" value=inputaddress1 }}
+                </div>
 
 
-                          <div class="form-group">
-                            <label for="inputaddress2">Address Line 2</label>
-                            {{input type="text" class="form-control" value=inputaddress2 }}
-                          </div>
-                          <div class="form-group">
-                            <label for="inputCity">City</label>
-                            {{input type="text" class="form-control" value=inputCity }}
-                          </div>
-                          <div class="form-group">
-                            <label for="inputRegion">State / Province / Region</label>
-                            {{input type="text" class="form-control" value=inputRegion }}
-                          </div>
-                          <div class="form-group">
-                            <label for="inputZipcode">Zip / Postal Code</label>
-                            {{input type="text" class="form-control" value=inputZipcode }}
-                          </div>
-                          <div class="form-group">
-                          <label for="inputCountry">Country</label>
-                          {{#power-select
+                <div class="form-group">
+                  <label for="inputaddress2">Address Line 2</label>
+                  {{input type="text" class="form-control" value=inputaddress2 }}
+                </div>
+                <div class="form-group">
+                  <label for="inputCity">City</label>
+                  {{input type="text" class="form-control" value=inputCity }}
+                </div>
+                <div class="form-group">
+                  <label for="inputRegion">State / Province / Region</label>
+                  {{input type="text" class="form-control" value=inputRegion }}
+                </div>
+                <div class="form-group">
+                  <label for="inputZipcode">Zip / Postal Code</label>
+                  {{input type="text" class="form-control" value=inputZipcode }}
+                </div>
+                <div class="form-group">
+                  <label for="inputCountry">Country</label>
+                  {{#power-select
                                 selected=inputCountry
                                 id="inputCountry"
                                 options=countriesList
                                 onchange=(action (mut inputCountry))
                                 oninput=(action "checkLength")
                                 as |name|}}
-                                {{name}}
-                              {{/power-select}}
-                          </div>
-          
-                        <div class=text-right>
-                          <button type="submit" class={{this.payoutSettingSubmitBtn}}>{{this.payoutSettingSubmitText}}</button>
-                      </div>
-                        </form>
-                    </div>
+                    {{name}}
+                  {{/power-select}}
+                </div>
                   </div>
               </div>
-          {{/if}}
 
-          <div  class="card mb-3"   id="notifySettingsAccordion">
-              <div class="card-heading accordion-toggle " data-toggle="collapse" data-parent="#notifySettingsAccordion" data-target="#collapsenotifySettings">
-                   <h3 class="card-title">Notification Settings</h3>
-              </div>
-          <div id="collapsenotifySettings" class="card-collapse show">
-            <div class="card-body">
-                <h5>Email Subscriptions </h5>
-                <form {{action "submitnotifySettings" on="submit"}}>
-
-                <div class="form-check">
-                  <label class="form-check-label">
-                    {{input type="checkbox" class="form-check-input" name="sendEmailFollowedOnline" checked=sendEmailFollowedOnline}}
-                      "Now Streaming" notifications from broadcasters you follow <i class="fa fa-heart" aria-hidden="true"></i>
-                  </label>
                 </div>
+                <div class=text-right>
+                  <button type="submit" class={{this.payoutSettingSubmitBtn}}>{{this.payoutSettingSubmitText}}</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3" id="transactionsAccordion">
+          <div class="card-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#transactionsAccordion" data-target="#collapsetransactions">
+            <h3 class="card-title">Tips</h3>
+          </div>
+          <div id="collapsetransactions" class="card-collapse collapse">
+            <div class="card-body">
+              <input type="button" class="btn btn-primary" value="Get tips" {{action "getTransactions"}}>
+              {{#if transactions}}
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Date</th>
+                      <th scope="col">Credits</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Payout Percentage</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each transactions as |transaction index|}}
+                      <tr>
+                        <td>{{transaction.createdAt}}</td>
+                        <td>{{transaction.creditsTransferred}}</td>
+                        <td>{{transaction.transferDescription}}</td>
+                        <td>{{transaction.broadcasterPayoutPercentage}}%</td>
+                      </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      {{/if}}
+
+      <div class="card mb-3" id="notifySettingsAccordion">
+        <div class="card-heading accordion-toggle " data-toggle="collapse" data-parent="#notifySettingsAccordion" data-target="#collapsenotifySettings">
+          <h3 class="card-title">Notification Settings</h3>
+        </div>
+        <div id="collapsenotifySettings" class="card-collapse show">
+          <div class="card-body">
+            <h5>Email Subscriptions </h5>
+            <form {{action "submitnotifySettings" on="submit"}}>
+
+              <div class="form-check">
+                <label class="form-check-label">
+                  {{input type="checkbox" class="form-check-input" name="sendEmailFollowedOnline" checked=sendEmailFollowedOnline}}
+                  "Now Streaming" notifications from broadcasters you follow <i class="fa fa-heart" aria-hidden="true"></i>
+                </label>
+              </div>
 
               <div class="form-check">
                 <label class="form-check-label">
                   {{input type="checkbox" class="form-check-input" name="privateMessageEmailNotifications" checked=privateMessageEmailNotifications}}
-                    Private message notifications
-                  </label>
+                  Private message notifications
+                </label>
               </div>
               <div class="form-check">
                 <label class="form-check-label">
                   {{input type="checkbox" class="form-check-input" name="sendEmailSiteNews" checked=sendEmailSiteNews}}
-                    Monthly site newsletter
-                  </label>
+                  Monthly site newsletter
+                </label>
               </div>
 
 
-            <div class=text-right>
-              <button type="submit" class={{this.notifySettingsSubmitBtn}}>{{this.notifySettingsSubmitText}}</button>
-            </div>
-
-              </form>
+              <div class=text-right>
+                <button type="submit" class={{this.notifySettingsSubmitBtn}}>{{this.notifySettingsSubmitText}}</button>
               </div>
+
+            </form>
           </div>
         </div>
+      </div>
 
-        <div  class="card mb-3" id="siteSettingsAccordion">
-            <div class="card-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#siteSettingsAccordion" data-target="#collapseSiteSettings">
               <h3 class="card-title"> Site Settings</h3>
+      <div class="card mb-3" id="siteSettingsAccordion">
+        <div class="card-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#siteSettingsAccordion" data-target="#collapseSiteSettings">
         </div>
         <div id="collapseSiteSettings" class="card-collapse collapse">
           <div class="card-body">
             <form {{action "submitSiteSettings" on="submit"}}>
 
 
-                      <hr class="splash-horizontal-rule">
-                <h5> Site Graphics Style</h5>
+              <hr class="splash-horizontal-rule">
+              <h5> Site Graphics Style</h5>
 
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <!-- <input type="checkbox" class="form-check-input" checked> -->
-                    {{input type="checkbox" class="form-check-input" name="darkMode" checked=this.currentUser.user.darkMode }}
-                      Dark mode
-                    </label>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <!-- <input type="checkbox" class="form-check-input" checked> -->
+                  {{input type="checkbox" class="form-check-input" name="darkMode" checked=this.currentUser.user.darkMode }}
+                  Dark mode
+                </label>
               </div>
               <hr class="splash-horizontal-rule">
-            <h5>Time Zone</h5>
+              <h5>Time Zone</h5>
 
               <div class="form-group">
                 <label for="inputTimeZone">Your Time Zone</label>
@@ -172,201 +208,199 @@
                       onchange=(action (mut inputTimeZone))
                       oninput=(action "checkLength")
                       as |name|}}
-                      {{name}}
-                    {{/power-select}}
+                  {{name}}
+                {{/power-select}}
 
 
-              <!--use matcher=timeZoneSearch instead of searchField for more advanced search -->
-                 </div>
-
-                    <div class=text-right>
-                      <button type="submit" class={{this.siteSettingSubmitBtn}}>{{this.siteSettingSubmitText}}</button>
-
-                  </div>
-              </form>
-                </div>
-            </div>
-          </div>
-            <div class="card mb-3"  id="securitySettingsAccordion">
-              <div class="card-heading accordion-toggle collapsed"
-                data-toggle="collapse" data-parent="#securitySettingsAccordion"
-                data-target="#collapseSecuritySettings">
-                  <h3 class="card-title">Email and Security Settings</h3>
+                <!--use matcher=timeZoneSearch instead of searchField for more advanced search -->
               </div>
-              <div id="collapseSecuritySettings" class="card-collapse collapse">
-                <div class="card-body">
-                  <form {{action "submitEmailChange" on="submit"}}>
-                    <h5>Change your email address</h5>
-                    <div class="form-group">
-                      <label for="inputemailAddress">New Email address</label>
-                      {{input type="email" class="form-control" required=true
+
+              <div class=text-right>
+                <button type="submit" class={{this.siteSettingSubmitBtn}}>{{this.siteSettingSubmitText}}</button>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-3" id="securitySettingsAccordion">
+        <div class="card-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#securitySettingsAccordion" data-target="#collapseSecuritySettings">
+          <h3 class="card-title">Email and Security Settings</h3>
+        </div>
+        <div id="collapseSecuritySettings" class="card-collapse collapse">
+          <div class="card-body">
+            <form {{action "submitEmailChange" on="submit"}}>
+              <h5>Change your email address</h5>
+              <div class="form-group">
+                <label for="inputemailAddress">New Email address</label>
+                {{input type="email" class="form-control" required=true
                         autocomplete="email" value=inputnewemailAddress }}
-                    </div>
-                    <div class="form-group">
-                      <label for="inputnewemailAddressConfirm">Confirm New Email address</label>
-                      {{input type="email" class="form-control" required=true
+              </div>
+              <div class="form-group">
+                <label for="inputnewemailAddressConfirm">Confirm New Email address</label>
+                {{input type="email" class="form-control" required=true
                         autocomplete="email" value=inputnewemailAddressConfirm }}
-                    </div>
-                    <div class="form-group">
-                      <label for="inputpassword">Current Password</label>
-                      {{input type="password" class="form-control" required=true
+              </div>
+              <div class="form-group">
+                <label for="inputpassword">Current Password</label>
+                {{input type="password" class="form-control" required=true
                         autocomplete="current-password" value=inputEmailCurrentPassword }}
-                    </div>
-                    <div class=text-right>
-                      <button type="submit" class={{this.emailChangeSubmitBtn}}>{{this.emailChangeSubmitText}}</button>
-                    </div>
-                  </form>
+              </div>
+              <div class=text-right>
+                <button type="submit" class={{this.emailChangeSubmitBtn}}>{{this.emailChangeSubmitText}}</button>
+              </div>
+            </form>
 
-                  <hr class="splash-horizontal-rule">
+            <hr class="splash-horizontal-rule">
 
-                  <form {{action "submitPasswordChange" on="submit"}}>
-                    <h5>Change your password</h5>
-                    <div class="form-group">
-                      <label for="inputpassword">New Password</label>
-                      {{input type="password" class="form-control" required=true
+            <form {{action "submitPasswordChange" on="submit"}}>
+              <h5>Change your password</h5>
+              <div class="form-group">
+                <label for="inputpassword">New Password</label>
+                {{input type="password" class="form-control" required=true
                         autocomplete="new-password" value=inputnewpassword }}
-                    </div>
-                    <div class="form-group">
-                      <label for="inputpasswordconfirm">Confirm New Password</label>
-                      {{input type="password" class="form-control" required=true
+              </div>
+              <div class="form-group">
+                <label for="inputpasswordconfirm">Confirm New Password</label>
+                {{input type="password" class="form-control" required=true
                         autocomplete="new-password" value=inputpasswordconfirm }}
-                    </div>
-                    <div class="form-group">
-                      <label for="inputpassword">Current Password</label>
-                      {{input type="password" class="form-control" required=true
+              </div>
+              <div class="form-group">
+                <label for="inputpassword">Current Password</label>
+                {{input type="password" class="form-control" required=true
                         autocomplete="current-password" value=inputPasswordCurrentPassword }}
-                    </div>
-                    <div class=text-right>
-                      <button type="submit" class={{this.passwordChangeSubmitBtn}}>{{this.passwordChangeSubmitText}}</button>
+              </div>
+              <div class=text-right>
+                <button type="submit" class={{this.passwordChangeSubmitBtn}}>{{this.passwordChangeSubmitText}}</button>
 
-                    </div>
-                  </form>
+              </div>
+            </form>
 
-                  <hr class="splash-horizontal-rule">
+            <hr class="splash-horizontal-rule">
 
-                  <form {{action "submitSecurityQuestionChange" on="submit"}}>
-                    <h5>Change your Security Questions</h5>
-                    <div class="form-group">
-                      <label >Question 1</label>
-                      {{#power-select
+            <form {{action "submitSecurityQuestionChange" on="submit"}}>
+              <h5>Change your Security Questions</h5>
+              <div class="form-group">
+                <label>Question 1</label>
+                {{#power-select
                         selected=inputQuestion1
                         id="inputQuestion1"
                         options=questionsList
                         onchange=(action (mut inputQuestion1))
                         oninput=(action "checkLength")
                         as |name|}}
-                          {{name}}
-                      {{/power-select}}
-                    </div>
-                    <div class="form-group">
-                      <label for="inputAnswer1">Answer 1</label>
-                      {{input type="text" class="form-control" value=inputAnswer1 }}
-                    </div>
-                    <div class="form-group">
-                      <label >Question 2</label>
-                      {{#power-select
+                  {{name}}
+                {{/power-select}}
+              </div>
+              <div class="form-group">
+                <label for="inputAnswer1">Answer 1</label>
+                {{input type="text" class="form-control" value=inputAnswer1 }}
+              </div>
+              <div class="form-group">
+                <label>Question 2</label>
+                {{#power-select
                         selected=inputQuestion2
                         id="inputQuestion2"
                         options=questionsList
                         onchange=(action (mut inputQuestion2))
                         oninput=(action "checkLength")
                         as |name|}}
-                          {{name}}
-                      {{/power-select}}
-                    </div>
-                    <div class="form-group">
-                      <label for="inputAnswer1">Answer 2</label>
-                      {{input type="text" class="form-control" value=inputAnswer2 }}
-                    </div>
-                    <div class="form-group">
-                      <label >Question 3</label>
-                      {{#power-select
+                  {{name}}
+                {{/power-select}}
+              </div>
+              <div class="form-group">
+                <label for="inputAnswer1">Answer 2</label>
+                {{input type="text" class="form-control" value=inputAnswer2 }}
+              </div>
+              <div class="form-group">
+                <label>Question 3</label>
+                {{#power-select
                         selected=inputQuestion3
                         id="inputQuestion3"
                         options=questionsList
                         onchange=(action (mut inputQuestion3))
                         oninput=(action "checkLength")
                         as |name|}}
-                          {{name}}
-                      {{/power-select}}
-                    </div>
-                    <div class="form-group">
-                      <label for="inputAnswer3">Answer 3</label>
-                      {{input type="text" class="form-control" value=inputAnswer3 }}
-                    </div>
-                    <div class="form-group">
-                      <label for="inputpassword">Current Password</label>
-                      {{input type="password" class="form-control" required=true
+                  {{name}}
+                {{/power-select}}
+              </div>
+              <div class="form-group">
+                <label for="inputAnswer3">Answer 3</label>
+                {{input type="text" class="form-control" value=inputAnswer3 }}
+              </div>
+              <div class="form-group">
+                <label for="inputpassword">Current Password</label>
+                {{input type="password" class="form-control" required=true
                         autocomplete="current-password" value=inputSecurityQuestionCurrentPassword }}
-                    </div>
-                    <div class=text-right>
-                      <button type="submit" class={{this.securityQuestionsSubmitBtn}}>{{this.securityQuestionsSubmitText}}</button>
-
-                    </div>
-                  </form>
-                </div>
               </div>
-            </div>
+              <div class=text-right>
+                <button type="submit" class={{this.securityQuestionsSubmitBtn}}>{{this.securityQuestionsSubmitText}}</button>
+
+              </div>
+            </form>
           </div>
+        </div>
+      </div>
+    </div>
 
-          <div class="col-xs-12 col-sm-5 col-md-4">
-              {{#if this.currentUser.user.isContracted}}
-                {{#link-to "account.dashboard"  class="btn btn-primary btn-block d-none d-sm-block mb-4"}}
-                    View Dashboard &nbsp;<span class="fa fa-dashboard" aria-hidden="true"></span>
-                {{/link-to}}
-              {{/if}}
-                  {{#link-to "p" (lower-case session.data.authenticated.username) class="btn btn-primary btn-block d-none d-sm-block mb-4"}}
-                      Edit Profile &nbsp;<span class="fa fa-edit" aria-hidden="true"></span>
-                  {{/link-to}}
+    <div class="col-xs-12 col-sm-5 col-md-4">
+      {{#if this.currentUser.user.isContracted}}
+        {{#link-to "account.dashboard"  class="btn btn-primary btn-block d-none d-sm-block mb-4"}}
+          View Dashboard &nbsp;<span class="fa fa-dashboard" aria-hidden="true"></span>
+        {{/link-to}}
+      {{/if}}
+      {{#link-to "p" (lower-case session.data.authenticated.username) class="btn btn-primary btn-block d-none d-sm-block mb-4"}}
+        Edit Profile &nbsp;<span class="fa fa-edit" aria-hidden="true"></span>
+      {{/link-to}}
 
-                {{#if this.currentUser.user.broadcaster}}
-                {{else}}
-                  {{#link-to "account.broadcaster"  class="btn btn-primary btn-block d-none d-sm-block" }}
-                    Become a Broadcaster &nbsp;<span class="fa fa-video-camera" aria-hidden="true"></span>
-                  {{/link-to}}
+      {{#if this.currentUser.user.broadcaster}}
+      {{else}}
+        {{#link-to "account.broadcaster"  class="btn btn-primary btn-block d-none d-sm-block" }}
+          Become a Broadcaster &nbsp;<span class="fa fa-video-camera" aria-hidden="true"></span>
+        {{/link-to}}
 
-                {{/if}}
-                {{#if this.currentUser.user.developer}}
-                {{else}}
-                  {{#link-to "account.developer" class="btn btn-primary btn-block d-none d-sm-block" }}
-                    Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span>
-                  {{/link-to}}
+      {{/if}}
+      {{#if this.currentUser.user.developer}}
+      {{else}}
+        {{#link-to "account.developer" class="btn btn-primary btn-block d-none d-sm-block" }}
+          Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span>
+        {{/link-to}}
 
-                {{/if}}
-                {{#if this.currentUser.user.affiliate}}
-                {{else}}
-                  {{#link-to "account.affiliate" class="btn btn-primary btn-block d-none d-sm-block" }}
-                  Become an Affiliate &nbsp;<span class="fa fa-bullhorn" aria-hidden="true"></span>
-                  {{/link-to}}
-                {{/if}}
+      {{/if}}
+      {{#if this.currentUser.user.affiliate}}
+      {{else}}
+        {{#link-to "account.affiliate" class="btn btn-primary btn-block d-none d-sm-block" }}
+          Become an Affiliate &nbsp;<span class="fa fa-bullhorn" aria-hidden="true"></span>
+        {{/link-to}}
+      {{/if}}
 
-                {{#if this.currentUser.user.broadcaster}}
-                {{else}}
-                  {{#link-to "account.broadcaster" class="btn btn-primary btn-block d-block d-sm-none" }}
-                    Become a Broadcaster &nbsp;<span class="fa fa-video-camera" aria-hidden="true"></span>
-                  {{/link-to}}
-                {{/if}}
-                {{#if this.currentUser.user.developer}}
-                {{else}}
-                  {{#link-to "account.developer" class="btn btn-primary btn-block d-block d-sm-none" }}
-                  Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span>
+      {{#if this.currentUser.user.broadcaster}}
+      {{else}}
+        {{#link-to "account.broadcaster" class="btn btn-primary btn-block d-block d-sm-none" }}
+          Become a Broadcaster &nbsp;<span class="fa fa-video-camera" aria-hidden="true"></span>
+        {{/link-to}}
+      {{/if}}
+      {{#if this.currentUser.user.developer}}
+      {{else}}
+        {{#link-to "account.developer" class="btn btn-primary btn-block d-block d-sm-none" }}
+          Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span>
 
-                  {{/link-to}}
-                {{/if}}
-                {{#if this.currentUser.user.affiliate}}
-                {{else}}
-                    {{#link-to "account.affiliate" class="btn btn-primary btn-block d-block d-sm-none" }}
-                      Become an Affiliate &nbsp;<span class="fa fa-bullhorn" aria-hidden="true"></span>
-                    {{/link-to}}
-                {{/if}}
-                <div class="close-account-btn">
-                  {{#link-to "account.close" class="btn btn-outline-dark btn-block "  }}
-                    Close Account
-                  {{/link-to}}
-              </div>
-              </div>
+        {{/link-to}}
+      {{/if}}
+      {{#if this.currentUser.user.affiliate}}
+      {{else}}
+        {{#link-to "account.affiliate" class="btn btn-primary btn-block d-block d-sm-none" }}
+          Become an Affiliate &nbsp;<span class="fa fa-bullhorn" aria-hidden="true"></span>
+        {{/link-to}}
+      {{/if}}
+      <div class="close-account-btn">
+        {{#link-to "account.close" class="btn btn-outline-dark btn-block "  }}
+          Close Account
+        {{/link-to}}
+      </div>
+    </div>
 
-</div>
+  </div>
 </div>
 
 {{outlet}}

@@ -8,6 +8,7 @@ class ApplicationController < ActionController::API
   #end
 
   def token_is_authorized_for_id?(user_id)
+    user_id = user_id.to_i
     #TODO: encrypt authentication token
     @authenticated_user = nil
     # Extract token from Authentication header

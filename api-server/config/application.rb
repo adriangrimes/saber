@@ -36,8 +36,8 @@ module ApiServer
 
     config.active_record.sqlite3.represent_boolean_as_integer = true
 
-    config.action_mailer.delivery_method = :mailjet_api
     config.action_mailer.default_url_options = { :host => "saber.tv" }
+    config.action_mailer.delivery_method = :mailjet
     config.to_prepare do
       DeviseController.respond_to :jsonapi
     end
@@ -51,6 +51,30 @@ module ApiServer
     end
 
     config.middleware.use ActionDispatch::Flash
+
+    ##################################################
+    # Saber configuration values
+
+    # Payout percentages
+    config.x.saber.broadcaster_payout_percentage = 50
+    config.x.saber.developer_payout_percentage = 5
+    config.x.saber.developer_bonus_payout_percentage = 25
+    # config.saber.affiliate_payout_percentage = 5
+
+    # Credit denominations
+    config.x.saber.credit_denominations = {
+      10 => 100,
+      25 => 250,
+      50 => 500,
+      75 => 750,
+      100 => 1000
+    }
+
+    # Contests
+
+    # Referral
+
+    ##################################################
 
   end
 end

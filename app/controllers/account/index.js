@@ -6,6 +6,7 @@ export default Controller.extend({
   store: inject(),
   session: inject(),
   themeChanger: inject(),
+
   payoutSettingSubmitBtn: 'btn btn-primary',
   payoutSettingSubmitText: 'Save',
   notifySettingsSubmitBtn: 'btn btn-primary',
@@ -728,6 +729,22 @@ export default Controller.extend({
         .catch(reason => {
           console.log('error finding user record: ' + reason);
           this.set('errorMessage', reason.error || reason);
+        });
+    },
+
+    getTransactions() {
+      console.log('getting transactions');
+      let userId = this.get('session.data.authenticated.user_id');
+      this.store
+        .query('transaction', {
+          id: userId
+        })
+        .then(transactions => {
+          console.log(transactions);
+          this.set('transactions', transactions);
+        })
+        .catch(err => {
+          console.log('error getting transactions: ' + err);
         });
     }
   }

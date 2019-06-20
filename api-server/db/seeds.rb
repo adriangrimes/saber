@@ -12,9 +12,9 @@ if Rails.env.development?
   fake_online_statuses = [true, false]
 
   # Set how many of each user type to seed
-  usercount = 10
-  broadcastercount = 50
-  developercount = 10
+  usercount = 5
+  broadcastercount = 5
+  developercount = 5
   affiliatecount = 5
 
   # User for testing database defaults

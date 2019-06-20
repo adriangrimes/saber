@@ -14,6 +14,7 @@
         <form>
           <div class="modal-body">
             <h4>How many?</h4>
+            {{!--
             <div class="d-block d-sm-none btn-block btn-group-vertical" data-toggle="buttons">
                 <label id="creditSelect" class="btn btn-outline-dark">
                   <input type="radio" name="credits" id="credits1" value="100" >
@@ -35,33 +36,33 @@
                   <input type="radio" name="credits" id="credits5" value="1000"  checked>
                   1,000
                 </label>
-              </div>
+              </div> --}}
               <div class="d-none d-sm-block btn-block btn-group-vertical" data-toggle="buttons">
-                  <label class="btn  btn-outline-dark">
-                    <input type="radio" name="credits" id="creditslarge1" value="100" >
-                    100
-                  </label>
-                  <label  class="btn  btn-outline-dark">
-                    <input type="radio" name="credits" id="creditslarge2" value="250" >
-                    250
-                  </label>
-                  <label class="btn  btn-outline-dark">
-                    <input type="radio" name="credits" id="creditslarge3" value="500" >
-                    500
-                  </label>
-                  <label  class="btn  btn-outline-dark ">
-                    <input type="radio" name="credits" id="creditslarge4" value="750" >
-                    750
-                  </label>
-                  <label  class="btn  btn-outline-dark active">
-                    <input type="radio" name="credits" id="creditslarge5" value="1000"  checked>
-                    1,000
-                  </label>
+                <label class="btn btn-dark px-2 d-none d-sm-block ">
+                  {{radio-button name="basic-example" value=100 checked=creditAmount}}
+                  100
+                </label>
+                <label class="btn btn-dark px-2 d-none d-sm-block ">
+                  {{radio-button name="basic-example" value=250 checked=creditAmount}}
+                  250
+                </label>
+                <label class="btn btn-dark px-2 d-none d-sm-block ">
+                  {{radio-button name="basic-example" value=500 checked=creditAmount}}
+                  500
+                </label>
+                <label class="btn btn-dark px-2 d-none d-sm-block ">
+                  {{radio-button name="basic-example" value=750 checked=creditAmount}}
+                  759
+                </label>
+                <label class="btn btn-dark px-2 d-none d-sm-block ">
+                  {{radio-button name="basic-example" value=1000 checked=creditAmount}}
+                  1000
+                </label>
                 </div>
   <br>  <br>
             <br>
             <button type="button" class="d-block d-sm-none btn btn-primary btn-lg btn-block" data-dismiss="modal" >Buy Credits</button>
-            <button type="button" class="d-none d-sm-block btn btn-primary btn-block" data-dismiss="modal" >Buy Credits</button>
+            <button type="button" class="d-none d-sm-block btn btn-primary btn-block" data-dismiss="modal" {{action "purchaseCredits"}}>Buy Credits</button>
             <br>
             <a role="button"  data-dismiss="modal" class="btn btn-block btn-outline-dark">Cancel</a>
           </div>

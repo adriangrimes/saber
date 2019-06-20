@@ -27,6 +27,12 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.text :private_user_notes, limit: 2048
 
       ## Payment profile (TODO most of these are probably not safe in terms of user security)
+      t.integer :broadcaster_percentage,
+        limit: 1,
+        default: Rails.application.config.x.saber.broadcaster_payout_percentage
+      t.integer :developer_percentage,
+        limit: 1,
+        default: Rails.application.config.x.saber.developer_payout_percentage
       t.string :full_name
       t.datetime :birthdate
       t.string :address_line1

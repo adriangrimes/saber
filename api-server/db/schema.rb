@@ -63,23 +63,30 @@ ActiveRecord::Schema.define(version: 2019_05_20_223332) do
   end
 
   create_table "credit_purchases", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "amount"
-    t.string "payment_method"
-    t.string "ip_and_useragent"
+    t.integer "user_id", null: false
+    t.string "purchase_type", null: false
+    t.integer "purchase_amount", null: false
+    t.string "payment_method", null: false
+    t.boolean "cleared", default: false, null: false
+    t.boolean "cancelled", default: false, null: false
+    t.integer "credits_purchased", null: false
+    t.integer "credits_remaining", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_credit_purchases_on_user_id"
   end
 
   create_table "credit_transfers", force: :cascade do |t|
-    t.integer "from_user_id"
-    t.integer "to_user_id"
-    t.string "type"
-    t.integer "amount"
-    t.integer "dev_id"
-    t.integer "dev_share_amount"
+    t.integer "from_user_id", null: false
+    t.integer "to_user_id", null: false
+    t.integer "credits_transferred", default: 0, null: false
+    t.string "transfer_type", limit: 255, null: false
+    t.string "transfer_description", limit: 255
+    t.integer "broadcaster_payout_percentage", limit: 1, default: 50, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["from_user_id"], name: "index_credit_transfers_on_from_user_id"
+    t.index ["to_user_id"], name: "index_credit_transfers_on_to_user_id"
   end
 
   create_table "game_logs", force: :cascade do |t|
@@ -170,6 +177,8 @@ ActiveRecord::Schema.define(version: 2019_05_20_223332) do
     t.boolean "send_email_site_news", default: false
     t.boolean "private_message_email_notifications", default: true
     t.text "private_user_notes", limit: 2048
+    t.integer "broadcaster_percentage", limit: 1, default: 50
+    t.integer "developer_percentage", limit: 1, default: 5
     t.string "full_name"
     t.datetime "birthdate"
     t.string "address_line1"

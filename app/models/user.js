@@ -6,13 +6,14 @@ export default DS.Model.extend({
 
   // Has one user account datum record
   userPublicDatum: DS.belongsTo('user-public-datum'),
+  creditPurchases: DS.hasMany('credit-purchase'),
+  creditTransfers: DS.hasMany('credit-transfer'),
 
   // Account data
   username: DS.attr('string'),
   email: DS.attr('string'),
   password: DS.attr('string'),
   currentPassword: DS.attr('string'),
-
   broadcaster: DS.attr('boolean'),
   developer: DS.attr('boolean'),
   affiliate: DS.attr('boolean'),
@@ -21,6 +22,7 @@ export default DS.Model.extend({
   pendingDeletion: DS.attr('boolean'),
   securityQuestions: DS.attr('string'), //TODO Not encrypted
   streamKey: DS.attr('string'),
+  creditsRemaining: DS.attr('number'),
 
   // Site settings
   darkMode: DS.attr('boolean'),

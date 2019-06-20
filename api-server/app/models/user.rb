@@ -14,7 +14,9 @@ class User < ApplicationRecord
 
   # Public profile data
   has_one :user_public_datum, dependent: :delete#, autosave: true
-  validates :user_public_datum, :presence => true
+    validates :user_public_datum, :presence => true
+  has_many :credit_purchases
+  has_many :credit_transfers
   # ID files uploaded for verification
   has_many_attached :uploaded_identification
 
@@ -23,6 +25,8 @@ class User < ApplicationRecord
     length: { minimum: 3, maximum: 26 }
   validate :username_passes_misc_rules?
   validates :full_name, presence: true, if: :is_contractor?
+  validates :broadcaster_percentage, numericality: { less_than_or_equal_to: 100,  only_integer: true }
+  validates :developer_percentage, numericality: { less_than_or_equal_to: 100,  only_integer: true }
 
   #validates_associated :user_public_datum
   before_save :ensure_online_status

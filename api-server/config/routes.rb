@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
   resources :static_game_data
 
+  get '/transactions', to: 'transactions#index'
+
   # DirectUploadsController is overriden to bypass CSRF and cross origin security
   # TODO Determine if this is safe
   post '/rails/active_storage/direct_uploads' => 'direct_uploads#create'

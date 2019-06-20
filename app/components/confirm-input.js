@@ -12,6 +12,7 @@ export default Component.extend({
     },
     confirmInput() {
       console.log(this.type + ' input confirmed');
+      this.onConfirm();
     },
     cancelInput() {
       console.log(this.type + ' input canceled');
