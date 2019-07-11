@@ -14,7 +14,38 @@
 
           <div class="modal-body">
 
-     <!-- Standar Form -->
+            <div class="col-12 p-0 mt-4 order-4 ">
+              <form {{action "submitPhotoSettings" on="submit"}}>
+
+            {{#each this.userPhotos as |userPhoto|}}
+            <div class="d-inline-block">
+
+                <img src="{{userPhoto.src}}" height="100" width="100">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    {{input type="radio" class="form-check-input" name="profilePhotoRadio" checked=profilePhoto}}
+                    Profile Photo
+                  </label>
+                          <br>
+                  <label class="form-check-label">
+                    {{input type="checkbox" class="form-check-input" name="privatePhotoCheckbox" checked=this.userPhoto.id}}
+                    Members Only
+                  </label>
+
+
+                </div>
+              </div>
+            {{/each}}
+
+            <div class=text-right>
+              <button type="submit" class={{this.photoSubmitBtn}}>{{this.photoSubmitText}}</button>
+            </div>
+
+          </form>
+
+          </div>
+          <br>
+
      <h5>Select files from your computer</h5>
      <form action="" method="post" enctype="multipart/form-data" id="js-upload-form">
        <div class="form-inline">

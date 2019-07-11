@@ -182,7 +182,16 @@
             </span>
           </a>
         {{/if}}
-        {{user-photos}}
+
+        {{#each this.userPhotos as |userPhoto|}}
+          {{#if userPhoto.private}}
+          {{else}}
+            <img src="{{userPhoto.src}}" alt="{{userPhoto.id}}" height="300" width="300">
+          {{/if}}
+        {{/each}}
+
+
+
       </div>
     </div>
 
@@ -207,7 +216,14 @@
           </a>
         {{/if}}
         <div class="col-12 col-sm-6 p-0 mt-4 order-4 photos-panel">
-          {{user-photos}}
+
+          {{#each this.userPhotos as |userPhoto|}}
+            {{#if userPhoto.private}}
+            {{else}}
+              <img src="{{userPhoto.src}}" alt="{{userPhoto.id}}" height="300" width="300">
+            {{/if}}
+          {{/each}}
+
         </div>
       </div>
     </div>
