@@ -8,5 +8,5 @@ export default DS.Model.extend({
   transferType: DS.attr('string'),
   transferDescription: DS.attr('string'),
   broadcasterPayoutPercentage: DS.attr('string'),
-  createdAt: DS.attr('string')
+  createdAt: DS.attr('ms-to-datetime')
 });

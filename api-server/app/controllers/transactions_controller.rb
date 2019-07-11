@@ -13,7 +13,8 @@ class TransactionsController < ApplicationController
 
     @credit_transfers = CreditTransfer
       .where('to_user_id = ?', params[:id])
-      .order('created_at ASC')
+      .order('created_at DESC')
+      # .limit(10)
     #
     # puts @credit_transfers.inspect
     # transactions = []

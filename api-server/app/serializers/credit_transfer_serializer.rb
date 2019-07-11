@@ -17,10 +17,12 @@ class CreditTransferSerializer
   attribute :broadcaster_payout_percentage, if: Proc.new { |record, params|
     params && params[:transactions] == true
   }
-  attribute :created_at do|record, params|
+  attribute :created_at do |record, params|
     if params && params[:transactions] == true
       # Convert date time to be friendlier to read
-      record.created_at.strftime("%B %e, %Y %-I:%M%p")
+      # record.created_at.strftime("%B %e, %Y %-I:%M%p")
+      # Return milliseconds since epoch
+      record.created_at.to_datetime.strftime("%Q")
     end
   end
 end

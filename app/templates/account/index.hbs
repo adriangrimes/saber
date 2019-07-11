@@ -122,7 +122,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    {{#each transactions as |transaction index|}}
+                    {{#each transactions as |transaction|}}
                       <tr>
                         <td>{{transaction.createdAt}}</td>
                         <td>{{transaction.creditsTransferred}}</td>
@@ -177,9 +177,9 @@
         </div>
       </div>
 
-              <h3 class="card-title"> Site Settings</h3>
       <div class="card mb-3" id="siteSettingsAccordion">
         <div class="card-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#siteSettingsAccordion" data-target="#collapseSiteSettings">
+          <h3 class="card-title"> Site Settings</h3>
         </div>
         <div id="collapseSiteSettings" class="card-collapse collapse">
           <div class="card-body">
