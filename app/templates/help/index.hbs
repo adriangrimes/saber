@@ -2,7 +2,8 @@
 
 <div class="row m-0">
   <div class="col-2 pb-2 pt-1" >
-    <h2>Help {{#if currentUser.isContracted}}for{{/if}}</h2>
+    <h2>Help       {{#if this.currentUser.user.isContracted}}
+for{{/if}}</h2>
   </div>
   <div class="col-3 p-0 userTypeBadges">
     {{#if currentUser.user.affiliate}}
@@ -18,14 +19,14 @@
 </div>
 <div class="row m-0 " >
     <div class="col-xs-12 col-sm-4 p-0 px-4 ">
-      <div class="sticky-top pt-3">
+      <div class="sticky-top sticky-menu">
         {{#each model as |helpTopic|}}
 
           {{#if helpTopic.all}}
             <a href="#{{helpTopic.shortTitle}}" > <button class="btn btn-block btn-primary mb-2" data-toggle="collapse" data-parent="#{{helpTopic.shortTitle}}" data-target="#{{helpTopic.shortTitle}}Collapse">{{helpTopic.title}}</button></a>
           {{/if}}
 
-          {{#if currentUser.isContracted}}
+          {{#if this.currentUser.user.isContracted}}
               {{#if helpTopic.isContractedOnly}}
                 <a href="#{{helpTopic.shortTitle}}" > <button class="btn btn-block btn-primary mb-2" data-toggle="collapse" data-parent="#{{helpTopic.shortTitle}}" data-target="#{{helpTopic.shortTitle}}Collapse">{{helpTopic.title}}</button></a>
               {{/if}}
@@ -61,7 +62,7 @@
                        {{#each helpTopic.helpSections as |helpSections|}}
                           <h5>{{helpSections.sectionTitle}}</h5>
                           <div class="pb-4">
-                            {{helpSections.sectionBody}}
+                            {{{helpSections.sectionBody}}}
                           </div>
                         {{/each}}
                       </div>
@@ -70,7 +71,7 @@
             </div>
         {{/if}}
 
-        {{#if currentUser.isContracted}}
+        {{#if this.currentUser.user.isContracted}}
                 {{#if helpTopic.isContractedOnly}}
                 <div id="{{helpTopic.shortTitle}}">
                     <div class="card mb-3">
