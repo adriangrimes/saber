@@ -246,7 +246,7 @@ function initializeChannelAndAddChatUser(client, req) {
       json: true
     },
     (err, res, body) => {
-      if (res.statusCode == 200 && body) {
+      if (res && res.statusCode == 200 && body) {
         // Add user info to the userList and friendlyUserList if ticket was valid
         console.log(' - ' + res.statusCode + ' adding as authenticated user');
 

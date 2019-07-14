@@ -2,8 +2,6 @@ import DS from 'ember-data';
 import { not as computedNot, or as computedOr } from '@ember/object/computed';
 
 export default DS.Model.extend({
-  changeTracker: { auto: true, only: ['uploadedIdentification'] }, // settings for user models
-
   // Has one user account datum record
   userPublicDatum: DS.belongsTo('user-public-datum'),
   creditPurchases: DS.hasMany('credit-purchase'),

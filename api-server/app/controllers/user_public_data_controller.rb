@@ -38,10 +38,59 @@ class UserPublicDataController < ApplicationController
       puts "found user id"
       puts @user_public_datum.user_id
       if token_is_authorized_for_id?(@user_public_datum.user_id)
-        # Format tags back into a Ruby array
-        puts public_params[:user_custom_tags]
-        # public_params[:user_custom_tags] =
-        #   public_params[:user_custom_tags].split(',')
+
+        # Process to attach already directly uploaded files to the user public record
+        unless params[:data][:attributes][:profile_images].blank?
+          profile_image_set = false
+          params[:data][:attributes][:profile_images].each do |image|
+            # TODO moving this outside of each loop may improve performance in DB search
+            blob = ActiveStorage::Blob.find_signed(image[:signed_id])
+            # If blob isn't attached to any user, attach to current user
+            # TODO moving this outside of each loop may improve performance in DB search
+            if ActiveStorage::Attachment.find_by(blob_id: blob.id).nil?
+              puts 'attaching blob'
+              @user_public_datum.profile_images.attach(image[:signed_id])
+            # Else check if image is marked to be deleted or to set image properties
+            else
+              # TODO moving this outside of each loop may improve performance in DB search
+              current_blob_attachment =
+                @user_public_datum.profile_images.find_by(blob_id: blob.id)
+              blob_url = Rails.application.routes.url_helpers.url_for(current_blob_attachment)
+              # Make sure user is allowed to modify image properties
+              if current_blob_attachment[:record_type] == "UserPublicDatum" &&
+                current_blob_attachment[:record_id] == @user_public_datum.id
+                  if image[:delete]
+                    puts 'deleting blob'
+                    blob_for_deletion = @user_public_datum.profile_images
+                      .find(current_blob_attachment.id)
+                    blob_for_deletion.purge_later
+                    puts 'finished delete?'
+                    # If user is deleting the image that was set as their profile
+                    # image, set it to the first in line afterwards
+                    if @user_public_datum.profile_images.count == 0
+                      @user_public_datum.profile_photo_path = nil
+                    elsif blob_url == @user_public_datum.profile_photo_path
+                      @user_public_datum.profile_photo_path =
+                        Rails.application.routes.url_helpers.url_for(@user_public_datum.profile_images.first)
+                    end
+                  else
+                    if image[:members_only] == true || image[:members_only] == false
+                      blob.metadata[:members_only] = image[:members_only]
+                      blob.save
+                    end
+                    if image[:profile_image] == true && profile_image_set == false
+                      profile_image_set = true
+                      @user_public_datum.profile_photo_path = blob_url
+                    end
+                  end
+              else
+                puts 'unauthorized blob modification'
+                # render status: :unauthorized and return
+              end
+            end
+          end
+        end
+
         if @user_public_datum.update(public_params)
           render json: serialize_public_data(@user_public_datum), status: :ok
         else
@@ -73,24 +122,26 @@ class UserPublicDataController < ApplicationController
 
   private
 
-    def serialize_public_data(data, search_only = false)
+    def serialize_public_data(public_data, search_only = false)
       # If search_only is true, only serialize specific attributes to display
       # search results
       if search_only
         UserPublicDatumSerializer
-          .new(data, { fields: { user_public_datum: [
+          .new(public_data, {fields: { user_public_datum: [
             :username,
             :online_status,
             :channel_topic,
             :current_game_id,
             :streamnail_path,
             :user_custom_tags,
-            :profile_photo_id] } })
+            :profile_photo_path] } })
           .serialized_json
       # Else return all columns
       else
+        # Pass is_member boolean to serializer to determine whether or not to display
+        # images marked as Member Only
         UserPublicDatumSerializer
-          .new(data)
+          .new(public_data, params: {is_member: token_exists_in_database?})
           .serialized_json
       end
     end

@@ -146,7 +146,7 @@ ActiveRecord::Schema.define(version: 2019_05_20_223332) do
     t.boolean "allow_suggested_games"
     t.string "timezone"
     t.string "user_custom_tags"
-    t.integer "profile_photo_id"
+    t.string "profile_photo_path"
     t.string "profile_sex", limit: 16
     t.text "profile_about_me", limit: 2048
     t.integer "profile_age", limit: 3

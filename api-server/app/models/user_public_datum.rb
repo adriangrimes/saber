@@ -2,7 +2,7 @@ class UserPublicDatum < ApplicationRecord
   belongs_to :user
 
   # Public profile photos and images
-  # has_many_attached :profile_images
+  has_many_attached :profile_images
 
   serialize :user_custom_tags, Array
 

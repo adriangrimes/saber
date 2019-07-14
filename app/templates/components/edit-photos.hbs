@@ -3,61 +3,64 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">
-            Edit Photos
+          Edit Photos
         </h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-           <span aria-hidden="true">&times;</span>
-         </button>
+          <span aria-hidden="true">&times;</span>
+        </button>
 
 
       </div>
 
-          <div class="modal-body">
+      <div class="modal-body">
 
-            <div class="col-12 p-0 mt-4 order-4 ">
-              <form {{action "submitPhotoSettings" on="submit"}}>
+        <div class="col-12 p-0 mt-4 order-4 ">
+          <form {{action "submitPhotoSettings" on="submit"}}>
 
-            {{#each this.userPhotos as |userPhoto|}}
-            <div class="d-inline-block">
+            {{#each model.profileImages as |image|}}
+              <div class="d-inline-block">
 
-                <img src="{{userPhoto.src}}" height="100" width="100">
+                <img src="{{image.file_url}}" height="100" width="100">
                 <div class="form-check">
+                  {{#if image.profile_image}}
+                    <div class="btn btn-success form-check-label"> Profile Photo </div>
+                  {{else}}
+                    <button class="btn btn-primary form-check-label" {{action "setImageAsProfileImage" image}}> Make Profile Photo </button>
+                  {{/if}}
+                  <br>
                   <label class="form-check-label">
-                    {{input type="radio" class="form-check-input" name="profilePhotoRadio" checked=profilePhoto}}
-                    Profile Photo
+                    {{#unless image.profile_image}}
+                      <form {{action "setMembersOnlyPropertyOnImage" on="change"}}>
+                        Members Only
+                        <label class="switch float-right">
+                          {{input type="checkbox" checked=image.members_only}}
+                          <span class="slider"></span>
+                        </label>
+                      </form>
+                    {{/unless}}
                   </label>
-                          <br>
-                  <label class="form-check-label">
-                    {{input type="checkbox" class="form-check-input" name="privatePhotoCheckbox" checked=this.userPhoto.id}}
-                    Members Only
-                  </label>
-
-
+                  <br>
+                  <button class="btn btn-outline-dark form-check-label" {{action this.userFileManager.deleteFileFromUser image}}> Detele </button>
                 </div>
               </div>
             {{/each}}
 
-            <div class=text-right>
+            <!-- <div class=text-right>
               <button type="submit" class={{this.photoSubmitBtn}}>{{this.photoSubmitText}}</button>
-            </div>
+            </div> -->
 
           </form>
 
-          </div>
-          <br>
+        </div>
+        <br>
 
-     <h5>Select files from your computer</h5>
-     <form action="" method="post" enctype="multipart/form-data" id="js-upload-form">
-       <div class="form-inline">
-         <div class="form-group">
-           <input type="file" name="files[]" id="js-upload-files" multiple>
-         </div>
-         <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
-       </div>
-     </form>
-
-  <br>  <br>
-          </div>
+        <h5>Select files from your computer</h5>
+        {{file-upload
+          fileUploadAttribute="profileImages"
+          model=model
+        }}
+        <br> <br>
+      </div>
 
 
 

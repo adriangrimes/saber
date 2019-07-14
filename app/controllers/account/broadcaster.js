@@ -1,8 +1,10 @@
 import Controller from '@ember/controller';
-//import { inject } from '@ember/service';
+import { inject as service } from '@ember/service';
 import jQuery from 'jquery';
 
 export default Controller.extend({
+  userFileManager: service(),
+
   daysList: [
     '1',
     '2',

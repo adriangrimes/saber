@@ -27,7 +27,7 @@
       <div class="col-xs-12 col-sm-3 p-0">
         {{#link-to "p" (lower-case broadcaster.username) title=broadcaster.username}}
           <div class="broadcaster-panel {{if broadcaster.onlineStatus "online" "offline"}}">
-            <img class="broadcaster-avatar" src="{{if broadcaster.onlineStatus "/streamnails/usericon.svg" "/streamnails/404_streamnail.png"}}">
+            <img class="broadcaster-avatar" src="{{if broadcaster.onlineStatus (if broadcaster.profilePhotoPath broadcaster.profilePhotoPath "/streamnails/usericon.svg") "/streamnails/404_streamnail.png"}}">
             <div class="broadcaster-footer">
               {{broadcaster.username}}
               {{#if broadcaster.onlineStatus}}

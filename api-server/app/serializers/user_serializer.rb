@@ -34,7 +34,7 @@ class UserSerializer
   end
 
   ## Site settings
-  :dark_mode,
+  attributes :dark_mode,
   :send_email_followed_online,
   :send_email_site_news,
   :private_message_email_notifications,
@@ -71,34 +71,5 @@ class UserSerializer
     end
     identification_array
   end
-
-  # def password
-  #   nil
-  # end
-  #
-  # def current_password
-  #   nil
-  # end
-  #
-  # def pending_deletion
-  #   nil
-  # end
-
-  # def uploaded_identification
-  #   # uploaded_identification.each do |image|
-  #   if object.uploaded_identification.attached?
-  #     array = []
-  #     object.uploaded_identification.each do |image|
-  #       array.push({
-  #         signed_id: image.signed_id,
-  #         file_url: url_for(image),
-  #         filename: image.filename,
-  #         delete: false
-  #         #filetype: image.filetype
-  #       })
-  #     end
-  #     array
-  #   end
-  # end
 
 end

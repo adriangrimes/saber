@@ -16,11 +16,13 @@ export default DS.Model.extend({
   allowSuggestedGames: DS.attr('boolean'),
   timezone: DS.attr('string'),
   userCustomTags: DS.attr(),
-  profilePhotoId: DS.attr('number'),
+  profilePhotoPath: DS.attr('string'),
   profileSex: DS.attr('string'),
   profileAboutMe: DS.attr('string'),
   profileAge: DS.attr('number'),
   profileLocation: DS.attr('string'),
-  profileLanguages: DS.attr('string')
+  profileLanguages: DS.attr('string'),
   //profilePlatforms: DS.attr('string')
+
+  profileImages: DS.attr('activestorage')
 });

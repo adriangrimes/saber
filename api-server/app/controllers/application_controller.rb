@@ -36,6 +36,18 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def token_exists_in_database?
+    p 'does token exist?'
+    token_exists = false
+    authenticate_with_http_token do |token, options|
+      if found_user = User.find_by(authentication_token: token)
+        p 'token exists'
+        token_exists = true
+      end
+    end
+    token_exists
+  end
+
   def clean_up_and_render_unauthorized
     @authenticated_user = nil
     render status: :unauthorized
