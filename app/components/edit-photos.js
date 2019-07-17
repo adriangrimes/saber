@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { set, get } from '@ember/object';
+import { set } from '@ember/object';
 
 // edit-photos
 export default Component.extend({
@@ -58,10 +58,8 @@ export default Component.extend({
         });
     },
 
-    setMembersOnlyPropertyOnImage(image, state) {
-      // console.log(state);
-      // // Set members_only to true and persist to back-end
-      // set(image, 'members_only', image.members_only);
+    setMembersOnlyPropertyOnImage() {
+      // Persist model to back-end
       this.model
         .save()
         .then(() => {

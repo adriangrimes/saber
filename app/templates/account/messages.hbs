@@ -3,44 +3,61 @@
   <div class="row m-0">
     <div class="col-xs-12 col-sm-4">
       <div class="well">
-        Conversations
+        <button class="btn btn-block btn-primary m-1" {{action "openNewMessage"}}>
+          Send new message
+        </button>
         <br>
-        {{#each this.userMessages as |message| }}
-          <button class="btn btn-block btn-secondary m-1"{{action "openMessages" message.fromUserID}}>{{message.fromUserName}}</button>
-
-        {{/each}}
+        <div>
+          Conversations
+          <br>
+          {{#each-in conversations as |user conversation| }}
+            <button class="btn btn-block btn-secondary m-1" {{action "openMessages" user}}>
+              {{user}}
+            </button>
+          {{/each-in}}
+        </div>
       </div>
     </div>
     <div class="col-xs-12 col-sm-8">
-      {{#each this.userMessages as |message| }}
-
-        {{#if (eq message.fromUserID this.selectedFromUserID)}}
-          <h3>{{message.fromUserName}}</h3>
-          {{message.text}}
+      {{#each-in conversations as |user conversation| }}
+        {{#if (eq user this.selectedUser)}}
+          Messages with:
+          <h3>{{user}}</h3>
 
         {{/if}}
+      {{/each-in}}
+      {{#each model as |message|}}
+        {{#if (or (eq message.fromUser this.selectedUser) (eq message.toUser this.selectedUser))}}
+          <div class="border-top {{if message.messageRead "border-default" "border-danger"}} m-1 pl-1 pb-2">
+
+            {{#if (not-eq message.fromUser currentUsername)}}
+              <strong>{{message.fromUser}}</strong>
+            {{else}}
+              <strong class="text-muted">You</strong>
+            {{/if}}
+
+            <div class="float-right">{{ms-to-datetime message.timestamp}}</div>
+            <div>{{message.message}}</div>
+          </div>
+        {{/if}}
       {{/each}}
-
-
-
-<br><br><br>
+      <br><br><br>
       <div class="well">
-        <h4>Send New Message</h4>
+        <h4>Send Message</h4>
         <br>
-<form {{action "sendDM" on="Submit"}}>
-      <div class="form-group">
-        <label for="inputsex">To</label>
-        {{input type="text" class="form-control" value=inputReciever }}
-      </div>
-      <div class="form-group">
-        <label for="inputaboutme">Message</label>
-        {{textarea rows="5" type="text" class="form-control" value=inputMessage }}
-      </div>
-      <div class="text-right">
-        <button type="submit" class="btn btn-primary">Send Message</button>
-      </div>
-
-</form>
+        <form {{action "sendDM" on="submit"}}>
+          <div class="form-group">
+            <label for="inputsex">To</label>
+            {{input type="text" class="form-control" value=inputReciever }}
+          </div>
+          <div class="form-group">
+            <label for="inputaboutme">Message</label>
+            {{textarea rows="5" type="text" class="form-control" value=inputMessage }}
+          </div>
+          <div class="text-right">
+            <button type="submit" class="btn btn-primary">Send Message</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

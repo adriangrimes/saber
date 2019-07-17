@@ -95,11 +95,16 @@ ActiveRecord::Schema.define(version: 2019_05_20_223332) do
   end
 
   create_table "private_messages", force: :cascade do |t|
-    t.integer "from_user_id"
-    t.integer "to_user_id"
-    t.text "message", limit: 1024
+    t.integer "from_user_id", null: false
+    t.integer "to_user_id", null: false
+    t.text "message", limit: 1024, null: false
+    t.boolean "message_read", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_private_messages_on_created_at"
+    t.index ["from_user_id"], name: "index_private_messages_on_from_user_id"
+    t.index ["to_user_id"], name: "index_private_messages_on_to_user_id"
+    t.index ["updated_at"], name: "index_private_messages_on_updated_at"
   end
 
   create_table "static_game_data", force: :cascade do |t|

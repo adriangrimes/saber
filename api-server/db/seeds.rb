@@ -13,7 +13,7 @@ if Rails.env.development?
 
   # Set how many of each user type to seed
   usercount = 5
-  broadcastercount = 5
+  broadcastercount = 10
   developercount = 5
   affiliatecount = 5
 
