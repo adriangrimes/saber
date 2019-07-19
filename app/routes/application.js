@@ -34,9 +34,13 @@ export default Route.extend(ApplicationRouteMixin, {
       return true;
     },
 
-    willTransition(/*transition*/) {
+    willTransition(transition) {
       console.log('transition detected, clearing errorMessages');
       this.currentUser.set('errorMessages', []);
+      console.log(transition);
+      if (transition.to.name != 'account.messages') {
+        this.currentUser.loadMessages(false);
+      }
     }
   }
 });

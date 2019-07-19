@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   resources :static_game_data
 
   get '/transactions', to: 'transactions#index'
+  get '/conversations', to: 'private_messages#conversations'
 
   # DirectUploadsController is overriden to bypass CSRF and cross origin security
   # TODO Determine if this is safe

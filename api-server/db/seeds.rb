@@ -105,7 +105,7 @@ if Rails.env.development?
     testbroadcaster = User.new(
       email: "broadcastertester#{i+1}@email.com",
       username: fake_usernames[i].capitalize,
-      password: "1234567#{i+1}",
+      password: "asdfasdf",
       full_name: "Streamer#{i+1} C#{i+1} Aster#{i+1}",
       dark_mode: false,
       broadcaster: true,

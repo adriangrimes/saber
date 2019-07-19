@@ -2,6 +2,7 @@ import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { resolve } from 'rsvp';
 import jQuery from 'jquery';
+import { later } from '@ember/runloop';
 
 export default Service.extend({
   // Services
@@ -10,6 +11,7 @@ export default Service.extend({
   themeChanger: service(),
 
   signupSuccess: false,
+  readyForConversationLoad: true,
 
   init() {
     this._super(...arguments);
@@ -139,12 +141,39 @@ export default Service.extend({
         .then(user => {
           // Set data returned to currentUser.user
           this.set('user', user);
+          this.loadMessages();
         })
         .catch(err => {
           this.set('errorMessages', err.errors || err);
         });
     } else {
       return resolve();
+    }
+  },
+
+  loadMessages(forceReload = true) {
+    if (this.get('readyForConversationLoad') || forceReload) {
+      this.set('readyForConversationLoad', false);
+      let that = this;
+      this.store
+        .query('conversation', {
+          id: this.get('session.data.authenticated.user_id')
+        })
+        .then(function(conversations) {
+          that.set('conversations', conversations.toArray());
+          let unreadCount = 0;
+          conversations.forEach(function(conversation) {
+            unreadCount += conversation.unread;
+          });
+          that.set('unreadMessages', unreadCount);
+          later(
+            that,
+            function() {
+              this.set('readyForConversationLoad', true);
+            },
+            10000
+          );
+        });
     }
   }
 });

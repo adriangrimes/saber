@@ -1,45 +1,42 @@
 class PrivateMessagesController < ApplicationController
   # before_action :set_private_message, only: [:show, :update, :destroy]
 
-  # GET /private_messages
+  # GET /private_messages?id=2&with=UserTester1&page=1
   def index
     user_id = params[:id].to_i
     if params[:with].present?
       with_user = User.where('lower(username) = ?', params[:with].to_s.downcase).first
     end
-    if (with_user.try(:id) && user_id != with_user.id) || with_user.blank?
+    if params[:page].present?
+      page = params[:page].to_i
+      if page < 1
+        page = 1
+      end
+    else
+      page = 1
+    end
+
+    if with_user.try(:id)
       if token_is_authorized_for_id?(user_id)
-        # Build array of unique user ids to use in query
-        conversation_list_sql = PrivateMessage
-          .where('from_user_id = ? OR to_user_id = ?', user_id, user_id)
-          .order('created_at DESC')
-          .group(:from_user_id, :to_user_id)
-          .to_sql
 
-        p conversation_list_sql.inspect
+        @private_messages = PrivateMessage
+          .includes(:to_user, :from_user)
+          .where('(from_user_id = ? AND to_user_id = ?) OR (from_user_id = ? AND to_user_id = ?)',
+            user_id, with_user.id, with_user.id, user_id)
+          .order(created_at: :desc)
+          .paginate(page: page, per_page: 6)
 
-        if with_user.try(:id)
-          private_messages_sql = PrivateMessage
-            .where('(from_user_id = ? AND to_user_id = ?) OR (from_user_id = ? AND to_user_id = ?)',
-              user_id, with_user.id, with_user.id, user_id)
-            .to_sql
-          sql = PrivateMessage.connection.unprepared_statement {
-            "(#{private_messages_sql} UNION #{conversation_list_sql}) AS private_messages"
-          }
-          @private_messages = PrivateMessage.from(sql).order('created_at ASC')
-        else
-          sql = PrivateMessage.connection.unprepared_statement {
-            "(#{conversation_list_sql}) AS private_messages"
-          }
-          @private_messages = PrivateMessage.from(sql).order('created_at ASC')
-        end
+        @private_messages = @private_messages.sort_by(&:created_at)
 
         usernames = {}
         @private_messages.each do |message|
-          usernames[message.to_user_id] = User.find(message.to_user_id).username
-          usernames[message.from_user_id] = User.find(message.from_user_id).username
+          if usernames[message.to_user_id].blank?
+            usernames[message.to_user_id] = message.to_user.username
+          end
+          if usernames[message.from_user_id].blank?
+            usernames[message.from_user_id] = message.from_user.username
+          end
         end
-        p usernames
 
         render json: PrivateMessageSerializer
           .new(@private_messages, params: { user_id: user_id, usernames: usernames })
@@ -48,20 +45,13 @@ class PrivateMessagesController < ApplicationController
         @private_messages.each do |message|
           if message.from_user_id != user_id && message.message_read != true
             message.message_read = true
-            message.save
+            message.save!
           end
         end
       else
         render status: :unauthorized
       end
-    else
-      render json: { errors: "You cannot send messages to yourself" }, status: :unprocessable_entity
     end
-  end
-
-  # GET /private_messages/1
-  def show
-    render status: :not_found
   end
 
   # POST /private_messages
@@ -79,11 +69,88 @@ class PrivateMessagesController < ApplicationController
           .new(@private_message)
           .serialized_json, status: :created
       else
-        render json: { errors: @private_message.errors.full_messages }, status: :unprocessable_entity
+        render json: ErrorSerializer.serialize(@private_message.errors), status: :unprocessable_entity
       end
     else
       render status: :unauthorized
     end
+  end
+
+  # GET /private_messages/conversations?id=1
+  def conversations
+    user_id = params[:id].to_i
+    if token_is_authorized_for_id?(user_id)
+      private_messages_for_conversations = PrivateMessage
+        .find_by_sql(['SELECT * FROM private_messages AS pm
+          INNER JOIN (
+            SELECT "private_messages".to_user_id, "private_messages".from_user_id, max("private_messages".created_at) AS MaxCreatedAt
+            FROM "private_messages"
+            GROUP BY "private_messages".to_user_id, "private_messages".from_user_id
+          ) tm ON (pm.to_user_id = ? OR pm.from_user_id = ?)
+              AND pm.created_at = tm.MaxCreatedAt
+          WHERE pm.from_user_id = ? OR pm.to_user_id = ?
+          ORDER BY pm.created_at DESC',
+          user_id, user_id, user_id, user_id])
+
+      # Include all user record data to prevent a lookup per each user
+      ActiveRecord::Associations::Preloader.new.preload(
+        private_messages_for_conversations, [:to_user, :from_user]
+      )
+      sanitized_where =
+        PrivateMessage.sanitize_sql_for_assignment(
+           'pm.to_user_id = ' + user_id.to_s + ' AND pm.message_read = false'
+         )
+      users_with_unread = ActiveRecord::Base.connection.exec_query(
+        'SELECT pm.to_user_id, pm.from_user_id, COUNT(pm.message_read) AS unread_count
+        FROM private_messages AS pm
+        WHERE ' + sanitized_where + '
+        GROUP BY pm.from_user_id')
+
+      conversation_hash_array = {}
+      private_messages_for_conversations.each do |message|
+        if message.to_user_id != user_id
+          if conversation_hash_array[message.to_user_id].blank?
+            conversation_hash_array[message.to_user_id] =
+              { username: message.to_user.username }
+          end
+        elsif message.from_user_id != user_id
+          if conversation_hash_array[message.from_user_id].blank?
+            conversation_hash_array[message.from_user_id] =
+              { username: message.from_user.username }
+          end
+        end
+      end
+
+      conversations = []
+      conversation_hash_array.each_with_index do |conversation, index|
+        unread_count = 0
+        users_with_unread.each do |row|
+          if row['from_user_id'] == conversation[0]
+            unread_count = row['unread_count']
+          end
+        end
+        conversations
+          .push(
+            Conversation.new({
+              id: index + 1,
+              username: conversation[1][:username],
+              unread: unread_count
+            })
+          )
+      end
+
+      render json: ConversationSerializer
+        .new(conversations)
+        .serialized_json,
+        status: :ok
+    else
+      render status: :unauthorized
+    end
+  end
+
+  # GET /private_messages/1
+  def show
+    render status: :not_found
   end
 
   # PATCH/PUT /private_messages/1

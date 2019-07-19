@@ -17,6 +17,8 @@ class User < ApplicationRecord
     validates :user_public_datum, :presence => true
   has_many :credit_purchases
   has_many :credit_transfers
+  has_many :private_messages
+  
   # ID files uploaded for verification
   has_many_attached :uploaded_identification
 
