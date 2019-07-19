@@ -1,5 +1,18 @@
-<p>Welcome <%= @resource.username %> / <%= @email %>!</p>
+<p>Welcome <%= @resource.username %>!</p>
 
 <p>You can confirm your account email through the link below:</p>
+<br>
+<div class="align-center">
+  <a class="btn-primary" href=<%= "#{Rails.configuration.front_end_hostname}/signup/confirm?confirmation_token=#{@token}" %>>Confirm my email</a>
+<br><br>
+<p>If the link above does not work, copy and paste the following URL into your web browser;<br></p>
+<p class="small-text">
+<%= "#{Rails.configuration.front_end_hostname}/signup/confirm?confirmation_token=#{@token}" %>
+</p>
+</div>
 
-<p><%= link_to 'Confirm my account', "#{Rails.configuration.front_end_hostname}/signup/confirm?confirmation_token=#{@token}" %></p>
+<hr>
+
+<div class="email-footer">
+  <p>This email was sent to <%= @email %> as part of account<br>  creation at <a href="www.saber.tv">Saber.tv</a>, if you did not create an account<br>  please disregard this message.</p>
+</div>

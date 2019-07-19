@@ -5,3 +5,9 @@
 <p>Click the link below to unlock your account:</p>
 
 <p><%= link_to 'Unlock my account', "#{Rails.configuration.front_end_hostname}/unlock-account?unlock_token=#{@token}" %></p>
+
+<hr>
+
+<div class="email-footer">
+  <p>This email was sent to <%= @resource.email %> as an account notification from <a href="www.saber.tv">Saber.tv</a>,<br> you can manage your email settings by <a href=<%= "#{Rails.configuration.front_end_hostname}/account" %>>clicking here.</a></p>
+</div>
