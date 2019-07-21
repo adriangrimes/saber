@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_20_223332) do
+ActiveRecord::Schema.define(version: 2019_07_20_200321) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -92,6 +92,27 @@ ActiveRecord::Schema.define(version: 2019_05_20_223332) do
   create_table "game_logs", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "help_sections", force: :cascade do |t|
+    t.integer "help_topic_id"
+    t.string "section_title"
+    t.string "section_body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["help_topic_id"], name: "index_help_sections_on_help_topic_id"
+  end
+
+  create_table "help_topics", force: :cascade do |t|
+    t.string "short_title", null: false
+    t.string "title", null: false
+    t.boolean "all_users", default: true, null: false
+    t.boolean "contractors_only", default: false, null: false
+    t.boolean "broadcasters_only", default: false, null: false
+    t.boolean "developers_only", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["short_title"], name: "index_help_topics_on_short_title"
   end
 
   create_table "private_messages", force: :cascade do |t|

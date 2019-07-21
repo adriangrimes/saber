@@ -38,7 +38,10 @@ export default Route.extend(ApplicationRouteMixin, {
       console.log('transition detected, clearing errorMessages');
       this.currentUser.set('errorMessages', []);
       console.log(transition);
-      if (transition.to.name != 'account.messages') {
+      if (
+        this.session.isAuthenticated &&
+        transition.to.name != 'account.messages'
+      ) {
         this.currentUser.loadMessages(false);
       }
     }
