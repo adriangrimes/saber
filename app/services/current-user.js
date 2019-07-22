@@ -154,6 +154,7 @@ export default Service.extend({
   loadMessages(forceReload = true) {
     if (this.get('readyForConversationLoad') || forceReload) {
       this.set('readyForConversationLoad', false);
+      console.log('loading conversations for unread messages');
       let that = this;
       this.store
         .query('conversation', {

@@ -13,8 +13,14 @@ export default Route.extend({
       .sortBy('developersOnly');
     controller.set('model', model);
 
-    controller.set('isContracted', this.currentUser.user.isContracted);
-    controller.set('isBroadcaster', this.currentUser.user.broadcaster);
-    controller.set('isDeveloper', this.currentUser.user.developer);
+    if (this.session.isAuthenticated) {
+      controller.set('isContracted', this.currentUser.user.isContracted);
+      controller.set('isBroadcaster', this.currentUser.user.broadcaster);
+      controller.set('isDeveloper', this.currentUser.user.developer);
+    } else {
+      controller.set('isContracted', false);
+      controller.set('isBroadcaster', false);
+      controller.set('isDeveloper', false);
+    }
   }
 });

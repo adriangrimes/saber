@@ -1,0 +1,54 @@
+<div class="container">
+
+  <div class="row m-0">
+    <div class="col">
+      <h2>Contact Us</h2>
+    </div>
+  </div>
+  <div class="row m-0">
+    <div class="col-xs-12 col-md-8">
+      <div class="well">
+        <form {{action "submitContactMessage" on="submit"}} method="POST">
+          <div class="form-group">
+            <label for="inputemailAddress">Your Email Address</label>
+            {{input type="email" class="form-control" value=inputemailAddress required=true}}
+            <small>(please confirm your email is correct, otherwise we won't be able to respond to your message)</small>
+          </div>
+          <div class="form-group">
+            <label for="topic">Topic&nbsp;</label><br>
+            {{#power-select
+                selected=topicSelect
+                id="topicSelect"
+                options=topicList
+                required=true
+                onchange=(action (mut topicSelect))
+                oninput=(action "checkLength")
+                as |name|}}
+              {{name}}
+            {{/power-select}}
+
+          </div>
+          <div class="form-group">
+            <label for="inputSubject">Subject</label>
+            {{input type="text" maxlength="75" class="form-control" value=inputSubject required=true}}
+          </div>
+          <div class="form-group">
+            <label for="comment">Message</label>
+            {{textarea rows="5" maxlength="4000" type="text" class="form-control" value=inputMessage required=true}}
+          </div>
+          <div class="g-recaptcha" data-theme="{{if currentUser.user.darkMode "dark" "light"}}" data-sitekey="6Ld7w64UAAAAAPzcvuA1hvB3xh1TMLyY8osoO7dW"></div>
+          <br>
+          {{if messageSuccessfullySent "Message sent" ""}}
+          {{error-display}}
+          <button type="submit" id="submitContactButton" class="btn btn-primary btn-block">Send Message</button>
+          <br><br>
+        </form>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-4 mt-4">
+      {{link-to "Browse Help Pages" "help" class="btn btn-primary btn-block" }}
+    </div>
+
+  </div>
+
+</div>

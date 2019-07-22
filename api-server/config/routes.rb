@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   get '/transactions', to: 'transactions#index'
   resources :chat_tickets
 
+  post '/send_contact_us', to: 'contact_us#send_email'
+
   resources :help_topics
   get '/help_sections', to: 'help_topics#help_sections'
   resources :static_game_data
