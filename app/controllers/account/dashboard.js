@@ -9,7 +9,6 @@ export default Controller.extend({
   session: inject(),
   streamKeyDisplay: '********************',
   streamKeyHidden: true,
-  resetStreamKeyIcon: "fa fa-refresh",
   keyCopySuccess: "d-none",
   newCopySuccess: "d-none",
   streamSettingSubmitBtn: "btn btn-primary",
@@ -51,12 +50,7 @@ export default Controller.extend({
          // Save record to db
          user.save().then(() => {
            console.log('newStreamKey saved');
-           this.set('resetStreamKeyIcon', 'fa fa-refresh fa-spin');
-           var thisParent = this;
-           setTimeout(function() {
-             thisParent.set('resetStreamKeyIcon', 'fa fa-refresh');
-           }, 2000);
-
+        
 
 
          }).catch((reason) => {

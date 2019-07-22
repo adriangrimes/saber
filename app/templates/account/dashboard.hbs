@@ -1,7 +1,7 @@
 
 <div class="container">
 
-  {{#if this.currentUser.isContracted}}
+  {{#if this.currentUser.user.isContracted}}
   <div class="row m-0">
     <div class="col mb-2">
       <h2>Your Dashboard</h2>
@@ -52,7 +52,7 @@
 
 
     </div>
-  {{#if this.currentUser.isContracted}}
+    {{#if this.currentUser.user.isContracted}}
   <div class="col-xs-12 col-md-8 order-md-1">
 
     {{#if this.currentUser.user.broadcaster}}
@@ -70,7 +70,7 @@
 
                     </div>
                     <div class="col-xs-12 col-sm-6">
-                      <button class="btn btn-block btn-dark" id="resetStreamKeyBtn"{{action "resetStreamKey"}}><span class={{this.resetStreamKeyIcon}} id="resetStreamKeyIcon" aria-hidden="true"></span>&nbsp;Reset Key</button>
+                      {{confirm-input  type="reset" title="Reset?" button-title="Reset Stream Key" onConfirm=(action "resetStreamKey")}}
 
                     </div>
 
