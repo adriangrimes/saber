@@ -2,7 +2,7 @@ class CreateUserPublicData < ActiveRecord::Migration[5.2]
   def change
     create_table :user_public_data do |t|
 
-      t.belongs_to :user, index: { unique: true }, foreign_key: true
+      t.belongs_to :user, index: { unique: true }
 
       ## Public profile
       t.string :username
@@ -26,6 +26,7 @@ class CreateUserPublicData < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
+    add_foreign_key :user_public_data, :users
     add_index :user_public_data, :username, unique: true
 
   end

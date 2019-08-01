@@ -1,4 +1,4 @@
-class CreateUsers < ActiveRecord::Migration[5.0]
+class CreateUsers < ActiveRecord::Migration[5.2]
   def change
     create_table :users do |t|
 
@@ -75,6 +75,9 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.timestamps
 
     end
+
+    # start user ids at a random integer
+    execute('ALTER TABLE users AUTO_INCREMENT = 2202840')
 
     add_index :users, :username,             unique: true
     add_index :users, :email,                unique: true

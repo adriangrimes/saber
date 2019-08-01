@@ -124,7 +124,7 @@ help_topics.each do |help_topic|
   topic_to_save.save!
 end
 
-if Rails.env.development?
+if Rails.env.production? == false
   include FakeUsernames # api-server/lib/fake_usernames.rb
   fake_usernames = FakeUsernames.usernames
   fake_usernames = fake_usernames.shuffle

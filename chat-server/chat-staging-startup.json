@@ -1,0 +1,9 @@
+{
+  "apps" : [{
+    "name"        : "chat-staging",
+    "script"      : "/var/www/saber-staging/chat/chat.js",
+    "watch"       : true,
+    "cwd"         : "/var/www/saber-staging/chat",
+    "args"        : "staging"
+  }]
+}

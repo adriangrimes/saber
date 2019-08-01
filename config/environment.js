@@ -2,20 +2,10 @@
 
 module.exports = function(environment) {
   let ENV = {
-    modulePrefix: 'sa',
+    modulePrefix: 'saber',
     environment,
     rootURL: '/',
     locationType: 'auto',
-    contentSecurityPolicy: {
-      'default-src': "'none'",
-      'script-src': "'self' 'unsafe-inline' 'unsafe-eval'",
-      'font-src': "'self'",
-      'connect-src': "'self' ws://localhost:7000 localhost:7000",
-      'img-src': "'self'",
-      'report-uri': "'localhost'",
-      'style-src': "'self' 'unsafe-inline'",
-      'frame-src': "'none'"
-    },
     moment: {
       // Options:
       // 'all' - all years, all timezones
@@ -62,6 +52,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'test') {
+    ENV.apiHost = 'http://192.168.132.147:3000';
+    ENV.chatServer = 'ws://192.168.132.147:7000';
     // Testem prefers this...
     ENV.locationType = 'none';
 
@@ -73,8 +65,19 @@ module.exports = function(environment) {
     ENV.APP.autoboot = false;
   }
 
+  if (environment === 'staging') {
+    ENV.apiHost = 'https://api.saber.solversion.com';
+    ENV.chatServer = 'wss://chat.saber.solversion.com';
+    // ENV.APP.LOG_RESOLVER = true;
+    // ENV.APP.LOG_ACTIVE_GENERATION = true;
+    // ENV.APP.LOG_TRANSITIONS = true;
+    // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
+    // ENV.APP.LOG_VIEW_LOOKUPS = true;
+  }
+
   if (environment === 'production') {
-    //production things here
+    ENV.apiHost = 'https://api.saber.tv';
+    ENV.chatServer = 'wss://chat.saber.tv';
   }
 
   return ENV;

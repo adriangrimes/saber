@@ -1,4 +1,4 @@
-class CreateContestVotes < ActiveRecord::Migration[5.0]
+class CreateContestVotes < ActiveRecord::Migration[5.2]
   def change
     create_table :contest_votes do |t|
       t.integer :user_id

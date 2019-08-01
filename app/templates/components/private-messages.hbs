@@ -14,7 +14,7 @@
           {{/unless}}
           <br>
           {{#each this.currentUser.conversations as |conversation|}}
-            <button class="btn btn-block {{if conversation.unread "btn-primary" "btn-secondary"}} m-1" {{action "openMessages" conversation.username}}>
+            <button class="btn btn-block {{if conversation.unread "btn-primary" "btn-secondary"}} {{if (eq conversation.username selectedUser) "border border-3" ""}} m-1" {{action "openMessages" conversation.username}}>
               {{conversation.username}} <span class="ml-2 badge badge-primary badge-pill">{{if conversation.unread conversation.unread ""}}</span>
             </button>
           {{/each}}

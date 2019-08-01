@@ -83,9 +83,9 @@ class PrivateMessagesController < ApplicationController
       private_messages_for_conversations = PrivateMessage
         .find_by_sql(['SELECT * FROM private_messages AS pm
           INNER JOIN (
-            SELECT "private_messages".to_user_id, "private_messages".from_user_id, max("private_messages".created_at) AS MaxCreatedAt
-            FROM "private_messages"
-            GROUP BY "private_messages".to_user_id, "private_messages".from_user_id
+            SELECT private_messages.to_user_id, private_messages.from_user_id, MAX(private_messages.created_at) AS MaxCreatedAt
+            FROM private_messages
+            GROUP BY private_messages.to_user_id, private_messages.from_user_id
           ) tm ON (pm.to_user_id = ? OR pm.from_user_id = ?)
               AND pm.created_at = tm.MaxCreatedAt
           WHERE pm.from_user_id = ? OR pm.to_user_id = ?

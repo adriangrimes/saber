@@ -34,10 +34,10 @@ module ApiServer
 
     config.autoload_paths += %W(#{config.root}/lib)
 
-    config.active_record.sqlite3.represent_boolean_as_integer = true
+    #config.active_record.sqlite3.represent_boolean_as_integer = true
 
-    config.action_mailer.default_url_options = { :host => "saber.tv" }
     config.action_mailer.delivery_method = :mailjet
+    config.action_mailer.default_url_options = { :host => "saber.tv" }
     config.to_prepare do
       DeviseController.respond_to :jsonapi
     end
@@ -62,6 +62,7 @@ module ApiServer
     # config.saber.affiliate_payout_percentage = 5
 
     # Credit denominations
+    # Dollar price => Credit quantity
     config.x.saber.credit_denominations = {
       10 => 100,
       25 => 250,

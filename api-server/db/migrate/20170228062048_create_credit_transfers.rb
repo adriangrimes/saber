@@ -1,4 +1,4 @@
-class CreateCreditTransfers < ActiveRecord::Migration[5.0]
+class CreateCreditTransfers < ActiveRecord::Migration[5.2]
   def change
     create_table :credit_transfers do |t|
       t.belongs_to :from_user, foreign_key: { to_table: :users }, index: true, null: false

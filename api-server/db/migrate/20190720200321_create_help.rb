@@ -16,7 +16,7 @@ class CreateHelp < ActiveRecord::Migration[5.2]
       t.belongs_to :help_topic, index: true
 
       t.string :section_title
-      t.string :section_body
+      t.text :section_body
 
       t.timestamps
     end

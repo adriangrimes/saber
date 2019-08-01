@@ -15,9 +15,9 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
 
   # host
-  Rails.application.routes.default_url_options[:host] = "https://api.saber.tv/"
+  Rails.application.routes.default_url_options[:host] = "https://api.saber.solversion.com/"
   # Set front-end hostname
-  config.front_end_hostname = 'https://www.saber.tv'
+  config.front_end_hostname = 'https://saber.solversion.com/'
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
@@ -47,7 +47,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :info
+  config.log_level = :debug
 
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]

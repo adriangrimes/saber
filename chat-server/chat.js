@@ -1,9 +1,26 @@
 const WebSocket = require('ws');
-const fs = require('fs'); //DEBUG - for writeToTextFile()
+const fs = require('fs');
 const util = require('util'); //DEBUG - for writeToTextFile() and displaying objects as strings
 const shortid = require('./shortid'); // For generating IDs
 const requestLibrary = require('request'); // HTTP Gets for authentication
-const apiHost = 'http://192.168.132.129:3000';
+
+const currentEnvironment = process.argv[2];
+let apiHost = '';
+
+switch (currentEnvironment) {
+  case 'development':
+    apiHost = 'http://localhost:3000';
+    break;
+  case 'staging':
+    apiHost = 'https://api.saber.solversion.com';
+    break;
+  case 'production':
+    apiHost = 'https://api.saber.tv';
+    break;
+  default:
+    apiHost = 'http://localhost:3000';
+    break;
+ }
 
 let wsServer = new WebSocket.Server({
   port: 7000,
@@ -16,9 +33,11 @@ let chatState = {
 };
 
 // Log chat state every X seconds
-setInterval(function() {
-  formattedJsonLogger('CHAT STATE: ', chatState);
-}, 5000);
+if (currentEnvironment != 'production') {
+  setInterval(function() {
+    formattedJsonLogger('CHAT STATE: ', chatState);  
+  }, 5000);
+}
 
 //On connection
 wsServer.on('connection', function connection(wsClient, req) {
@@ -32,7 +51,6 @@ wsServer.on('connection', function connection(wsClient, req) {
   wsClient.on('message', function incoming(message) {
     let parsedMessage = JSON.parse(message);
     formattedJsonLogger('recieved message: ', parsedMessage);
-
     switch (parsedMessage.type) {
       case 'ChatMessage':
         if (messageIsAuthorized(wsClient)) {
@@ -133,7 +151,7 @@ wsServer.on('connection', function connection(wsClient, req) {
           // If IP of closing connection matches a stored IP, remove it, and if
           // there are no IPs left, remove the user from the array.
           if (
-            wsClient._socket.remoteAddress.includes(ip) &&
+            wsClient.assignedIp.includes(ip) &&
             wsClient.chatUsername === channel.userList[i].username
           ) {
             console.log(' - removing ip from user');
@@ -209,9 +227,7 @@ wsServer.on('connection', function connection(wsClient, req) {
     }
 
     console.log(
-      'INFO: Connection with client ' +
-        wsClient._socket.remoteAddress +
-        ' closed'
+      'INFO: Connection with client ' + wsClient.assignedIp + ' closed'
     );
   });
 });
@@ -223,6 +239,8 @@ function initializeChannelAndAddChatUser(client, req) {
   console.log('initializeChannelAndAddChatUser():');
 
   // Add basic user info to connected client object
+  client.assignedIp =
+    req.headers['x-forwarded-for'] || client._socket.remoteAddress;
   client.id = shortid();
   client.channelUrl = req.url;
   client.pingpong = {};
@@ -242,13 +260,14 @@ function initializeChannelAndAddChatUser(client, req) {
   // Check back-end for valid ticket matching the identifier/IP
   requestLibrary(
     {
-      url: apiHost + '/chat_tickets?identifier=' + client._socket.remoteAddress,
+      url: apiHost + '/chat_tickets?identifier=' + client.assignedIp,
       json: true
     },
     (err, res, body) => {
       if (res && res.statusCode == 200 && body) {
         // Add user info to the userList and friendlyUserList if ticket was valid
         console.log(' - ' + res.statusCode + ' adding as authenticated user');
+        console.log(body);
 
         client.chatUsername = body.username;
 
@@ -341,7 +360,7 @@ function messageIsValid(client, message) {
 }
 
 function messageIsAuthorized(client) {
-  console.log('messageIsAuthorized() for ' + client._socket.remoteAddress);
+  console.log('messageIsAuthorized() for ' + client.assignedIp);
   let userAuthorized = false;
   let user = {};
   let channel = chatState.channels[client.channelUrl];
@@ -354,7 +373,7 @@ function messageIsAuthorized(client) {
         let ip = channel.userList[i].ipArray[j];
         // If client username and IP matches the entry in the userList
         if (
-          client._socket.remoteAddress.includes(ip) === true &&
+          client.assignedIp.includes(ip) === true &&
           client.chatUsername === channel.userList[i].username
         ) {
           userAuthorized = true;
@@ -381,14 +400,6 @@ function messageIsAuthorized(client) {
     return false;
   }
 }
-
-// function setUpClientConnectionChecking(client) {
-//   console.log('setUpClientConnectionChecking()');
-//
-//   client.pingpong.heartbeat = setInterval(function() {
-//     startClientPing(client);
-//   }, 10000);
-// }
 
 function startClientPing(client) {
   console.log('startClientPing()');
