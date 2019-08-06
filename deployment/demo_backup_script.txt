@@ -1,0 +1,46 @@
+#!/bin/bash
+
+BACKUP_DIR="/backups"
+MYSQL_FILENAME="$BACKUP_DIR/prod-$(date +%m%d%Y).sql"
+DOCROOT_FILENAME="$BACKUP_DIR/prod-$(date +%m%d%Y).tar.gz"
+ETC_FILENAME="$BACKUP_DIR/etc--$(date +%m%d%Y).tar.gz"
+BACKUP_HISTORY="365 days"
+
+echo "Creating backups..."
+
+mysqldump -u username --password=password database > $MYSQL_FILENAME
+gzip $MYSQL_FILENAME
+
+pushd /opt
+tar cfz $DOCROOT_FILENAME www/prod/ scripts/
+popd
+pushd /etc
+tar cfz $ETC_FILENAME php* nginx* sphinx* my.cnf
+popd
+
+s3cmd put ${MYSQL_FILENAME}.gz s3://your-s3-path/ && rm -f ${MYSQL_FILENAME}.gz
+s3cmd put $DOCROOT_FILENAME s3://your-s3-path/ && rm -f $DOCROOT_FILENAME
+s3cmd put $ETC_FILENAME s3://your-s3-path/ && rm -f $ETC_FILENAME
+
+echo "... done."
+echo
+echo "Cleaning up old backups, deleting files older than $BACKUP_HISTORY..."
+
+s3cmd ls s3://your-s3-path/ | while read -r line;  
+do
+   createDate=`echo $line|awk {'print $1" "$2'}`
+   createDate=`date -d"$createDate" +%s`
+   olderThan=`date -d"-$BACKUP_HISTORY" +%s`
+
+   if [[ $createDate -lt $olderThan ]]
+   then
+      fileName=`echo $line|awk {'print $4'}`
+
+      if [[ $fileName != "" ]]
+      then
+         s3cmd del "$fileName"
+      fi
+   fi
+done
+
+echo "... done."

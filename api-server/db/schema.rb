@@ -12,17 +12,17 @@
 
 ActiveRecord::Schema.define(version: 2019_07_20_200321) do
 
-  create_table "active_storage_attachments", force: :cascade do |t|
+  create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", force: :cascade do |t|
+  create_table "active_storage_blobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "chat_tickets", force: :cascade do |t|
-    t.integer "user_id", null: false
+  create_table "chat_tickets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id", null: false
     t.string "user_ip", null: false
     t.string "username", null: false
     t.datetime "created_at", null: false
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.index ["user_id"], name: "index_chat_tickets_on_user_id"
   end
 
-  create_table "contest_votes", force: :cascade do |t|
+  create_table "contest_votes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.integer "voted_for"
     t.integer "contest_id"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "contests", force: :cascade do |t|
+  create_table "contests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.text "rules"
@@ -62,26 +62,26 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "credit_purchases", force: :cascade do |t|
-    t.integer "user_id", null: false
+  create_table "credit_purchases", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id", null: false
     t.string "purchase_type", null: false
-    t.integer "purchase_amount", null: false
+    t.integer "purchase_amount", null: false, unsigned: true
     t.string "payment_method", null: false
     t.boolean "cleared", default: false, null: false
     t.boolean "cancelled", default: false, null: false
-    t.integer "credits_purchased", null: false
-    t.integer "credits_remaining", null: false
+    t.integer "credits_purchased", null: false, unsigned: true
+    t.integer "credits_remaining", null: false, unsigned: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_credit_purchases_on_user_id"
   end
 
-  create_table "credit_transfers", force: :cascade do |t|
-    t.integer "from_user_id", null: false
-    t.integer "to_user_id", null: false
-    t.integer "credits_transferred", default: 0, null: false
-    t.string "transfer_type", limit: 255, null: false
-    t.string "transfer_description", limit: 255
+  create_table "credit_transfers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "from_user_id", null: false
+    t.bigint "to_user_id", null: false
+    t.integer "credits_transferred", default: 0, null: false, unsigned: true
+    t.string "transfer_type", null: false
+    t.string "transfer_description"
     t.integer "broadcaster_payout_percentage", limit: 1, default: 50, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -89,21 +89,21 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.index ["to_user_id"], name: "index_credit_transfers_on_to_user_id"
   end
 
-  create_table "game_logs", force: :cascade do |t|
+  create_table "game_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "help_sections", force: :cascade do |t|
-    t.integer "help_topic_id"
+  create_table "help_sections", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "help_topic_id"
     t.string "section_title"
-    t.string "section_body"
+    t.text "section_body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["help_topic_id"], name: "index_help_sections_on_help_topic_id"
   end
 
-  create_table "help_topics", force: :cascade do |t|
+  create_table "help_topics", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "short_title", null: false
     t.string "title", null: false
     t.boolean "all_users", default: true, null: false
@@ -115,10 +115,10 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.index ["short_title"], name: "index_help_topics_on_short_title"
   end
 
-  create_table "private_messages", force: :cascade do |t|
-    t.integer "from_user_id", null: false
-    t.integer "to_user_id", null: false
-    t.text "message", limit: 1024, null: false
+  create_table "private_messages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "from_user_id", null: false
+    t.bigint "to_user_id", null: false
+    t.text "message", null: false
     t.boolean "message_read", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -128,8 +128,8 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.index ["updated_at"], name: "index_private_messages_on_updated_at"
   end
 
-  create_table "static_game_data", force: :cascade do |t|
-    t.integer "user_id"
+  create_table "static_game_data", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
     t.string "title"
     t.integer "photo_id"
     t.string "description"
@@ -139,29 +139,29 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.index ["user_id"], name: "index_static_game_data_on_user_id", unique: true
   end
 
-  create_table "user_blocks", force: :cascade do |t|
+  create_table "user_blocks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.integer "marked_as_blocked"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "user_favorites", force: :cascade do |t|
+  create_table "user_favorites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.integer "marked_as_favorite"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "user_files", force: :cascade do |t|
+  create_table "user_files", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.boolean "is_public"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "user_public_data", force: :cascade do |t|
-    t.integer "user_id"
+  create_table "user_public_data", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
     t.string "username"
     t.boolean "broadcaster", null: false
     t.boolean "online_status"
@@ -174,7 +174,7 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.string "user_custom_tags"
     t.string "profile_photo_path"
     t.string "profile_sex", limit: 16
-    t.text "profile_about_me", limit: 2048
+    t.text "profile_about_me"
     t.integer "profile_age", limit: 3
     t.string "profile_location", limit: 32
     t.string "profile_languages", limit: 32
@@ -184,7 +184,7 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.index ["username"], name: "index_user_public_data_on_username", unique: true
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "username", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -202,7 +202,7 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.boolean "send_email_followed_online", default: false
     t.boolean "send_email_site_news", default: false
     t.boolean "private_message_email_notifications", default: true
-    t.text "private_user_notes", limit: 2048
+    t.text "private_user_notes"
     t.integer "broadcaster_percentage", limit: 1, default: 50
     t.integer "developer_percentage", limit: 1, default: 5
     t.string "full_name"
@@ -242,4 +242,12 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "credit_purchases", "users"
+  add_foreign_key "credit_transfers", "users", column: "from_user_id"
+  add_foreign_key "credit_transfers", "users", column: "to_user_id"
+  add_foreign_key "private_messages", "users", column: "from_user_id"
+  add_foreign_key "private_messages", "users", column: "to_user_id"
+  add_foreign_key "static_game_data", "users"
+  add_foreign_key "user_public_data", "users"
 end

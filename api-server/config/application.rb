@@ -42,14 +42,6 @@ module ApiServer
       DeviseController.respond_to :jsonapi
     end
 
-    # TODO determine appropriate cors settings
-    config.middleware.insert_before 0, Rack::Cors do
-      allow do
-        origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :options, :delete, :put, :patch]
-      end
-    end
-
     config.middleware.use ActionDispatch::Flash
 
     ##################################################

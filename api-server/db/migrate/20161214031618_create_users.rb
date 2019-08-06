@@ -75,10 +75,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.timestamps
 
     end
-
-    # start user ids at a random integer
-    execute('ALTER TABLE users AUTO_INCREMENT = 2202840')
-
+    
     add_index :users, :username,             unique: true
     add_index :users, :email,                unique: true
     add_index :users, :authentication_token, unique: true
