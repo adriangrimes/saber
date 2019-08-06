@@ -222,7 +222,9 @@ export default Controller.extend({
         console.log('invalid tip');
       }
     },
-
+    sendFollowerEmail(){
+      console.log('send follower email confirmed');
+    },
     copyUrlToClipboard() {
       /* Get the text field */
       var copyText = document.getElementById('urlDisplay');
@@ -239,6 +241,7 @@ export default Controller.extend({
       setTimeout(function() {
         this.set('copyUrlBtnIcon', 'fa fa-link');
       }, 3000);
-    }
+    },
+
   }
 });

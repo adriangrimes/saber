@@ -23,7 +23,7 @@
     </div>
     <div class="col-xs-12 col-sm-8">
       {{#if selectedUser}}
-        <h5>Messages with {{selectedUser}}</h5>
+        <h5>Messages with <a href="/p/{{selectedUser}}">{{selectedUser}}</a></h5>
         <br>
         {{#unless noMoreHistory}}
           <a href="" class="text-center" {{action "loadOlderMessages"}}>load older messages</a>

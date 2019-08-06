@@ -7,15 +7,26 @@
     <div class="row m-0 mb-4" id="video-row">
       <div class={{this.videoPanel}} id="video-panel">
         <div class="row pt-3 m-0" id="usernameRow">
-          <div class="col-10 pb-0">
+          <div class="col-8 pb-0">
             <h4 id="usernameDisplay">
               {{model.username}}
+              {{#if model.onlineStatus}}
+              <span title="Online" class="fa fa-video-camera pl-1"></span>
+
+              {{/if}}
             </h4>
           </div>
 
-          {{!--
-          <div class="col-2 d-flex justify-content-end">
-            <div class="btn-group ">
+
+          <div class="col-4 d-flex justify-content-end">
+              {{#if (eq session.data.authenticated.username model.username)}}
+
+                {{confirm-input button-title="Email Followers" title="Send email now?" onConfirm=(action "sendFollowerEmail")}}
+              {{else}}
+              <a href="/account/messages?toUser={{model.username}}" class="btn btn-link pb-0" ><span title="Send Private Message" class="profile-links fa fa-envelope"></span></a>
+              {{/if}}
+
+              {{!--
               <button type="button" class="btn btn-link pb-0 collapsed" data-toggle="collapse" data-target="#share-form,#share-form2"><span title="Open Share Form" class=" profile-links fa fa-share-alt"></span></button>
               {{#if (eq session.data.authenticated.username model.username)}}
               {{else}}
@@ -25,14 +36,14 @@
                   <button type="button" class="btn btn-link pb-0 pl-2"> <span title="Follow {{model.username}}" class=" profile-links fa fa-bell-o" {{action "toggleFollow" model.user_id}}></span></button>
                 {{/if}}
               {{/if}}
-            </div>
+              --}}
+
           </div>
-          --}}
+
 
         </div>
         <div class="row m-0 collapse px-2" id="share-form">
           <div class="col-xs-12 col-sm-8  px-0 pb-3">
-            {{!-- Share Profile Menu --}}
             <div class="input-group justify-content-end">
               <h6 class="pr-2 pt-2"> Share this profile:</h6>
               <div class="btn-group " role="group">
@@ -53,10 +64,16 @@
 
         <div class="card">
           <div class="card-body p-0">
-            <img src="{{if model.profilePhotoPath model.profilePhotoPath "/streamnails/usericon.svg"}}" height="500">
+
+
+          {{stream-player profilePhoto=model.profilePhotoPath onlineStatus=model.onlineStatus}}
+
+
           </div>
           <div class="profile-controls pt-1" id="profileControls">
-              <div class="btn-toolbar justify-content-between ml-2 mr-1" role="toolbar">
+            <div name="tip-toolbar" class="btn-toolbar justify-content-between ml-2 mr-1" role="toolbar">
+                  <div></div>
+                {{#if model.allowTips}}
                 <div class="input-group d-flex">
                   <div class="input-group-prepend ">
                     <button class="btn btn-dark border-0 px-2 profile-buttons" type="button" title="Tip Options" {{action "tipToggle"}}><span class={{this.tipToggleIcon}}></span></button>
@@ -87,8 +104,19 @@
                       {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Chat note (optional)" }}
                     </div>
                   </div>
-                  {{confirm-input type="tip" title="Tip" titleDetail=this.tipAmountOptions button-title="Tip" onConfirm=(action "sendTip" tipAmountOptions)}}
+                  {{#if (eq currentUser.user.creditsRemaining 0)}}
+                      <button class="btn btn-primary border-0 px-2 profile-buttons input-group-append" title="Tip" data-toggle="modal" data-target="#buyCreditsModal">Tip</button>
+                    {{else}}
+                      {{confirm-input type="tip" title="Tip" titleDetail=this.tipAmountOptions titleEnd="?" button-title="Tip" onConfirm=(action "sendTip" tipAmountOptions)}}
+                  {{/if}}
                 </div>
+                 {{else}}
+                    <div></div>
+                    {{/if}}
+
+
+
+
               </div>
           </div>
         </div>

@@ -9,11 +9,15 @@
       {{button-title}}
     </div>
   </div>
-{{/if}}
-{{#if (eq this.type "reset")}}
+{{else if (eq this.type "reset")}}
     <div class="btn btn-block btn-dark"
       {{action "openConfirm"}}>
       <span class={{this.resetStreamKeyIcon}} id="resetStreamKeyIcon" aria-hidden="true"></span>&nbsp;
+      {{button-title}}
+    </div>
+  {{else}}
+    <div class="btn btn-primary border-0 px-2 profile-buttons"
+      {{action "openConfirm"}}>
       {{button-title}}
     </div>
 
@@ -24,7 +28,7 @@
 
   <div class={{this.showConfirm}}>
     {{#if titleDetail}}
-      <h5 class="pl-2 pr-3 pt-1" >{{title}} {{titleDetail}}?</h5>
+      <h5 class="pl-2 pr-3 pt-1" >{{title}} {{titleDetail}} {{titleEnd}}</h5>
     {{else}}
       <h5 class="pl-2 pr-3 pt-1" >{{title}}</h5>
     {{/if}}

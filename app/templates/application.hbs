@@ -33,7 +33,7 @@
           </li>
         {{/if}}
           <li><button class="btn btn-outline-dark border-0 px-2 mx-1" data-toggle="modal" data-target="#buyCreditsModal"><i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></button></li>
-        {{#if this.currentUser.isContracted}}
+        {{#if this.currentUser.user.isContracted}}
           <li>
             {{#link-to "account.dashboard" class="btn btn-outline-dark border-0 px-2 mx-1"}}
               <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i>
@@ -59,7 +59,7 @@
           {{#link-to "account.messages" class="dropdown-item"}}
             Messages {{#if this.currentUser.unreadMessages}}<span class="ml-2 badge badge-primary badge-pill">{{this.currentUser.unreadMessages}}</span>{{/if}}
           {{/link-to}}
-          {{#if this.currentUser.isContracted}}
+          {{#if this.currentUser.user.isContracted}}
             {{link-to "Dashboard" "account.dashboard" class="dropdown-item"}}
           {{/if}}
           {{#link-to "p" (lower-case session.data.authenticated.username) class="dropdown-item"}}
@@ -76,7 +76,7 @@
           </form>
 
           <div class="dropdown-divider"></div>
-            <div class="dropdown-item dropdown-header">You have&nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i><strong>&nbsp;&nbsp;{{currentUser.user.creditsRemaining}}</strong> Credits</div>
+            <div class="dropdown-item dropdown-header" data-toggle="modal" data-target="#buyCreditsModal">You have&nbsp;&nbsp;<i class="fa fa-database" aria-hidden="true"></i><strong>&nbsp;&nbsp;{{currentUser.user.creditsRemaining}}</strong> Credits</div>
             <a class="dropdown-item" role="button" data-toggle="modal" data-target="#buyCreditsModal">Buy Credits</a>
             <div class="dropdown-divider"></div>
           <a class="dropdown-item" role="button" {{action "logout"}}>Log Out</a>

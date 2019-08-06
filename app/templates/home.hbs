@@ -5,7 +5,6 @@
     <div class ="col-xs-11 col-sm-6">
       <h4 {{action "reloadBrowsePageTest"}} >Active Broadcasters</h4>
       {{#if model.length}}
-        {{model.length}} Broadcasters
       {{/if}}
       <br>
     </div>
@@ -27,7 +26,7 @@
       <div class="col-xs-12 col-sm-3 p-0">
         {{#link-to "p" (lower-case broadcaster.username) title=broadcaster.username}}
           <div class="broadcaster-panel {{if broadcaster.onlineStatus "online" "offline"}}">
-            <img class="broadcaster-avatar" src="{{if broadcaster.onlineStatus (if broadcaster.profilePhotoPath broadcaster.profilePhotoPath "/streamnails/usericon.svg") "/streamnails/404_streamnail.png"}}">
+            <img class="broadcaster-avatar" src="{{if broadcaster.profilePhotoPath broadcaster.profilePhotoPath "/streamnails/usericon.svg"}}">
             <div class="broadcaster-footer">
               {{broadcaster.username}}
               {{#if broadcaster.onlineStatus}}
