@@ -1,4 +1,4 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
+# Ember .gitignore
 
 # compiled output
 /dist
@@ -16,11 +16,9 @@ bower_components/
 npm-debug.log*
 yarn-error.log
 testem.log
+*.log
 
 # ember-try
 .node_modules.ember-try/
 bower.json.ember-try
 package.json.ember-try
-chat-server/output.txt
-api-server/storage/
-*.orig

@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/larskanis/sqlite3-ruby
-  revision: 1027509079176fcc4088dcc7638101cde617cf16
-  branch: add-gemspec
-  specs:
-    sqlite3 (1.3.13.20180326210955)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -101,6 +94,7 @@ GEM
     mini_portile2 (2.4.0)
     minitest (5.11.3)
     msgpack (1.2.9-x64-mingw32)
+    mysql2 (0.5.2-x64-mingw32)
     netrc (0.11.0)
     nio4r (2.3.1)
     nokogiri (1.10.1-x64-mingw32)
@@ -109,7 +103,6 @@ GEM
     public_suffix (3.0.3)
     puma (3.12.1)
     rack (2.0.6)
-    rack-cors (1.0.2)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.2.1)
@@ -185,11 +178,10 @@ DEPENDENCIES
   fast_jsonapi
   letter_opener
   mailjet
+  mysql2
   puma (~> 3.11)
-  rack-cors
-  rails (~> 5.2.0)
+  rails (~> 5.2.2.1)
   simple_token_authentication (~> 1.15)
-  sqlite3!
   sucker_punch
   tzinfo-data
   will_paginate (~> 3.1.7)

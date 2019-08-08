@@ -450,8 +450,6 @@ export default Controller.extend({
       this.get('store')
         .findRecord('user', this.get('session.data.authenticated.user_id'))
         .then(user => {
-          // var userEmail = 'user@gmail.com';
-
           // Record that they have started, but not finished the application
           // user.set('', 'Started developer Application');
 

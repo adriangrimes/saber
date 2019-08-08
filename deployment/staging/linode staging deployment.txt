@@ -1,0 +1,194 @@
+#!/bin/bash
+
+### Linode Nanode 1 CPU 1GB RAM
+### CentOS 7
+### staging environment
+ 
+# all yum commands will need -y if they are used in an unattended script
+
+hostnamectl set-hostname <hostname_here>
+# update hosts file
+# reboot machine
+yum update
+yum install epel-release yum-utils # for htop, nginx, certbot, and others
+yum-config-manager --enable epel
+yum clean all && yum update -y
+yum install htop
+useradd webadmin && passwd webadmin
+# login as webadmin over ssh
+# install fail2ban
+# copy fail2ban.local and jail.local to /etc/fail2ban
+# setup sendmail smtp
+# Create Auth File:
+sudo mkdir /etc/mail/authinfo
+sudo chmod 700 /etc/mail/authinfo
+
+# Now, create an auth file with any name like smtp-auth and add the following content. Replace the above email with your gmail or google apps email.
+
+sudo nano /etc/mail/authinfo/smtp-auth
+# contents: 
+AuthInfo: "U:root" "I:user@gmail.com" "P:PASSWORD"
+
+makemap hash /etc/mail/authinfo/smtp-auth < /etc/mail/authinfo/smtp-auth
+
+# 2. Configure Sendmail with SMART_HOST
+# Now add following configuration lines into your sendmail.mc configuration file above first "MAILER" definition.
+
+# define(`SMART_HOST',`[smtp.gmail.com]')dnl
+# define(`RELAY_MAILER_ARGS', `TCP $h 587')dnl
+# define(`ESMTP_MAILER_ARGS', `TCP $h 587')dnl
+# define(`confAUTH_OPTIONS', `A p')dnl
+# TRUST_AUTH_MECH(`EXTERNAL DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl
+# define(`confAUTH_MECHANISMS', `EXTERNAL GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl
+# FEATURE(`authinfo',`hash -o /etc/mail/authinfo/smtp-auth.db')dnl
+ 
+#In the next step we will need to re-build sendmail's configuration. To do that execute:
+
+make -C /etc/mail
+
+# test sendmail
+echo "Staging mail is working" | mail -s "Staging mail test" test@test.com
+# if error no worthy mechs found in sendmail logs:
+sudo yum install cyrus-sasl cyrus-sasl-lib cyrus-sasl-plain
+
+sudo systemctl restart fail2ban
+
+# test if fail2ban is reporting over email
+
+# paste one line public key into ~/.ssh/authorized_keys, create folder and file if nonexistant
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+# set PasswordAuthentication no in sshd_config
+sudo systemctl restart sshd
+
+# set up firewall to allow port 80 and 443
+sudo firewall-cmd --permanent --zone=public --add-service=http
+sudo firewall-cmd --permanent --zone=public --add-service=https
+
+sudo yum update
+# add passenger repo 
+sudo curl --fail -sSLo /etc/yum.repos.d/passenger.repo https://oss-binaries.phusionpassenger.com/yum/definitions/el-passenger.repo
+
+# install passenger and nginx
+#sudo yum install -y passenger
+#sudo yum install passenger-devel-6.0.2
+sudo yum install -y nginx passenger || sudo yum-config-manager --enable cr && sudo yum install -y nginx passenger
+
+# add to passenger.conf in /etc/nginx/conf.d/
+passenger_root /usr/share/ruby/vendor_ruby/phusion_passenger/locations.ini;
+passenger_instance_registry_dir /var/run/passenger-instreg;
+passenger_log_level 5;
+
+sudo systemctl enable nginx
+sudo systemctl start nginx
+
+# visiting the ip in a browser should show the nginx welcome screen
+
+# create usergroup to assign yourself to
+# Create a new group (e.g. 'usermod -a -G webmasters').
+# Add users to the group who will be allowed to upload files to the web server via SFTP (e.g. 'adduser youruser webmasters'). No one should be using FTP anymore.
+# Create a directory for the web server files (e.g. 'mkdir /var/www').
+# Adjust permissions (e.g. 'chown root /var/www', 'chgrp webmasters /var/www', 'chmod 775 /var/www', and 'chmod g+s /var/www').
+# Create a directory for cron/scheduled custom scripts to run (e.g. 'mkdir /var/scripts').
+# Adjust permissions (e.g. 'chown root /var/scripts', 'chgrp webmasters /var/scripts', 'chmod 770 /var/scripts', and 'chmod g+s /var/scripts').
+
+mkdir /var/www/<site-name>
+
+# use below command to allow nginx to bypass SElinux hardening
+sudo chcon -Rt httpd_sys_content_t /var/www/<site-name>
+# this allows node.js chat server to communicate to the API server
+sudo setsebool -P httpd_can_network_connect 1
+
+# nginx configuration
+# Stop deep linking or hot linking
+#location /images/ {
+#  valid_referers none blocked www.example.com example.com;
+#   if ($invalid_referer) {
+#     return   403;
+#   }
+#}
+
+# set up certbot
+sudo yum install certbot python2-certbot-nginx
+sudo certbot --nginx
+# follow prompts on screen
+
+# IMPORTANT NOTES:
+ # - Congratulations! Your certificate and chain have been saved at:
+   # /etc/letsencrypt/live/saber.solversion.com/fullchain.pem
+   # Your key file has been saved at:
+   # /etc/letsencrypt/live/saber.solversion.com/privkey.pem
+   # Your cert will expire on 2019-10-23. To obtain a new or tweaked
+   # version of this certificate in the future, simply run certbot again
+   # with the "certonly" option. To non-interactively renew *all* of
+   # your certificates, run "certbot renew"
+ # - Your account credentials have been saved in your Certbot
+   # configuration directory at /etc/letsencrypt. You should make a
+   # secure backup of this folder now. This configuration directory will
+   # also contain certificates and private keys obtained by Certbot so
+   # making regular backups of this folder is ideal.
+ # - If you like Certbot, please consider supporting our work by:
+
+   # Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   # Donating to EFF:                    https://eff.org/donate-le
+   
+# make sure nginx and site .conf are correct
+# add cron job to check for a new cert every 12 hours (will only renew when the cert is within 30 days of expiring)
+sudo echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew" | sudo tee -a /etc/crontab > /dev/null
+
+sudo yum install git
+
+# dependencies for ruby/rails
+sudo yum install -y gcc bzip2 openssl-devel libyaml-devel libffi-devel readline-devel zlib-devel gdbm-devel ncurses-devel
+
+# install rbenv for ruby version management
+git clone git://github.com/sstephenson/rbenv.git .rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+exec $SHELL
+
+# rbenv ruby-build for easy version building and installation
+git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+#echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
+exec $SHELL
+
+rbenv install 2.5.3
+rbenv global 2.5.3
+
+gem install bundler
+
+# mariadb
+sudo yum update
+sudo yum install mariadb-server
+sudo systemctl enable mariadb
+sudo systemctl start mariadb
+sudo mysql_secure_installation
+# follow prompts, yes to all
+# test password
+sudo mysql -u root -p
+
+# update RubyGems system gems
+gem update --system
+
+sudo yum install ruby-devel
+sudo yum install gcc-c++
+sudo yum install mysql-devel
+
+bundle install --deployment --without development test
+# rails folder/files
+chmod 700 config db
+chmod 600 config/database.yml config/secrets.yml
+
+rbenv rehash
+
+# add nodejs repo
+curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
+# install nodejs 10.x LTS from node.js repo
+sudo yum install nodejs
+sudo npm install pm2 -g
+cd /var/www/<site>/chat
+pm2 start chat-<env>.json
+pm2 startup
+# run given command 
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u webadmin --hp /home/webadmin
+pm2 save
