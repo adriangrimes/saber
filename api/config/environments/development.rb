@@ -57,6 +57,14 @@ Rails.application.configure do
   # Set front-end hostname
   config.front_end_hostname = 'http://192.168.132.129:4200'
 
+  # Allow all for CORS
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins '*'
+      resource '*', :headers => :any, :methods => [:get, :post, :options, :delete, :put, :patch]
+    end
+  end
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
