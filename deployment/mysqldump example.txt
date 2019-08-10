@@ -1,0 +1,1 @@
+mysqldump -u root -pl5%qX#5W2NjYNAoe --all-databases | gzip > ~/mysqlbackups/`date +%Y-%m-%d`_database.sql.gz
