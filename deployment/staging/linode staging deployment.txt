@@ -21,41 +21,46 @@ yum-config-manager --enable epel
 yum clean all && yum update -y
 groupadd www
 
-# create webadmin and move ssh keys over to them
+# create webadmin and copy ssh keys over to them
 useradd webadmin && passwd webadmin
 # give sudo to webadmin
 usermod -a -G wheel webadmin
 usermod -a -G www webadmin
+mkhomedir_helper webadmin
 mkdir /home/webadmin/.ssh/
-mv /root/.ssh/authorized_keys /home/webadmin/.ssh/authorized_keys
-chown webadmin /home/webadmin/.ssh
-chown webadmin /home/webadmin/.ssh/*
+cp /root/.ssh/authorized_keys /home/webadmin/.ssh/authorized_keys
+chown webadmin:webadmin /home/webadmin/.ssh
+chown webadmin:webadmin /home/webadmin/.ssh/*
 chmod 700 /home/webadmin/.ssh
 chmod 600 /home/webadmin/.ssh/authorized_keys
 systemctl restart sshd
 
 # create web directory
 mkdir /var/www/
-chown root /var/www
-chgrp www /var/www
+chown root:www /var/www
 chmod 775 /var/www
 chmod g+s /var/www
 
 # create saber-staging
 mkdir /var/www/saber-staging
-chgrp www /var/www/saber-staging
-chown webadmin /var/www/saber-staging
+chown webadmin:www /var/www/saber-staging
+mkdir /var/www/saber-staging/ember
+chown webadmin:www /var/www/saber-staging/ember
+mkdir /var/www/saber-staging/api
+chown webadmin:www /var/www/saber-staging/api
+mkdir /var/www/saber-staging/chat
+chown webadmin:www /var/www/saber-staging/chat
 
 # create script directory
 mkdir /var/scripts
-chown root /var/scripts
-chgrp www /var/scripts
+chown root:www /var/scripts
 chmod 770 /var/scripts
 chmod g+s /var/scripts
 
 # set firewall to allow port 80 and 443
 firewall-cmd --permanent --zone=public --add-service=http
 firewall-cmd --permanent --zone=public --add-service=https
+firewall-cmd --reload
 
 # allow nginx to bypass SElinux hardening
 chcon -Rt httpd_sys_content_t /var/www/saber-staging
@@ -65,12 +70,12 @@ setsebool -P httpd_can_network_connect 1
 # fail2ban and email
 yum install -y fail2ban sendmail sendmail-cf cyrus-sasl cyrus-sasl-lib cyrus-sasl-plain
 # copy fail2ban.local and jail.local to /etc/fail2ban
-AuthInfo: "U:root" "I:user@gmail.com" "P:PASSWORD"
 # setup sendmail smtp authentication
 # create authinfo directory
 mkdir /etc/mail/authinfo
 chmod 700 /etc/mail/authinfo
 # create auth file
+echo 'AuthInfo: "U:root" "I:user@gmail.com" "P:password"' > /etc/mail/authinfo/smtp-auth
 makemap hash /etc/mail/authinfo/smtp-auth < /etc/mail/authinfo/smtp-auth
 
 # copy /etc/mail/sendmail.mc over
@@ -87,34 +92,90 @@ echo -e "Subject:staging test\nhello from test staging" | sendmail -f "mailersab
 systemctl restart fail2ban
 # test if fail2ban is reporting over email
 
-# copy /etc/ssh/sshd_config over to block password and root login
-# restart service to take effect
-systemctl restart sshd
-
 # install certbot
 yum install -y certbot python2-certbot-nginx
-# copy /etc/letsencrypt/confs
-# certbot --nginx to build new certs
-# check if certs should be renewed
-certbot certonly
-# follow prompts on screen
-# Congratulations! Your certificate and chain have been saved at:
-# /etc/letsencrypt/live/saber.solversion.com/fullchain.pem
-# Your key file has been saved at:
-# /etc/letsencrypt/live/saber.solversion.com/privkey.pem
+# copy and extract /etc/letsencrypt.tar.gz
+tar xvzf letsencrypt.tar.gz -C /etc
+# sanity check certbot and cert renewal
+certbot renew
 # add cron job to check for a new cert every 12 hours (will only renew when the cert is within 30 days of expiring)
 echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew" | tee -a /etc/crontab > /dev/null
 
 # install passenger and nginx
 # add passenger repo 
 curl --fail -sSLo /etc/yum.repos.d/passenger.repo https://oss-binaries.phusionpassenger.com/yum/definitions/el-passenger.repo
-#sudo yum install -y passenger
+# add libs to build nginx and passenger and native passenger extensions
+yum install -y passenger-devel-6.0.2 gperftools GeoIP GeoIP-devel perl-ExtUtils-Embed gd gd-devel libxslt-devel curl-devel wget git gcc gcc-c++ ruby rubygem-rake ruby-devel bzip2 openssl-devel libyaml-devel libffi-devel readline-devel zlib-devel gdbm-devel ncurses-devel mysql-devel
 yum install -y nginx passenger || yum-config-manager --enable cr && yum install -y nginx passenger
-# build native passenger extensions
-yum install -y passenger-devel-6.0.2
 
-# nginx configuration
+# add rtmp dynamic module
+
+######################################################################################################################
+
+#### SE linux policy may be the cause of nginx not being able to launch PassengerAgent
+
+# create temporary large swapfile for compiling
+fallocate -l 2G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+
+# create dirs and download
+mkdir -p /usr/local/src/nginx
+cd /usr/local/src/nginx
+wget http://nginx.org/download/nginx-1.16.0.tar.gz
+wget https://github.com/phusion/passenger/releases/download/release-6.0.2/passenger-6.0.2.tar.gz
+git clone https://github.com/sergey-dryabzhinsky/nginx-rtmp-module.git
+tar xvf nginx-1.16.0.tar.gz
+tar xvf passenger-6.0.2.tar.gz
+
+# build nginx with passenger and rtmp
+cd /usr/local/src/nginx/nginx-1.16.0
+./configure --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf \
+  --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log \
+  --http-client-body-temp-path=/var/lib/nginx/tmp/client_body --http-proxy-temp-path=/var/lib/nginx/tmp/proxy \
+  --http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi --http-uwsgi-temp-path=/var/lib/nginx/tmp/uwsgi \
+  --http-scgi-temp-path=/var/lib/nginx/tmp/scgi --pid-path=/run/nginx.pid --lock-path=/run/lock/subsys/nginx \
+  --user=nginx --group=nginx \
+  --with-file-aio --with-http_ssl_module --with-http_v2_module --with-http_realip_module --with-http_addition_module \
+  --with-http_xslt_module --with-http_image_filter_module --with-http_geoip_module --with-http_sub_module \
+  --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module \
+  --with-http_random_index_module --with-http_secure_link_module --with-http_degradation_module --with-http_stub_status_module \
+  --with-http_perl_module --with-mail --with-mail_ssl_module --with-pcre --with-pcre-jit --with-google_perftools_module \
+  --add-module=/usr/local/src/nginx/passenger-6.0.2/src/nginx_module \
+  --add-module=/usr/local/src/nginx/nginx-rtmp-module \
+  --with-debug --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic' --with-ld-opt='-Wl,-z,relro -Wl,-E'
+
+make
+make install
+
+# add passenger to PATH for all users
+echo -e "PATH=/usr/local/src/nginx/passenger-6.0.2/bin:\$PATH\nexport PATH" >> /etc/profile.d/sh.local
+# reconnect session to reload PATH
+
+# create nginx user, disallow login
+useradd -s /bin/false nginx
+# create temp folders and set to nginx user
+mkdir -p /var/lib/nginx/tmp
+mkdir /var/run/passenger-instreg
+# create tmpfile conf to create passenger-instreg on boot
+echo "d    /run/passenger-instreg   0755 root root - -" > /etc/tmpfiles.d/passenger.conf
+chown nginx:www /var/lib/nginx
+chown -R nginx:www /var/lib/nginx/*
+
+# copy /etc/init.d/nginx
+chmod +x /etc/init.d/nginx
+# enable nginx on startup and start nginx
+systemctl daemon-reload
+systemctl enable nginx
+systemctl start nginx
+
+mkdir /etc/nginx/conf.d
+#####################################################################################################################
+# visiting the ip in a browser should show the nginx welcome screen
+
 # copy nginx conf
+
 # Stop deep linking or hot linking
 #location /images/ {
 #  valid_referers none blocked www.example.com example.com;
@@ -122,20 +183,6 @@ yum install -y passenger-devel-6.0.2
 #     return   403;
 #   }
 #}
-
-# add to passenger.conf in /etc/nginx/conf.d/
-passenger_root /usr/share/ruby/vendor_ruby/phusion_passenger/locations.ini;
-passenger_instance_registry_dir /var/run/passenger-instreg;
-passenger_log_level 5;
-
-systemctl enable nginx
-systemctl start nginx
-
-# visiting the ip in a browser should show the nginx welcome screen
-
-# login as webadmin over ssh
-
-# copy ember /dist to /var/www/saber-staging/ember
 
 # mysql (mariadb)
 yum update -y
@@ -157,8 +204,9 @@ EOF
 # test password
 mysql -u root -p
 
-# dependencies for ruby/rails
-sudo yum install -y git gcc gcc-c++ ruby-devel bzip2 openssl-devel libyaml-devel libffi-devel readline-devel zlib-devel gdbm-devel ncurses-devel mysql-devel
+# login as webadmin over ssh/scp
+
+# copy ember /dist to /var/www/saber-staging/ember
 
 # install ruby via rbenv for ruby version management
 git clone git://github.com/sstephenson/rbenv.git .rbenv
@@ -174,16 +222,17 @@ rbenv global 2.5.3
 gem update --system --no-document
 
 # install gems for api 
-mkdir /var/www/saber-staging/api
 cd /var/www/saber-staging/api
 # copy rails files
 gem install bundler
 bundle install --deployment --without development test
+mkdir log
+mkdir storage
 # set permissions on rails folder/files
-chmod 700 config db
-chmod 600 config/database.yml config/secrets.yml
-
+sudo chmod 700 config db log storage
+sudo chmod 600 config/database.yml config/secrets.yml
 rbenv rehash
+RAILS_ENV=staging bundle exec rails db:setup
 
 # add nodejs repo
 curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
@@ -201,7 +250,17 @@ pm2 startup
 sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u webadmin --hp /home/webadmin
 pm2 save
 
-# done
+# full site should be functional
+
+# finishing up
 sudo yum update
+
+# copy /etc/ssh/sshd_config over to block password and root login
+# remove authorized keys from root to prevent ssh login
+sudo rm /root/.ssh/authorized_keys
+# restart service to take effect
+sudo systemctl restart sshd
+
 sudo reboot
 # all services should be running
+# done
