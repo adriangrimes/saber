@@ -60,6 +60,7 @@ chmod g+s /var/scripts
 # set firewall to allow port 80 and 443
 firewall-cmd --permanent --zone=public --add-service=http
 firewall-cmd --permanent --zone=public --add-service=https
+firewall-cmd --permanent --add-port=1935/tcp
 firewall-cmd --reload
 
 # allow nginx to bypass SElinux hardening
@@ -95,7 +96,7 @@ systemctl restart fail2ban
 # install certbot
 yum install -y certbot python2-certbot-nginx
 # copy and extract /etc/letsencrypt.tar.gz
-tar xvzf letsencrypt.tar.gz -C /etc
+tar xvzf /etc/letsencrypt/letsencrypt.tar.gz -C /etc
 # sanity check certbot and cert renewal
 certbot renew
 # add cron job to check for a new cert every 12 hours (will only renew when the cert is within 30 days of expiring)
@@ -106,9 +107,7 @@ echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random
 curl --fail -sSLo /etc/yum.repos.d/passenger.repo https://oss-binaries.phusionpassenger.com/yum/definitions/el-passenger.repo
 # add libs to build nginx and passenger and native passenger extensions
 yum install -y passenger-devel-6.0.2 gperftools GeoIP GeoIP-devel perl-ExtUtils-Embed gd gd-devel libxslt-devel curl-devel wget git gcc gcc-c++ ruby rubygem-rake ruby-devel bzip2 openssl-devel libyaml-devel libffi-devel readline-devel zlib-devel gdbm-devel ncurses-devel mysql-devel
-yum install -y nginx passenger || yum-config-manager --enable cr && yum install -y nginx passenger
-
-# add rtmp dynamic module
+#yum install -y nginx passenger || yum-config-manager --enable cr && yum install -y nginx passenger
 
 ######################################################################################################################
 
@@ -163,8 +162,7 @@ echo "d    /run/passenger-instreg   0755 root root - -" > /etc/tmpfiles.d/passen
 chown nginx:www /var/lib/nginx
 chown -R nginx:www /var/lib/nginx/*
 
-# copy /etc/init.d/nginx
-chmod +x /etc/init.d/nginx
+# copy /lib/systemd/system/nginx.service
 # enable nginx on startup and start nginx
 systemctl daemon-reload
 systemctl enable nginx
@@ -202,7 +200,7 @@ y
 EOF
 # follow prompts, yes to all
 # test password
-mysql -u root -p
+mysql -u root -pl5%qX#5W2NjYNAoe
 
 # login as webadmin over ssh/scp
 
@@ -213,8 +211,7 @@ git clone git://github.com/sstephenson/rbenv.git .rbenv
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
 echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
 git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-#echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
-exec $SHELL
+# relogin
 
 rbenv install 2.5.3
 rbenv global 2.5.3
@@ -224,12 +221,13 @@ gem update --system --no-document
 # install gems for api 
 cd /var/www/saber-staging/api
 # copy rails files
-gem install bundler
+# force installation of newer bundler gem
+gem install bundler --force
 bundle install --deployment --without development test
-mkdir log
-mkdir storage
+#mkdir log
+#mkdir storage
 # set permissions on rails folder/files
-sudo chmod 700 config db log storage
+sudo chmod 700 config db
 sudo chmod 600 config/database.yml config/secrets.yml
 rbenv rehash
 RAILS_ENV=staging bundle exec rails db:setup
@@ -238,9 +236,8 @@ RAILS_ENV=staging bundle exec rails db:setup
 curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
 # install nodejs 10.x LTS from node.js repo
 sudo yum install -y nodejs
-# install pm2 for nodejs process management
+# install pm2 for nodejs process management (3.5.1 at time of writing)
 sudo npm install pm2 -g
-mkdir /var/www/saber-staging/chat
 cd /var/www/saber-staging/chat
 # copy chat files over
 npm install
@@ -250,6 +247,8 @@ pm2 startup
 sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u webadmin --hp /home/webadmin
 pm2 save
 
+sudo chown -R webadmin:www /var/www/*
+sudo systemctl restart nginx
 # full site should be functional
 
 # finishing up
