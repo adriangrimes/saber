@@ -26,6 +26,10 @@ Rails.application.routes.draw do
   get '/transactions', to: 'transactions#index'
   resources :chat_tickets
 
+  # Stream control
+  get '/stream/start', to: 'streams#start'
+  get '/stream/stop', to: 'streams#stop'
+
   post '/send_contact_us', to: 'contact_us#send_email'
 
   resources :help_topics

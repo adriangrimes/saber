@@ -12,11 +12,10 @@
 
 # machine setup
 hostnamectl set-hostname saber-staging
-# copy hosts file
 reboot
 yum update -y
 yum install -y epel-release yum-utils # for htop, nginx, certbot, and others
-yum install -y htop
+yum install -y htop bmon ncdu
 yum-config-manager --enable epel
 yum clean all && yum update -y
 groupadd www
@@ -50,6 +49,9 @@ mkdir /var/www/saber-staging/api
 chown webadmin:www /var/www/saber-staging/api
 mkdir /var/www/saber-staging/chat
 chown webadmin:www /var/www/saber-staging/chat
+# rtmp hls directories
+mkdir -p /var/www/saber-staging/stream/hls
+chown -R nginx:www /var/www/saber-staging/stream
 
 # create script directory
 mkdir /var/scripts
@@ -169,6 +171,12 @@ systemctl enable nginx
 systemctl start nginx
 
 mkdir /etc/nginx/conf.d
+
+# follow this guide to build ffmpeg with x264 and aac
+# https://trac.ffmpeg.org/wiki/CompilationGuide/Centos
+# or 
+# copy ffmpeg and other bins to /usr/bin
+# tar xvf ffmpeg.tgz -C /usr
 #####################################################################################################################
 # visiting the ip in a browser should show the nginx welcome screen
 
@@ -248,6 +256,7 @@ sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -
 pm2 save
 
 sudo chown -R webadmin:www /var/www/*
+sudo chown -R nginx:www /var/www/saber-staging/stream
 sudo systemctl restart nginx
 # full site should be functional
 

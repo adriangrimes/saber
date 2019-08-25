@@ -20,7 +20,7 @@ export default Component.extend({
     jQuery
       .getScript('https://www.google.com/recaptcha/api.js')
       .done(function() {
-        that.set('captchaObject', /*global grecaptcha */ grecaptcha);
+        that.set('captchaObject', grecaptcha);
       })
       .fail(function() {
         console.log('failed to get script');

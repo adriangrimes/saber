@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  require "uri"
+  require "net/http"
+
   before_action :is_user_authorized?
 
   # Render Unauthorized 401 even when a record is not found
@@ -55,6 +58,8 @@ class UsersController < ApplicationController
       end
     end
 
+    old_stream_key = @authenticated_user.stream_key
+
     # Save submitted params to user record
     # If current_password is present, update sensitive attributes.
     if passworded_user_params[:current_password]&.present?
@@ -81,6 +86,11 @@ class UsersController < ApplicationController
       end
     # Else update attributes that don't require a password
     elsif @authenticated_user.update(nonpassworded_user_params)
+      if @authenticated_user.stream_key != old_stream_key
+        puts 'stream key changed'
+        # If key was changed, drop stream on the old key
+        drop_stream(old_stream_key)
+      end
       render json: serialize_user(@authenticated_user),
         status: :ok
     else
@@ -122,6 +132,17 @@ class UsersController < ApplicationController
       UserSerializer
         .new(user, {params: {user: user}})
         .serialized_json
+    end
+
+    def drop_stream(stream_key)
+      puts stream_key
+      puts 'dropping stream'
+      params = {
+        'app' => 'stream',
+        'name' => stream_key
+      }
+      x = Net::HTTP.post_form(URI.parse('https://saber.solversion.com/rtmpcontrol/drop/publisher'), params)
+      puts x.body
     end
 
     def nonpassworded_user_params

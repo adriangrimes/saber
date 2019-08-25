@@ -11,7 +11,7 @@
             <h4 id="usernameDisplay">
               {{model.username}}
               {{#if model.onlineStatus}}
-              <span title="Online" class="fa fa-video-camera pl-1"></span>
+                <span title="Online" class="fa fa-video-camera pl-1"></span>
 
               {{/if}}
             </h4>
@@ -19,14 +19,14 @@
 
 
           <div class="col-4 d-flex justify-content-end">
-              {{#if (eq session.data.authenticated.username model.username)}}
+            {{#if (eq session.data.authenticated.username model.username)}}
 
-                {{confirm-input button-title="Email Followers" title="Send email now?" onConfirm=(action "sendFollowerEmail")}}
-              {{else}}
-              <a href="/account/messages?toUser={{model.username}}" class="btn btn-link pb-0" ><span title="Send Private Message" class="profile-links fa fa-envelope"></span></a>
-              {{/if}}
+              {{confirm-input button-title="Email Followers" title="Send email now?" onConfirm=(action "sendFollowerEmail")}}
+            {{else}}
+              <a href="/account/messages?toUser={{model.username}}" class="btn btn-link pb-0"><span title="Send Private Message" class="profile-links fa fa-envelope"></span></a>
+            {{/if}}
 
-              {{!--
+            {{!--
               <button type="button" class="btn btn-link pb-0 collapsed" data-toggle="collapse" data-target="#share-form,#share-form2"><span title="Open Share Form" class=" profile-links fa fa-share-alt"></span></button>
               {{#if (eq session.data.authenticated.username model.username)}}
               {{else}}
@@ -66,53 +66,52 @@
           <div class="card-body p-0">
 
 
-          {{stream-player profilePhoto=model.profilePhotoPath onlineStatus=model.onlineStatus}}
+            {{stream-player username=model.username profilePhoto=model.profilePhotoPath onlineStatus=model.onlineStatus}}
 
 
           </div>
           <div class="profile-controls pt-1" id="profileControls">
-            <div name="tip-toolbar" class="btn-toolbar justify-content-between ml-2 mr-1" role="toolbar">
                   <div></div>
                 {{#if model.allowTips}}
-                <div class="input-group d-flex">
-                  <div class="input-group-prepend ">
-                    <button class="btn btn-dark border-0 px-2 profile-buttons" type="button" title="Tip Options" {{action "tipToggle"}}><span class={{this.tipToggleIcon}}></span></button>
-                  </div>
-                  <div class={{this.simpleTipForm}}>
-                    <label class="btn btn-dark px-2">
-                      {{radio-button value=10 id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
-                      10
-                    </label>
-                    <label class="btn btn-dark px-2 d-none d-sm-block ">
-                      {{radio-button value=25 id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
-                      25
-                    </label>
-                    <label class="btn btn-dark px-2">
-                      {{radio-button value=50 id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
-                      50
-                    </label>
-                    <label class="btn btn-dark  px-2 d-none d-sm-block">
-                      {{radio-button value=100 id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
-                      100
-                    </label>
-                  </div>
-                  <div class={{this.tipForm}}>
-                    <div style="width:130px">
-                      {{input type="number" class="form-control" min="1" max="10000" step="1" value=tipAmountOptions }}
+                  <div class="input-group d-flex">
+                    <div class="input-group-prepend ">
+                      <button class="btn btn-dark border-0 px-2 profile-buttons" type="button" title="Tip Options" {{action "tipToggle"}}><span class={{this.tipToggleIcon}}></span></button>
                     </div>
-                    <div class="w-75">
-                      {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Chat note (optional)" }}
+                    <div class={{this.simpleTipForm}}>
+                      <label class="btn btn-dark px-2">
+                        {{radio-button value=10 id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
+                        10
+                      </label>
+                      <label class="btn btn-dark px-2 d-none d-sm-block ">
+                        {{radio-button value=25 id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
+                        25
+                      </label>
+                      <label class="btn btn-dark px-2">
+                        {{radio-button value=50 id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
+                        50
+                      </label>
+                      <label class="btn btn-dark  px-2 d-none d-sm-block">
+                        {{radio-button value=100 id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
+                        100
+                      </label>
                     </div>
-                  </div>
-                  {{#if (eq currentUser.user.creditsRemaining 0)}}
+                    <div class={{this.tipForm}}>
+                      <div style="width:130px">
+                        {{input type="number" class="form-control" min="1" max="10000" step="1" value=tipAmountOptions }}
+                      </div>
+                      <div class="w-75">
+                        {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Chat note (optional)" }}
+                      </div>
+                    </div>
+                    {{#if (eq currentUser.user.creditsRemaining 0)}}
                       <button class="btn btn-primary border-0 px-2 profile-buttons input-group-append" title="Tip" data-toggle="modal" data-target="#buyCreditsModal">Tip</button>
                     {{else}}
                       {{confirm-input type="tip" title="Tip" titleDetail=this.tipAmountOptions titleEnd="?" button-title="Tip" onConfirm=(action "sendTip" tipAmountOptions)}}
-                  {{/if}}
-                </div>
-                 {{else}}
-                    <div></div>
                     {{/if}}
+                  </div>
+                {{else}}
+                  <div></div>
+                {{/if}}
 
 
 
