@@ -15,6 +15,9 @@ gem 'simple_token_authentication', '~> 1.15'
 gem 'fast_jsonapi'
 # gem "active_model_serializers", "~> 0.10.2"
 
+# websocket client for communicating to chat server
+gem 'websocket-client-simple'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

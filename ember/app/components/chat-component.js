@@ -232,7 +232,14 @@ export default Component.extend({
         console.log('message.type = ChannelUserCountUpdated');
         this.set('chatChannelUserCount', message.data);
         break;
-      default: // Do nothing
+      case 'StreamState':
+        console.log('message.type = StreamState');
+        console.log(message.data);
+        this.changeStreamState(message.data);
+        break;
+      default:
+        // Do nothing
+        break;
     }
     console.log('onMessageRecieved event end');
   },

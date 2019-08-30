@@ -24,6 +24,9 @@ export default Route.extend({
       controller.set('checkOtherSex', true);
     }
 
+    // onlineStatus is currently tied to whether the user is streaming or not
+    controller.set('isStreaming', model.get('onlineStatus'));
+
     // Set up user tags
     // if (model.get('userCustomTags') == []) {
     controller.set('tags', model.get('userCustomTags'));

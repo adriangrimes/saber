@@ -15,10 +15,10 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
 
   # host
-  Rails.application.routes.default_url_options[:host] = "https://api.saber.solversion.com/"
+  Rails.application.routes.default_url_options[:host] = "https://api.saber.solversion.com"
   # Set front-end hostname
-  config.front_end_hostname = 'https://saber.solversion.com/'
-
+  config.front_end_hostname = 'https://saber.solversion.com'
+  config.x.saber.chat_server = 'wss://chat.saber.solversion.com'
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
   # config.require_master_key = true

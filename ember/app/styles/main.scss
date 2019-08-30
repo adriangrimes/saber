@@ -847,6 +847,31 @@ input:checked + .slider:before {
   color: $bodyFontActiveColor;
   outline: 0;
 }
+
+// video js Classes
+// hides big play button and shows normal control bar
+.video-js .vjs-big-play-button {
+  display: none;
+}
+.video-js .vjs-control-bar {
+  display: flex;
+}
+.video-js .vjs-current-time {
+  visibility: hidden;
+}
+.video-js .vjs-time-divider {
+  visibility: hidden;
+}
+.video-js .vjs-duration {
+  visibility: hidden;
+}
+.video-js .vjs-remaining-time {
+  visibility: hidden;
+}
+.video-js .vjs-progress-control {
+  visibility: hidden;
+}
+
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {
   #streamKeyDisplayID {

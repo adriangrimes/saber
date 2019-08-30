@@ -1,34 +1,18 @@
 <div class="player">
 
   {{!-- {{#if onlineStatus}} --}}
-    <video id='my-video' class='video-js' controls preload='auto' width='800' poster="//vjs.zencdn.net/v/oceans.png" data-setup='{}'>
-      <source src='https://saber.solversion.com/hls/{{lower-case username}}/index.m3u8' type="application/x-mpegURL">
-      <p class='vjs-no-js'>
-        To view this video please enable JavaScript, and consider upgrading to a web browser that
-        <a href='https://videojs.com/html5-video-support/' target='_blank'>supports HTML5 video</a>
-      </p>
-    </video>
-    <script src='https://vjs.zencdn.net/7.6.0/video.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/videojs-hls-quality-selector@1.0.5/dist/videojs-hls-quality-selector.min.js"></script>
-    <script type="text/javascript">
-      var player = video.videojs('my-video');
 
-      player.hlsQualitySelector();
-    </script>
+  <video id='video-player' class='video-js vjs-16-9'>
+    <p class='vjs-no-js'>
+      To view this video please enable JavaScript, and consider upgrading to a web browser that
+      <a href='https://videojs.com/html5-video-support/' target='_blank'>supports HTML5 video</a>
+    </p>
+  </video>
+  Is Streaming {{isStreaming}}
+
+
   {{!--{{else}}
     <img src="{{if profilePhoto profilePhoto "/streamnails/usericon.svg"}}" height="500">
   {{/if}}--}}
-  <div class="player-controls">
-    <div class="ply-btn">
-      <button class="player-btn toggle-play" title="Toggle Play" {{action "togglePlay"}}>
-        <svg class="" width="16" height="16" viewBox="0 0 16 16">
-          <title>play</title>
-          <path d="M3 2l10 6-10 6z"></path>
-        </svg>
-      </button>
-    </div>
-    <div class="sliders">
-      <input type="range" name="volume" class="player-volume" min="0" max="1" step="0.05" value="1" {{action "volumeUpdate"}}>
-    </div>
-  </div>
+
 </div>

@@ -38,5 +38,8 @@ module.exports = function(defaults) {
   app.import('node_modules/bootstrap/scss/bootstrap.scss');
   app.import('node_modules/bootstrap/dist/js/bootstrap.js');
 
+  // video.js library with no VTT (subtitles?)
+  app.import('node_modules/video.js/dist/alt/video.novtt.js');
+
   return app.toTree();
 };

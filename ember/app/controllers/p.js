@@ -141,6 +141,13 @@ export default Controller.extend({
       }
     },
 
+    streamStateChange(state) {
+      console.log('stream state change called');
+      console.log(state);
+      // Set isStreaming true if state is "stream-up", false otherwise
+      this.set('isStreaming', state === 'stream-up' ? true : false);
+    },
+
     setGame(game) {
       this.set('inputGame', game);
     },
@@ -222,7 +229,7 @@ export default Controller.extend({
         console.log('invalid tip');
       }
     },
-    sendFollowerEmail(){
+    sendFollowerEmail() {
       console.log('send follower email confirmed');
     },
     copyUrlToClipboard() {
@@ -241,7 +248,6 @@ export default Controller.extend({
       setTimeout(function() {
         this.set('copyUrlBtnIcon', 'fa fa-link');
       }, 3000);
-    },
-
+    }
   }
 });

@@ -66,7 +66,7 @@
           <div class="card-body p-0">
 
 
-            {{stream-player username=model.username profilePhoto=model.profilePhotoPath onlineStatus=model.onlineStatus}}
+            {{stream-player broadcasterUsername=model.username profilePhoto=model.profilePhotoPath isStreaming=isStreaming onlineStatus=model.onlineStatus}}
 
 
           </div>
@@ -137,6 +137,7 @@
           chatChannel=(lower-case model.username)
           channelTopic=model.channelTopic
           model=model
+          changeStreamState=(action "streamStateChange")
         }}
       </div>
     </div> {{! end video-row div}}

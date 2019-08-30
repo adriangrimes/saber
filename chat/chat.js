@@ -20,7 +20,7 @@ switch (currentEnvironment) {
   default:
     apiHost = 'http://localhost:3000';
     break;
- }
+}
 
 let wsServer = new WebSocket.Server({
   port: 7000,
@@ -35,7 +35,7 @@ let chatState = {
 // Log chat state every X seconds
 if (currentEnvironment != 'production') {
   setInterval(function() {
-    formattedJsonLogger('CHAT STATE: ', chatState);  
+    formattedJsonLogger('CHAT STATE: ', chatState);
   }, 5000);
 }
 
@@ -45,7 +45,18 @@ wsServer.on('connection', function connection(wsClient, req) {
   chatState.connections = chatState.connections || 0;
   chatState.connections = chatState.connections + 1;
 
-  initializeChannelAndAddChatUser(wsClient, req);
+  initializeChannel(req.url);
+  wsClient.hasStreamStateAccess = false;
+  // Determine if connection is a user, or API stream state access
+  if (
+    req.headers['streamstate-auth'] &&
+    req.headers['streamstate-auth'] === 'muKl4S80Yi3gQA2v8o2AOPgI8l'
+  ) {
+    console.log('streamstate access');
+    wsClient.hasStreamStateAccess = true;
+  } else {
+    addChatUserToRequestedChannel(wsClient, req);
+  }
 
   // On message recieved
   wsClient.on('message', function incoming(message) {
@@ -86,7 +97,7 @@ wsServer.on('connection', function connection(wsClient, req) {
         console.log('sent user list');
         break;
       case 'ChannelTopicUpdated':
-        // Only clients with a username that matches their channel can they send
+        // Only clients with a username that matches their channel can send
         // topic updates.
         if ('/' + wsClient.chatUsername.toLowerCase() === wsClient.channelUrl) {
           let messageToSend = JSON.stringify({
@@ -104,7 +115,26 @@ wsServer.on('connection', function connection(wsClient, req) {
           console.log('notified of updated channel topic');
         }
         break;
-      default: // Do nothing
+      case 'StreamState':
+        if (wsClient.hasStreamStateAccess) {
+          let messageToSend = JSON.stringify({
+            type: 'StreamState',
+            data: parsedMessage.data.state
+          });
+          console.log('sending state: ' + messageToSend);
+          // broadcast message to all connected clients in the room
+          wsServer.clients.forEach(function(c) {
+            if (c.channelUrl === '/' + parsedMessage.data.username) {
+              if (c && c.readyState === WebSocket.OPEN) {
+                c.send(messageToSend);
+              }
+            }
+          });
+        }
+        break;
+      default:
+        // Do nothing
+        break;
     }
   }); // End 'message' event block
 
@@ -134,96 +164,101 @@ wsServer.on('connection', function connection(wsClient, req) {
   // channel
   wsClient.on('close', function() {
     console.log('close event called');
+
     // Subtract from connection count
     if (chatState.connections > 0) {
       chatState.connections -= 1;
     }
 
-    let channel = chatState.channels[wsClient.channelUrl];
-    let authenticatedUserFound = false;
+    // Dont attempt to remove a user when the connection is for streamstate
+    if (wsClient.hasStreamStateAccess == false) {
+      let channel = chatState.channels[wsClient.channelUrl];
+      let authenticatedUserFound = false;
 
-    if (channel.userList) {
-      // For each user in channel
-      for (var i = 0; i < channel.userList.length; i++) {
-        // For each IP attached to the user
-        for (var j = 0; j < channel.userList[i].ipArray.length; j++) {
-          let ip = channel.userList[i].ipArray[j];
-          // If IP of closing connection matches a stored IP, remove it, and if
-          // there are no IPs left, remove the user from the array.
-          if (
-            wsClient.assignedIp.includes(ip) &&
-            wsClient.chatUsername === channel.userList[i].username
-          ) {
-            console.log(' - removing ip from user');
-            authenticatedUserFound = true;
-            // Remove IP from ipArray
-            let ipIndex = channel.userList[i].ipArray.indexOf(ip);
-            if (ipIndex !== -1) channel.userList[i].ipArray.splice(ipIndex, 1);
+      if (channel.userList) {
+        // For each user in channel
+        for (var i = 0; i < channel.userList.length; i++) {
+          // For each IP attached to the user
+          for (var j = 0; j < channel.userList[i].ipArray.length; j++) {
+            let ip = channel.userList[i].ipArray[j];
+            // If IP of closing connection matches a stored IP, remove it, and if
+            // there are no IPs left, remove the user from the array.
+            if (
+              wsClient.assignedIp.includes(ip) &&
+              wsClient.chatUsername === channel.userList[i].username
+            ) {
+              console.log(' - removing ip from user');
+              authenticatedUserFound = true;
+              // Remove IP from ipArray
+              let ipIndex = channel.userList[i].ipArray.indexOf(ip);
+              if (ipIndex !== -1)
+                channel.userList[i].ipArray.splice(ipIndex, 1);
 
-            // If no IPs are assigned to the user, remove the user from all lists
-            if (channel.userList[i].ipArray.length === 0) {
-              console.log(' - all ips removed, removing user from userList');
-              // Remove the user from the friendlyUserList
-              let userListIndex = channel.friendlyUserList.indexOf(
-                channel.userList[i].username
-              );
-              if (userListIndex !== -1) {
-                channel.friendlyUserList.splice(userListIndex, 1);
+              // If no IPs are assigned to the user, remove the user from all lists
+              if (channel.userList[i].ipArray.length === 0) {
+                console.log(' - all ips removed, removing user from userList');
+                // Remove the user from the friendlyUserList
+                let userListIndex = channel.friendlyUserList.indexOf(
+                  channel.userList[i].username
+                );
+                if (userListIndex !== -1) {
+                  channel.friendlyUserList.splice(userListIndex, 1);
+                }
+                // And then the userList
+                channel.userList.splice(i, 1);
+                // Subtract user counts
+                if (channel.totalUsers > 0) {
+                  channel.totalUsers -= 1;
+                }
               }
-              // And then the userList
-              channel.userList.splice(i, 1);
-              // Subtract user counts
-              if (channel.totalUsers > 0) {
-                channel.totalUsers -= 1;
-              }
+              break;
             }
+          }
+          if (authenticatedUserFound) {
             break;
           }
         }
-        if (authenticatedUserFound) {
-          break;
+      }
+      // If client was a guest, clean up guest
+      if (authenticatedUserFound === false) {
+        console.log(' - removing guest');
+        // Subtract user counts
+        if (channel.guests > 0) {
+          channel.guests -= 1;
+        }
+        if (channel.totalUsers > 0) {
+          channel.totalUsers -= 1;
         }
       }
-    }
-    // If client was a guest, clean up guest
-    if (authenticatedUserFound === false) {
-      console.log(' - removing guest');
-      // Subtract user counts
-      if (channel.guests > 0) {
-        channel.guests -= 1;
-      }
-      if (channel.totalUsers > 0) {
-        channel.totalUsers -= 1;
-      }
-    }
 
-    // If channel is now empty, clean it up. If not, broadcast new status to
-    // remaining users.
-    if (
-      channel.userList.length === 0 &&
-      channel.friendlyUserList.length === 0 &&
-      channel.guests <= 0 &&
-      channel.totalUsers <= 0
-    ) {
-      console.log(
-        ' - channel chat empty, deleting channel: ' + util.inspect(channel)
-      );
-      delete chatState.channels[wsClient.channelUrl];
-    } else {
-      // Broadcast updated user count to remaining clients
-      let userCountJSON = JSON.stringify({
-        type: 'ChannelUserCountUpdated',
-        data: channel.friendlyUserList.length
-      });
-      wsServer.clients.forEach(function(c) {
-        if (c.channelUrl === wsClient.channelUrl) {
-          if (c && c.readyState === WebSocket.OPEN) {
-            console.log(' - client: ', c.id);
-            c.send(userCountJSON);
-            console.log(' - broadcasting');
+      // If channel is now empty, clean it up. If not, broadcast new status to
+      // remaining users.
+      if (
+        channel.userList.length === 0 &&
+        channel.friendlyUserList.length === 0 &&
+        channel.guests <= 0 &&
+        channel.totalUsers <= 0
+      ) {
+        console.log(
+          ' - channel chat empty, deleting channel: ' + util.inspect(channel)
+        );
+        delete chatState.channels[wsClient.channelUrl];
+      } else {
+        // Broadcast updated user count to remaining clients
+        let userCountJSON = JSON.stringify({
+          type: 'ChannelUserCountUpdated',
+          data: channel.friendlyUserList.length
+        });
+        wsServer.clients.forEach(function(c) {
+          if (c.channelUrl === wsClient.channelUrl) {
+            if (c && c.readyState === WebSocket.OPEN) {
+              console.log(' - client: ', c.id);
+              c.send(userCountJSON);
+              console.log(' - broadcasting');
+            }
           }
-        }
-      });
+        });
+      }
     }
 
     console.log(
@@ -235,8 +270,18 @@ console.log('INFO: Chat server started and listening...');
 
 // Functions
 
-function initializeChannelAndAddChatUser(client, req) {
-  console.log('initializeChannelAndAddChatUser():');
+function initializeChannel(channelUrl) {
+  // Initialize room state
+  chatState.channels[channelUrl] = chatState.channels[channelUrl] || {};
+  let channel = chatState.channels[channelUrl];
+  channel.guests = channel.guests || 0;
+  channel.totalUsers = channel.totalUsers || 0;
+  channel.userList = channel.userList || [];
+  channel.friendlyUserList = channel.friendlyUserList || [];
+}
+
+function addChatUserToRequestedChannel(client, req) {
+  console.log('addChatUserToRequestedChannel():');
 
   // Add basic user info to connected client object
   client.assignedIp =
@@ -248,14 +293,7 @@ function initializeChannelAndAddChatUser(client, req) {
   client.pingpong.heartbeat = null;
   client.pingpong.pingTimeout = null;
 
-  // Initialize room state
-  chatState.channels[client.channelUrl] =
-    chatState.channels[client.channelUrl] || {};
   let channel = chatState.channels[client.channelUrl];
-  channel.guests = channel.guests || 0;
-  channel.totalUsers = channel.totalUsers || 0;
-  channel.userList = channel.userList || [];
-  channel.friendlyUserList = channel.friendlyUserList || [];
 
   // Check back-end for valid ticket matching the identifier/IP
   requestLibrary(
@@ -351,7 +389,7 @@ function sendUserCountToClient(client) {
 
 function messageIsValid(client, message) {
   if (message.data === '') {
-    console.log('WARNING: Invalid message recieved and discarded.');
+    console.log('WARNING: Invalid message recieved.');
     return false;
   } else {
     return true;
