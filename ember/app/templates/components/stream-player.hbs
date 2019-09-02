@@ -2,13 +2,11 @@
 
   {{!-- {{#if onlineStatus}} --}}
 
-  <video id='video-player' class='video-js vjs-16-9'>
-    <p class='vjs-no-js'>
-      To view this video please enable JavaScript, and consider upgrading to a web browser that
-      <a href='https://videojs.com/html5-video-support/' target='_blank'>supports HTML5 video</a>
-    </p>
-  </video>
-  Is Streaming {{isStreaming}}
+  <div id='video-player-wrapper'>
+     <video id='video-player'>
+    </video>
+  </div>
+  Is Streaming {{isStreaming}} <button {{action "testAction"}}>error</button><button {{action "reset"}}>reset</button><button {{action "src"}}>src</button>
 
 
   {{!--{{else}}

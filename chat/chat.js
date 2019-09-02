@@ -56,6 +56,7 @@ wsServer.on('connection', function connection(wsClient, req) {
     wsClient.hasStreamStateAccess = true;
   } else {
     addChatUserToRequestedChannel(wsClient, req);
+    console.log('after addChatUserToRequestedChannel');
   }
 
   // On message recieved
@@ -281,7 +282,7 @@ function initializeChannel(channelUrl) {
 }
 
 function addChatUserToRequestedChannel(client, req) {
-  console.log('addChatUserToRequestedChannel():');
+  console.log('addChatUserToRequestedChannel()');
 
   // Add basic user info to connected client object
   client.assignedIp =
@@ -293,8 +294,6 @@ function addChatUserToRequestedChannel(client, req) {
   client.pingpong.heartbeat = null;
   client.pingpong.pingTimeout = null;
 
-  let channel = chatState.channels[client.channelUrl];
-
   // Check back-end for valid ticket matching the identifier/IP
   requestLibrary(
     {
@@ -302,55 +301,58 @@ function addChatUserToRequestedChannel(client, req) {
       json: true
     },
     (err, res, body) => {
-      if (res && res.statusCode == 200 && body) {
-        // Add user info to the userList and friendlyUserList if ticket was valid
-        console.log(' - ' + res.statusCode + ' adding as authenticated user');
+      if (client.readyState === WebSocket.OPEN) {
+        let channel = chatState.channels[client.channelUrl];
+        if (res && res.statusCode == 200 && body) {
+          // Add user info to the userList and friendlyUserList if ticket was valid
+          console.log(' - ' + res.statusCode + ' adding as authenticated user');
 
-        client.chatUsername = body.username;
+          client.chatUsername = body.username;
 
-        let newUser = true;
-        for (var i = 0; i < channel.userList.length; i++) {
-          if (channel.userList[i].username == body.username) {
-            // User found, add IP to users IP array instead of creating a new user
-            console.log(' - user already found in userList, updating IP');
-            newUser = false;
-            channel.userList[i].ipArray.push(body.ip);
-            sendUserCountToClient(client);
-            break;
+          let newUser = true;
+          for (var i = 0; i < channel.userList.length; i++) {
+            if (channel.userList[i].username == body.username) {
+              // User found, add IP to users IP array instead of creating a new user
+              console.log(' - user already found in userList, updating IP');
+              newUser = false;
+              channel.userList[i].ipArray.push(body.ip);
+              sendUserCountToClient(client);
+              break;
+            }
           }
-        }
-        if (newUser) {
-          // add additional ip to ip property
-          console.log(' - creating new user');
-          let ipArray = [];
-          ipArray.push(body.ip);
-          channel.userList.push({
-            username: body.username,
-            ipArray: ipArray,
-            authorized: true
-          });
-          channel.friendlyUserList.push(body.username);
-          // Sort friendlyUserList alphabetically for client display
-          channel.friendlyUserList.sort();
+          if (newUser) {
+            // add additional ip to ip property
+            console.log(' - creating new user');
+            let ipArray = [];
+            ipArray.push(body.ip);
+            channel.userList.push({
+              username: body.username,
+              ipArray: ipArray,
+              authorized: true
+            });
+            channel.friendlyUserList.push(body.username);
+            // Sort friendlyUserList alphabetically for client display
+            channel.friendlyUserList.sort();
+            channel.totalUsers += 1;
+            broadcastUserJoinAndUserCount(client);
+          }
+        } else if (res.statusCode == 422) {
+          // Else client is a guest, increment guest and totalUsers counter and
+          // send updated user count to client
+          console.log(
+            ' - ' + res.statusCode + ' failed to find ticket, adding as guest'
+          );
+          channel.guests += 1;
           channel.totalUsers += 1;
-          broadcastUserJoinAndUserCount(client);
+          sendUserCountToClient(client);
+        } else {
+          console.log('ERROR: Unusual error status code ' + res.statusCode);
+          channel.guests += 1;
+          channel.totalUsers += 1;
+          sendUserCountToClient(client);
         }
-      } else if (res.statusCode == 422) {
-        // Else client is a guest, increment guest and totalUsers counter and
-        // send updated user count to client
-        console.log(
-          ' - ' + res.statusCode + ' failed to find ticket, adding as guest'
-        );
-        channel.guests += 1;
-        channel.totalUsers += 1;
-        sendUserCountToClient(client);
-      } else {
-        console.log('ERROR: Unusual error status code ' + res.statusCode);
-        channel.guests += 1;
-        channel.totalUsers += 1;
-        sendUserCountToClient(client);
+        startClientPing(client);
       }
-      startClientPing(client);
     }
   );
 }

@@ -13,6 +13,7 @@ module.exports = {
   },
   globals: {
     grecaptcha: true,
-    videojs: true
+    Plyr: true,
+    Hls: true
   }
 };

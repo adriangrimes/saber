@@ -35,11 +35,26 @@ module.exports = function(defaults) {
   // modules that you would like to import into your application
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
+
+  // Bootstrap
   app.import('node_modules/bootstrap/scss/bootstrap.scss');
   app.import('node_modules/bootstrap/dist/js/bootstrap.js');
 
-  // video.js library with no VTT (subtitles?)
-  app.import('node_modules/video.js/dist/alt/video.novtt.js');
+  // Plyr library
+  app.import({
+    development: 'node_modules/plyr/dist/plyr.js',
+    test: 'node_modules/plyr/dist/plyr.js',
+    staging: 'node_modules/plyr/dist/plyr.js',
+    production: 'node_modules/plyr/dist/plyr.min.js'
+  });
+  app.import('node_modules/plyr/dist/plyr.css');
+  // HLS.js for Plyr
+  app.import({
+    development: 'node_modules/hls.js/dist/hls.light.js',
+    test: 'node_modules/hls.js/dist/hls.light.js',
+    staging: 'node_modules/hls.js/dist/hls.light.js',
+    production: 'node_modules/hls.js/dist/hls.light.min.js'
+  });
 
   return app.toTree();
 };

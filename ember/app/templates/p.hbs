@@ -66,12 +66,19 @@
           <div class="card-body p-0">
 
 
-            {{stream-player broadcasterUsername=model.username profilePhoto=model.profilePhotoPath isStreaming=isStreaming onlineStatus=model.onlineStatus}}
+            {{stream-player
+              broadcasterUsername=model.username
+              profilePhoto=model.profilePhotoPath
+              isStreaming=isStreaming
+              onlineStatus=model.onlineStatus
+            }}
 
 
           </div>
           <div class="profile-controls pt-1" id="profileControls">
+              <div name="tip-toolbar" class="btn-toolbar justify-content-between ml-2 mr-1" role="toolbar">
                   <div></div>
+
                 {{#if model.allowTips}}
                   <div class="input-group d-flex">
                     <div class="input-group-prepend ">

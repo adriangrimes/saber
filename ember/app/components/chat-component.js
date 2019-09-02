@@ -4,11 +4,11 @@ import { once } from '@ember/runloop';
 import jQuery from 'jquery';
 import config from '../config/environment';
 
-let socket; // Global socket var TODO: determine if it is 'safe' to have global ember vars
-
 export default Component.extend({
   websockets: service(),
   store: service(),
+
+  socketRef: null,
 
   chatUserMenuUsername: '',
   userMessage: '',
@@ -26,7 +26,7 @@ export default Component.extend({
           type: 'ChatMessage',
           data: userMessage
         });
-        socket.send(messageToSend);
+        this.socketRef.send(messageToSend);
         console.log('message sent to socket');
       }
       // Empty chat input field after sending
@@ -47,7 +47,7 @@ export default Component.extend({
 
     getChannelChatUserList() {
       console.log('getting ChannelChatUserList');
-      socket.send(
+      this.socketRef.send(
         JSON.stringify({
           type: 'ChannelChatUserList'
         })
@@ -67,7 +67,7 @@ export default Component.extend({
             userPublicDatum
               .save()
               .then(function() {
-                socket.send(
+                this.socketRef.send(
                   JSON.stringify({
                     type: 'ChannelTopicUpdated'
                   })
@@ -97,7 +97,8 @@ export default Component.extend({
   }, // End actions
 
   // Initialize chat-component
-  init() {
+  didInsertElement() {
+    console.log('didInsertElement()');
     this._super(...arguments);
 
     // Store chat messages in array of objects
@@ -109,6 +110,7 @@ export default Component.extend({
   },
 
   startChatConnection() {
+    console.log('startChatConnection()');
     // Display connection starting message
     this.set('chatMessagesList', [
       {
@@ -146,35 +148,56 @@ export default Component.extend({
 
   createChatConnection(url) {
     // Set up websocket
-    console.log('setting up websocket');
-    socket = this.websockets.socketFor(url);
-    socket.on('open', this.onSocketOpened, this);
-    socket.on('message', this.onMessageRecieved, this);
-    socket.on('close', this.onSocketClosed, this);
+    try {
+      console.log('setting up websocket');
+      const socket = this.websockets.socketFor(url);
+
+      console.log('before websocket events');
+      socket.on('open', this.onSocketOpened, this);
+      socket.on('message', this.onMessageRecieved, this);
+      socket.on('close', this.onSocketClosed, this);
+      console.log('after websocket events');
+
+      this.set('socketRef', socket);
+    } catch {
+      console.log('error setting up websocket, closing');
+      this.websockets.closeSocketFor(this.get('chatChannelFullUrl'));
+    }
   },
 
-  onSocketOpened: function(/*event*/) {
+  onSocketOpened: function(event) {
     console.log('socket opened');
-    this.set('chatUsersList', []);
-    // Add 2 messages on new chat connection. Connection confirm, and the
-    // current topic.
-    this.set('chatMessagesList', []);
-    this.chatMessagesList.pushObject({
-      data: '[connected to chat]',
-      systemMessage: true
-    });
-    if (this.model.channelTopic) {
+
+    console.log(event);
+    console.log(window.location.href);
+
+    if (
+      window.location.href.split('/').pop() == event.target.url.split('/').pop()
+    ) {
+      this.set('chatUsersList', []);
+      // Add 2 messages on new chat connection. Connection confirm, and the
+      // current topic.
+      this.set('chatMessagesList', []);
       this.chatMessagesList.pushObject({
-        data: 'Topic: ' + this.model.channelTopic,
+        data: '[connected to chat]',
         systemMessage: true
       });
+      if (this.model.channelTopic) {
+        this.chatMessagesList.pushObject({
+          data: 'Topic: ' + this.model.channelTopic,
+          systemMessage: true
+        });
+      }
+    } else {
+      console.log('user no longer on page, closing socket');
+      event.target.close();
     }
+    //this.websockets.closeSocketFor(this.get('chatChannelFullUrl'));
   },
 
   // when a message is received from the server
   onMessageRecieved: function(event) {
     console.log('onMessageRecieved event');
-    console.log(event);
 
     // Parse message event object
     var message;
@@ -189,14 +212,12 @@ export default Component.extend({
     // Take an action based on message type
     switch (message.type) {
       case 'ChatMessage':
-        console.log('message.type = ChatMessage');
         this.chatMessagesList.pushObject({
           chatUsername: message.chatUsername,
           data: ': ' + message.data
         });
         break;
       case 'UserJoinedChannel':
-        console.log('message.type = UserJoinedChannel');
         // Dont show user join message to the user who joined
         if (message.data != this.get('session.data.authenticated.username')) {
           this.chatMessagesList.pushObject({
@@ -206,12 +227,10 @@ export default Component.extend({
         }
         break;
       case 'ChannelChatUserList':
-        console.log('message.type  = ChannelChatUserList');
         this.set('chatUsersList', message.data);
         this.set('chatUsersListGuestCount', message.guests);
         break;
       case 'ChannelTopicUpdated':
-        console.log('message.type = ChannelTopicUpdated');
         this.store
           .queryRecord('user-public-datum', {
             username: that.get('model.username')
@@ -229,12 +248,9 @@ export default Component.extend({
 
         break;
       case 'ChannelUserCountUpdated':
-        console.log('message.type = ChannelUserCountUpdated');
         this.set('chatChannelUserCount', message.data);
         break;
       case 'StreamState':
-        console.log('message.type = StreamState');
-        console.log(message.data);
         this.changeStreamState(message.data);
         break;
       default:
@@ -256,10 +272,20 @@ export default Component.extend({
   // When a transition occurs or page is closed
   willDestroyElement() {
     console.log('willDestroyElement()');
-    console.log(this.get('chatChannelFullUrl'));
-    this.websockets.closeSocketFor(this.get('chatChannelFullUrl'));
-    console.log('closed socket?');
     this._super(...arguments);
+    console.log(this.get('chatChannelFullUrl'));
+    if (this.socketRef !== null) {
+      this.websockets.closeSocketFor(this.get('chatChannelFullUrl'));
+    }
+    // const socket = this.socketRef;
+    //
+    // socket.off('open', this.onSocketOpened);
+    // socket.off('message', this.onMessageRecieved);
+    // socket.off('close', this.onSocketClosed);
+    // socket.off('open', this.onSocketOpened, this);
+    // socket.off('message', this.onMessageRecieved, this);
+    // socket.off('close', this.onSocketClosed, this);
+    console.log('closed socket?');
   },
 
   didRender() {

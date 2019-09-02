@@ -1,114 +1,121 @@
 import Component from '@ember/component';
 import { later } from '@ember/runloop';
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
+  currentUser: service(),
+
+  init() {
+    this._super(...arguments);
+
+    this.hlsSource =
+      'https://saber.solversion.com/hls/' +
+      this.broadcasterUsername.toLowerCase() +
+      '/index.m3u8';
+
+    // Observe changes to stream state for use in video player
+    this.addObserver('isStreaming', this, 'isStreamingDidChange');
+  },
+
   didInsertElement() {
     this._super(...arguments);
 
-    this.hlsSource = {
-      type: 'application/x-mpegURL',
-      src: '/hls/' + this.broadcasterUsername.toLowerCase() + '/index.m3u8'
-    };
-
-    // video.js
+    // Plyr
     this.initializeVideoPlayer();
   },
 
   isStreamingDidChange() {
+    console.log('isStreamingDidChange called');
     if (this.get('isStreaming') === true) {
-      // Wait at least 9 seconds, with 1 second of variance to stop everyone
+      // Wait with 1 second of variance to stop everyone
       // from pulling the stream at exactly the same time.
       var reconnectTime = Math.floor(Math.random() * 1000);
       console.log('waiting ' + reconnectTime.toString() + ' ms to reconnect');
       later(
         this,
         function() {
-          this.get('player').src(this.hlsSource);
-          this.get('player').play();
+          document.querySelector('video').src = this.hlsSource;
           console.log('streaming');
+          this.get('player').play();
         },
         reconnectTime
       );
     } else {
       console.log('stopped streaming');
-      this.set('playerVolume', this.get('player').volume());
-      console.log(this.get('player').volume());
-      this.get('player').reset();
     }
   },
 
   initializeVideoPlayer() {
     console.log('initializing player');
-    var options = {
-      controls: true,
-      preload: 'none',
-      autoplay: false,
-      controlBar: {
-        pictureInPictureToggle: false
-      },
-      errorDisplay: false
-    };
+
     var component = this;
     this.set(
       'player',
-      videojs('video-player', options, function onPlayerReady() {
-        // Observe changes to stream state for use in video js player
-        component.addObserver('isStreaming', component, 'isStreamingDidChange');
-
-        if (component.get('isStreaming') === true) {
-          this.src(component.hlsSource);
-          console.log('isStreaming true - playing');
-          this.play();
-        }
-
-        // Event listeners
-        this.on('ready', function() {
-          videojs.log('player ready');
-          this.options(options);
-          this.poster(component.profilePhoto);
-          if (component.playerVolume) {
-            console.log('setting volume to ' + component.playerVolume);
-            this.volume(component.playerVolume);
-          }
-          if (component.retryStream) {
-            this.play();
-          }
-        });
-
-        this.on('error', function(e) {
-          videojs.log('error with video:');
-          // videojs.log(e);
-          // component.set('retryStream', true);
-          // this.reset();
-        });
-
-        this.on('dispose', function() {
-          if (this.isInPictureInPicture()) {
-            document.exitPictureInPicture();
-          }
-          videojs.log('videojs player disposed');
-        });
+      new Plyr('#video-player', {
+        debug: true,
+        title: 'Example Title',
+        controls: ['play', 'mute', 'volume', 'settings', 'fullscreen'],
+        settings: ['quality'],
+        ratio: '16:9'
       })
     );
+
+    this.get('player').on('ready', event => {
+      console.log('video player ready');
+      const instance = event.detail.plyr;
+      instance.poster = component.profilePhoto;
+      var videoPlayer = document.getElementById('video-player');
+      if (!Hls.isSupported()) {
+        videoPlayer.src = this.hlsSource;
+      } else {
+        // For more Hls.js options, see https://github.com/video-dev/hls.js
+        component.set('hls', new Hls());
+        component.get('hls').loadSource(component.hlsSource);
+        component.get('hls').attachMedia(videoPlayer);
+        window.hls = component.get('hls');
+      }
+
+      if (component.isStreaming) {
+        instance.play();
+      }
+    });
+
+    this.get('player').on('error', event => {
+      console.log('video player error');
+      console.log(event);
+      //const instance = event.detail.plyr;
+    });
   },
 
   willDestroyElement() {
-    // dispose of videojs player
-    if (this.player) {
-      this.get('player').dispose();
+    // dispose of video player
+    if (this.hls) {
+      this.get('hls').destroy();
+      console.log('destroying hls');
     }
+    if (this.player) {
+      this.get('player').destroy();
+      console.log('destroying player');
+    }
+    this.removeObserver('isStreaming', this, 'isStreamingDidChange');
+    console.log('removed isStreaming observer');
     this._super(...arguments);
   },
 
   actions: {
-    togglePlay() {
-      console.log('toggle play');
-      var playState = this.get('video').paused ? 'play' : 'pause';
-      this.get('video')[playState]();
+    testAction() {
+      console.log('testAction');
+      console.log(this.get('player').readyState());
+      console.log(this.get('player').error());
+      this.get('player').error('');
     },
-    volumeUpdate() {
-      this.get('video')['volume'] = this.get('volume').value;
-      console.log('volume Updated');
+    reset() {
+      console.log('reset');
+      this.get('player').reset();
+    },
+    src() {
+      console.log('src');
+      this.get('player').src('');
     }
   }
 });
