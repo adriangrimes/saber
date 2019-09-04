@@ -7,6 +7,7 @@ Type=forking
 PIDFile=/run/nginx.pid
 ExecStartPre=/usr/sbin/nginx -t
 ExecStartPost=/bin/sleep 0.1
+ExecStartPost=/usr/bin/su - webadmin --session-command 'cd /var/www/saber-staging/api && bundle exec rails runner -e staging lib/passenger_boot.rb'
 ExecStart=/usr/sbin/nginx
 ExecReload=/usr/sbin/nginx -s reload
 ExecStop=/bin/kill -s QUIT $MAINPID

@@ -5,6 +5,8 @@ import { inject as service } from '@ember/service';
 export default Component.extend({
   currentUser: service(),
 
+  userPaused: false,
+
   init() {
     this._super(...arguments);
 
@@ -26,7 +28,7 @@ export default Component.extend({
 
   isStreamingDidChange() {
     console.log('isStreamingDidChange called');
-    if (this.get('isStreaming') === true) {
+    if (this.isStreaming === true && this.isStreamingLastRev !== true) {
       // Wait with 1 second of variance to stop everyone
       // from pulling the stream at exactly the same time.
       var reconnectTime = Math.floor(Math.random() * 1000);
@@ -34,15 +36,26 @@ export default Component.extend({
       later(
         this,
         function() {
-          document.querySelector('video').src = this.hlsSource;
+          //document.querySelector('video').src = this.hlsSource;
           console.log('streaming');
-          this.get('player').play();
+          // this.get('hls').loadSource('https://cdn.plyr.io/static/blank.mp4');
+          this.get('hls').stopLoad();
+          this.get('hls').detachMedia();
+          this.get('hls').attachMedia(this.get('videoPlayerElement'));
+          this.get('hls').loadSource(this.hlsSource);
+          this.playUnlessUserPaused();
         },
         reconnectTime
       );
-    } else {
+    } else if (this.isStreaming === false) {
+      this.get('hls').stopLoad();
+      this.get('hls').detachMedia();
+      this.get('player').stop();
       console.log('stopped streaming');
     }
+
+    // Set a last revision property due to observer 'rev' argument being null
+    this.set('isStreamingLastRev', this.isStreaming);
   },
 
   initializeVideoPlayer() {
@@ -52,7 +65,7 @@ export default Component.extend({
     this.set(
       'player',
       new Plyr('#video-player', {
-        debug: true,
+        debug: false,
         title: 'Example Title',
         controls: ['play', 'mute', 'volume', 'settings', 'fullscreen'],
         settings: ['quality'],
@@ -63,26 +76,105 @@ export default Component.extend({
     this.get('player').on('ready', event => {
       console.log('video player ready');
       const instance = event.detail.plyr;
-      instance.poster = component.profilePhoto;
-      var videoPlayer = document.getElementById('video-player');
+      if (component.profilePhoto) instance.poster = component.profilePhoto;
+      component.set(
+        'videoPlayerElement',
+        document.getElementById('video-player')
+      );
       if (!Hls.isSupported()) {
-        videoPlayer.src = this.hlsSource;
+        console.log('hls unsupported');
+        component.get('videoPlayerElement').src = this.hlsSource;
       } else {
+        console.log('hls supported');
         // For more Hls.js options, see https://github.com/video-dev/hls.js
         component.set('hls', new Hls());
-        component.get('hls').loadSource(component.hlsSource);
-        component.get('hls').attachMedia(videoPlayer);
+
+        component.get('hls').attachMedia(component.get('videoPlayerElement'));
         window.hls = component.get('hls');
+        window.player = component.get('player');
+        component.get('hls').on(Hls.Events.ERROR, function(event, data) {
+          console.log('hls ERROR');
+          console.log(event);
+          console.log(data);
+          if (data.details == 'bufferAppendingError') {
+            console.log('bufferAppendingError');
+            component.get('hls').recoverMediaError();
+          }
+          if (data.details == 'bufferStalledError') {
+            console.log('bufferAppendingError');
+            component.get('hls').recoverMediaError();
+            component.playUnlessUserPaused();
+          }
+          if (data.fatal) {
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                // try to recover network error
+                console.log('fatal network error encountered, try to recover');
+                component.get('hls').startLoad();
+                break;
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                console.log('fatal media error encountered, try to recover');
+                component.get('hls').recoverMediaError();
+                break;
+              default:
+                // cannot recover
+                console.log('fatal error cannot recover');
+                component.get('hls').destroy();
+                break;
+            }
+          }
+        });
+        component
+          .get('hls')
+          .on(Hls.Events.MEDIA_ATTACHED, function(event, data) {
+            console.log('media attached');
+          });
+        component
+          .get('hls')
+          .on(Hls.Events.MEDIA_DETACHED, function(event, data) {
+            console.log('media detached');
+          });
+        component
+          .get('hls')
+          .on(Hls.Events.MANIFEST_LOADED, function(event, data) {
+            console.log('manifest loaded');
+          });
+        component
+          .get('hls')
+          .on(Hls.Events.MANIFEST_PARSED, function(event, data) {
+            console.log('manifest parsed');
+          });
       }
 
       if (component.isStreaming) {
-        instance.play();
+        console.log('isStreaming true - playing');
+        component.get('hls').loadSource(component.hlsSource);
+        component.playUnlessUserPaused();
       }
     });
 
-    this.get('player').on('error', event => {
+    this.get('player').on('canplay', function(event, data) {
+      console.log('video player can play');
+      const instance = event.detail.plyr;
+      component.playUnlessUserPaused();
+    });
+    this.get('player').on('pause', function(event, data) {
+      console.log('video player pause event');
+      const instance = event.detail.plyr;
+      component.set('userPaused', true);
+    });
+
+    this.get('player').on('play', function(event, data) {
+      console.log('video player play event');
+      const instance = event.detail.plyr;
+      component.set('userPaused', false);
+      component.get('hls').startLoad(-1);
+    });
+    this.get('player').on('error', function(event, data) {
       console.log('video player error');
       console.log(event);
+      console.log(data);
+      //component.get('hls').recoverMediaError();
       //const instance = event.detail.plyr;
     });
   },
@@ -110,12 +202,12 @@ export default Component.extend({
       this.get('player').error('');
     },
     reset() {
-      console.log('reset');
-      this.get('player').reset();
+      console.log('restart');
+      this.get('player').restart();
     },
     src() {
-      console.log('src');
-      this.get('player').src('');
+      console.log('stop');
+      this.get('player').stop();
     }
   }
 });

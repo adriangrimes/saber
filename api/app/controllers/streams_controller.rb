@@ -2,15 +2,18 @@ class StreamsController < ApplicationController
   require 'websocket-client-simple'
   require "net/http"
 
-  # Called to determine if stream key is valid and return 3XX code if valid
+  # Called by nginx.
+  # Sends stream-up to users watching, and returns redirect code to nginx to
+  # internally redirect stream to the restricted hlsout app
   def start
-    p 'stream started'
+    p 'stream starting'
     if params[:name]
       streaming_user = User.where('stream_key = ?', params[:name]).first
       if streaming_user
-        set_and_async_confirm_stream_state("stream-up", streaming_user)
-        # Sending redirect causes nginx rtmp module to redirect the stream
-        # to the restricted hlsout application
+        async_set_and_confirm_stream_state(streaming_user)
+        # Sending a redirect causes nginx rtmp module to redirect the stream
+        # to the restricted hlsout application. This also effectively translates
+        # the users stream key to their username for client use.
         redirect_to "rtmp://127.0.0.1/hlsout/" + streaming_user.username.downcase
       else
         render status: :not_found
@@ -20,12 +23,14 @@ class StreamsController < ApplicationController
     end
   end
 
+  # Called by nginx.
+  # Sends stream-down to users watching stream
   def stop
-    p 'stream stopped'
+    p 'stream stopping'
     if params[:name]
       streaming_user = User.where('stream_key = ?', params[:name]).first
       if streaming_user
-        set_and_async_confirm_stream_state("stream-down", streaming_user)
+        async_set_and_confirm_stream_state(streaming_user)
         render status: :ok
       else
         render status: :not_found
@@ -39,47 +44,72 @@ class StreamsController < ApplicationController
 
     # Wait until HLS files are avaiable or unavailable for streaming before
     # setting online status
-    def set_and_async_confirm_stream_state(state, streaming_user)
+    def async_set_and_confirm_stream_state(streaming_user)
       Thread.new do
-        # Accidental quick stream start-stop protection
-        if (state == "stream-down" && streaming_user.user_public_datum.online_status == false) ||
-          (state == "stream-up" && streaming_user.user_public_datum.online_status == true)
-          sleep 15
-          send_stream_state(state, streaming_user)
-        else
-          sleep 3 if state == "stream-up"
-          sleep 1 if state == "stream-down"
-        end
 
         stream_state_confirmed = false
-        retries = 20
+        retries = 30
         retry_count = 0
+        confirmations = 15
+        confirmation_count = 0
+        stream_found_count = 0
+        stream_not_found_count = 0
+
         until stream_state_confirmed do
-          url = URI.parse(Rails.configuration.front_end_hostname + '/hls/' + streaming_user.username.downcase + '/index.m3u8')
+          # Check stream once per second
+          sleep 1
+          url = URI.parse(Rails.configuration.front_end_hostname +
+            '/hls/' + streaming_user.username.downcase + '/index.m3u8')
           req = Net::HTTP.new(url.host, url.port)
           req.use_ssl = true
           res = req.request_head(url.path)
-          p res.code
-          if (res.code == "200" && state == "stream-up") || (res.code != "200" && state != "stream-up")
-            sleep 4 if state == "stream-up"
-            streaming_user.user_public_datum.online_status = (state == "stream-up" ? true : false)
-            if streaming_user.user_public_datum.save!
-              puts 'saved, attempting to send streamstate'
-              send_stream_state(state, streaming_user)
-            end
-            stream_state_confirmed = true
-          end
-          if retry_count >= retries && res.code == "404" && state == "stream-up"
-            streaming_user.user_public_datum.online_status = false
-            streaming_user.user_public_datum.save!
-            send_stream_state("stream-down", streaming_user)
-            break
+          p "code: " + res.code
+
+          # If stream manifest is found, increment found_count and reset
+          # not_found count. Otherwise, do the opposite
+          if res.code == "200"
+            p 'stream_found_count: ' + stream_found_count.to_s
+            stream_found_count += 1
+            stream_not_found_count = 0
           else
-            break if retry_count >= retries
+            p 'stream_not_found_count: ' + stream_not_found_count.to_s
+            stream_not_found_count += 1
+            stream_found_count = 0
+          end
+
+          if stream_found_count == confirmations
+            p "stream confirmed - setting online status to true"
+            streaming_user.user_public_datum.online_status = true
+            if streaming_user.user_public_datum.save!
+              puts 'saved, attempting to send streamstate stream-up'
+              send_stream_state("stream-up", streaming_user)
+              stream_state_confirmed = true
+              break
+            end
+          elsif stream_not_found_count == confirmations
+            p "stream unconfirmed - setting online status to false"
+            streaming_user.user_public_datum.online_status = false
+            if streaming_user.user_public_datum.save!
+              puts 'saved, attempting to send streamstate stream-down'
+              send_stream_state("stream-down", streaming_user)
+              stream_state_confirmed = true
+              break
+            end
+          end
+
+          if retry_count >= retries
+            p "retries exceeded, stream unstable - sending stream-down"
+            streaming_user.user_public_datum.online_status = false
+            if streaming_user.user_public_datum.save!
+              puts 'saved online status, attempting to send streamstate stream-down'
+              send_stream_state("stream-down", streaming_user)
+              stream_state_confirmed = true
+            end
+            break
           end
           retry_count += 1
-          sleep 1
         end
+
       end
     end
 
