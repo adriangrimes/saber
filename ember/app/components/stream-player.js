@@ -124,26 +124,18 @@ export default Component.extend({
             }
           }
         });
-        component
-          .get('hls')
-          .on(Hls.Events.MEDIA_ATTACHED, function(event, data) {
-            console.log('media attached');
-          });
-        component
-          .get('hls')
-          .on(Hls.Events.MEDIA_DETACHED, function(event, data) {
-            console.log('media detached');
-          });
-        component
-          .get('hls')
-          .on(Hls.Events.MANIFEST_LOADED, function(event, data) {
-            console.log('manifest loaded');
-          });
-        component
-          .get('hls')
-          .on(Hls.Events.MANIFEST_PARSED, function(event, data) {
-            console.log('manifest parsed');
-          });
+        component.get('hls').on(Hls.Events.MEDIA_ATTACHED, function() {
+          console.log('media attached');
+        });
+        component.get('hls').on(Hls.Events.MEDIA_DETACHED, function() {
+          console.log('media detached');
+        });
+        component.get('hls').on(Hls.Events.MANIFEST_LOADED, function() {
+          console.log('manifest loaded');
+        });
+        component.get('hls').on(Hls.Events.MANIFEST_PARSED, function() {
+          console.log('manifest parsed');
+        });
       }
 
       if (component.isStreaming) {
@@ -153,20 +145,20 @@ export default Component.extend({
       }
     });
 
-    this.get('player').on('canplay', function(event, data) {
+    this.get('player').on('canplay', function() {
       console.log('video player can play');
-      const instance = event.detail.plyr;
+      // const instance = event.detail.plyr;
       component.playUnlessUserPaused();
     });
-    this.get('player').on('pause', function(event, data) {
+    this.get('player').on('pause', function() {
       console.log('video player pause event');
-      const instance = event.detail.plyr;
+      // const instance = event.detail.plyr;
       component.set('userPaused', true);
     });
 
-    this.get('player').on('play', function(event, data) {
+    this.get('player').on('play', function() {
       console.log('video player play event');
-      const instance = event.detail.plyr;
+      // const instance = event.detail.plyr;
       component.set('userPaused', false);
       component.get('hls').startLoad(-1);
     });
@@ -174,8 +166,6 @@ export default Component.extend({
       console.log('video player error');
       console.log(event);
       console.log(data);
-      //component.get('hls').recoverMediaError();
-      //const instance = event.detail.plyr;
     });
   },
 

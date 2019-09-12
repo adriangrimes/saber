@@ -63,6 +63,9 @@ module ApiServer
       100 => 1000
     }
 
+    # Members Only file placeholder url
+    config.x.saber.members_only_placeholder_url = "http://192.168.1.4:3000/membersonly.png"
+
     # Contests
 
     # Referral

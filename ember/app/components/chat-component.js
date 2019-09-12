@@ -58,6 +58,7 @@ export default Component.extend({
       if (this.get('session.isAuthenticated')) {
         console.log('updateChannelTopic()');
         let channelTopic = this.get('channelTopic');
+        let component = this;
         this.store
           .queryRecord('user-public-datum', {
             username: this.get('session.data.authenticated.username')
@@ -67,7 +68,7 @@ export default Component.extend({
             userPublicDatum
               .save()
               .then(function() {
-                this.socketRef.send(
+                component.socketRef.send(
                   JSON.stringify({
                     type: 'ChannelTopicUpdated'
                   })
@@ -159,8 +160,8 @@ export default Component.extend({
       console.log('after websocket events');
 
       this.set('socketRef', socket);
-    } catch {
-      console.log('error setting up websocket, closing');
+    } catch (error) {
+      console.log('error setting up websocket, closing: ' + error);
       this.websockets.closeSocketFor(this.get('chatChannelFullUrl'));
     }
   },
@@ -175,9 +176,9 @@ export default Component.extend({
       window.location.href.split('/').pop() == event.target.url.split('/').pop()
     ) {
       this.set('chatUsersList', []);
+      this.set('chatMessagesList', []);
       // Add 2 messages on new chat connection. Connection confirm, and the
       // current topic.
-      this.set('chatMessagesList', []);
       this.chatMessagesList.pushObject({
         data: '[connected to chat]',
         systemMessage: true

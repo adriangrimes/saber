@@ -38,6 +38,7 @@ module.exports = function(defaults) {
 
   // Bootstrap
   app.import('node_modules/bootstrap/scss/bootstrap.scss');
+  // TODO import minified bootstrap for production
   app.import('node_modules/bootstrap/dist/js/bootstrap.js');
 
   // Plyr library
