@@ -21,8 +21,6 @@ export default DS.Model.extend({
   profileAboutMe: DS.attr('string'),
   profileAge: DS.attr('number'),
   profileLocation: DS.attr('string'),
-  profileLanguages: DS.attr('string'),
+  profileLanguages: DS.attr('string')
   //profilePlatforms: DS.attr('string')
-
-  profileImages: DS.attr('activestorage')
 });

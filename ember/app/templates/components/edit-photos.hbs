@@ -17,30 +17,30 @@
         <div class="col-12 p-0 mt-4 order-4 ">
           <form {{action "submitPhotoSettings" on="submit"}}>
 
-            {{#each model.profileImages as |image|}}
+            {{#each this.model as |file|}}
               <div class="d-inline-block">
 
-                <img src="{{image.file_url}}" height="100" width="100">
+                <img src="{{file.fileUrl}}" height="100" width="100">
                 <div class="form-check">
-                  {{#if image.profile_image}}
+                  {{#if file.profileImage}}
                     <div class="btn btn-success form-check-label"> Profile Photo </div>
                   {{else}}
-                    <button class="btn btn-primary form-check-label" {{action "setImageAsProfileImage" image}}> Make Profile Photo </button>
+                    <button class="btn btn-primary form-check-label" {{action "setImageAsProfileImage" file}}> Make Profile Photo </button>
                   {{/if}}
                   <br>
                   <label class="form-check-label">
-                    {{#unless image.profile_image}}
-                      <form {{action "setMembersOnlyPropertyOnImage" on="change"}}>
+                    {{#unless file.profileImage}}
+                      <form {{action "setMembersOnlyPropertyOnFile" file on="change"}}>
                         Members Only
                         <label class="switch float-right">
-                          {{input type="checkbox" checked=image.members_only}}
+                          {{input type="checkbox" checked=file.membersOnly}}
                           <span class="slider"></span>
                         </label>
                       </form>
                     {{/unless}}
                   </label>
                   <br>
-                  <button class="btn btn-outline-dark form-check-label" {{action this.userFileManager.deleteFileFromUser image}}> Detele </button>
+                  <button class="btn btn-outline-dark form-check-label" {{action "deleteFile" file}}> Detele </button>
                 </div>
               </div>
             {{/each}}
@@ -52,8 +52,9 @@
 
         <h5>Select files from your computer</h5>
         {{file-upload
-          fileUploadAttribute="profileImages"
+          fileUploadAttribute=""
           model=model
+          onUploaded=(action "onUploaded")
         }}
         <br> <br>
       </div>

@@ -1,5 +1,6 @@
 class UserPublicFilesController < ApplicationController
-  include Rails.application.routes.url_helpers
+  #before action has token
+  before_action :file_params, only: [:create, :update, :destroy]
 
   def index
     p "SHOW - public files route"
@@ -10,63 +11,18 @@ class UserPublicFilesController < ApplicationController
         .where("lower(username) = ?", params[:username].to_s.downcase)
         .with_attached_profile_images
         .first
-      # image_array = nil
-      # if user.profile_images.attached?
-      #   puts 'serializer id photos attached'
-      #   image_array = []
-      #   user.profile_images.each do |image|
-      #     # If image is Members Only and the user is not logged into an account,
-      #     # do not add the image to the response
-      #     p 'is_member: ' + params[:is_member].to_s
-      #     file_url = Rails.application.routes.url_helpers.url_for(image)
-      #     is_profile_image = false
-      #     if user.profile_photo_path == file_url
-      #       is_profile_image = true
-      #     end
-      #     if image.metadata[:members_only] == true && params[:is_member] == false
-      #       next
-      #     else
-      #       image_array.push({
-      #         signed_id: image.signed_id,
-      #         file_url: file_url,
-      #         filename: image.filename,
-      #         delete: false,
-      #         members_only: image.metadata[:members_only],
-      #         profile_image: is_profile_image
-      #         #filetype: image.filetype
-      #       })
-      #     end
-      #   end
-      # end
-      # image_array
 
       if user_public_datum&.profile_images&.attached?
-
-
-        # profile_images = []
-        # client_is_member = token_exists_in_database?
-        # user_public_datum.profile_images.each do |image|
-        #   p "doing image"
-        #   if client_is_member
-        #     profile_images.push(image)
-        #   else
-        #     profile_images.push(image) if image.metadata[:members_only] == false
-        #   end
-        # end
-        # user_public_datum.profile_images.delete_if {
-        #   |image| image.metadata[:members_only] == true
-        # }
-        if token_exists_in_database?
-          client_is_member = true
-
-          render json: UserPublicFileSerializer
-            .new(
-              user_public_datum.profile_images,
-              params: {client_is_member: client_is_member}
-            )
-            .serialized_json,
-            status: :ok
-        end
+        render json: UserPublicFileSerializer
+          .new(
+            user_public_datum.profile_images,
+            params: {
+              client_is_member: token_exists_in_database?,
+              current_profile_photo_path: user_public_datum.profile_photo_path
+            }
+          )
+          .serialized_json,
+          status: :ok
       else
         render json: {data: []}, status: :ok
       end
@@ -77,6 +33,34 @@ class UserPublicFilesController < ApplicationController
 
   def create
     p "CREATE - public files route"
+    user_public_datum = UserPublicDatum.find(file_params[:user_id])
+    # TODO moving this outside of each loop may improve performance in DB search
+    blob = ActiveStorage::Blob.find_signed(file_params[:signed_id])
+    # If blob isn't attached to any user, attach to current user
+    # TODO moving this outside of each loop may improve performance in DB search
+    attachment = ActiveStorage::Attachment.find_by(blob_id: blob.id)
+    if attachment.nil?
+      puts 'attaching blob'
+      user_public_datum.profile_images.attach(file_params[:signed_id])
+      if user_public_datum.save!
+        p "saved - starting serialization"
+        options = {}
+        options[:is_collection] = false
+        options[:params] = {
+          client_is_member: token_exists_in_database?,
+          current_profile_photo_path: user_public_datum.profile_photo_path
+        }
+        attachment = ActiveStorage::Attachment.find_by(blob_id: blob.id)
+        json = UserPublicFileSerializer
+          .new(attachment, options)
+          .serialized_json
+        render json: json, status: :ok
+      else
+        render status: :internal_server_error
+      end
+    else
+      render status: :internal_server_error
+    end
   end
 
   def update
@@ -89,28 +73,39 @@ class UserPublicFilesController < ApplicationController
 
   private
 
-    def serialize_public_files(public_files, search_only = false)
-      # If search_only is true, only serialize specific attributes to display
-      # search results
-      if search_only
-        UserPublicDatumSerializer
-          .new(public_data, {fields: { user_public_datum: [
-            :username,
-            :online_status,
-            :channel_topic,
-            :current_game_id,
-            :streamnail_path,
-            :user_custom_tags,
-            :profile_photo_path] } })
-          .serialized_json
-      # Else return all columns
-      else
-        # Pass is_member boolean to serializer to determine whether or not to display
-        # images marked as Member Only
-        UserPublicDatumSerializer
-          .new(public_data, params: {is_member: token_exists_in_database?})
-          .serialized_json
-      end
+    # Only allow a trusted parameter "white list" through.
+    def file_params
+      ## Public profile
+      # params[:data][:attributes][:user_custom_tags] = JSON.parse(
+      #   params[:data][:attributes][:user_custom_tags])
+      params.require(:data)
+        .require(:attributes)
+        .permit(:signed_id,
+          :user_id)
     end
+
+    # def serialize_public_files(public_files, search_only = false)
+    #   # If search_only is true, only serialize specific attributes to display
+    #   # search results
+    #   if search_only
+    #     UserPublicDatumSerializer
+    #       .new(public_data, {fields: { user_public_datum: [
+    #         :username,
+    #         :online_status,
+    #         :channel_topic,
+    #         :current_game_id,
+    #         :streamnail_path,
+    #         :user_custom_tags,
+    #         :profile_photo_path] } })
+    #       .serialized_json
+    #   # Else return all columns
+    #   else
+    #     # Pass is_member boolean to serializer to determine whether or not to display
+    #     # images marked as Member Only
+    #     UserPublicDatumSerializer
+    #       .new(public_data, params: {is_member: token_exists_in_database?})
+    #       .serialized_json
+    #   end
+    # end
 
 end

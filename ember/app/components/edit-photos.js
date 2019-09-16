@@ -5,17 +5,19 @@ import { set } from '@ember/object';
 // edit-photos
 export default Component.extend({
   userFileManager: service(),
+  session: service(),
 
   photoSubmitBtn: 'btn btn-primary',
   photoSubmitText: 'Save',
 
-  init() {
-    // Selects the photo that matches the profile photo path
+  didInsertElement() {
     this._super(...arguments);
+
+    // Selects the photo that matches the profile photo path
     let that = this;
-    this.get('model.profileImages').forEach(function(image) {
-      if (image.profile_image == true) {
-        that.set('selectedImage', image);
+    this.model.forEach(function(file) {
+      if (file.profileImage == true) {
+        that.set('selectedImage', file);
       }
     });
   },
@@ -31,9 +33,9 @@ export default Component.extend({
           console.log('submit photo settings saved');
           that.set('photoSubmitText', '');
           that.set('photoSubmitBtn', 'btn btn-primary fa fa-check');
-          that.get('model.profileImages').forEach(function(image) {
-            if (image.profile_image == true) {
-              that.set('selectedImage', image);
+          that.get('model').forEach(function(file) {
+            if (file.profileImage == true) {
+              that.set('selectedImage', file);
             }
           });
         })
@@ -42,12 +44,14 @@ export default Component.extend({
         });
     },
 
-    setImageAsProfileImage(image) {
-      this.get('model.profileImages').forEach(function(profileimage) {
-        set(profileimage, 'profile_image', false);
+    setImageAsProfileImage(profileImage) {
+      this.get('model').forEach(function(image) {
+        if (image.profileImage == true) {
+          set(image, 'profileImage', false);
+        }
       });
       // Set profile_image to true and persist to back-end
-      set(image, 'profile_image', true);
+      set(profileImage, 'profileImage', true);
       this.model
         .save()
         .then(() => {
@@ -58,15 +62,48 @@ export default Component.extend({
         });
     },
 
-    setMembersOnlyPropertyOnImage() {
-      // Persist model to back-end
-      this.model
+    setMembersOnlyPropertyOnFile(file) {
+      // Persist file changes to back-end
+      file
         .save()
         .then(() => {
           console.log('model saved');
         })
         .catch(() => {
           console.log('model failed to save');
+        });
+    },
+
+    onUploaded(blob) {
+      console.log('file uploaded hello from edit photos');
+      //console.log(blob);
+
+      let that = this;
+      this.store
+        .createRecord('user-public-file', {
+          signedId: blob.signedId,
+          userId: this.session.data.authenticated.user_id
+        })
+        .save()
+        .then(() => {
+          console.log('saved record');
+          //that.store.peekAll('user-public-file');
+        })
+        .catch(err => {
+          console.log('error saving record with ' + err);
+        });
+    },
+
+    deleteFile(file) {
+      console.log('deleting file');
+      console.log('deleting ' + file.toString());
+      file
+        .deleteRecord()
+        .then(() => {
+          console.log('file deleted');
+        })
+        .catch(err => {
+          console.log('file failed to delete with error: ' + err);
         });
     }
   }

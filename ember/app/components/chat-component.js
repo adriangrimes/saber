@@ -169,9 +169,6 @@ export default Component.extend({
   onSocketOpened: function(event) {
     console.log('socket opened');
 
-    console.log(event);
-    console.log(window.location.href);
-
     if (
       window.location.href.split('/').pop() == event.target.url.split('/').pop()
     ) {
@@ -193,7 +190,6 @@ export default Component.extend({
       console.log('user no longer on page, closing socket');
       event.target.close();
     }
-    //this.websockets.closeSocketFor(this.get('chatChannelFullUrl'));
   },
 
   // when a message is received from the server
@@ -278,15 +274,7 @@ export default Component.extend({
     if (this.socketRef !== null) {
       this.websockets.closeSocketFor(this.get('chatChannelFullUrl'));
     }
-    // const socket = this.socketRef;
-    //
-    // socket.off('open', this.onSocketOpened);
-    // socket.off('message', this.onMessageRecieved);
-    // socket.off('close', this.onSocketClosed);
-    // socket.off('open', this.onSocketOpened, this);
-    // socket.off('message', this.onMessageRecieved, this);
-    // socket.off('close', this.onSocketClosed, this);
-    console.log('closed socket?');
+    console.log('closing socket');
   },
 
   didRender() {

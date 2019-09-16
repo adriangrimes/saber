@@ -153,13 +153,6 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "user_files", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "user_id"
-    t.boolean "is_public"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "user_public_data", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
     t.string "username"

@@ -13,9 +13,9 @@
   disabled=disableUploads
 }}
 <p>
-  {{#if (gt uploadProgress 0)}}
-    {{#if (lt uploadProgress 100)}}
-      Progress: {{uploadProgress}}%
+  {{#if (gt uploads 0)}}
+    {{#if (lt uploads 100)}}
+      Progress: {{uploads}}%
     {{/if}}
   {{/if}}
   {{#if disableUploads}}

@@ -1,39 +1,41 @@
-{{edit-photos model=model}}
+{{edit-photos
+  model=(mut (get model "userPublicFiles"))
+  store=this.store
+}}
 {{rules-modal}}
 <div class="container-fluid">
 
-  {{#if model.broadcaster}}
+  {{#if model.userPublicDatum.broadcaster}}
     {{!--- Video and Chat Panels --}}
     <div class="row m-0 mb-4" id="video-row">
       <div class={{this.videoPanel}} id="video-panel">
         <div class="row pt-3 m-0" id="usernameRow">
           <div class="col-8 pb-0">
             <h4 id="usernameDisplay">
-              {{model.username}}
-              {{#if model.onlineStatus}}
+              {{model.userPublicDatum.username}}
+              {{#if model.userPublicDatum.onlineStatus}}
                 <span title="Online" class="fa fa-video-camera pl-1"></span>
-
               {{/if}}
             </h4>
           </div>
 
 
           <div class="col-4 d-flex justify-content-end">
-            {{#if (eq session.data.authenticated.username model.username)}}
+            {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
 
               {{confirm-input button-title="Email Followers" title="Send email now?" onConfirm=(action "sendFollowerEmail")}}
             {{else}}
-              <a href="/account/messages?toUser={{model.username}}" class="btn btn-link pb-0"><span title="Send Private Message" class="profile-links fa fa-envelope"></span></a>
+              <a href="/account/messages?toUser={{model.userPublicDatum.username}}" class="btn btn-link pb-0"><span title="Send Private Message" class="profile-links fa fa-envelope"></span></a>
             {{/if}}
 
             {{!--
               <button type="button" class="btn btn-link pb-0 collapsed" data-toggle="collapse" data-target="#share-form,#share-form2"><span title="Open Share Form" class=" profile-links fa fa-share-alt"></span></button>
-              {{#if (eq session.data.authenticated.username model.username)}}
+              {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
               {{else}}
                 {{#if isFollowed}}
-                  <button type="button" class="btn btn-link pb-0 pl-2"> <span title="Unfollow {{model.username}}" class=" profile-links fa fa-bell" {{action "toggleFollow" model.user_id}}></span></button>
+                  <button type="button" class="btn btn-link pb-0 pl-2"> <span title="Unfollow {{model.userPublicDatum.username}}" class=" profile-links fa fa-bell" {{action "toggleFollow" model.userPublicDatum.userId}}></span></button>
                 {{else}}
-                  <button type="button" class="btn btn-link pb-0 pl-2"> <span title="Follow {{model.username}}" class=" profile-links fa fa-bell-o" {{action "toggleFollow" model.user_id}}></span></button>
+                  <button type="button" class="btn btn-link pb-0 pl-2"> <span title="Follow {{model.userPublicDatum.username}}" class=" profile-links fa fa-bell-o" {{action "toggleFollow" model.userPublicDatum.userId}}></span></button>
                 {{/if}}
               {{/if}}
               --}}
@@ -47,14 +49,16 @@
             <div class="input-group justify-content-end">
               <h6 class="pr-2 pt-2"> Share this profile:</h6>
               <div class="btn-group " role="group">
-                <a href="https://twitter.com/intent/tweet?text=Check+out+{{model.username}}+at+https://saber.tv/p/{{model.user_id}}" target="_blank" class="btn btn-primary" title="Twitter"><span class="fa fa-twitter"></span></a>
-                <a href="http://www.reddit.com/submit?url=https://saber.tv/p/{{model.user_id}}&title=Check+out+{{model.username}}+Live%21" target="_blank" class="btn btn-primary" title="Reddit"><span class="fa fa-reddit-alien"></span></a>
+                <a href="https://twitter.com/intent/tweet?text=Check+out+{{model.userPublicDatum.username}}+at+https://saber.tv/p/{{model.userPublicDatum.userId}}" target="_blank" class="btn btn-primary" title="Twitter"><span
+                    class="fa fa-twitter"></span></a>
+                <a href="http://www.reddit.com/submit?url=https://saber.tv/p/{{model.userPublicDatum.userId}}&title=Check+out+{{model.userPublicDatum.username}}+Live%21" target="_blank" class="btn btn-primary" title="Reddit"><span
+                    class="fa fa-reddit-alien"></span></a>
               </div>
             </div>
           </div>
           <div class="col-xs-12 col-sm-4  pr-0 pb-3">
             <div class="input-group w-100" {{action "copyUrlToClipboard"}}>
-              <input type="text" autocomplete="off" class="form-control " id="urlDisplay" value="https://saber.tv/p/{{model.user_id}}">
+              <input type="text" autocomplete="off" class="form-control " id="urlDisplay" value="https://saber.tv/p/{{model.userPublicDatum.userId}}">
               <div class="input-group-append">
                 <button class="btn btn-primary btn-sm" type="button"><span id="copyUrlBtn" class={{this.copyUrlBtnIcon}}></span></button>
               </div>
@@ -67,10 +71,10 @@
 
 
             {{stream-player
-              broadcasterUsername=model.username
-              profilePhoto=model.profilePhotoPath
+              broadcasterUsername=model.userPublicDatum.username
+              profilePhoto=model.userPublicDatum.profilePhotoPath
               isStreaming=isStreaming
-              onlineStatus=model.onlineStatus
+              onlineStatus=model.userPublicDatum.onlineStatus
             }}
 
 
@@ -79,7 +83,7 @@
               <div name="tip-toolbar" class="btn-toolbar justify-content-between ml-2 mr-1" role="toolbar">
                   <div></div>
 
-                {{#if model.allowTips}}
+                {{#if model.userPublicDatum.allowTips}}
                   <div class="input-group d-flex">
                     <div class="input-group-prepend ">
                       <button class="btn btn-dark border-0 px-2 profile-buttons" type="button" title="Tip Options" {{action "tipToggle"}}><span class={{this.tipToggleIcon}}></span></button>
@@ -141,9 +145,9 @@
       {{! Chat Window }}
       <div class={{this.chatPanel}} id="chat-panel">
         {{chat-component
-          chatChannel=(lower-case model.username)
-          channelTopic=model.channelTopic
-          model=model
+          chatChannel=(lower-case model.userPublicDatum.username)
+          channelTopic=model.userPublicDatum.channelTopic
+          model=model.userPublicDatum
           changeStreamState=(action "streamStateChange")
         }}
       </div>
@@ -211,16 +215,16 @@
 
       <div class="col-12 col-sm-6 p-0 mt-4 order-4 photos-panel">
         {{!-- Photos Window --}}
-        {{#if (eq session.data.authenticated.username model.username)}}
+        {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
           <a align="right" class="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal">
             <span title="Edit Photos" class="fa fa-edit" aria-hidden="true">
             </span>
           </a>
         {{/if}}
 
-        {{#each model.profileImages as |image|}}
-          {{#if image.file_url}}
-            <img src="{{image.file_url}}" alt="{{image.filename}}" width="300">
+        {{#each model.userPublicFiles as |file|}}
+          {{#if file.fileUrl}}
+            <img src="{{file.fileUrl}}" alt="{{file.filename}}" width="300">
           {{/if}}
         {{/each}}
 
@@ -232,7 +236,7 @@
     <div class="row pt-3 m-0" id="usernameRow">
       <div class="col-10 pb-0">
         <h4 id="usernameDisplay">
-          {{model.username}}
+          {{model.userPublicDatum.username}}
         </h4>
       </div>
     </div>
@@ -241,7 +245,7 @@
         <embed src="/testimg.jpg" height="500px" width="100%">
       </div>
       <div class="col-12 col-sm-6 p-0 mt-4 order-4">
-        {{#if (eq session.data.authenticated.username model.username)}}
+        {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
           <a align="right" class="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal">
             <span title="Edit Photos" class="fa fa-edit" aria-hidden="true">
             </span>
@@ -249,9 +253,9 @@
         {{/if}}
         <div class="col-12 col-sm-6 p-0 mt-4 order-4 photos-panel">
 
-          {{#each model.profileImages as |image|}}
-            {{#if image.file_url}}
-              <img src="{{image.file_url}}" alt="{{image.filename}}" width="300">
+          {{#each model.userPublicFiles as |file|}}
+            {{#if file.fileUrl}}
+              <img src="{{file.fileUrl}}" alt="{{file.filename}}" width="300">
             {{/if}}
           {{/each}}
 
@@ -263,44 +267,42 @@
     <div class="col-12 ">
       {{error-display}}
       <div class={{this.viewProfileCollapse}} id="viewProfileCollapse">
-        {{#if (eq session.data.authenticated.username model.username)}}
+        {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
           <a align="right" class="edit-links" role="button" data-toggle="collapse" data-target="#editProfileCollapse,#viewProfileCollapse">
             <span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span>
           </a>
         {{/if}}
 
-        <h4>About {{model.username}}:</h4>
-        {{#if model.profileAboutMe}}
-          {{model.profileAboutMe}}
-        {{/if}}
+        <h4>About {{model.userPublicDatum.username}}:</h4>
+        {{if model.userPublicDatum.profileAboutMe model.userPublicDatum.profileAboutMe}}
         <br>
         <br>
-        {{#if model.profileAge}}
+        {{#if model.userPublicDatum.profileAge}}
           <label>Age:</label>
-          {{model.profileAge}}
+          {{model.userPublicDatum.profileAge}}
           <br>
         {{/if}}
-        {{#if model.profileSex}}
-          {{#if (eq model.profileSex 'Hide')}}
+        {{#if model.userPublicDatum.profileSex}}
+          {{#if (eq model.userPublicDatum.profileSex 'Hide')}}
           {{else}}
             <label>Sex:</label>
-            {{model.profileSex}}
+            {{model.userPublicDatum.profileSex}}
             <br>
           {{/if}}
         {{/if}}
 
-        {{#if model.profileLocation}}
+        {{#if model.userPublicDatum.profileLocation}}
           <label>Location:</label>
-          {{model.profileLocation}}
+          {{model.userPublicDatum.profileLocation}}
           <br>
         {{/if}}
-        {{#if model.profileLanguages}}
+        {{#if model.userPublicDatum.profileLanguages}}
           <label>Languages:</label>
-          {{model.profileLanguages}}
+          {{model.userPublicDatum.profileLanguages}}
           <br>
         {{/if}}
 
-        {{#if model.broadcaster}}
+        {{#if model.userPublicDatum.broadcaster}}
           {{#if tags}}
             <div class="form-group">
               <label>Tags:</label>
@@ -323,19 +325,19 @@
             {{#if currentUser.user.broadcaster}}
               <div class="form-group">
                 <label for="inputaboutme">About Me</label>
-                {{textarea rows="5" class="form-control" value=model.profileAboutMe
+                {{textarea rows="5" class="form-control" value=model.userPublicDatum.profileAboutMe
                   placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
               </div>
             {{else if currentUser.user.developer}}
               <div class="form-group">
                 <label for="inputaboutme">About Me</label>
-                {{textarea class="form-control" value=model.profileAboutMe
+                {{textarea class="form-control" value=model.userPublicDatum.profileAboutMe
                   placeholder="A little about yourself and your games"}}
               </div>
             {{else}}
               <div class="form-group">
                 <label for="inputaboutme">About Me</label>
-                {{textarea class="form-control" value=model.profileAboutMe
+                {{textarea class="form-control" value=model.userPublicDatum.profileAboutMe
                   placeholder="A little about yourself, your favorite games etc."}}
               </div>
             {{/if}}
@@ -375,18 +377,18 @@
             </div>
             <div class="form-group">
               <label for="inputlocation">Location</label>
-              {{input type="text" class="form-control" value=model.profileLocation
+              {{input type="text" class="form-control" value=model.userPublicDatum.profileLocation
                 placeholder="Your general location" }}
             </div>
             <div class="form-group">
               <label for="inputLanguages">Languages</label>
-              {{input type="text" class="form-control" value=model.profileLanguages
+              {{input type="text" class="form-control" value=model.userPublicDatum.profileLanguages
                 placeholder="I can speak..." }}
             </div>
             <div class="form-group">
               <label for="inputAge">Age</label>
               {{input type="number" min="13" max="100000" step="1" class="form-control"
-                value=model.profileAge }}
+                value=model.userPublicDatum.profileAge }}
             </div>
             {{#if currentUser.user.broadcaster}}
               <div class="form-group">
@@ -402,7 +404,7 @@
               </div>
             {{/if}}
             <br>
-            <a class="btn btn-link" data-toggle="collapse" data-target="#editProfileCollapse,#viewProfileCollapse" {{action "cancelProfileChanges"}}>
+            <a class="btn btn-link" data-toggle="collapse" data-target="#editProfileCollapse,#viewProfileCollapse" {{action "cancelProfileChanges" model.userPublicDatum}}>
               <span title="Cancel"></span>
               Cancel
             </a>

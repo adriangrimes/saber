@@ -10,7 +10,6 @@ export default Component.extend({
   userFileManager: service(),
 
   fileUploadAttribute: 'files',
-  uploadProgress: 0,
   currentUploads: 0,
   maximumUploads: 100000,
   disableUploads: computed('currentUploads', 'maximumUploads', function() {
@@ -19,6 +18,8 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
+
+    this.uploads = [];
     this.uploadErrors = [];
   },
 
@@ -36,24 +37,19 @@ export default Component.extend({
         this.set('uploadErrors', []);
         const files = event.target.files;
         if (isPresent(files)) {
-          const directUploadURL = `${
-            config.apiHost
-          }/rails/active_storage/direct_uploads`;
+          const directUploadURL = `${config.apiHost}/rails/active_storage/direct_uploads`;
           for (var i = 0; i < files.length; i++) {
             get(this, 'activeStorage')
               .upload(files.item(i), directUploadURL, {
                 onProgress: progress => {
-                  set(this, 'uploadProgress', progress);
+                  set(this, 'uploads', progress);
                 }
               })
               .then(blob => {
-                this.userFileManager.attachUploadedFileToModel(
-                  blob,
-                  this.model,
-                  this.fileUploadAttribute
-                );
+                this.onUploaded(blob);
               })
-              .catch(() => {
+              .catch(err => {
+                console.error(err);
                 this.set('uploadErrors', [
                   {
                     title: 'Connection refused',

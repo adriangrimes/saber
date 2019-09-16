@@ -62,7 +62,7 @@ export default Controller.extend({
         .then(user => {
           // Get user public data record from the store and apply the currently
           // changed properties to the record.
-          user.setProperties(this.model);
+          user.setProperties(this.model.userPublicDatum);
           // If gender selection is male or female, save that to profileSex,
           // otherwise set the custom gender textfield as the gender.
           if (
@@ -112,25 +112,25 @@ export default Controller.extend({
         });
     },
 
-    cancelProfileChanges() {
+    cancelProfileChanges(userPublicDatum) {
       // Rollback model to original values pulled from the store
-      this.model.rollbackAttributes();
+      userPublicDatum.rollbackAttributes();
       // Rollback gender selection
       this.set('tempSexText', '');
-      if (this.model.profileSex == 'Male') {
+      if (userPublicDatum.profileSex == 'Male') {
         this.set('tempSexSelection', 'Male');
-      } else if (this.model.profileSex == 'Female') {
+      } else if (userPublicDatum.profileSex == 'Female') {
         this.set('tempSexSelection', 'Female');
-      } else if (this.model.profileSex == 'Hide') {
+      } else if (userPublicDatum.profileSex == 'Hide') {
         this.set('tempSexSelection', 'Hide');
       }
       {
         this.set('tempSexSelection', 'Other');
-        this.set('tempSexText', this.model.profileSex);
+        this.set('tempSexText', userPublicDatum.profileSex);
         this.set('checkOtherSex', true);
       }
       // Rollback tag selection
-      this.set('tags', this.model.get('userCustomTags').split(','));
+      this.set('tags', userPublicDatum.get('userCustomTags').split(','));
     },
 
     checkLength(text, select /*, event */) {
@@ -211,7 +211,7 @@ export default Controller.extend({
 
         let creditTransfer = this.store.createRecord('credit-transfer', {
           fromUserId: this.get('session.data.authenticated.user_id'),
-          toUserId: this.get('model').get('userId'),
+          toUserId: this.model.userPublicDatum.get('userId'),
           creditsTransferred: tipAmount,
           transferType: 'tip'
         });
