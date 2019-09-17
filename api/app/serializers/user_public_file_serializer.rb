@@ -1,7 +1,13 @@
 class UserPublicFileSerializer
   include FastJsonapi::ObjectSerializer
 
-  attribute :signed_id
+  attribute :signed_id do |record, params|
+    if params[:client_is_member] == false
+      nil
+    else
+      record.signed_id
+    end
+  end
   attribute :filename
 
   attribute :file_url do |record, params|

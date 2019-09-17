@@ -17,6 +17,7 @@ export default Component.extend({
 
     // Observe changes to stream state for use in video player
     this.addObserver('isStreaming', this, 'isStreamingDidChange');
+    this.addObserver('profilePhoto', this, 'profileImageChanged');
   },
 
   didInsertElement() {
@@ -56,6 +57,10 @@ export default Component.extend({
 
     // Set a last revision property due to observer 'rev' argument being null
     this.set('isStreamingLastRev', this.isStreaming);
+  },
+
+  profileImageChanged() {
+    this.get('player').poster = this.profilePhoto;
   },
 
   initializeVideoPlayer() {

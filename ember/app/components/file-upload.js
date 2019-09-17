@@ -9,7 +9,6 @@ export default Component.extend({
   activeStorage: service(),
   userFileManager: service(),
 
-  fileUploadAttribute: 'files',
   currentUploads: 0,
   maximumUploads: 100000,
   disableUploads: computed('currentUploads', 'maximumUploads', function() {

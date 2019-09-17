@@ -17,12 +17,12 @@
         <div class="col-12 p-0 mt-4 order-4 ">
           <form {{action "submitPhotoSettings" on="submit"}}>
 
-            {{#each this.model as |file|}}
+            {{#each model as |file|}}
               <div class="d-inline-block">
 
                 <img src="{{file.fileUrl}}" height="100" width="100">
                 <div class="form-check">
-                  {{#if file.profileImage}}
+                  {{#if (eq profilePhotoPath file.fileUrl)}}
                     <div class="btn btn-success form-check-label"> Profile Photo </div>
                   {{else}}
                     <button class="btn btn-primary form-check-label" {{action "setImageAsProfileImage" file}}> Make Profile Photo </button>
@@ -52,8 +52,6 @@
 
         <h5>Select files from your computer</h5>
         {{file-upload
-          fileUploadAttribute=""
-          model=model
           onUploaded=(action "onUploaded")
         }}
         <br> <br>

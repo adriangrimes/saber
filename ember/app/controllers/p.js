@@ -44,6 +44,7 @@ export default Controller.extend({
         this.tags.pushObject(tag);
       }
     },
+
     removeTagAtIndex(index) {
       this.tags.removeAt(index);
     },
@@ -148,6 +149,17 @@ export default Controller.extend({
       this.set('isStreaming', state === 'stream-up' ? true : false);
     },
 
+    profileImageChanged() {
+      console.log('profile image changed');
+      this.store
+        .queryRecord('user-public-datum', {
+          username: this.get('session.data.authenticated.username')
+        })
+        .then(model => {
+          this.set('model.userPublicDatum', model);
+        });
+    },
+
     setGame(game) {
       this.set('inputGame', game);
     },
@@ -229,9 +241,11 @@ export default Controller.extend({
         console.log('invalid tip');
       }
     },
+
     sendFollowerEmail() {
       console.log('send follower email confirmed');
     },
+
     copyUrlToClipboard() {
       /* Get the text field */
       var copyText = document.getElementById('urlDisplay');

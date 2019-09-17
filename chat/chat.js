@@ -336,7 +336,7 @@ function addChatUserToRequestedChannel(client, req) {
             channel.totalUsers += 1;
             broadcastUserJoinAndUserCount(client);
           }
-        } else if (res.statusCode == 422) {
+        } else if (res && res.statusCode == 422) {
           // Else client is a guest, increment guest and totalUsers counter and
           // send updated user count to client
           console.log(
@@ -346,7 +346,7 @@ function addChatUserToRequestedChannel(client, req) {
           channel.totalUsers += 1;
           sendUserCountToClient(client);
         } else {
-          console.log('ERROR: Unusual error status code ' + res.statusCode);
+          console.log('ERROR: Unusual error with API, it may be down');
           channel.guests += 1;
           channel.totalUsers += 1;
           sendUserCountToClient(client);

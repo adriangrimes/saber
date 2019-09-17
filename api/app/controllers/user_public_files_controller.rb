@@ -1,6 +1,6 @@
 class UserPublicFilesController < ApplicationController
   #before action has token
-  before_action :file_params, only: [:create, :update, :destroy]
+  before_action :file_params, only: [:create, :update]
 
   def index
     p "SHOW - public files route"
@@ -54,7 +54,7 @@ class UserPublicFilesController < ApplicationController
         json = UserPublicFileSerializer
           .new(attachment, options)
           .serialized_json
-        render json: json, status: :ok
+        render json: json, status: :created
       else
         render status: :internal_server_error
       end
@@ -65,10 +65,71 @@ class UserPublicFilesController < ApplicationController
 
   def update
     p "UPDATE - public files route"
+
+    blob = ActiveStorage::Blob.find(params[:id])
+    blob_url = Rails.application.routes.url_helpers.url_for(blob)
+    attachment = ActiveStorage::Attachment.find_by(blob_id: blob.id)
+    user_public_datum = UserPublicDatum.find(attachment.record_id)
+    p blob.inspect
+
+    if file_params[:members_only] == true || file_params[:members_only] == false
+      blob.metadata[:members_only] = file_params[:members_only]
+      blob.save
+    end
+    if file_params[:profile_image] == true
+      blob.metadata[:members_only] = false
+      blob.save!
+      user_public_datum.profile_photo_path = blob_url
+      user_public_datum.save!
+    end
+
+    options = {}
+    options[:is_collection] = false
+    options[:params] = {
+      client_is_member: token_exists_in_database?,
+      current_profile_photo_path: user_public_datum.profile_photo_path
+    }
+    json = UserPublicFileSerializer
+      .new(attachment, options)
+      .serialized_json
+    render json: json, status: :ok
   end
 
   def destroy
     p "DESTROY - public files route"
+
+    # TODO moving this outside of each loop may improve performance in DB search
+    # TODO :includes might save DB calls?
+    blob = ActiveStorage::Blob.find(params[:id])
+    blob_url = Rails.application.routes.url_helpers.url_for(blob)
+    attachment = ActiveStorage::Attachment.find_by(blob_id: blob.id)
+    user_public_datum = UserPublicDatum.find(attachment.record_id)
+
+    blob_for_deletion = user_public_datum.profile_images
+      .find(attachment.id)
+
+    if blob_for_deletion.purge_later
+      puts 'finished delete?'
+      # If user is deleting the image that was set as their profile
+      # image, set it to the first in line afterwards
+      p user_public_datum.profile_images.count
+      if user_public_datum.profile_images.count == 0
+        p "setting profile path to nil"
+        user_public_datum.profile_photo_path = nil
+      elsif blob_url == user_public_datum.profile_photo_path
+        user_public_datum.profile_photo_path =
+          Rails.application.routes.url_helpers.url_for(user_public_datum.profile_images.first)
+      end
+
+      if user_public_datum.save!
+        render status: :no_content
+      else
+        render status: :unprocessable_entity
+      end
+    else
+      render status: :unprocessable_entity
+    end
+
   end
 
   private
@@ -81,7 +142,9 @@ class UserPublicFilesController < ApplicationController
       params.require(:data)
         .require(:attributes)
         .permit(:signed_id,
-          :user_id)
+          :user_id,
+          :members_only,
+          :profile_image)
     end
 
     # def serialize_public_files(public_files, search_only = false)
