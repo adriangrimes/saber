@@ -37,7 +37,10 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
 
   // Bootstrap
-  app.import('node_modules/bootstrap/scss/bootstrap.scss');
+  app.import('node_modules/bootstrap/scss/bootstrap.scss', {
+    type: 'vendor',
+    prepend: true
+  });
   // TODO import minified bootstrap for production
   app.import('node_modules/bootstrap/dist/js/bootstrap.js');
 
@@ -56,6 +59,26 @@ module.exports = function(defaults) {
     staging: 'node_modules/hls.js/dist/hls.light.js',
     production: 'node_modules/hls.js/dist/hls.light.min.js'
   });
+
+  // Uppy.js for file uploads to Shrine attachment system on the back-end.
+  // core
+  // app.import('node_modules/@uppy/core/lib/index.js');
+  // app.import('node_modules/@uppy/core/lib/index.js.map');
+  app.import('node_modules/@uppy/core/dist/style.css');
+  // // utils
+  // app.import('node_modules/@uppy/utils/lib/Translator.js');
+  // app.import('node_modules/@uppy/utils/lib/Translator.js.map');
+  // // dashboard
+  // app.import('node_modules/@uppy/dashboard/lib/index.js');
+  // app.import('node_modules/@uppy/dashboard/lib/index.js.map');
+  app.import('node_modules/@uppy/dashboard/dist/style.css');
+  // // webcam
+  // app.import('node_modules/@uppy/webcam/lib/index.js');
+  // app.import('node_modules/@uppy/webcam/lib/index.js.map');
+  app.import('node_modules/@uppy/webcam/dist/style.css');
+  // // xhr-upload
+  // app.import('node_modules/@uppy/xhr-upload/lib/index.js');
+  // app.import('node_modules/@uppy/xhr-upload/lib/index.js.map');
 
   return app.toTree();
 };

@@ -10,28 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_20_200321) do
-
-  create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
-    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
-  end
-
-  create_table "active_storage_blobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
-    t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
-    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
-  end
+ActiveRecord::Schema.define(version: 2019_09_19_013237) do
 
   create_table "chat_tickets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -177,6 +156,15 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.index ["username"], name: "index_user_public_data_on_username", unique: true
   end
 
+  create_table "user_public_uploads", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.boolean "members_only", default: false, null: false
+    t.text "upload_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_public_uploads_on_user_id"
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "username", null: false
     t.string "email", default: "", null: false
@@ -235,7 +223,6 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "credit_purchases", "users"
   add_foreign_key "credit_transfers", "users", column: "from_user_id"
   add_foreign_key "credit_transfers", "users", column: "to_user_id"
@@ -243,4 +230,5 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
   add_foreign_key "private_messages", "users", column: "to_user_id"
   add_foreign_key "static_game_data", "users"
   add_foreign_key "user_public_data", "users"
+  add_foreign_key "user_public_uploads", "users"
 end

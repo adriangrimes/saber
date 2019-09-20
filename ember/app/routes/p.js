@@ -12,7 +12,7 @@ export default Route.extend({
       userPublicDatum: this.store.queryRecord('user-public-datum', {
         username: params.username
       }),
-      userPublicFiles: this.store.query('user-public-file', {
+      userPublicUploads: this.store.query('user-public-upload', {
         username: params.username
       })
     });

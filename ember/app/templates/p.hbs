@@ -227,9 +227,10 @@
           </a>
         {{/if}}
 
-        {{#each model.userPublicFiles as |file|}}
-          {{#if file.fileUrl}}
-            <img src="{{file.fileUrl}}" alt="{{file.filename}}" width="300">
+
+        {{#each model.userPublicUploads as |upload|}}
+          {{#if upload.fileUrl}}
+            <img src="{{upload.fileUrl}}" width="300">
           {{/if}}
         {{/each}}
 
@@ -258,9 +259,9 @@
         {{/if}}
         <div class="col-12 col-sm-6 p-0 mt-4 order-4 photos-panel">
 
-          {{#each model.userPublicFiles as |file|}}
-            {{#if file.fileUrl}}
-              <img src="{{file.fileUrl}}" alt="{{file.filename}}" width="300">
+          {{#each model.userPublicUploads as |upload|}}
+            {{#if upload.fileUrl}}
+              <img src="{{upload.fileUrl}}" width="300">
             {{/if}}
           {{/each}}
 

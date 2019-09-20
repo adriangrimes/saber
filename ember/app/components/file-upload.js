@@ -1,65 +1,61 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+//import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { get, set } from '@ember/object';
-import { isPresent } from '@ember/utils';
+//import { isPresent } from '@ember/utils';
 import config from '../config/environment';
 
+// Uppy imports
+import Uppy from '@uppy/core';
+import Dashboard from '@uppy/dashboard';
+import Webcam from '@uppy/webcam';
+import XHRUpload from '@uppy/xhr-upload';
+
 export default Component.extend({
-  activeStorage: service(),
   userFileManager: service(),
 
-  currentUploads: 0,
-  maximumUploads: 100000,
-  disableUploads: computed('currentUploads', 'maximumUploads', function() {
-    return this.get('currentUploads') >= this.get('maximumUploads');
-  }),
+  // init() {
+  //   this._super(...arguments);
+  // },
 
-  init() {
-    this._super(...arguments);
-
-    this.uploads = [];
-    this.uploadErrors = [];
+  didInsertElement() {
+    // initialize Uppy
+    console.log('initializing Uppy');
+    this.set(
+      'uppy',
+      Uppy({
+        debug: true,
+        autoProceed: false,
+        restrictions: {
+          maxFileSize: 5 * 1024 * 1024,
+          minNumberOfFiles: 1,
+          allowedFileTypes: ['.png', '.jpeg', '.jpg'] //, 'video/*']
+        }
+      })
+        .use(Webcam, {
+          modes: ['picture'],
+          title: 'Webcam',
+          mirror: false
+        })
+        .use(Dashboard, {
+          inline: true,
+          target: '#dashboard-area',
+          proudlyDisplayPoweredByUppy: false,
+          plugins: ['Webcam'],
+          note: 'Up to 30 images, up to 5 MB each'
+          // trigger: '#select-files'
+        })
+        .use(XHRUpload, { endpoint: `${config.apiHost}/upload`, limit: 10 })
+        .on('complete', result => {
+          if (result.failed.length == 0) {
+            console.log('all files uploaded successfully');
+            this.onUploaded(result.successful);
+          }
+        })
+    );
   },
 
-  actions: {
-    upload(event) {
-      if (this.currentUploads >= this.maximumUploads) {
-        this.set('uploadErrors', [
-          {
-            title: `More than ${this.get('maximumUploads')} uploads`,
-            detail: `You may not upload more than ${this.get('maximumUploads')}
-            images, please remove some before trying again.`
-          }
-        ]);
-      } else {
-        this.set('uploadErrors', []);
-        const files = event.target.files;
-        if (isPresent(files)) {
-          const directUploadURL = `${config.apiHost}/rails/active_storage/direct_uploads`;
-          for (var i = 0; i < files.length; i++) {
-            get(this, 'activeStorage')
-              .upload(files.item(i), directUploadURL, {
-                onProgress: progress => {
-                  set(this, 'uploads', progress);
-                }
-              })
-              .then(blob => {
-                this.onUploaded(blob);
-              })
-              .catch(err => {
-                console.error(err);
-                this.set('uploadErrors', [
-                  {
-                    title: 'Connection refused',
-                    detail:
-                      'Connection refused during upload, the server may be encountering issues. Please try again later.'
-                  }
-                ]);
-              });
-          }
-        }
-      }
-    }
+  willDestroyElement() {
+    console.log('destroying file-upload element');
+    this.get('uppy').close();
   }
 });

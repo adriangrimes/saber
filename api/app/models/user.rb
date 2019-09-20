@@ -18,9 +18,9 @@ class User < ApplicationRecord
   has_many :credit_purchases
   has_many :credit_transfers
   has_many :private_messages
-  
+
   # ID files uploaded for verification
-  has_many_attached :uploaded_identification
+  #has_many_attached :uploaded_identification
 
   validates :username, :uniqueness => { :case_sensitive => false },
     format: { with: /^[a-zA-Z0-9_]*$/, :multiline => true },

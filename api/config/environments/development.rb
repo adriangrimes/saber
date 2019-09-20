@@ -1,13 +1,16 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # Set hostnames
+  config.front_end_hostname = 'http://192.168.1.4:4200'
+  Rails.application.routes.default_url_options[:host] = 'http://192.168.1.4:3000'
+
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
   config.public_file_server.enabled = true
-
 
   # Do not eager load code on boot.
   config.eager_load = false
@@ -30,10 +33,8 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  # Store uploaded files on the local file system (see config/storage.yml for options)
-  # config.active_storage.service = :local
-
-  config.action_mailer.default_url_options = {  :host => "192.168.132.129",
+  # Mailer options
+  config.action_mailer.default_url_options = {  :host => "192.168.1.4",
                                                 :port => 3000 }
   config.action_mailer.delivery_method = :letter_opener
   # config.action_mailer.delivery_method = :mailjet
@@ -49,13 +50,6 @@ Rails.application.configure do
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
-
-  # Store files locally.
-  config.active_storage.service = :local
-  Rails.application.routes.default_url_options[:host] = 'http://192.168.132.129:3000'
-
-  # Set front-end hostname
-  config.front_end_hostname = 'http://192.168.132.129:4200'
 
   # Allow all for CORS
   config.middleware.insert_before 0, Rack::Cors do

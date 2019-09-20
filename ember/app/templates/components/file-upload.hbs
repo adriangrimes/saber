@@ -5,13 +5,14 @@
   </p>
   {{/each}}
 {{/if}}
-{{input
+<div id="dashboard-area"></div>
+<!-- {{input
   multiple="false"
   change=(action "upload")
   accept="image/png,image/jpeg"
   type="file"
   disabled=disableUploads
-}}
+}} -->
 <p>
   {{#if (gt uploads 0)}}
     {{#if (lt uploads 100)}}

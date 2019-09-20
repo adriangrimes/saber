@@ -13,8 +13,8 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    console.log(this.get('model'));
-    console.log(this.photos);
+    console.log('this.model:', this.get('model'));
+    console.log('this.photos:', this.photos);
     // console.log(this.model.userPublicFiles);
 
     // Selects the photo that matches the profile photo path
@@ -48,19 +48,19 @@ export default Component.extend({
         });
     },
 
-    setImageAsProfileImage(profileImage) {
+    setImageAsProfileImage(imageRecord) {
       // this.get('model').forEach(function(image) {
       //   if (image.profileImage == true) {
       //     set(image, 'profileImage', false);
       //   }
       // });
       // Set profile_image to true and persist to back-end
-      set(profileImage, 'profileImage', true);
-      profileImage
+      set(imageRecord, 'profileImage', true);
+      imageRecord
         .save()
         .then(() => {
           this.store
-            .query('user-public-file', {
+            .query('user-public-upload', {
               username: this.session.data.authenticated.username
             })
             .then(files => {
@@ -72,7 +72,7 @@ export default Component.extend({
         })
         .catch(() => {
           console.log('model failed to save');
-          profileImage.rollbackAttributes();
+          imageRecord.rollbackAttributes();
         });
     },
 
@@ -97,32 +97,37 @@ export default Component.extend({
         });
     },
 
-    onUploaded(blob) {
+    onUploaded(succeededUploads) {
       console.log('file uploaded hello from edit photos');
-      //console.log(blob);
+      console.log(succeededUploads);
 
-      this.store
-        .createRecord('user-public-file', {
-          signedId: blob.signedId,
-          userId: this.session.data.authenticated.user_id
-        })
-        .save()
-        .then(record => {
-          console.log(this.session.data.authenticated.username);
-          this.store
-            .query('user-public-file', {
-              username: this.session.data.authenticated.username
-            })
-            .then(files => {
-              this.set('model', files);
-              console.log('got public files');
-            });
-          console.log('saved record: ' + record);
-        })
-        .catch(err => {
-          console.log('error saving record with ' + err);
-          this.model.rollbackAttributes();
-        });
+      let component = this;
+
+      succeededUploads.forEach(function(upload) {
+        console.log(upload);
+        component.store
+          .createRecord('user-public-upload', {
+            userId: component.session.data.authenticated.user_id,
+            uploadDataJson: JSON.stringify(upload.response.body)
+          })
+          .save()
+          .then(record => {
+            console.log(component.session.data.authenticated.username);
+            component.store
+              .query('user-public-upload', {
+                username: component.session.data.authenticated.username
+              })
+              .then(files => {
+                component.set('model', files);
+                console.log('got public files');
+              });
+            console.log('saved record: ' + record);
+          })
+          .catch(err => {
+            console.log('error saving record with ' + err);
+            component.model.rollbackAttributes();
+          });
+      });
     },
 
     deleteFile(file) {

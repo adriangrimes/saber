@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  # TODO Determine if we need CSRF
   # TODO: If your application has many RESTful routes, using :only and :except to
   # generate only the routes that you actually need can cut down on memory use
   # and speed up the routing process.
@@ -14,13 +15,15 @@ Rails.application.routes.draw do
   # :users :create is handled by devise registrations controller
   resources :users, only: [:show, :update, :destroy]
   resources :user_public_data
-  resources :user_public_files, only: [:index, :create, :update, :destroy]
+  resources :user_public_uploads, only: [:index, :create, :update, :destroy]
+  resources :private_messages
+  get '/conversations', to: 'private_messages#conversations'
   resources :user_favorites
   resources :user_blocks
   resources :game_logs
 
-  resources :private_messages
-  get '/conversations', to: 'private_messages#conversations'
+  # Shrine attachment upload enpoint for public files
+  mount Shrine.upload_endpoint(:cache) => "/upload"
 
   # Credit purchase and transfer data
   resources :credit_transfers
@@ -41,9 +44,5 @@ Rails.application.routes.draw do
   # Stream control
   get '/stream/start', to: 'streams#start'
   get '/stream/stop', to: 'streams#stop'
-
-  # DirectUploadsController is overriden to bypass CSRF and cross origin security
-  # TODO Determine if bypass CSRF is safe
-  post '/rails/active_storage/direct_uploads' => 'direct_uploads#create'
 
 end

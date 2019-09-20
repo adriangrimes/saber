@@ -155,8 +155,8 @@ export default Controller.extend({
         .queryRecord('user-public-datum', {
           username: this.get('session.data.authenticated.username')
         })
-        .then(model => {
-          this.set('model.userPublicDatum', model);
+        .then(storeData => {
+          this.set('model.userPublicDatum', storeData);
         });
     },
 
