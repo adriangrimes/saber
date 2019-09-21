@@ -9,6 +9,5 @@ class CreateUserPublicUploads < ActiveRecord::Migration[5.2]
     end
 
     add_foreign_key :user_public_uploads, :users, column: :user_id
-
   end
 end

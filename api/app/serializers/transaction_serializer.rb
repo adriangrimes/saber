@@ -13,5 +13,4 @@ class TransactionSerializer
   # attribute :cleared do |object| object.cleared end
   # attribute :cancelled do |object| object.cancelled end
   # attribute :credit_purchased do |object| object.credit_purchased end
-
 end

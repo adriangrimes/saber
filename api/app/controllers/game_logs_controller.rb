@@ -39,13 +39,14 @@ class GameLogsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_game_log
-      @game_log = GameLog.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def game_log_params
-      params.fetch(:game_log, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_game_log
+    @game_log = GameLog.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def game_log_params
+    params.fetch(:game_log, {})
+  end
 end

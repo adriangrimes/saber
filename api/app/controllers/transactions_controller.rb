@@ -2,7 +2,6 @@ class TransactionsController < ApplicationController
   before_action :is_user_authorized?
 
   def index
-
     # transactions = ActiveRecord::Base.connection.execute(
     #   "SELECT *
     #     FROM credit_transfers
@@ -12,9 +11,9 @@ class TransactionsController < ApplicationController
     # )
 
     @credit_transfers = CreditTransfer
-      .where('to_user_id = ?', params[:id])
-      .order('created_at DESC')
-      # .limit(10)
+                        .where('to_user_id = ?', params[:id])
+                        .order('created_at DESC')
+    # .limit(10)
     #
     # puts @credit_transfers.inspect
     # transactions = []
@@ -25,19 +24,18 @@ class TransactionsController < ApplicationController
     #   transactions.push(transaction)
     # end
 
-    render json: CreditTransferSerializer.new(@credit_transfers, { params: {transactions: true} }).serialized_json, status: :ok
+    render json: CreditTransferSerializer.new(@credit_transfers, { params: { transactions: true } }).serialized_json, status: :ok
   end
 
   private
 
-    def is_user_authorized?
-      if token_is_authorized_for_id?(params[:id])
-        puts 'authorized'
-        return true
-      else
-        clean_up_and_render_unauthorized
-        return false
-      end
+  def is_user_authorized?
+    if token_is_authorized_for_id?(params[:id])
+      puts 'authorized'
+      return true
+    else
+      clean_up_and_render_unauthorized
+      return false
     end
-
+  end
 end

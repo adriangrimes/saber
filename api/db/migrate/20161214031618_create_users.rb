@@ -1,18 +1,17 @@
 class CreateUsers < ActiveRecord::Migration[5.2]
   def change
     create_table :users do |t|
-
       ## Database authenticatable
       t.string :username, null: false
       t.string :email, null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
-      t.string :authentication_token, null: false #TODO: encrypt
+      t.string :authentication_token, null: false # TODO: encrypt
 
       ## Account data
-      t.boolean :broadcaster, default: false #TODO maybe only let the backend change these, via successful signup or form submition from front end?
+      t.boolean :broadcaster, default: false # TODO maybe only let the backend change these, via successful signup or form submition from front end?
       t.boolean :developer, default: false
       t.boolean :affiliate, default: false
-      t.string :account_status#, default: "UNVERIFIED"
+      t.string :account_status # , default: "UNVERIFIED"
       t.boolean :suspended_account, default: false
       t.boolean :admin_status, default: false
       t.boolean :pending_deletion, default: false
@@ -28,11 +27,11 @@ class CreateUsers < ActiveRecord::Migration[5.2]
 
       ## Payment profile (TODO most of these are probably not safe in terms of user security)
       t.integer :broadcaster_percentage,
-        limit: 1,
-        default: Rails.application.config.x.saber.broadcaster_payout_percentage
+                limit: 1,
+                default: Rails.application.config.x.saber.broadcaster_payout_percentage
       t.integer :developer_percentage,
-        limit: 1,
-        default: Rails.application.config.x.saber.developer_payout_percentage
+                limit: 1,
+                default: Rails.application.config.x.saber.developer_payout_percentage
       t.string :full_name
       t.datetime :birthdate
       t.string :address_line1
@@ -73,15 +72,13 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.datetime :locked_at
 
       t.timestamps
-
     end
-    
+
     add_index :users, :username,             unique: true
     add_index :users, :email,                unique: true
     add_index :users, :authentication_token, unique: true
     add_index :users, :reset_password_token, unique: true
     add_index :users, :confirmation_token,   unique: true
     add_index :users, :unlock_token,         unique: true
-
   end
 end

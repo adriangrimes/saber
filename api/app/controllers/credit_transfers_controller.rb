@@ -8,15 +8,15 @@ class CreditTransfersController < ApplicationController
     @credit_transfer = CreditTransfer.new(credit_transfer_params)
     # If user is not tipping themselves and type equals 'tip'
     if @credit_transfer.from_user_id != @credit_transfer.to_user_id &&
-      @credit_transfer.transfer_type == 'tip'
+       @credit_transfer.transfer_type == 'tip'
 
-        sender = User.find(@credit_transfer.from_user_id)
+      sender = User.find(@credit_transfer.from_user_id)
         sender_credit_purchases = CreditPurchase
-          .where('user_id = ?', sender.id)
-          .where('cleared = true')
-          .where('cancelled = false')
-          .where('credits_remaining > 0')
-          .order('created_at ASC')
+                                  .where('user_id = ?', sender.id)
+                                  .where('cleared = true')
+                                  .where('cancelled = false')
+                                  .where('credits_remaining > 0')
+                                  .order('created_at ASC')
         sender_credits_remaining = sender_credit_purchases.sum(:credits_remaining) * 1
         if sender_credits_remaining >= @credit_transfer.credits_transferred
           credits_left_to_transfer = @credit_transfer.credits_transferred
@@ -80,27 +80,27 @@ class CreditTransfersController < ApplicationController
 
   private
 
-    def is_user_authorized?
-      if token_is_authorized_for_id?(params[:data][:attributes][:from_user_id])
-        return true
-      else
-        clean_up_and_render_unauthorized
-        return false
-      end
+  def is_user_authorized?
+    if token_is_authorized_for_id?(params[:data][:attributes][:from_user_id])
+      return true
+    else
+      clean_up_and_render_unauthorized
+      return false
     end
+  end
 
-    # Use callbacks to share common setup or constraints between actions.
-    # def set_credit_transfer
-    #   @credit_transfer = CreditTransfer.find(params[:id])
-    # end
+  # Use callbacks to share common setup or constraints between actions.
+  # def set_credit_transfer
+  #   @credit_transfer = CreditTransfer.find(params[:id])
+  # end
 
-    # Only allow a trusted parameter "white list" through.
-    def credit_transfer_params
-      params.require(:data)
-        .require(:attributes)
-        .permit(:from_user_id,
-        :to_user_id,
-        :credits_transferred,
-        :transfer_type)
-    end
+  # Only allow a trusted parameter "white list" through.
+  def credit_transfer_params
+    params.require(:data)
+          .require(:attributes)
+          .permit(:from_user_id,
+                  :to_user_id,
+                  :credits_transferred,
+                  :transfer_type)
+  end
 end

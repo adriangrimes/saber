@@ -1,6 +1,8 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { set } from '@ember/object';
+import { once } from '@ember/runloop';
+import RSVP from 'rsvp';
 
 // edit-photos
 export default Component.extend({
@@ -97,37 +99,67 @@ export default Component.extend({
         });
     },
 
-    onUploaded(succeededUploads) {
+    onUploaded(successfulUploads) {
       console.log('file uploaded hello from edit photos');
-      console.log(succeededUploads);
+      console.log(successfulUploads);
+      console.log(successfulUploads.length);
 
       let component = this;
-
-      succeededUploads.forEach(function(upload) {
-        console.log(upload);
-        component.store
-          .createRecord('user-public-upload', {
-            userId: component.session.data.authenticated.user_id,
-            uploadDataJson: JSON.stringify(upload.response.body)
-          })
-          .save()
-          .then(record => {
-            console.log(component.session.data.authenticated.username);
-            component.store
-              .query('user-public-upload', {
-                username: component.session.data.authenticated.username
-              })
-              .then(files => {
-                component.set('model', files);
-                console.log('got public files');
-              });
-            console.log('saved record: ' + record);
-          })
-          .catch(err => {
-            console.log('error saving record with ' + err);
-            component.model.rollbackAttributes();
-          });
-      });
+      let recordsToSave = [];
+      for (var i = 0; i < successfulUploads.length; i++) {
+        recordsToSave.push(
+          this.store
+            .createRecord('user-public-upload', {
+              userId: component.session.data.authenticated.user_id,
+              uploadDataJson: JSON.stringify(successfulUploads[i].response.body)
+            })
+            .save()
+        );
+      }
+      RSVP.hash({
+        recordsToSave
+      })
+        .then(records => {
+          console.log('all uploads saved');
+          console.log('saved records:', records);
+          component.store
+            .query('user-public-upload', {
+              username: component.session.data.authenticated.username
+            })
+            .then(uploads => {
+              component.set('model', uploads);
+              console.log('got public uploads');
+            });
+        })
+        .catch(err => {
+          console.error('error saving record with ' + err);
+          //component.model.rollbackAttributes();
+        });
+      // successfulUploads.forEach(function(upload) {
+      //   console.log(upload);
+      // component.store
+      // .createRecord('user-public-upload', {
+      //   userId: component.session.data.authenticated.user_id,
+      //   uploadDataJson: JSON.stringify(upload.response.body)
+      // })
+      //   .save()
+      // .then(record => {
+      //   console.log(component.session.data.authenticated.username);
+      //   component.store
+      //     .query('user-public-upload', {
+      //       username: component.session.data.authenticated.username
+      //     })
+      //     .then(files => {
+      //       component.set('model', files);
+      //       console.log('got public files');
+      //     });
+      //   console.log('saved record: ' + record);
+      // })
+      // .catch(err => {
+      //   console.log('error saving record with ' + err);
+      //   component.model.rollbackAttributes();
+      // });
+      // });
     },
 
     deleteFile(file) {

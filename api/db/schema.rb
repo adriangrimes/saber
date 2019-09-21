@@ -139,12 +139,12 @@ ActiveRecord::Schema.define(version: 2019_09_19_013237) do
     t.boolean "online_status"
     t.string "channel_topic"
     t.integer "current_game_id"
-    t.string "streamnail_path"
+    t.string "streamnail_path", default: "/streamnails/usericon.svg", null: false
     t.boolean "allow_tips"
     t.boolean "allow_suggested_games"
     t.string "timezone"
     t.string "user_custom_tags"
-    t.string "profile_photo_path"
+    t.string "profile_photo_path", default: "/streamnails/usericon.svg", null: false
     t.string "profile_sex", limit: 16
     t.text "profile_about_me"
     t.integer "profile_age", limit: 3

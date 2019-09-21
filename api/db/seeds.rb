@@ -75,29 +75,25 @@ help_topics = [
       }
     ]
   },
- {
-  short_title: 'streamHelp',
-  title: 'Live Streaming',
-  all_users: false,
-  contractors_only: false,
-  broadcasters_only: true,
-  developers_only: false,
+  {
+    short_title: 'streamHelp',
+    title: 'Live Streaming',
+    all_users: false,
+    contractors_only: false,
+    broadcasters_only: true,
+    developers_only: false,
 
-  help_sections: [
-    {
-      section_title: 'How much can I earn?',
-      section_body: ' Earn XX% from every credit spent with you.'
-    },
-    {
-      section_title: 'Can I stream with RTMP?',
-      section_body: 'Yes!'
-    },
-    {
-      section_title: 'Can I stream from my web browser?',
-      section_body: 'Yes!'
-    }
-]
-},
+    help_sections: [
+      {
+        section_title: 'How much can I earn?',
+        section_body: ' Earn XX% from every credit spent with you.'
+      },
+      {
+        section_title: 'Can I stream with RTMP?',
+        section_body: 'Yes!'
+      }
+    ]
+  },
   {
     short_title: 'devHelp',
     title: 'Game Development',
@@ -130,8 +126,7 @@ help_topics = [
     ]
   }
 
-    ]
-
+]
 
 help_topics.each do |help_topic|
   topic_to_save = HelpTopic.new(
@@ -218,8 +213,8 @@ if Rails.env.production? == false
   # have the same password
   2.times do |j|
     samepass = User.new(
-      email: "samepass#{j+1}@email.com",
-      username: "SamePass#{j+1}",
+      email: "samepass#{j + 1}@email.com",
+      username: "SamePass#{j + 1}",
       password: "password"
     )
     samepass.skip_confirmation!
@@ -234,10 +229,10 @@ if Rails.env.production? == false
     ###########################################
     # Test users
     testuser = User.new(
-      email: "usertester#{i+1}@email.com",
-      username: "UserTester#{i+1}",
-      password: "1234567#{i+1}",
-      full_name: "User#{i+1} K#{i+1} Basic#{i+1}",
+      email: "usertester#{i + 1}@email.com",
+      username: "UserTester#{i + 1}",
+      password: "1234567#{i + 1}",
+      full_name: "User#{i + 1} K#{i + 1} Basic#{i + 1}",
       dark_mode: true,
       send_email_followed_online: true
     )
@@ -255,10 +250,10 @@ if Rails.env.production? == false
     # Test broadcasters
     i += 1
     testbroadcaster = User.new(
-      email: "broadcastertester#{i+1}@email.com",
+      email: "broadcastertester#{i + 1}@email.com",
       username: fake_usernames[i].capitalize,
       password: "asdfasdf",
-      full_name: "Streamer#{i+1} C#{i+1} Aster#{i+1}",
+      full_name: "Streamer#{i + 1} C#{i + 1} Aster#{i + 1}",
       dark_mode: false,
       broadcaster: true,
       affiliate: true,
@@ -291,10 +286,10 @@ if Rails.env.production? == false
     ###########################################
     # Test developers
     testdeveloper = User.new(
-      email: "developertester#{i+1}@email.com",
-      username: "DeveloperTester#{i+1}",
-      password: "1234567#{i+1}",
-      full_name: "Dev#{i+1} E#{i+1} Loper#{i+1}",
+      email: "developertester#{i + 1}@email.com",
+      username: "DeveloperTester#{i + 1}",
+      password: "1234567#{i + 1}",
+      full_name: "Dev#{i + 1} E#{i + 1} Loper#{i + 1}",
       dark_mode: false,
       developer: true,
       affiliate: true,
@@ -314,10 +309,10 @@ if Rails.env.production? == false
     ###########################################
     # Test affiliates
     testaffiliate = User.new(
-      email: "affiliatetester#{i+1}@email.com",
-      username: "AffiliateTester#{i+1}",
-      password: "1234567#{i+1}",
-      full_name: "Aff#{i+1} Ili#{i+1} Ate#{i+1}",
+      email: "affiliatetester#{i + 1}@email.com",
+      username: "AffiliateTester#{i + 1}",
+      password: "1234567#{i + 1}",
+      full_name: "Aff#{i + 1} Ili#{i + 1} Ate#{i + 1}",
       dark_mode: false,
       affiliate: true,
       send_email_followed_online: false

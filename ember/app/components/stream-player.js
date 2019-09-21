@@ -60,6 +60,7 @@ export default Component.extend({
   },
 
   profileImageChanged() {
+    console.log(this.profilePhoto);
     this.get('player').poster = this.profilePhoto;
   },
 

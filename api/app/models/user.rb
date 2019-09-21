@@ -1,36 +1,35 @@
 class User < ApplicationRecord
-
   devise :database_authenticatable,
-    :registerable,
-    :recoverable,
-    :rememberable,
-    #:trackable, # Workaround in sessions controller until Devise 5.0 is released
-    :validatable, # Handles email and password validation
-    :confirmable,
-    :lockable
+         :registerable,
+         :recoverable,
+         :rememberable,
+         #:trackable, # Workaround in sessions controller until Devise 5.0 is released
+         :validatable, # Handles email and password validation
+         :confirmable,
+         :lockable
 
   # Used as a virtual attribute for find_for_database_authentication
   attr_writer :login
 
   # Public profile data
-  has_one :user_public_datum, dependent: :delete#, autosave: true
-    validates :user_public_datum, :presence => true
+  has_one :user_public_datum, dependent: :delete # , autosave: true
+  validates :user_public_datum, :presence => true
   has_many :credit_purchases
   has_many :credit_transfers
   has_many :private_messages
 
   # ID files uploaded for verification
-  #has_many_attached :uploaded_identification
+  # has_many_attached :uploaded_identification
 
   validates :username, :uniqueness => { :case_sensitive => false },
-    format: { with: /^[a-zA-Z0-9_]*$/, :multiline => true },
-    length: { minimum: 3, maximum: 26 }
+                       format: { with: /^[a-zA-Z0-9_]*$/, :multiline => true },
+                       length: { minimum: 3, maximum: 26 }
   validate :username_passes_misc_rules?
   validates :full_name, presence: true, if: :is_contractor?
-  validates :broadcaster_percentage, numericality: { less_than_or_equal_to: 100,  only_integer: true }
-  validates :developer_percentage, numericality: { less_than_or_equal_to: 100,  only_integer: true }
+  validates :broadcaster_percentage, numericality: { less_than_or_equal_to: 100, only_integer: true }
+  validates :developer_percentage, numericality: { less_than_or_equal_to: 100, only_integer: true }
 
-  #validates_associated :user_public_datum
+  # validates_associated :user_public_datum
   before_save :ensure_online_status
   before_save :ensure_authentication_token
   before_save :regenerate_authentication_token, if: :encrypted_password_changed?
@@ -45,8 +44,8 @@ class User < ApplicationRecord
     if self.broadcaster == true
       # If current online_status is not true or false, set to false
       if self.user_public_datum.online_status != false &&
-        self.user_public_datum.online_status != true
-          self.user_public_datum.online_status = false
+         self.user_public_datum.online_status != true
+        self.user_public_datum.online_status = false
       end
     end
   end
@@ -65,17 +64,17 @@ class User < ApplicationRecord
       # TODO: MySQL users: the use of the SQL lower function below is most
       # likely unnecessary and will cause any index on the email column to be ignored.
       where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value",
-        { :value => login.downcase }]).first
+                                    { :value => login.downcase }]).first
     end
   end
 
   def is_contractor?
     if self.broadcaster == true ||
-      self.developer == true ||
-      self.affiliate == true
-        return true
+       self.developer == true ||
+       self.affiliate == true
+      return true
     else
-        return false
+      return false
     end
   end
 
@@ -111,17 +110,16 @@ class User < ApplicationRecord
 
   private
 
-    # Loop ensures in the unlikely event a token is generated that matches
-    # another user, it will continue generating until a unique one is found
-    def generate_authentication_token
-      loop do
-        token = Devise.friendly_token
-        break token unless User.where(authentication_token: token).first
-      end
+  # Loop ensures in the unlikely event a token is generated that matches
+  # another user, it will continue generating until a unique one is found
+  def generate_authentication_token
+    loop do
+      token = Devise.friendly_token
+      break token unless User.where(authentication_token: token).first
     end
+  end
 
-    def regenerate_authentication_token
-      self.authentication_token = generate_authentication_token
-    end
-
+  def regenerate_authentication_token
+    self.authentication_token = generate_authentication_token
+  end
 end

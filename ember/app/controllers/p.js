@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import jQuery from 'jquery';
+import RSVP from 'rsvp';
 
 export default Controller.extend({
   gamesList: [
@@ -151,13 +152,17 @@ export default Controller.extend({
 
     profileImageChanged() {
       console.log('profile image changed');
-      this.store
-        .queryRecord('user-public-datum', {
+      RSVP.hash({
+        userPublicDatum: this.store.queryRecord('user-public-datum', {
+          username: this.get('session.data.authenticated.username')
+        }),
+        userPublicUploads: this.store.query('user-public-upload', {
           username: this.get('session.data.authenticated.username')
         })
-        .then(storeData => {
-          this.set('model.userPublicDatum', storeData);
-        });
+      }).then(storeData => {
+        this.set('model.userPublicDatum', storeData.userPublicDatum);
+        this.set('model.userPublicUploads', storeData.userPublicUploads);
+      });
     },
 
     setGame(game) {

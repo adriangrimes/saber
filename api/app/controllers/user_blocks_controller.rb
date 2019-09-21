@@ -39,13 +39,14 @@ class UserBlocksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user_block
-      @user_block = UserBlock.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def user_block_params
-      params.fetch(:user_block, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user_block
+    @user_block = UserBlock.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def user_block_params
+    params.fetch(:user_block, {})
+  end
 end

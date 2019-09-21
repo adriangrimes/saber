@@ -12,7 +12,7 @@ class PrivateMessagesController < ApplicationController
       if page < 1
         page = 1
       end
-    else
+    else 
       page = 1
     end
 
@@ -20,11 +20,11 @@ class PrivateMessagesController < ApplicationController
       if token_is_authorized_for_id?(user_id)
 
         @private_messages = PrivateMessage
-          .includes(:to_user, :from_user)
-          .where('(from_user_id = ? AND to_user_id = ?) OR (from_user_id = ? AND to_user_id = ?)',
-            user_id, with_user.id, with_user.id, user_id)
-          .order(created_at: :desc)
-          .paginate(page: page, per_page: 6)
+                            .includes(:to_user, :from_user)
+                            .where('(from_user_id = ? AND to_user_id = ?) OR (from_user_id = ? AND to_user_id = ?)',
+                                   user_id, with_user.id, with_user.id, user_id)
+                            .order(created_at: :desc)
+                            .paginate(page: page, per_page: 6)
 
         @private_messages = @private_messages.sort_by(&:created_at)
 
@@ -81,7 +81,7 @@ class PrivateMessagesController < ApplicationController
     user_id = params[:id].to_i
     if token_is_authorized_for_id?(user_id)
       private_messages_for_conversations = PrivateMessage
-        .find_by_sql(['SELECT * FROM private_messages AS pm
+                                           .find_by_sql(['SELECT * FROM private_messages AS pm
           INNER JOIN (
             SELECT private_messages.to_user_id, private_messages.from_user_id, MAX(private_messages.created_at) AS MaxCreatedAt
             FROM private_messages
@@ -90,7 +90,7 @@ class PrivateMessagesController < ApplicationController
               AND pm.created_at = tm.MaxCreatedAt
           WHERE pm.from_user_id = ? OR pm.to_user_id = ?
           ORDER BY pm.created_at DESC',
-          user_id, user_id, user_id, user_id])
+                                                         user_id, user_id, user_id, user_id])
 
       # Include all user record data to prevent a lookup per each user
       ActiveRecord::Associations::Preloader.new.preload(
@@ -98,13 +98,14 @@ class PrivateMessagesController < ApplicationController
       )
       sanitized_where =
         PrivateMessage.sanitize_sql_for_assignment(
-           'pm.to_user_id = ' + user_id.to_s + ' AND pm.message_read = false'
-         )
+          'pm.to_user_id = ' + user_id.to_s + ' AND pm.message_read = false'
+        )
       users_with_unread = ActiveRecord::Base.connection.exec_query(
         'SELECT pm.to_user_id, pm.from_user_id, COUNT(pm.message_read) AS unread_count
         FROM private_messages AS pm
         WHERE ' + sanitized_where + '
-        GROUP BY pm.from_user_id')
+        GROUP BY pm.from_user_id'
+      )
 
       conversation_hash_array = {}
       private_messages_for_conversations.each do |message|
@@ -132,17 +133,17 @@ class PrivateMessagesController < ApplicationController
         conversations
           .push(
             Conversation.new({
-              id: index + 1,
-              username: conversation[1][:username],
-              unread: unread_count
-            })
+                               id: index + 1,
+                               username: conversation[1][:username],
+                               unread: unread_count
+                             })
           )
       end
 
       render json: ConversationSerializer
         .new(conversations)
         .serialized_json,
-        status: :ok
+             status: :ok
     else
       render status: :unauthorized
     end
@@ -164,17 +165,18 @@ class PrivateMessagesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    # def set_private_message
-    #   @private_message = PrivateMessage.find(params[:id])
-    # end
 
-    # Only allow a trusted parameter "white list" through.
-    def private_message_params
-      params.require(:data)
-        .require(:attributes)
-        .permit(:from_user_id,
-          :to_user_id,
-          :message)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  # def set_private_message
+  #   @private_message = PrivateMessage.find(params[:id])
+  # end
+
+  # Only allow a trusted parameter "white list" through.
+  def private_message_params
+    params.require(:data)
+          .require(:attributes)
+          .permit(:from_user_id,
+                  :to_user_id,
+                  :message)
+  end
 end

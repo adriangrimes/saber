@@ -7,9 +7,9 @@ class CreateCreditTransfers < ActiveRecord::Migration[5.2]
       t.string :transfer_type, limit: 255, null: false
       t.string :transfer_description, limit: 255
       t.integer :broadcaster_payout_percentage,
-        limit: 1,
-        null: false,
-        default: Rails.application.config.x.saber.broadcaster_payout_percentage
+                limit: 1,
+                null: false,
+                default: Rails.application.config.x.saber.broadcaster_payout_percentage
 
       t.timestamps
     end

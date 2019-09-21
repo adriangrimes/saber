@@ -17,13 +17,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @user.build_user_public_datum(username: sign_up_params[:username], broadcaster: broadcaster)
     if @user.save
       render json: UserSerializer
-        .new(@user, {params: {user: @user}})
+        .new(@user, { params: { user: @user } })
         .serialized_json,
-        status: :created
+             status: :created
     else
       puts @user.errors.inspect
       render json: ErrorSerializer.serialize(@user.errors), status: :unprocessable_entity
-      #render json: @user.errors, status: :unprocessable_entity
+      # render json: @user.errors, status: :unprocessable_entity
     end
   end
 
@@ -56,9 +56,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # If you have extra params to permit, append them to the sanitizer.
   def sign_up_params
     params.require(:data)
-      .require(:attributes)
-      .permit(:login, :username, :email, :password,
-        :broadcaster, :developer, :affiliate, :full_name)
+          .require(:attributes)
+          .permit(:login, :username, :email, :password,
+                  :broadcaster, :developer, :affiliate, :full_name)
   end
 
   # If you have extra params to permit, append them to the sanitizer.

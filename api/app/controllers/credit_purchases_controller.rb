@@ -20,8 +20,9 @@ class CreditPurchasesController < ApplicationController
       @credit_purchase.purchase_type = 'purchase'
       @credit_purchase.purchase_amount =
         Rails.application.config.x.saber
-        .credit_denominations.key(credit_purchase_params[:credits_purchased])
+             .credit_denominations.key(credit_purchase_params[:credits_purchased])  
       @credit_purchase.payment_method = 'paypal'
+             
       @credit_purchase.cleared = true
       @credit_purchase.cancelled = false
       @credit_purchase.credits_purchased = credit_purchase_params[:credits_purchased]
@@ -52,17 +53,18 @@ class CreditPurchasesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_credit_purchase
-      @credit_purchase = CreditPurchase.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def credit_purchase_params
-      params.require(:data)
-        .require(:attributes)
-        .permit(:user_id,
-          :credits_purchased)
-      # params.fetch(:credit_purchase, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_credit_purchase
+    @credit_purchase = CreditPurchase.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def credit_purchase_params
+    params.require(:data)
+          .require(:attributes)
+          .permit(:user_id,
+                  :credits_purchased)
+    # params.fetch(:credit_purchase, {})
+  end
 end

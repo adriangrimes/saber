@@ -12,7 +12,7 @@ class GameLogsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create game_log" do
     assert_difference('GameLog.count') do
-      post game_logs_url, params: { game_log: {  } }, as: :json
+      post game_logs_url, params: { game_log: {} }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class GameLogsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update game_log" do
-    patch game_log_url(@game_log), params: { game_log: {  } }, as: :json
+    patch game_log_url(@game_log), params: { game_log: {} }, as: :json
     assert_response 200
   end
 

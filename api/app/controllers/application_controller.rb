@@ -3,13 +3,13 @@ class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods
   include ErrorSerializer
 
-  #if Rails.env.production?
-    rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
-  #end
+  # if Rails.env.production?
+  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+  # end
 
   def token_is_authorized_for_id?(user_id)
     user_id = user_id.to_i
-    #TODO: encrypt authentication token
+    # TODO: encrypt authentication token
     @authenticated_user = nil
     # Extract token from Authentication header
     authenticate_with_http_token do |token, options|

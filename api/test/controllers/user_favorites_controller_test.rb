@@ -12,7 +12,7 @@ class UserFavoritesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create user_favorite" do
     assert_difference('UserFavorite.count') do
-      post user_favorites_url, params: { user_favorite: {  } }, as: :json
+      post user_favorites_url, params: { user_favorite: {} }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class UserFavoritesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update user_favorite" do
-    patch user_favorite_url(@user_favorite), params: { user_favorite: {  } }, as: :json
+    patch user_favorite_url(@user_favorite), params: { user_favorite: {} }, as: :json
     assert_response 200
   end
 

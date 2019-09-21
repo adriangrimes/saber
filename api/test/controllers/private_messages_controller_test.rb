@@ -12,7 +12,7 @@ class PrivateMessagesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create private_message" do
     assert_difference('PrivateMessage.count') do
-      post private_messages_url, params: { private_message: {  } }, as: :json
+      post private_messages_url, params: { private_message: {} }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class PrivateMessagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update private_message" do
-    patch private_message_url(@private_message), params: { private_message: {  } }, as: :json
+    patch private_message_url(@private_message), params: { private_message: {} }, as: :json
     assert_response 200
   end
 

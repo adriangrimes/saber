@@ -12,7 +12,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
   test "should create user_block" do
     assert_difference('UserBlock.count') do
-      post user_blocks_url, params: { user_block: {  } }, as: :json
+      post user_blocks_url, params: { user_block: {} }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update user_block" do
-    patch user_block_url(@user_block), params: { user_block: {  } }, as: :json
+    patch user_block_url(@user_block), params: { user_block: {} }, as: :json
     assert_response 200
   end
 

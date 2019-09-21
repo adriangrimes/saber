@@ -1,6 +1,6 @@
 {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
   {{edit-photos
-    model=(mut model.userPublicFiles)
+    model=(mut model.userPublicUploads)
     store=this.store
     profilePhotoPath=model.userPublicDatum.profilePhotoPath
     onProfileImageChanged=(action "profileImageChanged")
@@ -74,14 +74,12 @@
         <div class="card">
           <div class="card-body p-0">
 
-
             {{stream-player
               broadcasterUsername=model.userPublicDatum.username
               profilePhoto=model.userPublicDatum.profilePhotoPath
               isStreaming=isStreaming
               onlineStatus=model.userPublicDatum.onlineStatus
             }}
-
 
           </div>
           <div class="profile-controls pt-1" id="profileControls">

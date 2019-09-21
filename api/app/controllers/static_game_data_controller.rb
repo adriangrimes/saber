@@ -39,13 +39,14 @@ class StaticGameDataController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_static_game_datum
-      @static_game_datum = StaticGameDatum.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def static_game_datum_params
-      params.fetch(:static_game_datum, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_static_game_datum
+    @static_game_datum = StaticGameDatum.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def static_game_datum_params
+    params.fetch(:static_game_datum, {})
+  end
 end

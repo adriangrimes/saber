@@ -12,7 +12,7 @@ class UserPublicDataControllerTest < ActionDispatch::IntegrationTest
 
   test "should create user_public_datum" do
     assert_difference('UserPublicDatum.count') do
-      post user_public_data_url, params: { user_public_datum: {  } }, as: :json
+      post user_public_data_url, params: { user_public_datum: {} }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class UserPublicDataControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update user_public_datum" do
-    patch user_public_datum_url(@user_public_datum), params: { user_public_datum: {  } }, as: :json
+    patch user_public_datum_url(@user_public_datum), params: { user_public_datum: {} }, as: :json
     assert_response 200
   end
 

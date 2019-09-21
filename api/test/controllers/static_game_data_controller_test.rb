@@ -12,7 +12,7 @@ class StaticGameDataControllerTest < ActionDispatch::IntegrationTest
 
   test "should create static_game_datum" do
     assert_difference('StaticGameDatum.count') do
-      post static_game_data_url, params: { static_game_datum: {  } }, as: :json
+      post static_game_data_url, params: { static_game_datum: {} }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class StaticGameDataControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update static_game_datum" do
-    patch static_game_datum_url(@static_game_datum), params: { static_game_datum: {  } }, as: :json
+    patch static_game_datum_url(@static_game_datum), params: { static_game_datum: {} }, as: :json
     assert_response 200
   end
 

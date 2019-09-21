@@ -11,6 +11,5 @@ class CreatePrivateMessages < ActiveRecord::Migration[5.2]
 
     add_foreign_key :private_messages, :users, column: :from_user_id
     add_foreign_key :private_messages, :users, column: :to_user_id
-
   end
 end

@@ -39,13 +39,14 @@ class ContestVotesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_contest_vote
-      @contest_vote = ContestVote.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def contest_vote_params
-      params.fetch(:contest_vote, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_contest_vote
+    @contest_vote = ContestVote.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def contest_vote_params
+    params.fetch(:contest_vote, {})
+  end
 end

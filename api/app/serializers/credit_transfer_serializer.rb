@@ -12,8 +12,8 @@ class CreditTransferSerializer
   # end
   # :to_user_id,
   attributes :credits_transferred,
-  :transfer_type,
-  :transfer_description
+             :transfer_type,
+             :transfer_description
   attribute :broadcaster_payout_percentage, if: Proc.new { |record, params|
     params && params[:transactions] == true
   }

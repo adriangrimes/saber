@@ -12,7 +12,7 @@ class CreditPurchasesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create credit_purchase" do
     assert_difference('CreditPurchase.count') do
-      post credit_purchases_url, params: { credit_purchase: {  } }, as: :json
+      post credit_purchases_url, params: { credit_purchase: {} }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class CreditPurchasesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update credit_purchase" do
-    patch credit_purchase_url(@credit_purchase), params: { credit_purchase: {  } }, as: :json
+    patch credit_purchase_url(@credit_purchase), params: { credit_purchase: {} }, as: :json
     assert_response 200
   end
 

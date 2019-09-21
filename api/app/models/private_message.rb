@@ -9,7 +9,7 @@ class PrivateMessage < ApplicationRecord
 
   def user_messaging_self?
     if self.to_user_id == self.from_user_id
-      errors.add(:base, "You cannot message yourself") 
+      errors.add(:base, "You cannot message yourself")
     end
   end
 end

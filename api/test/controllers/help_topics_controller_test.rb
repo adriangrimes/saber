@@ -12,7 +12,7 @@ class HelpTopicsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create help_topic" do
     assert_difference('HelpTopic.count') do
-      post help_topics_url, params: { help_topic: {  } }, as: :json
+      post help_topics_url, params: { help_topic: {} }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class HelpTopicsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update help_topic" do
-    patch help_topic_url(@help_topic), params: { help_topic: {  } }, as: :json
+    patch help_topic_url(@help_topic), params: { help_topic: {} }, as: :json
     assert_response 200
   end
 

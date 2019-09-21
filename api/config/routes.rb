@@ -1,6 +1,7 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
-  # TODO Determine if we need CSRF
+Rails.application.routes.draw do
+  # TODO: Determine if we need CSRF
   # TODO: If your application has many RESTful routes, using :only and :except to
   # generate only the routes that you actually need can cut down on memory use
   # and speed up the routing process.
@@ -13,9 +14,9 @@ Rails.application.routes.draw do
     passwords: 'users/passwords'
   }
   # :users :create is handled by devise registrations controller
-  resources :users, only: [:show, :update, :destroy]
+  resources :users, only: %i[show update destroy]
   resources :user_public_data
-  resources :user_public_uploads, only: [:index, :create, :update, :destroy]
+  resources :user_public_uploads, only: %i[index create update destroy]
   resources :private_messages
   get '/conversations', to: 'private_messages#conversations'
   resources :user_favorites
@@ -23,7 +24,7 @@ Rails.application.routes.draw do
   resources :game_logs
 
   # Shrine attachment upload enpoint for public files
-  mount Shrine.upload_endpoint(:cache) => "/upload"
+  mount Shrine.upload_endpoint(:cache) => '/upload'
 
   # Credit purchase and transfer data
   resources :credit_transfers
@@ -44,5 +45,4 @@ Rails.application.routes.draw do
   # Stream control
   get '/stream/start', to: 'streams#start'
   get '/stream/stop', to: 'streams#stop'
-
 end

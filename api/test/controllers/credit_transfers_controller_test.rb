@@ -12,7 +12,7 @@ class CreditTransfersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create credit_transfer" do
     assert_difference('CreditTransfer.count') do
-      post credit_transfers_url, params: { credit_transfer: {  } }, as: :json
+      post credit_transfers_url, params: { credit_transfer: {} }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class CreditTransfersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update credit_transfer" do
-    patch credit_transfer_url(@credit_transfer), params: { credit_transfer: {  } }, as: :json
+    patch credit_transfer_url(@credit_transfer), params: { credit_transfer: {} }, as: :json
     assert_response 200
   end
 

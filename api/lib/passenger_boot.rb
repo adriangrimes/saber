@@ -8,3 +8,8 @@ p "Running saber boot initialization:"
 if UserPublicDatum.update_all(online_status: false)
   p " - set all users offline"
 end
+
+file_system = Shrine.storages[:cache]
+if file_system.clear!(older_than: Time.now - 2*24*60*60) # delete files older than 2 days
+  p ' - cleared old cached uploads'
+end

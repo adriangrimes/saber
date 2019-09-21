@@ -2,27 +2,27 @@ class UserPublicDatumSerializer
   include FastJsonapi::ObjectSerializer
   include Rails.application.routes.url_helpers
 
-  #belongs_to :user
+  # belongs_to :user
 
   ## Public profile
   attributes :id,
-  :user_id,
-  :username,
-  :broadcaster,
-  :online_status,
-  :channel_topic,
-  :current_game_id,
-  :streamnail_path,
-  :allow_tips,
-  :allow_suggested_games,
-  :timezone,
-  :user_custom_tags,
-  :profile_photo_path,
-  :profile_sex,
-  :profile_about_me,
-  :profile_age,
-  :profile_location,
-  :profile_languages
+             :user_id,
+             :username,
+             :broadcaster,
+             :online_status,
+             :channel_topic,
+             :current_game_id,
+             :streamnail_path,
+             :allow_tips,
+             :allow_suggested_games,
+             :timezone,
+             :user_custom_tags,
+             :profile_photo_path,
+             :profile_sex,
+             :profile_about_me,
+             :profile_age,
+             :profile_location,
+             :profile_languages
   #:profile_platforms
 
   # attribute :profile_images do |user, params|
@@ -56,5 +56,4 @@ class UserPublicDatumSerializer
   #   end
   #   image_array
   # end
-
 end

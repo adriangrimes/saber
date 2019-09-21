@@ -15,7 +15,6 @@ class HelpTopicsController < ApplicationController
 
   # GET /help_sections
   def help_sections
-
   end
 
   # POST /help_topics
@@ -34,8 +33,9 @@ class HelpTopicsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_help_topic
-      @help_topic = HelpTopic.find(params[:id])
-    end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_help_topic
+    @help_topic = HelpTopic.find(params[:id])
+  end
 end

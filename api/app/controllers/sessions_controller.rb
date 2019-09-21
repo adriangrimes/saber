@@ -40,15 +40,19 @@ class SessionsController < Devise::SessionsController
   def new
     render_unauthorized
   end
+
   def index
     render_unauthorized
   end
+
   def show
     render_unauthorized
   end
+
   def update
     render_unauthorized
   end
+
   def destroy
     render_unauthorized
   end

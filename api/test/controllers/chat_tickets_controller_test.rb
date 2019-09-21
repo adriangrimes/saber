@@ -12,7 +12,7 @@ class ChatTicketsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create chat_ticket" do
     assert_difference('ChatTicket.count') do
-      post chat_tickets_url, params: { chat_ticket: {  } }, as: :json
+      post chat_tickets_url, params: { chat_ticket: {} }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class ChatTicketsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update chat_ticket" do
-    patch chat_ticket_url(@chat_ticket), params: { chat_ticket: {  } }, as: :json
+    patch chat_ticket_url(@chat_ticket), params: { chat_ticket: {} }, as: :json
     assert_response 200
   end
 
