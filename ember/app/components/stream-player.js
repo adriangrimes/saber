@@ -30,7 +30,7 @@ export default Component.extend({
   isStreamingDidChange() {
     console.log('isStreamingDidChange called');
     if (this.isStreaming === true && this.isStreamingLastRev !== true) {
-      // Wait with 1 second of variance to stop everyone
+      // Wait with up to 1 second of variance to stop everyone
       // from pulling the stream at exactly the same time.
       var reconnectTime = Math.floor(Math.random() * 1000);
       console.log('waiting ' + reconnectTime.toString() + ' ms to reconnect');
@@ -175,6 +175,14 @@ export default Component.extend({
     });
   },
 
+  playUnlessUserPaused() {
+    if (this.userPaused == false) {
+      this.get('player').play();
+    } else {
+      this.get('hls').stopLoad();
+    }
+  },
+
   willDestroyElement() {
     // dispose of video player
     if (this.hls) {
@@ -197,10 +205,14 @@ export default Component.extend({
       console.log(this.get('player').error());
       this.get('player').error('');
     },
+
+    // test action
     reset() {
       console.log('restart');
       this.get('player').restart();
     },
+
+    // test action
     src() {
       console.log('stop');
       this.get('player').stop();

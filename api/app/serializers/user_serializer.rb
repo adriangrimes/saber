@@ -51,22 +51,4 @@ class UserSerializer
              :bank_account_number,
              :bank_routing_number,
              :subject_to_backup_withholding
-
-  # attribute :uploaded_identification do |user|
-  #   identification_array = nil
-  #   if user.uploaded_identification.attached?
-  #     puts 'serializer id photos attached'
-  #     identification_array = []
-  #     user.uploaded_identification.each do |image|
-  #       identification_array.push({
-  #         signed_id: image.signed_id,
-  #         file_url: Rails.application.routes.url_helpers.url_for(image),
-  #         filename: image.filename,
-  #         delete: false
-  #         #filetype: image.filetype
-  #       })
-  #     end
-  #   end
-  #   identification_array
-  # end
 end

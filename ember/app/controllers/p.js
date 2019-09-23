@@ -32,7 +32,7 @@ export default Controller.extend({
   viewProfileCollapse: 'collapse show',
   editProfileCollapse: 'collapse',
 
-  init: function() {
+  init() {
     this._super(...arguments);
     this.tags = [];
   },

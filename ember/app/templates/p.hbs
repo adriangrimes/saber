@@ -1,6 +1,6 @@
 {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
   {{edit-photos
-    model=(mut model.userPublicUploads)
+    model=(mut (get model "userPublicUploads"))
     store=this.store
     profilePhotoPath=model.userPublicDatum.profilePhotoPath
     onProfileImageChanged=(action "profileImageChanged")

@@ -1,0 +1,24 @@
+<div class="col-12 p-0 mt-4 order-4">
+  <h3>Verification</h3>
+  <h5>Select images from your computer</h5>
+  {{file-upload
+    model=(mut model)
+    onUploaded=(action "onUploaded")
+    uploaderEndpoint="/verification_upload"
+    uploaderNote="You must upload 2 images as described above, up to 20 MB each"
+    maxNumberOfFiles=2
+    uploadLimitReachedMessage="You can't upload more than 2 files"
+    maxFileSize=20971520
+  }}
+  {{#if model}}
+    <h5>Uploaded verification images</h5>
+    {{#each model as |file|}}
+      <div class="d-inline-block border {{if file.isSaving "border-danger" "border-dark"}} border-3 rounded">
+        <img src="{{file.fileUrl}}" height="150">
+        <button class="btn btn-outline-dark form-check-label" {{action "deleteFile" file}}> Detele </button>
+      </div>
+    {{/each}}
+  {{else}}
+    <p class="text-center pt-0">Uploaded images will appear here</p>
+  {{/if}}
+</div>

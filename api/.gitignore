@@ -3,5 +3,6 @@
 tmp
 storage
 uploads
+verification
 
 *.sqlite3

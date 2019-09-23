@@ -14,50 +14,6 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    # Process to attach already directly uploaded files to the user record
-    unless params[:data][:attributes][:uploaded_identification].blank?
-      identification_upload_limit = 2 # TODO move to config file
-      params[:data][:attributes][:uploaded_identification].each do |blob|
-        # TODO moving this outside of each loop may improve performance in DB search
-        blob_id = ActiveStorage::Blob.find_signed(blob[:signed_id]).id
-        # If blob isn't attached to any user, and user has less than 2 attachments,
-        # attach to current user
-        # TODO moving this outside of each loop may improve performance in DB search
-        if ActiveStorage::Attachment.find_by(blob_id: blob_id).nil?
-          if @authenticated_user.uploaded_identification.count < identification_upload_limit
-            puts 'attaching blob'
-            @authenticated_user.uploaded_identification.attach(blob[:signed_id])
-          else
-            # TODO delete unattachable blob or some other method of not letting
-            # people litter the server with unattached file uploads
-            puts 'purging unattachable blob'
-            ActiveStorage::Blob.find_signed(blob[:signed_id]).purge_later
-          end
-        # Else if blob is marked for deletion
-        elsif blob[:delete]
-          # TODO moving this outside of each loop may improve performance in DB search
-          current_blob_attachment =
-            @authenticated_user.uploaded_identification.find_by(blob_id: blob_id)
-          # Make sure user is allowed to delete image
-          # TODO this check could probably be simplified just to the blob_for_deletion
-          # line since only the users own images would show up for deletion anyway
-          if current_blob_attachment[:record_type] == "User" &&
-             current_blob_attachment[:record_id] == @authenticated_user.id
-            puts 'deleting blob'
-            blob_for_deletion = @authenticated_user.uploaded_identification
-                                                   .find(current_blob_attachment.id)
-            blob_for_deletion.purge_later
-            puts 'finished delete?'
-          else
-            puts 'unauthenticated blob deletion'
-            # render status: :unauthorized and return
-          end
-        else
-          puts 'blob already attached! or too many blobs'
-        end
-      end
-    end
-
     old_stream_key = @authenticated_user.stream_key
 
     # Save submitted params to user record
@@ -99,25 +55,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE /users/1
-  def destroy
-    render status: :unprocessable_entity
-  end
-
-  # GET all /users
-  def index
-    render status: :unprocessable_entity
-  end
-
-  # POST /users
-  def create
-    # ERROR: posted to users controller create function - this probably shouldnt happen
-    render status: :unprocessable_entity
-  end
-
   private
-
-  # before_actions
 
   def is_user_authorized?
     if token_is_authorized_for_id?(params[:id])

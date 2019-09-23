@@ -14,8 +14,10 @@ Rails.application.routes.draw do
     passwords: 'users/passwords'
   }
   # :users :create is handled by devise registrations controller
-  resources :users, only: %i[show update destroy]
-  resources :user_public_data
+  # :users :destroy is handled by a runner that deletes marked accounts after a time period
+  resources :users, only: %i[show update]
+  resources :user_public_data, only: %i[index update]
+  resources :user_verification_uploads, only: %i[index create destroy]
   resources :user_public_uploads, only: %i[index create update destroy]
   resources :private_messages
   get '/conversations', to: 'private_messages#conversations'
@@ -23,8 +25,10 @@ Rails.application.routes.draw do
   resources :user_blocks
   resources :game_logs
 
-  # Shrine attachment upload enpoint for public files
-  mount Shrine.upload_endpoint(:cache) => '/upload'
+  # Shrine attachment upload enpoints
+  # See initializers/shrine.rb for configuration
+  mount PublicUploader.upload_endpoint(:cache) => '/upload'
+  mount VerificationUploader.upload_endpoint(:cache) => '/verification_upload'
 
   # Credit purchase and transfer data
   resources :credit_transfers

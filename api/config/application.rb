@@ -61,11 +61,16 @@ module ApiServer
       100 => 1000
     }
 
+    # File upload limits
+    config.x.saber.public_upload_limit = 30
+    config.x.saber.verification_upload_limit = 2
     # Members Only file placeholder url
     config.x.saber.members_only_placeholder_url = "http://192.168.1.4:3000/membersonly.png"
     # No profile image url
     config.x.saber.no_profile_image_url = "/streamnails/usericon.svg"
 
+    # Stream RTMP control URL
+    config.x.saber.stream_rtmp_control_url = "https://saber.solversion.com/rtmpcontrol/drop/publisher"
     # Contests
 
     # Referral

@@ -38,59 +38,6 @@ class UserPublicDataController < ApplicationController
       puts "found user id"
       puts @user_public_datum.user_id
       if token_is_authorized_for_id?(@user_public_datum.user_id)
-
-        # Process to attach already directly uploaded files to the user public record
-        unless params[:data][:attributes][:profile_images].blank?
-          profile_image_set = false
-          params[:data][:attributes][:profile_images].each do |image|
-            # TODO moving this outside of each loop may improve performance in DB search
-            blob = ActiveStorage::Blob.find_signed(image[:signed_id])
-            # If blob isn't attached to any user, attach to current user
-            # TODO moving this outside of each loop may improve performance in DB search
-            if ActiveStorage::Attachment.find_by(blob_id: blob.id).nil?
-              puts 'attaching blob'
-              @user_public_datum.profile_images.attach(image[:signed_id])
-            # Else check if image is marked to be deleted or to set image properties
-            else
-              # TODO moving this outside of each loop may improve performance in DB search
-              current_blob_attachment =
-                @user_public_datum.profile_images.find_by(blob_id: blob.id)
-              blob_url = Rails.application.routes.url_helpers.url_for(current_blob_attachment)
-              # Make sure user is allowed to modify image properties
-              if current_blob_attachment[:record_type] == "UserPublicDatum" &&
-                 current_blob_attachment[:record_id] == @user_public_datum.id
-                if image[:delete]
-                  puts 'deleting blob'
-                  blob_for_deletion = @user_public_datum.profile_images
-                                                        .find(current_blob_attachment.id)
-                  blob_for_deletion.purge_later
-                  puts 'finished delete?'
-                  # If user is deleting the image that was set as their profile
-                  # image, set it to the first in line afterwards
-                  if @user_public_datum.profile_images.count == 0
-                    @user_public_datum.profile_photo_path = nil
-                  elsif blob_url == @user_public_datum.profile_photo_path
-                    @user_public_datum.profile_photo_path =
-                      Rails.application.routes.url_helpers.url_for(@user_public_datum.profile_images.first)
-                  end
-                else
-                  if image[:members_only] == true || image[:members_only] == false
-                    blob.metadata[:members_only] = image[:members_only]
-                    blob.save
-                  end
-                  if image[:profile_image] == true && profile_image_set == false
-                    profile_image_set = true
-                    @user_public_datum.profile_photo_path = blob_url
-                  end
-                end
-              else
-                puts 'unauthorized blob modification'
-                # render status: :unauthorized and return
-              end
-            end
-          end
-        end
-
         if @user_public_datum.update(public_params)
           render json: serialize_public_data(@user_public_datum), status: :ok
         else
@@ -103,21 +50,6 @@ class UserPublicDataController < ApplicationController
     else
       render status: :not_found
     end
-  end
-
-  # GET /user_public_data/1
-  def show
-    render status: :unauthorized
-  end
-
-  # POST /user_public_data
-  def create
-    render status: :unauthorized
-  end
-
-  # DELETE /user_public_data/1
-  def destroy
-    render status: :unauthorized
   end
 
   private

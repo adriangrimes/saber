@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import RSVP from 'rsvp';
 
-// edit-photos
+// edit-verification-photos
 export default Component.extend({
   session: service(),
 
@@ -22,7 +22,7 @@ export default Component.extend({
         console.log('pusing record:', i);
         recordsToSave.push(
           this.store
-            .createRecord('user-public-upload', {
+            .createRecord('user-verification-upload', {
               userId: component.session.data.authenticated.user_id,
               uploadDataJson: JSON.stringify(successfulUploads[i].response.body)
             })
@@ -32,10 +32,10 @@ export default Component.extend({
       // When all records come back completed, reload the upload records from the api
       RSVP.all(recordsToSave)
         .then(records => {
-          console.log('all uploads saved - records:', records);
+          console.log('all verification uploads saved - records:', records);
           component.store
-            .query('user-public-upload', {
-              username: component.session.data.authenticated.username
+            .query('user-verification-upload', {
+              id: component.session.data.authenticated.user_id
             })
             .then(uploads => {
               console.log('set model to current uploads:', uploads);
@@ -45,34 +45,6 @@ export default Component.extend({
         .catch(err => {
           console.error('error getting uploads with ' + err);
           //component.model.rollbackAttributes();
-        });
-    },
-
-    setImageAsProfileImage(imageRecord) {
-      // Set profile_image to true and persist to back-end
-      imageRecord.set('profileImage', true);
-      imageRecord
-        .save()
-        .then(() => {
-          this.onProfileImageChanged();
-          console.log('profileImage saved');
-        })
-        .catch(() => {
-          console.log('profileImage failed to save');
-          imageRecord.rollbackAttributes();
-        });
-    },
-
-    setMembersOnlyPropertyOnFile(file) {
-      // Persist file changes to back-end
-      file
-        .save()
-        .then(() => {
-          console.log('members only saved');
-        })
-        .catch(() => {
-          console.log('members only failed to save');
-          file.rollbackAttributes();
         });
     },
 
