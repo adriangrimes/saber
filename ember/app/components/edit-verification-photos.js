@@ -17,17 +17,21 @@ export default Component.extend({
     onUploaded(successfulUploads) {
       let component = this;
       let recordsToSave = [];
-      // Push all newly uploaded json data into a recordsToSave array
+      // Push all newly uploaded json data into a recordsToSave array and push
+      // the newly created record into the model until the records are committed
+      // and overwrite them with the finalized records
       for (var i = 0; i < successfulUploads.length; i++) {
         console.log('pusing record:', i);
-        recordsToSave.push(
-          this.store
-            .createRecord('user-verification-upload', {
-              userId: component.session.data.authenticated.user_id,
-              uploadDataJson: JSON.stringify(successfulUploads[i].response.body)
-            })
-            .save()
-        );
+        var verificationUpload = this.store
+          .createRecord('user-verification-upload', {
+            userId: component.session.data.authenticated.user_id,
+            uploadDataJson: JSON.stringify(successfulUploads[i].response.body)
+          })
+          .save();
+        component
+          .get('model.content')
+          .pushObject(verificationUpload.get('content'));
+        recordsToSave.push(verificationUpload);
       }
       // When all records come back completed, reload the upload records from the api
       RSVP.all(recordsToSave)

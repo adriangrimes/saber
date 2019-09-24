@@ -14,8 +14,12 @@
     <h5>Uploaded verification images</h5>
     {{#each model as |file|}}
       <div class="d-inline-block border {{if file.isSaving "border-danger" "border-dark"}} border-3 rounded">
-        <img src="{{file.fileUrl}}" height="150">
-        <button class="btn btn-outline-dark form-check-label" {{action "deleteFile" file}}> Detele </button>
+        {{#if file}}
+          <img src="{{file.fileUrl}}" height="150">
+          <button class="btn btn-outline-dark form-check-label" {{action "deleteFile" file}}> Detele </button>
+        {{else}}
+          Loading...
+        {{/if}}
       </div>
     {{/each}}
   {{else}}

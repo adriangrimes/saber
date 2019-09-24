@@ -8,7 +8,6 @@ export default Component.extend({
 
   photoSubmitBtn: 'btn btn-primary',
   photoSubmitText: 'Save',
-
   // didInsertElement() {
   //   this._super(...arguments);
   // },
@@ -20,14 +19,14 @@ export default Component.extend({
       // Push all newly uploaded json data into a recordsToSave array
       for (var i = 0; i < successfulUploads.length; i++) {
         console.log('pusing record:', i);
-        recordsToSave.push(
-          this.store
-            .createRecord('user-public-upload', {
-              userId: component.session.data.authenticated.user_id,
-              uploadDataJson: JSON.stringify(successfulUploads[i].response.body)
-            })
-            .save()
-        );
+        var publicUpload = this.store
+          .createRecord('user-public-upload', {
+            userId: component.session.data.authenticated.user_id,
+            uploadDataJson: JSON.stringify(successfulUploads[i].response.body)
+          })
+          .save();
+        component.get('model.content').pushObject(publicUpload.get('content'));
+        recordsToSave.push(publicUpload);
       }
       // When all records come back completed, reload the upload records from the api
       RSVP.all(recordsToSave)
