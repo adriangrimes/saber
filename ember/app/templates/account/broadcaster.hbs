@@ -9,250 +9,255 @@
       <div class="col-3 pt-3">
         {{link-to "Account Settings" "account" class="btn btn-primary"}}
       </div>
+    {{else if applicationIsPending}}
+      Thank you! Your application is submitted and pending verification.
     {{else}}
       <div class="col-xs-12 col-sm-5">
         {{broadcaster-blurb}}
       </div>
       <div class="col-xs-12 col-sm-7">
 
-
-        {{#if currentUser.isContracted}}
-
-        {{else}}
+        {{#unless currentUser.isContracted}}
           <a href="#why"><button class=" pb-2 btn btn-link float-right accordion-toggle collapsed" data-toggle="collapse" data-parent="#why" data-target="#why">Why do we collect this info?</button></a>
+        {{/unless}}
 
-        {{/if}}
+        {{#if currentUser.user.developer}}
+          <div class="pb-3">
+            As a developer you have already submited your payment details.<br>
+            Upload your verification documents below to become a developer and broadcaster. <br>
+            To sign up for a separate broadcaster account log out, and then visit {{link-to "saber.tv/signup/broadcaster" "signup.broadcaster"}}
 
-        <form {{action "submitBroadcasterVerification" on="submit"}}>
+          </div>
+        {{else if currentUser.user.affiliate}}
+          <div class="pb-3">
+            As an affiliate you have already submited your payment details.<br><br>
+            Upload your verification documents below to become an affiliate and broadcaster. <br>
+            To sign up for a separate broadcaster account log out, and then visit{{link-to "saber.tv/signup/broadcaster" "signup.broadcaster" }}
+          </div>
+        {{else}}
 
-          {{#if currentUser.user.developer}}
-            <div class="pb-3">
-              As a developer you have already submited your payment details. Upload your verification documents below to become a developer and broadcaster. <br>
-              To sign up for a separate broadcaster account log out, and then visit {{link-to "saber.tv/signup/broadcaster" "signup.broadcaster"}}
+          <h5> Tax and Payment Information</h5>
 
-            </div>
-          {{else if currentUser.user.affiliate}}
-            <div class="pb-3">
-              As an affiliate you have already submited your payment details. Upload your verification documents below to become an affiliate and broadcaster. <br>
-              To sign up for a separate broadcaster account log out, and then visit{{link-to "saber.tv/signup/broadcaster" "signup.broadcaster" }}
-            </div>
-          {{else}}
-
-            <h5> Tax and Payment Information</h5>
-
-
-            <div class="form-group">
-              <label for="inputFullName">Full Name</label>
-              {{input type="text" class="form-control" value=inputFullName }}
-            </div>
-            <div class="form-group">
-              <label for="inputBusinessName">Business Name</label>
-              {{input type="text" class="form-control" value=inputBusinessName placeholder="optional" key-press=(action "showEntityMenu")}}
-            </div>
-            {{#if isBusiness}}
-              <div class="form-check pb-3">
-                <h5>Entity Type:</h5>
-                <div class="row m-0">
-                  <div class="col-6">
-                    {{radio-button value="IndividualSoleProprietor" id="inputEntitySole" name=inputEntityType checked=inputEntityType}}
-                    <label class="form-check-label" for="inputEntitySole" {{action "checkThis" "inputEntitySole"}}>Individual / Sole Proprietor</label>
-                  </div>
-                  <div class="col-6">
-                    {{radio-button value="sCorp" id="inputEntitySCorp" name=inputEntityType checked=inputEntityType}}
-                    <label class="form-check-label" for="inputEntitySCorp" {{action "checkThis" "inputEntitySCorp"}}>S Corporation</label>
-                  </div>
+          <div class="form-group">
+            <label for="inputFullName">Full Name <abbr title="This field is mandatory">*</abbr></label>
+            {{input type="text" class="form-control" maxlength="255" value=model.user.fullName }}
+          </div>
+          <div class="form-group">
+            <label for="inputBusinessName">Business Name</label>
+            {{input type="text" class="form-control" maxlength="255" value=model.user.businessName placeholder="optional" key-press=(action "showEntityMenu")}}
+          </div>
+          {{#if isBusiness}}
+            <div class="form-check pb-3">
+              <h5>Entity Type:</h5>
+              <div class="row m-0">
+                <div class="col-6">
+                  {{radio-button value="IndividualSoleProprietor" id="inputEntitySole" name=inputEntityType checked=inputEntityType}}
+                  <label class="form-check-label" for="inputEntitySole" {{action "checkThis" "inputEntitySole"}}>Individual / Sole Proprietor</label>
                 </div>
-                <div class="row m-0">
-
-                  <div class="col-6">
-                    {{radio-button value="Partnership" id="inputEntityPartner" name=inputEntityType checked=inputEntityType}}
-                    <label class="form-check-label" for="inputEntityPartner" {{action "checkThis" "inputEntityPartner"}}>Partnership</label>
-                  </div>
-
-                  <div class="col-6">
-                    {{radio-button value="cCorp" id="inputEntityCCorp" name=inputEntityType checked=inputEntityType}}
-                    <label class="form-check-label" for="inputEntityCCorp" {{action "checkThis" "inputEntityCCorp"}}>C Corporation</label>
-                  </div>
+                <div class="col-6">
+                  {{radio-button value="sCorp" id="inputEntitySCorp" name=inputEntityType checked=inputEntityType}}
+                  <label class="form-check-label" for="inputEntitySCorp" {{action "checkThis" "inputEntitySCorp"}}>S Corporation</label>
                 </div>
-                <div class="row m-0">
-                  <div class="col-6">
-                    <div class="form-check form-check-inline">
-                      {{radio-button value='Other' id="inputEntityOther" name=inputEntityType checked=inputEntityType}}
-                      <div {{action "checkThis" "inputEntityOther"}}>
-                        {{input type="text" class="form-control" value=otherEntityText placeholder="other"}}
-                      </div>
+              </div>
+              <div class="row m-0">
+
+                <div class="col-6">
+                  {{radio-button value="Partnership" id="inputEntityPartner" name=inputEntityType checked=inputEntityType}}
+                  <label class="form-check-label" for="inputEntityPartner" {{action "checkThis" "inputEntityPartner"}}>Partnership</label>
+                </div>
+
+                <div class="col-6">
+                  {{radio-button value="cCorp" id="inputEntityCCorp" name=inputEntityType checked=inputEntityType}}
+                  <label class="form-check-label" for="inputEntityCCorp" {{action "checkThis" "inputEntityCCorp"}}>C Corporation</label>
+                </div>
+              </div>
+              <div class="row m-0">
+                <div class="col-6">
+                  <div class="form-check form-check-inline">
+                    {{radio-button value='Other' id="inputEntityOther" name=inputEntityType checked=inputEntityType}}
+                    <div {{action "checkThis" "inputEntityOther"}}>
+                      {{input type="text" class="form-control" value=otherEntityText placeholder="other"}}
                     </div>
                   </div>
                 </div>
               </div>
-            {{/if}}
+            </div>
+          {{/if}}
 
-            <label for="inputDay">Date of Birth</label>
-            <div class="row m-0 pb-2">
-              <div class="col">
-                {{#power-select
+          <label for="inputDay">Date of Birth</label>
+          <div class="row m-0 pb-2">
+            <div class="col">
+              {{#power-select
                     selected=inputMonth
                     id="inputMonth"
                     options=monthsList
                     onchange=(action (mut inputMonth))
                     oninput=(action "checkLength")
                     as |name|}}
-                  {{name}}
-                {{/power-select}}
-              </div>
-              <div class="col">
-                {{#power-select
+                {{name}}
+              {{/power-select}}
+            </div>
+            <div class="col">
+              {{#power-select
                     selected=inputDay
                     id="inputDay"
                     options=daysList
                     onchange=(action (mut inputDay))
                     oninput=(action "checkLength")
                     as |name|}}
-                  {{name}}
-                {{/power-select}}
+                {{name}}
+              {{/power-select}}
 
-              </div>
-              <div class="col">
-                {{#power-select
+            </div>
+            <div class="col">
+              {{#power-select
                     selected=inputYear
                     id="inputYear"
                     options=yearsList
                     onchange=(action (mut inputYear))
                     oninput=(action "checkLength")
                     as |name|}}
-                  {{name}}
-                {{/power-select}}
-              </div>
+                {{name}}
+              {{/power-select}}
             </div>
+          </div>
 
 
-            <h5> Select Payout Method:</h5>
-            <div class="form-check form-check-inline w-100 pb-3">
-              <div class=" w-50 mx-0 mr-2 payout-method btn btn-block btn-outline-dark " {{action "checkThis" "inputPayoutCheck"}}>
-                {{radio-button value='check' id="inputPayoutCheck" name=inputPayoutType checked=inputPayoutType}}
-                <label class="form-check-label" for="inputPayoutType">Mailed Check</label>
-              </div>
-              <div class=" w-50 mx-0 mt-0 ml-2 payout-method btn btn-block btn-outline-dark  " {{action "checkThis" "inputPayoutBitcoin"}}>
-                {{radio-button value='bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=inputPayoutType}}
-                <label class="form-check-label" for="inputPayoutType">Bitcoin</label>
-              </div>
+          <h5> Select Payout Method:</h5>
+          <div class="form-check form-check-inline w-100 pb-3">
+            <div class=" w-50 mx-0 mr-2 payout-method btn btn-block btn-outline-dark " {{action "checkThis" "inputPayoutCheck"}}>
+              {{radio-button value='check' id="inputPayoutCheck" name=inputPayoutType checked=model.user.payoutMethod}}
+              <label class="form-check-label" for="inputPayoutType">Mailed Check</label>
             </div>
-            {{#if payoutIsBitcoin}}
-              <div class="form-group" id="bitcoinAddressInputDiv">
-                <label for="inputbitcoinaddress">Bitcoin Address</label>
-                {{input type="text" class="form-control" value=inputbitcoinaddress }}
-              </div>
-            {{/if}}
+            <div class=" w-50 mx-0 mt-0 ml-2 payout-method btn btn-block btn-outline-dark  " {{action "checkThis" "inputPayoutBitcoin"}}>
+              {{radio-button value='bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=model.user.payoutMethod}}
+              <label class="form-check-label" for="inputPayoutType">Bitcoin</label>
+            </div>
+          </div>
+          {{#if payoutIsBitcoin}}
+            <div class="form-group" id="bitcoinAddressInputDiv">
+              <label for="inputbitcoinaddress">Bitcoin Address</label>
+              {{input type="text" class="form-control" value=model.user.bitcoinAddress }}
+              <small>Please make sure your Bitcoin address is correct</small>
+            </div>
+          {{/if}}
 
 
-            <div class="form-group">
-              <label for="inputaddress1">Address Line 1</label>
-              {{input type="text" class="form-control" value=inputaddress1 }}
-            </div>
-            <div class="form-group">
-              <label for="inputaddress2">Address Line 2</label>
-              {{input type="text" class="form-control" value=inputaddress2 placeholder="optional"}}
-            </div>
-            <div class="form-group">
-              <label for="inputCity">City</label>
-              {{input type="text" class="form-control" value=inputCity }}
-            </div>
-            <div class="form-group">
-              <label for="inputRegion">State / Province / Region</label>
-              {{input type="text" class="form-control" value=inputRegion }}
-            </div>
-            <div class="form-group">
-              <label for="inputZipcode">Zip / Postal Code</label>
-              {{input type="number" class="form-control" value=inputZipcode }}
-            </div>
-            <div class="form-group">
-              <label for="inputCountry">Country</label>
-              {{#power-select
+          <div class="form-group">
+            <label for="inputaddress1">Address Line 1</label>
+            {{input type="text" class="form-control" value=model.user.addressLine1 }}
+          </div>
+          <div class="form-group">
+            <label for="inputaddress2">Address Line 2</label>
+            {{input type="text" class="form-control" value=model.user.addressLine2 placeholder="optional"}}
+          </div>
+          <div class="form-group">
+            <label for="inputCity">City</label>
+            {{input type="text" class="form-control" value=inputCity }}
+          </div>
+          <div class="form-group">
+            <label for="inputRegion">State / Province / Region</label>
+            {{input type="text" class="form-control" value=inputRegion }}
+          </div>
+          <div class="form-group">
+            <label for="inputZipcode">Zip / Postal Code</label>
+            {{input type="text" maxlength="20" class="form-control" value=inputZipcode }}
+          </div>
+          <div class="form-group">
+            <label for="inputCountry">Country</label>
+            {{#power-select
                 selected=inputCountry
                 id="inputCountry"
                 options=countriesList
                 onchange=(action "setCountry")
                 oninput=(action "checkLength")
                 as |name|}}
-                {{name}}
-              {{/power-select}}
-            </div>
+              {{name}}
+            {{/power-select}}
+          </div>
 
-            {{#if isUSA}}
-              <div class="form-group">
-                <label for="inputTIN">Taxpayer Identification Number </label>
-                {{input type="text" class="form-control" value=inputTIN placeholder="SSN, EIN, or ITIN, including dashes" }}
-              </div>
-
-              <div class="form-check py-3">
-                <label class="form-check-label" for="withholdingInput" style="font-size:14px;">
-                  <strong>Under penalties of perjury, I certify that:</strong>
-                  <br> 1. I am a U.S. citizen or other U.S. person, and
-                  <br> 2. The number shown on this form is my correct taxpayer identification number (TIN), and
-                  <br> 3. (select one):<br>
-
-                  <div class="form-check form-check-inline accordion-toggle collapsed text-heading" data-toggle="collapse" data-target="#exemptHelp">
-                    {{radio-button value=false id="notSubjectToWithholding" name=withholdingInput checked=withholdingInput}}
-
-                    <div class=" pl-2 pr-4 " {{action "checkThis" "notSubjectToWithholding"}}>
-                      <strong>I am not subject to backup withholding.</strong>
-                    </div>
-                  </div>
-                  <div id="exemptHelp" class=" collapse pb-2">
-                    I am (a) exempt from back up withholding, or (b) I have not been notified by the
-                    Internal Revenue Service (IRS) that I am subject to backup withholding as a result of a failure to report all interest or dividends, or
-                    (c) the IRS has notified me that I am no longer subject to backup withholding)
-                  </div>
-                  <div class="form-check form-check-inline accordion-toggle collapsed text-heading" data-toggle="collapse" data-target="#notExemptHelp">
-                    {{radio-button value=true id="subjectToWithholding" name=withholdingInput checked=withholdingInput}}
-                    <div class=" pl-2 pr-4 " {{action "checkThis" "subjectToWithholding"}}>
-                      <strong>I am subject to backup withholding. </strong>
-                    </div>
-                  </div>
-                  <div id="notExemptHelp" class=" collapse">
-                    I have been notified by the IRS that I am subject to backup withholding as a result of a
-                    failure to report all interest or dividends, and I have not been notified by the IRS that I am no longer subject to back withholding.
-                  </div>
-                </label>
-              </div>
-
-            {{/if}}
-            {{#if notUSA}}
-              <strong>Under penalties of perjury, I certify that:</strong>
-              <br> 1. I am not a U.S. citizen, and
-              <br> 2. I perform all my work on Saber from locations outside of the United States, and
-              <br> 3. I will receive all payments to a foreign address or payment instrument, and
-              <br> 4. That the information provided is to the best of my knowledge and believe it to be true, correct and complete.
-
-            {{/if}}
-
+          {{#if isUSA}}
             <div class="form-group">
-              <label for="inputElecSig">Electronic Signature</label>
-              {{input type="text" class="form-control" value=inputElecSig placeholder="type your full name again" }}
+              <label for="inputTIN">Taxpayer Identification Number </label>
+              {{input type="text" class="form-control" value=inputTIN placeholder="SSN, EIN, or ITIN, including dashes" }}
             </div>
+
+            <div class="form-check py-3">
+              <label class="form-check-label" for="withholdingInput" style="font-size:14px;">
+                <strong>Under penalties of perjury, I certify that:</strong>
+                <br> 1. I am a U.S. citizen or other U.S. person, and
+                <br> 2. The number shown on this form is my correct taxpayer identification number (TIN), and
+                <br> 3. (select one):<br>
+
+                <div class="form-check form-check-inline accordion-toggle collapsed text-heading" data-toggle="collapse" data-target="#exemptHelp">
+                  {{radio-button value=false id="notSubjectToWithholding" name=withholdingInput checked=withholdingInput}}
+
+                  <div class=" pl-2 pr-4 " {{action "checkThis" "notSubjectToWithholding"}}>
+                    <strong>I am not subject to backup withholding.</strong>
+                  </div>
+                </div>
+                <div id="exemptHelp" class=" collapse pb-2">
+                  I am (a) exempt from back up withholding, or (b) I have not been notified by the
+                  Internal Revenue Service (IRS) that I am subject to backup withholding as a result of a failure to report all interest or dividends, or
+                  (c) the IRS has notified me that I am no longer subject to backup withholding)
+                </div>
+                <div class="form-check form-check-inline accordion-toggle collapsed text-heading" data-toggle="collapse" data-target="#notExemptHelp">
+                  {{radio-button value=true id="subjectToWithholding" name=withholdingInput checked=withholdingInput}}
+                  <div class=" pl-2 pr-4 " {{action "checkThis" "subjectToWithholding"}}>
+                    <strong>I am subject to backup withholding. </strong>
+                  </div>
+                </div>
+                <div id="notExemptHelp" class=" collapse">
+                  I have been notified by the IRS that I am subject to backup withholding as a result of a
+                  failure to report all interest or dividends, and I have not been notified by the IRS that I am no longer subject to back withholding.
+                </div>
+              </label>
+            </div>
+          {{else}}
+            <strong>Under penalties of perjury, I certify that:</strong>
+            <br> 1. I am not a U.S. citizen, and
+            <br> 2. I perform all my work on Saber from locations outside of the United States, and
+            <br> 3. I will receive all payments to a foreign address or payment instrument, and
+            <br> 4. That the information provided is to the best of my knowledge and believe it to be true, correct and complete.
           {{/if}}
-          <hr class="splash-horizontal-rule">
 
-          <h5>Verification</h5>
+          <div class="form-group pt-2">
+            <label for="inputElecSig">Electronic Signature</label>
+            {{input type="text" class="form-control" value=inputElecSig placeholder="Type your full name again" }}
+          </div>
+        {{/if}}
+        <hr class="splash-horizontal-rule">
 
-          <div class="form-group">
-            {{edit-verification-photos
+        <h5>Verification</h5>
+
+        <div class="form-group">
+          {{edit-verification-photos
               model=(mut (get model "userVerificationUploads"))
               store=this.store
             }}
+
+          <div class="mt-3 alert alert-dark">
+            <h5 class="alert-heading">Note</h5>
+            <hr class="splash-horizontal-rule m-0 mb-1 p-0">
+            <p class="mb-0">
+              Once you submit your application,
+              you will only be able to remove the submitted verification
+              images by
+              <u>{{link-to "contacting us." "contact" class="font-weight-normal alert-link"}}
+              </u>
+            </p>
           </div>
+        </div>
 
-          <button {{action "broadcasterSaveForLater"}} class={{this.broadcasterSaveForLaterBtn}}>{{this.broadcasterSaveForLaterText}}</button>
+        <button {{action "broadcasterSaveForLater"}} class={{this.broadcasterSaveForLaterBtn}}>{{this.broadcasterSaveForLaterText}}</button>
 
-          <div class="float-right">
-            <button type="submit" class={{this.broadcasterVerifySubmitBtn}}>{{this.broadcasterVerifySubmitText}}</button>
-          </div>
+        <div class="float-right">
+          <button type="submit" class={{this.broadcasterVerifySubmitBtn}} {{action "submitBroadcasterVerification"}}>{{this.broadcasterVerifySubmitText}}</button>
+        </div>
 
-          {{#unless currentUser.isContracted}}
-            {{w-9-help}}
-          {{/unless}}
-
-        </form>
+        {{#unless currentUser.isContracted}}
+          {{w-9-help}}
+        {{/unless}}
 
       </div>
 

@@ -136,12 +136,12 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.bigint "user_id"
     t.string "username"
     t.boolean "broadcaster", null: false
-    t.boolean "online_status"
+    t.boolean "online_status", default: false, null: false
     t.string "channel_topic"
     t.integer "current_game_id"
     t.string "streamnail_path", default: "/streamnails/usericon.svg", null: false
-    t.boolean "allow_tips"
-    t.boolean "allow_suggested_games"
+    t.boolean "allow_tips", default: true, null: false
+    t.boolean "allow_suggested_games", default: false, null: false
     t.string "timezone"
     t.string "user_custom_tags"
     t.string "profile_photo_path", default: "/streamnails/usericon.svg", null: false
@@ -179,22 +179,21 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "authentication_token", null: false
-    t.boolean "broadcaster", default: false
-    t.boolean "developer", default: false
-    t.boolean "affiliate", default: false
-    t.string "account_status"
-    t.boolean "suspended_account", default: false
+    t.boolean "broadcaster", default: false, null: false
+    t.boolean "developer", default: false, null: false
+    t.boolean "affiliate", default: false, null: false
+    t.boolean "pending_application", default: false, null: false
+    t.string "account_status", default: "Created"
+    t.boolean "suspended_account", default: false, null: false
     t.boolean "admin_status", default: false
-    t.boolean "pending_deletion", default: false
+    t.datetime "pending_deletion_since"
     t.string "security_questions"
     t.string "stream_key", limit: 64
-    t.boolean "dark_mode", default: false
-    t.boolean "send_email_followed_online", default: false
-    t.boolean "send_email_site_news", default: false
-    t.boolean "private_message_email_notifications", default: true
+    t.boolean "dark_mode", default: false, null: false
+    t.boolean "send_email_followed_online", default: false, null: false
+    t.boolean "send_email_site_news", default: false, null: false
+    t.boolean "private_message_email_notifications", default: true, null: false
     t.text "private_user_notes"
-    t.integer "broadcaster_percentage", limit: 1, default: 50
-    t.integer "developer_percentage", limit: 1, default: 5
     t.string "full_name"
     t.datetime "birthdate"
     t.string "address_line1"
@@ -207,6 +206,8 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.string "bank_account_number"
     t.string "bank_routing_number"
     t.boolean "subject_to_backup_withholding", default: false, null: false
+    t.integer "broadcaster_percentage", limit: 1, default: 50
+    t.integer "developer_percentage", limit: 1, default: 5
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

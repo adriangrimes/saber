@@ -402,6 +402,17 @@ export default Controller.extend({
   broadcasterSaveForLaterBtn: 'btn btn-outline-dark',
   broadcasterSaveForLaterText: 'Save for Later',
 
+  inputMonth: 'Month',
+  inputDay: 'Day',
+  inputYear: 'Year',
+
+  inputCity: '',
+  inputRegion: '',
+  inputZipcode: '',
+  inputCountry: '',
+
+  inputElecSig: '',
+
   actions: {
     checkLength(text, select /*, event */) {
       if (select.searchText.length >= 3 && text.length < 3) {
@@ -415,10 +426,8 @@ export default Controller.extend({
       this.set('inputCountry', country);
       if (country == 'United States') {
         this.set('isUSA', true);
-        this.set('notUSA', false);
       } else {
         this.set('isUSA', false);
-        this.set('notUSA', true);
       }
     },
 
@@ -438,15 +447,58 @@ export default Controller.extend({
     },
 
     submitBroadcasterVerification() {
-      //Add Actual Data Handling, Copy from Save for later
-      this.get('store')
-        .findRecord('user', this.get('session.data.authenticated.user_id'))
-        .then(user => {
-          // Save record to db
-          user
+      //TODO Add Actual Data Handling, Copy from Save for later
+
+      if (
+        this.model.user.fullName &&
+        this.inputElecSig.trim() == this.model.user.fullName.trim()
+      ) {
+        if (
+          (this.model.user.businessName && this.inputEntityType) ||
+          (!this.model.user.businessName && !this.inputEntityType) ||
+          (!this.model.user.businessName && this.inputEntityType)
+        ) {
+          var address3 =
+            this.inputCity.trim() +
+            '|' +
+            this.inputRegion.trim() +
+            '|' +
+            this.inputZipcode.trim() +
+            '|' +
+            this.inputCountry.trim();
+          this.model.user.set('addressLine3', address3.trim());
+          this.model.user.set(
+            'birthdate',
+            new Date(
+              this.inputMonth.trim() +
+                ' ' +
+                this.inputDay.trim() +
+                ', ' +
+                this.inputYear.trim()
+            )
+          );
+          if (this.model.user.businessName) {
+            this.model.user.set(
+              'businessName',
+              this.model.user.businessName.trim()
+            );
+            this.model.user.set('businessEntityType', this.inputEntityType);
+            if (this.model.user.businessEntityType.trim() == 'Other') {
+              this.model.user.set(
+                'businessEntityType',
+                'Other|' + this.otherEntityText.trim()
+              );
+            }
+          } else {
+            this.model.user.set('businessName', null);
+            this.model.user.set('businessEntityType', null);
+          }
+          this.model.user.set('pendingApplication', true);
+          this.model.user
             .save()
-            .then(() => {
-              console.log('broadcasterSaveForLater saved');
+            .then(user => {
+              console.log('submition of broadcaster application saved');
+              this.set('applicationIsPending', user.pendingApplication);
               this.set('broadcasterVerifySubmitText', '');
               this.set(
                 'broadcasterVerifySubmitBtn',
@@ -457,11 +509,12 @@ export default Controller.extend({
               console.log('error saving user record: ' + reason);
               this.set('errorMessage', reason.error || reason);
             });
-        })
-        .catch(reason => {
-          console.log('error finding user record: ' + reason);
-          this.set('errorMessage', reason.error || reason);
-        });
+        } else {
+          console.error('business entity required');
+        }
+      } else {
+        console.error('signature does not match');
+      }
     },
 
     broadcasterSaveForLater() {

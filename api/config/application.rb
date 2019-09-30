@@ -61,6 +61,9 @@ module ApiServer
       100 => 1000
     }
 
+    # How long ago the pending_deletion_since date must be to destroy the user
+    config.x.saber.account_destroy_delay = 2.days.ago
+
     # File upload limits
     config.x.saber.public_upload_limit = 30
     config.x.saber.verification_upload_limit = 2

@@ -18,11 +18,12 @@ export default Route.extend(AuthenticatedRouteMixin, {
   setupController(controller, model) {
     this._super(controller, model);
     // Set account settings to settings pulled from db
-    controller.set('inputFullName', model.user.get('fullName'));
-    if (model.user.get('businessName') != null) {
+    // controller.set('inputFullName', model.user.get('fullName'));
+    controller.set('applicationIsPending', model.user.pendingApplication);
+    if (model.user.get('businessName')) {
       controller.set('isBusiness', true);
-      controller.set('inputBusinessName', model.user.get('businessName'));
-      if (model.user.get('businessEntityType') != null) {
+      // controller.set('inputBusinessName', model.user.get('businessName'));
+      if (model.user.get('businessEntityType')) {
         var entityType = model.user.get('businessEntityType').split('|');
         if (entityType[0] == 'Other') {
           controller.set('inputEntityType', entityType[0]);
@@ -36,26 +37,26 @@ export default Route.extend(AuthenticatedRouteMixin, {
       }
     }
 
-    if (model.user.get('birthdate') != null) {
+    if (model.user.get('birthdate')) {
       var bday = model.user.get('birthdate').toString();
       var bdaystr = bday.split(' ');
       controller.set('inputMonth', bdaystr[1]);
       controller.set('inputDay', bdaystr[2]);
       controller.set('inputYear', bdaystr[3]);
-    } else {
-      controller.set('inputMonth', 'Month');
-      controller.set('inputDay', 'Day');
-      controller.set('inputYear', 'Year');
-    }
+    } // else {
+    //   controller.set('inputMonth', 'Month');
+    //   controller.set('inputDay', 'Day');
+    //   controller.set('inputYear', 'Year');
+    // }
     controller.set('inputPayoutType', model.user.get('payoutMethod'));
     if (model.user.get('payoutMethod') == 'bitcoin') {
       controller.set('payoutIsBitcoin', true);
     }
-    controller.set('inputbitcoinaddress', model.user.get('bitcoinAddress'));
+    // controller.set('inputbitcoinaddress', model.user.get('bitcoinAddress'));
 
-    controller.set('inputaddress1', model.user.get('addressLine1'));
-    controller.set('inputaddress2', model.user.get('addressLine2'));
-    if (model.user.get('addressLine3') != null) {
+    // controller.set('inputaddress1', model.user.get('addressLine1'));
+    // controller.set('inputaddress2', model.user.get('addressLine2'));
+    if (model.user.get('addressLine3')) {
       var address3 = model.user.get('addressLine3').split('|');
       controller.set('inputCity', address3[0]);
       controller.set('inputRegion', address3[1]);
@@ -67,10 +68,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
         controller.set('notUSA', true);
       }
 
-      controller.set(
-        'withholdingInput',
-        model.user.get('subjectToBackupWithholding')
-      );
+      // controller.set(
+      //   'withholdingInput',
+      //   model.user.get('subjectToBackupWithholding')
+      // );
     }
   }
 });

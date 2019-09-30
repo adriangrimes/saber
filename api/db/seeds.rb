@@ -148,6 +148,9 @@ end
 
 if Rails.env.production? == false
   include FakeUsernames # api-server/lib/fake_usernames.rb
+  include StreamKey
+  verification_uploader = VerificationUploader.new(:store)
+
   fake_usernames = FakeUsernames.usernames
   fake_usernames = fake_usernames.shuffle
 
@@ -157,6 +160,7 @@ if Rails.env.production? == false
     'testtest', 'testtesttest']
 
   fake_online_statuses = [true, false]
+  payout_methods = ["check", "bitcoin"]
 
   # Set how many of each user type to seed
   usercount = 5
@@ -179,38 +183,59 @@ if Rails.env.production? == false
   )
   emptyuser.save!
 
-  broadcaster = User.new(
+  # BroadcasterTester1
+  age = rand(13..100)
+  broadcaster1 = User.new(
     email: "broadcastertester1@email.com",
     username: "BroadcasterTester1",
     password: "12345671",
     full_name: "Streamer1 C1 Aster1",
+    birthdate: age.years.ago,
     dark_mode: false,
-    broadcaster: true,
-    affiliate: true,
-    send_email_followed_online: false
+    send_email_followed_online: false,
+    stream_key: StreamKey.generate(),
+    payout_method: payout_methods.sample,
+    address_line1: "321 Nice St",
+    address_line3: "Townsville|Virginia|90001|United States"
   )
-  broadcaster.skip_confirmation!
-  onlinestatus = true # ~X% of users as online
-  tags = fake_tag_array.sample(Random.new.rand(0..3))
+  broadcaster1.bitcoin_address = "SDfjknsjkjh389f" if broadcaster1.payout_method == 'bitcoin'
+  broadcaster1.skip_confirmation!
+  tags = fake_tag_array.sample(rand(0..3))
   puts tags.inspect
-  game_id = 0
-  if onlinestatus
-    game_id = Random.new.rand(1..10)
-  end
-  broadcaster.build_user_public_datum(
-    username: broadcaster.username,
-    broadcaster: broadcaster.broadcaster,
-    online_status: onlinestatus,
-    channel_topic: "Channel topic for describing the topic of #{broadcaster.username}'s channel",
-    current_game_id: game_id,
+  broadcaster1.build_user_public_datum(
+    username: broadcaster1.username,
+    broadcaster: broadcaster1.broadcaster,
+    online_status: false,
+    channel_topic: "Channel topic for describing the topic of #{broadcaster1.username}'s channel",
     user_custom_tags: tags,
-    profile_age: Random.new.rand(13..100),
+    profile_age: age,
     profile_about_me: "Hey, I'm new here. Also hello from the seeds.rb file!"
   )
-  broadcaster.save!
-
-  # Users for checking that password encryption is working correctly when two users
-  # have the same password
+  broadcaster1.save!
+  broadcaster1.user_verification_uploads.create(
+    user_id: broadcaster1.id,
+    verified: true,
+    upload_data: verification_uploader
+      .upload(File.new(
+        Rails.root.join("lib/seed_images/#{rand(1..6)}.jpg"))
+      )
+      .to_json
+  )
+  broadcaster1.user_verification_uploads.create(
+    user_id: broadcaster1.id,
+    verified: true,
+    upload_data: verification_uploader
+      .upload(File.new(
+        Rails.root.join("lib/seed_images/#{rand(1..6)}.jpg"))
+      )
+      .to_json
+  )
+  broadcaster1.broadcaster = true
+  broadcaster1.user_public_datum.update(broadcaster: true)
+  broadcaster1.save!
+  p broadcaster1.id
+  # Users used to check that password encryption is working correctly when
+  # two users have the same password
   2.times do |j|
     samepass = User.new(
       email: "samepass#{j + 1}@email.com",
@@ -225,47 +250,51 @@ if Rails.env.production? == false
     samepass.save!
   end
 
+  ###########################################
+  # Test users
   usercount.times do |i|
-    ###########################################
-    # Test users
     testuser = User.new(
       email: "usertester#{i + 1}@email.com",
       username: "UserTester#{i + 1}",
       password: "1234567#{i + 1}",
-      full_name: "User#{i + 1} K#{i + 1} Basic#{i + 1}",
       dark_mode: true,
-      send_email_followed_online: true
+      send_email_followed_online: [true, false].sample
     )
     testuser.skip_confirmation!
     testuser.build_user_public_datum(
       username: testuser.username,
       broadcaster: false,
-      profile_age: Random.new.rand(13..100)
+      profile_age: rand(13..100)
     )
     testuser.save!
   end
 
+  ###########################################
+  # Test broadcasters
   broadcastercount.times do |i|
-    ###########################################
-    # Test broadcasters
     i += 1
+    age = rand(13..100)
     testbroadcaster = User.new(
       email: "broadcastertester#{i + 1}@email.com",
       username: fake_usernames[i].capitalize,
       password: "asdfasdf",
       full_name: "Streamer#{i + 1} C#{i + 1} Aster#{i + 1}",
+      birthdate: age.years.ago,
       dark_mode: false,
-      broadcaster: true,
-      affiliate: true,
-      send_email_followed_online: false
+      send_email_followed_online: false,
+      stream_key: StreamKey.generate(),
+      payout_method: payout_methods.sample,
+      address_line1: "#{i + 1} Nice St",
+      address_line3: "Townsville|Virginia|900#{i + 1}|United States"
     )
+    testbroadcaster.bitcoin_address = "#{i + 1}SDfjknsjkjh389f" if testbroadcaster.payout_method == 'bitcoin'
     testbroadcaster.skip_confirmation!
     onlinestatus = fake_online_statuses.sample # ~X% of users as online
-    tags = fake_tag_array.sample(Random.new.rand(0..3))
+    tags = fake_tag_array.sample(rand(0..3))
     puts tags.inspect
     game_id = 0
     if onlinestatus
-      game_id = Random.new.rand(1..10)
+      game_id = rand(1..10)
     end
 
     testbroadcaster.build_user_public_datum(
@@ -275,16 +304,38 @@ if Rails.env.production? == false
       channel_topic: "Channel topic for describing the topic of #{testbroadcaster.username}'s channel",
       current_game_id: game_id,
       user_custom_tags: tags,
-      profile_age: Random.new.rand(13..100),
+      profile_age: age,
       profile_about_me: "Hey, I'm #{testbroadcaster.username} and new here. Also hello from the seeds.rb file!"
     )
 
     testbroadcaster.save!
+    testbroadcaster.user_verification_uploads.create(
+      user_id: testbroadcaster.id,
+      verified: true,
+      upload_data: verification_uploader
+        .upload(File.new(
+          Rails.root.join("lib/seed_images/#{rand(1..6)}.jpg"))
+        )
+        .to_json
+    )
+    testbroadcaster.user_verification_uploads.create(
+      user_id: testbroadcaster.id,
+      verified: true,
+      upload_data: verification_uploader
+        .upload(File.new(
+          Rails.root.join("lib/seed_images/#{rand(1..6)}.jpg"))
+        )
+        .to_json
+    )
+    testbroadcaster.broadcaster = true
+    testbroadcaster.affiliate = true
+    testbroadcaster.user_public_datum.update(broadcaster: true)
+    testbroadcaster.save!
   end
 
+  ###########################################
+  # Test developers
   developercount.times do |i|
-    ###########################################
-    # Test developers
     testdeveloper = User.new(
       email: "developertester#{i + 1}@email.com",
       username: "DeveloperTester#{i + 1}",
@@ -299,15 +350,15 @@ if Rails.env.production? == false
     testdeveloper.build_user_public_datum(
       username: testdeveloper.username,
       broadcaster: false,
-      profile_age: Random.new.rand(13..100),
+      profile_age: rand(13..100),
       profile_about_me: "just developin"
     )
     testdeveloper.save!
   end
 
+  ###########################################
+  # Test affiliates
   affiliatecount.times do |i|
-    ###########################################
-    # Test affiliates
     testaffiliate = User.new(
       email: "affiliatetester#{i + 1}@email.com",
       username: "AffiliateTester#{i + 1}",
@@ -321,7 +372,7 @@ if Rails.env.production? == false
     testaffiliate.build_user_public_datum(
       username: testaffiliate.username,
       broadcaster: false,
-      profile_age: Random.new.rand(13..100)
+      profile_age: rand(13..100)
     )
     testaffiliate.save!
   end

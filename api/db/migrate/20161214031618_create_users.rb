@@ -8,30 +8,25 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :authentication_token, null: false # TODO: encrypt
 
       ## Account data
-      t.boolean :broadcaster, default: false # TODO maybe only let the backend change these, via successful signup or form submition from front end?
-      t.boolean :developer, default: false
-      t.boolean :affiliate, default: false
-      t.string :account_status # , default: "UNVERIFIED"
-      t.boolean :suspended_account, default: false
+      t.boolean :broadcaster, default: false, null: false
+      t.boolean :developer, default: false, null: false
+      t.boolean :affiliate, default: false, null: false
+      t.boolean :pending_application, default: false, null: false
+      t.string :account_status, default: "Created"
+      t.boolean :suspended_account, default: false, null: false
       t.boolean :admin_status, default: false
-      t.boolean :pending_deletion, default: false
+      t.datetime :pending_deletion_since, default: nil
       t.string :security_questions
       t.string :stream_key, default: nil, limit: 64
 
       ## Site settings
-      t.boolean :dark_mode, default: false
-      t.boolean :send_email_followed_online, default: false
-      t.boolean :send_email_site_news, default: false
-      t.boolean :private_message_email_notifications, default: true
+      t.boolean :dark_mode, default: false, null: false
+      t.boolean :send_email_followed_online, default: false, null: false
+      t.boolean :send_email_site_news, default: false, null: false
+      t.boolean :private_message_email_notifications, default: true, null: false
       t.text :private_user_notes, limit: 2048
 
       ## Payment profile (TODO most of these are probably not safe in terms of user security)
-      t.integer :broadcaster_percentage,
-                limit: 1,
-                default: Rails.application.config.x.saber.broadcaster_payout_percentage
-      t.integer :developer_percentage,
-                limit: 1,
-                default: Rails.application.config.x.saber.developer_payout_percentage
       t.string :full_name
       t.datetime :birthdate
       t.string :address_line1
@@ -44,6 +39,12 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :bank_account_number
       t.string :bank_routing_number
       t.boolean :subject_to_backup_withholding, default: false, null: false
+      t.integer :broadcaster_percentage,
+        limit: 1,
+        default: Rails.application.config.x.saber.broadcaster_payout_percentage
+      t.integer :developer_percentage,
+        limit: 1,
+        default: Rails.application.config.x.saber.developer_payout_percentage
 
       ## Recoverable
       t.string   :reset_password_token

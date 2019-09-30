@@ -22,7 +22,7 @@ export default Controller.extend({
             console.log('found record, saving status');
 
             userRecord.set('currentPassword', that.inputCurrentPassword);
-            userRecord.set('pendingDeletion', true);
+            userRecord.set('pendingDeletionSince', new Date());
             console.log(userRecord);
             userRecord
               .save()

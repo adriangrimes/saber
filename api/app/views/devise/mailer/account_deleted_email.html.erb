@@ -1,0 +1,14 @@
+<p>Goodbye <%= @user[:username] %>!</p>
+
+<p>At your request your account has been deleted, and is permanently removed.</p>
+<br>
+<div class="align-center">
+  <a class="btn-primary" href=<%= "#{Rails.configuration.front_end_hostname}/contact" %>>Contact Us</a>
+</div>
+<br><br>
+<hr>
+
+<div class="email-footer">
+  <p>This email was sent to <%= @user[:email] %> as part of your request to delete your account.<br></p>
+
+</div>

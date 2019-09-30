@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   resources :user_blocks
   resources :game_logs
 
-  # Shrine attachment upload enpoints
+  # Shrine attachment upload endpoints
   # See initializers/shrine.rb for configuration
   mount PublicUploader.upload_endpoint(:cache) => '/upload'
   mount VerificationUploader.upload_endpoint(:cache) => '/verification_upload'

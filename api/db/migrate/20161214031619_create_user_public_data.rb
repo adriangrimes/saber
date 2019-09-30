@@ -6,12 +6,12 @@ class CreateUserPublicData < ActiveRecord::Migration[5.2]
       ## Public profile
       t.string :username
       t.boolean :broadcaster, null: false
-      t.boolean :online_status
+      t.boolean :online_status, null: false, default: false
       t.string :channel_topic
       t.integer :current_game_id
       t.string :streamnail_path, null: false, default: Rails.configuration.x.saber.no_profile_image_url
-      t.boolean :allow_tips
-      t.boolean :allow_suggested_games
+      t.boolean :allow_tips, default: true, null: false
+      t.boolean :allow_suggested_games, default: false, null: false
       t.string :timezone
       t.string :user_custom_tags, default: nil, array: true
       t.string :profile_photo_path, null: false, default: Rails.configuration.x.saber.no_profile_image_url

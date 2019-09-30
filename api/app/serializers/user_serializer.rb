@@ -10,16 +10,18 @@ class UserSerializer
              :email
   attribute :password do nil end
   attribute :current_password do nil end
-  #:encrypted_password,
-  #:authentication_token,
+            #:encrypted_password,
+            #:authentication_token,
 
   ## Account data
-  attributes :broadcaster,
-             :developer,
-             :affiliate
-  #:account_status,
-  #:admin_status,
-  attribute :pending_deletion do false end
+  attributes :pending_application,
+            :broadcaster,
+            :developer,
+            :affiliate
+  attribute :account_status do nil end
+            #:admin_status,
+
+  attribute :pending_deletion_since do nil end
   attributes :security_questions,
              :stream_key
   attribute :credits_remaining do |user|

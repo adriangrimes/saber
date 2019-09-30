@@ -29,7 +29,7 @@ class UserVerificationUploadsController < ApplicationController
       # TODO: Get user id from token?
       verification_upload.user_id = @authenticated_user.id
 
-      if verification_upload.save!
+      if verification_upload.save
         p 'attached verification upload - starting serialization'
         p verification_upload.upload_url
         options = {}
@@ -53,10 +53,10 @@ class UserVerificationUploadsController < ApplicationController
     if params[:id].present?
       verification_upload = UserVerificationUpload.find(params[:id])
       # TODO if user has submitted verification, don't let them delete the uploads
-      if verification_upload.destroy!
+      if verification_upload.destroy
         render status: :no_content
       else
-        render status: :internal_server_error
+        render json: ErrorSerializer.serialize(verification_upload.errors), status: :unprocessable_entity
       end
     else
       render status: :not_found

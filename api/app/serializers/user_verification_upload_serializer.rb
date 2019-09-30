@@ -4,6 +4,10 @@ class UserVerificationUploadSerializer
   include FastJsonapi::ObjectSerializer
 
   attribute :file_url do |record|
-    Rails.application.routes.default_url_options[:host] + record.upload_url
+    if record.verified
+      nil
+    else
+      Rails.application.routes.default_url_options[:host] + record.upload_url
+    end
   end
 end
