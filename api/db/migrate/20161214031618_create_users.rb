@@ -5,7 +5,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :username, null: false
       t.string :email, null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
-      t.string :authentication_token, null: false # TODO: encrypt
+      t.string :authentication_token, null: false # TODO ENCRYPT
 
       ## Account data
       t.boolean :broadcaster, default: false, null: false
@@ -16,7 +16,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.boolean :suspended_account, default: false, null: false
       t.boolean :admin_status, default: false
       t.datetime :pending_deletion_since, default: nil
-      t.string :security_questions
+      t.text :security_questions
       t.string :stream_key, default: nil, limit: 64
 
       ## Site settings
@@ -24,18 +24,18 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.boolean :send_email_followed_online, default: false, null: false
       t.boolean :send_email_site_news, default: false, null: false
       t.boolean :private_message_email_notifications, default: true, null: false
-      t.text :private_user_notes, limit: 2048
+      t.text :private_user_notes
 
-      ## Payment profile (TODO most of these are probably not safe in terms of user security)
-      t.string :full_name
-      t.datetime :birthdate
-      t.string :address_line1
-      t.string :address_line2
-      t.string :address_line3
-      t.string :business_name
-      t.string :business_entity_type
+      ## Payment profile (These are encrypted)
+      t.text :full_name
+      t.string :birthdate
+      t.text :address_line1
+      t.text :address_line2
+      t.text :address_line3
+      t.text :business_name
+      t.text :business_entity_type
       t.string :payout_method
-      t.string :bitcoin_address
+      t.text :bitcoin_address
       t.string :bank_account_number
       t.string :bank_routing_number
       t.boolean :subject_to_backup_withholding, default: false, null: false

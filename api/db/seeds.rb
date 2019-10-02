@@ -149,6 +149,7 @@ end
 if Rails.env.production? == false
   include FakeUsernames # api-server/lib/fake_usernames.rb
   include StreamKey
+  SymmetricEncryption.load!
   verification_uploader = VerificationUploader.new(:store)
 
   fake_usernames = FakeUsernames.usernames

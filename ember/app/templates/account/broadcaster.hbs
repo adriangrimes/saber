@@ -2,7 +2,7 @@
 
   <div class="row m-0">
 
-    {{#if currentUser.user.broadcaster}}
+    {{!-- {{#if currentUser.user.broadcaster}}
       <div class="col-12">
         You are already a verified broadcaster.
       </div>
@@ -11,7 +11,7 @@
       </div>
     {{else if applicationIsPending}}
       Thank you! Your application is submitted and pending verification.
-    {{else}}
+    {{else}} --}}
       <div class="col-xs-12 col-sm-5">
         {{broadcaster-blurb}}
       </div>
@@ -179,7 +179,7 @@
           {{#if isUSA}}
             <div class="form-group">
               <label for="inputTIN">Taxpayer Identification Number </label>
-              {{input type="text" class="form-control" value=inputTIN placeholder="SSN, EIN, or ITIN, including dashes" }}
+              {{input type="text" class="form-control" autocomplete="off" value=inputTIN placeholder="SSN, EIN, or ITIN, including dashes" }}
             </div>
 
             <div class="form-check py-3">
@@ -261,7 +261,7 @@
 
       </div>
 
-    {{/if}}
+    {{!/if}}
 
   </div>
 </div>

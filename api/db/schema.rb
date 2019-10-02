@@ -187,22 +187,22 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.boolean "suspended_account", default: false, null: false
     t.boolean "admin_status", default: false
     t.datetime "pending_deletion_since"
-    t.string "security_questions"
+    t.text "security_questions"
     t.string "stream_key", limit: 64
     t.boolean "dark_mode", default: false, null: false
     t.boolean "send_email_followed_online", default: false, null: false
     t.boolean "send_email_site_news", default: false, null: false
     t.boolean "private_message_email_notifications", default: true, null: false
     t.text "private_user_notes"
-    t.string "full_name"
-    t.datetime "birthdate"
-    t.string "address_line1"
-    t.string "address_line2"
-    t.string "address_line3"
-    t.string "business_name"
-    t.string "business_entity_type"
+    t.text "full_name"
+    t.string "birthdate"
+    t.text "address_line1"
+    t.text "address_line2"
+    t.text "address_line3"
+    t.text "business_name"
+    t.text "business_entity_type"
     t.string "payout_method"
-    t.string "bitcoin_address"
+    t.text "bitcoin_address"
     t.string "bank_account_number"
     t.string "bank_routing_number"
     t.boolean "subject_to_backup_withholding", default: false, null: false

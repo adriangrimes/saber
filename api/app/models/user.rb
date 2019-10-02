@@ -12,6 +12,20 @@ class User < ApplicationRecord
          :confirmable,
          :lockable
 
+  # Attributes that should be encrypted with gem symmetric-encryption
+  attribute :security_questions, :encrypted, compress: true, type: :string
+  attribute :private_user_notes, :encrypted, compress: true, type: :string
+  attribute :full_name, :encrypted, compress: true, type: :string
+  attribute :birthdate, :encrypted, type: :date
+  attribute :address_line1, :encrypted, compress: true, type: :string
+  attribute :address_line2, :encrypted, compress: true, type: :string
+  attribute :address_line3, :encrypted, compress: true, type: :string
+  attribute :business_name, :encrypted, compress: true, type: :string
+  attribute :business_entity_type, :encrypted, compress: true, type: :string
+  attribute :bitcoin_address, :encrypted, type: :string
+  attribute :bank_account_number, :encrypted, type: :string
+  attribute :bank_routing_number, :encrypted, type: :string
+
   # Public profile data
   has_one :user_public_datum, dependent: :destroy # , autosave: true
   # Set verification uploads to dependent: :delete_all, which will remove them from
@@ -160,8 +174,6 @@ class User < ApplicationRecord
   def ensure_stream_key
     if stream_key.blank?
       self.stream_key = generate_stream_key
-      p "dat stream key: " + stream_key
-
     end
   end
 

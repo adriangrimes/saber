@@ -17,7 +17,8 @@ class UsersController < ApplicationController
 
       # Suspend account if user submitted an account deletion request
       if passworded_user_params[:pending_deletion_since]
-        params[:data][:attributes][:pending_deletion_since] = DateTime.now
+        # Overwrite the value sent by the client with our server time
+        params[:data][:attributes][:pending_deletion_since] = Date.now
         @authenticated_user.suspended_account = true
       end
 
