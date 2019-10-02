@@ -51,9 +51,13 @@ GEM
       msgpack (~> 1.0)
     builder (3.2.3)
     byebug (11.0.1)
+    coercible (1.0.0)
+      descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.1.5)
     content_disposition (1.0.0)
     crass (1.0.4)
+    descendants_tracker (0.0.4)
+      thread_safe (~> 0.3, >= 0.3.1)
     devise (4.6.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -168,6 +172,8 @@ GEM
       sprockets (>= 3.0.0)
     sucker_punch (2.1.1)
       concurrent-ruby (~> 1.0)
+    symmetric-encryption (4.3.0)
+      coercible (~> 1.0)
     thor (0.20.3)
     thread_safe (0.3.6)
     tzinfo (1.2.5)
@@ -210,6 +216,7 @@ DEPENDENCIES
   shrine (~> 2.0)
   simple_token_authentication (~> 1.15)
   sucker_punch
+  symmetric-encryption
   tzinfo-data
   websocket-client-simple
   will_paginate (~> 3.1.7)

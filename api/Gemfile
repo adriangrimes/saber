@@ -2,7 +2,7 @@ ruby '>=2.5.3'
 
 gem 'rails', '~> 5.2.2.1'
 
-# MySQL support
+# MariaDB/MySQL support
 gem 'mysql2'
 gem 'will_paginate', '~> 3.1.7'
 
@@ -10,6 +10,8 @@ gem 'will_paginate', '~> 3.1.7'
 gem 'devise'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7', platform: :ruby
+# Encrypt sensitive ActiveRecord attributes
+gem 'symmetric-encryption'
 gem 'simple_token_authentication', '~> 1.15'
 gem 'fast_jsonapi'
 # gem "active_model_serializers", "~> 0.10.2"
