@@ -1,0 +1,15 @@
+<p>Hi <%= @user.username %>!</p>
+
+<p>We've received your broadcaster application and will review it within 48 hours. Thank you for your patience.</p>
+<br>
+<div class="align-center">
+  <p>If there are any issues, don't hesitate to contact us</p>
+  <br>
+  <a class="btn-primary" href=<%= "#{Rails.configuration.front_end_hostname}/contact" %>>Contact Us</a>
+</div>
+<br><br>
+<hr>
+
+<div class="email-footer">
+  <p>This email was sent to <%= @user.email %> as part of your broadcaster application.<br></p>
+</div>

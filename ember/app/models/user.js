@@ -12,14 +12,14 @@ export default DS.Model.extend({
   email: DS.attr('string'),
   password: DS.attr('string'),
   currentPassword: DS.attr('string'),
+
   broadcaster: DS.attr('boolean'),
   developer: DS.attr('boolean'),
   affiliate: DS.attr('boolean'),
-  pendingApplication: DS.attr('boolean'),
-  // accountStatus: DS.attr('string'),
+  //accountStatus: DS.attr('string'),
   //adminStatus: DS.attr('boolean'),
   pendingDeletionSince: DS.attr('date'),
-  securityQuestions: DS.attr('string'), //TODO Not encrypted
+  securityQuestions: DS.attr('string'), // Encrypted at the back-end level
   streamKey: DS.attr('string'),
   creditsRemaining: DS.attr('number'),
 
@@ -28,22 +28,7 @@ export default DS.Model.extend({
   sendEmailFollowedOnline: DS.attr('boolean'),
   sendEmailSiteNews: DS.attr('boolean'),
   privateMessageEmailNotifications: DS.attr('boolean'),
-  privateUserNotes: DS.attr('string'),
-
-  // Payment profile  (TODO most of these are probably not safe in terms of
-  // user security)
-  fullName: DS.attr('string'),
-  birthdate: DS.attr('date'),
-  addressLine1: DS.attr('string'),
-  addressLine2: DS.attr('string'),
-  addressLine3: DS.attr('string'),
-  businessName: DS.attr('string'),
-  businessEntityType: DS.attr('string'),
-  payoutMethod: DS.attr('string'),
-  bitcoinAddress: DS.attr('string'),
-  bankAccountNumber: DS.attr('string'),
-  bankRoutingNumber: DS.attr('string'),
-  subjectToBackupWithholding: DS.attr('boolean'),
+  privateUserNotes: DS.attr('string'), // Encrypted at the back-end level
 
   // Computed properties
   isContracted: computedOr('{broadcaster,developer,affiliate}'),

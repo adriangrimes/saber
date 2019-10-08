@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :contractor_applications
   # TODO: Determine if we need CSRF
   # TODO: If your application has many RESTful routes, using :only and :except to
   # generate only the routes that you actually need can cut down on memory use
@@ -25,15 +26,24 @@ Rails.application.routes.draw do
   resources :user_blocks
   resources :game_logs
 
-  # Shrine attachment upload endpoints
-  # See initializers/shrine.rb for configuration
-  mount PublicUploader.upload_endpoint(:cache) => '/upload'
-  mount VerificationUploader.upload_endpoint(:cache) => '/verification_upload'
-
   # Credit purchase and transfer data
   resources :credit_transfers
   resources :credit_purchases
   get '/transactions', to: 'transactions#index'
+
+  resources :contractor_applications
+
+  # Controller for chat authentication
+  resources :chat_tickets
+
+  # Stream control
+  get '/stream/start', to: 'streams#start'
+  get '/stream/stop', to: 'streams#stop'
+
+  # Shrine attachment upload endpoints
+  # See initializers/shrine.rb for configuration
+  mount PublicUploader.upload_endpoint(:cache) => '/upload'
+  mount VerificationUploader.upload_endpoint(:cache) => '/verification_upload'
 
   # Site data
   post '/send_contact_us', to: 'contact_us#send_email'
@@ -43,10 +53,4 @@ Rails.application.routes.draw do
   resources :help_topics
   resources :static_game_data
 
-  # Controller for chat authentication
-  resources :chat_tickets
-
-  # Stream control
-  get '/stream/start', to: 'streams#start'
-  get '/stream/stop', to: 'streams#stop'
 end

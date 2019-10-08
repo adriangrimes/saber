@@ -17,13 +17,13 @@
     <div class="form-group-sm">
       <label for="username">Username / Email</label>
       {{#focus-input}}
-        {{input type="text" class="form-control" id="username" spellcheck=false value=inputusername placeholder="username / email" autocomplete="username"}}
+        {{input type="text" class="form-control" id="username" spellcheck=false value=inputusername autocomplete="username"}}
       {{/focus-input}}
     </div>
     <br>
     <div class="form-group-sm">
       <label for="password">Password</label>
-      {{input type="password" class="form-control" id="password" spellcheck=false value=inputpassword placeholder="password" autocomplete="password"}}
+      {{input type="password" class="form-control" id="password" spellcheck=false value=inputpassword autocomplete="password"}}
     </div>
     <div>
       {{#link-to "forgot-password"}}

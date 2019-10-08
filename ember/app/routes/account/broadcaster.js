@@ -62,6 +62,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.set('inputRegion', address3[1]);
       controller.set('inputZipcode', address3[2]);
       controller.set('inputCountry', address3[3]);
+      controller.set(
+        'inputTIN',
+        model.user.get('businessIdentificationNumber')
+      );
       if (address3[3] == 'United States') {
         controller.set('isUSA', true);
       } else if (address3[3] != null) {

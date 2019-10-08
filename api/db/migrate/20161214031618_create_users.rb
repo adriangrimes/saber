@@ -5,13 +5,13 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :username, null: false
       t.string :email, null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
-      t.string :authentication_token, null: false # TODO ENCRYPT
+      t.string :authentication_token, null: false # TODO ENCRYPT maybe?
 
       ## Account data
       t.boolean :broadcaster, default: false, null: false
       t.boolean :developer, default: false, null: false
       t.boolean :affiliate, default: false, null: false
-      t.boolean :pending_application, default: false, null: false
+
       t.string :account_status, default: "Created"
       t.boolean :suspended_account, default: false, null: false
       t.boolean :admin_status, default: false
@@ -24,27 +24,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.boolean :send_email_followed_online, default: false, null: false
       t.boolean :send_email_site_news, default: false, null: false
       t.boolean :private_message_email_notifications, default: true, null: false
-      t.text :private_user_notes
-
-      ## Payment profile (These are encrypted)
-      t.text :full_name
-      t.string :birthdate
-      t.text :address_line1
-      t.text :address_line2
-      t.text :address_line3
-      t.text :business_name
-      t.text :business_entity_type
-      t.string :payout_method
-      t.text :bitcoin_address
-      t.string :bank_account_number
-      t.string :bank_routing_number
-      t.boolean :subject_to_backup_withholding, default: false, null: false
-      t.integer :broadcaster_percentage,
-        limit: 1,
-        default: Rails.application.config.x.saber.broadcaster_payout_percentage
-      t.integer :developer_percentage,
-        limit: 1,
-        default: Rails.application.config.x.saber.developer_payout_percentage
+      t.text :private_user_notes, limit: 65500
 
       ## Recoverable
       t.string   :reset_password_token

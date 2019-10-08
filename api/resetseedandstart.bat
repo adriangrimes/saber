@@ -9,7 +9,7 @@ goto :choice
 
 :reset
 echo Deleting and re-seeding database, server will start when complete
-rails db:drop:_unsafe && rails db:create && rails db:migrate && rails db:seed && rails s
+rails db:drop:_unsafe && rails db:create && rails db:migrate && rails db:seed --trace && rails s
 
 
 

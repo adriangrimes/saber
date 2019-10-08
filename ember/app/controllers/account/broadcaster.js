@@ -467,16 +467,14 @@ export default Controller.extend({
             '|' +
             this.inputCountry.trim();
           this.model.user.set('addressLine3', address3.trim());
-          this.model.user.set(
-            'birthdate',
-            new Date(
-              this.inputMonth.trim() +
-                ' ' +
-                this.inputDay.trim() +
-                ', ' +
-                this.inputYear.trim()
-            )
+          let birthdate = new Date(
+            this.inputMonth.trim() +
+              ' ' +
+              this.inputDay.trim() +
+              ', ' +
+              this.inputYear.trim()
           );
+          this.model.user.set('birthdate', birthdate);
           if (this.model.user.businessName) {
             this.model.user.set(
               'businessName',
@@ -493,6 +491,16 @@ export default Controller.extend({
             this.model.user.set('businessName', null);
             this.model.user.set('businessEntityType', null);
           }
+          if (this.inputCountry.trim() == 'United States') {
+            this.model.user.set('businessIdentificationNumber', this.inputTIN);
+            this.model.user.set(
+              'subjectToBackupWithholding',
+              this.withholdingInput
+            );
+          } else {
+            this.model.user.set('businessIdentificationNumber', null);
+            this.model.user.set('subjectToBackupWithholding', null);
+          }
           this.model.user.set('pendingApplication', true);
           this.model.user
             .save()
@@ -507,6 +515,7 @@ export default Controller.extend({
             })
             .catch(reason => {
               console.log('error saving user record: ' + reason);
+              console.log('error saving user record: ', this.model.user.errors);
               this.set('errorMessage', reason.error || reason);
             });
         } else {
@@ -558,9 +567,7 @@ export default Controller.extend({
           user.set('addressLine3', address3);
           user.set('subjectToBackupWithholding', backupWithholding);
 
-          user.set('TIN', updateTIN);
-          // Record that they have started, but not finished the application
-          user.set('accountStatus', 'Started Broadcaster Application');
+          user.set('businessIdentificationNumber', updateTIN);
 
           // Save record to db
           user

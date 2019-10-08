@@ -5,7 +5,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
   model() {
     return this.store.findRecord(
       'user',
-      this.get('session.data.authenticated.user_id')
+      this.get('session.data.authenticated.user_id'),
+      { reload: true }
     );
   },
 

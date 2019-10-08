@@ -191,7 +191,7 @@ if Rails.env.production? == false
     username: "BroadcasterTester1",
     password: "12345671",
     full_name: "Streamer1 C1 Aster1",
-    birthdate: age.years.ago,
+    birthdate: age.years.ago.to_date,
     dark_mode: false,
     send_email_followed_online: false,
     stream_key: StreamKey.generate(),
@@ -234,7 +234,7 @@ if Rails.env.production? == false
   broadcaster1.broadcaster = true
   broadcaster1.user_public_datum.update(broadcaster: true)
   broadcaster1.save!
-  p broadcaster1.id
+
   # Users used to check that password encryption is working correctly when
   # two users have the same password
   2.times do |j|
@@ -280,7 +280,7 @@ if Rails.env.production? == false
       username: fake_usernames[i].capitalize,
       password: "asdfasdf",
       full_name: "Streamer#{i + 1} C#{i + 1} Aster#{i + 1}",
-      birthdate: age.years.ago,
+      birthdate: age.years.ago.to_date,
       dark_mode: false,
       send_email_followed_online: false,
       stream_key: StreamKey.generate(),
@@ -289,6 +289,7 @@ if Rails.env.production? == false
       address_line3: "Townsville|Virginia|900#{i + 1}|United States"
     )
     testbroadcaster.bitcoin_address = "#{i + 1}SDfjknsjkjh389f" if testbroadcaster.payout_method == 'bitcoin'
+    p "about to skip confirmation"
     testbroadcaster.skip_confirmation!
     onlinestatus = fake_online_statuses.sample # ~X% of users as online
     tags = fake_tag_array.sample(rand(0..3))

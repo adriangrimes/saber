@@ -14,6 +14,11 @@ class UserMailer < Devise::Mailer
     mail(to: @user[:email], subject: 'Your account has been closed and deleted')
   end
 
+  def broadcaster_application_submitted
+    @user = params[:user]
+    mail(to: @user.email, subject: 'Your broadcaster application has been received')
+  end
+
   # def confirmation_instructions(record, token, opts={})
   #   #headers["Custom-header"] = "Bar"
   #   super

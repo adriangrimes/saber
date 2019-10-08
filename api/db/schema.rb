@@ -194,18 +194,20 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.boolean "send_email_site_news", default: false, null: false
     t.boolean "private_message_email_notifications", default: true, null: false
     t.text "private_user_notes"
+    t.datetime "data_consent_given_at"
     t.text "full_name"
-    t.string "birthdate"
+    t.datetime "birthdate"
     t.text "address_line1"
     t.text "address_line2"
     t.text "address_line3"
     t.text "business_name"
     t.text "business_entity_type"
+    t.string "business_identification_number"
     t.string "payout_method"
     t.text "bitcoin_address"
     t.string "bank_account_number"
     t.string "bank_routing_number"
-    t.boolean "subject_to_backup_withholding", default: false, null: false
+    t.boolean "subject_to_backup_withholding"
     t.integer "broadcaster_percentage", limit: 1, default: 50
     t.integer "developer_percentage", limit: 1, default: 5
     t.string "reset_password_token"

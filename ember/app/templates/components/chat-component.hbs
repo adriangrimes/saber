@@ -1,5 +1,5 @@
 {{!-- Chat user context menu, hidden until a username is clicked --}}
-<div class={{this.chatUserMenu}} id="chatUserMenu" >
+<div class={{this.chatUserMenu}} id="chatUserMenu">
   <a href="/p/{{lower-case chatUserMenuUsername}}" target="_blank" class=" round-top-left-corner-only btn btn-primary pt-1" title="Open users profile in new tab"><span class="fa fa-user pr-2"> </span>{{chatUserMenuUsername}}</a>
   <button class=" round-top-right-corner-only btn btn-primary float-right pt-1" title="Close" {{action "closeChatUserMenu"}}><span class="fa fa-close"></span></button>
   <div class="input-group">
@@ -16,8 +16,9 @@
 {{!-- Chat Navigation Tabs --}}
 <ul class="nav nav-tabs chat-tab-panel">
   <li role="presentation" class="nav-item"><a href="#chat" class="chat-tab nav-link active" aria-controls="chat" role="tab" data-toggle="tab" title="Chat Window"><span class="fa fa-comments-o"></span></a></li>
-  <li {{action "getChannelChatUserList"}} role="presentation" class="nav-item"><a href="#userstab" class="chat-tab nav-link"  aria-controls="userstab" role="tab" data-toggle="tab" title="Users Window"><span class="fa fa-users"> {{chatChannelUserCount}}</span></a></li>
-{{!--  <li role="presentation" class="nav-item"><a href="#settingstab" class="chat-tab nav-link"  aria-controls="settingstab" role="tab" data-toggle="tab"><span class="fa fa-cog"></span></a></li>--}}
+  <li {{action "getChannelChatUserList"}} role="presentation" class="nav-item"><a href="#userstab" class="chat-tab nav-link" aria-controls="userstab" role="tab" data-toggle="tab" title="Users Window"><span class="fa fa-users">
+        {{chatChannelUserCount}}</span></a></li>
+  {{!--  <li role="presentation" class="nav-item"><a href="#settingstab" class="chat-tab nav-link"  aria-controls="settingstab" role="tab" data-toggle="tab"><span class="fa fa-cog"></span></a></li>--}}
 </ul>
 
 
@@ -26,24 +27,22 @@
   {{!-- Chat message tab content --}}
   <div role="tabpanel" class="tab-pane active" id="chat">
 
-<div class="topic-input">
-  {{#if (eq session.data.authenticated.username model.username)}}
+    <div class="topic-input">
+      {{#if (eq session.data.authenticated.username model.username)}}
 
-          {{!--  Topic Input Field--}}
-          <form {{action "updateChannelTopic" on="submit"}} name="channelTopic" autocomplete="off">
-            <div class="input-group">
-              {{input value=channelTopic type="text" autocomplete="off" name="lastpass-disable-search" style="border-radius:0px" class="form-control" placeholder="Enter a Room Topic" data-lpignore="true" }}
-              <button type="submit" name="submitTopic" class="input-group-btn btn btn-primary chat-input-submit">Set Topic</button>
-            </div>
-          </form>{{!-- /Topic Input Field --}}
+        {{!--  Topic Input Field--}}
+        <form {{action "updateChannelTopic" on="submit"}} name="channelTopic" autocomplete="off">
+          <div class="input-group">
+            {{input value=channelTopic type="text" autocomplete="off" name="lastpass-disable-search" style="border-radius:0px" class="form-control" placeholder="Enter a Room Topic" data-lpignore="true" }}
+            <button type="submit" name="submitTopic" class="input-group-btn btn btn-primary chat-input-submit">Set Topic</button>
+          </div>
+        </form>{{!-- /Topic Input Field --}}
 
-  {{/if}}
-</div>
-    <div class="card-body chat-body" >
+      {{/if}}
+    </div>
+    <div class="card-body chat-body">
 
-
-
-          {{!-- Chat messages --}}
+      {{!-- Chat messages --}}
       <ul id="messages">
         {{#each chatMessagesList as |chatMessage|}}
           {{#if chatMessage.systemMessage}}
@@ -65,7 +64,7 @@
     <form {{action "sendUserMessage" on="submit"}} class="chat-input" name="userMessage" autocomplete="off">
       <div class="input-group">
         {{input value=userMessage type="text" autocomplete="off" name="lastpass-disable-search" style="border-radius:0px" class="form-control" placeholder="Chat!" data-lpignore="true" }}
-        <button type="submit" name="submitmsg"  class="input-group-btn btn btn-primary chat-input-submit">Send</button>
+        <button type="submit" name="submitmsg" class="input-group-btn btn btn-primary chat-input-submit">Send</button>
       </div>
     </form>{{!-- /Chat Input Field --}}
   </div> {{!-- /Chat message tab content --}}
@@ -97,7 +96,7 @@
       </ul>
     </div>
   </div>
-{{!--
+  {{!--
   <div role="tabpanel" class="tab-pane" id="settingstab">
       <div class="card-body users-body">
         Settings:

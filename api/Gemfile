@@ -12,7 +12,6 @@ gem 'devise'
 gem 'bcrypt', '~> 3.1.7', platform: :ruby
 # Encrypt sensitive ActiveRecord attributes
 gem 'symmetric-encryption'
-gem 'simple_token_authentication', '~> 1.15'
 gem 'fast_jsonapi'
 # gem "active_model_serializers", "~> 0.10.2"
 

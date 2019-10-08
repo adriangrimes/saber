@@ -6,7 +6,6 @@ import config from '../config/environment';
 
 export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
   host: `${config.apiHost}`,
-  identificationAttributeName: 'login',
 
   authorize(xhr) {
     let { email, token } = this.get('session.data.authenticated');
