@@ -3,6 +3,8 @@ class CreateContractorApplications < ActiveRecord::Migration[5.2]
     create_table :contractor_applications do |t|
       t.belongs_to :user, index: { unique: true }
 
+      t.datetime :contractor_data_consent_given_at, default: nil
+
       t.boolean :pending_broadcaster_application, default: false, null: false
       t.boolean :pending_developer_application, default: false, null: false
       t.boolean :pending_affiliate_application, default: false, null: false
@@ -11,7 +13,7 @@ class CreateContractorApplications < ActiveRecord::Migration[5.2]
       ## (These are encrypted at the application level with the
       ## symmetric-encryption gem)
       t.text :full_name
-      t.datetime :birthdate
+      t.string :birthdate
       t.text :address_line1
       t.text :address_line2
       t.text :address_line3
@@ -22,7 +24,7 @@ class CreateContractorApplications < ActiveRecord::Migration[5.2]
       t.text :bitcoin_address
       t.string :bank_account_number
       t.string :bank_routing_number
-      t.boolean :subject_to_backup_withholding, default: nil
+      t.string :subject_to_backup_withholding, default: nil
 
       ## Payout percentages
       t.integer :broadcaster_percentage,
@@ -32,8 +34,6 @@ class CreateContractorApplications < ActiveRecord::Migration[5.2]
         limit: 1, #byte
         default: Rails.application.config.x.saber.developer_payout_percentage
 
-      t.datetime :contractor_data_consent_given_at, default: nil
-      
       t.timestamps
     end
 

@@ -21,7 +21,7 @@ class ChatTicketsController < ApplicationController
       end
     else
       puts 'nothing here'
-      render status: :unprocessable_entity
+      render status: :not_found
     end
   end
 

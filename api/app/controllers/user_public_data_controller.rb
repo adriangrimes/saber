@@ -13,7 +13,7 @@ class UserPublicDataController < ApplicationController
     elsif params[:username]
       puts 'getting single user data'
       user_public_datum = UserPublicDatum
-                          .where("lower(username) = ?", params[:username].downcase)
+                          .where("username = ?", params[:username])
                           .first
       if user_public_datum
         render json: serialize_public_data(user_public_datum), status: :ok
@@ -27,7 +27,7 @@ class UserPublicDataController < ApplicationController
       browse_data = UserPublicDatum
                     .where('broadcaster = true')
                     .order(online_status: :desc, username: :asc)
-      # .limit(25)
+                    # .limit(25)
       render json: serialize_public_data(browse_data, true), status: :ok
     end
   end

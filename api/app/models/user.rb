@@ -35,7 +35,7 @@ class User < ApplicationRecord
   validate :username_passes_misc_rules?
   # Email and password are validated by devise
   validates :private_user_notes, length: { maximum: 60000 }
-  
+
   before_save :ensure_authentication_token
   before_save :ensure_stream_key, if: Proc.new { |u| u.broadcaster }
   before_save :regenerate_authentication_token, if: :encrypted_password_changed?
@@ -57,7 +57,9 @@ class User < ApplicationRecord
   end
 
   def update_public_data_record
-    if self.changes["broadcaster"]
+    p "after commit"
+    p broadcaster
+    if broadcaster_in_database
       p "updating public record to reflect user broadcaster change"
       user_public_datum = self.user_public_datum
       if user_public_datum.broadcaster != self.broadcaster
@@ -133,10 +135,24 @@ class User < ApplicationRecord
     if pending_deletion_since
       p "Suspending account and resetting authentication token"
       # Overwrite the value sent by the client with our server time
-      self.pending_deletion_since = Date.now
+      self.pending_deletion_since = DateTime.now
       self.suspended_account = true
       regenerate_authentication_token
     end
+  end
+
+  def make_broadcaster
+    self.broadcaster = true
+    self.affiliate = true
+  end
+
+  def make_developer
+    self.developer = true
+    self.affiliate = true
+  end
+
+  def make_affiliate
+    self.affiliate = true
   end
 
   private

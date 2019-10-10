@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   resources :credit_purchases
   get '/transactions', to: 'transactions#index'
 
-  resources :contractor_applications
+  resources :contractor_applications, only: %i[index create update]
 
   # Controller for chat authentication
   resources :chat_tickets

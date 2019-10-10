@@ -23,12 +23,12 @@
 
         {{#if currentUser.user.developer}}
           <div class="pb-3">
-            As a developer you have already submited your payment details.<br>
+            As a developer you have already submited your payment details.<br><br>
             Upload your verification documents below to become a developer and broadcaster. <br>
             To sign up for a separate broadcaster account log out, and then visit {{link-to "saber.tv/signup/broadcaster" "signup.broadcaster"}}
 
           </div>
-        {{else if currentUser.user.affiliate}}
+        {{!else if currentUser.user.affiliate}}
           <div class="pb-3">
             As an affiliate you have already submited your payment details.<br><br>
             Upload your verification documents below to become an affiliate and broadcaster. <br>
@@ -40,11 +40,11 @@
 
           <div class="form-group">
             <label for="inputFullName">Full Name <abbr title="This field is mandatory">*</abbr></label>
-            {{input type="text" class="form-control" maxlength="255" value=model.user.fullName }}
+            {{input type="text" class="form-control" maxlength="255" value=model.contractorApplication.fullName }}
           </div>
           <div class="form-group">
             <label for="inputBusinessName">Business Name</label>
-            {{input type="text" class="form-control" maxlength="255" value=model.user.businessName placeholder="optional" key-press=(action "showEntityMenu")}}
+            {{input type="text" class="form-control" maxlength="255" value=model.contractorApplication.businessName placeholder="optional" key-press=(action "showEntityMenu")}}
           </div>
           {{#if isBusiness}}
             <div class="form-check pb-3">
@@ -126,18 +126,18 @@
           <h5> Select Payout Method:</h5>
           <div class="form-check form-check-inline w-100 pb-3">
             <div class=" w-50 mx-0 mr-2 payout-method btn btn-block btn-outline-dark " {{action "checkThis" "inputPayoutCheck"}}>
-              {{radio-button value='check' id="inputPayoutCheck" name=inputPayoutType checked=model.user.payoutMethod}}
+              {{radio-button value='check' id="inputPayoutCheck" name=inputPayoutType checked=model.contractorApplication.payoutMethod}}
               <label class="form-check-label" for="inputPayoutType">Mailed Check</label>
             </div>
             <div class=" w-50 mx-0 mt-0 ml-2 payout-method btn btn-block btn-outline-dark  " {{action "checkThis" "inputPayoutBitcoin"}}>
-              {{radio-button value='bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=model.user.payoutMethod}}
+              {{radio-button value='bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=model.contractorApplication.payoutMethod}}
               <label class="form-check-label" for="inputPayoutType">Bitcoin</label>
             </div>
           </div>
           {{#if payoutIsBitcoin}}
             <div class="form-group" id="bitcoinAddressInputDiv">
               <label for="inputbitcoinaddress">Bitcoin Address</label>
-              {{input type="text" class="form-control" value=model.user.bitcoinAddress }}
+              {{input type="text" class="form-control" value=model.contractorApplication.bitcoinAddress }}
               <small>Please make sure your Bitcoin address is correct</small>
             </div>
           {{/if}}
@@ -145,11 +145,11 @@
 
           <div class="form-group">
             <label for="inputaddress1">Address Line 1</label>
-            {{input type="text" class="form-control" value=model.user.addressLine1 }}
+            {{input type="text" class="form-control" value=model.contractorApplication.addressLine1 }}
           </div>
           <div class="form-group">
             <label for="inputaddress2">Address Line 2</label>
-            {{input type="text" class="form-control" value=model.user.addressLine2 placeholder="optional"}}
+            {{input type="text" class="form-control" value=model.contractorApplication.addressLine2 placeholder="optional"}}
           </div>
           <div class="form-group">
             <label for="inputCity">City</label>
@@ -235,6 +235,9 @@
               model=(mut (get model "userVerificationUploads"))
               store=this.store
             }}
+
+            <label for="consent">Give consent for Saber to store your data?</label>
+            <Input @id="consent" @type="checkbox" @checked={{this.model.contractorApplication.consentGiven}} />
 
           <div class="mt-3 alert alert-dark">
             <h5 class="alert-heading">Note</h5>

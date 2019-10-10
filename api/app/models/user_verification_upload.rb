@@ -8,7 +8,9 @@ class UserVerificationUpload < ApplicationRecord
 
   def part_of_pending_application?
     p "part_of_pending_application?"
-    if user.pending_application == true
+    p self
+    app = ContractorApplication.find_by(user_id: self.user_id)
+    if app && app.pending_broadcaster_application == true
       p "yes"
       errors[:base] << 'Can\'t delete uploads when there is a pending application'
       throw(:abort)

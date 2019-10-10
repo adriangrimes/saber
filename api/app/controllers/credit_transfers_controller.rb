@@ -38,7 +38,7 @@ class CreditTransfersController < ApplicationController
             @credit_transfer.transfer_description =
               "#{sender.username} tipped #{@credit_transfer.credits_transferred} credits to #{receiver.username}"
             @credit_transfer.broadcaster_payout_percentage =
-              receiver.broadcaster_percentage
+              receiver.contractor_application.broadcaster_percentage
 
             if @credit_transfer.save
               render json: CreditTransferSerializer.new(@credit_transfer), status: :created

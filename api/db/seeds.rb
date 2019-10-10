@@ -147,7 +147,7 @@ help_topics.each do |help_topic|
 end
 
 if Rails.env.production? == false
-  include FakeUsernames # api-server/lib/fake_usernames.rb
+  include FakeUsernames # api/lib/fake_usernames.rb
   include StreamKey
   SymmetricEncryption.load!
   verification_uploader = VerificationUploader.new(:store)
@@ -156,9 +156,9 @@ if Rails.env.production? == false
   fake_usernames = fake_usernames.shuffle
 
   fake_tag_array = ['wow', 'yes', 'nice', 'drums',
-    'no', 'wee', 'sun', 'praise', 'test', 'sauce', 'MMO', 'english',
-    'overwatch', 'slamdunk', 'multiplayer', 'PvE', 'raid', 'aaa', 'tes',
-    'testtest', 'testtesttest']
+                    'no', 'sun', 'praise', 'test', 'MMO', 'english',
+                    'overwatch', 'slamdunk', 'multiplayer', 'PvE', 'raid', 'aaa', 'tes',
+                    'testtest', 'testtesttest']
 
   fake_online_statuses = [true, false]
   payout_methods = ["check", "bitcoin"]
@@ -172,6 +172,7 @@ if Rails.env.production? == false
   # User for testing database defaults
   # Email, username, password, and a user_public_datum record are the minimum
   # required to save a user
+  p "========================================="
   emptyuser = User.new(
     email: "emptyuser@email.com",
     username: "EmptyUser",
@@ -185,21 +186,16 @@ if Rails.env.production? == false
   emptyuser.save!
 
   # BroadcasterTester1
+  p "BroadcasterTester1 ========================================="
   age = rand(13..100)
   broadcaster1 = User.new(
     email: "broadcastertester1@email.com",
     username: "BroadcasterTester1",
     password: "12345671",
-    full_name: "Streamer1 C1 Aster1",
-    birthdate: age.years.ago.to_date,
     dark_mode: false,
     send_email_followed_online: false,
-    stream_key: StreamKey.generate(),
-    payout_method: payout_methods.sample,
-    address_line1: "321 Nice St",
-    address_line3: "Townsville|Virginia|90001|United States"
+    stream_key: StreamKey.generate()
   )
-  broadcaster1.bitcoin_address = "SDfjknsjkjh389f" if broadcaster1.payout_method == 'bitcoin'
   broadcaster1.skip_confirmation!
   tags = fake_tag_array.sample(rand(0..3))
   puts tags.inspect
@@ -231,13 +227,29 @@ if Rails.env.production? == false
       )
       .to_json
   )
-  broadcaster1.broadcaster = true
-  broadcaster1.user_public_datum.update(broadcaster: true)
+  broadcaster1.build_contractor_application(
+    consent_given: true,
+    pending_broadcaster_application: true,
+    full_name: "Streamer1 C1 Aster1",
+    birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ'),
+    payout_method: 'bitcoin',
+    bitcoin_address: "SDfjknsjkjh389f",
+    address_line1: "321 Nice St",
+    address_line3: "Townsville|Virginia|90001|United States",
+    business_identification_number: "101-11-1111",
+    subject_to_backup_withholding: true
+  )
+  broadcaster1.contractor_application.save!
+  broadcaster1.contractor_application.pending_application_override = true
+  broadcaster1.contractor_application.pending_broadcaster_application = false
+  broadcaster1.contractor_application.save!
+  broadcaster1.make_broadcaster
   broadcaster1.save!
 
   # Users used to check that password encryption is working correctly when
   # two users have the same password
   2.times do |j|
+    p "========================================="
     samepass = User.new(
       email: "samepass#{j + 1}@email.com",
       username: "SamePass#{j + 1}",
@@ -253,6 +265,7 @@ if Rails.env.production? == false
 
   ###########################################
   # Test users
+  p "========================================="
   usercount.times do |i|
     testuser = User.new(
       email: "usertester#{i + 1}@email.com",
@@ -273,22 +286,17 @@ if Rails.env.production? == false
   ###########################################
   # Test broadcasters
   broadcastercount.times do |i|
+    p "broadcaster ========================================="
     i += 1
     age = rand(13..100)
     testbroadcaster = User.new(
       email: "broadcastertester#{i + 1}@email.com",
       username: fake_usernames[i].capitalize,
       password: "asdfasdf",
-      full_name: "Streamer#{i + 1} C#{i + 1} Aster#{i + 1}",
-      birthdate: age.years.ago.to_date,
       dark_mode: false,
-      send_email_followed_online: false,
-      stream_key: StreamKey.generate(),
-      payout_method: payout_methods.sample,
-      address_line1: "#{i + 1} Nice St",
-      address_line3: "Townsville|Virginia|900#{i + 1}|United States"
+      send_email_followed_online: false
+      stream_key: StreamKey.generate()
     )
-    testbroadcaster.bitcoin_address = "#{i + 1}SDfjknsjkjh389f" if testbroadcaster.payout_method == 'bitcoin'
     p "about to skip confirmation"
     testbroadcaster.skip_confirmation!
     onlinestatus = fake_online_statuses.sample # ~X% of users as online
@@ -329,53 +337,97 @@ if Rails.env.production? == false
         )
         .to_json
     )
-    testbroadcaster.broadcaster = true
-    testbroadcaster.affiliate = true
-    testbroadcaster.user_public_datum.update(broadcaster: true)
+    attribs = {
+      consent_given: true,
+      pending_broadcaster_application: true,
+      full_name: "Streamer#{i + 1} C#{i + 1} Aster#{i + 1}",
+      birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,
+      payout_method: payout_methods.sample,
+      address_line1: "#{i + 1} Nice St",
+      address_line3: "Townsville|Virginia|900#{i + 1}|United States",
+      business_identification_number: "#{i + 1}01-11-1111",
+      subject_to_backup_withholding: [true, false].sample
+    }
+    attribs[:bitcoin_address] = "#{i + 1}SDfjknsjkjh389f" if attribs[:payout_method] == 'bitcoin'
+    testbroadcaster.build_contractor_application(attribs)
+    testbroadcaster.contractor_application.save!
+    testbroadcaster.contractor_application.pending_application_override = true
+    testbroadcaster.contractor_application.pending_broadcaster_application = false
+    testbroadcaster.contractor_application.save!
+    testbroadcaster.make_broadcaster
     testbroadcaster.save!
   end
 
   ###########################################
   # Test developers
   developercount.times do |i|
+    p "========================================="
+    age = rand(13..100)
     testdeveloper = User.new(
       email: "developertester#{i + 1}@email.com",
       username: "DeveloperTester#{i + 1}",
       password: "1234567#{i + 1}",
-      full_name: "Dev#{i + 1} E#{i + 1} Loper#{i + 1}",
       dark_mode: false,
-      developer: true,
-      affiliate: true,
       send_email_followed_online: false
     )
     testdeveloper.skip_confirmation!
     testdeveloper.build_user_public_datum(
       username: testdeveloper.username,
       broadcaster: false,
-      profile_age: rand(13..100),
+      profile_age: age,
       profile_about_me: "just developin"
     )
+    attribs = {
+      consent_given: true,
+      pending_developer_application: true,
+      full_name: "Dev#{i + 1} E#{i + 1} Loper#{i + 1}",
+      birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,
+      payout_method: payout_methods.sample,
+      address_line1: "#{i + 1} Nice St",
+      address_line3: "Townsville|Virginia|900#{i + 1}|United States",
+      business_identification_number: "#{i + 1}02-22-2222",
+      subject_to_backup_withholding: [true, false].sample
+    }
+    attribs[:bitcoin_address] = "#{i + 1}SDfjknsjkjh389f" if attribs[:payout_method] == 'bitcoin'
+    testdeveloper.build_contractor_application(attribs)
+    testdeveloper.contractor_application.save!
+    testdeveloper.make_developer
     testdeveloper.save!
   end
 
   ###########################################
   # Test affiliates
   affiliatecount.times do |i|
+    p "========================================="
+    age = rand(13..100)
     testaffiliate = User.new(
       email: "affiliatetester#{i + 1}@email.com",
       username: "AffiliateTester#{i + 1}",
       password: "1234567#{i + 1}",
-      full_name: "Aff#{i + 1} Ili#{i + 1} Ate#{i + 1}",
       dark_mode: false,
-      affiliate: true,
       send_email_followed_online: false
     )
     testaffiliate.skip_confirmation!
     testaffiliate.build_user_public_datum(
       username: testaffiliate.username,
       broadcaster: false,
-      profile_age: rand(13..100)
+      profile_age: age
     )
+    attribs = {
+      consent_given: true,
+      pending_affiliate_application: true,
+      full_name: "Aff#{i + 1} Ili#{i + 1} Ate#{i + 1}",
+      birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,
+      payout_method: payout_methods.sample,
+      address_line1: "#{i + 1} Nice St",
+      address_line3: "Townsville|Virginia|900#{i + 1}|United States",
+      business_identification_number: "#{i + 1}03-33-3333",
+      subject_to_backup_withholding: [true, false].sample
+    }
+    attribs[:bitcoin_address] = "#{i + 1}SDfjknsjkjh389f" if attribs[:payout_method] == 'bitcoin'
+    testaffiliate.build_contractor_application(attribs)
+    testaffiliate.contractor_application.save!
+    testaffiliate.make_affiliate
     testaffiliate.save!
   end
 

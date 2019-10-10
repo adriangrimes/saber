@@ -336,7 +336,8 @@ function addChatUserToRequestedChannel(client, req) {
             channel.totalUsers += 1;
             broadcastUserJoinAndUserCount(client);
           }
-        } else if (res && res.statusCode == 422) {
+          //4XX status code
+        } else if (res && res.statusCode.toString()[0] == '4') {
           // Else client is a guest, increment guest and totalUsers counter and
           // send updated user count to client
           console.log(

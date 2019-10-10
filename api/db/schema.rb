@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_20_200321) do
+ActiveRecord::Schema.define(version: 2019_10_07_230418) do
 
   create_table "chat_tickets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -39,6 +39,32 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.datetime "end"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "contractor_applications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.datetime "contractor_data_consent_given_at"
+    t.boolean "pending_broadcaster_application", default: false, null: false
+    t.boolean "pending_developer_application", default: false, null: false
+    t.boolean "pending_affiliate_application", default: false, null: false
+    t.text "full_name"
+    t.string "birthdate"
+    t.text "address_line1"
+    t.text "address_line2"
+    t.text "address_line3"
+    t.text "business_name"
+    t.text "business_entity_type"
+    t.string "business_identification_number"
+    t.string "payout_method"
+    t.text "bitcoin_address"
+    t.string "bank_account_number"
+    t.string "bank_routing_number"
+    t.string "subject_to_backup_withholding"
+    t.integer "broadcaster_percentage", limit: 1, default: 50
+    t.integer "developer_percentage", limit: 1, default: 5
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_contractor_applications_on_user_id", unique: true
   end
 
   create_table "credit_purchases", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -182,8 +208,6 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.boolean "broadcaster", default: false, null: false
     t.boolean "developer", default: false, null: false
     t.boolean "affiliate", default: false, null: false
-    t.boolean "pending_application", default: false, null: false
-    t.string "account_status", default: "Created"
     t.boolean "suspended_account", default: false, null: false
     t.boolean "admin_status", default: false
     t.datetime "pending_deletion_since"
@@ -194,22 +218,6 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.boolean "send_email_site_news", default: false, null: false
     t.boolean "private_message_email_notifications", default: true, null: false
     t.text "private_user_notes"
-    t.datetime "data_consent_given_at"
-    t.text "full_name"
-    t.datetime "birthdate"
-    t.text "address_line1"
-    t.text "address_line2"
-    t.text "address_line3"
-    t.text "business_name"
-    t.text "business_entity_type"
-    t.string "business_identification_number"
-    t.string "payout_method"
-    t.text "bitcoin_address"
-    t.string "bank_account_number"
-    t.string "bank_routing_number"
-    t.boolean "subject_to_backup_withholding"
-    t.integer "broadcaster_percentage", limit: 1, default: 50
-    t.integer "developer_percentage", limit: 1, default: 5
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -235,6 +243,7 @@ ActiveRecord::Schema.define(version: 2019_07_20_200321) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "contractor_applications", "users"
   add_foreign_key "credit_purchases", "users"
   add_foreign_key "credit_transfers", "users", column: "from_user_id"
   add_foreign_key "credit_transfers", "users", column: "to_user_id"

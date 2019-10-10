@@ -450,13 +450,18 @@ export default Controller.extend({
       //TODO Add Actual Data Handling, Copy from Save for later
 
       if (
-        this.model.user.fullName &&
-        this.inputElecSig.trim() == this.model.user.fullName.trim()
+        this.model.contractorApplication.fullName &&
+        this.inputElecSig.trim() ==
+          this.model.contractorApplication.fullName.trim()
       ) {
         if (
-          (this.model.user.businessName && this.inputEntityType) ||
-          (!this.model.user.businessName && !this.inputEntityType) ||
-          (!this.model.user.businessName && this.inputEntityType)
+          true
+          // (this.model.contractorApplication.businessName &&
+          //   this.inputEntityType) ||
+          // (!this.model.contractorApplication.businessName &&
+          //   !this.inputEntityType) ||
+          // (!this.model.contractorApplication.businessName &&
+          //   this.inputEntityType)
         ) {
           var address3 =
             this.inputCity.trim() +
@@ -466,7 +471,10 @@ export default Controller.extend({
             this.inputZipcode.trim() +
             '|' +
             this.inputCountry.trim();
-          this.model.user.set('addressLine3', address3.trim());
+          this.model.contractorApplication.set('addressLine3', address3.trim());
+          console.log(this.inputMonth.trim());
+          console.log(this.inputDay.trim());
+          console.log(this.inputYear.trim());
           let birthdate = new Date(
             this.inputMonth.trim() +
               ' ' +
@@ -474,39 +482,62 @@ export default Controller.extend({
               ', ' +
               this.inputYear.trim()
           );
-          this.model.user.set('birthdate', birthdate);
-          if (this.model.user.businessName) {
-            this.model.user.set(
+          console.log(birthdate.toISOString());
+          console.log(birthdate);
+          this.model.contractorApplication.set('birthdate', birthdate);
+          if (this.model.contractorApplication.businessName) {
+            this.model.contractorApplication.set(
               'businessName',
-              this.model.user.businessName.trim()
+              this.model.contractorApplication.businessName.trim()
             );
-            this.model.user.set('businessEntityType', this.inputEntityType);
-            if (this.model.user.businessEntityType.trim() == 'Other') {
-              this.model.user.set(
+            this.model.contractorApplication.set(
+              'businessEntityType',
+              this.inputEntityType
+            );
+            if (
+              this.model.contractorApplication.businessEntityType.trim() ==
+              'Other'
+            ) {
+              this.model.contractorApplication.set(
                 'businessEntityType',
-                'Other|' + this.otherEntityText.trim()
+                'Other|' + (this.otherEntityText.trim() || '')
               );
             }
           } else {
-            this.model.user.set('businessName', null);
-            this.model.user.set('businessEntityType', null);
+            this.model.contractorApplication.set('businessName', null);
+            this.model.contractorApplication.set('businessEntityType', null);
           }
           if (this.inputCountry.trim() == 'United States') {
-            this.model.user.set('businessIdentificationNumber', this.inputTIN);
-            this.model.user.set(
+            this.model.contractorApplication.set(
+              'businessIdentificationNumber',
+              this.inputTIN
+            );
+            this.model.contractorApplication.set(
               'subjectToBackupWithholding',
               this.withholdingInput
             );
           } else {
-            this.model.user.set('businessIdentificationNumber', null);
-            this.model.user.set('subjectToBackupWithholding', null);
+            this.model.contractorApplication.set(
+              'businessIdentificationNumber',
+              null
+            );
+            this.model.contractorApplication.set(
+              'subjectToBackupWithholding',
+              null
+            );
           }
-          this.model.user.set('pendingApplication', true);
-          this.model.user
+          this.model.contractorApplication.set(
+            'pendingBroadcasterApplication',
+            true
+          );
+          this.model.contractorApplication
             .save()
-            .then(user => {
+            .then(app => {
               console.log('submition of broadcaster application saved');
-              this.set('applicationIsPending', user.pendingApplication);
+              this.set(
+                'applicationIsPending',
+                app.pendingBroadcasterApplication
+              );
               this.set('broadcasterVerifySubmitText', '');
               this.set(
                 'broadcasterVerifySubmitBtn',
@@ -515,7 +546,10 @@ export default Controller.extend({
             })
             .catch(reason => {
               console.log('error saving user record: ' + reason);
-              console.log('error saving user record: ', this.model.user.errors);
+              console.log(
+                'error saving user record: ',
+                this.model.contractorApplication.errors
+              );
               this.set('errorMessage', reason.error || reason);
             });
         } else {

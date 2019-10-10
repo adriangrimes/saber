@@ -442,19 +442,15 @@ export default Controller.extend({
 
     submitAffiliateVerification() {
       //Add Actual Data Handling, Copy from Save for later
-      //Change accountStatus to Pending verification
-      //Take the user to the dashboard with notification that we'll review their Application
-      //Send the user an email to confirm we got their application and will respond
-      //Send us an urgent email letting us know to review their application
 
       this.get('store')
-        .findRecord('user', this.get('session.data.authenticated.user_id'))
-        .then(user => {
+        .query('contractor-application')
+        .then(app => {
+          // var userEmail = 'user@gmail.com';
           // Record that they have started, but not finished the application
-          // user.set('', 'Started Affiliate Application');
 
           // Save record to db
-          user
+          app
             .save()
             .then(() => {
               console.log('affiliateSaveForLater saved');
@@ -495,19 +491,19 @@ export default Controller.extend({
       console.log(dateofbirth);
 
       this.store
-        .findRecord('user', this.get('session.data.authenticated.user_id'))
-        .then(user => {
+        .query('contractor-application')
+        .then(app => {
           // Modify record pulled from db to variable
-          user.set('firstName', updateFirstName);
-          user.set('middleName', updateMiddleName);
-          user.set('lastName', updateLastName);
-          user.set('birthdate', dateofbirth);
-          user.set('addressLine1', address1);
-          user.set('addressLine2', address2);
-          user.set('addressLine3', address3);
+          app.set('firstName', updateFirstName);
+          app.set('middleName', updateMiddleName);
+          app.set('lastName', updateLastName);
+          app.set('birthdate', dateofbirth);
+          app.set('addressLine1', address1);
+          app.set('addressLine2', address2);
+          app.set('addressLine3', address3);
 
           // Save record to db
-          user
+          app
             .save()
             .then(() => {
               console.log('affiliateSaveForLater saved');
