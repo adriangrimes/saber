@@ -60,9 +60,9 @@ class User < ApplicationRecord
     p "after commit"
     p broadcaster
     if broadcaster_in_database
-      p "updating public record to reflect user broadcaster change"
       user_public_datum = self.user_public_datum
       if user_public_datum.broadcaster != self.broadcaster
+        p "updating public record to reflect user broadcaster change"
         user_public_datum.update_attributes(:broadcaster => self.broadcaster)
       end
     end

@@ -119,16 +119,6 @@ export default Service.extend({
     }
   },
 
-  // setupModal() {
-  //   // this.currentUser.set('hasModalOpen', true);
-  //   // this.currentUser.set('errorMessages', []);
-  // },
-  // cleanUpModal() {
-  //   // jQuery('#loginModal').modal('hide');
-  //   // this.currentUser.set('hasModalOpen', false);
-  //   // this.currentUser.set('errorMessages', []);
-  // },
-
   load() {
     console.log(
       'currentUser.load() user_id: ' +

@@ -2,9 +2,10 @@ class ContractorApplication < ApplicationRecord
 
   belongs_to :user
 
+  # Virtual attributes
   attribute :consent_given, type: :boolean
   attribute :pending_application_override, type: :boolean
-  # Encrypt attributes with symmetric-encryption
+  # Encrypt these attributes with symmetric-encryption gem
   attribute :full_name, :encrypted, type: :string
   attribute :birthdate, :encrypted, type: :datetime
   attribute :address_line1, :encrypted, type: :string
@@ -31,11 +32,9 @@ class ContractorApplication < ApplicationRecord
     app.validates :birthdate, presence: true
     app.validates :payout_method, presence: true
     app.validates :bitcoin_address, presence: true,
-      if: Proc.new { |u|
-        p u
-        if u.payout_method
-          u.payout_method.include?('bitcoin')
-        end }
+      if: Proc.new { |u| if u.payout_method
+        u.payout_method.include?('bitcoin')
+      end }
     app.validates :address_line1, presence: true
     app.validate :address_line3_is_valid
     with_options if: :located_in_united_states? do |us_app|
@@ -55,6 +54,8 @@ class ContractorApplication < ApplicationRecord
 
   after_commit :auto_approve_developer_or_affiliate
 
+  ## Functions
+  
   def auto_approve_developer_or_affiliate
     if pending_developer_application || pending_affiliate_application
       if pending_developer_application
