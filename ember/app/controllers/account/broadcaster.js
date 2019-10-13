@@ -454,107 +454,103 @@ export default Controller.extend({
         this.inputElecSig.trim() ==
           this.model.contractorApplication.fullName.trim()
       ) {
-        if (
-          true
-          // (this.model.contractorApplication.businessName &&
-          //   this.inputEntityType) ||
-          // (!this.model.contractorApplication.businessName &&
-          //   !this.inputEntityType) ||
-          // (!this.model.contractorApplication.businessName &&
-          //   this.inputEntityType)
-        ) {
-          var address3 =
-            this.inputCity.trim() +
-            '|' +
-            this.inputRegion.trim() +
-            '|' +
-            this.inputZipcode.trim() +
-            '|' +
-            this.inputCountry.trim();
-          this.model.contractorApplication.set('addressLine3', address3.trim());
-          console.log(this.inputMonth.trim());
-          console.log(this.inputDay.trim());
-          console.log(this.inputYear.trim());
-          let birthdate = new Date(
-            this.inputMonth.trim() +
-              ' ' +
-              this.inputDay.trim() +
-              ', ' +
-              this.inputYear.trim()
+        // if (
+        // (this.model.contractorApplication.businessName &&
+        //   this.inputEntityType) ||
+        // (!this.model.contractorApplication.businessName &&
+        //   !this.inputEntityType) ||
+        // (!this.model.contractorApplication.businessName &&
+        //   this.inputEntityType)
+        // ) {
+        var address3 =
+          this.inputCity.trim() +
+          '|' +
+          this.inputRegion.trim() +
+          '|' +
+          this.inputZipcode.trim() +
+          '|' +
+          this.inputCountry.trim();
+        this.model.contractorApplication.set('addressLine3', address3.trim());
+        console.log(this.inputMonth.trim());
+        console.log(this.inputDay.trim());
+        console.log(this.inputYear.trim());
+        let birthdate = new Date(
+          this.inputMonth.trim() +
+            ' ' +
+            this.inputDay.trim() +
+            ', ' +
+            this.inputYear.trim()
+        );
+        console.log(birthdate.toISOString());
+        console.log(birthdate);
+        this.model.contractorApplication.set('birthdate', birthdate);
+        if (this.model.contractorApplication.businessName) {
+          this.model.contractorApplication.set(
+            'businessName',
+            this.model.contractorApplication.businessName.trim()
           );
-          console.log(birthdate.toISOString());
-          console.log(birthdate);
-          this.model.contractorApplication.set('birthdate', birthdate);
-          if (this.model.contractorApplication.businessName) {
-            this.model.contractorApplication.set(
-              'businessName',
-              this.model.contractorApplication.businessName.trim()
-            );
+          this.model.contractorApplication.set(
+            'businessEntityType',
+            this.inputEntityType
+          );
+          if (
+            this.model.contractorApplication.businessEntityType.trim() ==
+            'Other'
+          ) {
             this.model.contractorApplication.set(
               'businessEntityType',
-              this.inputEntityType
-            );
-            if (
-              this.model.contractorApplication.businessEntityType.trim() ==
-              'Other'
-            ) {
-              this.model.contractorApplication.set(
-                'businessEntityType',
-                'Other|' + (this.otherEntityText.trim() || '')
-              );
-            }
-          } else {
-            this.model.contractorApplication.set('businessName', null);
-            this.model.contractorApplication.set('businessEntityType', null);
-          }
-          if (this.inputCountry.trim() == 'United States') {
-            this.model.contractorApplication.set(
-              'businessIdentificationNumber',
-              this.inputTIN
-            );
-            this.model.contractorApplication.set(
-              'subjectToBackupWithholding',
-              this.withholdingInput
-            );
-          } else {
-            this.model.contractorApplication.set(
-              'businessIdentificationNumber',
-              null
-            );
-            this.model.contractorApplication.set(
-              'subjectToBackupWithholding',
-              null
+              'Other|' + (this.otherEntityText.trim() || '')
             );
           }
-          this.model.contractorApplication.set(
-            'pendingBroadcasterApplication',
-            true
-          );
-          this.model.contractorApplication
-            .save()
-            .then(app => {
-              console.log('submition of broadcaster application saved');
-              this.set(
-                'applicationIsPending',
-                app.pendingBroadcasterApplication
-              );
-              this.set('broadcasterVerifySubmitText', '');
-              this.set(
-                'broadcasterVerifySubmitBtn',
-                'btn btn-primary fa fa-check'
-              );
-            })
-            .catch(reason => {
-              console.log('error saving user record: ' + reason);
-              console.log(
-                'error saving user record: ',
-                this.model.contractorApplication.errors
-              );
-              this.set('errorMessage', reason.error || reason);
-            });
         } else {
-          console.error('business entity required');
+          this.model.contractorApplication.set('businessName', null);
+          this.model.contractorApplication.set('businessEntityType', null);
         }
+        if (this.inputCountry.trim() == 'United States') {
+          this.model.contractorApplication.set(
+            'businessIdentificationNumber',
+            this.inputTIN
+          );
+          this.model.contractorApplication.set(
+            'subjectToBackupWithholding',
+            this.withholdingInput
+          );
+        } else {
+          this.model.contractorApplication.set(
+            'businessIdentificationNumber',
+            null
+          );
+          this.model.contractorApplication.set(
+            'subjectToBackupWithholding',
+            null
+          );
+        }
+        this.model.contractorApplication.set(
+          'pendingBroadcasterApplication',
+          true
+        );
+        this.model.contractorApplication
+          .save()
+          .then(app => {
+            console.log('submition of broadcaster application saved');
+            this.set('applicationIsPending', app.pendingBroadcasterApplication);
+            this.set('broadcasterVerifySubmitText', '');
+            this.set(
+              'broadcasterVerifySubmitBtn',
+              'btn btn-primary fa fa-check'
+            );
+          })
+          .catch(reason => {
+            console.log('error saving user record: ' + reason);
+            console.log(
+              'error saving user record: ',
+              this.model.contractorApplication.errors
+            );
+            this.set('errorMessage', reason.error || reason);
+          });
+        // } else {
+        //   console.error('business entity required');
+        // }
       } else {
         console.error('signature does not match');
       }

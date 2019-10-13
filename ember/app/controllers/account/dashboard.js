@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import { inject } from '@ember/service';
-import $ from 'jquery';
+import jQuery from 'jquery';
 
 export default Controller.extend({
   store: inject(),
@@ -17,14 +17,14 @@ export default Controller.extend({
   actions: {
     showStreamKey() {
       if (this.streamKeyHidden) {
-        $('[id=streamKeyDisplayID]').val(this.model.user.streamKey);
+        jQuery('[id=streamKeyDisplayID]').val(this.model.user.streamKey);
         this.set('streamKeyHidden', false);
-        $('[id=showStreamKeyBtn]').text('Hide Stream Key');
+        jQuery('[id=showStreamKeyBtn]').text('Hide Stream Key');
       } else {
         this.set('streamKeyHidden', true);
-        $('[id=streamKeyDisplayID]').val('********************');
+        jQuery('[id=streamKeyDisplayID]').val('********************');
 
-        $('[id=showStreamKeyBtn]').text('Show Stream Key');
+        jQuery('[id=showStreamKeyBtn]').text('Show Stream Key');
       }
     },
     resetStreamKey() {
@@ -39,7 +39,7 @@ export default Controller.extend({
         );
       }
       if (this.streamKeyHidden == false) {
-        $('[id=streamKeyDisplayID]').val(newStreamKey);
+        jQuery('[id=streamKeyDisplayID]').val(newStreamKey);
       }
 
       this.set('streamKey', newStreamKey);

@@ -88,7 +88,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   actions: {
-    willTransition(transition) {
+    willTransition(/*transition*/) {
       this.controller.get('model.contractorApplication').rollbackAttributes();
       return true;
     }

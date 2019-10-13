@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 //import { inject } from '@ember/service';
-import $ from 'jquery';
+import jQuery from 'jquery';
 
 export default Controller.extend({
   daysList: [
@@ -420,12 +420,12 @@ export default Controller.extend({
       }
     },
     checkThis(toBeChecked) {
-      $('#' + toBeChecked)
+      jQuery('#' + toBeChecked)
         .prop('checked', true)
         .change();
     },
     checkBitcoin(toBeChecked) {
-      $('#' + toBeChecked)
+      jQuery('#' + toBeChecked)
         .prop('checked', true)
         .change();
 
@@ -442,10 +442,6 @@ export default Controller.extend({
 
     submitDeveloperVerification() {
       //Add Actual Data Handling, Copy from Save for later
-      //Change accountStatus to Pending verification
-      //Take the user to the dashboard with notification that we'll review their Application
-      //Send the user an email to confirm we got their application and will respond
-      //Send us an urgent email letting us know to review their application
 
       this.get('store')
         .findRecord('user', this.get('session.data.authenticated.user_id'))
