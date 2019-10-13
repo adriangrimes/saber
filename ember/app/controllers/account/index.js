@@ -434,12 +434,6 @@ export default Controller.extend({
         this.set('inputPayoutType', 'check');
       }
 
-      if (toBeChecked == 'inputSpendTrue') {
-        this.set('inputSpendCredits', true);
-      } else if (toBeChecked == 'inputSpendFalse') {
-        this.set('inputSpendCredits', false);
-      }
-
       if (toBeChecked == 'inputDefaultAll') {
         this.set('inputDefaultSearch', 'all');
       } else if (toBeChecked == 'inputDefaultFemale') {
@@ -541,7 +535,6 @@ export default Controller.extend({
       var zipcode = this.inputZipcode;
       var country = this.inputCountry;
       var address3 = city + '|' + region + '|' + zipcode + '|' + country;
-      var spendStatus = this.inputSpendCredits;
 
       this.store
         .findRecord('user', this.get('session.data.authenticated.user_id'))

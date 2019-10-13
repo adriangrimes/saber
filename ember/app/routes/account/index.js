@@ -38,8 +38,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.set('inputAnswer3', allQuestions[5]);
     }
 
-    controller.set('inputSpendCredits', model.get('spendsCredits'));
-
     controller.set(
       'sendEmailFollowedOnline',
       model.get('sendEmailFollowedOnline')

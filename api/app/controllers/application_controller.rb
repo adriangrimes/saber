@@ -10,7 +10,6 @@ class ApplicationController < ActionController::API
   def token_is_authorized_for_id?(user_id)
     p ">>> token_is_authorized_for_id? called"
     user_id = user_id.to_i
-    # TODO: encrypt authentication token
     @authenticated_user = nil
     # Extract token from Authentication header
     authenticate_with_http_token do |token, options|
@@ -51,7 +50,6 @@ class ApplicationController < ActionController::API
 
   def get_user_id_from_token
     p ">>> get_user_id_from_token called"
-    # TODO: encrypt authentication token
     @authenticated_user = nil
     # Extract token from Authentication header
     authenticate_with_http_token do |token, options|
