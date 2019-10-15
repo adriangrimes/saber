@@ -11,9 +11,6 @@ import Webcam from '@uppy/webcam';
 import XHRUpload from '@uppy/xhr-upload';
 
 export default Component.extend({
-  // init() {
-  //   this._super(...arguments);
-  // },
   minNumberOfFiles: 1,
   maxNumberOfFiles: 30,
   maxFileSize: 5 * 1024 * 1024,
@@ -85,32 +82,9 @@ export default Component.extend({
           if (result.failed.length == 0) {
             console.log('all files uploaded successfully');
             this.onUploaded(result.successful);
-            // var that = this;
-            // this.get('uppy')
-            //   .getFiles()
-            //   .forEach(function(file) {
-            //     that.get('uppy').removeFile(file.id);
-            //     console.log(file);
-            //   });
           }
         })
     );
-
-    // this.model.forEach(upload => {
-    //   fetch(upload.fileUrl)
-    //     .then(response => response.blob()) // returns a Blob
-    //     .then(blob => {
-    //       console.log(blob);
-    //       var fileId = this.get('uppy').addFile({
-    //         type: blob.type,
-    //         data: blob
-    //       });
-    //       console.log(this.get('uppy').getState());
-    //       this.get('uppy').setFileState(fileId, {
-    //         progress: { uploadComplete: true, uploadStarted: true }
-    //       });
-    //     });
-    // });
   },
 
   willDestroyElement() {

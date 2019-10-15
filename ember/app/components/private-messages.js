@@ -17,8 +17,8 @@ export default Component.extend({
       'currentUsername',
       this.get('session.data.authenticated.username')
     );
-    if(this.toUser){
-    this.set('selectedUser', this.toUser);  
+    if (this.toUser) {
+      this.set('selectedUser', this.toUser);
     }
     this.set('privateMessages', []);
     if (this.selectedUser) {

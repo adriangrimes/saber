@@ -4,10 +4,14 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
+    storeConfigInMeta: false,
     'ember-bootstrap': {
       bootstrapVersion: 4,
       importBootstrapFont: false,
       importBootstrapCSS: false
+    },
+    emberNotify: {
+      importCss: false
     },
     outputPaths: {
       app: {

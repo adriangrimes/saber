@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 //import { inject } from '@ember/service';
-import $ from 'jquery';
+import jQuery from 'jquery';
 
 export default Controller.extend({
   daysList: [
@@ -420,12 +420,12 @@ export default Controller.extend({
       }
     },
     checkThis(toBeChecked) {
-      $('#' + toBeChecked)
+      jQuery('#' + toBeChecked)
         .prop('checked', true)
         .change();
     },
     checkBitcoin(toBeChecked) {
-      $('#' + toBeChecked)
+      jQuery('#' + toBeChecked)
         .prop('checked', true)
         .change();
 

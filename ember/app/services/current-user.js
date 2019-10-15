@@ -8,6 +8,7 @@ export default Service.extend({
   // Services
   session: service(),
   store: service(),
+  notify: service(),
   themeChanger: service(),
 
   signupSuccess: false,
@@ -51,10 +52,10 @@ export default Service.extend({
   },
 
   logOut() {
-    this.store.unloadAll('user');
     this.set('user', {});
-    this.session.invalidate();
+    this.store.unloadAll('user');
     this.themeChanger.set('theme', 'default');
+    this.session.invalidate();
   },
 
   // Registration
@@ -100,7 +101,9 @@ export default Service.extend({
         .then(() => {
           // Clean up
           this.set('errorMessages', []);
-          this.set('signupSuccess', true);
+          this.get('notify').success(
+            'Account created! Check your email to confirm and activate your account.'
+          );
         })
         .catch(err => {
           console.log('save sign up failed');

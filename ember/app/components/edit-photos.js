@@ -8,6 +8,7 @@ export default Component.extend({
 
   photoSubmitBtn: 'btn btn-primary',
   photoSubmitText: 'Save',
+
   // didInsertElement() {
   //   this._super(...arguments);
   // },

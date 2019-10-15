@@ -55,7 +55,7 @@ class ContractorApplication < ApplicationRecord
   after_commit :auto_approve_developer_or_affiliate
 
   ## Functions
-  
+
   def auto_approve_developer_or_affiliate
     if pending_developer_application || pending_affiliate_application
       if pending_developer_application

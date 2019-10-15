@@ -4,6 +4,14 @@
 {{! These don't function yet, just graphical stand ins }}
 {{! private-messenger}}
 {{! popup-alert}}
+{{#ember-notify closeAfter=6000 messageStyle='bootstrap' defaultClass="custom-notify" as |message close| }}
+  <a {{action close}} class="close">
+    <span aria-hidden="true">&nbsp;&nbsp;×&nbsp;&nbsp;</span>
+  </a>
+  <span class="message">
+    {{message.text}}
+  </span>
+{{/ember-notify}}
 
 <div class="d-block d-sm-none red-bar position-absolute fixed-top"></div>
 <nav class="navbar navbar-default navbar-expand-sm fixed-top pl-1 pr-1" id="nav-bar" style="z-index: 1049;">

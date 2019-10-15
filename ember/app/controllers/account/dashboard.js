@@ -5,6 +5,7 @@ import jQuery from 'jquery';
 export default Controller.extend({
   store: inject(),
   session: inject(),
+
   streamKeyDisplay: '********************',
   streamKeyHidden: true,
   keyCopySuccess: 'd-none',

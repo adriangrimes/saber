@@ -10,7 +10,7 @@ class StreamsController < ApplicationController
     if params[:name]
       streaming_user = User.where('stream_key = ?', params[:name]).first
       if streaming_user
-        async_set_and_confirm_stream_state(streaming_user)
+        async_confirm_and_set_stream_state(streaming_user)
         # Sending a redirect causes nginx rtmp module to redirect the stream
         # to the restricted hlsout application. This also effectively translates
         # the users stream key to their username for client use.
@@ -30,7 +30,7 @@ class StreamsController < ApplicationController
     if params[:name]
       streaming_user = User.where('stream_key = ?', params[:name]).first
       if streaming_user
-        async_set_and_confirm_stream_state(streaming_user)
+        async_confirm_and_set_stream_state(streaming_user)
         render status: :ok
       else
         render status: :not_found
@@ -44,7 +44,7 @@ class StreamsController < ApplicationController
 
   # Wait until HLS files are avaiable or unavailable for streaming before
   # setting online status
-  def async_set_and_confirm_stream_state(streaming_user)
+  def async_confirm_and_set_stream_state(streaming_user)
     Thread.new do
       stream_state_confirmed = false
       retries = 30
@@ -113,7 +113,7 @@ class StreamsController < ApplicationController
 
   # Send stream state over websocket to user channel
   def send_stream_state(state, streaming_user)
-    # TODO move Status-Auth header key to a credentials file
+    # TODO move streamstate-auth header key to a credentials file
     WebSocket::Client::Simple.connect(
       Rails.configuration.x.saber.chat_server,
       headers: { "streamstate-auth": "muKl4S80Yi3gQA2v8o2AOPgI8l" }

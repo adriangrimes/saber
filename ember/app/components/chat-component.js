@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { once } from '@ember/runloop';
+import { once, later } from '@ember/runloop';
 import jQuery from 'jquery';
 import config from '../config/environment';
 
@@ -169,6 +169,7 @@ export default Component.extend({
   onSocketOpened: function(event) {
     console.log('socket opened');
 
+    // Make sure the user is still on the page by the time the socket has opened
     if (
       window.location.href.split('/').pop() == event.target.url.split('/').pop()
     ) {
@@ -228,21 +229,33 @@ export default Component.extend({
         this.set('chatUsersListGuestCount', message.guests);
         break;
       case 'ChannelTopicUpdated':
-        this.store
-          .queryRecord('user-public-datum', {
-            username: that.get('model.username')
-          })
-          .then(function(user) {
-            that.chatMessagesList.pushObject({
-              data: user.channelTopic,
-              topicMessage: true
-            });
-          })
-          .catch(function(err) {
-            // query failed
-            console.log(err);
-          });
-
+        // Set a random delay of up to 2 seconds to query for the new topic, but
+        // skip delay if they are a broadcaster
+        var delay = Math.floor(Math.random() * 2000);
+        if (this.currentUser.user && this.currentUser.user.broadcaster) {
+          delay = 0;
+        }
+        later(
+          this,
+          function() {
+            this.store
+              .queryRecord('user-public-datum', {
+                username: that.get('model.username')
+              })
+              .then(function(user) {
+                that.chatMessagesList.pushObject({
+                  data: user.channelTopic,
+                  topicMessage: true
+                });
+              })
+              .catch(function(err) {
+                // query failed
+                console.log(err);
+              });
+          },
+          delay
+        );
+        console.log(this.currentUser.user.broadcaster);
         break;
       case 'ChannelUserCountUpdated':
         this.set('chatChannelUserCount', message.data);
@@ -282,7 +295,9 @@ export default Component.extend({
     // Scroll chat to bottom when a message is added to chatMessagesList
     // (via template re-render)
     once(this, function() {
-      jQuery('#chat-body').scrollTop(jQuery('#chat-body')[0].scrollHeight);
+      if (jQuery('#chat-body')[0]) {
+        jQuery('#chat-body').scrollTop(jQuery('#chat-body')[0].scrollHeight);
+      }
     });
   }
 });

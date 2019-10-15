@@ -1,7 +1,10 @@
 import Controller from '@ember/controller';
 import jQuery from 'jquery';
+import { inject } from '@ember/service';
 
 export default Controller.extend({
+  notify: inject(),
+
   daysList: [
     '1',
     '2',
@@ -471,9 +474,6 @@ export default Controller.extend({
           '|' +
           this.inputCountry.trim();
         this.model.contractorApplication.set('addressLine3', address3.trim());
-        console.log(this.inputMonth.trim());
-        console.log(this.inputDay.trim());
-        console.log(this.inputYear.trim());
         let birthdate = new Date(
           this.inputMonth.trim() +
             ' ' +
@@ -481,8 +481,6 @@ export default Controller.extend({
             ', ' +
             this.inputYear.trim()
         );
-        console.log(birthdate.toISOString());
-        console.log(birthdate);
         this.model.contractorApplication.set('birthdate', birthdate);
         if (this.model.contractorApplication.businessName) {
           this.model.contractorApplication.set(
@@ -540,13 +538,10 @@ export default Controller.extend({
               'btn btn-primary fa fa-check'
             );
           })
-          .catch(reason => {
-            console.log('error saving user record: ' + reason);
-            console.log(
-              'error saving user record: ',
-              this.model.contractorApplication.errors
+          .catch(() => {
+            this.get('notify').error(
+              'There was a problem submitting the application'
             );
-            this.set('errorMessage', reason.error || reason);
           });
         // } else {
         //   console.error('business entity required');

@@ -266,7 +266,7 @@ export default Controller.extend({
 
       setTimeout(function() {
         this.set('copyUrlBtnIcon', 'fa fa-link');
-      }, 3000);
+      }, 1500);
     }
   }
 });

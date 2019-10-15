@@ -11,8 +11,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
       ),
       contractorApplication: this.store
         .queryRecord('contractor-application', {}, { reload: true })
-        .catch(() => {
-          return this.store.createRecord('contractor-application', {});
+        .catch(err => {
+          if (err.errors[0].status == 404) {
+            return this.store.createRecord('contractor-application', {});
+          }
         }),
       userVerificationUploads: this.store.query('user-verification-upload', {
         id: this.get('session.data.authenticated.user_id')

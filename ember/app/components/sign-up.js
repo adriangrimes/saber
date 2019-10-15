@@ -20,15 +20,14 @@ export default Component.extend({
   actions: {
     // Passes form fields as parameters to current-user.signUp function
     signUp() {
-      console.log(this.contractorSignup);
       if (this.get('session.isAuthenticated') === false) {
-        this.get('currentUser').signUp(
-          this.get('inputusername'),
-          this.get('inputemailaddress'),
-          this.get('inputpassword'),
-          this.get('inputFullName'),
-          this.get('signUpType')
-        );
+          this.currentUser.signUp(
+            this.inputusername,
+            this.inputemailaddress,
+            this.inputpassword,
+            this.inputFullName,
+            this.signUpType
+          );
       }
     }
   }

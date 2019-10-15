@@ -48,9 +48,6 @@ Router.map(function() {
   });
   this.route('home');
   this.route('login');
-  this.route('g', {
-//    path: 'p/:game_id'
-  });
 
   this.route('forgot-password');
   this.route('reset-password');
