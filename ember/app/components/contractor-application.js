@@ -1,10 +1,7 @@
-import Controller from '@ember/controller';
+import Component from '@ember/component';
 import jQuery from 'jquery';
-import { inject } from '@ember/service';
 
-export default Controller.extend({
-  notify: inject(),
-
+export default Component.extend({
   daysList: [
     '1',
     '2',
@@ -153,7 +150,17 @@ export default Controller.extend({
     '1923',
     '1922',
     '1921',
-    '1920'
+    '1920',
+    '1919',
+    '1918',
+    '1917',
+    '1916',
+    '1915',
+    '1914',
+    '1913',
+    '1912',
+    '1911',
+    '1910'
   ],
 
   countriesList: [
@@ -400,29 +407,16 @@ export default Controller.extend({
     'Zimbabwe'
   ],
 
-  broadcasterVerifySubmitBtn: 'btn btn-primary',
-  broadcasterVerifySubmitText: 'Submit Verification',
-  broadcasterSaveForLaterBtn: 'btn btn-outline-dark',
-  broadcasterSaveForLaterText: 'Save for Later',
-
-  inputMonth: 'Month',
-  inputDay: 'Day',
-  inputYear: 'Year',
-
-  inputCity: '',
-  inputRegion: '',
-  inputZipcode: '',
-  inputCountry: '',
-
-  inputElecSig: '',
-
   actions: {
     setCountry(country) {
-      this.set('inputCountry', country);
-      if (country == 'United States') {
-        this.set('isUSA', true);
+      this.changeset.set('country', country);
+    },
+
+    checkLength(text, select /*, event */) {
+      if (select.searchText.length >= 3 && text.length < 3) {
+        return '';
       } else {
-        this.set('isUSA', false);
+        return text.length >= 3;
       }
     },
 
@@ -435,173 +429,6 @@ export default Controller.extend({
       } else if (toBeChecked == 'inputPayoutCheck') {
         this.set('payoutIsBitcoin', false);
       }
-    },
-
-    submitBroadcasterVerification() {
-      //TODO Add Actual Data Handling, Copy from Save for later
-
-      if (
-        this.model.contractorApplication.fullName &&
-        this.inputElecSig.trim() ==
-          this.model.contractorApplication.fullName.trim()
-      ) {
-        // if (
-        // (this.model.contractorApplication.businessName &&
-        //   this.inputEntityType) ||
-        // (!this.model.contractorApplication.businessName &&
-        //   !this.inputEntityType) ||
-        // (!this.model.contractorApplication.businessName &&
-        //   this.inputEntityType)
-        // ) {
-        var address3 =
-          this.inputCity.trim() +
-          '|' +
-          this.inputRegion.trim() +
-          '|' +
-          this.inputZipcode.trim() +
-          '|' +
-          this.inputCountry.trim();
-        this.model.contractorApplication.set('addressLine3', address3.trim());
-        let birthdate = new Date(
-          this.inputMonth.trim() +
-            ' ' +
-            this.inputDay.trim() +
-            ', ' +
-            this.inputYear.trim()
-        );
-        this.model.contractorApplication.set('birthdate', birthdate);
-        if (this.model.contractorApplication.businessName) {
-          this.model.contractorApplication.set(
-            'businessName',
-            this.model.contractorApplication.businessName.trim()
-          );
-          this.model.contractorApplication.set(
-            'businessEntityType',
-            this.inputEntityType
-          );
-          if (
-            this.model.contractorApplication.businessEntityType.trim() ==
-            'Other'
-          ) {
-            this.model.contractorApplication.set(
-              'businessEntityType',
-              'Other|' + (this.otherEntityText.trim() || '')
-            );
-          }
-        } else {
-          this.model.contractorApplication.set('businessName', null);
-          this.model.contractorApplication.set('businessEntityType', null);
-        }
-        if (this.inputCountry.trim() == 'United States') {
-          this.model.contractorApplication.set(
-            'businessIdentificationNumber',
-            this.inputTIN
-          );
-          this.model.contractorApplication.set(
-            'subjectToBackupWithholding',
-            this.withholdingInput
-          );
-        } else {
-          this.model.contractorApplication.set(
-            'businessIdentificationNumber',
-            null
-          );
-          this.model.contractorApplication.set(
-            'subjectToBackupWithholding',
-            null
-          );
-        }
-        this.model.contractorApplication.set(
-          'pendingBroadcasterApplication',
-          true
-        );
-        this.model.contractorApplication
-          .save()
-          .then(app => {
-            console.log('submition of broadcaster application saved');
-            this.set('applicationIsPending', app.pendingBroadcasterApplication);
-            this.set('broadcasterVerifySubmitText', '');
-            this.set(
-              'broadcasterVerifySubmitBtn',
-              'btn btn-primary fa fa-check'
-            );
-          })
-          .catch(() => {
-            this.get('notify').error(
-              'There was a problem submitting the application'
-            );
-          });
-        // } else {
-        //   console.error('business entity required');
-        // }
-      } else {
-        console.error('signature does not match');
-      }
-    },
-
-    broadcasterSaveForLater() {
-      // Get current state of setting from page and set to a variable
-      var updateFullName = this.inputFullName;
-      var updateBusinessName = this.inputBusinessName;
-      var updateMonth = this.inputMonth;
-      var updateDay = this.inputDay;
-      var updateYear = this.inputYear;
-      var payoutMethod = this.inputPayoutType;
-      var bitcoinAddress = this.inputbitcoinaddress;
-      var address1 = this.inputaddress1;
-      var address2 = this.inputaddress2;
-      var city = this.inputCity;
-      var region = this.inputRegion;
-      var zipcode = this.inputZipcode;
-      var country = this.inputCountry;
-      var address3 = city + '|' + region + '|' + zipcode + '|' + country;
-      var dateofbirth = new Date(
-        updateMonth + ' ' + updateDay + ', ' + updateYear
-      );
-      var updateEntityType = this.inputEntityType;
-      if (updateEntityType == 'Other') {
-        updateEntityType = 'Other|' + this.otherEntityText;
-      }
-      var backupWithholding = this.withholdingInput;
-      var updateTIN = this.inputTIN;
-
-      this.store
-        .findRecord('user', this.get('session.data.authenticated.user_id'))
-        .then(user => {
-          // Modify record pulled from db to variable
-          user.set('fullName', updateFullName);
-          user.set('businessName', updateBusinessName);
-          user.set('businessEntityType', updateEntityType);
-          user.set('birthdate', dateofbirth);
-          user.set('payoutMethod', payoutMethod);
-          user.set('bitcoinAddress', bitcoinAddress);
-          user.set('addressLine1', address1);
-          user.set('addressLine2', address2);
-          user.set('addressLine3', address3);
-          user.set('subjectToBackupWithholding', backupWithholding);
-
-          user.set('businessIdentificationNumber', updateTIN);
-
-          // Save record to db
-          user
-            .save()
-            .then(() => {
-              console.log('broadcasterSaveForLater saved');
-              this.set('broadcasterSaveForLaterText', '');
-              this.set(
-                'broadcasterSaveForLaterBtn',
-                'btn btn-outline-dark fa fa-check'
-              );
-            })
-            .catch(reason => {
-              console.log('error saving user record: ' + reason);
-              this.set('errorMessages', reason.errors || reason);
-            });
-        })
-        .catch(reason => {
-          console.log('error finding user record: ' + reason);
-          this.set('errorMessages', reason.errors || reason);
-        });
     }
   }
 });

@@ -234,8 +234,11 @@ if Rails.env.production? == false
     birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ'),
     payout_method: 'bitcoin',
     bitcoin_address: "SDfjknsjkjh389f",
-    address_line1: "321 Nice St",
-    address_line3: "Townsville|Virginia|90001|United States",
+    street_address: "321 Nice St",
+    city: "Townsville",
+    region: "Virginia",
+    postal_code: "90001",
+    country: "United States",
     business_identification_number: "101-11-1111",
     subject_to_backup_withholding: true
   )
@@ -343,8 +346,11 @@ if Rails.env.production? == false
       full_name: "Streamer#{i + 1} C#{i + 1} Aster#{i + 1}",
       birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,
       payout_method: payout_methods.sample,
-      address_line1: "#{i + 1} Nice St",
-      address_line3: "Townsville|Virginia|900#{i + 1}|United States",
+      street_address: "#{i + 1} Nice St",
+      city: "Townsville",
+      region: "Virginia",
+      postal_code: "900#{i + 1}",
+      country: "United States",
       business_identification_number: "#{i + 1}01-11-1111",
       subject_to_backup_withholding: [true, false].sample
     }
@@ -383,8 +389,11 @@ if Rails.env.production? == false
       full_name: "Dev#{i + 1} E#{i + 1} Loper#{i + 1}",
       birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,
       payout_method: payout_methods.sample,
-      address_line1: "#{i + 1} Nice St",
-      address_line3: "Townsville|Virginia|900#{i + 1}|United States",
+      street_address: "#{i + 1} Nice St",
+      city: "Townsville",
+      region: "Virginia",
+      postal_code: "900#{i + 1}",
+      country: "United States",
       business_identification_number: "#{i + 1}02-22-2222",
       subject_to_backup_withholding: [true, false].sample
     }
@@ -419,8 +428,11 @@ if Rails.env.production? == false
       full_name: "Aff#{i + 1} Ili#{i + 1} Ate#{i + 1}",
       birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,
       payout_method: payout_methods.sample,
-      address_line1: "#{i + 1} Nice St",
-      address_line3: "Townsville|Virginia|900#{i + 1}|United States",
+      street_address: "#{i + 1} Nice St",
+      city: "Townsville",
+      region: "Virginia",
+      postal_code: "900#{i + 1}",
+      country: "United States",
       business_identification_number: "#{i + 1}03-33-3333",
       subject_to_backup_withholding: [true, false].sample
     }

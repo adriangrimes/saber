@@ -1,0 +1,118 @@
+<h4>Hello yes this is application for a {{applicationType}}</h4>
+{{#if changeset.isInvalid}}
+  <p>There are one or more errors in your form</p>
+{{/if}}
+<form>
+  {{validated-field
+    class="form-group"
+    label="Full name"
+    type="text"
+    changeset=changeset
+    property="fullName"
+  }}
+  {{validated-field
+    class="form-group"
+    required=false
+    label="Business name"
+    type="text"
+    changeset=changeset
+    property="businessName"
+  }}
+  {{#if changeset.businessName}}
+    <div class="form-group">
+      <label for="inputEntitySole">Business entity type <abbr title="This field is mandatory">*</abbr></label>
+
+      <div class="form-check">
+        <div class="row m-0">
+          <div class="col-6">
+            {{radio-button class="form-check-input" value="IndividualSoleProprietor" id="inputEntitySole" checked=changeset.businessEntityType}}
+            <label class="form-check-label" for="inputEntitySole" {{action "checkThis" "inputEntitySole"}}>Individual / Sole Proprietor</label>
+          </div>
+          <div class="col-6">
+            {{radio-button class="form-check-input" value="sCorp" id="inputEntitySCorp" checked=changeset.businessEntityType}}
+            <label class="form-check-label" for="inputEntitySCorp" {{action "checkThis" "inputEntitySCorp"}}>S Corporation</label>
+          </div>
+        </div>
+        <div class="row m-0">
+          <div class="col-6">
+            {{radio-button class="form-check-input" value="Partnership" id="inputEntityPartner" checked=changeset.businessEntityType}}
+            <label class="form-check-label" for="inputEntityPartner" {{action "checkThis" "inputEntityPartner"}}>Partnership</label>
+          </div>
+          <div class="col-6">
+            {{radio-button class="form-check-input" value="cCorp" id="inputEntityCCorp" checked=changeset.businessEntityType}}
+            <label class="form-check-label" for="inputEntityCCorp" {{action "checkThis" "inputEntityCCorp"}}>C Corporation</label>
+          </div>
+        </div>
+        <div class="row m-0">
+          <div class="col-6">
+            {{radio-button class="form-check-input" value='Other' id="inputEntityOther" checked=changeset.businessEntityType}}
+            <div {{action "checkThis" "inputEntityOther"}}>
+              {{input type="text" class="form-control" value=changeset.businessEntityTypeOther placeholder="Other"}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{#if changeset.error.businessEntityType}}
+      <small>
+        <ul>
+          {{#each changeset.error.businessEntityType.validation as |message|}}
+            <li>{{message}}</li>
+          {{/each}}
+        </ul>
+      </small>
+    {{/if}}
+    {{#if changeset.error.businessEntityTypeOther}}
+      <small>
+        <ul>
+          {{#each changeset.error.businessEntityTypeOther.validation as |message|}}
+            <li>{{message}}</li>
+          {{/each}}
+        </ul>
+      </small>
+    {{/if}}
+  {{/if}}
+  <label for="inputDay">Date of Birth</label>
+  <div class="row m-0 pb-2">
+    <div class="col">
+      {{#power-select
+              selected=inputMonth
+              id="inputMonth"
+              options=monthsList
+              onchange=(action (mut inputMonth))
+              oninput=(action "checkLength")
+              as |name|}}
+        {{name}}
+      {{/power-select}}
+    </div>
+    <div class="col">
+      {{#power-select
+              selected=inputDay
+              id="inputDay"
+              options=daysList
+              onchange=(action (mut inputDay))
+              oninput=(action "checkLength")
+              as |name|}}
+        {{name}}
+      {{/power-select}}
+    </div>
+    <div class="col">
+      {{#power-select
+              selected=inputYear
+              id="inputYear"
+              options=yearsList
+              onchange=(action (mut inputYear))
+              oninput=(action "checkLength")
+              as |name|}}
+        {{name}}
+      {{/power-select}}
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="consent">Give consent for Saber to store your data?</label>
+    <Input @id="consent" @type="checkbox" @checked={{changeset.consentGiven}} />
+  </div>
+  <button class="btn btn-primary" {{action rollback changeset}}>Cancel changes</button>
+  <button class="btn btn-primary" {{action saveForLater changeset}}>Save For Later</button>
+  <button class="btn btn-primary" {{action submit changeset}} disabled={{changeset.isInvalid}}>Submit Application</button>
+</form>

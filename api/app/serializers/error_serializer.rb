@@ -5,7 +5,7 @@ module ErrorSerializer
     json = {}
     new_hash = errors.to_hash(true).map do |k, v|
       v.map do |msg|
-        { title: k, detail: msg }
+        { attribute: k.to_s.camelize(:lower), message: msg }
       end
     end.flatten
     json[:errors] = new_hash

@@ -39,16 +39,19 @@ export default Route.extend(ApplicationRouteMixin, {
     },
 
     error(error /*, transition*/) {
+      console.log('we got an error boys');
       console.log(error);
-      if (error.errors[0].status == 0) {
-        this.get('notify').error(
-          'Sorry, the server appears to be unavailable. Please try again later.'
-        );
-      }
-      if (error.errors[0].status == 500) {
-        this.get('notify').error(
-          'The server encountered an internal error. Please try again later.'
-        );
+      if (error.errors) {
+        if (error.errors[0].status == 0) {
+          this.get('notify').error(
+            'Sorry, the server appears to be unavailable. Please try again later.'
+          );
+        }
+        if (error.errors[0].status == 500) {
+          this.get('notify').error(
+            'The server encountered an internal error. Please try again later.'
+          );
+        }
       }
       // returning true will cause the .hbs to display
       // return true;

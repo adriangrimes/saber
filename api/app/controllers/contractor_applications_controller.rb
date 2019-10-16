@@ -85,16 +85,17 @@ class ContractorApplicationsController < ApplicationController
               :pending_affiliate_application,
               :full_name,
               :birthdate,
-              :address_line1,
-              :address_line2,
-              :address_line3,
+              :street_address,
+              :city,
+              :region,
+              :postal_code,
+              :country,
               :business_name,
               :business_entity_type,
+              :business_entity_type_other,
               :business_identification_number,
               :payout_method,
               :bitcoin_address,
-              :bank_account_number,
-              :bank_routing_number,
               :subject_to_backup_withholding)
     end
 end

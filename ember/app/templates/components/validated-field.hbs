@@ -1,0 +1,18 @@
+<label for={{concat type "-" property}}>{{label}}{{{if required ' <abbr title="This field is mandatory">*</abbr>' ''}}}</label>
+{{input
+  type=type
+  class="form-control"
+  id=(concat type "-" property)
+  value=(get changeset property)
+  oninput=(action (mut (get changeset property)) value="target.value")
+  placeholder=(if required "" "optional")
+}}
+{{#if (get changeset.error property)}}
+  <small>
+    <ul>
+      {{#each (get (get changeset.error property) "validation") as |message|}}
+        <li>{{message}}</li>
+      {{/each}}
+    </ul>
+  </small>
+{{/if}}

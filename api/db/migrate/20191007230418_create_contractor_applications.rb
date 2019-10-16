@@ -14,11 +14,14 @@ class CreateContractorApplications < ActiveRecord::Migration[5.2]
       ## symmetric-encryption gem)
       t.text :full_name
       t.string :birthdate
-      t.text :address_line1
-      t.text :address_line2
-      t.text :address_line3
+      t.text :street_address
+      t.text :city
+      t.text :region
+      t.text :postal_code
+      t.text :country
       t.text :business_name
       t.text :business_entity_type
+      t.text :business_entity_type_other
       t.string :business_identification_number
       t.string :payout_method
       t.text :bitcoin_address

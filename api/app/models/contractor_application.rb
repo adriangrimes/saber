@@ -8,11 +8,14 @@ class ContractorApplication < ApplicationRecord
   # Encrypt these attributes with symmetric-encryption gem
   attribute :full_name, :encrypted, type: :string
   attribute :birthdate, :encrypted, type: :datetime
-  attribute :address_line1, :encrypted, type: :string
-  attribute :address_line2, :encrypted, type: :string
-  attribute :address_line3, :encrypted, type: :string
+  attribute :street_address, :encrypted, type: :string
+  attribute :city, :encrypted, type: :string
+  attribute :region, :encrypted, type: :string
+  attribute :postal_code, :encrypted, type: :string
+  attribute :country, :encrypted, type: :string
   attribute :business_name, :encrypted, type: :string
   attribute :business_entity_type, :encrypted, type: :string
+  attribute :business_entity_type_other, :encrypted, type: :string
   attribute :business_identification_number, :encrypted, type: :string
   attribute :bitcoin_address, :encrypted, type: :string
   attribute :bank_account_number, :encrypted, type: :string
@@ -23,24 +26,30 @@ class ContractorApplication < ApplicationRecord
   # If user has a pending application, do not let them modify the record
   validate :no_pending_application
   validate :consent_was_given
+
   with_options if: :submitted_application? do |app|
     app.validates :full_name, presence: true
     app.validates :business_name, presence: true,
       if: Proc.new { |u| u.business_entity_type.present? }
     app.validates :business_entity_type, presence: true,
       if: Proc.new { |u| u.business_name.present? }
+    app.validates :business_entity_type_other, presence: true,
+      if: Proc.new { |u| u.business_entity_type&.downcase&.include?('other') }
     app.validates :birthdate, presence: true
     app.validates :payout_method, presence: true
     app.validates :bitcoin_address, presence: true,
-      if: Proc.new { |u| if u.payout_method
-        u.payout_method.include?('bitcoin')
-      end }
-    app.validates :address_line1, presence: true
-    app.validate :address_line3_is_valid
-    with_options if: :located_in_united_states? do |us_app|
-      us_app.validate :business_identification_number_is_valid
-      us_app.validate :subject_to_backup_withholding_is_selected
+      if: Proc.new { |u| u.payout_method&.include?('bitcoin') }
+    app.validates :street_address, presence: true
+    app.validates :city, presence: true
+    app.validates :region, presence: true
+    app.validates :postal_code, presence: true
+    app.validates :country, presence: true
+
+    with_options if: :located_in_united_states? do |usa_app|
+      usa_app.validate :business_identification_number_is_valid
+      usa_app.validate :subject_to_backup_withholding_is_selected
     end
+
     with_options if: :submitted_broadcaster_application? do |broadcaster_app|
       broadcaster_app.validate :has_uploaded_verification?
     end
@@ -85,6 +94,7 @@ class ContractorApplication < ApplicationRecord
   def submitted_application?
     p "did user submit an application?"
     # Return a boolean if at least one application is pending
+    p pending_broadcaster_application == true || pending_developer_application == true || pending_affiliate_application == true
     pending_broadcaster_application == true || pending_developer_application == true || pending_affiliate_application == true
   end
 
@@ -105,31 +115,6 @@ class ContractorApplication < ApplicationRecord
     end
   end
 
-  def address_line3_is_valid
-    if address_line3.present?
-      addresses = address_line3.split('|')
-      if addresses[0].blank?
-        errors.add(:base, :address_city,
-          message: "City is required")
-      end
-      if addresses[1].blank?
-        errors.add(:base, :address_region,
-          message: "State / Province / Region is required")
-      end
-      if addresses[2].blank?
-        errors.add(:base, :address_postal_code,
-          message: "Zip / Postal Code is required")
-      end
-      if addresses[3].blank?
-        errors.add(:base, :address_country,
-          message: "Country is required")
-      end
-    else
-      errors.add(:base, :address,
-        message: "Your full address is required")
-    end
-  end
-
   def has_uploaded_verification?
     if user.user_verification_uploads.count < 1
       errors.add(:base, :verification_missing,
@@ -141,9 +126,7 @@ class ContractorApplication < ApplicationRecord
   end
 
   def located_in_united_states?
-    if address_line3
-      address_line3.downcase.include?('united states')
-    end
+    country&.downcase&.include?('united states')
   end
 
   def business_identification_number_is_valid
