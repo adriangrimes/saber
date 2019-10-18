@@ -52,9 +52,8 @@ export default Service.extend({
   },
 
   logOut() {
-    this.set('user', {});
-    this.store.unloadAll('user');
     this.themeChanger.set('theme', 'default');
+    // invalidate() causes a page refresh, which should remove all data from the store as well
     this.session.invalidate();
   },
 

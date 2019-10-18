@@ -12,6 +12,7 @@ module.exports = {
     'no-console': 'off' //TODO: possibly remove this when/before put in production
   },
   globals: {
+    moment: true,
     grecaptcha: true,
     Plyr: true,
     Hls: true

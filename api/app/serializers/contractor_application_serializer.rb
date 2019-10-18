@@ -1,7 +1,7 @@
 class ContractorApplicationSerializer
   include FastJsonapi::ObjectSerializer
 
-  attribute :consent_given do |user|
+  attribute :consent_to_store_data do |user|
     user.contractor_data_consent_given_at.present?
   end
   attributes :pending_broadcaster_application,

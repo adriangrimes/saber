@@ -2,7 +2,7 @@ import DS from 'ember-data';
 import { or as computedOr } from '@ember/object/computed';
 
 export default DS.Model.extend({
-  consentGiven: DS.attr('boolean'),
+  consentToStoreData: DS.attr('boolean'),
 
   pendingBroadcasterApplication: DS.attr('boolean'),
   pendingDeveloperApplication: DS.attr('boolean'),

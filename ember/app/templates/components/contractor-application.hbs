@@ -1,27 +1,45 @@
-<h4>Hello yes this is application for a {{applicationType}}</h4>
+<h4>{{applicationType}} application</h4>
+<h6>Tax and Payment Information</h6>
+<small>All data provided in this form will be encrypted</small>
+
+{{#if (eq applicationType "Broadcaster")}}
+  {{#if currentUser.user.developer}}
+    <div class="mt-3 alert alert-dark">
+      <p class="mb-0">
+        As a developer you have already submitted your payment details.<br><br>
+        Upload your verification documents below to become a developer and broadcaster. <br>
+        To sign up for a separate broadcaster account log out, and then visit {{link-to "saber.tv/signup/broadcaster" "signup.broadcaster"}}
+      </p>
+    </div>
+  {{else if (and currentUser.user.affiliate (not currentUser.user.broadcaster))}}
+    <div class="mt-3 alert alert-dark">
+      <p class="mb-0">
+        As an affiliate you have already submitted your payment details.<br><br>
+        Upload your verification documents below to become an affiliate and broadcaster. <br>
+        To sign up for a separate broadcaster account log out, and then visit {{link-to "saber.tv/signup/broadcaster" "signup.broadcaster"}}
+      </p>
+    </div>
+  {{/if}}
+{{/if}}
+
 {{#if changeset.isInvalid}}
   <p>There are one or more errors in your form</p>
 {{/if}}
-<form>
+
+<form onkeydown="return event.key != 'Enter';">
   {{validated-field
-    class="form-group"
     label="Full name"
-    type="text"
-    changeset=changeset
-    property="fullName"
+    class="form-group" type="text" changeset=changeset property="fullName"
   }}
+
   {{validated-field
-    class="form-group"
-    required=false
-    label="Business name"
-    type="text"
-    changeset=changeset
-    property="businessName"
+    label="Business name" class="form-group" required=false type="text"
+    changeset=changeset property="businessName"
   }}
+
   {{#if changeset.businessName}}
     <div class="form-group">
       <label for="inputEntitySole">Business entity type <abbr title="This field is mandatory">*</abbr></label>
-
       <div class="form-check">
         <div class="row m-0">
           <div class="col-6">
@@ -53,66 +71,175 @@
         </div>
       </div>
     </div>
-    {{#if changeset.error.businessEntityType}}
-      <small>
-        <ul>
-          {{#each changeset.error.businessEntityType.validation as |message|}}
-            <li>{{message}}</li>
-          {{/each}}
-        </ul>
-      </small>
-    {{/if}}
-    {{#if changeset.error.businessEntityTypeOther}}
-      <small>
-        <ul>
-          {{#each changeset.error.businessEntityTypeOther.validation as |message|}}
-            <li>{{message}}</li>
-          {{/each}}
-        </ul>
-      </small>
-    {{/if}}
+    {{attribute-validation-display changeset=changeset property="businessEntityType"}}
+    {{attribute-validation-display changeset=changeset property="businessEntityTypeOther"}}
   {{/if}}
-  <label for="inputDay">Date of Birth</label>
-  <div class="row m-0 pb-2">
-    <div class="col">
-      {{#power-select
-              selected=inputMonth
-              id="inputMonth"
-              options=monthsList
-              onchange=(action (mut inputMonth))
-              oninput=(action "checkLength")
-              as |name|}}
-        {{name}}
-      {{/power-select}}
-    </div>
-    <div class="col">
-      {{#power-select
-              selected=inputDay
-              id="inputDay"
-              options=daysList
-              onchange=(action (mut inputDay))
-              oninput=(action "checkLength")
-              as |name|}}
-        {{name}}
-      {{/power-select}}
-    </div>
-    <div class="col">
-      {{#power-select
-              selected=inputYear
-              id="inputYear"
-              options=yearsList
-              onchange=(action (mut inputYear))
-              oninput=(action "checkLength")
-              as |name|}}
-        {{name}}
-      {{/power-select}}
-    </div>
-  </div>
+
   <div class="form-group">
-    <label for="consent">Give consent for Saber to store your data?</label>
-    <Input @id="consent" @type="checkbox" @checked={{changeset.consentGiven}} />
+    <label for="birthdate">Date of birth</label>
+    <div id="birthdate">
+      {{pikaday-input
+        class="form-control"
+        firstDay=0
+        value=changeset.birthdate
+        onSelection=(action (mut changeset.birthdate))
+        format="MM/DD/YYYY"
+        yearRange="1900,currentYear"
+        theme=(if this.currentUser.user.darkMode "bg-dark" "")
+        placeholder="MM/DD/YYYY"
+      }}
+    </div>
+    {{attribute-validation-display changeset=changeset property="birthdate"}}
   </div>
-  <button class="btn btn-primary" {{action rollback changeset}}>Cancel changes</button>
-  <button class="btn btn-primary" {{action saveForLater changeset}}>Save For Later</button>
-  <button class="btn btn-primary" {{action submit changeset}} disabled={{changeset.isInvalid}}>Submit Application</button>
+
+  <div class="form-group">
+    <label for="payoutMethod">Choose payout method</label>
+    <div class="form-check form-check-inline w-100">
+      <div class="w-50 mx-0 mr-2 payout-method btn btn-block btn-outline-dark" {{action "checkThis" "inputPayoutCheck"}}>
+        {{radio-button value='check' id="inputPayoutCheck" checked=changeset.payoutMethod}}
+        <label class="form-check-label" for="inputPayoutCheck">Mailed Check</label>
+      </div>
+      <div class="w-50 mx-0 mt-0 ml-2 payout-method btn btn-block btn-outline-dark" {{action "checkThis" "inputPayoutBitcoin"}}>
+        {{radio-button value='bitcoin' id="inputPayoutBitcoin" checked=changeset.payoutMethod}}
+        <label class="form-check-label" for="inputPayoutBitcoin">Bitcoin</label>
+      </div>
+    </div>
+    {{attribute-validation-display changeset=changeset property="payoutMethod"}}
+  </div>
+  {{#if (eq changeset.payoutMethod "bitcoin")}}
+    <div class="form-group">
+      <label for="bitcoinAddress">Bitcoin address</label>
+      {{input type="text" class="form-control" id="bitcoinAddress" value=changeset.bitcoinAddress}}
+      <small>Make sure to verify your Bitcoin address is correct, otherwise your payout may be lost</small>
+    </div>
+    {{attribute-validation-display changeset=changeset property="bitcoinAddress"}}
+  {{/if}}
+
+  {{validated-field
+    label="Street address"
+    class="form-group" type="text" changeset=changeset property="streetAddress"
+  }}
+  {{validated-field
+    label="City"
+    class="form-group" type="text" changeset=changeset property="city"
+  }}
+  {{validated-field
+    label="State / Province / Region"
+    class="form-group" type="text" changeset=changeset property="region"
+  }}
+  {{validated-field
+    label="Postal code"
+    class="form-group" type="text" changeset=changeset property="postalCode"
+  }}
+  <div class="form-group">
+    <label for="inputCountry">Country</label>
+    {{#power-select
+          selected=changeset.country
+          id="inputCountry"
+          options=countriesList
+          oninput=(action "checkLength")
+          onchange=(action "setCountry")
+          as |name|}}
+      {{name}}
+    {{/power-select}}
+    {{attribute-validation-display changeset=changeset property="country"}}
+  </div>
+
+  {{#if (eq changeset.country "United States")}}
+    {{validated-field
+      label="Taxpayer identification Number"
+      placeholder="SSN, EIN, or ITIN, including dashes"
+      class="form-group"
+      type="text"
+      changeset=changeset
+      property="businessIdentificationNumber"
+    }}
+
+    <div class="form-group">
+      <div class="form-check py-3">
+        <label class="form-check-label" for="withholdingInput" style="font-size:14px;">
+          <strong>Under penalties of perjury, I certify that:</strong>
+          <br> 1. I am a U.S. citizen or other U.S. person, and
+          <br> 2. The number shown on this form is my correct taxpayer identification number (TIN), and
+          <br> 3. (select one):<br>
+
+          <div class="form-check form-check-inline accordion-toggle collapsed text-heading" data-toggle="collapse" data-target="#exemptHelp">
+            {{radio-button value=false id="notSubjectToWithholding" checked=changeset.subjectToBackupWithholding}}
+            <div class=" pl-2 pr-4 " {{action "checkThis" "notSubjectToWithholding"}}>
+              <strong>I am not subject to backup withholding.</strong>
+            </div>
+          </div>
+          <div id="exemptHelp" class=" collapse pb-2">
+            I am (a) exempt from back up withholding, or (b) I have not been notified by the
+            Internal Revenue Service (IRS) that I am subject to backup withholding as a result of a failure to report all interest or dividends, or
+            (c) the IRS has notified me that I am no longer subject to backup withholding)
+          </div>
+          <div class="form-check form-check-inline accordion-toggle collapsed text-heading" data-toggle="collapse" data-target="#notExemptHelp">
+            {{radio-button value=true id="subjectToWithholding" checked=changeset.subjectToBackupWithholding}}
+            <div class=" pl-2 pr-4 " {{action "checkThis" "subjectToWithholding"}}>
+              <strong>I am subject to backup withholding.</strong>
+            </div>
+          </div>
+          <div id="notExemptHelp" class=" collapse">
+            I have been notified by the IRS that I am subject to backup withholding as a result of a
+            failure to report all interest or dividends, and I have not been notified by the IRS that I am no longer subject to back withholding.
+          </div>
+        </label>
+      </div>
+      {{attribute-validation-display changeset=changeset property="subjectToBackupWithholding"}}
+    </div>
+  {{else}}
+    <div class="form-group">
+      <strong>Under penalties of perjury, I certify that:</strong>
+      <br> 1. I am not a U.S. citizen, and
+      <br> 2. I perform all my work on Saber from locations outside of the United States, and
+      <br> 3. I will receive all payments to a foreign address or payment instrument, and
+      <br> 4. That the information provided is to the best of my knowledge and believe it to be true, correct and complete.
+    </div>
+  {{/if}}
+
+  {{#if (eq applicationType "Broadcaster")}}
+    <h5>Verification</h5>
+    <div class="form-group">
+      {{edit-verification-photos
+        model=userVerificationUploads
+      }}
+      {{attribute-validation-display changeset=changeset property="verificationCount"}}
+
+      <div class="mt-3 alert alert-dark">
+        <h5 class="alert-heading">Note</h5>
+        <hr class="splash-horizontal-rule m-0 mb-1 p-0">
+        <p class="mb-0">
+          beepity boppety this note is now my property
+        </p>
+      </div>
+    </div>
+  {{/if}}
+
+  <hr class="splash-horizontal-rule">
+
+  {{validated-field
+    label="Electronic Signature"
+    placeholder="Type your full name as it appears above"
+    required=true
+    class="form-group"
+    type="text"
+    changeset=changeset
+    property="electronicSignature"
+  }}
+
+  <div class="form-group">
+    <div class="form-check">
+      <Input @class="form-check-input" @id="consent" @type="checkbox" @checked={{changeset.consentToStoreData}} />
+      <label for="consent" class="form-check-label">I give consent for Saber to store my data</label>
+    </div>
+    {{attribute-validation-display changeset=changeset property="consentToStoreData"}}
+  </div>
+
+  {{! display unattributed errors}}
+  {{attribute-validation-display changeset=changeset property="base"}}
+
+  <button class="btn btn-secondary" {{action rollback changeset}}>Cancel changes</button>
+  <button class="btn btn-primary" {{action saveForLater changeset}}>Save for later</button>
+  <button class="btn btn-primary" {{action submit changeset}}>Submit Application</button>
 </form>

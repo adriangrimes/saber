@@ -3,7 +3,7 @@ class ContractorApplication < ApplicationRecord
   belongs_to :user
 
   # Virtual attributes
-  attribute :consent_given, type: :boolean
+  attribute :consent_to_store_data, type: :boolean
   attribute :pending_application_override, type: :boolean
   # Encrypt these attributes with symmetric-encryption gem
   attribute :full_name, :encrypted, type: :string
@@ -25,16 +25,20 @@ class ContractorApplication < ApplicationRecord
   # Validations
   # If user has a pending application, do not let them modify the record
   validate :no_pending_application
-  validate :consent_was_given
+  validates :consent_to_store_data, :inclusion => { :in => [ true ],
+    :message => "must be given to apply" }
 
   with_options if: :submitted_application? do |app|
+    # app.validate :not_already_contractor_for_application
     app.validates :full_name, presence: true
     app.validates :business_name, presence: true,
       if: Proc.new { |u| u.business_entity_type.present? }
     app.validates :business_entity_type, presence: true,
       if: Proc.new { |u| u.business_name.present? }
     app.validates :business_entity_type_other, presence: true,
-      if: Proc.new { |u| u.business_entity_type&.downcase&.include?('other') }
+      if: Proc.new { |u|
+        u.business_name.present? &&
+        u.business_entity_type&.downcase&.include?('other') }
     app.validates :birthdate, presence: true
     app.validates :payout_method, presence: true
     app.validates :bitcoin_address, presence: true,
@@ -51,7 +55,7 @@ class ContractorApplication < ApplicationRecord
     end
 
     with_options if: :submitted_broadcaster_application? do |broadcaster_app|
-      broadcaster_app.validate :has_uploaded_verification?
+      broadcaster_app.validate :check_for_verification_uploads
     end
   end
   validates :broadcaster_percentage, numericality:
@@ -62,6 +66,8 @@ class ContractorApplication < ApplicationRecord
   before_create :timestamp_contractor_data_consent
 
   after_commit :auto_approve_developer_or_affiliate
+  after_commit :send_broadcaster_application_emails,
+    if: Proc.new { |u| u.pending_broadcaster_application }
 
   ## Functions
 
@@ -81,12 +87,6 @@ class ContractorApplication < ApplicationRecord
     end
   end
 
-  def consent_was_given
-    unless consent_given
-      errors.add(:base, "You must give consent for Saber to process your data")
-    end
-  end
-
   def timestamp_contractor_data_consent
     self.contractor_data_consent_given_at = DateTime.now
   end
@@ -103,6 +103,32 @@ class ContractorApplication < ApplicationRecord
     pending_broadcaster_application_changed? && pending_broadcaster_application == true
   end
 
+  def not_already_contractor_for_application
+    if pending_broadcaster_application && self.user.broadcaster
+      errors.add(:base, "You are already a broadcaster!")
+    end
+    if pending_developer_application && self.user.developer
+      errors.add(:base, "You are already a developer!")
+    end
+    if pending_affiliate_application && self.user.affiliate
+      errors.add(:base, "You are already an affiliate!")
+    end
+  end
+
+  # Send a notification email to the user letting them know we got their
+  # application
+  def send_broadcaster_application_emails
+    UserMailer
+      .with(user: self.user)
+      .broadcaster_application_submitted
+      .deliver_later
+    # Send us a notification to actually review it
+    AdminMailer
+      .with(user: self.user)
+      .broadcaster_application_waiting_for_review
+      .deliver_later
+  end
+
   def no_pending_application
     p "no_pending_application"
     if self.pending_application_override != true
@@ -115,13 +141,13 @@ class ContractorApplication < ApplicationRecord
     end
   end
 
-  def has_uploaded_verification?
+  def check_for_verification_uploads
     if user.user_verification_uploads.count < 1
       errors.add(:base, :verification_missing,
-        message: "You must upload both verification images")
+        message: "images must be provided")
     elsif user.user_verification_uploads.count < 2
-      errors.add(:base, :verification_missing,
-        message: "You must upload the second verification image")
+      errors.add(:verification,
+        message: "image two must be provided")
     end
   end
 
@@ -145,8 +171,8 @@ class ContractorApplication < ApplicationRecord
 
   def subject_to_backup_withholding_is_selected
     unless subject_to_backup_withholding.in? [true, false]
-      errors.add(:base, :subject_to_backup_withholding,
-        message: "You must select whether or not you are subject to backup withholding")
+      errors.add(:subject_to_backup_withholding,
+        message: "must be determined")
     end
   end
 

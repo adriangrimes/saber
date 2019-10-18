@@ -26,24 +26,10 @@ class ContractorApplicationsController < ApplicationController
             .new(@authenticated_user.contractor_application)
             .serialized_json,
           status: :ok
-
-        if @authenticated_user.contractor_application.pending_broadcaster_application
-          # Send a notification email to the user letting them know we got their
-          # application
-          UserMailer
-            .with(user: @authenticated_user)
-            .broadcaster_application_submitted
-            .deliver_later
-          # Send us a notification to actually review it
-          AdminMailer
-            .with(user: @authenticated_user)
-            .broadcaster_application_waiting_for_review
-            .deliver_later
-        end
       else
         p @authenticated_user.contractor_application.errors
         render json: ErrorSerializer.serialize(@authenticated_user.contractor_application.errors),
-               status: :unprocessable_entity
+          status: :unprocessable_entity
       end
     else
       render status: :not_found
@@ -79,7 +65,7 @@ class ContractorApplicationsController < ApplicationController
       ## Payment profile
       params.require(:data)
             .require(:attributes)
-            .permit(:consent_given,
+            .permit(:consent_to_store_data,
               :pending_broadcaster_application,
               :pending_developer_application,
               :pending_affiliate_application,

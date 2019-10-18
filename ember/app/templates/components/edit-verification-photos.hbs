@@ -2,7 +2,7 @@
   <h3>Verification</h3>
   <h5>Select images from your computer</h5>
   {{file-upload
-    model=(mut model)
+    model=model
     onUploaded=(action "onUploaded")
     uploaderEndpoint="/verification_upload"
     uploaderNote="You must upload the 2 images described above, up to 20 MB each"

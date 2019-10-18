@@ -164,10 +164,10 @@ if Rails.env.production? == false
   payout_methods = ["check", "bitcoin"]
 
   # Set how many of each user type to seed
-  usercount = 5
-  broadcastercount = 10
-  developercount = 5
-  affiliatecount = 5
+  test_user_count = 5
+  test_broadcaster_count = 10
+  test_developer_count = 5
+  test_affiliate_count = 5
 
   # User for testing database defaults
   # Email, username, password, and a user_public_datum record are the minimum
@@ -228,7 +228,7 @@ if Rails.env.production? == false
       .to_json
   )
   broadcaster1.build_contractor_application(
-    consent_given: true,
+    consent_to_store_data: true,
     pending_broadcaster_application: true,
     full_name: "Streamer1 C1 Aster1",
     birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ'),
@@ -269,7 +269,7 @@ if Rails.env.production? == false
   ###########################################
   # Test users
   p "========================================="
-  usercount.times do |i|
+  test_user_count.times do |i|
     testuser = User.new(
       email: "usertester#{i + 1}@email.com",
       username: "UserTester#{i + 1}",
@@ -288,8 +288,8 @@ if Rails.env.production? == false
 
   ###########################################
   # Test broadcasters
-  broadcastercount.times do |i|
-    p "broadcaster ========================================="
+  test_broadcaster_count.times do |i|
+    p "test broadcaster ========================================="
     i += 1
     age = rand(13..100)
     testbroadcaster = User.new(
@@ -341,7 +341,7 @@ if Rails.env.production? == false
         .to_json
     )
     attribs = {
-      consent_given: true,
+      consent_to_store_data: true,
       pending_broadcaster_application: true,
       full_name: "Streamer#{i + 1} C#{i + 1} Aster#{i + 1}",
       birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,
@@ -366,7 +366,7 @@ if Rails.env.production? == false
 
   ###########################################
   # Test developers
-  developercount.times do |i|
+  test_developer_count.times do |i|
     p "========================================="
     age = rand(13..100)
     testdeveloper = User.new(
@@ -384,7 +384,7 @@ if Rails.env.production? == false
       profile_about_me: "just developin"
     )
     attribs = {
-      consent_given: true,
+      consent_to_store_data: true,
       pending_developer_application: true,
       full_name: "Dev#{i + 1} E#{i + 1} Loper#{i + 1}",
       birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,
@@ -406,7 +406,7 @@ if Rails.env.production? == false
 
   ###########################################
   # Test affiliates
-  affiliatecount.times do |i|
+  test_affiliate_count.times do |i|
     p "========================================="
     age = rand(13..100)
     testaffiliate = User.new(
@@ -423,7 +423,7 @@ if Rails.env.production? == false
       profile_age: age
     )
     attribs = {
-      consent_given: true,
+      consent_to_store_data: true,
       pending_affiliate_application: true,
       full_name: "Aff#{i + 1} Ili#{i + 1} Ate#{i + 1}",
       birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,

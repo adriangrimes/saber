@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 2019_10_07_230418) do
     t.text "country"
     t.text "business_name"
     t.text "business_entity_type"
+    t.text "business_entity_type_other"
     t.string "business_identification_number"
     t.string "payout_method"
     t.text "bitcoin_address"

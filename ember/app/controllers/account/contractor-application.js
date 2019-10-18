@@ -1,82 +1,65 @@
 import Controller from '@ember/controller';
 import { inject } from '@ember/service';
-import ContractorApplicationValidations from '../../validations/contractor-application';
 
 export default Controller.extend({
   notify: inject(),
+  currentUser: inject(),
 
-  ContractorApplicationValidations,
-
-  broadcasterVerifySubmitBtn: 'btn btn-primary',
-  broadcasterVerifySubmitText: 'Submit Verification',
-  broadcasterSaveForLaterBtn: 'btn btn-outline-dark',
-  broadcasterSaveForLaterText: 'Save for Later',
+  actions: {
+    submitApplication(changeset) {
+      console.log(`controller submitting ${this.applicationType} Application`);
+      changeset.set(`pending${this.applicationType}Application`, true);
+      console.log(this.model.userVerificationUploads.length);
+      changeset.set(
+        'verificationCount',
+        this.model.userVerificationUploads.length
+      );
+      this.validateAndSaveChangeset(changeset);
+    },
+    saveApplicationForLater(changeset) {
+      console.log('controller saving for later');
+      changeset.set(`pending${this.applicationType}Application`, false);
+      this.validateAndSaveChangeset(changeset);
+    },
+    rollbackApplication(changeset) {
+      console.log('controller rollback changeset');
+      changeset.rollback();
+    }
+  },
 
   validateAndSaveChangeset(changeset) {
     let snapshot = changeset.snapshot();
     changeset
       .validate()
       .then(() => {
-        console.log(changeset.get('data'));
         console.log(changeset.get('errors'));
         if (changeset.get('isValid')) {
           changeset
             .save()
             .then(() => {
-              /* ... */
+              console.log('calling currentUser.load()');
+              this.notify.success(
+                'Success! Your application has been submitted and is awaiting verification.'
+              );
+              this.currentUser.load();
             })
             .catch(error => {
-              console.log(error);
+              this.notify.warning(
+                'There was a problem with the information you entered, please correct any errors before submitting.'
+              );
               error.errors.forEach(({ attribute, message }) => {
                 changeset.pushErrors(attribute, message);
               });
               console.log(changeset.get('errors'));
             });
+        } else {
+          this.notify.warning(
+            'There was a problem with the data you entered, please correct any errors before submitting.'
+          );
         }
       })
       .catch(() => {
         changeset.restore(snapshot);
       });
-  },
-
-  actions: {
-    submitApplication(changeset) {
-      console.log('contractorApplication controller submitting application');
-
-      // TODO fix this to work for all contractor types
-      changeset.set(`pending${this.applicationType}Application`, true);
-
-      this.validateAndSaveChangeset(changeset);
-    },
-    saveApplicationForLater(changeset) {
-      console.log('contractorApplication controller saving for later');
-      this.validateAndSaveChangeset(changeset);
-    },
-    rollbackApplication(changeset) {
-      console.log('contractorApplication controller rollback changeset');
-    },
-
-    checkLength(text, select /*, event */) {
-      if (select.searchText.length >= 3 && text.length < 3) {
-        return '';
-      } else {
-        return text.length >= 3;
-      }
-    },
-
-    setCountry(country) {
-      this.changeset.set('country', country);
-    },
-
-    checkThis(toBeChecked) {
-      jQuery('#' + toBeChecked)
-        .prop('checked', true)
-        .change();
-      if (toBeChecked == 'inputPayoutBitcoin') {
-        this.set('payoutIsBitcoin', true);
-      } else if (toBeChecked == 'inputPayoutCheck') {
-        this.set('payoutIsBitcoin', false);
-      }
-    }
   }
 });

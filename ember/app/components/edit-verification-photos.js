@@ -5,6 +5,8 @@ import RSVP from 'rsvp';
 // edit-verification-photos
 export default Component.extend({
   session: service(),
+  store: service(),
+  notify: service(),
 
   photoSubmitBtn: 'btn btn-primary',
   photoSubmitText: 'Save',
@@ -64,6 +66,10 @@ export default Component.extend({
         })
         .catch(err => {
           console.log('file failed to delete with error: ' + err);
+          let notify = this.get('notify');
+          err.errors.forEach(function(error) {
+            notify.warning(error.message);
+          });
           file.rollbackAttributes();
         });
     }
