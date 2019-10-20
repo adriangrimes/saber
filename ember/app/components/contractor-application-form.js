@@ -246,11 +246,24 @@ export default Component.extend({
     'Zimbabwe'
   ],
 
+  willRender() {
+    // Update changeset.verificationCount just before the UI renders to keep it
+    // current
+    if (this.userVerificationUploads) {
+      console.log(this.userVerificationUploads.length);
+      this.changeset.set(
+        'verificationCount',
+        this.userVerificationUploads.length
+      );
+    }
+  },
+
   actions: {
     setCountry(country) {
       this.changeset.set('country', country);
     },
 
+    // Function used by ember-power-select to search form lists
     checkLength(text, select /*, event */) {
       if (select.searchText.length >= 3 && text.length < 3) {
         return '';
@@ -263,11 +276,6 @@ export default Component.extend({
       jQuery('#' + toBeChecked)
         .prop('checked', true)
         .change();
-      if (toBeChecked == 'inputPayoutBitcoin') {
-        this.set('payoutIsBitcoin', true);
-      } else if (toBeChecked == 'inputPayoutCheck') {
-        this.set('payoutIsBitcoin', false);
-      }
     }
   }
 });

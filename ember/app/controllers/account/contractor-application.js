@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import { inject } from '@ember/service';
+import { reject, resolve } from 'rsvp';
 
 export default Controller.extend({
   notify: inject(),
@@ -9,17 +10,25 @@ export default Controller.extend({
     submitApplication(changeset) {
       console.log(`controller submitting ${this.applicationType} Application`);
       changeset.set(`pending${this.applicationType}Application`, true);
-      console.log(this.model.userVerificationUploads.length);
-      changeset.set(
-        'verificationCount',
-        this.model.userVerificationUploads.length
-      );
-      this.validateAndSaveChangeset(changeset);
+      this.validateAndSaveChangeset(changeset)
+        .then(() => {
+          this.notify.success(
+            'Success! Your application has been submitted and is awaiting verification.'
+          );
+        })
+        .catch(function(e) {});
     },
+
     saveApplicationForLater(changeset) {
       console.log('controller saving for later');
       changeset.set(`pending${this.applicationType}Application`, false);
-      this.validateAndSaveChangeset(changeset);
+      this.validateAndSaveChangeset(changeset)
+        .then(() => {
+          this.notify.success(
+            'Success! Your application has been saved for later.'
+          );
+        })
+        .catch(function(e) {});
     },
     rollbackApplication(changeset) {
       console.log('controller rollback changeset');
@@ -28,38 +37,42 @@ export default Controller.extend({
   },
 
   validateAndSaveChangeset(changeset) {
+    console.log('validateAndSaveChangeset()');
     let snapshot = changeset.snapshot();
-    changeset
+    return changeset
       .validate()
       .then(() => {
-        console.log(changeset.get('errors'));
+        console.log('validating ===========================================');
         if (changeset.get('isValid')) {
-          changeset
+          return changeset
             .save()
-            .then(() => {
+            .then(changeset => {
               console.log('calling currentUser.load()');
-              this.notify.success(
-                'Success! Your application has been submitted and is awaiting verification.'
-              );
               this.currentUser.load();
+              // return resolve(changeset);
             })
             .catch(error => {
+              console.log(error);
               this.notify.warning(
-                'There was a problem with the information you entered, please correct any errors before submitting.'
+                'The server had a problem with the information you entered, please correct any errors before submitting.'
               );
               error.errors.forEach(({ attribute, message }) => {
                 changeset.pushErrors(attribute, message);
               });
               console.log(changeset.get('errors'));
+              return reject(changeset);
             });
         } else {
           this.notify.warning(
             'There was a problem with the data you entered, please correct any errors before submitting.'
           );
+          return reject(changeset);
         }
       })
-      .catch(() => {
+      .catch(err => {
+        console.log(changeset.get('errors'));
         changeset.restore(snapshot);
+        return reject(changeset);
       });
   }
 });

@@ -14,21 +14,24 @@ export default {
     ]
   }),
 
-  // businessEntityType: [
-  //   function(key, newValue, oldValue, changes /*, content*/) {
-  //     if (changes.businessName) {
-  //       return validatePresence({
-  //         presence: true,
-  //         on: [
-  //           'pendingBroadcasterApplication',
-  //           'pendingDeveloperApplication',
-  //           'pendingAffiliateApplication'
-  //         ]
-  //       })(...arguments);
-  //     }
-  //     return true;
-  //   }
-  // ],
+  businessEntityTypeOther: [
+    function(key, newValue, oldValue, changes /*, content*/) {
+      if (
+        changes.businessEntityType &&
+        changes.businessEntityType.toLowerCase() == 'other'
+      ) {
+        return validatePresence({
+          presence: true,
+          on: [
+            'pendingBroadcasterApplication',
+            'pendingDeveloperApplication',
+            'pendingAffiliateApplication'
+          ]
+        })(...arguments);
+      }
+      return true;
+    }
+  ],
 
   payoutMethod: validatePresence({
     presence: true,
@@ -40,7 +43,10 @@ export default {
   }),
   bitcoinAddress: [
     function(key, newValue, oldValue, changes /*, content*/) {
-      if (changes.payoutMethod == 'bitcoin') {
+      if (
+        changes.payoutMethod &&
+        changes.payoutMethod.toLowerCase() == 'bitcoin'
+      ) {
         return validatePresence({
           presence: true,
           on: [
@@ -98,7 +104,7 @@ export default {
 
   businessIdentificationNumber: [
     function(key, newValue, oldValue, changes /*, content*/) {
-      if (changes.country === 'United States') {
+      if (changes.country && changes.country === 'United States') {
         return validatePresence({
           presence: true,
           on: [
@@ -111,7 +117,7 @@ export default {
       return true;
     },
     function(key, newValue, oldValue, changes /*, content*/) {
-      if (changes.country === 'United States') {
+      if (changes.country && changes.country === 'United States') {
         return validateLength({
           min: 8,
           on: [
@@ -131,6 +137,7 @@ export default {
         (changes.pendingBroadcasterApplication ||
           changes.pendingDeveloperApplication ||
           changes.pendingAffiliateApplication) &&
+        changes.country &&
         changes.country === 'United States'
       ) {
         if (newValue === true || newValue === false) {
@@ -142,6 +149,7 @@ export default {
     }
   ],
 
+  // Broadcasters only
   verificationCount: [
     function(key, newValue, oldValue, changes /*, content*/) {
       if (changes.pendingBroadcasterApplication) {
@@ -173,7 +181,7 @@ export default {
   ],
 
   consentToStoreData: [
-    function(key, newValue /*oldValue changes , content*/) {
+    function(key, newValue /*oldValue, changes , content*/) {
       if (newValue === true) {
         return true;
       }
