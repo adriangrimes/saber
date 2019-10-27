@@ -23,10 +23,6 @@
   {{/if}}
 {{/if}}
 
-{{#if changeset.isInvalid}}
-  <p>There are one or more errors in your form</p>
-{{/if}}
-
 <form onkeydown="return event.key != 'Enter';">
   {{! Full name }}
   {{validated-field
@@ -112,6 +108,7 @@
     {{attribute-validation-display changeset=changeset property="payoutMethod"}}
   </div>
   {{#if (eq changeset.payoutMethod "bitcoin")}}
+    {{! Bitcoin address }}
     <div class="form-group">
       <label for="bitcoinAddress">Bitcoin address</label>
       {{input type="text" class="form-control" id="bitcoinAddress" value=changeset.bitcoinAddress}}
@@ -255,6 +252,9 @@
   </div>
 
   {{! display unattributed form errors}}
+  {{#if changeset.isInvalid}}
+    <p>There are one or more errors in your form</p>
+  {{/if}}
   {{attribute-validation-display changeset=changeset property="base"}}
 
   {{! Submission buttons }}

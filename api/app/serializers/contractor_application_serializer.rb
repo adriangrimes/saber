@@ -19,9 +19,14 @@ class ContractorApplicationSerializer
     :business_entity_type_other
   attribute :business_identification_number do |app|
     if app.business_identification_number.present?
-      business_identification_number =
-        ('*' * (app.business_identification_number.length - 2)) + app.business_identification_number.last(2)
-      business_identification_number
+      if app.business_identification_number.length >= 2
+        business_identification_number =
+          ('*' * (app.business_identification_number.length - 2)) +
+            app.business_identification_number.last(2)
+        business_identification_number
+      else
+        business_identification_number
+      end
     else
       nil
     end

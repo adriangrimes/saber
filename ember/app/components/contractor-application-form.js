@@ -246,8 +246,14 @@ export default Component.extend({
     'Zimbabwe'
   ],
 
+  init() {
+    this._super(...arguments);
+    // this.model.set('electronicSignature', '');
+  },
+
   willRender() {
-    // Update changeset.verificationCount just before the UI renders to keep it
+    this._super(...arguments);
+    // Update changeset.verificationCount when it changes to keep the changeset
     // current
     if (this.userVerificationUploads) {
       console.log(this.userVerificationUploads.length);

@@ -1,6 +1,5 @@
 import Controller from '@ember/controller';
 import { inject } from '@ember/service';
-import { reject, resolve } from 'rsvp';
 
 export default Controller.extend({
   notify: inject(),
@@ -10,26 +9,18 @@ export default Controller.extend({
     submitApplication(changeset) {
       console.log(`controller submitting ${this.applicationType} Application`);
       changeset.set(`pending${this.applicationType}Application`, true);
-      this.validateAndSaveChangeset(changeset)
-        .then(() => {
-          this.notify.success(
-            'Success! Your application has been submitted and is awaiting verification.'
-          );
-        })
-        .catch(function(e) {});
+      console.log(`controller submitting ${this.applicationType} Application`);
+      this.validateAndSaveChangeset(changeset);
     },
 
     saveApplicationForLater(changeset) {
-      console.log('controller saving for later');
+      console.log(
+        `controller saving ${this.applicationType} Application for later`
+      );
       changeset.set(`pending${this.applicationType}Application`, false);
-      this.validateAndSaveChangeset(changeset)
-        .then(() => {
-          this.notify.success(
-            'Success! Your application has been saved for later.'
-          );
-        })
-        .catch(function(e) {});
+      this.validateAndSaveChangeset(changeset);
     },
+
     rollbackApplication(changeset) {
       console.log('controller rollback changeset');
       changeset.rollback();
@@ -37,19 +28,30 @@ export default Controller.extend({
   },
 
   validateAndSaveChangeset(changeset) {
-    console.log('validateAndSaveChangeset()');
+    console.log('validateChangeset()');
+    // Rollback any errors given from the back-end
+    changeset.rollbackProperty('base');
     let snapshot = changeset.snapshot();
-    return changeset
+    changeset
       .validate()
       .then(() => {
-        console.log('validating ===========================================');
+        console.log('validated ===========================================');
         if (changeset.get('isValid')) {
-          return changeset
+          changeset
             .save()
             .then(changeset => {
+              console.log('saved ===========================================');
+              if (changeset.pendingBroadcasterApplication) {
+                this.notify.success(
+                  'Success! Your application has been submitted and is awaiting verification.'
+                );
+              } else {
+                this.notify.success(
+                  'Saved. Your application has been saved for later but is not submitted.'
+                );
+              }
               console.log('calling currentUser.load()');
               this.currentUser.load();
-              // return resolve(changeset);
             })
             .catch(error => {
               console.log(error);
@@ -60,19 +62,16 @@ export default Controller.extend({
                 changeset.pushErrors(attribute, message);
               });
               console.log(changeset.get('errors'));
-              return reject(changeset);
             });
         } else {
           this.notify.warning(
-            'There was a problem with the data you entered, please correct any errors before submitting.'
+            'There was a problem with the information you entered, please correct any errors before submitting.'
           );
-          return reject(changeset);
         }
       })
-      .catch(err => {
+      .catch(() => {
         console.log(changeset.get('errors'));
         changeset.restore(snapshot);
-        return reject(changeset);
       });
   }
 });

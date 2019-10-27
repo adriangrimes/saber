@@ -61,6 +61,7 @@ export default Component.extend({
         }
       })
         .use(Webcam, {
+          id: 'Webcam',
           modes: ['picture'],
           title: 'Webcam',
           mirror: false
@@ -81,6 +82,7 @@ export default Component.extend({
         .on('complete', result => {
           if (result.failed.length == 0) {
             console.log('all files uploaded successfully');
+            this.get('uppy').cancelAll();
             this.onUploaded(result.successful);
           }
         })

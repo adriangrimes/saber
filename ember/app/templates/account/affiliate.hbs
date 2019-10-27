@@ -12,7 +12,7 @@
       Thank you! Your application is submitted and pending verification.
     {{else}} --}}
       <div class="col-xs-12 col-sm-5">
-        {{dev-blurb}}
+        {{affiliate-blurb}}
       </div>
       <div class="col-xs-12 col-sm-7">
         {{#unless currentUser.isContracted}}
@@ -26,7 +26,6 @@
         {{contractor-application-form
           applicationType="Affiliate"
           userData=currentUser.user
-          userVerificationUploads=model.userVerificationUploads
           changeset=changeset
           submit=(action "submitApplication")
           saveForLater=(action "saveApplicationForLater")

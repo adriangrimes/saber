@@ -32,6 +32,11 @@ export default Route.extend(AuthenticatedRouteMixin, {
   setupController(controller, model) {
     this._super(controller, model);
     controller.set('applicationType', 'Broadcaster');
+    model.contractorApplication.set('electronicSignature', '');
+    model.contractorApplication.set(
+      'verificationCount',
+      model.userVerificationUploads.length
+    );
     controller.set(
       'changeset',
       new Changeset(
