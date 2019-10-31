@@ -57,6 +57,9 @@ export default Component.extend({
           that.currentUser.set('errorMessages', []);
           that.currentUser.loadMessages();
           console.log('opening messages from ' + fromUser);
+        })
+        .catch(function(err) {
+          console.log('failed to get private messages:', err);
         });
     },
 
@@ -129,6 +132,9 @@ export default Component.extend({
           that.set('selectedUser', that.get('inputReciever'));
           that.set('inputMessage', '');
           that.currentUser.loadMessages();
+        })
+        .catch(function(err) {
+          console.log('failed to load older messages:', err);
         });
     }
   }

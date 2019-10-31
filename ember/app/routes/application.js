@@ -29,32 +29,32 @@ export default Route.extend(ApplicationRouteMixin, {
 
   actions: {
     loading(transition) {
-      let controller = this.controllerFor('application');
-      controller.set('currentlyLoading', true);
+      // let controller = this.controllerFor('application');
+      // controller.set('currentlyLoading', true);
       transition.promise.finally(function() {
-        controller.set('currentlyLoading', false);
+        // controller.set('currentlyLoading', false);
       });
-      // returning true will cause the .hbs to display
+      // returning true will cause loading.hbs to display
       return true;
     },
 
+    // Catch route errors (beforeModel(), model(), afterModel())
     error(error /*, transition*/) {
-      console.log('we got an error boys');
-      console.log(error);
+      console.log('application level route action error:', error);
       if (error.errors) {
         if (error.errors[0].status == 0) {
           this.get('notify').error(
-            'Sorry, the server appears to be unavailable. Please try again later.'
+            'Sorry, the server appears to be unavailable.<br>Please try again later.'
           );
         }
         if (error.errors[0].status == 500) {
           this.get('notify').error(
-            'The server encountered an internal error. Please try again later.'
+            'The server encountered an internal error.<br>Please try again later.'
           );
         }
       }
-      // returning true will cause the .hbs to display
-      // return true;
+      // returning true will cause error.hbs to display
+      return true;
     },
 
     testError() {

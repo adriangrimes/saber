@@ -1,3 +1,4 @@
+{{! head-layout is required for ember-theme-changer}}
 {{head-layout}}
 {{log-in-modal}}
 {{buy-credits}}
@@ -9,7 +10,16 @@
     <span aria-hidden="true">&nbsp;&nbsp;×&nbsp;&nbsp;</span>
   </a>
   <span class="message">
-    {{message.text}}
+    {{log message}}
+    {{#if message.textArray}}
+      <ul>
+        {{#each message.textArray as |text|}}
+          <li>{{text.message}}</li>
+        {{/each}}
+      </ul>
+    {{else}}
+      {{{message.text}}}
+    {{/if}}
   </span>
 {{/ember-notify}}
 

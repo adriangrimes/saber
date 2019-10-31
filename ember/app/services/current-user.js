@@ -42,7 +42,9 @@ export default Service.extend({
           jQuery('#loginModal').modal('hide');
         })
         .catch(err => {
-          this.set('errorMessages', err.errors || err);
+          // this.set('errorMessages', err.errors || err);
+          console.log(err);
+          this.notify.error({ textArray: err.errors });
         });
     } else {
       this.set('errorMessages', [
@@ -105,10 +107,11 @@ export default Service.extend({
           );
         })
         .catch(err => {
-          console.log('save sign up failed');
+          console.log('save sign up failed', err);
           // Save/sign-up failed
           newUser.deleteRecord();
-          this.set('errorMessages', err.errors || err);
+          // this.set('errorMessages', err.errors || err);
+          this.notify.error({ textArray: err.errors });
         });
     } else {
       // Fields missing
@@ -166,6 +169,9 @@ export default Service.extend({
             },
             10000
           );
+        })
+        .catch(function(err) {
+          console.log('failed to load conversations:', err);
         });
     }
   }

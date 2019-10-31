@@ -100,7 +100,7 @@ export default Controller.extend({
             })
             .catch(response => {
               // Save failed
-              console.log('error saving user record: ' + response);
+              console.log('error saving user record:', response);
               this.currentUser.set(
                 'errorMessages',
                 response.errors || response
@@ -109,7 +109,7 @@ export default Controller.extend({
         })
         .catch(response => {
           // Record not found or other datastore error
-          console.log('error finding user record: ' + response);
+          console.log('error finding user record:', response);
           this.currentUser.set('errorMessages', response.errors || response);
         });
     },
@@ -159,10 +159,14 @@ export default Controller.extend({
         userPublicUploads: this.store.query('user-public-upload', {
           username: this.get('session.data.authenticated.username')
         })
-      }).then(storeData => {
-        this.set('model.userPublicDatum', storeData.userPublicDatum);
-        this.set('model.userPublicUploads', storeData.userPublicUploads);
-      });
+      })
+        .then(storeData => {
+          this.set('model.userPublicDatum', storeData.userPublicDatum);
+          this.set('model.userPublicUploads', storeData.userPublicUploads);
+        })
+        .catch(err => {
+          console.log('error finding public user data:', err);
+        });
     },
 
     setGame(game) {
@@ -222,7 +226,7 @@ export default Controller.extend({
       if (
         this.get('session.isAuthenticated') &&
         Number.isInteger(tipAmount) &&
-        tipAmount >= 1
+        tipAmount > 0
       ) {
         console.log('sending tip of', tipAmount);
 
@@ -239,8 +243,8 @@ export default Controller.extend({
             console.log('tipped: ', transfer.creditsTransferred);
             this.currentUser.load();
           })
-          .catch(() => {
-            console.log('failed to tip');
+          .catch(err => {
+            console.log('failed to tip', err);
           });
       } else {
         console.log('invalid tip');

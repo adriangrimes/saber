@@ -5,13 +5,10 @@ import RSVP from 'rsvp';
 // edit-photos
 export default Component.extend({
   session: service(),
+  notify: service(),
 
   photoSubmitBtn: 'btn btn-primary',
   photoSubmitText: 'Save',
-
-  // didInsertElement() {
-  //   this._super(...arguments);
-  // },
 
   actions: {
     onUploaded(successfulUploads) {
@@ -29,7 +26,7 @@ export default Component.extend({
         component.get('model.content').pushObject(publicUpload.get('content'));
         recordsToSave.push(publicUpload);
       }
-      // When all records come back completed, reload the upload records from the api
+      // When all records come back completed, reload the uploaded records from the api
       RSVP.all(recordsToSave)
         .then(records => {
           console.log('all uploads saved - records:', records);
@@ -40,10 +37,14 @@ export default Component.extend({
             .then(uploads => {
               console.log('set model to current uploads:', uploads);
               component.set('model', uploads);
+            })
+            .catch(err => {
+              console.error('failed to load files from server:', err);
+              //component.model.rollbackAttributes();
             });
         })
         .catch(err => {
-          console.error('error getting uploads with ' + err);
+          console.error('error saving upload records:', err);
           //component.model.rollbackAttributes();
         });
     },
@@ -57,8 +58,8 @@ export default Component.extend({
           this.onProfileImageChanged();
           console.log('profileImage saved');
         })
-        .catch(() => {
-          console.log('profileImage failed to save');
+        .catch(err => {
+          console.log('profileImage failed to save', err);
           imageRecord.rollbackAttributes();
         });
     },
@@ -70,8 +71,8 @@ export default Component.extend({
         .then(() => {
           console.log('members only saved');
         })
-        .catch(() => {
-          console.log('members only failed to save');
+        .catch(err => {
+          console.log('members only failed to save', err);
           file.rollbackAttributes();
         });
     },
@@ -87,7 +88,7 @@ export default Component.extend({
           }
         })
         .catch(err => {
-          console.log('file failed to delete with error: ' + err);
+          console.log('file failed to delete with error:', err);
           file.rollbackAttributes();
         });
     }

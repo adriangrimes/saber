@@ -18,41 +18,43 @@
             model=(mut model)
             onUploaded=(action "onUploaded")
           }}
+          {{model.length}} of 30 images uploaded
+          <div>
+            {{#each model as |file|}}
 
-          {{#each model as |file|}}
+              <div class="d-inline-block border {{if file.isSaving "border-danger" "border-dark"}} border-3 rounded">
+                {{#if file}}
+                  <img src="{{file.fileUrl}}" height="100" width="100">
+                  <div class="form-check">
+                    {{#if (eq profilePhotoPath file.fileUrl)}}
+                      <div class="btn btn-success form-check-label"> Profile Photo </div>
+                    {{else}}
+                      <button class="btn btn-primary form-check-label" {{action "setImageAsProfileImage" file}}> Make Profile Photo </button>
+                    {{/if}}
+                    <br>
+                    <label class="form-check-label">
+                      {{#unless file.profileImage}}
+                        <form {{action "setMembersOnlyPropertyOnFile" file on="change"}}>
+                          Members Only
+                          <label class="switch float-right">
+                            {{input type="checkbox" checked=file.membersOnly}}
+                            <span class="slider"></span>
+                          </label>
+                        </form>
+                      {{/unless}}
+                    </label>
+                    <br>
+                    <button class="btn btn-outline-dark form-check-label" {{action "deleteFile" file}}> Detele </button>
+                  </div>
+                {{else}}
+                  Loading...
+                {{/if}}
+              </div>
 
-            <div class="d-inline-block border {{if file.isSaving "border-danger" "border-dark"}} border-3 rounded">
-              {{#if file}}
-                <img src="{{file.fileUrl}}" height="100" width="100">
-                <div class="form-check">
-                  {{#if (eq profilePhotoPath file.fileUrl)}}
-                    <div class="btn btn-success form-check-label"> Profile Photo </div>
-                  {{else}}
-                    <button class="btn btn-primary form-check-label" {{action "setImageAsProfileImage" file}}> Make Profile Photo </button>
-                  {{/if}}
-                  <br>
-                  <label class="form-check-label">
-                    {{#unless file.profileImage}}
-                      <form {{action "setMembersOnlyPropertyOnFile" file on="change"}}>
-                        Members Only
-                        <label class="switch float-right">
-                          {{input type="checkbox" checked=file.membersOnly}}
-                          <span class="slider"></span>
-                        </label>
-                      </form>
-                    {{/unless}}
-                  </label>
-                  <br>
-                  <button class="btn btn-outline-dark form-check-label" {{action "deleteFile" file}}> Detele </button>
-                </div>
-              {{else}}
-                Loading...
-              {{/if}}
-            </div>
-
-          {{else}}
-            <div class="text-center">Images will appear here after they're uploaded</div>
-          {{/each}}
+            {{else}}
+              <div class="text-center">Images will appear here after they're uploaded</div>
+            {{/each}}
+          </div>
         </div>
       </div>
 

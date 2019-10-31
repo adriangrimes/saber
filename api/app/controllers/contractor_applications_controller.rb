@@ -42,10 +42,11 @@ class ContractorApplicationsController < ApplicationController
       app = ContractorApplication.find_by(user_id: user_id)
       if app
         if app.update(contractor_application_params)
-          render json: ContractorApplicationSerializer
-              .new(app)
-              .serialized_json,
-            status: :ok
+          # render json: ContractorApplicationSerializer
+          #     .new(app)
+          #     .serialized_json,
+          #   status: :ok
+          render status: :unprocessable_entity
         else
           p app.errors
           render json: ErrorSerializer.serialize(app.errors),
@@ -62,7 +63,6 @@ class ContractorApplicationsController < ApplicationController
   private
 
     def contractor_application_params
-      ## Payment profile
       params.require(:data)
             .require(:attributes)
             .permit(:consent_to_store_data,

@@ -11,10 +11,6 @@ export default Component.extend({
   photoSubmitBtn: 'btn btn-primary',
   photoSubmitText: 'Save',
 
-  // didInsertElement() {
-  //   this._super(...arguments);
-  // },
-
   actions: {
     onUploaded(successfulUploads) {
       let component = this;
@@ -46,6 +42,10 @@ export default Component.extend({
             .then(uploads => {
               console.log('set model to current uploads:', uploads);
               component.set('model', uploads);
+            })
+            .catch(err => {
+              console.error('error getting uploads with ' + err);
+              //component.model.rollbackAttributes();
             });
         })
         .catch(err => {

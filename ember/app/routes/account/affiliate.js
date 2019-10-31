@@ -29,7 +29,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   setupController(controller, model) {
     this._super(controller, model);
     controller.set('applicationType', 'Affiliate');
-    // model.contractorApplication.set('electronicSignature', '');
+    model.contractorApplication.set('electronicSignature', '');
     controller.set(
       'changeset',
       new Changeset(

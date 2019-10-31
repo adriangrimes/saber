@@ -246,11 +246,6 @@ export default Component.extend({
     'Zimbabwe'
   ],
 
-  init() {
-    this._super(...arguments);
-    // this.model.set('electronicSignature', '');
-  },
-
   willRender() {
     this._super(...arguments);
     // Update changeset.verificationCount when it changes to keep the changeset

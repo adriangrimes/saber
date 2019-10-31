@@ -9,15 +9,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     @user = User.new(sign_up_params)
-    if sign_up_params[:broadcaster] == true
-      broadcaster = true
-    else
-      broadcaster = false
-    end
-    @user.build_user_public_datum(username: sign_up_params[:username], broadcaster: broadcaster)
+    @user.build_user_public_datum(username: sign_up_params[:username], broadcaster: false)
     if @user.save
       render json: UserSerializer
-        .new(@user, { params: { user: @user } })
+        .new(@user)
         .serialized_json,
              status: :created
     else
@@ -57,8 +52,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def sign_up_params
     params.require(:data)
           .require(:attributes)
-          .permit(:login, :username, :email, :password,
-                  :broadcaster, :developer, :affiliate, :full_name)
+          .permit(:login,
+            :username,
+            :email,
+            :password)
   end
 
   # If you have extra params to permit, append them to the sanitizer.

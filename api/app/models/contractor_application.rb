@@ -179,7 +179,7 @@ class ContractorApplication < ApplicationRecord
       errors.add(:base, :business_identification_number,
         message: "Please enter a valid SSN, EIN, or ITIN, including dashes")
     end
-    if business_identification_number && business_identification_number.include?('***')
+    if business_identification_number && business_identification_number.include?('*')
       p "found obfuscated BIN, reverting to original value"
       self.business_identification_number = business_identification_number_in_database
     end

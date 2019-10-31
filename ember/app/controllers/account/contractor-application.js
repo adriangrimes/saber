@@ -7,22 +7,16 @@ export default Controller.extend({
 
   actions: {
     submitApplication(changeset) {
-      console.log(`controller submitting ${this.applicationType} Application`);
       changeset.set(`pending${this.applicationType}Application`, true);
-      console.log(`controller submitting ${this.applicationType} Application`);
       this.validateAndSaveChangeset(changeset);
     },
 
     saveApplicationForLater(changeset) {
-      console.log(
-        `controller saving ${this.applicationType} Application for later`
-      );
       changeset.set(`pending${this.applicationType}Application`, false);
       this.validateAndSaveChangeset(changeset);
     },
 
     rollbackApplication(changeset) {
-      console.log('controller rollback changeset');
       changeset.rollback();
     }
   },
@@ -53,15 +47,19 @@ export default Controller.extend({
               console.log('calling currentUser.load()');
               this.currentUser.load();
             })
-            .catch(error => {
-              console.log(error);
-              this.notify.warning(
-                'The server had a problem with the information you entered, please correct any errors before submitting.'
-              );
-              error.errors.forEach(({ attribute, message }) => {
-                changeset.pushErrors(attribute, message);
-              });
-              console.log(changeset.get('errors'));
+            .catch(err => {
+              console.log(err);
+              if (err.errors.firstObject && err.errors.firstObject.status) {
+                console.log('You got a baddie');
+              } else {
+                this.notify.warning(
+                  'The server had a problem with the information you entered, please correct any errors before submitting.'
+                );
+                err.errors.forEach(({ attribute, message }) => {
+                  changeset.pushErrors(attribute, message);
+                });
+                console.log(changeset.get('errors'));
+              }
             });
         } else {
           this.notify.warning(

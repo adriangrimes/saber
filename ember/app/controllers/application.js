@@ -7,7 +7,6 @@ export default Controller.extend({
   session: inject(),
   themeChanger: inject(),
   //copyrightYear: is set in app/instance-initializer/application
-  currentlyLoading: false,
 
   init() {
     this._super(...arguments);

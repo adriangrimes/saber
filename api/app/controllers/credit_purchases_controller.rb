@@ -1,4 +1,6 @@
 class CreditPurchasesController < ApplicationController
+  # TODO this whole controller is unsafe and needs to be revisited with
+  # Paypal integration
   before_action :set_credit_purchase, only: [:show, :update, :destroy]
 
   # GET /credit_purchases
@@ -20,9 +22,8 @@ class CreditPurchasesController < ApplicationController
       @credit_purchase.purchase_type = 'purchase'
       @credit_purchase.purchase_amount =
         Rails.application.config.x.saber
-             .credit_denominations.key(credit_purchase_params[:credits_purchased])  
+             .credit_denominations.key(credit_purchase_params[:credits_purchased])
       @credit_purchase.payment_method = 'paypal'
-             
       @credit_purchase.cleared = true
       @credit_purchase.cancelled = false
       @credit_purchase.credits_purchased = credit_purchase_params[:credits_purchased]

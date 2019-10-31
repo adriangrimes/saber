@@ -5,10 +5,12 @@ class CreditTransfersController < ApplicationController
   # POST /credit_transfers
   def create
     p 'starting credit transfer'
+    # TODO This all should be handled by the CreditTransfer model instead of
+    # this controller
     @credit_transfer = CreditTransfer.new(credit_transfer_params)
     # If user is not tipping themselves and type equals 'tip'
     if @credit_transfer.from_user_id != @credit_transfer.to_user_id &&
-       @credit_transfer.transfer_type == 'tip'
+      @credit_transfer.transfer_type == 'tip'
 
       sender = User.find(@credit_transfer.from_user_id)
         sender_credit_purchases = CreditPurchase
