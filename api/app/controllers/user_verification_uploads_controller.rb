@@ -30,8 +30,6 @@ class UserVerificationUploadsController < ApplicationController
       verification_upload.user_id = @authenticated_user.id
 
       if verification_upload.save
-        p 'attached verification upload - starting serialization'
-        p verification_upload.upload_url
         options = {}
         options[:is_collection] = false
         json = UserVerificationUploadSerializer
@@ -41,22 +39,23 @@ class UserVerificationUploadsController < ApplicationController
       else
         p '============== errros'
         p ErrorSerializer.serialize(verification_upload.errors)
-        render json: ErrorSerializer.serialize(verification_upload.errors), status: :unprocessable_entity
+        render json: ErrorSerializer.serialize(verification_upload.errors),
+          status: :unprocessable_entity
       end
     else
-      # TODO figure out how to report this back to ember The Right Way
-      render json: {errors: ['maximum uploads reached']}, status: :unprocessable_entity
+      render json: {errors: ['maximum uploads reached']},
+        status: :unprocessable_entity
     end
   end
 
   def destroy
     if params[:id].present?
       verification_upload = UserVerificationUpload.find(params[:id])
-      # TODO if user has submitted verification, don't let them delete the uploads
       if verification_upload.destroy
         render status: :no_content
       else
-        render json: ErrorSerializer.serialize(verification_upload.errors), status: :unprocessable_entity
+        render json: ErrorSerializer.serialize(verification_upload.errors),
+          status: :unprocessable_entity
       end
     else
       render status: :not_found
@@ -76,6 +75,7 @@ class UserVerificationUploadsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def verification_upload_params
+    # TODO what the heck is this:
     params[:id] = params[:data][:attributes][:user_id] if params[:id].nil?
 
     params.require(:data)

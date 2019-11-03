@@ -43,9 +43,11 @@ class CreditTransfersController < ApplicationController
               receiver.contractor_application.broadcaster_percentage
 
             if @credit_transfer.save
-              render json: CreditTransferSerializer.new(@credit_transfer), status: :created
+              render json: CreditTransferSerializer.new(@credit_transfer),
+                status: :created
             else
-              render json: @credit_transfer.errors, status: :unprocessable_entity
+              render json: ErrorSerializer.serialize(@credit_transfer.errors),
+                status: :unprocessable_entity
             end
           else
             # TODO probably log or error in some way to let them know they
@@ -62,22 +64,22 @@ class CreditTransfersController < ApplicationController
 
   # GET /credit_transfers
   def index
-    render status: :unprocessable_entity
+    render status: :not_found
   end
 
   # GET /credit_transfers/1
   def show
-    render status: :unprocessable_entity
+    render status: :not_found
   end
 
   # PATCH/PUT /credit_transfers/1
   def update
-    render status: :unprocessable_entity
+    render status: :not_found
   end
 
   # DELETE /credit_transfers/1
   def destroy
-    render status: :unprocessable_entity
+    render status: :not_found
   end
 
   private
@@ -86,7 +88,7 @@ class CreditTransfersController < ApplicationController
     if token_is_authorized_for_id?(params[:data][:attributes][:from_user_id])
       return true
     else
-      clean_up_and_render_unauthorized
+      clean_up_and_render_not_found
       return false
     end
   end

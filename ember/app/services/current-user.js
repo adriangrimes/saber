@@ -9,6 +9,7 @@ export default Service.extend({
   session: service(),
   store: service(),
   notify: service(),
+  errorHandler: service(),
   themeChanger: service(),
 
   signupSuccess: false,
@@ -43,8 +44,9 @@ export default Service.extend({
         })
         .catch(err => {
           // this.set('errorMessages', err.errors || err);
-          console.log(err);
-          this.notify.error({ textArray: err.errors });
+          console.log('error logging in', err);
+          // this.notify.error({ textArray: err.errors });
+          this.errorHandler.handleWithNotification(err);
         });
     } else {
       this.set('errorMessages', [
@@ -55,7 +57,8 @@ export default Service.extend({
 
   logOut() {
     this.themeChanger.set('theme', 'default');
-    // invalidate() causes a page refresh, which should remove all data from the store as well
+    // invalidate() causes a page refresh, which should remove all data from
+    // the store as well
     this.session.invalidate();
   },
 
@@ -111,7 +114,8 @@ export default Service.extend({
           // Save/sign-up failed
           newUser.deleteRecord();
           // this.set('errorMessages', err.errors || err);
-          this.notify.error({ textArray: err.errors });
+          // this.notify.error({ textArray: err.errors });
+          this.errorHandler.handleWithNotification(err);
         });
     } else {
       // Fields missing

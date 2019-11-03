@@ -5,7 +5,8 @@ class HelpTopicsController < ApplicationController
   def index
     @help_topics = HelpTopic.all.includes(:help_sections)
 
-    render json: HelpTopicSerializer.new(@help_topics).serialized_json, status: :ok
+    render json: HelpTopicSerializer.new(@help_topics).serialized_json,
+      status: :ok
   end
 
   # GET /help_topics/1

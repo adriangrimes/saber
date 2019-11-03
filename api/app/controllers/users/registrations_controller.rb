@@ -11,14 +11,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @user = User.new(sign_up_params)
     @user.build_user_public_datum(username: sign_up_params[:username], broadcaster: false)
     if @user.save
-      render json: UserSerializer
-        .new(@user)
-        .serialized_json,
-             status: :created
+      render json: UserSerializer.new(@user).serialized_json,
+        status: :created
     else
       puts @user.errors.inspect
-      render json: ErrorSerializer.serialize(@user.errors), status: :unprocessable_entity
-      # render json: @user.errors, status: :unprocessable_entity
+      render json: ErrorSerializer.serialize(@user.errors),
+        status: :unprocessable_entity
     end
   end
 

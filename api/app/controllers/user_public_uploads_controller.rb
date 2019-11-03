@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class UserPublicUploadsController < ApplicationController
+
+  # TODO move any validation stuff out of the controller and into the
+  # UserPublicUpload and UserPublicDatum models
+
   before_action :upload_params, only: %i[create update]
 
   def index
@@ -45,7 +49,7 @@ class UserPublicUploadsController < ApplicationController
         # TODO: Get user id from token?
         user_public_upload.user_id = user_public_datum.user_id
 
-        if user_public_upload.save!
+        if user_public_upload.save
           p 'attached upload - starting serialization'
           p user_public_upload.upload_url
           options = {}
@@ -61,13 +65,15 @@ class UserPublicUploadsController < ApplicationController
         else
           p '============== errros'
           p ErrorSerializer.serialize(user_public_upload.errors)
-          render json: ErrorSerializer.serialize(user_public_upload.errors), status: :unprocessable_entity
+          render json: ErrorSerializer.serialize(user_public_upload.errors),
+            status: :unprocessable_entity
         end
       else
-        render json: { errors: ["maximum uploads reached"]}, status: :unprocessable_entity
+        render json: { errors: { attribute: :base, message: "maximum uploads reached" } },
+          status: :unprocessable_entity
       end
     else
-      render status: :unprocessable_entity
+      render status: :not_found
     end
   end
 
@@ -85,7 +91,7 @@ class UserPublicUploadsController < ApplicationController
           user_public_upload.members_only = false
         end
 
-        if user_public_datum.save! && user_public_upload.save!
+        if user_public_upload.save && user_public_datum.save
           p 'upload updated - serializing'
           options = {}
           options[:is_collection] = false
@@ -98,7 +104,9 @@ class UserPublicUploadsController < ApplicationController
                  .serialized_json
           render json: json, status: :ok
         else
-          render status: :internal_server_error
+          errors = user_public_datum.errors.merge!(user_public_upload.errors)
+          render json: ErrorSerializer.serialize(errors),
+            status: :unprocessable_entity
         end
       else
         render status: :not_found
@@ -114,6 +122,9 @@ class UserPublicUploadsController < ApplicationController
       user_public_datum = UserPublicDatum.find_by(user_id: user_public_upload.user_id)
       if token_is_authorized_for_id?(user_public_datum.user_id)
         if user_public_upload.destroy
+
+          render status: :no_content
+
           # If no more image uploads are present after destroying, set to a
           # no-profile-image image.
           # Or if user is deleting the image that was set as their profile
@@ -133,11 +144,7 @@ class UserPublicUploadsController < ApplicationController
                 Rails.application.routes.default_url_options[:host] + uploads.first.upload_url
           end
 
-          if user_public_datum.save!
-            render status: :no_content
-          else
-            render status: :internal_server_error
-          end
+          user_public_datum.save!
         else
           render status: :internal_server_error
         end

@@ -1,6 +1,8 @@
 class CreditPurchasesController < ApplicationController
+  
   # TODO this whole controller is unsafe and needs to be revisited with
   # Paypal integration
+
   before_action :set_credit_purchase, only: [:show, :update, :destroy]
 
   # GET /credit_purchases
@@ -30,12 +32,14 @@ class CreditPurchasesController < ApplicationController
       @credit_purchase.credits_remaining = credit_purchase_params[:credits_purchased]
 
       if @credit_purchase.save
-        render json: CreditPurchaseSerializer.new(@credit_purchase), status: :created
+        render json: CreditPurchaseSerializer.new(@credit_purchase),
+          status: :created
       else
-        render json: @credit_purchase.errors, status: :unprocessable_entity
+        render json: ErrorSerializer.serialize(@credit_purchase.errors),
+          status: :unprocessable_entity
       end
     else
-      render status: :unauthorized
+      render status: :not_found
     end
   end
 
@@ -44,7 +48,8 @@ class CreditPurchasesController < ApplicationController
     if @credit_purchase.update(credit_purchase_params)
       render json: @credit_purchase
     else
-      render json: @credit_purchase.errors, status: :unprocessable_entity
+      render json: ErrorSerializer.serialize(@credit_purchase.errors),
+        status: :unprocessable_entity
     end
   end
 

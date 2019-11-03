@@ -25,11 +25,11 @@ class Users::PasswordsController < Devise::PasswordsController
             if user.reset_password(params[:password], params[:password_confirm])
               render json: { status: 'ok' }, status: :ok
             else
-              render json: { error: user.errors.full_messages }, status: :internal_server_error
+              render json: { error: user.errors.full_messages }, status: :unprocessable_entity
               return
             end
           else
-            render json: { error: ['Password and password_confirm must match.'] }, status: :internal_server_error
+            render json: { error: ['Password and password_confirm must match.'] }, status: :unprocessable_entity
             return
           end
         else

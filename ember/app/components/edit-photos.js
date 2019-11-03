@@ -5,7 +5,7 @@ import RSVP from 'rsvp';
 // edit-photos
 export default Component.extend({
   session: service(),
-  notify: service(),
+  errorHandler: service(),
 
   photoSubmitBtn: 'btn btn-primary',
   photoSubmitText: 'Save',
@@ -40,11 +40,13 @@ export default Component.extend({
             })
             .catch(err => {
               console.error('failed to load files from server:', err);
+              this.errorHandler.handleWithNotification(err);
               //component.model.rollbackAttributes();
             });
         })
         .catch(err => {
           console.error('error saving upload records:', err);
+          this.errorHandler.handleWithNotification(err);
           //component.model.rollbackAttributes();
         });
     },
@@ -60,6 +62,7 @@ export default Component.extend({
         })
         .catch(err => {
           console.log('profileImage failed to save', err);
+          this.errorHandler.handleWithNotification(err);
           imageRecord.rollbackAttributes();
         });
     },
@@ -73,6 +76,7 @@ export default Component.extend({
         })
         .catch(err => {
           console.log('members only failed to save', err);
+          this.errorHandler.handleWithNotification(err);
           file.rollbackAttributes();
         });
     },
@@ -89,6 +93,7 @@ export default Component.extend({
         })
         .catch(err => {
           console.log('file failed to delete with error:', err);
+          this.errorHandler.handleWithNotification(err);
           file.rollbackAttributes();
         });
     }

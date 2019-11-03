@@ -2,6 +2,8 @@ class ContactUsController < ApplicationController
   require "uri"
   require "net/http"
 
+  # TODO refactor this whole shebang to be a real model with a db table
+
   def send_email
     unless params[:captcha_token].to_s.blank? ||
            params[:contact_email].to_s.blank? ||
@@ -23,7 +25,12 @@ class ContactUsController < ApplicationController
         'secret' => '6Ld7w64UAAAAAJovUvbFab2gopseAMXov4G2UXB4',
         'response' => message_params[:captcha_token]
       }
-      response = Net::HTTP.post_form(URI.parse('https://www.google.com/recaptcha/api/siteverify'), captcha_verify_params)
+      response = Net::HTTP.post_form(
+        URI.parse(
+          'https://www.google.com/recaptcha/api/siteverify'
+        ),
+        captcha_verify_params
+      )
       if response.is_a?(Net::HTTPSuccess)
         captcha_verification = JSON.parse(response.body)
         if captcha_verification["success"] == true
@@ -31,13 +38,16 @@ class ContactUsController < ApplicationController
           render status: :ok
           p message_params[:message]
         else
-          render json: { errors: 'Captcha failed to verify' }, status: :unprocessable_entity
+          render json: { errors: 'Captcha failed to verify' },
+            status: :unprocessable_entity
         end
       else
-        render json: { errors: 'The reCAPTCHA service appears to be unavailable to verify the captcha. Please try again later.' }, status: :unprocessable_entity
+        render json: { errors: 'The reCAPTCHA service appears to be unavailable to verify the captcha. Please try again later.' },
+          status: :unprocessable_entity
       end
     else
-      render json: { errors: 'All fields except Topic are required' }, status: :unprocessable_entity
+      render json: { errors: 'All fields except Topic are required' },
+        status: :unprocessable_entity
     end
   end
 end

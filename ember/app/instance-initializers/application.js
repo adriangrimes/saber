@@ -3,11 +3,13 @@ import TextArea from '@ember/component/text-area';
 
 export function initialize(appInstance) {
   // Set copyright year
-  appInstance.lookup('controller:application').set('copyrightYear', new Date().getFullYear());
+  appInstance
+    .lookup('controller:application')
+    .set('copyrightYear', new Date().getFullYear());
 
   // Allow data-lpignore attribute on {{input}} helper
   TextField.reopen({
-  attributeBindings: ['data-lpignore']
+    attributeBindings: ['data-lpignore']
   });
   TextArea.reopen({
     attributeBindings: ['data-lpignore']

@@ -160,8 +160,8 @@ export default Component.extend({
       console.log('after websocket events');
 
       this.set('socketRef', socket);
-    } catch (error) {
-      console.log('error setting up websocket, closing: ' + error);
+    } catch (err) {
+      console.log('error setting up websocket, closing:', err);
       this.websockets.closeSocketFor(this.get('chatChannelFullUrl'));
     }
   },

@@ -6,7 +6,7 @@ import RSVP from 'rsvp';
 export default Component.extend({
   session: service(),
   store: service(),
-  notify: service(),
+  errorHandler: service(),
 
   photoSubmitBtn: 'btn btn-primary',
   photoSubmitText: 'Save',
@@ -45,11 +45,13 @@ export default Component.extend({
             })
             .catch(err => {
               console.error('error getting uploads with ' + err);
+              this.errorHandler.handleWithNotification(err);
               //component.model.rollbackAttributes();
             });
         })
         .catch(err => {
           console.error('error getting uploads with ' + err);
+          this.errorHandler.handleWithNotification(err);
           //component.model.rollbackAttributes();
         });
     },
@@ -66,10 +68,7 @@ export default Component.extend({
         })
         .catch(err => {
           console.log('file failed to delete with error: ' + err);
-          let notify = this.get('notify');
-          err.errors.forEach(function(error) {
-            notify.warning(error.message);
-          });
+          this.errorHandler.handleWithNotification(err);
           file.rollbackAttributes();
         });
     }

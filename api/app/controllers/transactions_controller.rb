@@ -34,7 +34,7 @@ class TransactionsController < ApplicationController
       puts 'authorized'
       return true
     else
-      clean_up_and_render_unauthorized
+      clean_up_and_render_not_found
       return false
     end
   end

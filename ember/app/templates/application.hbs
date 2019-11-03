@@ -12,11 +12,9 @@
   <span class="message">
     {{log message}}
     {{#if message.textArray}}
-      <ul>
-        {{#each message.textArray as |text|}}
-          <li>{{text.message}}</li>
-        {{/each}}
-      </ul>
+      {{#each message.textArray as |text|}}
+        <li>{{{text.message}}}</li>
+      {{/each}}
     {{else}}
       {{{message.text}}}
     {{/if}}

@@ -12,7 +12,7 @@ class PrivateMessagesController < ApplicationController
       if page < 1
         page = 1
       end
-    else 
+    else
       page = 1
     end
 
@@ -49,7 +49,7 @@ class PrivateMessagesController < ApplicationController
           end
         end
       else
-        render status: :unauthorized
+        render status: :not_found
       end
     end
   end
@@ -69,10 +69,11 @@ class PrivateMessagesController < ApplicationController
           .new(@private_message)
           .serialized_json, status: :created
       else
-        render json: ErrorSerializer.serialize(@private_message.errors), status: :unprocessable_entity
+        render json: ErrorSerializer.serialize(@private_message.errors),
+          status: :unprocessable_entity
       end
     else
-      render status: :unauthorized
+      render status: :not_found
     end
   end
 
@@ -81,7 +82,7 @@ class PrivateMessagesController < ApplicationController
     user_id = params[:id].to_i
     if token_is_authorized_for_id?(user_id)
       private_messages_for_conversations = PrivateMessage
-                                           .find_by_sql(['SELECT * FROM private_messages AS pm
+        .find_by_sql(['SELECT * FROM private_messages AS pm
           INNER JOIN (
             SELECT private_messages.to_user_id, private_messages.from_user_id, MAX(private_messages.created_at) AS MaxCreatedAt
             FROM private_messages
@@ -90,7 +91,7 @@ class PrivateMessagesController < ApplicationController
               AND pm.created_at = tm.MaxCreatedAt
           WHERE pm.from_user_id = ? OR pm.to_user_id = ?
           ORDER BY pm.created_at DESC',
-                                                         user_id, user_id, user_id, user_id])
+          user_id, user_id, user_id, user_id])
 
       # Include all user record data to prevent a lookup per each user
       ActiveRecord::Associations::Preloader.new.preload(
@@ -121,7 +122,7 @@ class PrivateMessagesController < ApplicationController
           end
         end
       end
-
+      
       conversations = []
       conversation_hash_array.each_with_index do |conversation, index|
         unread_count = 0
@@ -145,7 +146,7 @@ class PrivateMessagesController < ApplicationController
         .serialized_json,
              status: :ok
     else
-      render status: :unauthorized
+      render status: :not_found
     end
   end
 

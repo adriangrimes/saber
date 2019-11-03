@@ -1,9 +1,6 @@
 class UsersController < ApplicationController
   before_action :is_user_authorized?
 
-  # Render Unauthorized 401 even when a record is not found
-  rescue_from ActiveRecord::RecordNotFound, with: :render_unauthorized
-
   # GET /users/1
   def show
     render json: serialize_user(@authenticated_user), status: :ok
@@ -11,7 +8,6 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-
     # If current_password is present, update sensitive attributes.
     if passworded_user_params[:current_password]&.present?
 

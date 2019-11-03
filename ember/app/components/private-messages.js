@@ -1,11 +1,12 @@
 import Component from '@ember/component';
-import { inject } from '@ember/service';
+import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 
 export default Component.extend({
-  session: inject(),
-  store: inject(),
-  currentUser: inject(),
+  session: service(),
+  store: service(),
+  currentUser: service(),
+  errorHandler: service(),
 
   currentPage: 1,
   noMoreHistory: false,
@@ -13,14 +14,11 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
-    this.set(
-      'currentUsername',
-      this.get('session.data.authenticated.username')
-    );
+    this.privateMessages = [];
+    this.currentUsername = this.session.data.authenticated.username;
     if (this.toUser) {
-      this.set('selectedUser', this.toUser);
+      this.selectedUser = this.toUser;
     }
-    this.set('privateMessages', []);
     if (this.selectedUser) {
       this.send('openMessages', this.selectedUser);
     }
@@ -28,25 +26,25 @@ export default Component.extend({
 
   actions: {
     openMessages(fromUser) {
-      let refreshSameUser = false;
-      if (this.get('selectedUser') == fromUser) {
-        refreshSameUser = true;
-      } else {
-        this.set('privateMessages', []);
-      }
-      this.set('noMoreHistory', false);
-      this.set('selectedUser', fromUser);
-      this.set('inputReciever', fromUser);
-      this.set('inputMessage', '');
-      this.set('currentPage', 1);
       let that = this;
+      this.set('currentPage', 1);
       this.store
         .query('private-message', {
           id: this.get('session.data.authenticated.user_id'),
           with: fromUser,
-          page: this.currentPage
+          page: 1
         })
-        .then(function(messages) {
+        .then(messages => {
+          let refreshSameUser = false;
+          if (this.get('selectedUser') == fromUser) {
+            refreshSameUser = true;
+          } else {
+            this.set('privateMessages', []);
+          }
+          this.set('noMoreHistory', false);
+          this.set('selectedUser', fromUser);
+          this.set('inputReciever', fromUser);
+          this.set('inputMessage', '');
           if (isEmpty(messages)) {
             that.set('noMoreHistory', true);
           } else if (refreshSameUser) {
@@ -54,12 +52,12 @@ export default Component.extend({
           } else {
             that.get('privateMessages').unshiftObjects(messages.toArray());
           }
-          that.currentUser.set('errorMessages', []);
           that.currentUser.loadMessages();
           console.log('opening messages from ' + fromUser);
         })
-        .catch(function(err) {
+        .catch(err => {
           console.log('failed to get private messages:', err);
+          this.errorHandler.handleWithNotification(err);
         });
     },
 
@@ -69,14 +67,11 @@ export default Component.extend({
       this.set('selectedUser', '');
       this.set('currentPage', 1);
       this.set('noMoreHistory', false);
-      this.currentUser.set('errorMessages', []);
     },
 
     sendDM() {
       console.log('sending message');
-      this.currentUser.set('errorMessages', []);
       this.set('sendDisabled', true);
-      let that = this;
       let privateMessage = this.store.createRecord('private-message', {
         fromUser: this.get('session.data.authenticated.username'),
         toUser: this.get('inputReciever'),
@@ -86,55 +81,56 @@ export default Component.extend({
         .save()
         .then(() => {
           console.log('record saved');
-          that.store
+          this.store
             .query('private-message', {
-              id: that.get('session.data.authenticated.user_id'),
-              with: that.get('inputReciever'),
+              id: this.get('session.data.authenticated.user_id'),
+              with: this.get('inputReciever'),
               page: 1
             })
-            .then(function(messages) {
-              that.set('privateMessages', messages.toArray());
-              that.set('selectedUser', that.get('inputReciever'));
-              that.set('inputMessage', '');
-              that.set('noMoreHistory', false);
-              that.set('sendDisabled', false);
-              that.currentUser.loadMessages();
+            .then(messages => {
+              this.set('privateMessages', messages.toArray());
+              this.set('selectedUser', this.get('inputReciever'));
+              this.set('inputMessage', '');
+              this.set('noMoreHistory', false);
+              this.set('sendDisabled', false);
+              this.set('currentPage', 1);
+              this.currentUser.loadMessages();
             })
-            .catch(function(err) {
-              that.set('sendDisabled', false);
-              that.currentUser.set('errorMessages', err.errors);
+            .catch(err => {
+              this.set('sendDisabled', false);
+              this.errorHandler.handleWithNotification(err);
             });
         })
-        .catch(function(err) {
-          that.set('sendDisabled', false);
-          privateMessage.rollback();
-          that.currentUser.set('errorMessages', err.errors);
+        .catch(err => {
           console.log('caught error: ' + err);
+          this.set('sendDisabled', false);
+          privateMessage.rollback();
+          this.errorHandler.handleWithNotification(err);
         });
     },
 
     loadOlderMessages() {
-      let that = this;
       this.incrementProperty('currentPage');
-      this.currentUser.set('errorMessages', []);
       this.store
         .query('private-message', {
-          id: that.get('session.data.authenticated.user_id'),
-          with: that.get('inputReciever'),
-          page: that.currentPage
+          id: this.get('session.data.authenticated.user_id'),
+          with: this.get('inputReciever'),
+          page: this.currentPage
         })
-        .then(function(messages) {
+        .then(messages => {
           if (isEmpty(messages)) {
-            that.set('noMoreHistory', true);
+            this.set('noMoreHistory', true);
+            this.decrementProperty('currentPage');
           } else {
-            that.get('privateMessages').unshiftObjects(messages.toArray());
+            this.get('privateMessages').unshiftObjects(messages.toArray());
           }
-          that.set('selectedUser', that.get('inputReciever'));
-          that.set('inputMessage', '');
-          that.currentUser.loadMessages();
+          this.set('selectedUser', this.get('inputReciever'));
+          this.set('inputMessage', '');
+          this.currentUser.loadMessages();
         })
-        .catch(function(err) {
+        .catch(err => {
           console.log('failed to load older messages:', err);
+          this.errorHandler.handleWithNotification(err);
         });
     }
   }

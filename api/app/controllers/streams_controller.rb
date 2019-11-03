@@ -3,8 +3,8 @@ class StreamsController < ApplicationController
   require "net/http"
 
   # Called by nginx.
-  # Sends stream-up to users watching, and returns redirect code to nginx to
-  # internally redirect stream to the restricted hlsout app
+  # Sends stream-up to users watching, and returns redirect response to nginx to
+  # internally redirect stream to the restricted hlsout rtmp app
   def start
     p 'stream starting'
     if params[:name]

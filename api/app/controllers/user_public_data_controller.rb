@@ -45,7 +45,7 @@ class UserPublicDataController < ApplicationController
           render json: errors, status: :unprocessable_entity
         end
       else
-        render status: :unauthorized
+        render status: :not_found
       end
     else
       render status: :not_found
@@ -125,12 +125,12 @@ class UserPublicDataController < ApplicationController
     unless search_string.nil?
       regexp = /#{search_string}/i;
       online_user_search_results = UserPublicDatum
-                                   .where("broadcaster = true AND online_status = true AND username LIKE ? ESCAPE '#'", '%' + search_string + '%')
+        .where("broadcaster = true AND online_status = true AND username LIKE ? ESCAPE '#'", '%' + search_string + '%')
       online_user_search_results =
         online_user_search_results.sort_by { |u| u.username =~ regexp }
 
       offline_user_search_results = UserPublicDatum
-                                    .where("broadcaster = true AND online_status = false AND username LIKE ? ESCAPE '#'", '%' + search_string + '%')
+        .where("broadcaster = true AND online_status = false AND username LIKE ? ESCAPE '#'", '%' + search_string + '%')
       offline_user_search_results =
         offline_user_search_results.sort_by { |u| u.username =~ regexp }
 

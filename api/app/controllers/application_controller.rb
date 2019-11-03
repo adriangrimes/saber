@@ -3,10 +3,6 @@ class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods
   include ErrorSerializer
 
-  # if Rails.env.production?
-  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
-  # end
-
   def token_is_authorized_for_id?(user_id)
     p ">>> token_is_authorized_for_id? called"
     user_id = user_id.to_i
@@ -86,9 +82,5 @@ class ApplicationController < ActionController::API
     p ">>> rendering not_found"
     @authenticated_user = nil
     render status: :not_found
-  end
-
-  def render_not_found(exception)
-    render json: ErrorSerializer.serialize(exception), status: :not_found
   end
 end

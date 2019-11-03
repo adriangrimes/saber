@@ -1,9 +1,9 @@
 import Route from '@ember/routing/route';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
-import { inject } from '@ember/service';
+import { inject as service } from '@ember/service';
 
 export default Route.extend(ApplicationRouteMixin, {
-  notify: inject(),
+  errorHandler: service(),
 
   beforeModel() {
     console.log('R1 beforeModel application route hook');
@@ -39,26 +39,11 @@ export default Route.extend(ApplicationRouteMixin, {
     },
 
     // Catch route errors (beforeModel(), model(), afterModel())
-    error(error /*, transition*/) {
-      console.log('application level route action error:', error);
-      if (error.errors) {
-        if (error.errors[0].status == 0) {
-          this.get('notify').error(
-            'Sorry, the server appears to be unavailable.<br>Please try again later.'
-          );
-        }
-        if (error.errors[0].status == 500) {
-          this.get('notify').error(
-            'The server encountered an internal error.<br>Please try again later.'
-          );
-        }
-      }
+    error(err /*, transition*/) {
+      console.log('application level route action error:', err);
+      this.errorHandler.handleWithNotification(err);
       // returning true will cause error.hbs to display
       return true;
-    },
-
-    testError() {
-      this.get('notify').error('manual error!');
     },
 
     willTransition(transition) {

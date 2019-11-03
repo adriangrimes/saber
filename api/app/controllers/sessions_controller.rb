@@ -41,22 +41,22 @@ class SessionsController < Devise::SessionsController
   end
 
   def new
-    render_unauthorized
+    clean_up_and_render_not_found
   end
 
   def index
-    render_unauthorized
+    clean_up_and_render_not_found
   end
 
   def show
-    render_unauthorized
+    clean_up_and_render_not_found
   end
 
   def update
-    render_unauthorized
+    clean_up_and_render_not_found
   end
 
   def destroy
-    render_unauthorized
+    clean_up_and_render_not_found
   end
 end

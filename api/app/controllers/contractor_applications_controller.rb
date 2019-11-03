@@ -42,15 +42,14 @@ class ContractorApplicationsController < ApplicationController
       app = ContractorApplication.find_by(user_id: user_id)
       if app
         if app.update(contractor_application_params)
-          # render json: ContractorApplicationSerializer
-          #     .new(app)
-          #     .serialized_json,
-          #   status: :ok
-          render status: :unprocessable_entity
+          render json: ContractorApplicationSerializer
+              .new(app)
+              .serialized_json,
+            status: :ok
         else
           p app.errors
           render json: ErrorSerializer.serialize(app.errors),
-                 status: :unprocessable_entity
+            status: :unprocessable_entity
         end
       else
         render status: :not_found
