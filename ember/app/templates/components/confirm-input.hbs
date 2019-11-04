@@ -1,45 +1,38 @@
-
-
 <div class={{this.showButton}}>
 
-{{#if (eq this.type "tip")}}
-  <div class="input-group-append">
-    <div class="btn btn-primary border-0 px-2 profile-buttons input-group-append"
-      {{action "openConfirm"}}>
-      {{button-title}}
+  {{#if (eq this.type "tip")}}
+    <div class="input-group-append">
+      <div class="btn btn-primary border-0 px-2 profile-buttons input-group-append" {{action "openConfirm"}}>
+        {{button-title}}
+      </div>
     </div>
-  </div>
-{{else if (eq this.type "reset")}}
-    <div class="btn btn-block btn-dark"
-      {{action "openConfirm"}}>
+  {{else if (eq this.type "reset")}}
+    <div class="btn btn-block btn-dark" {{action "openConfirm"}}>
       <span class={{this.resetStreamKeyIcon}} id="resetStreamKeyIcon" aria-hidden="true"></span>&nbsp;
       {{button-title}}
     </div>
   {{else}}
-    <div class="btn btn-primary border-0 px-2 profile-buttons"
-      {{action "openConfirm"}}>
+    <div class="btn btn-primary border-0 px-2 profile-buttons" {{action "openConfirm"}}>
       {{button-title}}
     </div>
-
-{{/if}}
+  {{/if}}
+  
 </div>
 
 <div class=" pb-2 mr-1 ">
 
   <div class={{this.showConfirm}}>
     {{#if titleDetail}}
-      <h5 class="pl-2 pr-3 pt-1" >{{title}} {{titleDetail}} {{titleEnd}}</h5>
+      <h5 class="pl-2 pr-3 pt-1">{{title}} {{titleDetail}} {{titleEnd}}</h5>
     {{else}}
-      <h5 class="pl-2 pr-3 pt-1" >{{title}}</h5>
+      <h5 class="pl-2 pr-3 pt-1">{{title}}</h5>
     {{/if}}
-      <button class="btn btn-success border-0 mr-2"
-        {{action "confirmInput"}}>
-        <span class="fa fa-check"></span>
-      </button>
-      <button class="btn btn-danger border-0 "
-        {{action "cancelInput"}}>
-        <span class="fa fa-times"></span>
-      </button>
+    <button class="btn btn-success border-0 mr-2" {{action "confirmInput"}}>
+      <span class="fa fa-check"></span>
+    </button>
+    <button class="btn btn-danger border-0 " {{action "cancelInput"}}>
+      <span class="fa fa-times"></span>
+    </button>
   </div>
 
 </div>

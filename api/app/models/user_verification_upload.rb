@@ -12,7 +12,7 @@ class UserVerificationUpload < ApplicationRecord
     app = ContractorApplication.find_by(user_id: self.user_id)
     if app && app.pending_broadcaster_application == true
       p "yes"
-      errors[:base] << 'Can\'t delete uploads when your application is pending'
+      errors[:base] << 'Can\'t delete verification uploads while your application is pending approval'
       throw(:abort)
     end
   end

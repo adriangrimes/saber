@@ -3,7 +3,7 @@ import Component from '@ember/component';
 export default Component.extend({
   showConfirm: 'd-none',
   showButton: 'd-flex',
-  resetStreamKeyIcon: "fa fa-refresh",
+  resetStreamKeyIcon: 'fa fa-refresh',
 
   actions: {
     openConfirm() {
@@ -18,10 +18,9 @@ export default Component.extend({
       var thisParent = this;
       setTimeout(function() {
         thisParent.set('resetStreamKeyIcon', 'fa fa-refresh');
-      }, 2000);
+      }, 1000);
       this.set('showButton', 'd-flex');
       this.set('showConfirm', 'd-none');
-
     },
     cancelInput() {
       console.log(this.type + ' input canceled');

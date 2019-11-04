@@ -1,11 +1,13 @@
 import Controller from '@ember/controller';
-import { inject } from '@ember/service';
+import { inject as service } from '@ember/service';
 import jQuery from 'jquery';
 
 export default Controller.extend({
-  store: inject(),
-  session: inject(),
-  themeChanger: inject(),
+  store: service(),
+  session: service(),
+  themeChanger: service(),
+  notify: service(),
+  errorHandler: service(),
 
   payoutSettingSubmitBtn: 'btn btn-primary',
   payoutSettingSubmitText: 'Save',
@@ -394,7 +396,7 @@ export default Controller.extend({
   ],
 
   questionsList: [
-    'What was your childhood nickname?',
+    'What is the name of the first video game you played?',
     'In what city did you meet your spouse/significant other?',
     'What is your oldest sibling’s birthday month and year? (e.g., January 1900)',
     'What is your oldest sibling’s middle name?',
@@ -408,8 +410,7 @@ export default Controller.extend({
     'In what city does your nearest sibling live?',
     'What is your maternal grandmother’s maiden name?',
     'In what city or town was your first job?',
-    'What is the name of a college you applied to but didn’t attend?',
-    'What is the name of the first video game you played?'
+    'What is the name of a college you applied to but didn’t attend?'
   ],
 
   actions: {
@@ -444,47 +445,33 @@ export default Controller.extend({
     },
 
     submitnotifySettings() {
-      // Get current state of setting from page and set to a variable
-      var sEFO = this.sendEmailFollowedOnline;
-      var sPMEN = this.privateMessageEmailNotifications;
-      var sESN = this.sendEmailSiteNews;
+      // Modify record pulled from db to variable
+      this.model.user.set(
+        'sendEmailFollowedOnline',
+        this.sendEmailFollowedOnline
+      );
+      this.model.user.set(
+        'privateMessageEmailNotifications',
+        this.privateMessageEmailNotifications
+      );
+      this.model.user.set('sendEmailSiteNews', this.sendEmailSiteNews);
 
-      this.store
-        .findRecord('user', this.get('session.data.authenticated.user_id'))
-        .then(user => {
-          console.log(user);
-          // Modify record pulled from db to variable
-          user.set('sendEmailFollowedOnline', sEFO);
-          user.set('privateMessageEmailNotifications', sPMEN);
-          user.set('sendEmailSiteNews', sESN);
-
-          // Save record to db
-          user
-            .save()
-            .then(() => {
-              console.log('submitnotifySettings saved');
-              this.set('notifySettingsSubmitText', '');
-              this.set(
-                'notifySettingsSubmitBtn',
-                'btn btn-primary fa fa-check'
-              );
-            })
-            .catch(reason => {
-              console.log('error saving user record: ' + reason);
-              this.set('errorMessage', reason.errors || reason);
-            });
+      // Save record to db
+      this.model.user
+        .save()
+        .then(() => {
+          console.log('submitnotifySettings saved');
+          this.set('notifySettingsSubmitText', '');
+          this.set('notifySettingsSubmitBtn', 'btn btn-primary fa fa-check');
         })
-        .catch(reason => {
-          console.log('error finding user record: ' + reason);
-          this.set('errorMessage', reason.errors || reason);
+        .catch(err => {
+          console.log('error saving user record:', err);
+          this.errorHandler.handleWithNotification(err);
+          this.model.user.rollbackAttributes();
         });
     },
 
     submitSiteSettings() {
-      // Get current state of setting from page and set to a variable
-      var updateTimeZone = this.inputTimeZone;
-      var updateSearchDefault = this.inputDefaultSearch;
-
       if (this.get('currentUser.user.darkMode')) {
         this.themeChanger.set('theme', 'dark');
       } else {
@@ -492,35 +479,27 @@ export default Controller.extend({
       }
 
       console.log(
-        'At /account display settings save currentUser.darkMode: ' +
-          this.get('currentUser.user.darkMode')
+        'At /account display settings save currentUser.darkMode:',
+        this.get('currentUser.user.darkMode')
       );
 
-      this.store
-        .findRecord('user', this.get('session.data.authenticated.user_id'))
-        .then(user => {
-          console.log(user);
-          // Modify record pulled from db to variable
-          user.set('darkMode', this.get('currentUser.user.darkMode'));
-          user.set('timezone', updateTimeZone);
-          console.log('timezone: ' + updateTimeZone);
+      // Modify record pulled from db to variable
+      this.model.user.set('darkMode', this.get('currentUser.user.darkMode'));
+      this.model.user.set('timezone', this.inputTimeZone);
+      console.log('timezone: ' + this.inputTimeZone);
 
-          // Save record to db
-          user
-            .save()
-            .then(() => {
-              console.log('submitSiteSettings saved');
-              this.set('siteSettingSubmitText', '');
-              this.set('siteSettingSubmitBtn', 'btn btn-primary fa fa-check');
-            })
-            .catch(reason => {
-              console.log('error saving user record: ' + reason);
-              this.set('errorMessage', reason.errors || reason);
-            });
+      // Save record to db
+      this.model.user
+        .save()
+        .then(() => {
+          console.log('submitSiteSettings saved');
+          this.set('siteSettingSubmitText', '');
+          this.set('siteSettingSubmitBtn', 'btn btn-primary fa fa-check');
         })
-        .catch(reason => {
-          console.log('error finding user record: ' + reason);
-          this.set('errorMessage', reason.errors || reason);
+        .catch(err => {
+          console.log('error saving user record:', err);
+          this.errorHandler.handleWithNotification(err);
+          this.model.user.rollbackAttributes();
         });
     },
 
@@ -536,32 +515,25 @@ export default Controller.extend({
       var country = this.inputCountry;
       var address3 = city + '|' + region + '|' + zipcode + '|' + country;
 
-      this.store
-        .findRecord('user', this.get('session.data.authenticated.user_id'))
-        .then(user => {
-          // Modify record pulled from db to variable
-          user.set('addressLine1', address1);
-          user.set('addressLine2', address2);
-          user.set('addressLine3', address3);
-          user.set('payoutMethod', payoutMethod);
-          user.set('bitcoinAddress', bitcoinAddress);
+      // Modify record pulled from db
+      this.model.contractorApplication.set('addressLine1', address1);
+      this.model.contractorApplication.set('addressLine2', address2);
+      this.model.contractorApplication.set('addressLine3', address3);
+      this.model.contractorApplication.set('payoutMethod', payoutMethod);
+      this.model.contractorApplication.set('bitcoinAddress', bitcoinAddress);
 
-          // Save record to db
-          user
-            .save()
-            .then(() => {
-              console.log('submitPayoutSettings saved');
-              this.set('payoutSettingSubmitText', '');
-              this.set('payoutSettingSubmitBtn', 'btn btn-primary fa fa-check');
-            })
-            .catch(reason => {
-              console.log('error saving user record: ' + reason);
-              this.set('errorMessage', reason.errors || reason);
-            });
+      // Save record to db
+      this.model.contractorApplication
+        .save()
+        .then(() => {
+          console.log('submitPayoutSettings saved');
+          this.set('payoutSettingSubmitText', '');
+          this.set('payoutSettingSubmitBtn', 'btn btn-primary fa fa-check');
         })
-        .catch(reason => {
-          console.log('error finding user record: ' + reason);
-          this.set('errorMessage', reason.errors || reason);
+        .catch(err => {
+          console.log('error saving user record:', err);
+          this.errorHandler.handleWithNotification(err);
+          this.model.contractorApplication.rollbackAttributes();
         });
     },
 
@@ -570,100 +542,61 @@ export default Controller.extend({
         this.get('inputnewemailAddress') ==
         this.get('inputnewemailAddressConfirm')
       ) {
-        this.store
-          .findRecord('user', this.get('session.data.authenticated.user_id'))
-          .then(user => {
-            // Modify record pulled from db to variable
-            user.set('email', this.get('inputnewemailAddress'));
-            user.set('currentPassword', this.get('inputEmailCurrentPassword'));
-            // Save record to db
-            user
-              .save()
-              .then(() => {
-                this.currentUser.set('errorMessages', [
-                  {
-                    title: 'Email changed',
-                    detail:
-                      'Your email address has been changed, please check the confirmation email to complete the process.'
-                  }
-                ]);
-                console.log('submitEmailChange saved');
-                this.set('emailChangeSubmitText', '');
-                this.set('emailChangeSubmitBtn', 'btn btn-primary fa fa-check');
-              })
-              .catch(reason => {
-                this.model.rollbackAttributes();
-                console.log('error saving user record: ' + reason);
-                this.currentUser.set('errorMessages', reason.errors || reason);
-              });
+        // Modify record pulled from db to variable
+        this.model.user.set('email', this.get('inputnewemailAddress'));
+        this.model.user.set(
+          'currentPassword',
+          this.get('inputEmailCurrentPassword')
+        );
+        // Save record to db
+        this.model.user
+          .save()
+          .then(() => {
+            this.notify.success(
+              'Your email address has been changed, please check for a confirmation email to complete the process.'
+            );
+            console.log('submitEmailChange saved');
+            this.set('emailChangeSubmitText', '');
+            this.set('emailChangeSubmitBtn', 'btn btn-primary fa fa-check');
           })
-          .catch(reason => {
-            console.log('error finding user record: ' + reason);
-            this.currentUser.set('errorMessages', reason.errors || reason);
+          .catch(err => {
+            console.log('error saving user record:', err);
+            this.errorHandler.handleWithNotification(err);
+            this.model.user.rollbackAttributes();
           });
       } else {
-        this.currentUser.set('errorMessages', [
-          {
-            title: 'Email fields must match',
-            detail: 'The email fields must match.'
-          }
-        ]);
+        this.notify.error('The email fields must match.');
       }
     },
 
     submitPasswordChange() {
       if (this.get('inputnewpassword') == this.get('inputpasswordconfirm')) {
-        this.store
-          .findRecord('user', this.get('session.data.authenticated.user_id'))
-          .then(user => {
-            // Modify record pulled from db to variable
-            user.set('password', this.get('inputnewpassword'));
-            user.set(
-              'currentPassword',
-              this.get('inputPasswordCurrentPassword')
+        // Modify record pulled from db to variable
+        this.model.user.set('password', this.get('inputnewpassword'));
+        this.model.user.set(
+          'currentPassword',
+          this.get('inputPasswordCurrentPassword')
+        );
+        // Save record to db
+        this.model.user
+          .save()
+          .then(() => {
+            this.currentUser.logIn(
+              this.get('session.data.authenticated.login'),
+              this.get('inputnewpassword')
             );
-            // Save record to db
-            user
-              .save()
-              .then(() => {
-                this.currentUser.logIn(
-                  this.get('session.data.authenticated.login'),
-                  this.get('inputnewpassword')
-                );
-                this.currentUser.set('errorMessages', [
-                  {
-                    title: 'Password changed',
-                    detail: 'Your password has been changed.'
-                  }
-                ]);
-                console.log('submitPasswordChange saved');
-                this.set('passwordChangeSubmitText', '');
-                this.set(
-                  'passwordChangeSubmitBtn',
-                  'btn btn-primary fa fa-check'
-                );
-                // Ember.run.later((function() {
-                //   //do something in here that will run in 2 seconds
-
-                // }), 2000);
-              })
-              .catch(reason => {
-                this.model.rollbackAttributes();
-                console.log('error saving user record: ' + reason);
-                this.currentUser.set('errorMessages', reason.errors || reason);
-              });
+            this.notify.success('Your password has been changed.');
+            console.log('submitPasswordChange saved');
+            this.set('passwordChangeSubmitText', '');
+            this.set('passwordChangeSubmitBtn', 'btn btn-primary fa fa-check');
           })
-          .catch(reason => {
-            console.log('error finding user record: ' + reason);
-            this.currentUser.set('errorMessages', reason.errors || reason);
+          .catch(err => {
+            console.log('error saving user record:', err);
+            this.errorHandler.handleWithNotification(err);
+            this.model.user.rollbackAttributes();
           });
       } else {
-        this.currentUser.set('errorMessages', [
-          {
-            title: 'Password fields must match',
-            detail: 'The password fields must match.'
-          }
-        ]);
+        this.notify.error('The password fields must match.');
       }
     },
 
@@ -688,56 +621,41 @@ export default Controller.extend({
         '|' +
         answer3;
 
-      this.store
-        .findRecord('user', this.get('session.data.authenticated.user_id'))
-        .then(user => {
-          // Modify record pulled from db to variable
-          user.set('securityQuestions', updateSecurityQuestions);
-          user.set(
-            'currentPassword',
-            this.get('inputSecurityQuestionCurrentPassword')
-          );
-          // Save record to db
-          user
-            .save()
-            .then(() => {
-              this.currentUser.set('errorMessages', [
-                {
-                  title: 'Security questions updated',
-                  detail: 'Your security questions have been updated.'
-                }
-              ]);
-              console.log('submitSecuritySettings saved');
-              this.set('securityQuestionsSubmitText', '');
-              this.set(
-                'securityQuestionsSubmitBtn',
-                'btn btn-primary fa fa-check'
-              );
-            })
-            .catch(reason => {
-              console.log('error saving user record: ' + reason);
-              this.currentUser.set('errorMessages', reason.errors || reason);
-            });
+      // Modify record pulled from db to variable
+      this.model.user.set('securityQuestions', updateSecurityQuestions);
+      this.model.user.set(
+        'currentPassword',
+        this.get('inputSecurityQuestionCurrentPassword')
+      );
+      // Save record to db
+      this.model.user
+        .save()
+        .then(() => {
+          this.notify.success('Your security questions have been updated.');
+          console.log('submitSecuritySettings saved');
+          this.set('securityQuestionsSubmitText', '');
+          this.set('securityQuestionsSubmitBtn', 'btn btn-primary fa fa-check');
         })
-        .catch(reason => {
-          console.log('error finding user record: ' + reason);
-          this.set('errorMessage', reason.error || reason);
+        .catch(err => {
+          console.log('error saving user record:', err);
+          this.errorHandler.handleWithNotification(err);
+          this.model.user.rollbackAttributes();
         });
     },
 
     getTransactions() {
       console.log('getting transactions');
-      let userId = this.get('session.data.authenticated.user_id');
       this.store
         .query('transaction', {
-          id: userId
+          id: this.session.data.authenticated.user_id
         })
         .then(transactions => {
           console.log(transactions);
           this.set('transactions', transactions);
         })
         .catch(err => {
-          console.log('error getting transactions: ' + err);
+          console.log('error getting transactions:', err);
+          this.errorHandler.handleWithNotification(err);
         });
     }
   }

@@ -14,9 +14,4 @@ export default Route.extend(AuthenticatedRouteMixin, {
       })
     });
   }
-
-  // setupController(controller,model) {
-  //   this._super(controller, model);
-  //
-  // }
 });

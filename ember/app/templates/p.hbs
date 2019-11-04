@@ -24,10 +24,8 @@
             </h4>
           </div>
 
-
           <div class="col-4 d-flex justify-content-end">
             {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
-
               {{confirm-input button-title="Email Followers" title="Send email now?" onConfirm=(action "sendFollowerEmail")}}
             {{else}}
               <a href="/account/messages?toUser={{model.userPublicDatum.username}}" class="btn btn-link pb-0"><span title="Send Private Message" class="profile-links fa fa-envelope"></span></a>
@@ -44,9 +42,7 @@
                 {{/if}}
               {{/if}}
               --}}
-
           </div>
-
 
         </div>
         <div class="row m-0 collapse px-2" id="share-form">

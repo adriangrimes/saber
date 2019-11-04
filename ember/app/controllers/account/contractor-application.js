@@ -1,9 +1,10 @@
 import Controller from '@ember/controller';
-import { inject } from '@ember/service';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
-  notify: inject(),
-  currentUser: inject(),
+  notify: service(),
+  currentUser: service(),
+  errorHandler: service(),
 
   actions: {
     submitApplication(changeset) {
@@ -50,7 +51,7 @@ export default Controller.extend({
             .catch(err => {
               console.log(err);
               if (err.errors.firstObject && err.errors.firstObject.status) {
-                console.log('You got a baddie');
+                this.errorHandler.handleWithNotification(err);
               } else {
                 this.notify.warning(
                   'The server had a problem with the information you entered, please correct any errors before submitting.'
@@ -67,7 +68,8 @@ export default Controller.extend({
           );
         }
       })
-      .catch(() => {
+      .catch(err => {
+        this.errorHandler.handleWithNotification(err);
         console.log(changeset.get('errors'));
         changeset.restore(snapshot);
       });

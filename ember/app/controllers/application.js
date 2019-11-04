@@ -1,16 +1,14 @@
 import Controller from '@ember/controller';
-import { inject } from '@ember/service';
+import { inject as service } from '@ember/service';
 
 //Controller - application
 export default Controller.extend({
-  store: inject(),
-  session: inject(),
-  themeChanger: inject(),
-  //copyrightYear: is set in app/instance-initializer/application
+  store: service(),
+  session: service(),
+  themeChanger: service(),
+  errorHandler: service(),
 
-  init() {
-    this._super(...arguments);
-  },
+  copyrightYear: new Date().getFullYear() + 10000,
 
   actions: {
     logout() {
@@ -35,14 +33,15 @@ export default Controller.extend({
           // Modify record pulled from db to variable
           user.set('darkMode', this.get('currentUser.user.darkMode'));
           // Save record to db
-          user.save().catch(reason => {
-            console.log('error saving user record: ' + reason);
-            this.set('errorMessage', reason.errors || reason);
+          user.save().catch(err => {
+            console.log('error saving user record:', err);
+            this.errorHandler.handleWithNotification(err);
+            user.rollbackAttributes();
           });
         })
-        .catch(reason => {
-          console.log('error finding user record: ' + reason);
-          this.set('errorMessage', reason.errors || reason);
+        .catch(err => {
+          console.log('error finding user record:', err);
+          this.errorHandler.handleWithNotification(err);
         });
     }
   }

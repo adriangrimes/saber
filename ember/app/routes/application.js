@@ -13,9 +13,6 @@ export default Route.extend(ApplicationRouteMixin, {
     }
   },
 
-  // model() {
-  // },
-
   sessionAuthenticated() {
     console.log('R2 sessionAuthenticated()');
     this._super(...arguments);
@@ -47,8 +44,6 @@ export default Route.extend(ApplicationRouteMixin, {
     },
 
     willTransition(transition) {
-      console.log('transition detected, clearing errorMessages');
-      this.currentUser.set('errorMessages', []);
       if (
         this.session.isAuthenticated &&
         transition.to.name != 'account.messages'

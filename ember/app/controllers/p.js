@@ -1,8 +1,12 @@
 import Controller from '@ember/controller';
 import jQuery from 'jquery';
 import RSVP from 'rsvp';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
+  notify: service(),
+  errorHandler: service(),
+
   gamesList: [
     'Game 1',
     'Game 2',
@@ -56,117 +60,12 @@ export default Controller.extend({
         .change();
     },
 
-    submitProfileSettings() {
-      this.store
-        .queryRecord('user-public-datum', {
-          username: this.get('session.data.authenticated.username')
-        })
-        .then(user => {
-          // Get user public data record from the store and apply the currently
-          // changed properties to the record.
-          user.setProperties(this.model.userPublicDatum);
-          // If gender selection is male or female, save that to profileSex,
-          // otherwise set the custom gender textfield as the gender.
-          if (
-            this.tempSexSelection == 'Male' ||
-            this.tempSexSelection == 'Female' ||
-            this.tempSexSelection == 'Hide'
-          ) {
-            user.set('profileSex', this.tempSexSelection);
-          } else {
-            user.set('profileSex', this.tempSexText);
-          }
-          // Set tags to user record.
-          user.set('userCustomTags', this.tags);
-          // Submit record to store
-          user
-            .save()
-            .then(() => {
-              // If save success
-              console.log('submitProfileSettings saved');
-              // Clear errors
-              this.currentUser.set('errorMessages', []);
-              // Clear custom gender textfield if Male or Female was selected
-              if (
-                this.tempSexSelection == 'Male' ||
-                this.tempSexSelection == 'Female'
-              ) {
-                this.set('tempSexText', '');
-              }
-              // Close profile edit panel
-
-              jQuery('[id=viewProfileCollapse]').addClass('show');
-              jQuery('[id=editProfileCollapse]').removeClass('show');
-            })
-            .catch(response => {
-              // Save failed
-              console.log('error saving user record:', response);
-              this.currentUser.set(
-                'errorMessages',
-                response.errors || response
-              );
-            });
-        })
-        .catch(response => {
-          // Record not found or other datastore error
-          console.log('error finding user record:', response);
-          this.currentUser.set('errorMessages', response.errors || response);
-        });
-    },
-
-    cancelProfileChanges(userPublicDatum) {
-      // Rollback model to original values pulled from the store
-      userPublicDatum.rollbackAttributes();
-      // Rollback gender selection
-      this.set('tempSexText', '');
-      if (userPublicDatum.profileSex == 'Male') {
-        this.set('tempSexSelection', 'Male');
-      } else if (userPublicDatum.profileSex == 'Female') {
-        this.set('tempSexSelection', 'Female');
-      } else if (userPublicDatum.profileSex == 'Hide') {
-        this.set('tempSexSelection', 'Hide');
-      }
-      {
-        this.set('tempSexSelection', 'Other');
-        this.set('tempSexText', userPublicDatum.profileSex);
-        this.set('checkOtherSex', true);
-      }
-      // Rollback tag selection
-      this.set('tags', userPublicDatum.get('userCustomTags').split(','));
-    },
-
     checkLength(text, select /*, event */) {
       if (select.searchText.length >= 3 && text.length < 3) {
         return '';
       } else {
         return text.length >= 3;
       }
-    },
-
-    streamStateChange(state) {
-      console.log('stream state change called');
-      console.log(state);
-      // Set isStreaming true if state is "stream-up", false otherwise
-      this.set('isStreaming', state === 'stream-up' ? true : false);
-    },
-
-    profileImageChanged() {
-      console.log('profile image changed');
-      RSVP.hash({
-        userPublicDatum: this.store.queryRecord('user-public-datum', {
-          username: this.get('session.data.authenticated.username')
-        }),
-        userPublicUploads: this.store.query('user-public-upload', {
-          username: this.get('session.data.authenticated.username')
-        })
-      })
-        .then(storeData => {
-          this.set('model.userPublicDatum', storeData.userPublicDatum);
-          this.set('model.userPublicUploads', storeData.userPublicUploads);
-        })
-        .catch(err => {
-          console.log('error finding public user data:', err);
-        });
     },
 
     setGame(game) {
@@ -221,36 +120,6 @@ export default Controller.extend({
       }
     },
 
-    sendTip(tipAmount) {
-      tipAmount = Number.parseInt(tipAmount);
-      if (
-        this.get('session.isAuthenticated') &&
-        Number.isInteger(tipAmount) &&
-        tipAmount > 0
-      ) {
-        console.log('sending tip of', tipAmount);
-
-        let creditTransfer = this.store.createRecord('credit-transfer', {
-          fromUserId: this.get('session.data.authenticated.user_id'),
-          toUserId: this.model.userPublicDatum.get('userId'),
-          creditsTransferred: tipAmount,
-          transferType: 'tip'
-        });
-
-        creditTransfer
-          .save()
-          .then(transfer => {
-            console.log('tipped: ', transfer.creditsTransferred);
-            this.currentUser.load();
-          })
-          .catch(err => {
-            console.log('failed to tip', err);
-          });
-      } else {
-        console.log('invalid tip');
-      }
-    },
-
     sendFollowerEmail() {
       console.log('send follower email confirmed');
     },
@@ -270,7 +139,125 @@ export default Controller.extend({
 
       setTimeout(function() {
         this.set('copyUrlBtnIcon', 'fa fa-link');
-      }, 1500);
+      }, 1000);
+    },
+
+    streamStateChange(state) {
+      console.log('stream state change called');
+      console.log(state);
+      // Set isStreaming true if state is "stream-up", false otherwise
+      this.set('isStreaming', state === 'stream-up' ? true : false);
+    },
+
+    submitProfileSettings() {
+      // If gender selection is male or female, save that to profileSex,
+      // otherwise set the custom gender textfield as the gender.
+      if (
+        this.tempSexSelection == 'Male' ||
+        this.tempSexSelection == 'Female' ||
+        this.tempSexSelection == 'Hide'
+      ) {
+        this.model.userPublicDatum.set('profileSex', this.tempSexSelection);
+      } else {
+        this.model.userPublicDatum.set('profileSex', this.tempSexText);
+      }
+      // Set tags to user record.
+      this.model.userPublicDatum.set('userCustomTags', this.tags);
+      // Submit record to store
+      this.model.userPublicDatum
+        .save()
+        .then(() => {
+          console.log('submitProfileSettings saved');
+          // Clear custom gender textfield if Male or Female was selected
+          if (
+            this.tempSexSelection == 'Male' ||
+            this.tempSexSelection == 'Female'
+          ) {
+            this.set('tempSexText', '');
+          }
+          // Close profile edit panel
+          jQuery('[id=viewProfileCollapse]').addClass('show');
+          jQuery('[id=editProfileCollapse]').removeClass('show');
+        })
+        .catch(err => {
+          // Save failed
+          console.log('error saving user record:', err);
+          this.errorHandler.handleWithNotification(err);
+        });
+    },
+
+    cancelProfileChanges(userPublicDatum) {
+      // Rollback model to original values pulled from the store
+      userPublicDatum.rollbackAttributes();
+      // Rollback gender selection
+      this.set('tempSexText', '');
+      if (userPublicDatum.profileSex == 'Male') {
+        this.set('tempSexSelection', 'Male');
+      } else if (userPublicDatum.profileSex == 'Female') {
+        this.set('tempSexSelection', 'Female');
+      } else if (userPublicDatum.profileSex == 'Hide') {
+        this.set('tempSexSelection', 'Hide');
+      } else {
+        this.set('tempSexSelection', 'Other');
+        this.set('tempSexText', userPublicDatum.profileSex);
+        this.set('checkOtherSex', true);
+      }
+
+      // Rollback tag selection
+      // TODO below tag rollback doesnt work
+      // TODO probably use changesets
+      // this.set('tags', this.model.userPublicDatum.get('userCustomTags'));
+    },
+
+    profileImageChanged() {
+      console.log('profile image changed');
+      RSVP.hash({
+        userPublicDatum: this.store.queryRecord('user-public-datum', {
+          username: this.get('session.data.authenticated.username')
+        }),
+        userPublicUploads: this.store.query('user-public-upload', {
+          username: this.get('session.data.authenticated.username')
+        })
+      })
+        .then(storeData => {
+          this.set('model.userPublicDatum', storeData.userPublicDatum);
+          this.set('model.userPublicUploads', storeData.userPublicUploads);
+        })
+        .catch(err => {
+          console.log('error finding public user data:', err);
+        });
+    },
+
+    sendTip(tipAmount) {
+      tipAmount = Number.parseInt(tipAmount);
+      if (
+        this.get('session.isAuthenticated') &&
+        Number.isInteger(tipAmount) &&
+        tipAmount > 0
+      ) {
+        console.log('sending tip of', tipAmount);
+
+        let creditTransfer = this.store.createRecord('credit-transfer', {
+          fromUserId: this.session.data.authenticated.user_id,
+          toUserId: this.model.userPublicDatum.get('userId'),
+          creditsTransferred: tipAmount,
+          transferType: 'tip'
+        });
+
+        creditTransfer
+          .save()
+          .then(transfer => {
+            console.log('tipped: ', transfer.creditsTransferred);
+            this.currentUser.load();
+          })
+          .catch(err => {
+            console.log('failed to tip', err);
+            this.errorHandler.handleWithNotification(err);
+          });
+      } else {
+        console.log('invalid tip');
+        this.notify.error('Something about your tip is invalid.');
+      }
     }
   }
 });

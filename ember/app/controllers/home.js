@@ -18,6 +18,7 @@ export default Controller.extend({
         })
         .catch(err => {
           console.log(err);
+          this.errorHandler.handleWithNotification(err);
         });
     },
 

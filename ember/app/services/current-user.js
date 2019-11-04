@@ -22,7 +22,6 @@ export default Service.extend({
 
   // Main login function
   logIn(identification, password) {
-    this.set('errorMessages', []);
     if (identification && password) {
       // Submit authentication parameters to back-end
       this.session
@@ -35,23 +34,18 @@ export default Service.extend({
           );
         })
         .then(user => {
-          console.log('heeloo darkmode');
-          console.log(user.darkMode);
+          console.log('heeloo darkmode:', user.darkMode);
           // Set theme to dark if true, otherwise default theme
           this.themeChanger.set('theme', user.darkMode ? 'dark' : 'default');
           // Close log in modal
           jQuery('#loginModal').modal('hide');
         })
         .catch(err => {
-          // this.set('errorMessages', err.errors || err);
           console.log('error logging in', err);
-          // this.notify.error({ textArray: err.errors });
           this.errorHandler.handleWithNotification(err);
         });
     } else {
-      this.set('errorMessages', [
-        { title: 'Missing Info', detail: 'Your login or password is missing' }
-      ]);
+      this.notify.error('Your login or password is missing');
     }
   },
 
@@ -64,9 +58,8 @@ export default Service.extend({
 
   // Registration
   signUp(username, email, pw, fullname, contractorType) {
-    this.set('errorMessages', []);
     if (username && email && pw) {
-      // Create new User record
+      // Construct new User record
       let newUser = this.store.createRecord('user', {
         email: email.trim(),
         username: username.trim(),
@@ -91,59 +84,44 @@ export default Service.extend({
         if (fullname) {
           newUser.set('fullName', fullname);
         } else {
-          this.set('errorMessages', [
-            {
-              title: 'Missing Info',
-              detail: 'Please fill in all fields below to sign up'
-            }
-          ]);
+          this.notify.error('Please fill in all fields below to sign up');
         }
       }
       // Submit new record to back-end
       newUser
         .save()
         .then(() => {
-          // Clean up
-          this.set('errorMessages', []);
           this.get('notify').success(
             'Account created! Check your email to confirm and activate your account.'
           );
         })
         .catch(err => {
-          console.log('save sign up failed', err);
           // Save/sign-up failed
-          newUser.deleteRecord();
-          // this.set('errorMessages', err.errors || err);
-          // this.notify.error({ textArray: err.errors });
+          console.log('registration failed', err);
           this.errorHandler.handleWithNotification(err);
+          newUser.rollbackAttributes();
         });
     } else {
       // Fields missing
-      this.set('errorMessages', [
-        {
-          title: 'Missing Info',
-          detail: 'Please fill in all fields below to sign up'
-        }
-      ]);
+      this.notify.error('Please fill in all fields below to sign up');
     }
   },
 
   load() {
-    console.log(
-      'currentUser.load() user_id: ' +
-        this.get('session.data.authenticated.user_id')
-    );
-    let userId = this.get('session.data.authenticated.user_id');
-    if (!isNaN(userId)) {
+    if (this.session.isAuthenticated) {
+      console.log(
+        'currentUser.load() user_id: ' +
+          this.get('session.data.authenticated.user_id')
+      );
       return this.store
-        .findRecord('user', userId)
+        .findRecord('user', this.session.data.authenticated.user_id)
         .then(user => {
           // Set data returned to currentUser.user
           this.set('user', user);
           this.loadMessages();
         })
         .catch(err => {
-          this.set('errorMessages', err.errors || err);
+          this.errorHandler.handleWithNotification(err);
         });
     } else {
       return resolve();
@@ -154,28 +132,28 @@ export default Service.extend({
     if (this.get('readyForConversationLoad') || forceReload) {
       this.set('readyForConversationLoad', false);
       console.log('loading conversations for unread messages');
-      let that = this;
       this.store
         .query('conversation', {
           id: this.get('session.data.authenticated.user_id')
         })
-        .then(function(conversations) {
-          that.set('conversations', conversations.toArray());
+        .then(conversations => {
+          this.set('conversations', conversations.toArray());
           let unreadCount = 0;
           conversations.forEach(function(conversation) {
             unreadCount += conversation.unread;
           });
-          that.set('unreadMessages', unreadCount);
+          this.set('unreadMessages', unreadCount);
           later(
-            that,
+            this,
             function() {
               this.set('readyForConversationLoad', true);
             },
             10000
           );
         })
-        .catch(function(err) {
+        .catch(err => {
           console.log('failed to load conversations:', err);
+          this.errorHandler.handleWithNotification(err);
         });
     }
   }
