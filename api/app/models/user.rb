@@ -26,6 +26,8 @@ class User < ApplicationRecord
   attribute :security_questions, :encrypted, compress: true, type: :string
   attribute :private_user_notes, :encrypted, compress: true, type: :string
 
+  attribute :is_being_seeded, type: :boolean
+
   validates :user_public_datum, :presence => true
   #validates_associated :user_public_datum
   validates :username,
@@ -114,19 +116,21 @@ class User < ApplicationRecord
   end
 
   def send_drop_stream
-    puts stream_key_was
-    puts 'dropping stream'
-    params = {
-      'app' => 'stream',
-      'name' => stream_key_was
-    }
-    x = Net::HTTP.post_form(
-      URI.parse(
-        Rails.configuration.x.saber.stream_rtmp_control_url
-      ),
-      params
-    )
-    puts x.body
+    unless self.is_being_seeded
+      puts stream_key_was
+      puts 'dropping stream'
+      params = {
+        'app' => 'stream',
+        'name' => stream_key_was
+      }
+      x = Net::HTTP.post_form(
+        URI.parse(
+          Rails.configuration.x.saber.stream_rtmp_control_url
+        ),
+        params
+      )
+      puts x.body
+    end
   end
 
   def suspend_account

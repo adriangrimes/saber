@@ -7,7 +7,8 @@ export default Route.extend({
     }
   },
 
-  setupController: function(controller) {
+  setupController(controller, model) {
+    this._super(controller, model);
     controller.set('resetPasswordToken', this.get('resetPasswordToken'));
   }
 });

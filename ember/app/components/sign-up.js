@@ -1,7 +1,10 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
+  notify: service(),
+
   signUpType: computed('params.[]', function() {
     return this.params[0];
   }),
@@ -20,15 +23,13 @@ export default Component.extend({
   actions: {
     // Passes form fields as parameters to current-user.signUp function
     signUp() {
-      if (this.get('session.isAuthenticated') === false) {
-          this.currentUser.signUp(
-            this.inputusername,
-            this.inputemailaddress,
-            this.inputpassword,
-            this.inputFullName,
-            this.signUpType
-          );
-      }
+        this.currentUser.signUp(
+          this.inputusername,
+          this.inputemailaddress,
+          this.inputpassword,
+          this.inputFullName,
+          this.signUpType
+        );
     }
   }
 }).reopenClass({

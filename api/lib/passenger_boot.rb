@@ -1,4 +1,5 @@
 # bundle exec rails runner -e staging lib/passenger_boot.rb
+require File.expand_path('../../config/environment', __FILE__)
 
 # This script is meant to be run immediately after nginx/passenger has booted to
 # reset the database to a good initial state
@@ -9,7 +10,9 @@ if UserPublicDatum.update_all(online_status: false)
   p " - set all users offline"
 end
 
-file_system = Shrine.storages[:cache]
-if file_system.clear!(older_than: Time.now - 2*24*60*60) # delete files older than 2 days
-  p ' - cleared old cached uploads'
+if PublicUploader.storages[:cache].clear!(older_than: Time.now - 2*24*60*60) # delete cached files older than 2 days
+  p ' - cleared old cached PublicUploader uploads'
+end
+if VerificationUploader.storages[:cache].clear!(older_than: Time.now - 2*24*60*60) # delete cached files older than 2 days
+  p ' - cleared old cached VerificationUploader uploads'
 end

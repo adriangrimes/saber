@@ -87,7 +87,7 @@
           {{#link-to "p" (lower-case session.data.authenticated.username) class="dropdown-item"}}
             My Profile
           {{/link-to}}
-          {{link-to "Account Settings" "account" class="dropdown-item"}}
+          {{link-to "Account Settings" "account.index" class="dropdown-item"}}
           <form {{action "toggleDarkMode" on="change"}}>
             <a class="dropdown-item d-inline-block pr-2 ">Dark Mode
               <label class="switch float-right">
@@ -163,9 +163,9 @@
         <ul class="nav nav-pills nav-justified">
           <li class="nav-item">
             {{#if session.isAuthenticated}}
-              {{link-to "Account Settings" "account" class="footer-links nav-link" }}
+              {{link-to "Account Settings" "account.index" class="footer-links nav-link" }}
             {{else}}
-              {{link-to "Sign Up" "signup" class="footer-links nav-link " }}
+              {{link-to "Sign Up" "signup.index" class="footer-links nav-link " }}
             {{/if}}
           </li>
         </ul>

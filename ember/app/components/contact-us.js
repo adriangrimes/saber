@@ -1,10 +1,13 @@
 import Component from '@ember/component';
 import jQuery from 'jquery';
 import config from '../config/environment';
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
+  notify: service(),
+  errorHandler: service(),
+
   captchaObject: null,
-  messageSuccessfullySent: false,
 
   topicList: [
     'Bug Report',
@@ -16,26 +19,31 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    let that = this;
     jQuery
       .getScript('https://www.google.com/recaptcha/api.js')
-      .done(function() {
-        that.set('captchaObject', grecaptcha);
+      .done(() => {
+        this.set('captchaObject', grecaptcha);
       })
-      .fail(function() {
+      .fail(() => {
         console.log('failed to get script');
       });
   },
 
   actions: {
+    checkLength(text, select /*, event */) {
+      if (select.searchText.length >= 3 && text.length < 3) {
+        return '';
+      } else {
+        return text.length >= 3;
+      }
+    },
+
     submitContactMessage() {
       let url = `${config.apiHost}/send_contact_us`;
       let captchaResponse = this.get('captchaObject').getResponse();
       console.log('sending message');
       if (captchaResponse) {
         console.log('captcha filled');
-        this.currentUser.set('errorMessages', []);
-        let that = this;
         jQuery.ajax(url, {
           data: JSON.stringify({
             captcha_token: captchaResponse,
@@ -46,35 +54,25 @@ export default Component.extend({
           }),
           contentType: 'application/json',
           type: 'POST',
-          success: function() {
+          success: () => {
             console.log('send success');
-            that.set('messageSuccessfullySent', true);
+            this.notify.success(
+              "Message received!<br>We'll be in a touch as soon as possible."
+            );
           },
-          error: function(err) {
-            console.log('error sending message');
-            that.currentUser.set('errorMessages', [
-              {
-                title: 'Error sending message',
-                detail: err.responseJSON.errors
-              }
-            ]);
+          error: err => {
+            console.log('error sending message', err);
+            if (err.responseJSON) {
+              this.errorHandler.handleWithNotification(err.responseJSON);
+            } else {
+              this.notify.error(
+                'Sorry, there was a problem sending your message.<br>Please try again later.'
+              );
+            }
           }
         });
       } else {
-        this.currentUser.set('errorMessages', [
-          {
-            title: 'Captcha required',
-            detail: "You must prove you're not a robot to continue"
-          }
-        ]);
-      }
-    },
-
-    checkLength(text, select /*, event */) {
-      if (select.searchText.length >= 3 && text.length < 3) {
-        return '';
-      } else {
-        return text.length >= 3;
+        this.notify.error("You must prove you're not a robot to continue");
       }
     }
   }

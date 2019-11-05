@@ -2,17 +2,17 @@
 
   {{! Header}}
   <div class="row m-0">
-    <div class ="col-xs-11 col-sm-6">
-      <h4 {{action "reloadBrowsePageTest"}} >Active Broadcasters</h4>
+    <div class="col-xs-11 col-sm-6">
+      <h4 {{action "reloadBrowsePageTest"}}>Active Broadcasters</h4>
       {{#if model.length}}
       {{/if}}
       <br>
     </div>
-    <div class ="col-xs-11 col-sm-6">
+    <div class="col-xs-11 col-sm-6">
       <div class="input-group">
         {{input enter=(action "search") type="text" class="form-control" placeholder="Search all broadcasters" value=searchInput}}
         <span class="input-group-append">
-          <button class="btn btn-primary" type="button" {{action "search"}}>Search</button>
+          <button class="btn btn-primary fa fa-search" type="button" {{action "search"}}></button>
         </span>
       </div>
     </div>

@@ -10,11 +10,13 @@ export default Route.extend(AuthenticatedRouteMixin, {
         this.get('session.data.authenticated.user_id'),
         { reload: true }
       ),
-      contractorApplication: this.store.queryRecord(
-        'contractor-application',
-        {},
-        { reload: true }
-      )
+      contractorApplication: this.store
+        .queryRecord('contractor-application', {}, { reload: true })
+        .catch(err => {
+          if (err.errors[0] && err.errors[0].status == 404) {
+            return this.store.createRecord('contractor-application', {});
+          }
+        })
     });
   },
 
@@ -70,5 +72,13 @@ export default Route.extend(AuthenticatedRouteMixin, {
     controller.set('sendEmailSiteNews', model.user.get('sendEmailSiteNews'));
 
     controller.set('inputTimeZone', model.user.get('timezone'));
+  },
+
+  actions: {
+    willTransition(transition) {
+      // Clears any unused created records
+      this.controller.get('model.contractorApplication').rollbackAttributes();
+      return true;
+    }
   }
 });

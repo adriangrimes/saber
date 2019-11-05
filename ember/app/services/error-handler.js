@@ -10,9 +10,7 @@ export default Service.extend({
 
   handleWithNotification(err) {
     console.error('error handler service called with:', err);
-    this.notify.info(err.toString());
     if (err && err.errors) {
-      this.notify.info(err.errors.toString());
       if (err.errors[0].status || err.errors[0].status === 0) {
         let status = err.errors[0].status;
         if (status == 0) {

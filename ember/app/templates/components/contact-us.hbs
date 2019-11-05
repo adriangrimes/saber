@@ -26,7 +26,6 @@
                 as |name|}}
               {{name}}
             {{/power-select}}
-
           </div>
           <div class="form-group">
             <label for="inputSubject">Subject</label>
@@ -38,8 +37,6 @@
           </div>
           <div class="g-recaptcha" data-theme="{{if currentUser.user.darkMode "dark" "light"}}" data-sitekey="6Ld7w64UAAAAAPzcvuA1hvB3xh1TMLyY8osoO7dW"></div>
           <br>
-          {{if messageSuccessfullySent "Message sent" ""}}
-          {{error-display}}
           <button type="submit" id="submitContactButton" class="btn btn-primary btn-block">Send Message</button>
           <br><br>
         </form>

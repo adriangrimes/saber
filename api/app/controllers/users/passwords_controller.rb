@@ -8,11 +8,11 @@ class Users::PasswordsController < Devise::PasswordsController
   def create
     self.resource = resource_class
                     .send_reset_password_instructions(email: params[:email])
-
     if successfully_sent?(resource)
-      render json: { status: 'ok' }, status: :ok
+      render status: :ok
     else
-      render json: { error: resource.errors.full_messages }, status: :internal_server_error
+      render json: ErrorSerializer.serialize(resource.errors),
+        status: :unprocessable_entity
     end
   end
 
@@ -25,23 +25,40 @@ class Users::PasswordsController < Devise::PasswordsController
             if user.reset_password(params[:password], params[:password_confirm])
               render json: { status: 'ok' }, status: :ok
             else
-              render json: { error: user.errors.full_messages }, status: :unprocessable_entity
+              render json: ErrorSerializer.serialize(user.errors),
+                status: :unprocessable_entity
               return
             end
           else
-            render json: { error: ['Password and password_confirm must match.'] }, status: :unprocessable_entity
+            render json: { errors: [{
+                attribute: :base,
+                message: 'Password and password confirmation must match.'
+              }]},
+              status: :unprocessable_entity
             return
           end
         else
-          render json: { error: ['The password reset token has expired. Please use the forgot password process again.'] }, status: :not_found
+          render json: { errors: [{
+              attribute: :base,
+              message: 'This password reset link has expired. Please use the forgot password process again.'
+            }]},
+            status: :unprocessable_entity
           return
         end
       else
-        render json: { error: ['Token invalid.'] }, status: :not_found
+        render json: { errors: [{
+            attribute: :base,
+            message: 'This password reset link is invalid. Please use the forgot password process again.'
+          }]},
+          status: :unprocessable_entity
         return
       end
     else
-      render json: { error: ['Token invalid.'] }, status: :not_found
+      render json: { errors: [{
+          attribute: :base,
+          message: 'Token is missing. Please use the forgot password process again.'
+        }]},
+        status: :not_found
       return
     end
   end

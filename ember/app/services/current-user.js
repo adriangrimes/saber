@@ -15,11 +15,6 @@ export default Service.extend({
   signupSuccess: false,
   readyForConversationLoad: true,
 
-  init() {
-    this._super(...arguments);
-    this.errorMessages = [];
-  },
-
   // Main login function
   logIn(identification, password) {
     if (identification && password) {

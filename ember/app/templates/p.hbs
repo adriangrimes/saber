@@ -265,7 +265,6 @@
   {{/if}}
   <div class="row m-0 pt-4 pb-4">
     <div class="col-12 ">
-      {{error-display}}
       <div class={{this.viewProfileCollapse}} id="viewProfileCollapse">
         {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
           <a align="right" class="edit-links" role="button" data-toggle="collapse" data-target="#editProfileCollapse,#viewProfileCollapse">

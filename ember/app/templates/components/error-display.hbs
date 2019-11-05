@@ -1,8 +1,0 @@
-<!-- Error or message display -->
-{{#if currentUser.errorMessages}}
-  <p class="alert alert-danger">
-    {{#each currentUser.errorMessages as |error|}}
-    - {{error.detail}}<br>
-    {{/each}}
-  </p>
-{{/if}}

@@ -208,6 +208,7 @@ if Rails.env.production? == false
     profile_age: age,
     profile_about_me: "Hey, I'm new here. Also hello from the seeds.rb file!"
   )
+  broadcaster1.is_being_seeded = true
   broadcaster1.save!
   broadcaster1.user_verification_uploads.create(
     user_id: broadcaster1.id,
@@ -300,6 +301,7 @@ if Rails.env.production? == false
       send_email_followed_online: false
       stream_key: StreamKey.generate()
     )
+    testbroadcaster.is_being_seeded = true
     p "about to skip confirmation"
     testbroadcaster.skip_confirmation!
     onlinestatus = fake_online_statuses.sample # ~X% of users as online

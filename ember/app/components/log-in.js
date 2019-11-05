@@ -30,9 +30,8 @@ export default Component.extend({
 
     toggleSignUp() {
       this.toggleProperty('signupform');
-      // Clear errors and fields
+      // Clear fields
       this.set('inputpassword', '');
-      // this.set('currentUser.errorMessages', []);
     }
   }
 });

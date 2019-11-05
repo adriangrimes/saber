@@ -36,17 +36,25 @@ class ContactUsController < ApplicationController
         if captcha_verification["success"] == true
           AdminMailer.with(message_params: message_params).contact_us_email.deliver_later
           render status: :ok
-          p message_params[:message]
         else
-          render json: { errors: 'Captcha failed to verify' },
+          render json: { errors: [{
+              attribute: :base,
+              message: 'reCAPTCHA failed to verify. You may need to refresh the page and try again.'
+            }]},
             status: :unprocessable_entity
         end
       else
-        render json: { errors: 'The reCAPTCHA service appears to be unavailable to verify the captcha. Please try again later.' },
+        render json: { errors: [{
+            attribute: :base,
+            message: 'The reCAPTCHA service appears to be unavailable to verify the captcha.<br>Please try again later.'
+          }]},
           status: :unprocessable_entity
       end
     else
-      render json: { errors: 'All fields except Topic are required' },
+      render json: { errors: [{
+          attribute: :base,
+          message: 'All fields except Topic are required.'
+        }]},
         status: :unprocessable_entity
     end
   end
