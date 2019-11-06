@@ -21,6 +21,7 @@ class ContractorApplication < ApplicationRecord
   # Virtual attributes
   attribute :consent_to_store_data, type: :boolean
   attribute :pending_application_override, type: :boolean
+  attribute :is_being_seeded, type: :boolean
 
   ## Validations
   # Always validate
@@ -194,15 +195,17 @@ class ContractorApplication < ApplicationRecord
   # Send a notification email to the user letting them know we got their
   # application
   def send_broadcaster_application_emails
-    UserMailer
-      .with(user: self.user)
-      .broadcaster_application_submitted
-      .deliver_later
-    # Send us a notification to actually review it
-    AdminMailer
-      .with(user: self.user)
-      .broadcaster_application_waiting_for_review
-      .deliver_later
+    unless self.is_being_seeded
+      UserMailer
+        .with(user: self.user)
+        .broadcaster_application_submitted
+        .deliver_later
+      # Send us a notification to actually review it
+      AdminMailer
+        .with(user: self.user)
+        .broadcaster_application_waiting_for_review
+        .deliver_later
+    end
   end
 
 end

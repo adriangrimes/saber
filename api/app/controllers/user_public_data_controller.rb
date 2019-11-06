@@ -8,7 +8,8 @@ class UserPublicDataController < ApplicationController
     # If search parameter is specified
     if params[:search]
       search_results = search_broadcasters(params[:search])
-      render json: serialize_public_data(search_results, true), status: :ok
+      render json: serialize_public_data(search_results, {search_only: true}),
+        status: :ok
     # Else if the username parameter is present, render single record
     elsif params[:username]
       puts 'getting single user data'
@@ -27,8 +28,9 @@ class UserPublicDataController < ApplicationController
       browse_data = UserPublicDatum
                     .where('broadcaster = true')
                     .order(online_status: :desc, username: :asc)
-                    # .limit(25)
-      render json: serialize_public_data(browse_data, true), status: :ok
+      p browse_data.count
+      render json: serialize_public_data(browse_data, {search_only: true}),
+        status: :ok
     end
   end
 
@@ -54,10 +56,10 @@ class UserPublicDataController < ApplicationController
 
   private
 
-  def serialize_public_data(public_data, search_only = false)
+  def serialize_public_data(public_data, options = { search_only: false })
     # If search_only is true, only serialize specific attributes to display
     # search results
-    if search_only
+    if options[:search_only]
       UserPublicDatumSerializer
         .new(public_data, { fields: { user_public_datum: [
                :username,
@@ -105,11 +107,12 @@ class UserPublicDataController < ApplicationController
   end
 
   def search_broadcasters(search_string = '')
+    search_string = search_string.to_s
     p search_string
     # TODO limit results returned
 
     # Remove any special non-alphanumeric characters
-    search_string = search_string.gsub(/[^0-9a-z_ ]/i, '')
+    search_string = search_string.gsub(/[^0-9a-z_]/i, '')
     # Escape _
     escaped_characters = {
       "_" => "#_"
@@ -119,18 +122,30 @@ class UserPublicDataController < ApplicationController
       escaped_characters[m] || m
     end
 
-    search_string = search_string.downcase
     # Sanitize
     search_string = UserPublicDatum.sanitize_sql_for_conditions(search_string)
-    unless search_string.nil?
+
+    if search_string.blank?
+      p  "search_string not present"
+      online_user_search_results = UserPublicDatum
+        .where("broadcaster = true AND online_status = true")
+        .order(:username)
+      offline_user_search_results = UserPublicDatum
+        .where("broadcaster = true AND online_status = false")
+        .order(:username)
+      p online_user_search_results.count
+      p offline_user_search_results.count
+      return online_user_search_results + offline_user_search_results
+    elsif search_string.present?
+      p "search_string present"
       regexp = /#{search_string}/i;
       online_user_search_results = UserPublicDatum
-        .where("broadcaster = true AND online_status = true AND username LIKE ? ESCAPE '#'", '%' + search_string + '%')
+        .where("broadcaster = true AND online_status = true AND username LIKE ? ESCAPE '#'", '%' + search_string.to_s + '%')
       online_user_search_results =
         online_user_search_results.sort_by { |u| u.username =~ regexp }
 
       offline_user_search_results = UserPublicDatum
-        .where("broadcaster = true AND online_status = false AND username LIKE ? ESCAPE '#'", '%' + search_string + '%')
+        .where("broadcaster = true AND online_status = false AND username LIKE ? ESCAPE '#'", '%' + search_string.to_s + '%')
       offline_user_search_results =
         offline_user_search_results.sort_by { |u| u.username =~ regexp }
 
@@ -139,31 +154,24 @@ class UserPublicDataController < ApplicationController
       UserPublicDatum
         .where("broadcaster = true AND user_custom_tags IS NOT NULL")
         .each do |broadcaster|
-          if broadcaster.online_status
-            broadcaster.user_custom_tags.each do |tag|
-              # If tag either matches or partial matches, add the user to the results
-              # and then break the tag loop to stop adding duplicate results
-              if tag.downcase == search_string
+          broadcaster.user_custom_tags.each do |tag|
+            # If tag either matches or partial matches, add the user to the results
+            # and then break the tag loop to stop adding duplicate results
+            if tag.downcase == search_string
+              if broadcaster.online_status
                 online_tag_search_results.push(broadcaster)
-                break
+              else
+                offline_tag_search_results.push(broadcaster)
               end
-              if tag.downcase.include?(search_string)
-                online_tag_search_results.push(broadcaster)
-                break
-              end
+              break
             end
-          else
-            broadcaster.user_custom_tags.each do |tag|
-              # If tag either matches or partial matches, add the user to the results
-              # and then break the tag loop to stop adding duplicate results
-              if tag.downcase == search_string
+            if tag.downcase.include?(search_string)
+              if broadcaster.online_status
+                online_tag_search_results.push(broadcaster)
+              else
                 offline_tag_search_results.push(broadcaster)
-                break
               end
-              if tag.downcase.include?(search_string)
-                offline_tag_search_results.push(broadcaster)
-                break
-              end
+              break
             end
           end
         end
@@ -185,8 +193,12 @@ class UserPublicDataController < ApplicationController
         end
       end
 
+      p online_user_search_results.count
+      p online_tag_search_results.count
+      p offline_user_search_results.count
+      p offline_tag_search_results.count
       # Return concatenated record array in order of search priority
-      online_user_search_results + online_tag_search_results + offline_user_search_results + offline_tag_search_results
+      return online_user_search_results + online_tag_search_results + offline_user_search_results + offline_tag_search_results
     else
       []
     end

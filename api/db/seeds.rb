@@ -165,7 +165,7 @@ if Rails.env.production? == false
 
   # Set how many of each user type to seed
   test_user_count = 5
-  test_broadcaster_count = 10
+  test_broadcaster_count = 250
   test_developer_count = 5
   test_affiliate_count = 5
 
@@ -243,6 +243,7 @@ if Rails.env.production? == false
     business_identification_number: "101-11-1111",
     subject_to_backup_withholding: true
   )
+  broadcaster1.contractor_application.is_being_seeded = true
   broadcaster1.contractor_application.save!
   broadcaster1.contractor_application.pending_application_override = true
   broadcaster1.contractor_application.pending_broadcaster_application = false
@@ -358,6 +359,7 @@ if Rails.env.production? == false
     }
     attribs[:bitcoin_address] = "#{i + 1}SDfjknsjkjh389f" if attribs[:payout_method] == 'bitcoin'
     testbroadcaster.build_contractor_application(attribs)
+    testbroadcaster.contractor_application.is_being_seeded = true
     testbroadcaster.contractor_application.save!
     testbroadcaster.contractor_application.pending_application_override = true
     testbroadcaster.contractor_application.pending_broadcaster_application = false

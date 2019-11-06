@@ -1,3 +1,4 @@
+{{ember-load-remover}}
 {{! head-layout is required for ember-theme-changer}}
 {{head-layout}}
 {{log-in-modal}}
@@ -36,6 +37,7 @@
   {{!-- Collect the nav links, forms, and other content for toggling --}}
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav ml-auto">
+
       {{#if session.isAuthenticated}}
         {{#if (gt this.currentUser.unreadMessages 0)}}
           <li>

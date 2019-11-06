@@ -15,11 +15,23 @@
     <link integrity="" rel="stylesheet" href="{{rootURL}}assets/saber.css" />
     <link integrity="" rel="stylesheet" href="{{rootURL}}assets/dark.css" />
     <link integrity="" rel="stylesheet" href="{{rootURL}}assets/default.css" />
+    <style>
+      .centered {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    </style>
 
     {{content-for "head"}} {{content-for "head-footer"}}
   </head>
 
   <body>
+    <h4 class="ember-load-indicator centered">
+      It's a me, Mario!
+    </h4>
+
     {{content-for "body"}}
 
     <script src="https://cdn.polyfill.io/v2/polyfill.js?features=modernizr:promises&unknown=polyfill"></script>
