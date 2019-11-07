@@ -10,6 +10,9 @@ module.exports = function(defaults) {
       importBootstrapFont: false,
       importBootstrapCSS: false
     },
+    'ember-cli-babel': {
+      includePolyfill: true
+    },
     emberNotify: {
       importCss: false
     },
@@ -41,12 +44,13 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
 
   // Bootstrap
-  app.import('node_modules/bootstrap/scss/bootstrap.scss', {
-    type: 'vendor',
-    prepend: true
-  });
+  // app.import('node_modules/bootstrap/scss/bootstrap.scss', {
+  //   type: 'vendor',
+  //   prepend: true
+  // });
   // TODO import minified bootstrap for production
-  app.import('node_modules/bootstrap/dist/js/bootstrap.js');
+  // this may conflict with jquery that ember includes
+  // app.import('node_modules/bootstrap/dist/js/bootstrap.js');
 
   // Plyr library
   app.import({

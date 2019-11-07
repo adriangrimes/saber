@@ -75,7 +75,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   actions: {
-    willTransition(transition) {
+    willTransition(/*transition*/) {
       // Clears any unused created records
       this.controller.get('model.contractorApplication').rollbackAttributes();
       return true;

@@ -22,7 +22,7 @@
   </span>
 {{/ember-notify}}
 
-<div class="d-block d-sm-none red-bar position-absolute fixed-top"></div>
+<div class="red-bar d-block d-sm-none position-absolute fixed-top"></div>
 <nav class="navbar navbar-default navbar-expand-sm fixed-top pl-1 pr-1" id="nav-bar" style="z-index: 1049;">
   {{! Brand and toggle get grouped for better mobile display }}
   <div class="navbar-header">
@@ -78,7 +78,7 @@
         <button class="nav-link dropdown-toggle btn btn-outline-dark border-0 px-2 mx-0 " id="nav-dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i title="Menu" class="fa fa-align-right"></i></button>
         <ul class=" dropdown-menu position-absolute dropdown-menu-right">
           <div class="dropdown-header">
-            Hi <strong class="ml-1">{{session.data.authenticated.username}}</strong>
+            Hi <strong>{{session.data.authenticated.username}}</strong>
           </div>
           {{#link-to "account.messages" class="dropdown-item"}}
             Messages {{#if this.currentUser.unreadMessages}}<span class="ml-2 badge badge-primary badge-pill">{{this.currentUser.unreadMessages}}</span>{{/if}}
@@ -120,8 +120,7 @@
   {{/if}}
 </nav>
 {{! dummy navbar for padding}}
-<nav class="navbar navbar-default navbar-expand-sm pl-1 pr-1">
-</nav>
+<nav class="navbar navbar-default navbar-expand-sm pl-1 pr-1"></nav>
 {{!-- on page alert attempt
 <div class="alert alert-info text-center" role="alert">Welcome {{currentUser.username}}! Click <a href="/account">Here</a> to configure your email settings. (You can do this any time from your account page)</div>
 --}}

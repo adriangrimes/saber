@@ -18,23 +18,11 @@ export default Controller.extend({
     'Game 8'
   ],
 
-  tipToggled: false,
+  copiedNotification: false,
   isFavorite: false,
+  gameIsActive: true,
+  tipMenuOpen: false,
   tipAmountOptions: 10,
-  tipToggleIcon: 'fa fa-bars',
-  copyUrlBtnIcon: 'fa fa-link',
-
-  videoPanel: 'col-12 col-sm-8 p-0 m-0 mb-2 order-1',
-  chatPanel: 'col-12 col-sm-4 p-0 order-2',
-  gamePanel: 'card-body order-3 p-1 pt-4',
-
-  simpleTipForm: 'd-flex input-group-prepend',
-  tipForm: ' d-none input-group-prepend',
-  gameSuggestionPanel: 'd-none card-body p-1',
-  gamePlayingPanel: 'd-none card-body p-1 ',
-  gameOptionsPanel: 'd-none',
-  viewProfileCollapse: 'collapse show',
-  editProfileCollapse: 'collapse',
 
   init() {
     this._super(...arguments);
@@ -78,13 +66,6 @@ export default Controller.extend({
     },
 
     endGame() {
-      this.set('gamePlayingPanel', 'd-none card-body p-1');
-
-      this.set('videoPanel', 'col-12 col-sm-8 p-0 m-0 mb-2 order-1');
-      this.set('chatPanel', 'col-12 col-sm-4 p-0 order-2');
-      this.set('gamePanel', 'card-body order-3 p-1 pt-4');
-      this.set('gameOptionsPanel', 'd-none');
-
       jQuery('[id=video-panel]').height(406);
 
       var windowsize = jQuery(window).width();
@@ -100,24 +81,14 @@ export default Controller.extend({
     },
 
     openSuggestionPanel() {
-      this.set('gameSuggestionPanel', 'd-block card-body p-1');
+      this.set('gameSuggestionPanelOpen', true);
     },
     closeSuggestionPanel() {
-      this.set('gameSuggestionPanel', 'd-none card-body p-1');
+      this.set('gameSuggestionPanelOpen', false);
     },
 
-    tipToggle() {
-      if (this.tipToggled) {
-        this.set('tipToggleIcon', 'fa fa-bars');
-        this.set('simpleTipForm', 'd-flex input-group-prepend');
-        this.set('tipForm', 'd-none input-group-prepend');
-        this.set('tipToggled', false);
-      } else {
-        this.set('tipToggleIcon', 'fa fa-chevron-right');
-        this.set('simpleTipForm', 'd-none input-group-prepend');
-        this.set('tipForm', 'd-flex input-group-prepend');
-        this.set('tipToggled', true);
-      }
+    tipMenuToggle() {
+      this.toggleProperty('tipMenuOpen');
     },
 
     sendFollowerEmail() {
@@ -125,20 +96,14 @@ export default Controller.extend({
     },
 
     copyUrlToClipboard() {
-      /* Get the text field */
       var copyText = document.getElementById('urlDisplay');
-
-      /* Select the text field */
       copyText.select();
-
-      /* Copy the text inside the text field */
       document.execCommand('Copy');
 
-      /* notify the user */
-      this.set('copyUrlBtnIcon', 'fa fa-check');
-
-      setTimeout(function() {
-        this.set('copyUrlBtnIcon', 'fa fa-link');
+      // notify the user
+      this.set('copiedNotification', true);
+      setTimeout(() => {
+        this.set('copiedNotification', false);
       }, 1000);
     },
 
