@@ -1,11 +1,12 @@
 {{ember-load-remover}}
 {{! head-layout is required for ember-theme-changer}}
 {{head-layout}}
-{{log-in-modal}}
+<!-- {{log-in-modal}} -->
 {{buy-credits}}
 {{! These don't function yet, just graphical stand ins }}
 {{! private-messenger}}
 {{! popup-alert}}
+{{! Notifications }}
 {{#ember-notify closeAfter=8000 messageStyle='bootstrap' defaultClass="custom-notify" as |message close| }}
   <a {{action close}} class="close">
     <span aria-hidden="true">&nbsp;&nbsp;×&nbsp;&nbsp;</span>
@@ -22,110 +23,100 @@
   </span>
 {{/ember-notify}}
 
-<div class="red-bar d-block d-sm-none position-absolute fixed-top"></div>
-<nav class="navbar navbar-default navbar-expand-sm fixed-top pl-1 pr-1" id="nav-bar" style="z-index: 1049;">
-  {{! Brand and toggle get grouped for better mobile display }}
-  <div class="navbar-header">
-    {{#link-to "home" class="navbar-brand" id="logo-with-text"}}
-      <img src="/logo.svg" height="32px" width="32px">
-      Saber
-    {{/link-to}}
-    {{#link-to "home" class="navbar-brand" id="logo-no-text"}}
-      <img src="/logo.svg" height="32px" width="32px">
-    {{/link-to}}
-  </div>
-  {{!-- Collect the nav links, forms, and other content for toggling --}}
-  <div class="collapse navbar-collapse">
-    <ul class="nav navbar-nav ml-auto">
-
+{{! Navbar }}
+<BsNavbar @class="red-bar" @toggleBreakpoint="sm" @type="pills" as |navbar|>
+  <LinkTo @route="home" @class="brand-link" @activeClass="">
+    <img src="/logo.svg" height="32px" width="32px">
+    Saber
+  </LinkTo>
+  {{#navbar.toggle}}
+    <BsButton>Expand</BsButton>
+  {{/navbar.toggle}}
+  <navbar.content @class="flex-row-reverse">
+    <navbar.nav as |nav|>
       {{#if session.isAuthenticated}}
         {{#if (gt this.currentUser.unreadMessages 0)}}
-          <li>
-            {{#link-to "account.messages" class="btn btn-outline-dark border-0 px-2 mx-1"}}
+          <nav.item>
+            <nav.linkTo @route="account.messages" @class="btn btn-outline-dark px-2 mx-1">
               {{#if (gt this.currentUser.unreadMessages 1)}}
                 {{this.currentUser.unreadMessages}} new messages
               {{else}}
-                {{this.currentUser.unreadMessages}} new message
+                1 new message
               {{/if}}
-            {{/link-to}}
-          </li>
+            </nav.linkTo>
+          </nav.item>
         {{/if}}
-          <li>
-            <button class="btn btn-outline-dark border-0 px-2 mx-1" data-toggle="modal" data-target="#buyCreditsModal">
+          <nav.item>
+            <button class="btn btn-outline-dark px-2 mx-1" data-toggle="modal" data-target="#buyCreditsModal">
               <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i>
             </button>
-          </li>
+          </nav.item>
         {{#if this.currentUser.user.isContracted}}
-          <li>
-            {{#link-to "account.dashboard" class="btn btn-outline-dark border-0 px-2 mx-1"}}
+          <nav.item>
+            <nav.linkTo @route="account.dashboard" @class="btn btn-outline-dark px-2 mx-1">
               <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i>
-            {{/link-to}}
-          </li>
+            </nav.linkTo>
+          </nav.item>
         {{else}}
-          <li>
-            {{#link-to "account" class="btn btn-outline-dark border-0 px-2 mx-1"}}
+          <nav.item>
+            <nav.linkTo @route="account" @class="btn btn-outline-dark px-2 mx-1">
               <i title="My Account" class="fa fa-user" aria-hidden="true"></i>
-            {{/link-to}}
-          </li>
+            </nav.linkTo>
+          </nav.item>
         {{/if}}
-      {{/if}}
-    </ul>
-  </div>{{!-- /.navbar-collapse --}}
-
-  {{#if session.isAuthenticated}}
-    <ul class="nav navbar-nav ml-auto">
-      <li class="dropdown position-static">
-        <button class="nav-link dropdown-toggle btn btn-outline-dark border-0 px-2 mx-0 " id="nav-dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i title="Menu" class="fa fa-align-right"></i></button>
-        <ul class=" dropdown-menu position-absolute dropdown-menu-right">
-          <div class="dropdown-header">
-            Hi <strong>{{session.data.authenticated.username}}</strong>
-          </div>
-          {{#link-to "account.messages" class="dropdown-item"}}
-            Messages {{#if this.currentUser.unreadMessages}}<span class="ml-2 badge badge-primary badge-pill">{{this.currentUser.unreadMessages}}</span>{{/if}}
-          {{/link-to}}
-          {{#if this.currentUser.user.isContracted}}
-            {{link-to "Dashboard" "account.dashboard" class="dropdown-item"}}
-          {{/if}}
-          {{#link-to "p" (lower-case session.data.authenticated.username) class="dropdown-item"}}
-            My Profile
-          {{/link-to}}
-          {{link-to "Account Settings" "account.index" class="dropdown-item"}}
-          <form {{action "toggleDarkMode" on="change"}}>
-            <a class="dropdown-item d-inline-block pr-2 ">Dark Mode
-              <label class="switch float-right">
-                {{input type="checkbox" name="darkMode" id="darkModeToggle" checked=this.currentUser.user.darkMode}}
-                <span class="slider"></span>
-              </label>
-            </a>
-          </form>
-
-          <div class="dropdown-divider"></div>
-            <div class="dropdown-item dropdown-header" data-toggle="modal" data-target="#buyCreditsModal">
-              You have&nbsp;&nbsp;
-              <i class="fa fa-database" aria-hidden="true"></i>
-              <strong>&nbsp;&nbsp;{{currentUser.user.creditsRemaining}}</strong> Credits
+        <nav.dropdown as |dd|>
+          <dd.button><i title="Menu" class="fa fa-align-right"></i></dd.button>
+          <dd.menu @align="right" as |ddm|>
+            <div class="dropdown-header">
+              Hi <strong>{{session.data.authenticated.username}}</strong>
             </div>
-            <a class="dropdown-item" role="button" data-toggle="modal" data-target="#buyCreditsModal">
-              Buy Credits
-            </a>
-            <div class="dropdown-divider"></div>
-          <a class="dropdown-item" role="button" {{action "logout"}}>Log Out</a>
-        </ul>
-      </li>
-    </ul>
-  {{else}}
-    <a id="login-button" class="btn d-block mr-1 mt-1 mt-sm-0" role="button" data-toggle="modal" data-target="#loginModal" aria-expanded="false">
-      Log In
-    </a>
-  {{/if}}
-</nav>
-{{! dummy navbar for padding}}
-<nav class="navbar navbar-default navbar-expand-sm pl-1 pr-1"></nav>
-{{!-- on page alert attempt
-<div class="alert alert-info text-center" role="alert">Welcome {{currentUser.username}}! Click <a href="/account">Here</a> to configure your email settings. (You can do this any time from your account page)</div>
---}}
+            {{#link-to "account.messages" class="dropdown-item"}}
+              Messages {{#if this.currentUser.unreadMessages}}<span class="ml-2 badge badge-primary badge-pill">{{this.currentUser.unreadMessages}}</span>{{/if}}
+            {{/link-to}}
+            {{#if this.currentUser.user.isContracted}}
+              {{link-to "Dashboard" "account.dashboard" class="dropdown-item"}}
+            {{/if}}
+            {{#link-to "p" (lower-case session.data.authenticated.username) class="dropdown-item"}}
+              My Profile
+            {{/link-to}}
+            {{link-to "Account Settings" "account.index" class="dropdown-item"}}
+            <form {{action "toggleDarkMode" on="change"}}>
+              <a class="dropdown-item d-inline-block pr-2 ">Dark Mode
+                <label class="switch float-right">
+                  {{input type="checkbox" name="darkMode" id="darkModeToggle" checked=this.currentUser.user.darkMode}}
+                  <span class="slider"></span>
+                </label>
+              </a>
+            </form>
 
-{{outlet}}
+            <div class="dropdown-divider"></div>
+              <div class="dropdown-item dropdown-header" data-toggle="modal" data-target="#buyCreditsModal">
+                You have&nbsp;&nbsp;
+                <i class="fa fa-database" aria-hidden="true"></i>
+                <strong>&nbsp;&nbsp;{{currentUser.user.creditsRemaining}}</strong> Credits
+              </div>
+              <a class="dropdown-item" role="button" data-toggle="modal" data-target="#buyCreditsModal">
+                Buy Credits
+              </a>
+              <div class="dropdown-divider"></div>
+            <a class="dropdown-item" role="button" {{action "logout"}}>Log Out</a>
+          </dd.menu>
+        </nav.dropdown>
+      {{else}}
+        <nav.dropdown @closeOnMenuClick={{false}} as |dd|>
+          <dd.button>Log In <span class="caret"></span></dd.button>
+          <dd.menu @align="right" @class="px-4 py-3" as |ddm|>
+            {{log-in}}
+          </dd.menu>
+        </nav.dropdown>
+      {{/if}}
+    </navbar.nav>
+  </navbar.content>
+</BsNavbar>
+
+<div class="mt-4">
+  {{outlet}}
+</div>
 
 <footer class="footer">
   <div class="red-bar"></div>

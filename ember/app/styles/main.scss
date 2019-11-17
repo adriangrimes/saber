@@ -3,480 +3,20 @@
   font-family: "Lato", sans-serif;
 }
 
-///////////// Extra Small Screens, Optimizing for 320px and up.
-
-///////////////////// Overriding Bootstrap
-
-.btn-outline-dark {
-  border-color: $btnOutlineDarkBorderColor;
-  color: $btnOutlineDarkTextColor;
+a.brand-link:link {
+  text-decoration: inherit;
+  color: inherit;
+}
+a.brand-link:visited {
+  text-decoration: inherit;
+  color: inherit;
 }
 
-.nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
-  background-color: $navDropDownHoverBackgroundColor;
-}
-
-.dropdown-item.active,
-.dropdown-item:active {
-  background-color: $navDropDownHoverBackgroundColor;
-}
-
-// overriding ember-power-select
-.ember-power-select-trigger {
-  background-color: $dropdownBackgroundColor;
-  border-color: $formBorderColor;
-}
-.ember-power-select-trigger.focus,
-.ember-power-select-trigger:focus {
-  border-color: $formBorderColor;
-  outline: 0;
-  background-color: $dropdownHoverColor;
-}
-.ember-power-select-option {
-  background-color: $dropdownBackgroundColor;
-}
-.ember-power-select-option:hover {
-  background-color: $dropdownHoverColor;
-}
-.ember-power-select-option[aria-selected="true"] {
-  background-color: $dropdownSelectedColor;
-}
-.ember-power-select-option[aria-current="true"] {
-  background-color: $dropdownHoverColor;
-}
-
-.ember-power-select-dropdown {
-  border-color: $formBorderColor;
-}
-.ember-power-select-search {
-  background-color: $dropdownBackgroundColor;
-}
-.ember-power-select-search-input {
-  background-color: $formBackgroundColor;
-  color: $formTextColor;
-  outline: 0;
-}
-
-/* _border-width-customs.scss */
-$border-width-custom-1: 1px !default;
-$border-width-custom-2: 2px !default;
-$border-width-custom-3: 3px !default;
-$border-width-custom-4: 4px !default;
-$border-width-custom-5: 5px !default;
-$border-width-custom-6: 6px !default;
-$border-width-custom-7: 7px !default;
-$border-width-custom-8: 8px !default;
-
-$border-width-customs: (
-  "1": $border-width-custom-1,
-  "2": $border-width-custom-2,
-  "3": $border-width-custom-3,
-  "4": $border-width-custom-4,
-  "5": $border-width-custom-5,
-  "6": $border-width-custom-6,
-  "7": $border-width-custom-7,
-  "8": $border-width-custom-8
-);
-
-@each $name, $size in $border-width-customs {
-  @each $var in "", "top-", "right-", "bottom-", "left-" {
-    .border-#{$var}#{$name} {
-      border-#{$var}width: $size !important;
-      border-#{$var}style: solid;
-    }
-  }
-}
-
-//////////////////////generic classes
-.vertical-rule {
-  border-right-style: solid;
-  border-color: grey;
-}
-
-.large-glyphicon {
-  font-size: 75px;
-}
-.clearFix {
-  clear: both;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 400px;
-  background-color: $bodyBackgroundColor;
-  color: $bodyFontColor;
-  // Attempts to stop scrollbar from moving page when it appears and dissappears.
-  // Causes some wonkyness in other areas.
-  // width: calc(100vw - 34px);
-  width: 100%;
-}
-
-a {
-  color: $linkTextColor;
-}
-
-.btn-link {
-  color: $linkTextColor;
-  text-decoration: underline;
-  cursor: pointer;
-}
-.btn-link:hover {
-  color: $linkHoverTextColor;
-}
-.btn-link:active {
-  color: $linkActiveTextColor;
-}
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 380px;
-  background-color: $navDropDownBackgroundColor;
-}
-
-.container {
-  width: auto;
-  max-width: 960px;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  padding-left: 0px;
-  padding-right: 0px;
-}
-.form-inline .form-control {
-  display: inline-block;
-  width: auto;
-  vertical-align: middle;
-}
-.form-control {
-  background-color: $formBackgroundColor;
-  border-color: $formBorderColor;
-  color: $formTextColor;
-}
-.form-control:disabled,
-.form-control[readonly] {
-  background-color: $formBackgroundColor;
-  border-color: $formBorderColor;
-  color: $formTextColor;
-}
-.form-control.focus,
-.form-control:focus {
-  background-color: $formActiveBackgroundColor;
-  border-color: $formActiveBorderColor;
-  color: $formTextColor;
-}
-
-*::-webkit-input-placeholder {
-  color: $formPlaceholderColor !important;
-}
-*:-moz-placeholder {
-  /* FF 4-18 */
-  color: $formPlaceholderColor !important;
-}
-*::-moz-placeholder {
-  /* FF 19+ */
-  color: $formPlaceholderColor !important;
-}
-*:-ms-input-placeholder {
-  /* IE 10+ */
-  color: $formPlaceholderColor !important;
-}
-
-#streamKeyDisplayID {
-  height: 8rem;
-}
-#usernameDisplay {
-  overflow: hidden;
-}
-#usernameRow {
-  height: 65px;
-}
-#privateUserNotes {
-  height: 8rem;
-}
-
-.userTypeBadges {
-  font-size: 12px;
-}
-.close-account-btn {
-  margin-top: 4rem;
-}
-///// Dropdown Menu
-.dropdown {
-}
-.dropdown ul.dropdown-menu {
-  width: 100%;
-}
-.dropdown-item {
-  height: 44px;
-  padding-top: 0.6rem;
-  cursor: pointer;
-}
-.dropdown-header {
-  color: $bodyFontColor;
-  height: 44px;
-  padding-top: 0.6rem;
-}
-.dropdown-item:hover {
-  background-color: #eeeeee;
-}
-.dropdown-item:active {
-  background-color: #bbbbbb;
-}
-
-.sticky-menu {
-  padding-top: 60px;
-}
-
-//// Toggle buttons
-/* The switch - the box around the slider */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 54px;
-  height: 26px;
-}
-
-/* Hide default HTML checkbox */
-.switch input {
-  display: none;
-}
-
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: 34px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 4px;
-  bottom: 3px;
-  background-color: $bodyFontColor;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #b80000;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/////Buttons
-
-#scrollToTopBtn {
-  color: #999999;
-  position: fixed;
-  bottom: 0.5rem;
-  left: 0.5rem;
-  font-size: 30pt;
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-  padding-bottom: 0.3rem;
-
-  cursor: pointer;
-}
-
-#scrollToTopBtn:hover {
-  color: #800000;
-}
-#scrollToTopBtn:active {
-  color: #b80000;
-}
-
-/////////////////////////////// Collapsable Wellss
-.card {
-  border-color: $cardBorderColor;
-  background-color: $cardBackgroundColor;
-}
-.card-heading {
-  padding-top: 0.25rem;
-  border-color: #bcbcbc;
-  background-color: $cardHeadingBackgroundColor;
-}
-.card-title {
-  padding-left: 1rem;
-  padding-top: 0.35rem;
-}
-.card-heading.accordion-toggle:after {
-  /* symbol for "opening" cards */
-  font-family: "FontAwesome";
-  /* essential for enabling glyphicon */
-  content: "\f078";
-  position: absolute;
-  right: 1rem;
-  top: 12px;
-  font-size: 15pt;
-  color: grey;
-}
-.card-heading.accordion-toggle.collapsed:after {
-  /* symbol for "collapsed" cards */
-  content: "\f054";
-}
-
-.card-heading:hover {
-  cursor: pointer;
-}
-
-.text-heading.accordion-toggle:after {
-  /* symbol for "opening" cards */
-  font-family: "FontAwesome";
-  /* essential for enabling glyphicon */
-  content: "\f078";
-  position: absolute;
-  top: 0px;
-  right: 0px;
-}
-.text-heading.accordion-toggle.collapsed:after {
-  /* symbol for "collapsed" cards */
-  content: "\f054";
-}
-
-/////////////spinny guy
-.spinner {
-  width: 50px;
-  height: 15px;
-  background-color: #fff;
-
-  margin: 2px auto;
-  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
-  animation: sk-rotateplane 1.2s infinite ease-in-out;
-}
-@-webkit-keyframes sk-rotateplane {
-  0% {
-    -webkit-transform: perspective(120px);
-  }
-  50% {
-    -webkit-transform: perspective(120px) rotateY(180deg);
-  }
-  100% {
-    -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg);
-  }
-}
-@keyframes sk-rotateplane {
-  0% {
-    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-  }
-  50% {
-    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-  }
-  100% {
-    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-  }
-}
-
-/////////////splash page classes
-
-#splash-text {
-  font-size: 18px;
-}
-#splash-email-input {
-  width: 75%;
-}
-.splash-horizontal-rule {
-  border-color: #bcbcbc;
-}
-
-//////////////////////////////////////Navbar Classes
-
-.navbar-default .navbar-brand {
-  color: #ffffff;
-}
-
-.navbar-brand {
-  padding-left: 5px;
-  padding-top: 9px;
-}
-.navbar-brand > img {
-  display: inline;
-  float: top;
-  margin-right: 5px;
-}
-#logo-with-text {
-  display: none;
-}
-
-#nav-dropdown-toggle {
-  color: #999999;
-}
-
-#login-button {
-  color: #000000;
-  border: solid;
-  border-width: 1px;
-  background-color: #ffffff;
-}
-
-.navbar-default {
-  min-height: 10px;
-  height: 50px;
-  border-radius: 0px;
-  border: 0px;
-}
-
-#searchTabs {
-  color: #000000;
-}
-.nav-tabs {
-  background-color: $navtabBackgroundColor;
-}
-.nav-link {
-  color: $navtabTextColor;
-}
-.nav-link:hover {
-  color: $navtabHoverTextColor;
-  background-color: $navtabHoverBackgroundColor;
-  border-color: #444444;
-}
-.nav-tabs .nav-link.active,
-.nav-tabs .nav-item.show .nav-link {
-  background-color: $navtabActiveBackgroundColor;
-  color: $navtabActiveTextColor;
-}
-
-.footer-links {
-  padding-left: 0px;
-  padding-right: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
-  color: $bodyFontColor;
-}
-.footer-links:hover {
-  color: $linkHoverTextColor;
+.dropdown-menu {
+  width: max-content !important;
 }
 
 .red-bar {
-  width: 100%;
-  height: 5px;
   background: #b80000; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(
     left,
@@ -495,511 +35,1035 @@ input:checked + .slider:before {
   ); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, #b80000, #800000); /* Standard syntax */
 }
-// ////////////////////// homepage classes
-.broadcaster-panel {
-  margin: 3px;
-  border-width: 3px;
-  border-style: solid;
-  border-radius: 3px;
-  color: $broadcasterPanelTextColor;
-}
-.broadcaster-avatar {
-  width: 100%;
-  max-height: 180px;
-}
-.broadcaster-footer {
-  padding: 7px;
-}
-.broadcaster-topic {
-  max-width: 100%;
-  overflow-x: hidden;
-  white-space: nowrap;
-}
-.online {
-  border-color: #b80000;
-}
-.offline {
-  border-color: #000000;
-}
-// ///////////////////chat classes
-#usermsg {
-  border-radius: 0px;
-}
-#chatTabs {
-  text-align: right;
-  margin: 0;
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
-#chatUserMenu {
-  position: absolute;
-  width: 196px;
-  background-color: #800000;
-  margin-left: 20px;
-  padding-left: 0px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-.sharp-bottom-corners {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-}
-.round-top-left-corner-only {
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-  border-top-right-radius: 0px;
-}
-.round-top-right-corner-only {
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-  border-top-left-radius: 0px;
-}
-.chat-username {
-  cursor: pointer;
-}
-.tab-btn {
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
-.nav-pills > li.active > a,
-.nav-pills > li.active > a:hover,
-.nav-pills > li.active > a:focus {
-  background-color: #dddddd;
-  color: #000000;
-}
-#messages {
-  list-style-type: none;
-  margin-top: 10px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding: 0;
-}
-#messages li {
-  padding-left: 0px;
-  padding-bottom: 5px;
-  padding-top: 0px;
-  padding-right: 5px;
-}
-#users {
-  list-style-type: none;
-  margin: 0px;
-  padding: 0;
-  border-width: 1px;
-  border-color: #000000;
-}
-#users li {
-  padding: 5px;
-}
-#usermsg {
-  border-radius: 0px;
-}
-.chat-divide {
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#999999+0,727272+0&0.65+0,0+5,0+36 */
-  background: -moz-linear-gradient(
-    top,
-    rgba(114, 114, 114, 0.65) 0%,
-    rgba(114, 114, 114, 0) 5%,
-    rgba(114, 114, 114, 0) 36%
-  ); /* FF3.6-15 */
-  background: -webkit-linear-gradient(
-    top,
-    rgba(114, 114, 114, 0.65) 0%,
-    rgba(114, 114, 114, 0) 5%,
-    rgba(114, 114, 114, 0) 36%
-  ); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(
-    to bottom,
-    rgba(114, 114, 114, 0.65) 0%,
-    rgba(114, 114, 114, 0) 5%,
-    rgba(114, 114, 114, 0) 36%
-  ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6727272', endColorstr='#00727272',GradientType=0 ); /* IE6-9 */
-}
-// ///////////////////////////// Profile Classes
-.emberTagInput-tag {
-  background-color: #e5e5e5;
-  border-radius: 7px;
-  color: #000000;
-}
-.emberTagInput-remove {
-  color: #ff0000;
-  font-weight: bold;
-}
-.emberTagInput--readOnly {
-  border-width: 0px;
-}
-.profile-links {
-  color: $profileLinkColor;
-  font-size: 24px;
-  height: 44px;
-}
-.profile-links:hover,
-#profile-links:active,
-#profile-links:focus {
-  color: #b80000;
-}
-.edit-links {
-  color: #b80000;
-  font-size: 20px;
-  position: absolute;
-  top: 12px;
-  right: 20px;
-}
-.edit-links:hover,
-.edit-links:active,
-.edit-links:focus {
-  color: #ef0202;
-}
-#tip-toggle {
-  padding-left: 9px;
-  padding-right: 9px;
-}
-#creditSelect {
-  padding: 20px;
-  font-size: 18px;
-}
-.payout-method {
-  padding: 20px;
-  width: 50%;
-  font-size: 18px;
-}
-.photos-panel {
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-  padding-bottom: 0px;
-  height: 300px;
-}
-#day-select {
-  width: 15%;
-}
-#dashboard-button {
-  width: 100%;
-}
-#dashboard-button-row {
-  margin-bottom: 10px;
-}
-.profile-controls {
-  height: 46px;
-  background-color: $cardHeadingBackgroundColor;
-}
-.profile-buttons {
-  height: 38px;
-}
-.large-controls {
-  height: 92px;
-}
-// ////////////////////////////////Private Messenger Classes
-#private-messenger-window {
-  position: fixed;
-  z-index: 10000;
-  bottom: 0px;
-  right: 10px;
-  width: 300px;
-  margin-bottom: 0px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
-}
-#private-messenger-panel {
-  height: 280px;
-  overflow-y: auto;
-}
-#closePM {
-  float: left;
-  padding-left: 5px;
-  padding-right: 20px;
-  font-color: #686868;
-}
-.chat-input-submit {
-  border-radius: 0px;
-}
-.chat-input {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-}
-.topic-input {
-  padding-top: 65px;
-}
-.chat-body {
-  height: 400px;
-  padding-top: 5px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  word-wrap: break-word;
-}
-.users-body {
-  height: 400px;
-  padding-top: 5px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-#chat-panel {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-  border-top-style: none;
-  border: 0px;
-}
-#video-panel {
-  margin-bottom: 0px;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-  border: 0px;
-}
-#game-panel {
-  height: 300px;
-}
-#game-icon {
-  width: 140px;
-  position: absolute;
-  right: 0px;
-  bottom: 5px;
-}
-// ////////////////////////Pop Up Alert Classes
-#popup-alert-window {
-  position: fixed;
-  z-index: 10000;
-  bottom: 60px;
-  right: 10px;
-  width: 300px;
-  margin-bottom: 0px;
-}
-#popup-alert-panel {
-  height: 100px;
-  overflow-y: auto;
-  padding-left: 0px;
-  padding-top: 5px;
-}
-.popup-title {
-  font-size: 16px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-#closeAlert {
-  float: right;
-  padding-right: 5px;
-  font-color: #686868;
-}
-// ////////////////////////account classes
-.manage-users-panel {
-  overflow-y: auto;
-  height: 500px;
-}
-#blockedUsersList {
-  list-style-type: none;
-  margin-top: 10px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding: 0;
-}
-#blockedUsersList li {
-  padding-left: 0px;
-  padding-bottom: 5px;
-  padding-top: 0px;
-  padding-right: 5px;
-}
-#favoriteUsersList {
-  list-style-type: none;
-  margin-top: 10px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding: 0;
-}
-#favoriteUsersList li {
-  padding-left: 0px;
-  padding-bottom: 5px;
-  padding-top: 0px;
-  padding-right: 5px;
-}
-.remove {
-  float: right;
-  font-size: 18;
-  line-height: 1;
-  color: #b80000;
-  &:hover,
-  &:focus {
-    color: #c95252;
-    text-decoration: none;
-    cursor: pointer;
-  }
-}
-.chat-tab-panel {
-  position: absolute;
-  right: 0;
-  border-bottom: none;
-  display: flex;
-  background-color: #000000aa;
-  margin: 0;
-  padding: 0;
-  border-radius: 0.25rem;
-}
-.chat-tab {
-  font-size: 24px;
-  text-align: center;
-  width: 65px;
-  height: 65px;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-top: 0.8rem;
-  padding-bottom: 0.25rem;
-  border-bottom: none;
-}
-.chat-tab:hover,
-.chat-tab.hover,
-.chat-tab:active,
-.chat-tab.active {
-  border-bottom: none;
-  border-bottom-right-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
-}
-.modal-content {
-  background-color: $bodyBackgroundColor;
-  color: $bodyFontColor;
-}
-.close {
-  color: $bodyFontColor;
-}
-.close:hover {
-  color: $bodyFontHoverColor;
-}
-.close:active,
-.close:focus {
-  color: $bodyFontActiveColor;
-  outline: 0;
-}
 
-// Small devices (landscape phones, 576px and up)
-@media (min-width: 576px) {
-  #streamKeyDisplayID {
-    height: 4rem;
-  }
-  .large-controls {
-    height: 46px;
-  }
-  .close-account-btn {
-    margin-top: 12rem;
-  } // / Navbar Classes
-  .navbar-default {
-    background: #b80000; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(
-      left,
-      #b80000,
-      #800000
-    ); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #b80000, #800000);
-    /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(
-      right,
-      #b80000,
-      #800000
-    ); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(
-      to right,
-      #b80000,
-      #800000
-    ); /* Standard syntax */
-    border-radius: 0px;
-    border: 0px;
-    color: #ffffff;
-  }
-  #nav-dropdown-toggle {
-    color: #ffffff;
-  }
-  #login-button {
-    color: #000000;
-    border: none;
-    background-color: #ffffff;
-  }
-  // /////
-  .dropdown ul.dropdown-menu {
-    width: 210px;
-    margin-right: 10px;
-    background-color: $navDropDownBackgroundColor;
-    color: $bodyFontColor;
-  }
-  .dropdown-item {
-    height: 30px;
-    padding-top: 0.15rem;
-    color: $bodyFontColor;
-  }
-  .dropdown-item:hover,
-  .dropdown-item:active {
-    background-color: $navDropDownHoverBackgroundColor;
-    color: $bodyFontColor;
-  }
-  #scrollToTopBtn {
-    bottom: 2rem;
-  }
-  #splash-email-input {
-    width: 50%;
-  }
-  .broadcaster-avatar {
-    max-height: 123px;
-  }
-  body {
-    margin-bottom: 120px;
-  }
-  #logo-with-text {
-    display: block;
-  }
-  #logo-no-text {
-    display: none;
-  }
-  .footer {
-    height: 130px;
-  }
-  .chat-body {
-    height: 100%;
-  }
-  .users-body {
-    padding-top: 65px;
-    height: 530px;
-  }
-  #chat-panel {
-    height: 100%;
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-    border-left-style: none;
-    border-top-style: solid;
-  }
-  .chat-divide {
-    background: #fff;
-  }
-  #video-panel {
-    height: 100%;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border: 0px;
-  }
-  #video-row {
-    height: 650px;
-  }
-  .chat-divide {
-    background: #ffffff;
-  }
-  #verifyFooter {
-    height: 55px;
-  }
-  #game-icon {
-    position: relative;
-  }
-}
-// Medium devices (tablets, 768px and up)
-@media (min-width: 768px) {
-}
-// Large devices (desktops, 992px and up)
-@media (min-width: 992px) {
-}
-// Extra large devices (large desktops, 1200px and up)
-@media (min-width: 1200px) {
-}
+///////////// Extra Small Screens, Optimizing for 320px and up.
+
+///////////////////// Overriding Bootstrap
+
+// $border-radius: 0.15rem;
+// $border-radius-lg: 0.15rem;
+// $border-radius-sm: 0.15rem;
+//
+// // .container-fluid {
+// //   padding-left: 30px;
+// //   padding-right: 30px;
+// // }
+// .btn-primary {
+//   background-color: #800000;
+//   border-style: none;
+// }
+// .badge-primary {
+//   background-color: #800000;
+// }
+//
+// .btn.focus,
+// .btn:focus,
+// .form-control.focus,
+// .form-control:focus {
+//   outline: 0;
+//   box-shadow: none !important;
+// }
+//
+// .btn-primary:hover {
+//   background-color: #b80000;
+//   border-color: #cccccc;
+// }
+//
+// .btn-primary:focus,
+// .btn-primary:active:hover,
+// .btn-primary.active,
+// .btn-primary.active.focus {
+//   background-color: #600000 !important;
+//   border-color: #cccccc;
+// }
+//
+// .border-primary {
+//   border-color: #800000 !important;
+// }
+//
+// .btn-outline-dark {
+//   border-color: $btnOutlineDarkBorderColor;
+//   color: $btnOutlineDarkTextColor;
+// }
+//
+// .nav-pills .nav-link.active,
+// .nav-pills .show > .nav-link {
+//   background-color: $navDropDownHoverBackgroundColor;
+// }
+//
+// .dropdown-item.active,
+// .dropdown-item:active {
+//   background-color: $navDropDownHoverBackgroundColor;
+// }
+//
+// // overriding ember-power-select
+// .ember-power-select-trigger {
+//   background-color: $dropdownBackgroundColor;
+//   border-color: $formBorderColor;
+// }
+// .ember-power-select-trigger.focus,
+// .ember-power-select-trigger:focus {
+//   border-color: $formBorderColor;
+//   outline: 0;
+//   background-color: $dropdownHoverColor;
+// }
+// .ember-power-select-option {
+//   background-color: $dropdownBackgroundColor;
+// }
+// .ember-power-select-option:hover {
+//   background-color: $dropdownHoverColor;
+// }
+// .ember-power-select-option[aria-selected="true"] {
+//   background-color: $dropdownSelectedColor;
+// }
+// .ember-power-select-option[aria-current="true"] {
+//   background-color: $dropdownHoverColor;
+// }
+//
+// .ember-power-select-dropdown {
+//   border-color: $formBorderColor;
+// }
+// .ember-power-select-search {
+//   background-color: $dropdownBackgroundColor;
+// }
+// .ember-power-select-search-input {
+//   background-color: $formBackgroundColor;
+//   color: $formTextColor;
+//   outline: 0;
+// }
+//
+// /* _border-width-customs.scss */
+// $border-width-custom-1: 1px !default;
+// $border-width-custom-2: 2px !default;
+// $border-width-custom-3: 3px !default;
+// $border-width-custom-4: 4px !default;
+// $border-width-custom-5: 5px !default;
+// $border-width-custom-6: 6px !default;
+// $border-width-custom-7: 7px !default;
+// $border-width-custom-8: 8px !default;
+//
+// $border-width-customs: (
+//   "1": $border-width-custom-1,
+//   "2": $border-width-custom-2,
+//   "3": $border-width-custom-3,
+//   "4": $border-width-custom-4,
+//   "5": $border-width-custom-5,
+//   "6": $border-width-custom-6,
+//   "7": $border-width-custom-7,
+//   "8": $border-width-custom-8
+// );
+//
+// @each $name, $size in $border-width-customs {
+//   @each $var in "", "top-", "right-", "bottom-", "left-" {
+//     .border-#{$var}#{$name} {
+//       border-#{$var}width: $size !important;
+//       border-#{$var}style: solid;
+//     }
+//   }
+// }
+//
+// //////////////////////generic classes
+// .vertical-rule {
+//   border-right-style: solid;
+//   border-color: grey;
+// }
+//
+// .large-glyphicon {
+//   font-size: 75px;
+// }
+// .clearFix {
+//   clear: both;
+// }
+//
+// html {
+//   position: relative;
+//   min-height: 100%;
+// }
+//
+// body {
+//   margin-bottom: 400px;
+//   background-color: $bodyBackgroundColor;
+//   color: $bodyFontColor;
+//   // Attempts to stop scrollbar from moving page when it appears and dissappears.
+//   // Causes some wonkyness in other areas.
+//   // width: calc(100vw - 34px);
+//   width: 100%;
+// }
+//
+// a {
+//   color: $linkTextColor;
+// }
+//
+// .btn-link {
+//   color: $linkTextColor;
+//   text-decoration: underline;
+//   cursor: pointer;
+// }
+// .btn-link:hover {
+//   color: $linkHoverTextColor;
+// }
+// .btn-link:active {
+//   color: $linkActiveTextColor;
+// }
+//
+// .footer {
+//   position: absolute;
+//   bottom: 0;
+//   width: 100%;
+//   height: 380px;
+//   background-color: $navDropDownBackgroundColor;
+// }
+//
+// .container {
+//   width: auto;
+//   max-width: 960px;
+//   padding-top: 30px;
+//   padding-bottom: 30px;
+//   padding-left: 0px;
+//   padding-right: 0px;
+// }
+// .form-inline .form-control {
+//   display: inline-block;
+//   width: auto;
+//   vertical-align: middle;
+// }
+// .form-control {
+//   background-color: $formBackgroundColor;
+//   border-color: $formBorderColor;
+//   color: $formTextColor;
+// }
+// .form-control:disabled,
+// .form-control[readonly] {
+//   background-color: $formBackgroundColor;
+//   border-color: $formBorderColor;
+//   color: $formTextColor;
+// }
+// .form-control.focus,
+// .form-control:focus {
+//   background-color: $formActiveBackgroundColor;
+//   border-color: $formActiveBorderColor;
+//   color: $formTextColor;
+// }
+//
+// *::-webkit-input-placeholder {
+//   color: $formPlaceholderColor !important;
+// }
+// *:-moz-placeholder {
+//   /* FF 4-18 */
+//   color: $formPlaceholderColor !important;
+// }
+// *::-moz-placeholder {
+//   /* FF 19+ */
+//   color: $formPlaceholderColor !important;
+// }
+// *:-ms-input-placeholder {
+//   /* IE 10+ */
+//   color: $formPlaceholderColor !important;
+// }
+//
+// #streamKeyDisplayID {
+//   height: 8rem;
+// }
+// #usernameDisplay {
+//   overflow: hidden;
+// }
+// #usernameRow {
+//   height: 65px;
+// }
+// #privateUserNotes {
+//   height: 8rem;
+// }
+//
+// .userTypeBadges {
+//   font-size: 12px;
+// }
+// .close-account-btn {
+//   margin-top: 4rem;
+// }
+// ///// Dropdown Menu
+// // .dropdown {
+// // }
+// // .dropdown ul.dropdown-menu {
+// //   width: 100%;
+// // }
+// // .dropdown-item {
+// //   height: 44px;
+// //   padding-top: 0.6rem;
+// //   cursor: pointer;
+// // }
+// // .dropdown-header {
+// //   color: $bodyFontColor;
+// //   height: 44px;
+// //   padding-top: 0.6rem;
+// // }
+// // .dropdown-item:hover {
+// //   background-color: #eeeeee;
+// // }
+// // .dropdown-item:active {
+// //   background-color: #bbbbbb;
+// // }
+// //
+// // .sticky-menu {
+// //   padding-top: 60px;
+// // }
+//
+// //// Toggle buttons
+// /* The switch - the box around the slider */
+// .switch {
+//   position: relative;
+//   display: inline-block;
+//   width: 54px;
+//   height: 26px;
+// }
+//
+// /* Hide default HTML checkbox */
+// .switch input {
+//   display: none;
+// }
+//
+// /* The slider */
+// .slider {
+//   position: absolute;
+//   cursor: pointer;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background-color: #ccc;
+//   -webkit-transition: 0.4s;
+//   transition: 0.4s;
+//   border-radius: 34px;
+// }
+//
+// .slider:before {
+//   position: absolute;
+//   content: "";
+//   height: 20px;
+//   width: 20px;
+//   left: 4px;
+//   bottom: 3px;
+//   background-color: $bodyFontColor;
+//   -webkit-transition: 0.4s;
+//   transition: 0.4s;
+//   border-radius: 50%;
+// }
+//
+// input:checked + .slider {
+//   background-color: #b80000;
+// }
+//
+// input:focus + .slider {
+//   box-shadow: 0 0 1px #2196f3;
+// }
+//
+// input:checked + .slider:before {
+//   -webkit-transform: translateX(26px);
+//   -ms-transform: translateX(26px);
+//   transform: translateX(26px);
+// }
+//
+// /////Buttons
+//
+// #scrollToTopBtn {
+//   color: #999999;
+//   position: fixed;
+//   bottom: 0.5rem;
+//   left: 0.5rem;
+//   font-size: 30pt;
+//   padding-left: 0.25rem;
+//   padding-right: 0.25rem;
+//   padding-bottom: 0.3rem;
+//
+//   cursor: pointer;
+// }
+//
+// #scrollToTopBtn:hover {
+//   color: #800000;
+// }
+// #scrollToTopBtn:active {
+//   color: #b80000;
+// }
+//
+// /////////////////////////////// Collapsable Wellss
+// .card {
+//   border-color: $cardBorderColor;
+//   background-color: $cardBackgroundColor;
+// }
+// .card-heading {
+//   padding-top: 0.25rem;
+//   border-color: #bcbcbc;
+//   background-color: $cardHeadingBackgroundColor;
+// }
+// .card-title {
+//   padding-left: 1rem;
+//   padding-top: 0.35rem;
+// }
+// .card-heading.accordion-toggle:after {
+//   /* symbol for "opening" cards */
+//   font-family: "FontAwesome";
+//   /* essential for enabling glyphicon */
+//   content: "\f078";
+//   position: absolute;
+//   right: 1rem;
+//   top: 12px;
+//   font-size: 15pt;
+//   color: grey;
+// }
+// .card-heading.accordion-toggle.collapsed:after {
+//   /* symbol for "collapsed" cards */
+//   content: "\f054";
+// }
+//
+// .card-heading:hover {
+//   cursor: pointer;
+// }
+//
+// .text-heading.accordion-toggle:after {
+//   /* symbol for "opening" cards */
+//   font-family: "FontAwesome";
+//   /* essential for enabling glyphicon */
+//   content: "\f078";
+//   position: absolute;
+//   top: 0px;
+//   right: 0px;
+// }
+// .text-heading.accordion-toggle.collapsed:after {
+//   /* symbol for "collapsed" cards */
+//   content: "\f054";
+// }
+//
+// /////////////spinny guy
+// .spinner {
+//   width: 50px;
+//   height: 15px;
+//   background-color: #fff;
+//
+//   margin: 2px auto;
+//   -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+//   animation: sk-rotateplane 1.2s infinite ease-in-out;
+// }
+// @-webkit-keyframes sk-rotateplane {
+//   0% {
+//     -webkit-transform: perspective(120px);
+//   }
+//   50% {
+//     -webkit-transform: perspective(120px) rotateY(180deg);
+//   }
+//   100% {
+//     -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg);
+//   }
+// }
+// @keyframes sk-rotateplane {
+//   0% {
+//     transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+//     -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+//   }
+//   50% {
+//     transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+//     -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+//   }
+//   100% {
+//     transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+//     -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+//   }
+// }
+//
+// /////////////splash page classes
+//
+// #splash-text {
+//   font-size: 18px;
+// }
+// #splash-email-input {
+//   width: 75%;
+// }
+// .splash-horizontal-rule {
+//   border-color: #bcbcbc;
+// }
+//
+// //////////////////////////////////////Navbar Classes
+//
+// .navbar-default .navbar-brand {
+//   color: #ffffff;
+// }
+//
+// .navbar-brand {
+//   padding-left: 5px;
+//   padding-top: 9px;
+// }
+// .navbar-brand > img {
+//   display: inline;
+//   float: top;
+//   margin-right: 5px;
+// }
+// #logo-with-text {
+//   display: none;
+// }
+//
+// #nav-dropdown-toggle {
+//   color: #999999;
+// }
+//
+// #login-button {
+//   color: #000000;
+//   border: solid;
+//   border-width: 1px;
+//   background-color: #ffffff;
+// }
+//
+// #agegate {
+//   background-color: #280000;
+// }
+//
+// .navbar-default {
+//   min-height: 10px;
+//   height: 50px;
+//   border-radius: 0px;
+//   border: 0px;
+// }
+//
+// #searchTabs {
+//   color: #000000;
+// }
+// .nav-tabs {
+//   background-color: $navtabBackgroundColor;
+// }
+// .nav-link {
+//   color: $navtabTextColor;
+// }
+// .nav-link:hover {
+//   color: $navtabHoverTextColor;
+//   background-color: $navtabHoverBackgroundColor;
+//   border-color: #444444;
+// }
+// .nav-tabs .nav-link.active,
+// .nav-tabs .nav-item.show .nav-link {
+//   background-color: $navtabActiveBackgroundColor;
+//   color: $navtabActiveTextColor;
+// }
+//
+// .footer-links {
+//   padding-left: 0px;
+//   padding-right: 0px;
+//   margin-left: 0px;
+//   margin-right: 0px;
+//   color: $bodyFontColor;
+// }
+// .footer-links:hover {
+//   color: $linkHoverTextColor;
+// }
+//
+
+// // ////////////////////// homepage classes
+// .broadcaster-panel {
+//   margin: 3px;
+//   border-width: 3px;
+//   border-style: solid;
+//   border-radius: 3px;
+//   color: $broadcasterPanelTextColor;
+// }
+// .broadcaster-avatar {
+//   width: 100%;
+//   max-height: 180px;
+// }
+// .broadcaster-footer {
+//   padding: 7px;
+// }
+// .broadcaster-topic {
+//   max-width: 100%;
+//   overflow-x: hidden;
+//   white-space: nowrap;
+// }
+// .online {
+//   border-color: #b80000;
+// }
+// .offline {
+//   border-color: #000000;
+// }
+// // ///////////////////chat classes
+// #usermsg {
+//   border-radius: 0px;
+// }
+// #chatTabs {
+//   text-align: right;
+//   margin: 0;
+//   padding-left: 5px;
+//   padding-right: 5px;
+//   padding-top: 0px;
+//   padding-bottom: 0px;
+// }
+// #chatUserMenu {
+//   position: absolute;
+//   width: 196px;
+//   background-color: #800000;
+//   margin-left: 20px;
+//   padding-left: 0px;
+//   border-top-left-radius: 5px;
+//   border-top-right-radius: 5px;
+//   border-bottom-left-radius: 5px;
+//   border-bottom-right-radius: 5px;
+// }
+// .sharp-bottom-corners {
+//   border-top-left-radius: 0px;
+//   border-top-right-radius: 0px;
+// }
+// .round-top-left-corner-only {
+//   border-bottom-left-radius: 0px;
+//   border-bottom-right-radius: 0px;
+//   border-top-right-radius: 0px;
+// }
+// .round-top-right-corner-only {
+//   border-bottom-left-radius: 0px;
+//   border-bottom-right-radius: 0px;
+//   border-top-left-radius: 0px;
+// }
+// .chat-username {
+//   cursor: pointer;
+// }
+// .tab-btn {
+//   border-bottom-left-radius: 0px;
+//   border-bottom-right-radius: 0px;
+// }
+// .nav-pills > li.active > a,
+// .nav-pills > li.active > a:hover,
+// .nav-pills > li.active > a:focus {
+//   background-color: #dddddd;
+//   color: #000000;
+// }
+// #messages {
+//   list-style-type: none;
+//   margin-top: 10px;
+//   margin-bottom: 0px;
+//   margin-right: 0px;
+//   margin-left: 0px;
+//   padding: 0;
+// }
+// #messages li {
+//   padding-left: 0px;
+//   padding-bottom: 5px;
+//   padding-top: 0px;
+//   padding-right: 5px;
+// }
+// #users {
+//   list-style-type: none;
+//   margin: 0px;
+//   padding: 0;
+//   border-width: 1px;
+//   border-color: #000000;
+// }
+// #users li {
+//   padding: 5px;
+// }
+// #usermsg {
+//   border-radius: 0px;
+// }
+// .chat-divide {
+//   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#999999+0,727272+0&0.65+0,0+5,0+36 */
+//   background: -moz-linear-gradient(
+//     top,
+//     rgba(114, 114, 114, 0.65) 0%,
+//     rgba(114, 114, 114, 0) 5%,
+//     rgba(114, 114, 114, 0) 36%
+//   ); /* FF3.6-15 */
+//   background: -webkit-linear-gradient(
+//     top,
+//     rgba(114, 114, 114, 0.65) 0%,
+//     rgba(114, 114, 114, 0) 5%,
+//     rgba(114, 114, 114, 0) 36%
+//   ); /* Chrome10-25,Safari5.1-6 */
+//   background: linear-gradient(
+//     to bottom,
+//     rgba(114, 114, 114, 0.65) 0%,
+//     rgba(114, 114, 114, 0) 5%,
+//     rgba(114, 114, 114, 0) 36%
+//   ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+//   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6727272', endColorstr='#00727272',GradientType=0 ); /* IE6-9 */
+// }
+// // ///////////////////////////// Profile Classes
+// .emberTagInput-tag {
+//   background-color: #e5e5e5;
+//   border-radius: 7px;
+//   color: #000000;
+// }
+// .emberTagInput-remove {
+//   color: #ff0000;
+//   font-weight: bold;
+// }
+// .emberTagInput--readOnly {
+//   border-width: 0px;
+// }
+// .profile-links {
+//   color: $profileLinkColor;
+//   font-size: 24px;
+//   height: 44px;
+// }
+// .profile-links:hover,
+// #profile-links:active,
+// #profile-links:focus {
+//   color: #b80000;
+// }
+// .edit-links {
+//   color: #b80000;
+//   font-size: 20px;
+//   position: absolute;
+//   top: 12px;
+//   right: 20px;
+// }
+// .edit-links:hover,
+// .edit-links:active,
+// .edit-links:focus {
+//   color: #ef0202;
+// }
+// #tip-toggle {
+//   padding-left: 9px;
+//   padding-right: 9px;
+// }
+// #creditSelect {
+//   padding: 20px;
+//   font-size: 18px;
+// }
+// .payout-method {
+//   padding: 20px;
+//   width: 50%;
+//   font-size: 18px;
+// }
+// .photos-panel {
+//   overflow-x: auto;
+//   overflow-y: hidden;
+//   white-space: nowrap;
+//   padding-bottom: 0px;
+//   height: 300px;
+// }
+// #day-select {
+//   width: 15%;
+// }
+// #dashboard-button {
+//   width: 100%;
+// }
+// #dashboard-button-row {
+//   margin-bottom: 10px;
+// }
+// .profile-controls {
+//   height: 46px;
+//   background-color: $cardHeadingBackgroundColor;
+// }
+// .profile-buttons {
+//   height: 38px;
+// }
+// .large-controls {
+//   height: 92px;
+// }
+// // ////////////////////////////////Private Messenger Classes
+// #private-messenger-window {
+//   position: fixed;
+//   z-index: 10000;
+//   bottom: 0px;
+//   right: 10px;
+//   width: 300px;
+//   margin-bottom: 0px;
+//   border-bottom-right-radius: 0px;
+//   border-bottom-left-radius: 0px;
+// }
+// #private-messenger-panel {
+//   height: 280px;
+//   overflow-y: auto;
+// }
+// #closePM {
+//   float: left;
+//   padding-left: 5px;
+//   padding-right: 20px;
+//   font-color: #686868;
+// }
+// .chat-input-submit {
+//   border-radius: 0px;
+// }
+// .chat-input {
+//   position: absolute;
+//   bottom: 0;
+//   right: 0;
+//   padding: 0;
+//   margin: 0;
+//   width: 100%;
+// }
+// .topic-input {
+//   padding-top: 65px;
+// }
+// .chat-body {
+//   height: 400px;
+//   padding-top: 5px;
+//   overflow-y: auto;
+//   overflow-x: hidden;
+//   word-wrap: break-word;
+// }
+// .users-body {
+//   height: 400px;
+//   padding-top: 5px;
+//   overflow-y: auto;
+//   overflow-x: hidden;
+// }
+// #chat-panel {
+//   border-top-left-radius: 0px;
+//   border-top-right-radius: 0px;
+//   border-top-style: none;
+//   border: 0px;
+// }
+// #video-panel {
+//   margin-bottom: 0px;
+//   border-bottom-left-radius: 0px;
+//   border-bottom-right-radius: 0px;
+//   border: 0px;
+// }
+// #game-panel {
+//   height: 300px;
+// }
+// #game-icon {
+//   width: 140px;
+//   position: absolute;
+//   right: 0px;
+//   bottom: 5px;
+// }
+// // ////////////////////////Pop Up Alert Classes
+// #popup-alert-window {
+//   position: fixed;
+//   z-index: 10000;
+//   bottom: 60px;
+//   right: 10px;
+//   width: 300px;
+//   margin-bottom: 0px;
+// }
+// #popup-alert-panel {
+//   height: 100px;
+//   overflow-y: auto;
+//   padding-left: 0px;
+//   padding-top: 5px;
+// }
+// .popup-title {
+//   font-size: 16px;
+//   padding-top: 10px;
+//   padding-bottom: 10px;
+// }
+// #closeAlert {
+//   float: right;
+//   padding-right: 5px;
+//   font-color: #686868;
+// }
+// // ////////////////////////account classes
+// .manage-users-panel {
+//   overflow-y: auto;
+//   height: 500px;
+// }
+// #blockedUsersList {
+//   list-style-type: none;
+//   margin-top: 10px;
+//   margin-bottom: 0px;
+//   margin-right: 0px;
+//   margin-left: 0px;
+//   padding: 0;
+// }
+// #blockedUsersList li {
+//   padding-left: 0px;
+//   padding-bottom: 5px;
+//   padding-top: 0px;
+//   padding-right: 5px;
+// }
+// #favoriteUsersList {
+//   list-style-type: none;
+//   margin-top: 10px;
+//   margin-bottom: 0px;
+//   margin-right: 0px;
+//   margin-left: 0px;
+//   padding: 0;
+// }
+// #favoriteUsersList li {
+//   padding-left: 0px;
+//   padding-bottom: 5px;
+//   padding-top: 0px;
+//   padding-right: 5px;
+// }
+// .remove {
+//   float: right;
+//   font-size: 18;
+//   line-height: 1;
+//   color: #b80000;
+//   &:hover,
+//   &:focus {
+//     color: #c95252;
+//     text-decoration: none;
+//     cursor: pointer;
+//   }
+// }
+// .chat-tab-panel {
+//   position: absolute;
+//   right: 0;
+//   border-bottom: none;
+//   display: flex;
+//   background-color: #000000aa;
+//   margin: 0;
+//   padding: 0;
+//   border-radius: 0.25rem;
+// }
+// .chat-tab {
+//   font-size: 24px;
+//   text-align: center;
+//   width: 65px;
+//   height: 65px;
+//   padding-left: 0.5rem;
+//   padding-right: 0.5rem;
+//   padding-top: 0.8rem;
+//   padding-bottom: 0.25rem;
+//   border-bottom: none;
+// }
+// .chat-tab:hover,
+// .chat-tab.hover,
+// .chat-tab:active,
+// .chat-tab.active {
+//   border-bottom: none;
+//   border-bottom-right-radius: 0.25rem;
+//   border-bottom-left-radius: 0.25rem;
+// }
+// .modal-content {
+//   background-color: $bodyBackgroundColor;
+//   color: $bodyFontColor;
+// }
+// .close {
+//   color: $bodyFontColor;
+// }
+// .close:hover {
+//   color: $bodyFontHoverColor;
+// }
+// .close:active,
+// .close:focus {
+//   color: $bodyFontActiveColor;
+//   outline: 0;
+// }
+//
+// // Small devices (landscape phones, 576px and up)
+// @media (min-width: 576px) {
+//   #streamKeyDisplayID {
+//     height: 4rem;
+//   }
+//   .large-controls {
+//     height: 46px;
+//   }
+//   .close-account-btn {
+//     margin-top: 12rem;
+//   } // / Navbar Classes
+//   .navbar-default {
+//     background: #b80000; /* For browsers that do not support gradients */
+//     background: -webkit-linear-gradient(
+//       left,
+//       #b80000,
+//       #800000
+//     ); /* For Safari 5.1 to 6.0 */
+//     background: -o-linear-gradient(right, #b80000, #800000);
+//     /* For Opera 11.1 to 12.0 */
+//     background: -moz-linear-gradient(
+//       right,
+//       #b80000,
+//       #800000
+//     ); /* For Firefox 3.6 to 15 */
+//     background: linear-gradient(
+//       to right,
+//       #b80000,
+//       #800000
+//     ); /* Standard syntax */
+//     border-radius: 0px;
+//     border: 0px;
+//     color: #ffffff;
+//   }
+//   #nav-dropdown-toggle {
+//     color: #ffffff;
+//   }
+//   #login-button {
+//     color: #000000;
+//     border: none;
+//     background-color: #ffffff;
+//   }
+//   // /////
+//   .dropdown ul.dropdown-menu {
+//     width: 210px;
+//     margin-right: 10px;
+//     background-color: $navDropDownBackgroundColor;
+//     color: $bodyFontColor;
+//   }
+//   .dropdown-item {
+//     height: 30px;
+//     padding-top: 0.15rem;
+//     color: $bodyFontColor;
+//   }
+//   .dropdown-item:hover,
+//   .dropdown-item:active {
+//     background-color: $navDropDownHoverBackgroundColor;
+//     color: $bodyFontColor;
+//   }
+//   #scrollToTopBtn {
+//     bottom: 2rem;
+//   }
+//   #splash-email-input {
+//     width: 50%;
+//   }
+//   .broadcaster-avatar {
+//     max-height: 123px;
+//   }
+//   body {
+//     margin-bottom: 120px;
+//   }
+//   #logo-with-text {
+//     display: block;
+//   }
+//   #logo-no-text {
+//     display: none;
+//   }
+//   .footer {
+//     height: 130px;
+//   }
+//   .chat-body {
+//     height: 100%;
+//   }
+//   .users-body {
+//     padding-top: 65px;
+//     height: 530px;
+//   }
+//   #chat-panel {
+//     height: 100%;
+//     border-top-left-radius: 0px;
+//     border-bottom-left-radius: 0px;
+//     border-left-style: none;
+//     border-top-style: solid;
+//   }
+//   .chat-divide {
+//     background: #fff;
+//   }
+//   #video-panel {
+//     height: 100%;
+//     border-top-right-radius: 0px;
+//     border-bottom-right-radius: 0px;
+//     border: 0px;
+//   }
+//   #video-row {
+//     height: 650px;
+//   }
+//   .chat-divide {
+//     background: #ffffff;
+//   }
+//   #verifyFooter {
+//     height: 55px;
+//   }
+//   #game-icon {
+//     position: relative;
+//   }
+// }
+
+// // Medium devices (tablets, 768px and up)
+// @media (min-width: 768px) {
+// }
+// // Large devices (desktops, 992px and up)
+// @media (min-width: 992px) {
+// }
+// // Extra large devices (large desktops, 1200px and up)
+// @media (min-width: 1200px) {
+// }
+
+@import "ember-bootstrap/bootstrap";
+@import "notifications";
+$ember-power-select-line-height: 2.5;
+@import "ember-power-select";

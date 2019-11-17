@@ -43,14 +43,6 @@ module.exports = function(defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
 
-  // Bootstrap
-  // app.import('node_modules/bootstrap/scss/bootstrap.scss', {
-  //   type: 'vendor',
-  //   prepend: true
-  // });
-  // TODO import minified bootstrap for production
-  // this may conflict with jquery that ember includes
-  // app.import('node_modules/bootstrap/dist/js/bootstrap.js');
 
   // Plyr library
   app.import({

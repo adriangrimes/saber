@@ -13,9 +13,9 @@ export default Component.extend({
     this.set('inputpassword', '12345671');
 
     // Focus username field when Bootstrap modal is shown
-    jQuery('#loginModal').on('shown.bs.modal', function() {
-      jQuery('#username').trigger('focus');
-    });
+    // jQuery('#loginModal').on('shown.bs.modal', function() {
+    //   jQuery('#username').trigger('focus');
+    // });
   },
 
   actions: {

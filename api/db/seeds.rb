@@ -165,7 +165,7 @@ if Rails.env.production? == false
 
   # Set how many of each user type to seed
   test_user_count = 5
-  test_broadcaster_count = 250
+  test_broadcaster_count = 30
   test_developer_count = 5
   test_affiliate_count = 5
 
@@ -306,7 +306,7 @@ if Rails.env.production? == false
     p "about to skip confirmation"
     testbroadcaster.skip_confirmation!
     onlinestatus = fake_online_statuses.sample # ~X% of users as online
-    tags = fake_tag_array.sample(rand(0..3))
+    tags = fake_tag_array.sample(rand(0..15))
     puts tags.inspect
     game_id = 0
     if onlinestatus

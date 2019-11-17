@@ -1,7 +1,6 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { resolve } from 'rsvp';
-import jQuery from 'jquery';
 import { later } from '@ember/runloop';
 
 export default Service.extend({
@@ -32,8 +31,6 @@ export default Service.extend({
           console.log('heeloo darkmode:', user.darkMode);
           // Set theme to dark if true, otherwise default theme
           this.themeChanger.set('theme', user.darkMode ? 'dark' : 'default');
-          // Close log in modal
-          jQuery('#loginModal').modal('hide');
         })
         .catch(err => {
           console.log('error logging in', err);
