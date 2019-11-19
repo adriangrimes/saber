@@ -45,8 +45,12 @@ export default Component.extend({
       this.set('chatUserMenu', 'd-none');
     },
 
-    getChannelChatUserList() {
+    getChannelChatUserList(openTab, tabName) {
       console.log('getting ChannelChatUserList');
+
+      //open tab
+        openTab(tabName);
+      //get user getChannelChatUserList
       this.socketRef.send(
         JSON.stringify({
           type: 'ChannelChatUserList'

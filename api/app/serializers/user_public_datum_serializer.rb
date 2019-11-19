@@ -15,7 +15,7 @@ class UserPublicDatumSerializer
              :timezone,
              :user_custom_tags,
              :profile_photo_path,
-             :profile_sex,
+             :profile_gender,
              :profile_about_me,
              :profile_age,
              :profile_location,

@@ -74,8 +74,8 @@
       <label >Age:</label>
       {{model.profileAge}}
       <br>
-      <label >Sex:</label>
-      {{model.profileSex}}
+      <label >Gender:</label>
+      {{model.profileGender}}
       <br>
       <label >Location:</label>
       {{model.profileLocation}}
@@ -118,28 +118,28 @@
             </div>
           {{/if}}
           <div class="form-group">
-            <label>Sex</label>
+            <label>Gender</label>
             <div class="form-inline">
               <div class="form-check pr-3">
                 <label class="form-check-label">
                   {{radio-button class="form-check-input" value='Female'
-                    groupValue=tempSexSelection checked=tempSexSelection}}
+                    groupValue=tempGenderSelection checked=tempGenderSelection}}
                   Female
                 </label>
               </div>
               <div class="form-check pr-3">
                 <label class="form-check-label">
                   {{radio-button class="form-check-input" value='Male'
-                    groupValue=tempSexSelection checked=tempSexSelection}}
+                    groupValue=tempGenderSelection checked=tempGenderSelection}}
                   Male
                 </label>
               </div>
               <div class="form-check pr-3">
-                <label class="form-check-label" {{action "checkOtherSex"}}>
+                <label class="form-check-label" {{action "checkOtherGender"}}>
                   {{radio-button class="form-check-input" value='Other'
-                    groupValue=tempSexSelection id="inputSexOther" checked=tempSexSelection}}
+                    groupValue=tempGenderSelection id="inputGenderOther" checked=tempGenderSelection}}
                   {{input type="text" class="form-control" spellcheck=false
-                    value=tempSexText placeholder="Other"}}
+                    value=tempGenderText placeholder="Other"}}
                 </label>
               </div>
             </div>

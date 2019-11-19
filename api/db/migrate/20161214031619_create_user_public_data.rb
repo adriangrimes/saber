@@ -15,7 +15,7 @@ class CreateUserPublicData < ActiveRecord::Migration[5.2]
       t.string :timezone
       t.string :user_custom_tags, default: nil, array: true
       t.string :profile_photo_path, null: false, default: Rails.configuration.x.saber.no_profile_image_url
-      t.string :profile_sex, limit: 16
+      t.string :profile_gender, limit: 16
       t.text :profile_about_me, limit: 2048
       t.integer :profile_age, limit: 3
       t.string :profile_location, limit: 32

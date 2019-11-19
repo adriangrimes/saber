@@ -13,7 +13,6 @@ Router.map(function() {
     this.route('developer');
     this.route('broadcaster');
     this.route('messages');
-    this.route('dashboard');
     this.route('manage-users');
     this.route('affiliate');
     this.route('close');
@@ -24,11 +23,7 @@ Router.map(function() {
     this.route('affiliate');
     this.route('confirm');
   });
-  this.route('help', function() {
-    this.route('developer');
-    this.route('broadcaster');
-    this.route('affiliate');
-  });
+  this.route('help', function() {});
   this.route('terms');
   this.route('privacy');
   this.route('contact');

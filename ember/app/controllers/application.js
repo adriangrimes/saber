@@ -8,11 +8,15 @@ export default Controller.extend({
   themeChanger: service(),
   errorHandler: service(),
 
-  copyrightYear: new Date().getFullYear() + 10000,
+  copyrightYear: new Date().getFullYear(),
 
   actions: {
     logout() {
       this.currentUser.logOut();
+    },
+
+    keepDropdownOpen(openDropdown) {
+      openDropdown();
     },
 
     scrollToTop() {

@@ -1,13 +1,5 @@
-{{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
-  {{edit-photos
-    model=(mut (get model "userPublicUploads"))
-    store=this.store
-    profilePhotoPath=model.userPublicDatum.profilePhotoPath
-    onProfileImageChanged=(action "profileImageChanged")
-  }}
-{{/if}}
 
-{{game-rules-modal}}
+
 <div class="container-fluid">
 
   {{#if model.userPublicDatum.broadcaster}}
@@ -162,72 +154,21 @@
     <div class="row m-0">
       {{! Game Window }}
       <div class="col-12 col-sm-6  p-0 mt-4 order-3">
-        {{!--
-        <div class="card">
-          <div class={{if gameIsActive "d-none card-body p-1" "d-none card-body p-1"}}>
-            <object width="100%" height="400" data="/game.swf"></object>
-          </div>
-          <div class={{if gameIsActive "card-body order-3 p-1 pt-4" "card-body order-3 p-1 pt-4"}} id="game-panel">
-            <div class="row m-0">
-              <div class="text-center col-xs-12 col-sm-4 btn-link" title="Click to view rules and controls" data-toggle="modal" data-target="#rulesModal" id="game-icon">
-                <small class="d-sm-block d-none">Rules and Controls</small>
-                <img src="/usericon.svg" width="100px" alt="Game Icon">
-                <small class="d-sm-none d-block">Rules and Controls</small>
-              </div>
-              <div class="col-8">
-                <h4 id="gameHeading">8 Ball Pool</h4>
-                <br>
-                <b>Number of Players:</b> 2
-                <br>
-              </div>
-            </div>
-            <div class="row m-0 ">
-              <div class="col-12 d-flex">
-                {{#unless (eq session.data.authenticated.username model.username)}}
-                  <div id="suggest-game-button" class="btn float-right btn-link" title="Suggest Game" {{action "openSuggestionPanel" }}>Suggest Game</div>
-                  {{confirm-input type="joinGame" title="Join Game?" button-title="Join Game"}}
-                {{else}}
-                  <div id="change-game-button" class="btn float-right btn-link" title="Change Game" {{action "openGameSettingsPanel" }}>Change Game</div>
-                  <button id="start-game-button-sm" class="btn btn-primary ml-auto mr-3 mt-1 d-none d-sm-block" title="Start Game" {{action "startGameNow" }}>Start Game</button>
-                {{/unless}}
-              </div>
-            </div>
-          </div>
-          <div class={{if gameSuggestionPanelOpen "d-block card-body p-1" "d-none card-body p-1"}}>
-            <div class="row m-0 mb-2">
-              <div class="col-12  px-2">
-                <label for="inputGame">Select Game:</label>
-                {{#power-select
-                  selected=inputGame
-                  id="inputGame"
-                  options=gamesList
-                  onchange=(action "setGame")
-                  oninput=(action "checkLength")
-                  as |name|}}
-                  {{name}}
-                {{/power-select}}
-              </div>
-            </div>
-            <div class="row m-0 ">
-              <div class="col-12 d-flex">
-                <a class="btn btn-link btn-block d-block" title="Cancel Suggestion" role="button" {{action "closeSuggestionPanel" }}>Cancel</a>
-                <button class="btn btn-primary ml-auto mt-1 d-block" title="Send Suggestion">Send Suggestion</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        --}}
+          <h4>  Game Setup</h4>
+
+            Coming Soon
       </div> {{! end game window}}
 
       <div class="col-12 col-sm-6 p-0 mt-4 order-4 photos-panel">
         {{!-- Photos Window --}}
         {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
-          <a align="right" class="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal">
-            <span title="Edit Photos" class="fa fa-edit" aria-hidden="true">
-            </span>
-          </a>
+          {{edit-photos
+            model=(mut (get model "userPublicUploads"))
+            store=this.store
+            profilePhotoPath=model.userPublicDatum.profilePhotoPath
+            onProfileImageChanged=(action "profileImageChanged")
+          }}
         {{/if}}
-
 
         {{#each model.userPublicUploads as |upload|}}
           {{#if upload.fileUrl}}
@@ -251,13 +192,7 @@
       <div class="col-6 pb-0">
         <img src="{{model.userPublicDatum.profilePhotoPath}}" height="500px" width="100%">
       </div>
-      <div class="col-12 col-sm-6 p-0 mt-4 order-4">
-        {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
-          <a align="right" class="edit-links" role="button" data-toggle="modal" data-target="#editPhotosModal">
-            <span title="Edit Photos" class="fa fa-edit" aria-hidden="true">
-            </span>
-          </a>
-        {{/if}}
+
         <div class="col-12 col-sm-6 p-0 mt-4 order-4 photos-panel">
 
           {{#each model.userPublicUploads as |upload|}}
@@ -267,17 +202,112 @@
           {{/each}}
 
         </div>
-      </div>
+
     </div>
   {{/if}}
   <div class="row m-0 pt-4 pb-4">
     <div class="col-12 ">
-      <div class="collapse show" id="viewProfileCollapse">
         {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
-          <a align="right" class="edit-links" role="button" data-toggle="collapse" data-target="#editProfileCollapse,#viewProfileCollapse">
-            <span title="Edit Details" class="fa fa-edit" aria-hidden="true"></span>
-          </a>
-        {{/if}}
+
+          <form autocomplete="off" {{action "submitProfileSettings" on="submit"}}>
+            <div class="modal-body">
+              {{#if currentUser.user.broadcaster}}
+                <div class="form-group">
+                  <label for="inputaboutme">About Me</label>
+                  {{textarea rows="5" class="form-control" value=model.userPublicDatum.profileAboutMe
+                    placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
+                </div>
+              {{else if currentUser.user.developer}}
+                <div class="form-group">
+                  <label for="inputaboutme">About Me</label>
+                  {{textarea class="form-control" value=model.userPublicDatum.profileAboutMe
+                    placeholder="A little about yourself and your games"}}
+                </div>
+              {{else}}
+                <div class="form-group">
+                  <label for="inputaboutme">About Me</label>
+                  {{textarea class="form-control" value=model.userPublicDatum.profileAboutMe
+                    placeholder="A little about yourself, your favorite games etc."}}
+                </div>
+              {{/if}}
+              <div class="form-group">
+                <label>Gender</label>
+                <div class="form-inline">
+                  <div class="form-check pr-3">
+                    <label class="form-check-label">
+                      {{radio-button class="form-check-input" value='Female'
+                        groupValue=tempGenderSelection checked=tempGenderSelection}}
+                      Female
+                    </label>
+                  </div>
+                  <div class="form-check pr-3">
+                    <label class="form-check-label">
+                      {{radio-button class="form-check-input" value='Male'
+                        groupValue=tempGenderSelection checked=tempGenderSelection}}
+                      Male
+                    </label>
+                  </div>
+                  <div class="form-check pr-3">
+                    <label class="form-check-label" {{action "checkOtherGender"}}>
+                      {{radio-button class="form-check-input" value='Other'
+                        groupValue=tempGenderSelection id="inputGenderOther" checked=tempGenderSelection}}
+                      {{input type="text" class="form-control" spellcheck=false
+                        value=tempGenderText placeholder="Other"}}
+                    </label>
+                  </div>
+                  <div class="form-check pr-3">
+                    <label class="form-check-label">
+                      {{radio-button class="form-check-input" value='Hide'
+                        groupValue=tempGenderSelection checked=tempGenderSelection}}
+                      Hide
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputlocation">Location</label>
+                {{input type="text" class="form-control" value=model.userPublicDatum.profileLocation
+                  placeholder="Your general location" }}
+              </div>
+              <div class="form-group">
+                <label for="inputLanguages">Languages</label>
+                {{input type="text" class="form-control" value=model.userPublicDatum.profileLanguages
+                  placeholder="I can speak..." }}
+              </div>
+              <div class="form-group">
+                <label for="inputAge">Age</label>
+                {{input type="number" min="0" max="100000" step="1" class="form-control"
+                  value=model.userPublicDatum.profileAge }}
+              </div>
+              {{#if currentUser.user.broadcaster}}
+                <div class="form-group">
+                  <label>Tags (choose up to 15)</label>
+                  {{#tag-input
+                    tags=tags
+                    addTag=(action 'addTag')
+                    removeTagAtIndex=(action 'removeTagAtIndex')
+                    as |tag|
+                  }}
+                    {{tag}}
+                  {{/tag-input}}
+                </div>
+              {{/if}}
+              <br>
+              <button class="btn btn-link"  {{action "cancelProfileChanges" model.userPublicDatum}}>
+                <span title="Revert Changes"></span>
+                Revert Changes
+              </button>
+              <div class="float-right">
+                <button type="submit" class="btn btn-primary" id="profileSettingSubmit">
+                  Save
+                </button>
+              </div>
+              <br>
+            </div>
+          </form>
+
+
+        {{else}}
 
         <h4>About {{model.userPublicDatum.username}}:</h4>
         {{if model.userPublicDatum.profileAboutMe model.userPublicDatum.profileAboutMe}}
@@ -288,11 +318,11 @@
           {{model.userPublicDatum.profileAge}}
           <br>
         {{/if}}
-        {{#if model.userPublicDatum.profileSex}}
-          {{#if (eq model.userPublicDatum.profileSex 'Hide')}}
+        {{#if model.userPublicDatum.profileGender}}
+          {{#if (eq model.userPublicDatum.profileGender 'Hide')}}
           {{else}}
-            <label>Sex:</label>
-            {{model.userPublicDatum.profileSex}}
+            <label>Gender:</label>
+            {{model.userPublicDatum.profileGender}}
             <br>
           {{/if}}
         {{/if}}
@@ -323,106 +353,12 @@
             </div>
           {{/if}}
         {{/if}}
-      </div>
 
-      <div class="collapse" id="editProfileCollapse">
-        <form autocomplete="off" {{action "submitProfileSettings" on="submit"}}>
-          <div class="modal-body">
-            {{#if currentUser.user.broadcaster}}
-              <div class="form-group">
-                <label for="inputaboutme">About Me</label>
-                {{textarea rows="5" class="form-control" value=model.userPublicDatum.profileAboutMe
-                  placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
-              </div>
-            {{else if currentUser.user.developer}}
-              <div class="form-group">
-                <label for="inputaboutme">About Me</label>
-                {{textarea class="form-control" value=model.userPublicDatum.profileAboutMe
-                  placeholder="A little about yourself and your games"}}
-              </div>
-            {{else}}
-              <div class="form-group">
-                <label for="inputaboutme">About Me</label>
-                {{textarea class="form-control" value=model.userPublicDatum.profileAboutMe
-                  placeholder="A little about yourself, your favorite games etc."}}
-              </div>
-            {{/if}}
-            <div class="form-group">
-              <label>Sex</label>
-              <div class="form-inline">
-                <div class="form-check pr-3">
-                  <label class="form-check-label">
-                    {{radio-button class="form-check-input" value='Female'
-                      groupValue=tempSexSelection checked=tempSexSelection}}
-                    Female
-                  </label>
-                </div>
-                <div class="form-check pr-3">
-                  <label class="form-check-label">
-                    {{radio-button class="form-check-input" value='Male'
-                      groupValue=tempSexSelection checked=tempSexSelection}}
-                    Male
-                  </label>
-                </div>
-                <div class="form-check pr-3">
-                  <label class="form-check-label" {{action "checkOtherSex"}}>
-                    {{radio-button class="form-check-input" value='Other'
-                      groupValue=tempSexSelection id="inputSexOther" checked=tempSexSelection}}
-                    {{input type="text" class="form-control" spellcheck=false
-                      value=tempSexText placeholder="Other"}}
-                  </label>
-                </div>
-                <div class="form-check pr-3">
-                  <label class="form-check-label">
-                    {{radio-button class="form-check-input" value='Hide'
-                      groupValue=tempSexSelection checked=tempSexSelection}}
-                    Hide
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputlocation">Location</label>
-              {{input type="text" class="form-control" value=model.userPublicDatum.profileLocation
-                placeholder="Your general location" }}
-            </div>
-            <div class="form-group">
-              <label for="inputLanguages">Languages</label>
-              {{input type="text" class="form-control" value=model.userPublicDatum.profileLanguages
-                placeholder="I can speak..." }}
-            </div>
-            <div class="form-group">
-              <label for="inputAge">Age</label>
-              {{input type="number" min="0" max="100000" step="1" class="form-control"
-                value=model.userPublicDatum.profileAge }}
-            </div>
-            {{#if currentUser.user.broadcaster}}
-              <div class="form-group">
-                <label>Tags (choose up to 15)</label>
-                {{#tag-input
-                  tags=tags
-                  addTag=(action 'addTag')
-                  removeTagAtIndex=(action 'removeTagAtIndex')
-                  as |tag|
-                }}
-                  {{tag}}
-                {{/tag-input}}
-              </div>
-            {{/if}}
-            <br>
-            <a class="btn btn-link" data-toggle="collapse" data-target="#editProfileCollapse,#viewProfileCollapse" {{action "cancelProfileChanges" model.userPublicDatum}}>
-              <span title="Cancel"></span>
-              Cancel
-            </a>
-            <div class="float-right">
-              <button type="submit" class="btn btn-primary" id="profileSettingSubmit">
-                Save
-              </button>
-            </div>
-            <br>
-          </div>
-        </form>
-      </div>
+        {{/if}}
+
+
+
+
     </div>
   </div>
 </div>

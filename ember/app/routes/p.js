@@ -17,17 +17,17 @@ export default Route.extend({
     this._super(controller, model);
 
     // Set up gender selection inputs with loaded store data
-    controller.set('tempSexText', '');
-    if (model.userPublicDatum.get('profileSex') == 'Male') {
-      controller.set('tempSexSelection', 'Male');
-    } else if (model.userPublicDatum.get('profileSex') == 'Female') {
-      controller.set('tempSexSelection', 'Female');
-    } else if (model.userPublicDatum.get('profileSex') == 'Hide') {
-      controller.set('tempSexSelection', 'Hide');
+    controller.set('tempGenderText', '');
+    if (model.userPublicDatum.get('profileGender') == 'Male') {
+      controller.set('tempGenderSelection', 'Male');
+    } else if (model.userPublicDatum.get('profileGender') == 'Female') {
+      controller.set('tempGenderSelection', 'Female');
+    } else if (model.userPublicDatum.get('profileGender') == 'Hide') {
+      controller.set('tempGenderSelection', 'Hide');
     } else {
-      controller.set('tempSexSelection', 'Other');
-      controller.set('tempSexText', model.userPublicDatum.get('profileSex'));
-      controller.set('checkOtherSex', true);
+      controller.set('tempGenderSelection', 'Other');
+      controller.set('tempGenderText', model.userPublicDatum.get('profileGender'));
+      controller.set('checkOtherGender', true);
     }
 
     // Set isStreaming

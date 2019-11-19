@@ -36,6 +36,9 @@ a.brand-link:visited {
   background: linear-gradient(to right, #b80000, #800000); /* Standard syntax */
 }
 
+
+$enable-caret: false;
+
 ///////////// Extra Small Screens, Optimizing for 320px and up.
 
 ///////////////////// Overriding Bootstrap

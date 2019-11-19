@@ -23,7 +23,7 @@
         {{#each model as |helpTopic|}}
           {{! if of death!}}
           {{#if (or (or (or helpTopic.allUsers (and helpTopic.contractorsOnly isContracted)) (and helpTopic.broadcastersOnly isBroadcaster)) (and helpTopic.developersOnly isDeveloper))}}
-            <a href="#{{helpTopic.shortTitle}}"> <button class="btn btn-block btn-primary mb-2" data-toggle="collapse" data-parent="#{{helpTopic.shortTitle}}" data-target="#{{helpTopic.shortTitle}}Collapse">{{helpTopic.title}}</button></a>
+            <a href="#{{helpTopic.shortTitle}}"> <button class="btn btn-block btn-primary mb-2" data-parent="#{{helpTopic.shortTitle}}" data-target="#{{helpTopic.shortTitle}}">{{helpTopic.title}}</button></a>
           {{/if}}
         {{/each}}
         <div class="text-center pt-5 mt-5 d-none d-sm-block">
@@ -39,10 +39,10 @@
         {{#if (or (or (or helpTopic.allUsers (and helpTopic.contractorsOnly isContracted)) (and helpTopic.broadcastersOnly isBroadcaster)) (and helpTopic.developersOnly isDeveloper))}}
           <div id="{{helpTopic.shortTitle}}">
             <div class="card mb-3">
-              <div class="card-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#{{helpTopic.shortTitle}}" data-target="#{{helpTopic.shortTitle}}Collapse">
+              <div class="card-heading  " data-parent="#{{helpTopic.shortTitle}}" data-target="#{{helpTopic.shortTitle}}">
                 <h4 class="card-title ">{{helpTopic.title}}</h4>
               </div>
-              <div id="{{helpTopic.shortTitle}}Collapse" class="card-collapse collapse in">
+              <div id="{{helpTopic.shortTitle}}" class="card">
                 <div class="card-body">
                   {{#each helpTopic.helpSections as |helpSection|}}
                     <h5>{{helpSection.section_title}}</h5>

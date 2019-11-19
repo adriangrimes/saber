@@ -1,8 +1,6 @@
 {{ember-load-remover}}
 {{! head-layout is required for ember-theme-changer}}
 {{head-layout}}
-<!-- {{log-in-modal}} -->
-{{buy-credits}}
 {{! These don't function yet, just graphical stand ins }}
 {{! private-messenger}}
 {{! popup-alert}}
@@ -24,87 +22,110 @@
 {{/ember-notify}}
 
 {{! Navbar }}
-<BsNavbar @class="red-bar" @toggleBreakpoint="sm" @type="pills" as |navbar|>
+<BsNavbar @class="navbar-expand red-bar p-2" @type="pills" as |navbar|>
   <LinkTo @route="home" @class="brand-link" @activeClass="">
     <img src="/logo.svg" height="32px" width="32px">
     Saber
   </LinkTo>
   {{#navbar.toggle}}
-    <BsButton>Expand</BsButton>
+    <span class="navbar-toggler-icon"></span>
   {{/navbar.toggle}}
   <navbar.content @class="flex-row-reverse">
     <navbar.nav as |nav|>
       {{#if session.isAuthenticated}}
-        {{#if (gt this.currentUser.unreadMessages 0)}}
-          <nav.item>
-            <nav.linkTo @route="account.messages" @class="btn btn-outline-dark px-2 mx-1">
-              {{#if (gt this.currentUser.unreadMessages 1)}}
-                {{this.currentUser.unreadMessages}} new messages
-              {{else}}
-                1 new message
-              {{/if}}
-            </nav.linkTo>
-          </nav.item>
-        {{/if}}
-          <nav.item>
-            <button class="btn btn-outline-dark px-2 mx-1" data-toggle="modal" data-target="#buyCreditsModal">
-              <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i>
-            </button>
-          </nav.item>
-        {{#if this.currentUser.user.isContracted}}
-          <nav.item>
-            <nav.linkTo @route="account.dashboard" @class="btn btn-outline-dark px-2 mx-1">
-              <i title="Dashboard" class="fa fa-user" aria-hidden="true"></i>
-            </nav.linkTo>
-          </nav.item>
-        {{else}}
-          <nav.item>
-            <nav.linkTo @route="account" @class="btn btn-outline-dark px-2 mx-1">
-              <i title="My Account" class="fa fa-user" aria-hidden="true"></i>
-            </nav.linkTo>
-          </nav.item>
-        {{/if}}
-        <nav.dropdown as |dd|>
-          <dd.button><i title="Menu" class="fa fa-align-right"></i></dd.button>
-          <dd.menu @align="right" as |ddm|>
-            <div class="dropdown-header">
-              Hi <strong>{{session.data.authenticated.username}}</strong>
+        <nav.dropdown @closeOnMenuClick={{false}} as |dd|>
+          <dd.button @type="" @class="nav-link btn-light mr-2">
+            <span class="mx-2">    <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></span>
+          </dd.button>
+          <dd.menu @align="right" @class="px-4 py-3" as |ddm|>
+            <div class="dropdown-header text-center">
+              You have <i class="fa fa-database" aria-hidden="true"></i>
+              <strong>{{currentUser.user.creditsRemaining}} Credits</strong>
             </div>
-            {{#link-to "account.messages" class="dropdown-item"}}
-              Messages {{#if this.currentUser.unreadMessages}}<span class="ml-2 badge badge-primary badge-pill">{{this.currentUser.unreadMessages}}</span>{{/if}}
-            {{/link-to}}
-            {{#if this.currentUser.user.isContracted}}
-              {{link-to "Dashboard" "account.dashboard" class="dropdown-item"}}
-            {{/if}}
-            {{#link-to "p" (lower-case session.data.authenticated.username) class="dropdown-item"}}
-              My Profile
-            {{/link-to}}
-            {{link-to "Account Settings" "account.index" class="dropdown-item"}}
-            <form {{action "toggleDarkMode" on="change"}}>
-              <a class="dropdown-item d-inline-block pr-2 ">Dark Mode
-                <label class="switch float-right">
-                  {{input type="checkbox" name="darkMode" id="darkModeToggle" checked=this.currentUser.user.darkMode}}
-                  <span class="slider"></span>
-                </label>
-              </a>
-            </form>
-
-            <div class="dropdown-divider"></div>
-              <div class="dropdown-item dropdown-header" data-toggle="modal" data-target="#buyCreditsModal">
-                You have&nbsp;&nbsp;
-                <i class="fa fa-database" aria-hidden="true"></i>
-                <strong>&nbsp;&nbsp;{{currentUser.user.creditsRemaining}}</strong> Credits
-              </div>
-              <a class="dropdown-item" role="button" data-toggle="modal" data-target="#buyCreditsModal">
-                Buy Credits
-              </a>
-              <div class="dropdown-divider"></div>
-            <a class="dropdown-item" role="button" {{action "logout"}}>Log Out</a>
+            {{buy-credits}}
           </dd.menu>
         </nav.dropdown>
-      {{else}}
+
+        <nav.dropdown as |dd|>
+          <dd.button @type="" @class="btn-outline-light">
+            {{#if (gt this.currentUser.unreadMessages 0)}}
+                <span class="ml-0 mr-1 badge badge-primary badge-pill">
+                  {{this.currentUser.unreadMessages}}
+                </span>
+            {{else}}
+              <i title="Menu" class="fa fa-align-right mr-2"></i>
+            {{/if}}
+            <i class="fa fa-caret-down"></i>
+          </dd.button>
+          <dd.menu @align="right" as |ddm|>
+            <ddm.item>
+              <ddm.linkTo @route="p" @model={{lower-case session.data.authenticated.username}}>
+                  Hi <strong>{{session.data.authenticated.username}}</strong>
+              </ddm.linkTo>
+            </ddm.item>
+            <ddm.item>
+              <ddm.linkTo @route="account.messages">
+                Messages
+                {{#if this.currentUser.unreadMessages}}
+                  <span class="ml-2 badge badge-primary badge-pill">
+                    {{this.currentUser.unreadMessages}}
+                  </span>
+                {{/if}}
+              </ddm.linkTo>
+            </ddm.item>
+
+
+            <ddm.item>
+              <ddm.linkTo @route="account.index">
+                Account Settings
+              </ddm.linkTo>
+            </ddm.item>
+            <ddm.divider></ddm.divider>
+          <!--  <ddm.item>
+              <label class="form-check-label dropdown-item" onclick={{action "keepDropdownOpen" dd.openDropdown}}>
+                Dark mode
+                {{input type="checkbox" checked=this.currentUser.user.darkMode}}
+              </label>
+            </ddm.item>-->
+            <ddm.item>
+              <ddm.linkTo @route="help">
+                  Help
+              </ddm.linkTo>
+            </ddm.item>
+            <ddm.item>
+              <ddm.linkTo @route="terms">
+                  Terms of Service
+              </ddm.linkTo>
+            </ddm.item>
+            <ddm.item>
+              <ddm.linkTo @route="privacy">
+                  Privacy Policy
+
+              </ddm.linkTo>
+            </ddm.item>
+            <ddm.item>
+              <ddm.linkTo @route="legal">
+                    Legal
+              </ddm.linkTo>
+            </ddm.item>
+            <ddm.item>
+              <ddm.linkTo @route="home">
+                  © {{copyrightYear}} Saber
+              </ddm.linkTo>
+            </ddm.item>
+            <ddm.divider></ddm.divider>
+            <ddm.item>
+              <a class="dropdown-item" role="button" {{action "logout"}}>
+            Log Out
+              </a>
+            </ddm.item>
+          </dd.menu>
+        </nav.dropdown>
+      {{else}} {{! user not authenticated }}
         <nav.dropdown @closeOnMenuClick={{false}} as |dd|>
-          <dd.button>Log In <span class="caret"></span></dd.button>
+          <dd.button @type="" @class="nav-link btn-light">
+            <span class="mx-2">Log in</span>
+          </dd.button>
           <dd.menu @align="right" @class="px-4 py-3" as |ddm|>
             {{log-in}}
           </dd.menu>
@@ -117,147 +138,3 @@
 <div class="mt-4">
   {{outlet}}
 </div>
-
-<footer class="footer">
-  <div class="red-bar"></div>
-
-  <div class="container-fluid">
-    <div class="row text-center">
-      <div class="col-xs-12 col-sm-4 px-0 mx-0 d-block d-sm-none ">
-        <ul class="nav nav-pills nav-justified">
-          <li class="nav-item">
-            {{#if session.isAuthenticated}}
-              {{link-to "Account Settings" "account" class="footer-links nav-link" }}
-            {{else}}
-              {{link-to "Sign Up" "signup" class="footer-links nav-link" }}
-            {{/if}}
-          </li>
-        </ul>
-      </div>
-      <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
-        <ul class="nav nav-pills nav-justified">
-          <li class="nav-item ">
-            {{link-to "Help" "help" class="footer-links nav-link" }}
-          </li>
-        </ul>
-      </div>
-      <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
-        <ul class="nav nav-pills nav-justified">
-          <li class="nav-item d-block d-sm-none">
-            {{link-to "Contact Us" "contact" class="footer-links nav-link" }}
-          </li>
-          <li class="nav-item d-none d-sm-block">
-            {{link-to "Terms of Service" "terms" class="footer-links nav-link" }}
-          </li>
-        </ul>
-      </div>
-      <div class="col-xs-12 col-sm-4 px-0 mx-0 d-none d-sm-block">
-        <ul class="nav nav-pills nav-justified">
-          <li class="nav-item">
-            {{#if session.isAuthenticated}}
-              {{link-to "Account Settings" "account.index" class="footer-links nav-link" }}
-            {{else}}
-              {{link-to "Sign Up" "signup.index" class="footer-links nav-link " }}
-            {{/if}}
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="row text-center">
-      <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
-        <ul class="nav nav-pills nav-justified">
-          <li class="nav-item d-block d-sm-none">
-            {{link-to "Terms of Service" "terms" class="footer-links nav-link " }}
-          </li>
-          <li class="nav-item d-none d-sm-block">
-            {{link-to "Contact Us" "contact" class="footer-links nav-link " }}
-          </li>
-        </ul>
-      </div>
-      <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
-        <ul class="nav nav-pills nav-justified">
-          <li class="nav-item">
-            {{link-to "Privacy Policy" "privacy" class="footer-links nav-link " }}
-          </li>
-        </ul>
-      </div>
-      <div class="col-xs-12 col-sm-4 px-0 mx-0 ">
-        <ul class="nav nav-pills nav-justified">
-          <li class="nav-item">
-            {{#if session.isAuthenticated}}
-              {{#if this.currentUser.user.broadcaster}}
-                {{link-to "Dashboard" "account.dashboard" class="footer-links nav-link " }}
-              {{else}}
-                {{link-to "Become a Broadcaster" "account.broadcaster" class="footer-links nav-link"}}
-              {{/if}}
-            {{else}}
-              {{link-to "Become a Broadcaster" "signup.broadcaster" class="footer-links nav-link"}}
-            {{/if}}
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="row text-center">
-      <div class="col-xs-12 col-sm-4 d-block d-sm-none px-0 mx-0  ">
-        <ul class="nav nav-pills nav-justified">
-          <li class="nav-item">
-            {{#if session.isAuthenticated}}
-              {{#if currentUser.user.developer}}
-                {{link-to "API Docs" "help.developer" class="footer-links nav-link"}}
-              {{else}}
-                {{link-to "Become a Game Developer" "account.developer" class="footer-links nav-link"}}
-              {{/if}}
-            {{else}}
-              {{link-to "Become a Game Developer" "signup.developer" class="footer-links nav-link"}}
-            {{/if}}
-          </li>
-        </ul>
-      </div>
-      <div class="col-xs-12 col-sm-4 d-none d-sm-block px-0 mx-0 ">
-        <ul class="nav nav-pills nav-justified">
-          <li class="nav-item">
-            {{#link-to "home" class="footer-links nav-link"}}
-              © {{copyrightYear}}
-            {{/link-to}}
-          </li>
-        </ul>
-      </div>
-      <div class="col-xs-12 col-sm-4 px-0 mx-0">
-        <ul class="nav nav-pills nav-justified">
-          <li class="nav-item">
-            {{#link-to "legal" class="footer-links nav-link"}}
-              Legal
-            {{/link-to}}
-          </li>
-        </ul>
-      </div>
-      <div class="col-xs-12 col-sm-4 d-block d-sm-none px-0 mx-0">
-        <ul class="nav nav-pills nav-justified">
-          <li class="nav-item">
-            {{#link-to "home" class="footer-links nav-link"}}
-              © {{copyrightYear}}
-            {{/link-to}}
-          </li>
-        </ul>
-      </div>
-      <div class="col-xs-12 col-sm-4 d-none d-sm-block px-0 mx-0 ">
-        <ul class="nav nav-pills nav-justified">
-          <li class="nav-item">
-            {{#if session.isAuthenticated}}
-              {{#if this.currentUser.user.developer}}
-                {{link-to "API Docs" "help.developer" class="footer-links nav-link"}}
-              {{else}}
-                {{link-to "Become a Game Developer" "account.developer" class="footer-links nav-link"}}
-              {{/if}}
-            {{else}}
-              {{link-to "Become a Game Developer" "signup.developer" class="footer-links nav-link"}}
-            {{/if}}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <span class="fa fa-chevron-up border rounded border-primary" {{action "scrollToTop"}} id="scrollToTopBtn" title="Go to top"></span>
-
-</footer>

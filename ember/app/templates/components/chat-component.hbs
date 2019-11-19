@@ -14,95 +14,94 @@
 </div>{{!-- End of context menu display --}}
 
 {{!-- Chat Navigation Tabs --}}
-<ul class="nav nav-tabs chat-tab-panel">
-  <li role="presentation" class="nav-item"><a href="#chat" class="chat-tab nav-link active" aria-controls="chat" role="tab" data-toggle="tab" title="Chat Window"><span class="fa fa-comments-o"></span></a></li>
-  <li {{action "getChannelChatUserList"}} role="presentation" class="nav-item"><a href="#userstab" class="chat-tab nav-link" aria-controls="userstab" role="tab" data-toggle="tab" title="Users Window"><span class="fa fa-users">
-        {{chatChannelUserCount}}</span></a></li>
-  {{!--  <li role="presentation" class="nav-item"><a href="#settingstab" class="chat-tab nav-link"  aria-controls="settingstab" role="tab" data-toggle="tab"><span class="fa fa-cog"></span></a></li>--}}
-</ul>
+<BsTab @customTabs={{true}} as |tab|>
+  <BsNav @type="tabs" as |nav|>
+    <nav.item @active={{bs-eq tab.activeId "Chat"}}><a role="tab" onclick={{action tab.select "Chat"}}>Chat</a></nav.item>
+    <nav.item @active={{bs-eq tab.activeId "Users"}}><a role="tab" onclick={{action "getChannelChatUserList" tab.select "Users"}}>Users<span class="badge">{{chatChannelUserCount}}</span></a></nav.item>
+  </BsNav>
+  <div class="tab-content">
+    <tab.pane @id="Chat" @title="Chat">
+      <div class="topic-input">
+        {{#if (eq session.data.authenticated.username model.username)}}
 
+          {{!--  Topic Input Field--}}
+          <form {{action "updateChannelTopic" on="submit"}} name="channelTopic" autocomplete="off">
+            <div class="input-group">
+              {{input value=channelTopic type="text" autocomplete="off" name="lastpass-disable-search" style="border-radius:0px" class="form-control" placeholder="Enter a Room Topic" data-lpignore="true" }}
+              <button type="submit" name="submitTopic" class="input-group-btn btn btn-primary chat-input-submit">Set Topic</button>
+            </div>
+          </form>{{!-- /Topic Input Field --}}
 
-{{!-- Chat and userlist container --}}
-<div class="tab-content">
-  {{!-- Chat message tab content --}}
-  <div role="tabpanel" class="tab-pane active" id="chat">
-
-    <div class="topic-input">
-      {{#if (eq session.data.authenticated.username model.username)}}
-
-        {{!--  Topic Input Field--}}
-        <form {{action "updateChannelTopic" on="submit"}} name="channelTopic" autocomplete="off">
-          <div class="input-group">
-            {{input value=channelTopic type="text" autocomplete="off" name="lastpass-disable-search" style="border-radius:0px" class="form-control" placeholder="Enter a Room Topic" data-lpignore="true" }}
-            <button type="submit" name="submitTopic" class="input-group-btn btn btn-primary chat-input-submit">Set Topic</button>
-          </div>
-        </form>{{!-- /Topic Input Field --}}
-
-      {{/if}}
-    </div>
-    <div class="card-body chat-body">
-
-      {{!-- Chat messages --}}
-      <ul id="messages">
-        {{#each chatMessagesList as |chatMessage|}}
-          {{#if chatMessage.systemMessage}}
-            <li><b>{{chatMessage.data}}</b></li>
-          {{else if chatMessage.topicMessage}}
-            <li><b>New topic: {{chatMessage.data}}</b></li>
-          {{else}}
-            <li>
-              <span class="chat-username" onclick={{action "openChatUserMenu"}}>
-                <b>{{chatMessage.chatUsername}}</b>
-              </span>
-              {{chatMessage.data}}
-            </li>
-          {{/if}}
-        {{/each}}
-      </ul>
-    </div> {{!-- /Chat messages --}}
-    {{!-- Chat Input Field --}}
-    <form {{action "sendUserMessage" on="submit"}} class="chat-input" name="userMessage" autocomplete="off">
-      <div class="input-group">
-        {{input value=userMessage type="text" autocomplete="off" name="lastpass-disable-search" style="border-radius:0px" class="form-control" placeholder="Chat!" data-lpignore="true" }}
-        <button type="submit" name="submitmsg" class="input-group-btn btn btn-primary chat-input-submit">Send</button>
-      </div>
-    </form>{{!-- /Chat Input Field --}}
-  </div> {{!-- /Chat message tab content --}}
-
-  {{!-- Users List Tab Content --}}
-  <div role="tabpanel" class="tab-pane" id="userstab">
-    <div class="card-body users-body">
-      <ul id="users">
-        {{! Display users}}
-        {{#each chatUsersList as |chatUser|}}
-          <li>
-            <span class="chat-username" onclick={{action "openChatUserMenu"}}>
-              <b>{{chatUser}}</b>
-            </span>
-          </li>
-        {{/each}}
-        {{! Display guests, if any}}
-        {{#if (gt chatUsersListGuestCount 0)}}
-          <li>
-            <span>
-              {{#if (gt chatUsersListGuestCount 1)}}
-                {{chatUsersListGuestCount}} spies
-              {{else}}
-                1 spy
-              {{/if}}
-            </span>
-          </li>
         {{/if}}
-      </ul>
-    </div>
-  </div>
-  {{!--
-  <div role="tabpanel" class="tab-pane" id="settingstab">
-      <div class="card-body users-body">
-        Settings:
       </div>
-    </div>
---}}
-</div> {{!-- /Chat and userlist container --}}
+      <div class="card-body chat-body">
+
+        {{!-- Chat messages --}}
+        <ul id="messages">
+          {{#each chatMessagesList as |chatMessage|}}
+            {{#if chatMessage.systemMessage}}
+              <li><b>{{chatMessage.data}}</b></li>
+            {{else if chatMessage.topicMessage}}
+              <li><b>New topic: {{chatMessage.data}}</b></li>
+            {{else}}
+              <li>
+                <span class="chat-username" onclick={{action "openChatUserMenu"}}>
+                  <b>{{chatMessage.chatUsername}}</b>
+                </span>
+                {{chatMessage.data}}
+              </li>
+            {{/if}}
+          {{/each}}
+        </ul>
+      </div> {{!-- /Chat messages --}}
+      {{!-- Chat Input Field --}}
+      <form {{action "sendUserMessage" on="submit"}} class="chat-input" name="userMessage" autocomplete="off">
+        <div class="input-group">
+          {{input value=userMessage type="text" autocomplete="off" name="lastpass-disable-search" style="border-radius:0px" class="form-control" placeholder="Chat!" data-lpignore="true" }}
+          <button type="submit" name="submitmsg" class="input-group-btn btn btn-primary chat-input-submit">Send</button>
+        </div>
+      </form>{{!-- /Chat Input Field --}}
+
+
+
+    </tab.pane>
+    <tab.pane @id="Users" @title="Users">
+      {{!-- Users List Tab Content --}}
+      <div role="tabpanel" class="tab-pane" id="userstab">
+        <div class="card-body users-body">
+          <ul id="users">
+            {{! Display users}}
+            {{#each chatUsersList as |chatUser|}}
+              <li>
+                <span class="chat-username" onclick={{action "openChatUserMenu"}}>
+                  <b>{{chatUser}}</b>
+                </span>
+              </li>
+            {{/each}}
+            {{! Display guests, if any}}
+            {{#if (gt chatUsersListGuestCount 0)}}
+              <li>
+                <span>
+                  {{#if (gt chatUsersListGuestCount 1)}}
+                    {{chatUsersListGuestCount}} spies
+                  {{else}}
+                    1 spy
+                  {{/if}}
+                </span>
+              </li>
+            {{/if}}
+          </ul>
+        </div>
+      </div>
+    </tab.pane>
+  </div>
+</BsTab>
+
+
+
+
+
+
+
 
 {{yield}}

@@ -42,8 +42,8 @@ export default Controller.extend({
       this.tags.removeAt(index);
     },
 
-    checkOtherSex() {
-      jQuery('#inputSexOther')
+    checkOtherGender() {
+      jQuery('#inputGenderOther')
         .prop('checked', true)
         .change();
     },
@@ -115,16 +115,16 @@ export default Controller.extend({
     },
 
     submitProfileSettings() {
-      // If gender selection is male or female, save that to profileSex,
+      // If gender selection is male or female, save that to profileGender,
       // otherwise set the custom gender textfield as the gender.
       if (
-        this.tempSexSelection == 'Male' ||
-        this.tempSexSelection == 'Female' ||
-        this.tempSexSelection == 'Hide'
+        this.tempGenderSelection == 'Male' ||
+        this.tempGenderSelection == 'Female' ||
+        this.tempGenderSelection == 'Hide'
       ) {
-        this.model.userPublicDatum.set('profileSex', this.tempSexSelection);
+        this.model.userPublicDatum.set('profileGender', this.tempGenderSelection);
       } else {
-        this.model.userPublicDatum.set('profileSex', this.tempSexText);
+        this.model.userPublicDatum.set('profileGender', this.tempGenderText);
       }
       // Set tags to user record.
       this.model.userPublicDatum.set('userCustomTags', this.tags);
@@ -135,10 +135,10 @@ export default Controller.extend({
           console.log('submitProfileSettings saved');
           // Clear custom gender textfield if Male or Female was selected
           if (
-            this.tempSexSelection == 'Male' ||
-            this.tempSexSelection == 'Female'
+            this.tempGenderSelection == 'Male' ||
+            this.tempGenderSelection == 'Female'
           ) {
-            this.set('tempSexText', '');
+            this.set('tempGenderText', '');
           }
           // Close profile edit panel
           jQuery('[id=viewProfileCollapse]').addClass('show');
@@ -155,17 +155,17 @@ export default Controller.extend({
       // Rollback model to original values pulled from the store
       userPublicDatum.rollbackAttributes();
       // Rollback gender selection
-      this.set('tempSexText', '');
-      if (userPublicDatum.profileSex == 'Male') {
-        this.set('tempSexSelection', 'Male');
-      } else if (userPublicDatum.profileSex == 'Female') {
-        this.set('tempSexSelection', 'Female');
-      } else if (userPublicDatum.profileSex == 'Hide') {
-        this.set('tempSexSelection', 'Hide');
+      this.set('tempGenderText', '');
+      if (userPublicDatum.profileGender == 'Male') {
+        this.set('tempGenderSelection', 'Male');
+      } else if (userPublicDatum.profileGender == 'Female') {
+        this.set('tempGenderSelection', 'Female');
+      } else if (userPublicDatum.profileGender == 'Hide') {
+        this.set('tempGenderSelection', 'Hide');
       } else {
-        this.set('tempSexSelection', 'Other');
-        this.set('tempSexText', userPublicDatum.profileSex);
-        this.set('checkOtherSex', true);
+        this.set('tempGenderSelection', 'Other');
+        this.set('tempGenderText', userPublicDatum.profileGender);
+        this.set('checkOtherGender', true);
       }
 
       // Rollback tag selection
