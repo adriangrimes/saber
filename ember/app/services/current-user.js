@@ -22,15 +22,7 @@ export default Service.extend({
         .authenticate('authenticator:devise', identification.trim(), password)
         .then(() => {
           // Now that we have a token, request user data from back-end
-          return this.store.findRecord(
-            'user',
-            this.get('session.data.authenticated.user_id')
-          );
-        })
-        .then(user => {
-          console.log('heeloo darkmode:', user.darkMode);
-          // Set theme to dark if true, otherwise default theme
-          this.themeChanger.set('theme', user.darkMode ? 'dark' : 'default');
+          this.load();
         })
         .catch(err => {
           console.log('error logging in', err);
@@ -43,15 +35,15 @@ export default Service.extend({
 
   logOut() {
     this.themeChanger.set('theme', 'default');
-    // invalidate() causes a page refresh, which should remove all data from
-    // the store as well
+    // invalidate() causes a page refresh, which should finish the clean up and
+    // logout process
     this.session.invalidate();
   },
 
   // Registration
   signUp(username, email, pw, fullname, contractorType) {
     if (username && email && pw) {
-      // Construct new User record
+      // Construct new user record
       let newUser = this.store.createRecord('user', {
         email: email.trim(),
         username: username.trim(),
@@ -59,24 +51,22 @@ export default Service.extend({
       });
       let isContractor = false;
       if (contractorType === 'broadcaster') {
-        newUser.set('broadcaster', true);
-        newUser.set('affiliate', true);
+        newUser.set('broadcasterSignup', true);
         isContractor = true;
       }
       if (contractorType === 'developer') {
-        newUser.set('developer', true);
-        newUser.set('affiliate', true);
+        newUser.set('developerSignup', true);
         isContractor = true;
       }
       if (contractorType === 'affiliate') {
-        newUser.set('affiliate', true);
+        newUser.set('affiliateSignup', true);
         isContractor = true;
       }
       if (isContractor) {
         if (fullname) {
           newUser.set('fullName', fullname);
         } else {
-          this.notify.error('Please fill in all fields below to sign up');
+          this.notify.error('Please fill in all fields below to sign up.');
         }
       }
       // Submit new record to back-end
@@ -95,7 +85,7 @@ export default Service.extend({
         });
     } else {
       // Fields missing
-      this.notify.error('Please fill in all fields below to sign up');
+      this.notify.error('Please fill in all fields below to sign up.');
     }
   },
 
@@ -108,6 +98,9 @@ export default Service.extend({
       return this.store
         .findRecord('user', this.session.data.authenticated.user_id)
         .then(user => {
+          // Set theme to dark if true, otherwise default theme
+          console.log('heeloo darkmode:', user.darkMode);
+          this.themeChanger.set('theme', user.darkMode ? 'dark' : 'default');
           // Set data returned to currentUser.user
           this.set('user', user);
           this.loadMessages();

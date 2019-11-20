@@ -311,7 +311,11 @@ function addChatUserToRequestedChannel(client, req) {
 
           let newUser = true;
           for (var i = 0; i < channel.userList.length; i++) {
-            if (channel.userList[i].username == body.username) {
+            if (
+              channel &&
+              channel.userList &&
+              channel.userList[i].username == body.username
+            ) {
               // User found, add IP to users IP array instead of creating a new user
               console.log(' - user already found in userList, updating IP');
               newUser = false;

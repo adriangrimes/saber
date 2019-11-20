@@ -65,7 +65,7 @@ class ContractorApplication < ApplicationRecord
   validates :country, presence: true,
     if: :submitting_application?
 
-  # Validate only when submitting a application for a user that works in the US
+  # Validate only when submitting an application for a user that works in the US
   validate :business_identification_number_is_valid,
     if: [:submitting_application?, :located_in_united_states?]
   validate :subject_to_backup_withholding_is_selected,
@@ -85,6 +85,8 @@ class ContractorApplication < ApplicationRecord
 
   after_commit :auto_approve_developer_or_affiliate
   after_commit :send_broadcaster_application_emails,
+    if: Proc.new { |u| u.pending_broadcaster_application }
+  after_commit :cleanup_user,
     if: Proc.new { |u| u.pending_broadcaster_application }
 
   ## Functions
@@ -206,6 +208,14 @@ class ContractorApplication < ApplicationRecord
         .broadcaster_application_waiting_for_review
         .deliver_later
     end
+  end
+
+  # Various things to be cleaned up when a user submits a valid completed application
+  def cleanup_user
+    self.user.broadcaster_signup = false
+    self.user.developer_signup = false
+    self.user.affiliate_signup = false
+    self.user.save!
   end
 
 end

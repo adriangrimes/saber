@@ -13,7 +13,10 @@ class UserSerializer
   ## Account data
   attributes :broadcaster,
     :developer,
-    :affiliate
+    :affiliate,
+    :broadcaster_signup,
+    :developer_signup,
+    :affiliate_signup
   # attribute :account_status do nil end
   attribute :pending_deletion_since do nil end
   attributes :security_questions,

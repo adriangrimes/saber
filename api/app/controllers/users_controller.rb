@@ -86,6 +86,9 @@ class UsersController < ApplicationController
         #:broadcaster,
         #:developer,
         #:affiliate,
+        :broadcaster_signup,
+        :developer_signup,
+        :affiliate_signup,
         :stream_key,
 
         ## Site settings

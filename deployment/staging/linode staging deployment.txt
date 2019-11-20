@@ -102,7 +102,7 @@ tar xvzf /etc/letsencrypt/letsencrypt.tar.gz -C /etc
 # sanity check certbot and cert renewal
 certbot renew
 # add cron job to check for a new cert every 12 hours (will only renew when the cert is within 30 days of expiring)
-echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew" | tee -a /etc/crontab > /dev/null
+echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew --pre-hook \"systemctl stop nginx\" --post-hook \"systemctl start nginx\"" | tee -a /etc/crontab > /dev/null
 
 # install passenger and nginx
 # add passenger repo 

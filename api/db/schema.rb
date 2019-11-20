@@ -211,6 +211,9 @@ ActiveRecord::Schema.define(version: 2019_10_07_230418) do
     t.boolean "broadcaster", default: false, null: false
     t.boolean "developer", default: false, null: false
     t.boolean "affiliate", default: false, null: false
+    t.boolean "broadcaster_signup", default: false, null: false
+    t.boolean "developer_signup", default: false, null: false
+    t.boolean "affiliate_signup", default: false, null: false
     t.boolean "suspended_account", default: false, null: false
     t.boolean "admin_status", default: false
     t.datetime "pending_deletion_since"

@@ -11,6 +11,9 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.boolean :broadcaster, default: false, null: false
       t.boolean :developer, default: false, null: false
       t.boolean :affiliate, default: false, null: false
+      t.boolean :broadcaster_signup, default: false, null: false
+      t.boolean :developer_signup, default: false, null: false
+      t.boolean :affiliate_signup, default: false, null: false
 
       # t.string :account_status, default: "Created"
       t.boolean :suspended_account, default: false, null: false

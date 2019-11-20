@@ -4,5 +4,7 @@ tmp
 storage
 uploads
 verification
+log 
+*.log
 
 *.sqlite3

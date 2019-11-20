@@ -17,7 +17,7 @@ export default Route.extend(ApplicationRouteMixin, {
   sessionAuthenticated() {
     console.log('R2 sessionAuthenticated()');
     this._super(...arguments);
-    this._loadCurrentUser();
+    // this._loadCurrentUser();
   },
 
   _loadCurrentUser() {

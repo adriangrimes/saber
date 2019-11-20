@@ -53,7 +53,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
           .permit(:login,
             :username,
             :email,
-            :password)
+            :password,
+            :broadcaster_signup,
+            :developer_signup,
+            :affiliate_signup)
   end
 
   # If you have extra params to permit, append them to the sanitizer.

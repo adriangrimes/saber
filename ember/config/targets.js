@@ -3,16 +3,16 @@
 const browsers = [
   'last 1 Chrome versions',
   'last 1 Firefox versions',
-  'last 1 Safari versions'
+  'last 1 Safari versions',
+  'ie 11'
 ];
 
-const isCI = !!process.env.CI;
-const isProduction = process.env.EMBER_ENV === 'production';
-const isStaging = process.env.EMBER_ENV === 'staging';
-
-if (isCI || isProduction || isStaging) {
-  browsers.push('ie 11');
-}
+// const isCI = !!process.env.CI;
+// const isProduction = process.env.EMBER_ENV === 'production';
+//
+// if (isCI || isProduction || isStaging) {
+//   browsers.push('ie 11');
+// }
 
 module.exports = {
   browsers
