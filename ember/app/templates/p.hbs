@@ -1,14 +1,14 @@
 
 
-<div class="container-fluid">
+<div class="container-fluid px-0">
 
   {{#if model.userPublicDatum.broadcaster}}
-    {{!--- Video and Chat Panels --}}
-    <div class="row m-0 mb-4" id="video-row">
-      <div class={{if gameIsActive "col-12 col-sm-8 p-0 m-0 mb-2 order-1"}} id="video-panel">
-        <div class="row pt-3 m-0" id="usernameRow">
+    {{!--- Video and Chat Row --}}
+    <div class="row m-0 mb-3">
+      <div class={{if gameIsActive "col-12 col-sm-8 p-0 m-0 mb-2 order-1"}}>
+        <div class="row pt-1 m-0">
           <div class="col-8 pb-0">
-            <h4 id="usernameDisplay">
+            <h4 class="overflow-hidden">
               {{model.userPublicDatum.username}}
               {{#if model.userPublicDatum.onlineStatus}}
                 <span title="Online" class="fa fa-video-camera pl-1"></span>
@@ -23,39 +23,40 @@
               }}
             {{else}}
               <a href="/account/messages?toUser={{model.userPublicDatum.username}}" class="btn btn-link pb-0">
-                <span title="Send Private Message" class="profile-links fa fa-envelope"></span>
+                <span title="Send Private Message" class="fs-1-5r fa fa-envelope"></span>
               </a>
             {{/if}}
 
-            {{!--
-              <button type="button" class="btn btn-link pb-0 collapsed" data-toggle="collapse" data-target="#share-form,#share-form2"><span title="Open Share Form" class=" profile-links fa fa-share-alt"></span></button>
+
+            <!--  <button type="button" class="btn btn-link pb-0 collapsed" data-toggle="collapse" data-target="#share-form,#share-form2"><span title="Open Share Form" class="fs-1-5r fa fa-share-alt"></span></button>
+            -->
               {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
               {{else}}
                 {{#if isFollowed}}
-                  <button type="button" class="btn btn-link pb-0 pl-2"> <span title="Unfollow {{model.userPublicDatum.username}}" class=" profile-links fa fa-bell" {{action "toggleFollow" model.userPublicDatum.userId}}></span></button>
+                  <button type="button" class="btn btn-link pb-0 pl-2"> <span title="Unfollow {{model.userPublicDatum.username}}" class="fs-1-5r fa fa-bell" {{action "toggleFollow" model.userPublicDatum.userId}}></span></button>
                 {{else}}
-                  <button type="button" class="btn btn-link pb-0 pl-2"> <span title="Follow {{model.userPublicDatum.username}}" class=" profile-links fa fa-bell-o" {{action "toggleFollow" model.userPublicDatum.userId}}></span></button>
+                  <button type="button" class="btn btn-link pb-0 pl-2"> <span title="Follow {{model.userPublicDatum.username}}" class="fs-1-5r fa fa-bell-o" {{action "toggleFollow" model.userPublicDatum.userId}}></span></button>
                 {{/if}}
               {{/if}}
-              --}}
+
           </div>
         </div>
-
+<!--
         <div class="row m-0 collapse px-2" id="share-form">
           <div class="col-xs-12 col-sm-8  px-0 pb-3">
             <div class="input-group justify-content-end">
               <h6 class="pr-2 pt-2"> Share this profile:</h6>
               <div class="btn-group " role="group">
-                <a href="https://twitter.com/intent/tweet?text=Check+out+{{model.userPublicDatum.username}}+at+https://saber.tv/p/{{model.userPublicDatum.userId}}" target="_blank" class="btn btn-primary" title="Twitter"><span
+                <a href="https://twitter.com/intent/tweet?text=Check+out+{{model.userPublicDatum.username}}+at+https://saber.tv/p/{{lower-case model.userPublicDatum.username}}" target="_blank" class="btn btn-primary" title="Twitter"><span
                     class="fa fa-twitter"></span></a>
-                <a href="http://www.reddit.com/submit?url=https://saber.tv/p/{{model.userPublicDatum.userId}}&title=Check+out+{{model.userPublicDatum.username}}+Live%21" target="_blank" class="btn btn-primary" title="Reddit"><span
+                <a href="http://www.reddit.com/submit?url=https://saber.tv/p/{{lower-case model.userPublicDatum.username}}&title=Check+out+{{model.userPublicDatum.username}}+Live%21" target="_blank" class="btn btn-primary" title="Reddit"><span
                     class="fa fa-reddit-alien"></span></a>
               </div>
             </div>
           </div>
           <div class="col-xs-12 col-sm-4  pr-0 pb-3">
             <div class="input-group w-100" {{action "copyUrlToClipboard"}}>
-              <input type="text" autocomplete="off" class="form-control " id="urlDisplay" value="https://saber.tv/p/{{model.userPublicDatum.userId}}">
+              <input type="text" autocomplete="off" class="form-control " id="urlDisplay" value="https://saber.tv/p/{{lower-case model.userPublicDatum.username}}">
               <div class="input-group-append">
                 <button class="btn btn-primary btn-sm" type="button">
                   <span id="copyUrlBtn" class={{if copiedNotification "fa fa-check" "fa fa-link"}}></span>
@@ -64,57 +65,64 @@
             </div>
           </div>
         </div>
-
+-->
         <div class="card">
           <div class="card-body p-0">
 
             {{stream-player
               broadcasterUsername=model.userPublicDatum.username
+              currentUserUsername=session.data.authenticated.username
               profilePhoto=model.userPublicDatum.profilePhotoPath
               isStreaming=isStreaming
               onlineStatus=model.userPublicDatum.onlineStatus
             }}
-
           </div>
-          <div class="profile-controls pt-1" id="profileControls">
+
+          <div class="pt-1">
               <div name="tip-toolbar" class="btn-toolbar justify-content-between ml-2 mr-1" role="toolbar">
+
                   <div></div>
 
                 {{#if model.userPublicDatum.allowTips}}
+
+
+
+
+
                   <div class="input-group d-flex">
                     <div class="input-group-prepend ">
-                      <button class="btn btn-dark border-0 px-2 profile-buttons" type="button" title="Tip Options" {{action "tipMenuToggle"}}>
+                      <button class="btn btn-secondary border-0 px-2  h-2-5r" type="button" title="Tip Options" {{action "tipMenuToggle"}}>
                         <span class={{if tipMenuOpen "fa fa-chevron-right" "fa fa-bars"}}></span>
                       </button>
                     </div>
-                    <div class={{if tipMenuOpen "d-none input-group-prepend" "d-flex input-group-prepend"}}>
-                      <label class="btn btn-dark px-2">
+                    <div class={{if tipMenuOpen "d-none input-group-prepend h-2-5r" "d-flex input-group-prepend h-2-5r"}}>
+                      <label class="btn btn-secondary px-2 h-2-5r">
                         {{radio-button value=10 id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
                         10
                       </label>
-                      <label class="btn btn-dark px-2 d-none d-sm-block ">
+                      <label class="btn btn-secondary px-2 d-none d-sm-block h-2-5r ">
                         {{radio-button value=25 id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
                         25
                       </label>
-                      <label class="btn btn-dark px-2">
+                      <label class="btn btn-secondary px-2 h-2-5r">
                         {{radio-button value=50 id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
                         50
                       </label>
-                      <label class="btn btn-dark  px-2 d-none d-sm-block">
+                      <label class="btn btn-secondary  px-2 d-none d-sm-block h-2-5r">
                         {{radio-button value=100 id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
                         100
                       </label>
                     </div>
                     <div class={{if tipMenuOpen "d-flex input-group-prepend" "d-none input-group-prepend"}}>
                       <div style="width:130px">
-                        {{input type="number" class="form-control" min="1" max="10000" step="1" value=tipAmountOptions }}
+                        {{input type="number"  class="form-control" min="1" max="10000" step="1" value=tipAmountOptions }}
                       </div>
                       <div class="w-75">
                         {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Chat note (optional)" }}
                       </div>
                     </div>
                     {{#if (eq currentUser.user.creditsRemaining 0)}}
-                      <button class="btn btn-primary border-0 px-2 profile-buttons input-group-append" title="Tip" data-toggle="modal" data-target="#buyCreditsModal">
+                      <button class="btn btn-primary border-0 px-2 input-group-append h-2-5r" title="Tip">
                         Tip
                       </button>
                     {{else}}
@@ -129,19 +137,10 @@
           </div>
         </div>
 
-        <div class={{if gameIsActive "d-none" "d-none"}} id="game-options-panel">
-          <div class="float-left btn-link" title="Click to view rules and controls" data-toggle="modal" data-target="#rulesModal">
-            Rules and Controls
-          </div>
-          <div class=" float-right btn-link" title="End Game Now" {{action "endGame"}}>
-            End Game
-          </div>
-        </div>
 
-      </div> {{! end video-panel div}}
-
+      </div>
       {{! Chat Window }}
-      <div class={{if gameIsActive "col-12 col-sm-4 p-0 order-2" "col-12 col-sm-4 p-0 order-2"}} id="chat-panel">
+      <div class={{if gameIsActive "col-12 col-sm-4 p-0 order-2" "col-12 col-sm-4 p-0 order-2"}}>
         {{chat-component
           chatChannel=(lower-case model.userPublicDatum.username)
           channelTopic=model.userPublicDatum.channelTopic
@@ -153,13 +152,13 @@
 
     <div class="row m-0">
       {{! Game Window }}
-      <div class="col-12 col-sm-6  p-0 mt-4 order-3">
+      <div class="col-12 col-sm-6 p-0 mt-4 order-3">
           <h4>  Game Setup</h4>
 
             Coming Soon
       </div> {{! end game window}}
 
-      <div class="col-12 col-sm-6 p-0 mt-4 order-4 photos-panel">
+      <div class="col-12 col-sm-6 p-0 mt-4 order-4 horizontal-scroll">
         {{!-- Photos Window --}}
         {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
           {{edit-photos
@@ -172,38 +171,14 @@
 
         {{#each model.userPublicUploads as |upload|}}
           {{#if upload.fileUrl}}
-            <img src="{{upload.fileUrl}}" width="300">
+            <img src="{{upload.fileUrl}}" width="300" height="300">
           {{/if}}
         {{/each}}
 
       </div>
     </div>
 
-  {{else}}
 
-    <div class="row pt-3 m-0" id="usernameRow">
-      <div class="col-10 pb-0">
-        <h4 id="usernameDisplay">
-          {{model.userPublicDatum.username}}
-        </h4>
-      </div>
-    </div>
-    <div class="row m-0">
-      <div class="col-6 pb-0">
-        <img src="{{model.userPublicDatum.profilePhotoPath}}" height="500px" width="100%">
-      </div>
-
-        <div class="col-12 col-sm-6 p-0 mt-4 order-4 photos-panel">
-
-          {{#each model.userPublicUploads as |upload|}}
-            {{#if upload.fileUrl}}
-              <img src="{{upload.fileUrl}}" width="300">
-            {{/if}}
-          {{/each}}
-
-        </div>
-
-    </div>
   {{/if}}
   <div class="row m-0 pt-4 pb-4">
     <div class="col-12 ">
@@ -280,7 +255,7 @@
                   value=model.userPublicDatum.profileAge }}
               </div>
               {{#if currentUser.user.broadcaster}}
-                <div class="form-group">
+                <div class="form-group ">
                   <label>Tags (choose up to 15)</label>
                   {{#tag-input
                     tags=tags

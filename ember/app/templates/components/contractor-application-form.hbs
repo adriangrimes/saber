@@ -24,9 +24,9 @@
 {{/if}}
 
 <form onkeydown="return event.key != 'Enter';">
-  {{! Full name }}
+  {{! Legal Name }}
   {{validated-field
-    label="Full name"
+    label="Legal Name"
     class="form-group" type="text" changeset=changeset property="fullName"
   }}
   {{! Business name }}
@@ -234,7 +234,7 @@
   {{! Electronic signature }}
   {{validated-field
     label="Electronic Signature"
-    placeholder="Type your full name as it appears above"
+    placeholder="Type your legal name as it appears above"
     required=true
     class="form-group"
     type="text"

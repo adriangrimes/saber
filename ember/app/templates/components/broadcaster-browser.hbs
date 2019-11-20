@@ -22,7 +22,7 @@
       {{#link-to "p" (lower-case broadcaster.username) title=broadcaster.username}}
         <div class="broadcaster-panel {{if broadcaster.onlineStatus "online" "offline"}}">
           <img class="broadcaster-avatar" src="{{if broadcaster.profilePhotoPath broadcaster.profilePhotoPath "/streamnails/usericon.svg"}}">
-          <div class="broadcaster-footer">
+          <div class="broadcaster-footer text-light">
             <div>{{broadcaster.username}}</div>
             {{#if broadcaster.onlineStatus}}
               <br>

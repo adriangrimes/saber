@@ -6,6 +6,7 @@ export default Component.extend({
   currentUser: service(),
 
   userPaused: false,
+  currentUserIsProfileOwner: false,
 
   init() {
     this._super(...arguments);
@@ -18,6 +19,8 @@ export default Component.extend({
     // Observe changes to stream state for use in video player
     this.addObserver('isStreaming', this, 'isStreamingDidChange');
     this.addObserver('profilePhoto', this, 'profileImageChanged');
+
+
   },
 
   didInsertElement() {
@@ -25,6 +28,9 @@ export default Component.extend({
 
     // Plyr
     this.initializeVideoPlayer();
+
+    console.log(this.broadcasterUsername);
+    console.log(this.currentUser.user.username);
   },
 
   isStreamingDidChange() {

@@ -1,16 +1,14 @@
 <div class="player">
 
-  {{!-- {{#if onlineStatus}} --}}
-
   <div id='video-player-wrapper'>
      <video id='video-player'>
     </video>
   </div>
+{{#if currentUserIsProfileOwner}}
+
   Is Streaming {{isStreaming}} <button {{action "testAction"}}>error</button><button {{action "reset"}}>restart</button><button {{action "src"}}>stop</button>
 
 
-  {{!--{{else}}
-    <img src="{{if profilePhoto profilePhoto "/streamnails/usericon.svg"}}" height="500">
-  {{/if}}--}}
+  {{/if}}
 
 </div>

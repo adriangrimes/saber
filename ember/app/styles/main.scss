@@ -1,4 +1,27 @@
 // Base css for all themes
+$background-color:  #2a2a2a;
+$layer1-background-color:  #323232;
+$font-color:  #cbcbcb;
+$brand-color-main: #b80000;
+$brand-color-secondary: #81344e;
+
+
+$body-bg: $background-color;
+$body-color: $font-color;
+
+$primary: $brand-color-main;
+$secondary: $brand-color-secondary;
+
+$dropdown-bg: $layer1-background-color;
+$dropdown-link-color:  $font-color;
+$dropdown-header-color:  $font-color;
+
+$input-bg: $layer1-background-color;
+$input-color: $font-color;
+$card-bg: $layer1-background-color;
+
+$border-radius:   .1rem;
+
 * {
   font-family: "Lato", sans-serif;
 }
@@ -36,8 +59,53 @@ a.brand-link:visited {
   background: linear-gradient(to right, #b80000, #800000); /* Standard syntax */
 }
 
-
+.emberTagInput{
+  border-style: none;
+}
+ .horizontal-scroll {
+   overflow-x: auto;
+   overflow-y: hidden;
+   white-space: nowrap;
+ }
+ .h-2-5r{
+   height: 2.5rem;
+ }
+ .fs-1-5r{
+   font-size: 1.5rem;
+ }
 $enable-caret: false;
+
+
+// // overriding ember-power-select
+ .ember-power-select-trigger {
+  background-color: $layer1-background-color;
+}
+ .ember-power-select-trigger.focus,
+ .ember-power-select-trigger:focus {
+  border-color: $formBorderColor;
+   outline: 0;
+    background-color: $layer1-background-color;
+}
+ .ember-power-select-option {
+   background-color: $layer1-background-color;
+ }
+ .ember-power-select-option[aria-selected="true"] {
+    background-color: $layer1-background-color;
+ }
+ .ember-power-select-option[aria-current="true"] {
+    background-color: $layer1-background-color;
+   }
+ .ember-power-select-search {
+  background-color: $layer1-background-color;
+ }
+ .ember-power-select-search-input {
+   background-color: $layer1-background-color;
+   color: $font-color;
+   outline: 0;
+ }
+
+
+
 
 ///////////// Extra Small Screens, Optimizing for 320px and up.
 
@@ -99,41 +167,7 @@ $enable-caret: false;
 //   background-color: $navDropDownHoverBackgroundColor;
 // }
 //
-// // overriding ember-power-select
-// .ember-power-select-trigger {
-//   background-color: $dropdownBackgroundColor;
-//   border-color: $formBorderColor;
-// }
-// .ember-power-select-trigger.focus,
-// .ember-power-select-trigger:focus {
-//   border-color: $formBorderColor;
-//   outline: 0;
-//   background-color: $dropdownHoverColor;
-// }
-// .ember-power-select-option {
-//   background-color: $dropdownBackgroundColor;
-// }
-// .ember-power-select-option:hover {
-//   background-color: $dropdownHoverColor;
-// }
-// .ember-power-select-option[aria-selected="true"] {
-//   background-color: $dropdownSelectedColor;
-// }
-// .ember-power-select-option[aria-current="true"] {
-//   background-color: $dropdownHoverColor;
-// }
-//
-// .ember-power-select-dropdown {
-//   border-color: $formBorderColor;
-// }
-// .ember-power-select-search {
-//   background-color: $dropdownBackgroundColor;
-// }
-// .ember-power-select-search-input {
-//   background-color: $formBackgroundColor;
-//   color: $formTextColor;
-//   outline: 0;
-// }
+
 //
 // /* _border-width-customs.scss */
 // $border-width-custom-1: 1px !default;
@@ -267,12 +301,7 @@ $enable-caret: false;
 // #streamKeyDisplayID {
 //   height: 8rem;
 // }
-// #usernameDisplay {
-//   overflow: hidden;
-// }
-// #usernameRow {
-//   height: 65px;
-// }
+
 // #privateUserNotes {
 //   height: 8rem;
 // }
@@ -280,34 +309,13 @@ $enable-caret: false;
 // .userTypeBadges {
 //   font-size: 12px;
 // }
-// .close-account-btn {
-//   margin-top: 4rem;
-// }
+
 // ///// Dropdown Menu
-// // .dropdown {
-// // }
-// // .dropdown ul.dropdown-menu {
-// //   width: 100%;
-// // }
-// // .dropdown-item {
-// //   height: 44px;
-// //   padding-top: 0.6rem;
-// //   cursor: pointer;
-// // }
-// // .dropdown-header {
-// //   color: $bodyFontColor;
-// //   height: 44px;
-// //   padding-top: 0.6rem;
-// // }
 // // .dropdown-item:hover {
 // //   background-color: #eeeeee;
 // // }
 // // .dropdown-item:active {
 // //   background-color: #bbbbbb;
-// // }
-// //
-// // .sticky-menu {
-// //   padding-top: 60px;
 // // }
 //
 // //// Toggle buttons
@@ -387,53 +395,6 @@ $enable-caret: false;
 //   color: #b80000;
 // }
 //
-// /////////////////////////////// Collapsable Wellss
-// .card {
-//   border-color: $cardBorderColor;
-//   background-color: $cardBackgroundColor;
-// }
-// .card-heading {
-//   padding-top: 0.25rem;
-//   border-color: #bcbcbc;
-//   background-color: $cardHeadingBackgroundColor;
-// }
-// .card-title {
-//   padding-left: 1rem;
-//   padding-top: 0.35rem;
-// }
-// .card-heading.accordion-toggle:after {
-//   /* symbol for "opening" cards */
-//   font-family: "FontAwesome";
-//   /* essential for enabling glyphicon */
-//   content: "\f078";
-//   position: absolute;
-//   right: 1rem;
-//   top: 12px;
-//   font-size: 15pt;
-//   color: grey;
-// }
-// .card-heading.accordion-toggle.collapsed:after {
-//   /* symbol for "collapsed" cards */
-//   content: "\f054";
-// }
-//
-// .card-heading:hover {
-//   cursor: pointer;
-// }
-//
-// .text-heading.accordion-toggle:after {
-//   /* symbol for "opening" cards */
-//   font-family: "FontAwesome";
-//   /* essential for enabling glyphicon */
-//   content: "\f078";
-//   position: absolute;
-//   top: 0px;
-//   right: 0px;
-// }
-// .text-heading.accordion-toggle.collapsed:after {
-//   /* symbol for "collapsed" cards */
-//   content: "\f054";
-// }
 //
 // /////////////spinny guy
 // .spinner {
@@ -681,80 +642,7 @@ $enable-caret: false;
 //   ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 //   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6727272', endColorstr='#00727272',GradientType=0 ); /* IE6-9 */
 // }
-// // ///////////////////////////// Profile Classes
-// .emberTagInput-tag {
-//   background-color: #e5e5e5;
-//   border-radius: 7px;
-//   color: #000000;
-// }
-// .emberTagInput-remove {
-//   color: #ff0000;
-//   font-weight: bold;
-// }
-// .emberTagInput--readOnly {
-//   border-width: 0px;
-// }
-// .profile-links {
-//   color: $profileLinkColor;
-//   font-size: 24px;
-//   height: 44px;
-// }
-// .profile-links:hover,
-// #profile-links:active,
-// #profile-links:focus {
-//   color: #b80000;
-// }
-// .edit-links {
-//   color: #b80000;
-//   font-size: 20px;
-//   position: absolute;
-//   top: 12px;
-//   right: 20px;
-// }
-// .edit-links:hover,
-// .edit-links:active,
-// .edit-links:focus {
-//   color: #ef0202;
-// }
-// #tip-toggle {
-//   padding-left: 9px;
-//   padding-right: 9px;
-// }
-// #creditSelect {
-//   padding: 20px;
-//   font-size: 18px;
-// }
-// .payout-method {
-//   padding: 20px;
-//   width: 50%;
-//   font-size: 18px;
-// }
-// .photos-panel {
-//   overflow-x: auto;
-//   overflow-y: hidden;
-//   white-space: nowrap;
-//   padding-bottom: 0px;
-//   height: 300px;
-// }
-// #day-select {
-//   width: 15%;
-// }
-// #dashboard-button {
-//   width: 100%;
-// }
-// #dashboard-button-row {
-//   margin-bottom: 10px;
-// }
-// .profile-controls {
-//   height: 46px;
-//   background-color: $cardHeadingBackgroundColor;
-// }
-// .profile-buttons {
-//   height: 38px;
-// }
-// .large-controls {
-//   height: 92px;
-// }
+
 // // ////////////////////////////////Private Messenger Classes
 // #private-messenger-window {
 //   position: fixed;
@@ -803,18 +691,7 @@ $enable-caret: false;
 //   overflow-y: auto;
 //   overflow-x: hidden;
 // }
-// #chat-panel {
-//   border-top-left-radius: 0px;
-//   border-top-right-radius: 0px;
-//   border-top-style: none;
-//   border: 0px;
-// }
-// #video-panel {
-//   margin-bottom: 0px;
-//   border-bottom-left-radius: 0px;
-//   border-bottom-right-radius: 0px;
-//   border: 0px;
-// }
+
 // #game-panel {
 //   height: 300px;
 // }
@@ -1026,25 +903,11 @@ $enable-caret: false;
 //     padding-top: 65px;
 //     height: 530px;
 //   }
-//   #chat-panel {
-//     height: 100%;
-//     border-top-left-radius: 0px;
-//     border-bottom-left-radius: 0px;
-//     border-left-style: none;
-//     border-top-style: solid;
-//   }
+
 //   .chat-divide {
 //     background: #fff;
 //   }
-//   #video-panel {
-//     height: 100%;
-//     border-top-right-radius: 0px;
-//     border-bottom-right-radius: 0px;
-//     border: 0px;
-//   }
-//   #video-row {
-//     height: 650px;
-//   }
+
 //   .chat-divide {
 //     background: #ffffff;
 //   }

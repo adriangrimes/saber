@@ -28,7 +28,7 @@
 
       {{#if this.currentUser.user.isContracted}}
         <div class="card mb-3" id="payoutSettingsAccordion">
-          <div class="card-heading  " data-parent="#payoutSettingsAccordion" data-target="#PayoutSettings">
+          <div class="card-heading">
             <h3 class="card-title">Payout Settings</h3>
           </div>
           <div id="PayoutSettings" class="card ">
@@ -88,6 +88,7 @@
                     {{name}}
                   {{/power-select}}
                 </div>
+
                 <div class=text-right>
                   <button type="submit" class={{this.payoutSettingSubmitBtn}}>{{this.payoutSettingSubmitText}}</button>
                 </div>
@@ -97,7 +98,7 @@
         </div>
 
         <div class="card mb-3" id="transactionsAccordion">
-          <div class="card-heading  " data-parent="#transactionsAccordion" data-target="#transactions">
+          <div class="card-heading" >
             <h3 class="card-title">Tips</h3>
           </div>
           <div id="transactions" class="card ">
@@ -131,7 +132,7 @@
       {{/if}}
 
       <div class="card mb-3" id="notifySettingsAccordion">
-        <div class="card-heading   "data-parent="#notifySettingsAccordion" data-target="#notifySettings">
+        <div class="card-heading">
           <h3 class="card-title">Notification Settings</h3>
         </div>
         <div id="notifySettings" class="card">
@@ -170,7 +171,7 @@
       </div>
 
       <div class="card mb-3" id="siteSettingsAccordion">
-        <div class="card-heading  " data-parent="#siteSettingsAccordion" data-target="#SiteSettings">
+        <div class="card-heading">
           <h3 class="card-title"> Site Settings</h3>
         </div>
         <div id="SiteSettings" class="card">
@@ -216,7 +217,7 @@
         </div>
       </div>
       <div class="card mb-3" id="securitySettingsAccordion">
-        <div class="card-heading  " data-parent="#securitySettingsAccordion" data-target="#SecuritySettings">
+        <div class="card-heading">
           <h3 class="card-title">Email and Security Settings</h3>
         </div>
         <div id="SecuritySettings" class="card">
@@ -361,12 +362,6 @@
         </div>
         <div class="row">
           <div class="col  p-1 mb-2">
-            {{#link-to "account" class="w-100 btn btn-secondary"}}
-              <span class="fa fa-cog"></span><br>
-              Account
-            {{/link-to}}
-          </div>
-          <div class="col  p-1 mb-2">
             {{#link-to "help" class="w-100 btn btn-secondary"}}
               <span class="fa fa-question"></span><br>
               Help
@@ -418,8 +413,8 @@
           Become an Affiliate &nbsp;<span class="fa fa-bullhorn" aria-hidden="true"></span>
         {{/link-to}}
       {{/if}}
-      <div class="close-account-btn">
-        {{#link-to "account.close" class="btn btn-outline-dark btn-block "  }}
+      <div class="mt-4">
+        {{#link-to "account.close" class="btn btn-outline-light btn-block "  }}
           Close Account
         {{/link-to}}
       </div>
@@ -496,7 +491,7 @@
 
             <div class="card mb-3 " id="notesAccordion">
 
-              <div class="card-heading  " data-parent="#notesAccordion" data-target="#notes">
+              <div class="card-heading">
                 <h4 class="card-title"><span class="fa fa-bar-chart" aria-hidden="true"></span>&nbsp; Private Notepad</h4>
               </div>
               <div id="notes" class="card">
@@ -514,7 +509,7 @@
             </div>
             {{#if this.currentUser.user.developer}}
               <div class="card mb-3 " id="developerAccordion">
-                <div class="card-heading  " ata-parent="#developerAccordion" data-target="#developer">
+                <div class="card-heading" >
                   <h4 class="card-title"><span class="fa fa-gamepad" aria-hidden="true"></span>&nbsp; My Games</h4>
 
                 </div>
@@ -578,16 +573,7 @@
 
     {{else}}
       <div class="row m-0">
-        <div class="col-12 col-sm-6 mb-3">
-          {{#link-to "account" class="btn btn-primary btn-block btn-lg d-block d-sm-none"}}
-            <span class="fa fa-cog mr-3"></span>
-            Account
-          {{/link-to}}
-          {{#link-to "account" class="btn btn-primary btn-block btn-lg d-none d-sm-block"}}
-            <span class="fa fa-cog mr-3"></span>
-            Account
-          {{/link-to}}
-        </div>
+
         <div class="col-12 col-sm-6">
           {{#link-to "home" class="btn btn-primary btn-block btn-lg d-block d-sm-none"}}
             <span class="fa  fa-video-camera mr-3"></span>

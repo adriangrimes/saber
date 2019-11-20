@@ -1,22 +1,21 @@
 <div class={{this.showButton}}>
 
   {{#if (eq this.type "tip")}}
-    <div class="input-group-append">
-      <div class="btn btn-primary border-0 px-2 profile-buttons input-group-append" {{action "openConfirm"}}>
+      <div class="btn btn-primary border-0 p-2 input-group-append h-3r" {{action "openConfirm"}}>
         {{button-title}}
       </div>
-    </div>
+
   {{else if (eq this.type "reset")}}
     <div class="btn btn-block btn-dark" {{action "openConfirm"}}>
       <span class={{this.resetStreamKeyIcon}} id="resetStreamKeyIcon" aria-hidden="true"></span>&nbsp;
       {{button-title}}
     </div>
   {{else}}
-    <div class="btn btn-primary border-0 px-2 profile-buttons" {{action "openConfirm"}}>
+    <div class="btn btn-primary border-0 px-2" {{action "openConfirm"}}>
       {{button-title}}
     </div>
   {{/if}}
-  
+
 </div>
 
 <div class=" pb-2 mr-1 ">
