@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # TODO: Determine if we need CSRF
+
   # TODO: If your application has many RESTful routes, using :only and :except to
   # generate only the routes that you actually need can cut down on memory use
   # and speed up the routing process.

@@ -2,9 +2,6 @@
 
 class UserPublicUploadsController < ApplicationController
 
-  # TODO move any validation stuff out of the controller and into the
-  # UserPublicUpload and UserPublicDatum models
-
   before_action :upload_params, only: %i[create update]
 
   def index
@@ -46,9 +43,9 @@ class UserPublicUploadsController < ApplicationController
         upload_data_json = JSON.parse(upload_params[:upload_data_json])
         user_public_upload = UserPublicUpload.new
         user_public_upload.upload = upload_data_json
-        # TODO: Get user id from token?
         user_public_upload.user_id = user_public_datum.user_id
 
+        user_public_upload.upload_derivatives! 
         if user_public_upload.save
           p 'attached upload - starting serialization'
           p user_public_upload.upload_url
@@ -129,8 +126,6 @@ class UserPublicUploadsController < ApplicationController
           # no-profile-image image.
           # Or if user is deleting the image that was set as their profile
           # image, set it to the first in line afterwards.
-          # TODO when multimedia file uploads are added, this check will need to
-          # make sure that the upload being set is actually an image
           uploads = UserPublicUpload.where('user_id = ?', user_public_upload.user_id)
           p uploads.count
           if uploads.count == 0

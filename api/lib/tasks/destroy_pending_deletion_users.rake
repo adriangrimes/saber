@@ -33,7 +33,6 @@ namespace :users do
       end
     else
       log.info "No users to destroy"
-      # TODO probably log this somewhere important
     end
     end_time = Time.now
     duration = (start_time - end_time) / 1.seconds

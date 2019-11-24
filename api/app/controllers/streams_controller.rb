@@ -113,7 +113,6 @@ class StreamsController < ApplicationController
 
   # Send stream state over websocket to user channel
   def send_stream_state(state, streaming_user)
-    # TODO move streamstate-auth header key to a credentials file
     WebSocket::Client::Simple.connect(
       Rails.configuration.x.saber.chat_server,
       headers: { "streamstate-auth": "muKl4S80Yi3gQA2v8o2AOPgI8l" }

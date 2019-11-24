@@ -40,7 +40,7 @@
             <strong class="text-muted">You</strong>
           {{/if}}
           <div class="float-right">{{ms-to-datetime message.timestamp}}</div>
-          <div>{{message.message}}</div>
+          <div>{{break-lines message.message}}</div>
         </div>
       {{/each}}
       {{{if this.selectedUser "<br><br>" ""}}}

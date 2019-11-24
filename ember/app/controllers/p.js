@@ -169,8 +169,6 @@ export default Controller.extend({
       }
 
       // Rollback tag selection
-      // TODO below tag rollback doesnt work
-      // TODO probably use changesets
       // this.set('tags', this.model.userPublicDatum.get('userCustomTags'));
     },
 
@@ -213,7 +211,7 @@ export default Controller.extend({
           .save()
           .then(transfer => {
             console.log('tipped: ', transfer.creditsTransferred);
-            this.currentUser.load();
+            this.currentUser.load({ forceReloadMessages: false });
           })
           .catch(err => {
             console.log('failed to tip', err);

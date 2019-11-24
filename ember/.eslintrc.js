@@ -9,7 +9,7 @@ module.exports = {
     browser: true
   },
   rules: {
-    'no-console': 'off' //TODO: possibly remove this when/before put in production
+    'no-console': 'off'
   },
   globals: {
     moment: true,

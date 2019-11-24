@@ -13,14 +13,14 @@ class User < ApplicationRecord
          :lockable
 
   # Public profile data
-  has_one :user_public_datum, dependent: :destroy # , autosave: true
-  has_one :contractor_application, dependent: :destroy # TODO need to not delete applications when user is deleted
+  has_one :user_public_datum#, autosave: true
+  has_one :contractor_application
   # Set user_verification_uploads to dependent: :delete_all, which will remove them
   # from the database, but keep Shrine from deleting them off disk
   has_many :user_verification_uploads, dependent: :delete_all
   has_many :credit_purchases
   has_many :credit_transfers
-  has_many :private_messages #TODO dependent: :destroy ?
+  has_many :private_messages
 
   # Attributes that will be encrypted with symmetric-encryption gem
   attribute :security_questions, :encrypted, compress: true, type: :string

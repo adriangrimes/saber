@@ -8,14 +8,8 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    // TODO Temporarily default login info
     this.set('inputusername', 'UserTester1');
     this.set('inputpassword', '12345671');
-
-    // Focus username field when Bootstrap modal is shown
-    // jQuery('#loginModal').on('shown.bs.modal', function() {
-    //   jQuery('#username').trigger('focus');
-    // });
   },
 
   actions: {

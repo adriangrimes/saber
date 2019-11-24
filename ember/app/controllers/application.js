@@ -6,6 +6,7 @@ export default Controller.extend({
   store: service(),
   session: service(),
   themeChanger: service(),
+  notify: service(),
   errorHandler: service(),
 
   copyrightYear: new Date().getFullYear(),

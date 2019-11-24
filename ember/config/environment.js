@@ -6,6 +6,9 @@ module.exports = function(environment) {
     environment,
     rootURL: '/',
     locationType: 'auto',
+    // 'ember-cli-babel': {
+    //   includePolyfill: true
+    // },
     moment: {
       // Options:
       // 'all' - all years, all timezones
@@ -17,6 +20,27 @@ module.exports = function(environment) {
       // Add themes for ember-theme-changer
       themes: ['default', 'dark'], // MANDATORY
       defaultTheme: 'default' // OPTIONAL
+    },
+    'ember-cli-lightbox': {
+      lightboxOptions: {
+        alwaysShowNavOnTouchDevices: false,
+        albumLabel: 'Image %1 of %2',
+        disableScrolling: true,
+        fadeDuration: 0,
+        fitImagesInViewport: true,
+        // maxWidth: 300,
+        // maxHeight: 300,
+        positionFromTop: 50,
+        resizeDuration: 0,
+        showImageNumberLabel: true,
+        wrapAround: true
+      }
+    },
+    'ember-simple-auth': {
+      baseURL: 'index',
+      authenticationRoute: 'home',
+      routeAfterAuthentication: '/account',
+      routeIfAlreadyAuthenticated: '/home'
     },
     EmberENV: {
       FEATURES: {
@@ -32,13 +56,6 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
     }
-  };
-
-  ENV['ember-simple-auth'] = {
-    baseURL: 'index',
-    authenticationRoute: 'index',
-    routeAfterAuthentication: '/account',
-    routeIfAlreadyAuthenticated: '/account'
   };
 
   if (environment === 'development') {

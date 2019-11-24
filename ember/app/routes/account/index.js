@@ -4,6 +4,7 @@ import RSVP from 'rsvp';
 
 export default Route.extend(AuthenticatedRouteMixin, {
   beforeModel() {
+    this._super(...arguments);
     // if user signed up through a contractor signup page, redirect them to fill out
     // their payment and tax profile
     return this.currentUser.load().then(() => {

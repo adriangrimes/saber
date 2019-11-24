@@ -11,6 +11,14 @@ class UserPublicUploadSerializer
     end
   end
 
+  attribute :file_url_small do |record, params|
+    if params[:client_is_member] == false && record[:members_only]
+      Rails.configuration.x.saber.members_only_placeholder_url
+    else
+      Rails.application.routes.default_url_options[:host] + record.upload(:small).url
+    end
+  end
+
   attribute :profile_image do |record, params|
     Rails.application.routes.default_url_options[:host] + record.upload_url ==
       params[:current_profile_photo_path]

@@ -24,7 +24,6 @@ class UserPublicDataController < ApplicationController
     # Else display front page browse results
     else
       puts 'getting all data'
-      # TODO limit how unqualified browsing of broadcasters is pulled and displayed
       browse_data = UserPublicDatum
                     .where('broadcaster = true')
                     .order(online_status: :desc, username: :asc)

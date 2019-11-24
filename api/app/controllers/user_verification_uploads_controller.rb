@@ -26,7 +26,6 @@ class UserVerificationUploadsController < ApplicationController
     if verification_upload_count < Rails.configuration.x.saber.verification_upload_limit
       verification_upload = UserVerificationUpload.new
       verification_upload.upload = parsed_upload_json
-      # TODO: Get user id from token?
       verification_upload.user_id = @authenticated_user.id
 
       if verification_upload.save
@@ -75,7 +74,6 @@ class UserVerificationUploadsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def verification_upload_params
-    # TODO what the heck is this:
     params[:id] = params[:data][:attributes][:user_id] if params[:id].nil?
 
     params.require(:data)

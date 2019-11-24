@@ -16,9 +16,11 @@ gem 'fast_jsonapi'
 # gem "active_model_serializers", "~> 0.10.2"
 
 # File attachment, uses Uppy.js XHR Uploading on the front-end
-gem 'shrine', "~> 2.0"
+gem 'shrine', "~> 3.1"
 # Binary image analyzer to determine mime type
 gem 'marcel'
+# Thumbnail processing
+gem 'image_processing', '~> 1.9'
 
 # Websocket client for communicating to chat server
 gem 'websocket-client-simple'

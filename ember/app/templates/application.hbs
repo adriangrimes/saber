@@ -1,6 +1,7 @@
 {{ember-load-remover}}
 {{! head-layout is required for ember-theme-changer}}
 {{head-layout}}
+{{browser-detection}}
 {{! These don't function yet, just graphical stand ins }}
 {{! private-messenger}}
 {{! popup-alert}}
@@ -33,25 +34,24 @@
   <navbar.content @class="flex-row-reverse">
     <navbar.nav as |nav|>
       {{#if session.isAuthenticated}}
-        <nav.dropdown @closeOnMenuClick={{false}} as |dd|>
-          <dd.button @type="" @class="nav-link btn-light mr-2">
-            <span class="mx-2">    <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></span>
-          </dd.button>
-          <dd.menu @align="right" @class="px-4 py-3" as |ddm|>
-            <div class="dropdown-header text-center">
-              You have <i class="fa fa-database" aria-hidden="true"></i>
-              <strong>{{currentUser.user.creditsRemaining}} Credits</strong>
-            </div>
-            {{buy-credits}}
-          </dd.menu>
-        </nav.dropdown>
-
+          <nav.dropdown @closeOnMenuClick={{false}} as |dd|>
+            <dd.button @type="" @class="nav-link btn-light mr-2">
+              <span class="mx-2"> <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></span>
+            </dd.button>
+            <dd.menu @align="right" @class="px-4 py-3" as |ddm|>
+              <div class="dropdown-header text-center">
+                You have <i class="fa fa-database" aria-hidden="true"></i>
+                <strong>{{currentUser.user.creditsRemaining}} Arcs</strong>
+              </div>
+              {{buy-credits}}
+            </dd.menu>
+          </nav.dropdown>
         <nav.dropdown as |dd|>
           <dd.button @type="" @class="btn-outline-light">
             {{#if (gt this.currentUser.unreadMessages 0)}}
-                <span class="ml-0 mr-1 badge badge-primary badge-pill">
-                  {{this.currentUser.unreadMessages}}
-                </span>
+              <span class="ml-0 mr-1 badge badge-primary badge-pill">
+                {{this.currentUser.unreadMessages}}
+              </span>
             {{else}}
               <i title="Menu" class="fa fa-align-right mr-2"></i>
             {{/if}}
@@ -60,7 +60,7 @@
           <dd.menu @align="right" as |ddm|>
             <ddm.item>
               <ddm.linkTo @route="p" @model={{lower-case session.data.authenticated.username}}>
-                  Hi <strong>{{session.data.authenticated.username}}</strong>
+                Hi <strong>{{session.data.authenticated.username}}</strong>
               </ddm.linkTo>
             </ddm.item>
             <ddm.item>
@@ -73,15 +73,13 @@
                 {{/if}}
               </ddm.linkTo>
             </ddm.item>
-
-
             <ddm.item>
               <ddm.linkTo @route="account.index">
                 Account Settings
               </ddm.linkTo>
             </ddm.item>
             <ddm.divider></ddm.divider>
-          <!--  <ddm.item>
+            <!--  <ddm.item>
               <label class="form-check-label dropdown-item" onclick={{action "keepDropdownOpen" dd.openDropdown}}>
                 Dark mode
                 {{input type="checkbox" checked=this.currentUser.user.darkMode}}
@@ -89,34 +87,33 @@
             </ddm.item>-->
             <ddm.item>
               <ddm.linkTo @route="help">
-                  Help
+                Help
               </ddm.linkTo>
             </ddm.item>
             <ddm.item>
               <ddm.linkTo @route="terms">
-                  Terms of Service
+                Terms of Service
               </ddm.linkTo>
             </ddm.item>
             <ddm.item>
               <ddm.linkTo @route="privacy">
-                  Privacy Policy
-
+                Privacy Policy
               </ddm.linkTo>
             </ddm.item>
             <ddm.item>
               <ddm.linkTo @route="legal">
-                    Legal
+                Legal
               </ddm.linkTo>
             </ddm.item>
             <ddm.item>
               <ddm.linkTo @route="home">
-                  © {{copyrightYear}} Saber
+                © {{copyrightYear}} Saber
               </ddm.linkTo>
             </ddm.item>
             <ddm.divider></ddm.divider>
             <ddm.item>
               <a class="dropdown-item" role="button" {{action "logout"}}>
-            Log Out
+                Log Out
               </a>
             </ddm.item>
           </dd.menu>
@@ -135,6 +132,6 @@
   </navbar.content>
 </BsNavbar>
 
-<div class="mt-2">
+<div class="my-2">
   {{outlet}}
 </div>

@@ -1,7 +1,4 @@
 class CreditPurchasesController < ApplicationController
-  
-  # TODO this whole controller is unsafe and needs to be revisited with
-  # Paypal integration
 
   before_action :set_credit_purchase, only: [:show, :update, :destroy]
 

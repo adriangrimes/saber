@@ -5,8 +5,6 @@ class CreditTransfersController < ApplicationController
   # POST /credit_transfers
   def create
     p 'starting credit transfer'
-    # TODO This all should be handled by the CreditTransfer model instead of
-    # this controller
     @credit_transfer = CreditTransfer.new(credit_transfer_params)
     # If user is not tipping themselves and type equals 'tip'
     if @credit_transfer.from_user_id != @credit_transfer.to_user_id &&
@@ -50,8 +48,6 @@ class CreditTransfersController < ApplicationController
                 status: :unprocessable_entity
             end
           else
-            # TODO probably log or error in some way to let them know they
-            # had credits deducted without successfully transferring
             render status: :internal_server_error
           end
         else

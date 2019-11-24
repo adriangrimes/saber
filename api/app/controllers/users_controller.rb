@@ -79,7 +79,6 @@ class UsersController < ApplicationController
     end
 
     def nonpassworded_user_params_hash
-      # Devise devise_parameter_sanitizer?
       hash = [
         ## Account data
         #:account_status,

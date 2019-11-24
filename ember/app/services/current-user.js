@@ -20,10 +20,6 @@ export default Service.extend({
       // Submit authentication parameters to back-end
       this.session
         .authenticate('authenticator:devise', identification.trim(), password)
-        .then(() => {
-          // Now that we have a token, request user data from back-end
-          this.load();
-        })
         .catch(err => {
           console.log('error logging in', err);
           this.errorHandler.handleWithNotification(err);
@@ -89,7 +85,7 @@ export default Service.extend({
     }
   },
 
-  load() {
+  load(options = { forceReloadMessages: true }) {
     if (this.session.isAuthenticated) {
       console.log(
         'currentUser.load() user_id: ' +
@@ -103,7 +99,7 @@ export default Service.extend({
           this.themeChanger.set('theme', user.darkMode ? 'dark' : 'default');
           // Set data returned to currentUser.user
           this.set('user', user);
-          this.loadMessages();
+          this.loadMessages({ forceReload: options.forceReloadMessages });
         })
         .catch(err => {
           this.errorHandler.handleWithNotification(err);
@@ -113,8 +109,8 @@ export default Service.extend({
     }
   },
 
-  loadMessages(forceReload = true) {
-    if (this.get('readyForConversationLoad') || forceReload) {
+  loadMessages(options = { forceReload: true }) {
+    if (this.get('readyForConversationLoad') || options.forceReload) {
       this.set('readyForConversationLoad', false);
       console.log('loading conversations for unread messages');
       this.store

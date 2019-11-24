@@ -1,9 +1,7 @@
 import Route from '@ember/routing/route';
-import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 import { inject as service } from '@ember/service';
-import jQuery from 'jquery';
 
-export default Route.extend(ApplicationRouteMixin, {
+export default Route.extend({
   errorHandler: service(),
 
   beforeModel() {
@@ -12,12 +10,6 @@ export default Route.extend(ApplicationRouteMixin, {
       console.log('session is authenticated');
       return this._loadCurrentUser();
     }
-  },
-
-  sessionAuthenticated() {
-    console.log('R2 sessionAuthenticated()');
-    this._super(...arguments);
-    // this._loadCurrentUser();
   },
 
   _loadCurrentUser() {
@@ -49,7 +41,7 @@ export default Route.extend(ApplicationRouteMixin, {
         this.session.isAuthenticated &&
         transition.to.name != 'account.messages'
       ) {
-        this.currentUser.loadMessages(false);
+        this.currentUser.loadMessages({ forceReload: false });
       }
     }
   }

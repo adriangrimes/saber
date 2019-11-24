@@ -214,6 +214,8 @@ mysql -u root -pl5%qX#5W2NjYNAoe
 
 # copy ember /dist to /var/www/saber-staging/ember
 
+# install vips libraries for thumnailing
+
 # install ruby via rbenv for ruby version management
 git clone git://github.com/sstephenson/rbenv.git .rbenv
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile

@@ -2,8 +2,6 @@ class ContactUsController < ApplicationController
   require "uri"
   require "net/http"
 
-  # TODO refactor this whole shebang to be a real model with a db table
-
   def send_email
     unless params[:captcha_token].to_s.blank? ||
            params[:contact_email].to_s.blank? ||
@@ -20,7 +18,6 @@ class ContactUsController < ApplicationController
         :message => params[:message].to_s
       }
 
-      # TODO move captcha secret key to somewhere better
       captcha_verify_params = {
         'secret' => '6Ld7w64UAAAAAJovUvbFab2gopseAMXov4G2UXB4',
         'response' => message_params[:captcha_token]

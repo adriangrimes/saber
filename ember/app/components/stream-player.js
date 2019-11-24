@@ -19,8 +19,6 @@ export default Component.extend({
     // Observe changes to stream state for use in video player
     this.addObserver('isStreaming', this, 'isStreamingDidChange');
     this.addObserver('profilePhoto', this, 'profileImageChanged');
-
-
   },
 
   didInsertElement() {
@@ -30,7 +28,8 @@ export default Component.extend({
     this.initializeVideoPlayer();
 
     console.log(this.broadcasterUsername);
-    console.log(this.currentUser.user.username);
+    if (this.session.isAuthenticated)
+      console.log(this.currentUser.user.username);
   },
 
   isStreamingDidChange() {

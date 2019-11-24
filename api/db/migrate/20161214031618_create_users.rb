@@ -5,7 +5,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :username, null: false
       t.string :email, null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
-      t.string :authentication_token, null: false # TODO ENCRYPT maybe?
+      t.string :authentication_token, null: false
 
       ## Account data
       t.boolean :broadcaster, default: false, null: false

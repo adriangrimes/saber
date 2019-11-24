@@ -172,7 +172,7 @@
 
       <div class="card mb-3" id="siteSettingsAccordion">
         <div class="card-heading">
-          <h3 class="card-title"> Site Settings</h3>
+          <h3 class="card-title">Site Settings</h3>
         </div>
         <div id="SiteSettings" class="card">
           <div class="card-body">
@@ -189,9 +189,9 @@
                   Dark mode
                 </label>
               </div>
-              <hr class="splash-horizontal-rule">
-              <h5>Time Zone</h5>
+              <hr class="splash-horizontal-rule"> --}}
 
+              <h5>Time Zone</h5>
               <div class="form-group">
                 <label for="inputTimeZone">Your Time Zone</label>
                 {{#power-select
@@ -498,7 +498,7 @@
                 <div class="card-body">
 
                   <form {{action "submitUserNotes" on="submit"}}>
-                    {{textarea class="form-control"  id="privateUserNotes" maxlength="1000" value=model.user.privateUserNotes placeholder="Only you can see this notepad."}}
+                    {{textarea class="form-control" rows=8 id="privateUserNotes" maxlength="1000" value=model.user.privateUserNotes placeholder="Only you can see this notepad."}}
                     <div class="text-right pt-3">
                       <button type="submit" class={{this.notesSubmitBtn}}>{{this.notesSubmitText}}</button>
                     </div>

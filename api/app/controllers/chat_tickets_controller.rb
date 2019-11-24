@@ -6,7 +6,7 @@ class ChatTicketsController < ApplicationController
   # GET /chat_tickets
   def index
     if params[:identifier].present?
-      ip = IPAddr.new(params[:identifier]).native.to_s # TODO might need ipv6 support?
+      ip = IPAddr.new(params[:identifier]).native.to_s
       @chat_ticket = ChatTicket.where("updated_at >= ? AND user_ip = ?", 1.minute.ago, ip).first
       if @chat_ticket
         render json: {
@@ -27,7 +27,6 @@ class ChatTicketsController < ApplicationController
 
   # POST /chat_tickets
   def create
-    # TODO: add scheduled job to remove old chat tickets (every 24hrs?)
     @chat_ticket = ChatTicket.find_by(user_id: @authenticated_user[:id])
     if @chat_ticket
       @chat_ticket.user_ip = request.remote_ip

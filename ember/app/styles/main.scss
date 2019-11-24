@@ -1,10 +1,9 @@
 // Base css for all themes
-$background-color:  #2a2a2a;
-$layer1-background-color:  #323232;
-$font-color:  #cbcbcb;
+$background-color: #2a2a2a;
+$layer1-background-color: #323232;
+$font-color: #cbcbcb;
 $brand-color-main: #b80000;
 $brand-color-secondary: #81344e;
-
 
 $body-bg: $background-color;
 $body-color: $font-color;
@@ -13,17 +12,22 @@ $primary: $brand-color-main;
 $secondary: $brand-color-secondary;
 
 $dropdown-bg: $layer1-background-color;
-$dropdown-link-color:  $font-color;
-$dropdown-header-color:  $font-color;
+$dropdown-link-color: $font-color;
+$dropdown-header-color: $font-color;
 
 $input-bg: $layer1-background-color;
 $input-color: $font-color;
 $card-bg: $layer1-background-color;
 
-$border-radius:   .1rem;
+$border-radius: 0.1rem;
 
 * {
   font-family: "Lato", sans-serif;
+}
+
+//photo viewer background
+.lb-outerContainer {
+  background-color: $background-color;
 }
 
 a.brand-link:link {
@@ -59,53 +63,49 @@ a.brand-link:visited {
   background: linear-gradient(to right, #b80000, #800000); /* Standard syntax */
 }
 
-.emberTagInput{
+.emberTagInput {
   border-style: none;
 }
- .horizontal-scroll {
-   overflow-x: auto;
-   overflow-y: hidden;
-   white-space: nowrap;
- }
- .h-2-5r{
-   height: 2.5rem;
- }
- .fs-1-5r{
-   font-size: 1.5rem;
- }
+.horizontal-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+.h-2-5r {
+  height: 2.5rem;
+}
+.fs-1-5r {
+  font-size: 1.5rem;
+}
 $enable-caret: false;
 
-
 // // overriding ember-power-select
- .ember-power-select-trigger {
+.ember-power-select-trigger {
   background-color: $layer1-background-color;
 }
- .ember-power-select-trigger.focus,
- .ember-power-select-trigger:focus {
+.ember-power-select-trigger.focus,
+.ember-power-select-trigger:focus {
   border-color: $formBorderColor;
-   outline: 0;
-    background-color: $layer1-background-color;
-}
- .ember-power-select-option {
-   background-color: $layer1-background-color;
- }
- .ember-power-select-option[aria-selected="true"] {
-    background-color: $layer1-background-color;
- }
- .ember-power-select-option[aria-current="true"] {
-    background-color: $layer1-background-color;
-   }
- .ember-power-select-search {
+  outline: 0;
   background-color: $layer1-background-color;
- }
- .ember-power-select-search-input {
-   background-color: $layer1-background-color;
-   color: $font-color;
-   outline: 0;
- }
-
-
-
+}
+.ember-power-select-option {
+  background-color: $layer1-background-color;
+}
+.ember-power-select-option[aria-selected="true"] {
+  background-color: $layer1-background-color;
+}
+.ember-power-select-option[aria-current="true"] {
+  background-color: $layer1-background-color;
+}
+.ember-power-select-search {
+  background-color: $layer1-background-color;
+}
+.ember-power-select-search-input {
+  background-color: $layer1-background-color;
+  color: $font-color;
+  outline: 0;
+}
 
 ///////////// Extra Small Screens, Optimizing for 320px and up.
 
