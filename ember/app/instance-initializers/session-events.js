@@ -1,6 +1,5 @@
 export function initialize(instance) {
   const session = instance.lookup('service:session');
-  const currentUserService = instance.lookup('service:currentUser');
 
   session.on('authenticationSucceeded', function() {
     console.log('authenticationSucceeded');

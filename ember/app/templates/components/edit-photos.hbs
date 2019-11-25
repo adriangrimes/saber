@@ -43,7 +43,8 @@
               {{/unless}}
             </label>
             <br>
-            <button class="btn btn-outline-dark form-check-label" {{action "deleteFile" file}}> Detele </button>
+                    {{confirm-input type="delete" title="Delete?" button-title="Delete" onConfirm=(action "deleteFile" file)}}
+
           </div>
         {{else}}
           Loading...

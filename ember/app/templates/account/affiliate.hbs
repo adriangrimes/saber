@@ -15,13 +15,12 @@
         {{affiliate-blurb}}
       </div>
       <div class="col-xs-12 col-sm-7">
-        {{#unless currentUser.isContracted}}
           <a href="#why">
+          <LinkTo @route="affiliate.#why">Why</LinkTo>
             <button class="pb-2 btn btn-link float-right accordion-toggle collapsed" data-toggle="collapse" data-parent="#why" data-target="#why">
               Why do we collect this info?
             </button>
           </a>
-        {{/unless}}
 
         {{contractor-application-form
           applicationType="Affiliate"

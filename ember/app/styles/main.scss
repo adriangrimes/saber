@@ -77,6 +77,17 @@ a.brand-link:visited {
 .fs-1-5r {
   font-size: 1.5rem;
 }
+.fs-2r {
+  font-size: 2rem;
+}
+
+.to-top {
+  cursor: pointer;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
 $enable-caret: false;
 
 // // overriding ember-power-select

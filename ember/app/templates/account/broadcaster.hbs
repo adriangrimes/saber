@@ -1,23 +1,14 @@
 <div class="container">
   <div class="row m-0">
 
-    {{!-- {{#if currentUser.user.broadcaster}}
-      <div class="col-12">
-        You are already a verified broadcaster.
-      </div>
-      <div class="col-3 pt-3">
-        {{link-to "Account Settings" "account" class="btn btn-primary"}}
-      </div>
-    {{else if model.pendingBroadcasterApplication}}
-      Thank you! Your application is submitted and pending verification.
-    {{else}} --}}
+
       <div class="col-xs-12 col-sm-5">
         {{broadcaster-blurb}}
       </div>
-      <div class="col-xs-12 col-sm-7">
+      <div clas s="col-xs-12 col-sm-7">
         {{#unless currentUser.isContracted}}
           <a href="#why">
-            <button class="pb-2 btn btn-link float-right accordion-toggle collapsed" data-toggle="collapse" data-parent="#why" data-target="#why">
+            <button class="pb-2 btn btn-link float-right">
               Why do we collect this info?
             </button>
           </a>
@@ -34,7 +25,9 @@
         }}
 
         {{#unless currentUser.isContracted}}
+        <div id="why">
           {{w-9-help}}
+        </div>
         {{/unless}}
       </div>
     {{!/if}}

@@ -30,15 +30,7 @@
                 <small>{{broadcaster.channelTopic}}</small>
               </div>
             {{/if}}
-            {{#if broadcaster.userCustomTags}}
-              <div>
-                [
-                {{#each broadcaster.userCustomTags as |tag index|}}
-                  {{tag}}
-                {{/each}}
-                ]
-              </div>
-            {{/if}}
+          
           </div>
         </div>
       {{/link-to}}

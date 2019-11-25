@@ -156,7 +156,7 @@
         Coming Soon
       </div> {{! end game window}}
 
-      <div class="col-12 col-sm-6 p-0 mt-4 order-4 horizontal-scroll">
+      <div class="col-12 col-sm-6 p-0 mt-4 order-4">
         {{!-- Photos Window --}}
         {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
           {{edit-photos
@@ -166,7 +166,7 @@
             onProfileImageChanged=(action "profileImageChanged")
           }}
         {{/if}}
-
+      <div class="col-12 p-2 horizontal-scroll">
         {{#each model.userPublicUploads as |upload|}}
           {{#if upload.fileUrl}}
             {{#light-box
@@ -181,7 +181,7 @@
             {{/light-box}}
           {{/if}}
         {{/each}}
-
+      </div>
       </div>
     </div>
 

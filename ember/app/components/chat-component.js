@@ -13,7 +13,7 @@ export default Component.extend({
   chatUserMenuUsername: '',
   userMessage: '',
   chatUserMenu: 'd-none',
-
+  chatChannelUserCount: '-',
   actions: {
     // User wants to send a message so...
     sendUserMessage() {
@@ -49,7 +49,7 @@ export default Component.extend({
       console.log('getting ChannelChatUserList');
 
       //open tab
-        openTab(tabName);
+      openTab(tabName);
       //get user getChannelChatUserList
       this.socketRef.send(
         JSON.stringify({

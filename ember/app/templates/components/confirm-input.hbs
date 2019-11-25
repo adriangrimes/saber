@@ -7,9 +7,14 @@
 
   {{else if (eq this.type "reset")}}
     <div class="btn btn-block btn-dark" {{action "openConfirm"}}>
-      <span class={{this.resetStreamKeyIcon}} id="resetStreamKeyIcon" aria-hidden="true"></span>&nbsp;
+      <span class={{this.resetIcon}}  aria-hidden="true"></span>&nbsp;
       {{button-title}}
     </div>
+    {{else if (eq this.type "delete")}}
+      <div class="btn btn-block btn-dark" {{action "openConfirm"}}>
+        <span class="fa fa-trash-o"  aria-hidden="true"></span>&nbsp;
+        {{button-title}}
+      </div>
   {{else}}
     <div class="btn btn-primary border-0 px-2" {{action "openConfirm"}}>
       {{button-title}}

@@ -1,4 +1,19 @@
 <h4>{{applicationType}} application</h4>
+
+
+{{#if currentUser.user.broadcaster}}
+  <div class="col-12">
+    You are already a verified broadcaster.
+  </div>
+  <div class="col-3 pt-3">
+    {{link-to "Account Settings" "account" class="btn btn-primary"}}
+  </div>
+{{else if model.pendingBroadcasterApplication}}
+  Thank you! Your application is submitted and pending verification.
+{{else}}
+
+
+
 <h6>Tax and Payment Information</h6>
 <small>All data provided in this form will be encrypted</small>
 

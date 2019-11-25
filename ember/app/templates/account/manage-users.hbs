@@ -9,7 +9,7 @@
         <ul id="favoriteUsersList">
           {{#each model as |usersList|}}
               {{#if usersList.isFavorite}}
-                <li>{{usersList.username}} <a class="remove" type="button"  {{action "removeFavoriteUser" usersList}}><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
+                <li>{{usersList.username}} <button class="remove" type="button"  {{action "removeFavoriteUser" usersList}}><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></li>
               {{/if}}
           {{/each}}
         </ul>
@@ -22,7 +22,7 @@
         <ul id="blockedUsersList">
           {{#each model as |usersList|}}
             {{#if usersList.isBlocked}}
-            <li>{{usersList.username}} <a class="remove" type="button"  {{action "removeBlockedUser" usersList}}><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></li>
+            <li>{{usersList.username}} <button class="remove" type="button"  {{action "removeBlockedUser" usersList}}><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></li>
             {{/if}}
           {{/each}}
 

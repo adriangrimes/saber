@@ -8,7 +8,7 @@
 {{! Notifications }}
 {{#ember-notify closeAfter=8000 messageStyle='bootstrap' defaultClass="custom-notify" as |message close| }}
   <a {{action close}} class="close">
-    <span aria-hidden="true">&nbsp;&nbsp;×&nbsp;&nbsp;</span>
+    <span class="fs-1-5r p-2" aria-hidden="true">&nbsp;&nbsp;×&nbsp;&nbsp;</span>
   </a>
   <span class="message">
     {{log message}}
@@ -135,3 +135,4 @@
 <div class="my-2">
   {{outlet}}
 </div>
+{{to-top}}
