@@ -2,7 +2,6 @@ import Controller from '@ember/controller';
 import jQuery from 'jquery';
 import RSVP from 'rsvp';
 import { inject as service } from '@ember/service';
-
 export default Controller.extend({
   notify: service(),
   errorHandler: service(),
@@ -128,8 +127,6 @@ export default Controller.extend({
       } else {
         this.model.userPublicDatum.set('profileGender', this.tempGenderText);
       }
-      // Set tags to user record.
-      this.model.userPublicDatum.set('userCustomTags', this.tags);
       // Submit record to store
       this.model.userPublicDatum
         .save()

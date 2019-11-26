@@ -22,8 +22,9 @@
   </span>
 {{/ember-notify}}
 
+
 {{! Navbar }}
-<BsNavbar @class="navbar-expand red-bar p-2" @type="pills" as |navbar|>
+<BsNavbar @class="navbar-expand brand-gradient p-2" @type="pills" as |navbar|>
   <LinkTo @route="home" @class="brand-link" @activeClass="">
     <img src="/logo.svg" height="32px" width="32px">
     Saber
@@ -35,7 +36,7 @@
     <navbar.nav as |nav|>
       {{#if session.isAuthenticated}}
           <nav.dropdown @closeOnMenuClick={{false}} as |dd|>
-            <dd.button @type="" @class="nav-link btn-light mr-2">
+            <dd.button @type="" @class="nav-link btn-outlight-light mr-2">
               <span class="mx-2"> <i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></span>
             </dd.button>
             <dd.menu @align="right" @class="px-4 py-3" as |ddm|>
@@ -132,7 +133,11 @@
   </navbar.content>
 </BsNavbar>
 
-<div class="my-2">
-  {{outlet}}
+<div class="viewport-height">
+  <div id="page" class="vertical-scroll">
+    <div class="my-2">
+      {{outlet}}
+      {{to-top}}
+    </div>
+  </div>
 </div>
-{{to-top}}

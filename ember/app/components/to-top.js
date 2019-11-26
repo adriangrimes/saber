@@ -5,7 +5,7 @@ export default Component.extend({
     this._super(...arguments);
 
     jQuery('#to-top').hide();
-    jQuery(window).scroll(function() {
+    jQuery('#page').scroll(function() {
       if (jQuery(this).scrollTop() > 50) {
         jQuery('#to-top').fadeIn();
       } else {

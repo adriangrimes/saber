@@ -177,11 +177,12 @@
               data-class="image"
               inlineImage=false
             }}
-              <img src="{{upload.fileUrlSmall}}" width="300">
+              <img src="{{upload.fileUrlSmall}}" max-width="300" height="300">
             {{/light-box}}
           {{/if}}
         {{/each}}
       </div>
+
       </div>
     </div>
 
@@ -269,6 +270,7 @@
                     addTag=(action 'addTag')
                     removeTagAtIndex=(action 'removeTagAtIndex')
                     maxlength=20
+                    placeholder = 'Add tags here'
                     as |tag|
                   }}
                   {{tag}}
@@ -276,10 +278,10 @@
               </div>
             {{/if}}
             <br>
-            <button class="btn btn-link" {{action "cancelProfileChanges" model.userPublicDatum}}>
-              <span title="Revert Changes"></span>
-              Revert Changes
-            </button>
+            {{confirm-input button-title="Revert Changes" title="Revert Changes?"
+              onConfirm=(action "cancelProfileChanges" model.userPublicDatum)
+            }}
+
             <div class="float-right">
               <button type="submit" class="btn btn-primary" id="profileSettingSubmit">
                 Save

@@ -12,7 +12,7 @@
   <div>
     {{#each model as |file|}}
 
-      <div class="d-inline-block border {{if file.isSaving "border-danger" "border-dark"}} border-3 rounded">
+      <div class="d-inline-block border text-center {{if file.isSaving "border-danger" "border-dark"}} border-3 rounded">
         {{#if file}}
           {{#light-box
             href=file.fileUrl
@@ -22,7 +22,7 @@
             data-class=""
             inlineImage=false
           }}
-            <img src="{{file.fileUrlSmall}}" width="100">
+            <img src="{{file.fileUrlSmall}}"height="100" max-width="100">
           {{/light-box}}
           <div class="form-check">
             {{#if (eq profilePhotoPath file.fileUrl)}}
