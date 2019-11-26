@@ -12,6 +12,5 @@ class JsonApiFailureApp < Devise::FailureApp
     self.status = 401
     self.content_type = "application/json"
     self.response_body = { errors: [{ attribute: :base, message: i18n_message }] }.to_json
-    # self.response_body = [ { detail: "Your login or password is incorrect."} ].to_json
   end
 end

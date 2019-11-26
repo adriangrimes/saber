@@ -1,7 +1,17 @@
 <div class="container">
   <div class="row m-0">
     <div class="col-xs-12 col-sm-5 col-md-7">
-      <h2>Unlocking account</h2>
+      <form {{action "submitEmail" on="submit"}}>
+        <h2>Resend unlock email</h2>
+        <div class="form-group">
+          <label>Email address</label>
+          {{input type="email" class="form-control" value=emailToUnlock
+          required=true spellcheck=false autocomplete="email"}}
+        </div>
+        <button type="submit" class="signup-button btn btn-primary">
+          Submit
+        </button>
+      </form>
     </div>
   </div>
 </div>

@@ -1,6 +1,5 @@
 <h4>{{applicationType}} application</h4>
 
-
 {{#if currentUser.user.broadcaster}}
   <div class="col-12">
     You are already a verified broadcaster.
@@ -11,269 +10,269 @@
 {{else if model.pendingBroadcasterApplication}}
   Thank you! Your application is submitted and pending verification.
 {{else}}
+  <h6>Tax and Payment Information</h6>
+  <small>All data provided in this form will be encrypted</small>
 
-
-
-<h6>Tax and Payment Information</h6>
-<small>All data provided in this form will be encrypted</small>
-
-{{! If broadcaster application }}
-{{#if (eq applicationType "Broadcaster")}}
-  {{#if currentUser.user.developer}}
-    <div class="mt-3 alert alert-dark">
-      <p class="mb-0">
-        As a developer you have already submitted your payment details.<br><br>
-        Upload your verification images below to become a developer and broadcaster. <br>
-        To sign up for a separate broadcaster account log out, and then visit {{link-to "saber.tv/signup/broadcaster" "signup.broadcaster"}}
-      </p>
-    </div>
-  {{else if (and currentUser.user.affiliate (not currentUser.user.broadcaster))}}
-    <div class="mt-3 alert alert-dark">
-      <p class="mb-0">
-        As an affiliate you have already submitted your payment details.<br><br>
-        Upload your verification images below to become an affiliate and broadcaster. <br>
-        To sign up for a separate broadcaster account log out, and then visit {{link-to "saber.tv/signup/broadcaster" "signup.broadcaster"}}
-      </p>
-    </div>
+  {{! If broadcaster application }}
+  {{#if (eq applicationType "Broadcaster")}}
+    {{#if currentUser.user.developer}}
+      <div class="mt-3 alert alert-dark">
+        <p class="mb-0">
+          As a developer you have already submitted your payment details.<br><br>
+          Upload your verification images below to become a developer and broadcaster. <br>
+          To sign up for a separate broadcaster account log out, and then visit {{link-to "saber.tv/signup/broadcaster" "signup.broadcaster"}}
+        </p>
+      </div>
+    {{else if (and currentUser.user.affiliate (not currentUser.user.broadcaster))}}
+      <div class="mt-3 alert alert-dark">
+        <p class="mb-0">
+          As an affiliate you have already submitted your payment details.<br><br>
+          Upload your verification images below to become an affiliate and broadcaster. <br>
+          To sign up for a separate broadcaster account log out, and then visit {{link-to "saber.tv/signup/broadcaster" "signup.broadcaster"}}
+        </p>
+      </div>
+    {{/if}}
   {{/if}}
-{{/if}}
 
-<form onkeydown="return event.key != 'Enter';">
-  {{! Legal Name }}
-  {{validated-field
-    label="Legal Name"
-    class="form-group" type="text" changeset=changeset property="fullName"
-  }}
-  {{! Business name }}
-  {{validated-field
-    label="Business name" class="form-group" required=false type="text"
-    changeset=changeset property="businessName"
-  }}
+  <form onkeydown="return event.key != 'Enter';">
+    {{! Legal Name }}
+    {{validated-field
+      label="Legal Name"
+      class="form-group" type="text" changeset=changeset property="fullName"
+    }}
 
-  {{#if changeset.businessName}}
-    {{! Business entity type }}
-    <div class="form-group">
-      <label for="inputEntitySole">Business entity type <abbr title="This field is mandatory">*</abbr></label>
-      <div class="form-check">
-        <div class="row m-0">
-          <div class="col-6">
-            {{radio-button class="form-check-input" value="IndividualSoleProprietor" id="inputEntitySole" checked=changeset.businessEntityType}}
-            <label class="form-check-label" for="inputEntitySole" {{action "checkThis" "inputEntitySole"}}>Individual / Sole Proprietor</label>
+    {{! Business name }}
+    {{validated-field
+      label="Business name" class="form-group" required=false type="text"
+      changeset=changeset property="businessName"
+    }}
+
+    {{#if changeset.businessName}}
+      {{! Business entity type }}
+      <div class="form-group">
+        <label for="inputEntitySole">Business entity type <abbr title="This field is mandatory">*</abbr></label>
+        <div class="form-check">
+          <div class="row m-0">
+            <div class="col-6">
+              {{radio-button class="form-check-input" value="IndividualSoleProprietor" id="inputEntitySole" checked=changeset.businessEntityType}}
+              <label class="form-check-label" for="inputEntitySole" {{action "checkThis" "inputEntitySole"}}>Individual / Sole Proprietor</label>
+            </div>
+            <div class="col-6">
+              {{radio-button class="form-check-input" value="sCorp" id="inputEntitySCorp" checked=changeset.businessEntityType}}
+              <label class="form-check-label" for="inputEntitySCorp" {{action "checkThis" "inputEntitySCorp"}}>S Corporation</label>
+            </div>
           </div>
-          <div class="col-6">
-            {{radio-button class="form-check-input" value="sCorp" id="inputEntitySCorp" checked=changeset.businessEntityType}}
-            <label class="form-check-label" for="inputEntitySCorp" {{action "checkThis" "inputEntitySCorp"}}>S Corporation</label>
+          <div class="row m-0">
+            <div class="col-6">
+              {{radio-button class="form-check-input" value="Partnership" id="inputEntityPartner" checked=changeset.businessEntityType}}
+              <label class="form-check-label" for="inputEntityPartner" {{action "checkThis" "inputEntityPartner"}}>Partnership</label>
+            </div>
+            <div class="col-6">
+              {{radio-button class="form-check-input" value="cCorp" id="inputEntityCCorp" checked=changeset.businessEntityType}}
+              <label class="form-check-label" for="inputEntityCCorp" {{action "checkThis" "inputEntityCCorp"}}>C Corporation</label>
+            </div>
           </div>
-        </div>
-        <div class="row m-0">
-          <div class="col-6">
-            {{radio-button class="form-check-input" value="Partnership" id="inputEntityPartner" checked=changeset.businessEntityType}}
-            <label class="form-check-label" for="inputEntityPartner" {{action "checkThis" "inputEntityPartner"}}>Partnership</label>
-          </div>
-          <div class="col-6">
-            {{radio-button class="form-check-input" value="cCorp" id="inputEntityCCorp" checked=changeset.businessEntityType}}
-            <label class="form-check-label" for="inputEntityCCorp" {{action "checkThis" "inputEntityCCorp"}}>C Corporation</label>
-          </div>
-        </div>
-        <div class="row m-0">
-          <div class="col-6">
-            {{radio-button class="form-check-input" value='Other' id="inputEntityOther" checked=changeset.businessEntityType}}
-            <div {{action "checkThis" "inputEntityOther"}}>
-              {{input type="text" class="form-control" value=changeset.businessEntityTypeOther placeholder="Other"}}
+          <div class="row m-0">
+            <div class="col-6">
+              {{radio-button class="form-check-input" value='Other' id="inputEntityOther" checked=changeset.businessEntityType}}
+              <div {{action "checkThis" "inputEntityOther"}}>
+                {{input type="text" class="form-control" value=changeset.businessEntityTypeOther placeholder="Other"}}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    {{attribute-validation-display changeset=changeset property="businessEntityType"}}
-    {{attribute-validation-display changeset=changeset property="businessEntityTypeOther"}}
-  {{/if}}
+      {{attribute-validation-display changeset=changeset property="businessEntityType"}}
+      {{attribute-validation-display changeset=changeset property="businessEntityTypeOther"}}
+    {{/if}}
 
-  {{! Birthdate }}
-  <div class="form-group">
-    <label for="birthdate">Date of birth</label>
-    <div id="birthdate">
-      {{pikaday-input
-        class="form-control"
-        firstDay=0
-        value=changeset.birthdate
-        onSelection=(action (mut changeset.birthdate))
-        format="MM/DD/YYYY"
-        yearRange="1900,currentYear"
-        theme=(if this.currentUser.user.darkMode "bg-dark" "")
-        placeholder="MM/DD/YYYY"
-      }}
-    </div>
-    {{attribute-validation-display changeset=changeset property="birthdate"}}
-  </div>
-
-  {{! Payout method }}
-  <div class="form-group">
-    <label for="payoutMethod">Choose payout method</label>
-    <div class="form-check form-check-inline w-100">
-      <div class="w-50 mx-0 mr-2 payout-method btn btn-block btn-outline-dark" {{action "checkThis" "inputPayoutCheck"}}>
-        {{radio-button value='check' id="inputPayoutCheck" checked=changeset.payoutMethod}}
-        <label class="form-check-label" for="inputPayoutCheck">Mailed Check</label>
-      </div>
-      <div class="w-50 mx-0 mt-0 ml-2 payout-method btn btn-block btn-outline-dark" {{action "checkThis" "inputPayoutBitcoin"}}>
-        {{radio-button value='bitcoin' id="inputPayoutBitcoin" checked=changeset.payoutMethod}}
-        <label class="form-check-label" for="inputPayoutBitcoin">Bitcoin</label>
-      </div>
-    </div>
-    {{attribute-validation-display changeset=changeset property="payoutMethod"}}
-  </div>
-  {{#if (eq changeset.payoutMethod "bitcoin")}}
-    {{! Bitcoin address }}
+    {{! Birthdate }}
     <div class="form-group">
-      <label for="bitcoinAddress">Bitcoin address</label>
-      {{input type="text" class="form-control" id="bitcoinAddress" value=changeset.bitcoinAddress}}
-      <small>Make sure to verify your Bitcoin address is correct, otherwise your payout may be lost</small>
+      <label for="birthdate">Date of birth</label>
+      <div id="birthdate">
+        {{pikaday-input
+          class="form-control"
+          firstDay=0
+          value=changeset.birthdate
+          onSelection=(action (mut changeset.birthdate))
+          format="MM/DD/YYYY"
+          yearRange="1900,currentYear"
+          theme=(if this.currentUser.user.darkMode "bg-dark" "")
+          placeholder="MM/DD/YYYY"
+        }}
+      </div>
+      {{attribute-validation-display changeset=changeset property="birthdate"}}
     </div>
-    {{attribute-validation-display changeset=changeset property="bitcoinAddress"}}
-  {{/if}}
 
-  {{! Street address }}
-  {{validated-field
-    label="Street address"
-    class="form-group" type="text" changeset=changeset property="streetAddress"
-  }}
-  {{! City }}
-  {{validated-field
-    label="City"
-    class="form-group" type="text" changeset=changeset property="city"
-  }}
-  {{! Region }}
-  {{validated-field
-    label="State / Province / Region"
-    class="form-group" type="text" changeset=changeset property="region"
-  }}
-  {{! Postal code }}
-  {{validated-field
-    label="Postal code"
-    class="form-group" type="text" changeset=changeset property="postalCode"
-  }}
-  {{! Country }}
-  <div class="form-group">
-    <label for="inputCountry">Country</label>
-    {{#power-select
+    {{! Payout method }}
+    <div class="form-group">
+      <label for="payoutMethod">Choose payout method</label>
+      <div class="form-check form-check-inline w-100">
+        <div class="w-50 mx-0 mr-2 payout-method btn btn-block btn-outline-dark" {{action "checkThis" "inputPayoutCheck"}}>
+          {{radio-button value='check' id="inputPayoutCheck" checked=changeset.payoutMethod}}
+          <label class="form-check-label" for="inputPayoutCheck">Mailed Check</label>
+        </div>
+        <div class="w-50 mx-0 mt-0 ml-2 payout-method btn btn-block btn-outline-dark" {{action "checkThis" "inputPayoutBitcoin"}}>
+          {{radio-button value='bitcoin' id="inputPayoutBitcoin" checked=changeset.payoutMethod}}
+          <label class="form-check-label" for="inputPayoutBitcoin">Bitcoin</label>
+        </div>
+      </div>
+      {{attribute-validation-display changeset=changeset property="payoutMethod"}}
+    </div>
+    {{#if (eq changeset.payoutMethod "bitcoin")}}
+      {{! Bitcoin address }}
+      <div class="form-group">
+        <label for="bitcoinAddress">Bitcoin address</label>
+        {{input type="text" class="form-control" id="bitcoinAddress" value=changeset.bitcoinAddress}}
+        <small>Make sure to verify your Bitcoin address is correct, otherwise your payout may be lost</small>
+      </div>
+      {{attribute-validation-display changeset=changeset property="bitcoinAddress"}}
+    {{/if}}
+
+    {{! Street address }}
+    {{validated-field
+      label="Street address"
+      class="form-group" type="text" changeset=changeset property="streetAddress"
+    }}
+    {{! City }}
+    {{validated-field
+      label="City"
+      class="form-group" type="text" changeset=changeset property="city"
+    }}
+    {{! Region }}
+    {{validated-field
+      label="State / Province / Region"
+      class="form-group" type="text" changeset=changeset property="region"
+    }}
+    {{! Postal code }}
+    {{validated-field
+      label="Postal code"
+      class="form-group" type="text" changeset=changeset property="postalCode"
+    }}
+    {{! Country }}
+    <div class="form-group">
+      <label for="inputCountry">Country</label>
+      {{#power-select
           selected=changeset.country
           id="inputCountry"
           options=countriesList
           oninput=(action "checkLength")
           onchange=(action "setCountry")
-          as |name|}}
-      {{name}}
-    {{/power-select}}
-    {{attribute-validation-display changeset=changeset property="country"}}
-  </div>
+          as |name|
+      }}
+        {{name}}
+      {{/power-select}}
+      {{attribute-validation-display changeset=changeset property="country"}}
+    </div>
 
-  {{! If United States is selected }}
-  {{#if (eq changeset.country "United States")}}
-    {{! Business identification number }}
+    {{! If United States is selected }}
+    {{#if (eq changeset.country "United States")}}
+      {{! Business identification number }}
+      {{validated-field
+        label="Taxpayer identification Number"
+        placeholder="SSN, EIN, or ITIN, including dashes"
+        class="form-group"
+        type="text"
+        changeset=changeset
+        property="businessIdentificationNumber"
+      }}
+
+      {{! Subject to backup withholding }}
+      <div class="form-group">
+        <div class="form-check py-3">
+          <label class="form-check-label" for="withholdingInput" style="font-size:14px;">
+            <strong>Under penalties of perjury, I certify that:</strong>
+            <br> 1. I am a U.S. citizen or other U.S. person, and
+            <br> 2. The number shown on this form is my correct taxpayer identification number (TIN), and
+            <br> 3. (select one):<br>
+
+            <div class="form-check form-check-inline accordion-toggle collapsed text-heading" data-toggle="collapse" data-target="#exemptHelp">
+              {{radio-button value=false id="notSubjectToWithholding" checked=changeset.subjectToBackupWithholding}}
+              <div class=" pl-2 pr-4 " {{action "checkThis" "notSubjectToWithholding"}}>
+                <strong>I am not subject to backup withholding.</strong>
+              </div>
+            </div>
+            <div id="exemptHelp" class=" collapse pb-2">
+              I am (a) exempt from back up withholding, or (b) I have not been notified by the
+              Internal Revenue Service (IRS) that I am subject to backup withholding as a result of a failure to report all interest or dividends, or
+              (c) the IRS has notified me that I am no longer subject to backup withholding)
+            </div>
+            <div class="form-check form-check-inline accordion-toggle collapsed text-heading" data-toggle="collapse" data-target="#notExemptHelp">
+              {{radio-button value=true id="subjectToWithholding" checked=changeset.subjectToBackupWithholding}}
+              <div class=" pl-2 pr-4 " {{action "checkThis" "subjectToWithholding"}}>
+                <strong>I am subject to backup withholding.</strong>
+              </div>
+            </div>
+            <div id="notExemptHelp" class=" collapse">
+              I have been notified by the IRS that I am subject to backup withholding as a result of a
+              failure to report all interest or dividends, and I have not been notified by the IRS that I am no longer subject to back withholding.
+            </div>
+          </label>
+        </div>
+        {{attribute-validation-display changeset=changeset property="subjectToBackupWithholding"}}
+      </div>
+    {{else}}
+      <div class="form-group">
+        <strong>Under penalties of perjury, I certify that:</strong>
+        <br> 1. I am not a U.S. citizen, and
+        <br> 2. I perform all my work on Saber from locations outside of the United States, and
+        <br> 3. I will receive all payments to a foreign address or payment instrument, and
+        <br> 4. That the information provided is to the best of my knowledge and believe it to be true, correct and complete.
+      </div>
+    {{/if}}
+
+    {{! If application is for a broadcaster }}
+    {{#if (eq applicationType "Broadcaster")}}
+      {{! Broadcaster verification }}
+      <h5>Verification</h5>
+      <div class="form-group">
+
+        {{edit-verification-photos
+          model=userVerificationUploads
+        }}
+        {{attribute-validation-display changeset=changeset property="verificationCount"}}
+
+        <div class="mt-3 alert alert-dark">
+          <h5 class="alert-heading">Note</h5>
+          <hr class="splash-horizontal-rule m-0 mb-1 p-0">
+          <p class="mb-0">
+            beepity boppety this note is now my property
+          </p>
+        </div>
+      </div>
+    {{/if}}
+
+    <hr class="splash-horizontal-rule">
+
+    {{! Electronic signature }}
     {{validated-field
-      label="Taxpayer identification Number"
-      placeholder="SSN, EIN, or ITIN, including dashes"
+      label="Electronic Signature"
+      placeholder="Type your legal name as it appears above"
+      required=true
       class="form-group"
       type="text"
       changeset=changeset
-      property="businessIdentificationNumber"
+      property="electronicSignature"
     }}
 
-    {{! Subject to backup withholding }}
+    {{! Data consent}}
     <div class="form-group">
-      <div class="form-check py-3">
-        <label class="form-check-label" for="withholdingInput" style="font-size:14px;">
-          <strong>Under penalties of perjury, I certify that:</strong>
-          <br> 1. I am a U.S. citizen or other U.S. person, and
-          <br> 2. The number shown on this form is my correct taxpayer identification number (TIN), and
-          <br> 3. (select one):<br>
-
-          <div class="form-check form-check-inline accordion-toggle collapsed text-heading" data-toggle="collapse" data-target="#exemptHelp">
-            {{radio-button value=false id="notSubjectToWithholding" checked=changeset.subjectToBackupWithholding}}
-            <div class=" pl-2 pr-4 " {{action "checkThis" "notSubjectToWithholding"}}>
-              <strong>I am not subject to backup withholding.</strong>
-            </div>
-          </div>
-          <div id="exemptHelp" class=" collapse pb-2">
-            I am (a) exempt from back up withholding, or (b) I have not been notified by the
-            Internal Revenue Service (IRS) that I am subject to backup withholding as a result of a failure to report all interest or dividends, or
-            (c) the IRS has notified me that I am no longer subject to backup withholding)
-          </div>
-          <div class="form-check form-check-inline accordion-toggle collapsed text-heading" data-toggle="collapse" data-target="#notExemptHelp">
-            {{radio-button value=true id="subjectToWithholding" checked=changeset.subjectToBackupWithholding}}
-            <div class=" pl-2 pr-4 " {{action "checkThis" "subjectToWithholding"}}>
-              <strong>I am subject to backup withholding.</strong>
-            </div>
-          </div>
-          <div id="notExemptHelp" class=" collapse">
-            I have been notified by the IRS that I am subject to backup withholding as a result of a
-            failure to report all interest or dividends, and I have not been notified by the IRS that I am no longer subject to back withholding.
-          </div>
-        </label>
+      <div class="form-check">
+        <Input @class="form-check-input" @id="consent" @type="checkbox" @checked={{changeset.consentToStoreData}} />
+        <label for="consent" class="form-check-label">I give consent for Saber to store my data</label>
       </div>
-      {{attribute-validation-display changeset=changeset property="subjectToBackupWithholding"}}
+      {{attribute-validation-display changeset=changeset property="consentToStoreData"}}
     </div>
-  {{else}}
-    <div class="form-group">
-      <strong>Under penalties of perjury, I certify that:</strong>
-      <br> 1. I am not a U.S. citizen, and
-      <br> 2. I perform all my work on Saber from locations outside of the United States, and
-      <br> 3. I will receive all payments to a foreign address or payment instrument, and
-      <br> 4. That the information provided is to the best of my knowledge and believe it to be true, correct and complete.
-    </div>
-  {{/if}}
 
-  {{! If application is for a broadcaster }}
-  {{#if (eq applicationType "Broadcaster")}}
-    {{! Broadcaster verification }}
-    <h5>Verification</h5>
-    <div class="form-group">
+    {{! display unattributed form errors}}
+    {{#if changeset.isInvalid}}
+      <p>There are one or more errors in your form</p>
+    {{/if}}
+    {{attribute-validation-display changeset=changeset property="base"}}
 
-      {{edit-verification-photos
-        model=userVerificationUploads
-      }}
-      {{attribute-validation-display changeset=changeset property="verificationCount"}}
-
-      <div class="mt-3 alert alert-dark">
-        <h5 class="alert-heading">Note</h5>
-        <hr class="splash-horizontal-rule m-0 mb-1 p-0">
-        <p class="mb-0">
-          beepity boppety this note is now my property
-        </p>
-      </div>
-    </div>
-  {{/if}}
-
-  <hr class="splash-horizontal-rule">
-
-  {{! Electronic signature }}
-  {{validated-field
-    label="Electronic Signature"
-    placeholder="Type your legal name as it appears above"
-    required=true
-    class="form-group"
-    type="text"
-    changeset=changeset
-    property="electronicSignature"
-  }}
-
-  {{! Data consent}}
-  <div class="form-group">
-    <div class="form-check">
-      <Input @class="form-check-input" @id="consent" @type="checkbox" @checked={{changeset.consentToStoreData}} />
-      <label for="consent" class="form-check-label">I give consent for Saber to store my data</label>
-    </div>
-    {{attribute-validation-display changeset=changeset property="consentToStoreData"}}
-  </div>
-
-  {{! display unattributed form errors}}
-  {{#if changeset.isInvalid}}
-    <p>There are one or more errors in your form</p>
-  {{/if}}
-  {{attribute-validation-display changeset=changeset property="base"}}
-
-  {{! Submission buttons }}
-  <button class="btn btn-secondary" {{action rollback changeset}}>Cancel changes</button>
-  <button class="btn btn-primary" {{action saveForLater changeset}}>Save for later</button>
-  <button class="btn btn-primary" {{action submit changeset}}>Submit Application</button>
-</form>
+    {{! Submission buttons }}
+    <button class="btn btn-secondary" {{action rollback changeset}}>Cancel changes</button>
+    <button class="btn btn-primary" {{action saveForLater changeset}}>Save for later</button>
+    <button class="btn btn-primary" {{action submit changeset}}>Submit Application</button>
+  </form>
+{{/if}}

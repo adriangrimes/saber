@@ -24,22 +24,24 @@ export default Controller.extend({
   tipMenuOpen: false,
   tipAmountOptions: 10,
 
-  init() {
-    this._super(...arguments);
-    this.tags = [];
-  },
-
   actions: {
     addTag(tag) {
-      console.log('tags length: ' + this.tags.length);
-      if (this.tags.length < 15) {
+      let originalTags = this.model.userPublicDatum.userCustomTags;
+      let modifiedTags = originalTags.slice();
+      console.log('tags length: ' + modifiedTags.length);
+
+      if (modifiedTags.length < 15) {
         console.log('adding tag: ' + tag);
-        this.tags.pushObject(tag);
+        modifiedTags.push(tag);
+        this.model.userPublicDatum.set('userCustomTags', modifiedTags);
       }
     },
 
     removeTagAtIndex(index) {
-      this.tags.removeAt(index);
+      let originalTags = this.model.userPublicDatum.userCustomTags;
+      let modifiedTags = originalTags.slice();
+      modifiedTags.removeAt(index);
+      this.model.userPublicDatum.set('userCustomTags', modifiedTags);
     },
 
     checkOtherGender() {
@@ -169,7 +171,7 @@ export default Controller.extend({
       }
 
       // Rollback tag selection
-      // this.set('tags', this.model.userPublicDatum.get('userCustomTags'));
+      this.set('tags', this.model.userPublicDatum.get('userCustomTags'));
     },
 
     profileImageChanged() {

@@ -1,0 +1,35 @@
+<div class="form-group">
+  <label>Gender</label>
+  <div class="form-inline">
+    <div class="form-check pr-3">
+      <label class="form-check-label">
+        {{radio-button class="form-check-input" value='Female'
+            groupValue=tempGenderSelection checked=genderSelection}}
+        Female
+      </label>
+    </div>
+    <div class="form-check pr-3">
+      <label class="form-check-label">
+        {{radio-button class="form-check-input" value='Male'
+            groupValue=tempGenderSelection checked=genderSelection}}
+        Male
+      </label>
+    </div>
+    <div class="form-check pr-3">
+      <label class="form-check-label">
+        {{radio-button class="form-check-input" value='Other'
+            groupValue=tempGenderSelection id="inputGenderOther" checked=genderSelection}}
+        <span {{action "checkOtherGender"}}>
+          {{input type="text" class="form-control" spellcheck=false value=genderSelectionOther placeholder="Other"}}
+        </span>
+      </label>
+    </div>
+    <div class="form-check pr-3">
+      <label class="form-check-label">
+        {{radio-button class="form-check-input" value='Hide'
+            groupValue=tempGenderSelection checked=genderSelection}}
+        Hide
+      </label>
+    </div>
+  </div>
+</div>

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
     passwords: 'users/passwords'
   }
+  get '/resend_unlock', to: 'resend_unlock#index'
   # :users :create is handled by devise registrations controller
   # :users :destroy is handled by a runner that deletes marked accounts after a time period
   resources :users, only: %i[show update]

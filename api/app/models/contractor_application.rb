@@ -87,6 +87,11 @@ class ContractorApplication < ApplicationRecord
   after_commit :send_broadcaster_application_emails,
     if: Proc.new { |u| u.pending_broadcaster_application }
   after_commit :cleanup_user,
+    if: Proc.new { |u|
+      u.pending_broadcaster_application ||
+      u.pending_developer_application ||
+      u.pending_affiliate_application }
+  after_commit :cleanup_broadcaster,
     if: Proc.new { |u| u.pending_broadcaster_application }
 
   ## Functions
@@ -212,6 +217,7 @@ class ContractorApplication < ApplicationRecord
 
   # Various things to be cleaned up when a user submits a valid completed application
   def cleanup_user
+    # Clear signup params
     self.user.broadcaster_signup = false
     self.user.developer_signup = false
     self.user.affiliate_signup = false

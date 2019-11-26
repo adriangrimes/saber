@@ -2,8 +2,9 @@ import Route from '@ember/routing/route';
 import jQuery from 'jquery';
 import config from '../config/environment';
 import { inject as service } from '@ember/service';
+import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 
-export default Route.extend({
+export default Route.extend(UnauthenticatedRouteMixin, {
   notify: service(),
   errorHandler: service(),
 
@@ -29,8 +30,6 @@ export default Route.extend({
             );
           }
         });
-    } else {
-      this.transitionTo('index');
     }
   }
 });

@@ -10,6 +10,14 @@ export default Service.extend({
 
   handleWithNotification(err) {
     console.error('error handler service called with:', err);
+    if (
+      err instanceof TypeError &&
+      err.message.includes('Network request failed')
+    ) {
+      this.get('notify').error(
+        "The Saber server appears to be unavailable. We're working to make sure it's back as soon as possible!<br>Please try again later."
+      );
+    }
     if (err && err.errors) {
       if (err.errors[0].status || err.errors[0].status === 0) {
         let status = err.errors[0].status;

@@ -37,5 +37,22 @@ export default Route.extend({
 
     // Set up user tags
     controller.set('tags', model.userPublicDatum.get('userCustomTags'));
+  },
+
+  actions: {
+    willTransition(transition) {
+      if (this.get('controller.model.userPublicDatum.hasDirtyAttributes')) {
+        if (
+          !confirm(
+            'You have unsaved changes. Are you sure you want to leave this page?'
+          )
+        ) {
+          transition.abort();
+        } else {
+          this.get('controller.model.userPublicDatum').rollbackAttributes();
+        }
+      }
+      return true;
+    }
   }
 });

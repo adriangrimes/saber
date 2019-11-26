@@ -9,12 +9,12 @@ export default Controller.extend({
   actions: {
     submitApplication(changeset) {
       changeset.set(`pending${this.applicationType}Application`, true);
-      this.validateAndSaveChangeset(changeset);
+      this.validateAndSaveChangeset(changeset, this.applicationType, false);
     },
 
     saveApplicationForLater(changeset) {
       changeset.set(`pending${this.applicationType}Application`, false);
-      this.validateAndSaveChangeset(changeset);
+      this.validateAndSaveChangeset(changeset, this.applicationType, true);
     },
 
     rollbackApplication(changeset) {
@@ -22,7 +22,7 @@ export default Controller.extend({
     }
   },
 
-  validateAndSaveChangeset(changeset) {
+  validateAndSaveChangeset(changeset, applicationType, savedForLater) {
     console.log('validateChangeset()');
     // Rollback any errors given from the back-end
     changeset.rollbackProperty('base');
@@ -40,10 +40,14 @@ export default Controller.extend({
                 this.notify.success(
                   'Success! Your application has been submitted and is awaiting verification.'
                 );
-              } else {
+              } else if (savedForLater) {
                 this.notify.success(
                   'Saved. Your application has been saved for later but is not submitted.'
                 );
+              } else if (applicationType == 'Developer') {
+                this.notify.success('Success! You are now a developer.');
+              } else if (applicationType == 'Affiliate') {
+                this.notify.success('Success! You are now an affiliate.');
               }
               console.log('calling currentUser.load()');
               this.currentUser.load();

@@ -3,7 +3,7 @@ class CreatePrivateMessages < ActiveRecord::Migration[5.2]
     create_table :private_messages do |t|
       t.references :from_user, index: true, null: false
       t.references :to_user, index: true, null: false
-      t.text :message, limit: 1024, null: false
+      t.text :message, limit: 2048, null: false
       t.boolean :message_read, null: false, default: false
 
       t.timestamps index: true

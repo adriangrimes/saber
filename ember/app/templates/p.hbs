@@ -265,9 +265,10 @@
               <div class="form-group ">
                 <label>Tags (choose up to 15)</label>
                 {{#tag-input
-                    tags=tags
+                    tags=model.userPublicDatum.userCustomTags
                     addTag=(action 'addTag')
                     removeTagAtIndex=(action 'removeTagAtIndex')
+                    maxlength=20
                     as |tag|
                   }}
                   {{tag}}
