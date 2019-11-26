@@ -14,6 +14,7 @@ export default Component.extend({
   userMessage: '',
   chatUserMenu: 'd-none',
   chatChannelUserCount: '-',
+
   actions: {
     // User wants to send a message so...
     sendUserMessage() {

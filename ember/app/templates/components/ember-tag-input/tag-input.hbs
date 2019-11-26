@@ -1,0 +1,19 @@
+{{#each tags as |tag index|~}}
+  <li class="emberTagInput-tag">
+    {{yield tag}}
+    {{#if _isRemoveButtonVisible}}
+      <a class="emberTagInput-remove" {{action 'removeTag' index}}></a>
+    {{/if}}
+  </li>
+{{~/each~}}
+
+<li class="emberTagInput-new">
+  <form>
+    {{input
+      disabled=readOnly
+      class=(concat 'emberTagInput-input js-ember-tag-input-new' (if readOnly ' is-disabled'))
+      maxlength=maxlength
+      placeholder=placeholder
+    }}
+  </form>
+</li>
