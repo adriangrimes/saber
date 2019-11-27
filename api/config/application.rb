@@ -42,6 +42,11 @@ module ApiServer
 
     config.middleware.use ActionDispatch::Flash
 
+    ##############
+    # Admin mailer addresses
+    config.x.admin_email_to = "user@gmail.com"
+    config.x.admin_email_from = "site@saber.tv"
+
     ##################################################
     # Saber configuration values
 
@@ -62,7 +67,7 @@ module ApiServer
     }
 
     # How long ago the pending_deletion_since date must be to destroy the user
-    config.x.saber.account_destroy_delay = 7.days.ago
+    config.x.saber.account_destroy_delay = 14.days.ago
 
     # File upload limits
     config.x.saber.public_upload_limit = 30

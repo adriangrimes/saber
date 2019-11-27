@@ -18,10 +18,6 @@ export default Component.extend({
       this.currentUser.logIn(this.inputusername, this.inputpassword);
     },
 
-    closeModal() {
-      jQuery('#loginModal').modal('hide');
-    },
-
     toggleSignUp() {
       this.toggleProperty('signupform');
       // Clear fields

@@ -303,25 +303,26 @@ function addChatUserToRequestedChannel(client, req) {
     (err, res, body) => {
       if (client.readyState === WebSocket.OPEN) {
         let channel = chatState.channels[client.channelUrl];
-        if (res && res.statusCode == 200 && body) {
+        if (body && res && res.statusCode == 200) {
           // Add user info to the userList and friendlyUserList if ticket was valid
           console.log(' - ' + res.statusCode + ' adding as authenticated user');
 
           client.chatUsername = body.username;
 
           let newUser = true;
-          for (var i = 0; i < channel.userList.length; i++) {
-            if (
-              channel &&
-              channel.userList &&
-              channel.userList[i].username == body.username
-            ) {
-              // User found, add IP to users IP array instead of creating a new user
-              console.log(' - user already found in userList, updating IP');
-              newUser = false;
-              channel.userList[i].ipArray.push(body.ip);
-              sendUserCountToClient(client);
-              break;
+          if (channel && channel.userList) {
+            for (var i = 0; i < channel.userList.length; i++) {
+              if (
+                channel.userList[i] &&
+                channel.userList[i].username == body.username
+              ) {
+                // User found, add IP to users IP array instead of creating a new user
+                console.log(' - user already found in userList, updating IP');
+                newUser = false;
+                channel.userList[i].ipArray.push(body.ip);
+                sendUserCountToClient(client);
+                break;
+              }
             }
           }
           if (newUser) {

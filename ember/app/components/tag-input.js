@@ -1,8 +1,6 @@
 import TagInput from 'ember-tag-input/components/tag-input';
 import layout from '../templates/components/ember-tag-input/tag-input';
 
-const { Component, computed } = Ember;
-
 const KEY_CODES = {
   BACKSPACE: 8,
   COMMA: 188,

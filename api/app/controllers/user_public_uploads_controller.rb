@@ -45,7 +45,7 @@ class UserPublicUploadsController < ApplicationController
         user_public_upload.upload = upload_data_json
         user_public_upload.user_id = user_public_datum.user_id
 
-        user_public_upload.upload_derivatives! 
+        user_public_upload.upload_derivatives!
         if user_public_upload.save
           p 'attached upload - starting serialization'
           p user_public_upload.upload_url
@@ -83,8 +83,7 @@ class UserPublicUploadsController < ApplicationController
         user_public_upload.members_only = upload_params[:members_only]
 
         if upload_params[:profile_image] == true && user_public_upload.upload.mime_type.include?('image')
-          user_public_datum.profile_photo_path =
-            Rails.application.routes.default_url_options[:host] + user_public_upload.upload_url
+          user_public_datum.profile_photo_path = user_public_upload.upload_url
           user_public_upload.members_only = false
         end
 
@@ -132,11 +131,9 @@ class UserPublicUploadsController < ApplicationController
             p 'setting profile path to no image url'
             user_public_datum.profile_photo_path =
               Rails.configuration.x.saber.no_profile_image_url
-          elsif Rails.application.routes.default_url_options[:host] + user_public_upload.upload_url ==
-            user_public_datum.profile_photo_path
-              p 'setting profile image to first in line'
-              user_public_datum.profile_photo_path =
-                Rails.application.routes.default_url_options[:host] + uploads.first.upload_url
+          elsif user_public_upload.upload_url == user_public_datum.profile_photo_path
+            p 'setting profile image to first in line'
+            user_public_datum.profile_photo_path = uploads.first.upload_url
           end
 
           user_public_datum.save!

@@ -3,11 +3,9 @@ $background-color: #2a2a2a;
 $layer1-background-color: #323232;
 $layer2-background-color: #6a6a6a;
 $font-color: #cbcbcb;
-$brand-color-primary: #81344e;  // Buttons and Hyperlinks
-$brand-color-secondary: #990043; //Gradient Left / Secondary Buttons #b80000
-$brand-color-tertiary: #450066; //Gradient Right #800000
-
-
+$brand-color-primary: #005369; // Buttons and Hyperlinks
+$brand-color-secondary: #003069; //Gradient Left / Secondary Buttons #b80000
+$brand-color-tertiary: #550000; //Gradient Right #800000
 
 * {
   font-family: "Lato", sans-serif;
@@ -51,16 +49,19 @@ a.brand-link:visited {
     $brand-color-secondary,
     $brand-color-tertiary
   ); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to right, $brand-color-secondary, $brand-color-tertiary); /* Standard syntax */
+  background: linear-gradient(
+    to right,
+    $brand-color-secondary,
+    $brand-color-tertiary
+  ); /* Standard syntax */
 }
-
 
 .horizontal-scroll {
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
 }
-.viewport-Height{
+.viewport-Height {
   height: auto;
 }
 .vertical-scroll {
@@ -90,8 +91,7 @@ a.brand-link:visited {
 
 /// Overriding Bootstrap
 
-
-.card{
+.card {
   padding: 1rem;
 }
 $card-border-width: none;
@@ -151,7 +151,7 @@ $border-radius: 0.1rem;
 .emberTagInput {
   border-style: none;
 }
-.emberTagInput-input{
+.emberTagInput-input {
   background: $layer1-background-color;
   border-style: solid;
   border-width: 1px;
@@ -159,75 +159,71 @@ $border-radius: 0.1rem;
   color: $font-color;
   border-color: $font-color;
 }
-.emberTagInput-input:focus{
+.emberTagInput-input:focus {
   border-color: $brand-color-primary;
 }
-.emberTagInput-tag{
+.emberTagInput-tag {
   background: $brand-color-primary;
 }
-
 
 //// Uppy
 
 .uppy-Dashboard-dropFilesTitle {
   color: $font-color;
 }
-.uppy-Dashboard-note{
+.uppy-Dashboard-note {
   color: $font-color;
 }
-.uppy-Dashboard-uploadCount{
-    color: $font-color;
-}
-.uppy-Dashboard-close{
+.uppy-Dashboard-uploadCount {
   color: $font-color;
 }
-.uppy-DashboardTabs-title{
-
-    color: $font-color;
+.uppy-Dashboard-close {
+  color: $font-color;
 }
-.uppy-DashboardTab-btn{
-    color: $font-color;
+.uppy-DashboardTabs-title {
+  color: $font-color;
 }
-.uppy-DashboardContent-back{
-    color: $brand-color-primary;
+.uppy-DashboardTab-btn {
+  color: $font-color;
 }
-.uppy-DashboardContent-addMore{
-   color: $brand-color-primary;
+.uppy-DashboardContent-back {
+  color: $brand-color-primary;
+}
+.uppy-DashboardContent-addMore {
+  color: $brand-color-primary;
 }
 .uppy-Dashboard-browse {
   color: $brand-color-primary;
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     border-bottom: 2px solid $brand-color-primary;
   }
 }
-.uppy-DashboardAddFiles{
+.uppy-DashboardAddFiles {
   background: $layer1-background-color;
 }
-.uppy-Dashboard-innerWrap{
+.uppy-Dashboard-innerWrap {
   background: $layer1-background-color;
 }
-.uppy-StatusBar.is-waiting .uppy-StatusBar-actions{
+.uppy-StatusBar.is-waiting .uppy-StatusBar-actions {
   background: $layer1-background-color;
 }
-.uppy-DashboardContent-bar{
+.uppy-DashboardContent-bar {
   background: $layer1-background-color;
 }
-.uppy-Dashboard-AddFilesPanel{
+.uppy-Dashboard-AddFilesPanel {
   background: $layer1-background-color;
 }
-.uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload
-{
+.uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload {
   width: 100% !important;
   background: $brand-color-primary;
 }
-.uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload:hover
-{
+.uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload:hover {
   background: $brand-color-tertiary;
 
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
-.uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload:focus
-{
+.uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload:focus {
   box-shadow: none !important;
 }
 ///////////// Extra Small Screens, Optimizing for 320px and up.
@@ -411,7 +407,6 @@ $border-radius: 0.1rem;
 //   color: $formPlaceholderColor !important;
 // }
 //
-
 
 // #privateUserNotes {
 //   height: 8rem;

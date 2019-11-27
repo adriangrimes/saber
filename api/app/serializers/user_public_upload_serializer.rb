@@ -20,8 +20,7 @@ class UserPublicUploadSerializer
   end
 
   attribute :profile_image do |record, params|
-    Rails.application.routes.default_url_options[:host] + record.upload_url ==
-      params[:current_profile_photo_path]
+    params[:current_profile_photo_path] == record.upload_url
   end
 
   attribute :members_only
