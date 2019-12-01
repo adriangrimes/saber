@@ -23,9 +23,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
             return this.store.createRecord('contractor-application', {});
           }
         }),
-      userVerificationUploads: this.store.query('user-verification-upload', {
-        id: this.get('session.data.authenticated.user_id')
-      })
+      userVerificationUploads: this.store.query('user-verification-upload', {})
     });
   },
 

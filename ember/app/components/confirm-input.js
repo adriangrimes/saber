@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import { later } from '@ember/runloop';
 
 export default Component.extend({
   showConfirm: 'd-none',
@@ -15,12 +16,15 @@ export default Component.extend({
       console.log(this.type + ' input confirmed');
       this.onConfirm();
       this.set('resetIcon', 'fa fa-refresh fa-spin');
-      var thisParent = this;
-      setTimeout(function() {
-        thisParent.set('resetIcon', 'fa fa-refresh');
-      }, 1000);
       this.set('showButton', 'd-flex');
       this.set('showConfirm', 'd-none');
+      later(
+        this,
+        function() {
+          this.set('resetIcon', 'fa fa-refresh');
+        },
+        1000
+      );
     },
     cancelInput() {
       console.log(this.type + ' input canceled');

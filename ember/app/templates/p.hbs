@@ -120,7 +120,7 @@
                       </div>
                     </div>
                     {{#if (eq currentUser.user.creditsRemaining 0)}}
-                      <button class="btn btn-primary border-0 px-2 input-group-append h-2-5r" title="Tip">
+                      <button {{action this.currentUser.openCreditDropdown}} class="btn btn-primary border-0 px-2 input-group-append h-2-5r" title="Tip">
                         Tip
                       </button>
                     {{else}}

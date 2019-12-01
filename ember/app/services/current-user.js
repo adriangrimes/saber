@@ -13,6 +13,7 @@ export default Service.extend({
 
   signupSuccess: false,
   readyForConversationLoad: true,
+  openCreditDropdown: function() {}, //populated by dropdown-shim component
 
   // Main login function
   logIn(identification, password) {

@@ -50,11 +50,15 @@ class UserVerificationUploadsController < ApplicationController
   def destroy
     if params[:id].present?
       verification_upload = UserVerificationUpload.find(params[:id])
-      if verification_upload.destroy
-        render status: :no_content
+      if @authenticated_user.id == verification_upload.user_id
+        if verification_upload.destroy
+          render status: :no_content
+        else
+          render json: ErrorSerializer.serialize(verification_upload.errors),
+            status: :unprocessable_entity
+        end
       else
-        render json: ErrorSerializer.serialize(verification_upload.errors),
-          status: :unprocessable_entity
+        render status: :not_found
       end
     else
       render status: :not_found
@@ -74,8 +78,6 @@ class UserVerificationUploadsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def verification_upload_params
-    params[:id] = params[:data][:attributes][:user_id] if params[:id].nil?
-
     params.require(:data)
           .require(:attributes)
           .permit(:user_id,

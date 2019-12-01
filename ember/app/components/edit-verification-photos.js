@@ -36,9 +36,7 @@ export default Component.extend({
         .then(records => {
           console.log('all verification uploads saved - records:', records);
           component.store
-            .query('user-verification-upload', {
-              id: component.session.data.authenticated.user_id
-            })
+            .query('user-verification-upload', {})
             .then(uploads => {
               console.log('set model to current uploads:', uploads);
               component.set('model', uploads);
