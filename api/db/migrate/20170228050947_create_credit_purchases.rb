@@ -14,5 +14,8 @@ class CreateCreditPurchases < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
+
+    execute "ALTER TABLE credit_purchases AUTO_INCREMENT = 1492400" # for MariaDB
+
   end
 end

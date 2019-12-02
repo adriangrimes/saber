@@ -6,5 +6,8 @@ class CreateChatTickets < ActiveRecord::Migration[5.2]
       t.string :username, null: false
       t.timestamps
     end
+
+    execute "ALTER TABLE chat_tickets AUTO_INCREMENT = 2268700" # for MariaDB
+
   end
 end

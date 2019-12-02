@@ -8,5 +8,8 @@ class CreateContestVotes < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
+
+    execute "ALTER TABLE contest_votes AUTO_INCREMENT = 1835900" # for MariaDB
+
   end
 end

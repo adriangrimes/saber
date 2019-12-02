@@ -6,5 +6,8 @@ class CreateUserFavorites < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
+
+    execute "ALTER TABLE user_favorites AUTO_INCREMENT = 1613400" # for MariaDB
+
   end
 end

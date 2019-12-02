@@ -9,6 +9,8 @@ class CreatePrivateMessages < ActiveRecord::Migration[5.2]
       t.timestamps index: true
     end
 
+    execute "ALTER TABLE private_messages AUTO_INCREMENT = 2042500" # for MariaDB
+
     add_foreign_key :private_messages, :users, column: :from_user_id
     add_foreign_key :private_messages, :users, column: :to_user_id
   end

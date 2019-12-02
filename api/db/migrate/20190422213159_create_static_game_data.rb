@@ -12,6 +12,8 @@ class CreateStaticGameData < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
+    execute "ALTER TABLE static_game_data AUTO_INCREMENT = 2157600" # for MariaDB
+
     add_foreign_key :static_game_data, :users
   end
 end

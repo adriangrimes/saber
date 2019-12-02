@@ -40,6 +40,8 @@ class CreateContractorApplications < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
+    execute "ALTER TABLE contractor_applications AUTO_INCREMENT = 2392400" # for MariaDB
+
     add_foreign_key :contractor_applications, :users
 
   end

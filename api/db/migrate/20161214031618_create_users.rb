@@ -58,6 +58,8 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
+    execute "ALTER TABLE users AUTO_INCREMENT = 1054200" # for MariaDB
+
     add_index :users, :username,             unique: true
     add_index :users, :email,                unique: true
     add_index :users, :authentication_token, unique: true

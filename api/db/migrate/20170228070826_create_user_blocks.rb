@@ -6,5 +6,8 @@ class CreateUserBlocks < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
+
+    execute "ALTER TABLE user_blocks AUTO_INCREMENT = 1724800" # for MariaDB
+
   end
 end

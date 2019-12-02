@@ -8,6 +8,8 @@ class CreateUserVerificationUploads < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
+    execute "ALTER TABLE user_verification_uploads AUTO_INCREMENT = 1385300" # for MariaDB
+
     add_foreign_key :user_verification_uploads, :users, column: :user_id
   end
 end

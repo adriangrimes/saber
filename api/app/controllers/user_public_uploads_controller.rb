@@ -7,11 +7,11 @@ class UserPublicUploadsController < ApplicationController
   def index
     if params[:username].present?
       user_public_datum = UserPublicDatum
-        .where('lower(username) = ?', params[:username].to_s.downcase)
+        .where('username = ?', params[:username].to_s)
         .first
       unless user_public_datum.nil?
         user_public_uploads = UserPublicUpload
-          .where('user_id = ?', user_public_datum.id)
+          .where('user_id = ?', user_public_datum.user_id)
           .order('id ASC')
 
         render json: UserPublicUploadSerializer
@@ -78,7 +78,7 @@ class UserPublicUploadsController < ApplicationController
     p 'UPDATE - public upload route'
     if params[:id].present?
       user_public_upload = UserPublicUpload.find(params[:id])
-      user_public_datum = UserPublicDatum.find(user_public_upload.user_id)
+      user_public_datum = UserPublicDatum.find_by(user_id: user_public_upload.user_id)
       if token_is_authorized_for_id?(user_public_datum.user_id)
         user_public_upload.members_only = upload_params[:members_only]
 

@@ -25,6 +25,8 @@ class CreateUserPublicData < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
+    execute "ALTER TABLE user_public_data AUTO_INCREMENT = 1163200" # for MariaDB
+
     add_foreign_key :user_public_data, :users
     add_index :user_public_data, :username, unique: true
   end
