@@ -25,6 +25,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
         this.get('session.data.authenticated.user_id'),
         { reload: true }
       ),
+      userPublicDatum: this.store.queryRecord('user-public-datum', {
+        username:  this.get('session.data.authenticated.username')
+      }),
       contractorApplication: this.store
         .queryRecord('contractor-application', {}, { reload: true })
         .catch(err => {

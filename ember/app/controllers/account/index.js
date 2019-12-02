@@ -9,28 +9,32 @@ export default Controller.extend({
   notify: service(),
   errorHandler: service(),
 
-  payoutSettingSubmitBtn: 'btn btn-primary',
-  payoutSettingSubmitText: 'Save',
-  notifySettingsSubmitBtn: 'btn btn-primary',
-  notifySettingsSubmitText: 'Save',
-  siteSettingSubmitBtn: 'btn btn-primary',
-  siteSettingSubmitText: 'Save',
-  emailChangeSubmitBtn: 'btn btn-primary',
-  emailChangeSubmitText: 'Save',
-  passwordChangeSubmitBtn: 'btn btn-primary',
-  passwordChangeSubmitText: 'Save',
-  securityQuestionsSubmitBtn: 'btn btn-primary',
-  securityQuestionsSubmitText: 'Save',
+  notesSaveStart: false,
+  notesSaveSuccess: false,
 
+  streamSettingsSaveStart:false,
+  streamSettingsSaveSuccess: false,
+
+  notifySettingsSaveSuccess:false,
+  notifysettingsSaveStart: false,
+
+  payoutSettingsSaveStart:false,
+  payoutSettingsSaveSuccess: false,
+
+  emailSaveStart: false,
+  emailSaveSuccess: false,
+
+  passwordSaveStart: false,
+  passwordSaveSuccess: false,
+
+  siteSettingsSaveSuccess:false,
+  siteSettingsSaveStart: false,
 
     streamKeyDisplay: '********************',
     streamKeyHidden: true,
     keyCopySuccess: 'd-none',
     newCopySuccess: 'd-none',
-    streamSettingSubmitBtn: 'btn btn-primary',
-    streamSettingSubmitText: 'Save',
-    notesSubmitBtn: 'btn btn-primary',
-    notesSubmitText: 'Save',
+
 
   timezoneList: [
     '(GMT, UTC+00:00) Monrovia, Reykjavik',
@@ -405,23 +409,6 @@ export default Controller.extend({
     'Zimbabwe'
   ],
 
-  questionsList: [
-    'What is the name of the first video game you played?',
-    'In what city did you meet your spouse/significant other?',
-    'What is your oldest sibling’s birthday month and year? (e.g., January 1900)',
-    'What is your oldest sibling’s middle name?',
-    'What school did you attend for sixth grade?',
-    'What is your oldest cousin’s first and last name?',
-    'What was the name of your first stuffed animal?',
-    'In what city or town did your mother and father meet?',
-    'Where were you when you had your first kiss?',
-    'What is the first name of the boy or girl that you first kissed?',
-    'What was the last name of your third grade teacher?',
-    'In what city does your nearest sibling live?',
-    'What is your maternal grandmother’s maiden name?',
-    'In what city or town was your first job?',
-    'What is the name of a college you applied to but didn’t attend?'
-  ],
 
   actions: {
     showStreamKey() {
@@ -482,13 +469,13 @@ export default Controller.extend({
     },
 
     submitStreamSettings() {
+      this.set('streamSettingsSaveStart', true);
       // Save record to db
       this.model.userPublicDatum
         .save()
         .then(() => {
-          console.log('submitPayoutSettings saved');
-          this.set('streamSettingSubmitText', '');
-          this.set('streamSettingSubmitBtn', 'btn btn-primary fa fa-check');
+          console.log('submitStreamSettings saved');
+          this.set('streamSettingsSaveSuccess', true);
         })
         .catch(err => {
           console.log('error saving userPublicDatum record:', err);
@@ -497,13 +484,15 @@ export default Controller.extend({
     },
 
     submitUserNotes() {
+
+      this.set('notesSaveStart', true);
+
       // Save record to db
       this.model.user
         .save()
         .then(() => {
           console.log('notesSubmit saved');
-          this.set('notesSubmitText', '');
-          this.set('notesSubmitBtn', 'btn btn-primary fa fa-check');
+          this.set('notesSaveSuccess', true);
         })
         .catch(err => {
           console.log('error saving user record:', err);
@@ -543,6 +532,8 @@ export default Controller.extend({
     },
 
     submitnotifySettings() {
+      this.set('notifysettingsSaveStart', true);
+
       // Modify record pulled from db to variable
       this.model.user.set(
         'sendEmailFollowedOnline',
@@ -559,8 +550,7 @@ export default Controller.extend({
         .save()
         .then(() => {
           console.log('submitnotifySettings saved');
-          this.set('notifySettingsSubmitText', '');
-          this.set('notifySettingsSubmitBtn', 'btn btn-primary fa fa-check');
+          this.set('notifySettingsSaveSuccess', true);
         })
         .catch(err => {
           console.log('error saving user record:', err);
@@ -570,6 +560,7 @@ export default Controller.extend({
     },
 
     submitSiteSettings() {
+      this.set('siteSettingsSaveStart', true);
       if (this.get('currentUser.user.darkMode')) {
         this.themeChanger.set('theme', 'dark');
       } else {
@@ -591,8 +582,7 @@ export default Controller.extend({
         .save()
         .then(() => {
           console.log('submitSiteSettings saved');
-          this.set('siteSettingSubmitText', '');
-          this.set('siteSettingSubmitBtn', 'btn btn-primary fa fa-check');
+          this.set('siteSettingsSaveSuccess',true);
         })
         .catch(err => {
           console.log('error saving user record:', err);
@@ -602,6 +592,7 @@ export default Controller.extend({
     },
 
     submitPayoutSettings() {
+      this.set('payoutSettingsSaveStart', true);
       // Get current state of setting from page and set to a variable
       var payoutMethod = this.inputPayoutType;
       var bitcoinAddress = this.inputbitcoinaddress;
@@ -625,8 +616,7 @@ export default Controller.extend({
         .save()
         .then(() => {
           console.log('submitPayoutSettings saved');
-          this.set('payoutSettingSubmitText', '');
-          this.set('payoutSettingSubmitBtn', 'btn btn-primary fa fa-check');
+          this.set('payoutSettingsSaveSuccess', true);
         })
         .catch(err => {
           console.log('error saving user record:', err);
@@ -636,6 +626,8 @@ export default Controller.extend({
     },
 
     submitEmailChange() {
+
+      this.set('emailSaveStart', true);
       if (
         this.get('inputnewemailAddress') ==
         this.get('inputnewemailAddressConfirm')
@@ -654,8 +646,7 @@ export default Controller.extend({
               'Your email address has been changed, please check for a confirmation email to complete the process.'
             );
             console.log('submitEmailChange saved');
-            this.set('emailChangeSubmitText', '');
-            this.set('emailChangeSubmitBtn', 'btn btn-primary fa fa-check');
+            this.set('emailSaveSuccess', true);
           })
           .catch(err => {
             console.log('error saving user record:', err);
@@ -668,6 +659,7 @@ export default Controller.extend({
     },
 
     submitPasswordChange() {
+      this.set('passwordSaveStart', true);
       if (this.get('inputnewpassword') == this.get('inputpasswordconfirm')) {
         // Modify record pulled from db to variable
         this.model.user.set('password', this.get('inputnewpassword'));
@@ -685,8 +677,7 @@ export default Controller.extend({
             );
             this.notify.success('Your password has been changed.');
             console.log('submitPasswordChange saved');
-            this.set('passwordChangeSubmitText', '');
-            this.set('passwordChangeSubmitBtn', 'btn btn-primary fa fa-check');
+              this.set('passwordSaveSuccess', true);
           })
           .catch(err => {
             console.log('error saving user record:', err);
@@ -698,48 +689,6 @@ export default Controller.extend({
       }
     },
 
-    submitSecurityQuestionChange() {
-      // Get current state of setting from page and set to a variable
-      var question1 = this.inputQuestion1;
-      var question2 = this.inputQuestion2;
-      var question3 = this.inputQuestion3;
-      var answer1 = this.inputAnswer1;
-      var answer2 = this.inputAnswer2;
-      var answer3 = this.inputAnswer3;
-      var updateSecurityQuestions =
-        question1 +
-        '|' +
-        answer1 +
-        '|' +
-        question2 +
-        '|' +
-        answer2 +
-        '|' +
-        question3 +
-        '|' +
-        answer3;
-
-      // Modify record pulled from db to variable
-      this.model.user.set('securityQuestions', updateSecurityQuestions);
-      this.model.user.set(
-        'currentPassword',
-        this.get('inputSecurityQuestionCurrentPassword')
-      );
-      // Save record to db
-      this.model.user
-        .save()
-        .then(() => {
-          this.notify.success('Your security questions have been updated.');
-          console.log('submitSecuritySettings saved');
-          this.set('securityQuestionsSubmitText', '');
-          this.set('securityQuestionsSubmitBtn', 'btn btn-primary fa fa-check');
-        })
-        .catch(err => {
-          console.log('error saving user record:', err);
-          this.errorHandler.handleWithNotification(err);
-          this.model.user.rollbackAttributes();
-        });
-    },
 
     getTransactions() {
       console.log('getting transactions');

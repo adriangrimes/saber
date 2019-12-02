@@ -64,8 +64,8 @@
           </div>
         </div>
 -->
-        <div class="card">
-          <div class="card-body p-0">
+
+          <div class=" p-0">
 
             {{stream-player
               broadcasterUsername=model.userPublicDatum.username
@@ -133,7 +133,7 @@
               </div>
             {{/if}}
           </div>
-        </div>
+
 
 
       </div>
@@ -283,9 +283,8 @@
             }}
 
             <div class="float-right">
-              <button type="submit" class="btn btn-primary" id="profileSettingSubmit">
-                Save
-              </button>
+              {{submit-button  submitSuccessState=(mut profileSaveSuccess) submitStarted=(mut profileSaveStart)}}
+
             </div>
             <br>
           </div>

@@ -22,6 +22,9 @@ export default Controller.extend({
   gameIsActive: true,
   tipMenuOpen: false,
   tipAmountOptions: 10,
+  profileSaveStart:false,
+  profileSaveSuccess:false,
+
 
   actions: {
     addTag(tag) {
@@ -117,6 +120,7 @@ export default Controller.extend({
 
     submitProfileSettings() {
       // If gender selection is male or female, save that to profileGender,
+      this.set('profileSaveStart', true);
       // otherwise set the custom gender textfield as the gender.
       if (
         this.tempGenderSelection == 'Male' ||
@@ -132,6 +136,7 @@ export default Controller.extend({
         .save()
         .then(() => {
           console.log('submitProfileSettings saved');
+          this.set('profileSaveSuccess', true);
           // Clear custom gender textfield if Male or Female was selected
           if (
             this.tempGenderSelection == 'Male' ||
@@ -139,9 +144,7 @@ export default Controller.extend({
           ) {
             this.set('tempGenderText', '');
           }
-          // Close profile edit panel
-          jQuery('[id=viewProfileCollapse]').addClass('show');
-          jQuery('[id=editProfileCollapse]').removeClass('show');
+
         })
         .catch(err => {
           // Save failed

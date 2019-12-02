@@ -29,11 +29,11 @@
       {{/link-to}}
 
       {{#if this.currentUser.user.isContracted}}
-        <div class="card mb-3" id="payoutSettingsAccordion">
+        <div class="card mb-3">
           <div class="card-heading">
             <h3 class="card-title">Payout Settings</h3>
           </div>
-          <div id="PayoutSettings" class="card ">
+          <div class="card ">
             <div class="card-body">
               <h5> Select Payout Method:</h5>
 
@@ -41,11 +41,11 @@
                 <div class="form-check form-check-inline w-100 pb-3">
                   <div class=" w-50 mx-0 py-3 btn btn-block btn-primary " {{action "checkThis" "inputPayoutCheck"}}>
                     {{radio-button value='check' id="inputPayoutCheck" name=inputPayoutType checked=inputPayoutType}}
-                    <label class="form-check-label" for="inputPayoutType">Mailed Check</label>
+                    <label class="custom-control-label" for="inputPayoutType">Mailed Check</label>
                   </div>
                   <div class=" w-50 mx-0 mt-0 py-3 btn btn-block btn-primary " {{action "checkThis" "inputPayoutBitcoin"}}>
                     {{radio-button value='bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=inputPayoutType}}
-                    <label class="form-check-label" for="inputPayoutType">Bitcoin</label>
+                    <label class="custom-control-label" for="inputPayoutType">Bitcoin</label>
                   </div>
                 </div>
                 {{#if payoutIsBitcoin}}
@@ -91,15 +91,13 @@
                   {{/power-select}}
                 </div>
 
-                <div class=text-right>
-                  <button type="submit" class={{this.payoutSettingSubmitBtn}}>{{this.payoutSettingSubmitText}}</button>
-                </div>
+                  {{submit-button  submitSuccessState=(mut payoutSettingsSaveSuccess) submitStarted=(mut payoutSettingsSaveStart)}}
               </form>
             </div>
           </div>
         </div>
 
-        <div class="card mb-3" id="transactionsAccordion">
+        <div class="card mb-3">
           <div class="card-heading" >
             <h3 class="card-title">Tips</h3>
           </div>
@@ -133,39 +131,38 @@
         </div>
       {{/if}}
 
-      <div class="card mb-3" id="notifySettingsAccordion">
+      <div class="card mb-3" >
         <div class="card-heading">
           <h3 class="card-title">Notification Settings</h3>
         </div>
-        <div id="notifySettings" class="card">
+        <div class="card">
           <div class="card-body">
             <h5>Email Subscriptions </h5>
+
             <form {{action "submitnotifySettings" on="submit"}}>
 
-              <div class="form-check">
-                <label class="form-check-label">
-                  {{input type="checkbox" class="form-check-input" name="sendEmailFollowedOnline" checked=sendEmailFollowedOnline}}
-                  "Now Streaming" notifications from broadcasters you follow <i class="fa fa-heart" aria-hidden="true"></i>
+              <div class="custom-control custom-checkbox">
+                {{input type="checkbox" class="custom-control-input" id="sendFollowedOnline" name="sendEmailFollowedOnline" checked=sendEmailFollowedOnline}}
+                <label class="custom-control-label" for="sendFollowedOnline">
+                        "Now Streaming" notifications from broadcasters you follow <i class="fa fa-heart" aria-hidden="true"></i>
                 </label>
               </div>
 
-              <div class="form-check">
-                <label class="form-check-label">
-                  {{input type="checkbox" class="form-check-input" name="privateMessageEmailNotifications" checked=privateMessageEmailNotifications}}
+              <div class="custom-control custom-checkbox">
+                {{input type="checkbox" class="custom-control-input" id="sendPrivateMessageEmail" name="privateMessageEmailNotifications" checked=privateMessageEmailNotifications}}
+                <label class="custom-control-label" for="sendPrivateMessageEmail">
                   Private message notifications
                 </label>
               </div>
-              <div class="form-check">
-                <label class="form-check-label">
-                  {{input type="checkbox" class="form-check-input" name="sendEmailSiteNews" checked=sendEmailSiteNews}}
+              <div class="custom-control custom-checkbox">
+                {{input type="checkbox" class="custom-control-input" id="sendSiteNews" name="sendEmailSiteNews" checked=sendEmailSiteNews}}
+                <label class="custom-control-label" for="sendSiteNews">
                   Monthly site newsletter
                 </label>
               </div>
 
+              {{submit-button  submitSuccessState=(mut notifySettingsSaveSuccess) submitStarted=(mut notifysettingsSaveStart)}}
 
-              <div class=text-right>
-                <button type="submit" class={{this.notifySettingsSubmitBtn}}>{{this.notifySettingsSubmitText}}</button>
-              </div>
 
             </form>
           </div>
@@ -184,10 +181,10 @@
               <hr class="splash-horizontal-rule">
               <h5> Site Graphics Style</h5>
 
-              <div class="form-check">
-                <label class="form-check-label">
-                  <!-- <input type="checkbox" class="form-check-input" checked> -->
-                  {{input type="checkbox" class="form-check-input" name="darkMode" checked=this.currentUser.user.darkMode }}
+              <div class="custom-control custom-checkbox">
+                <label class="custom-control-label">
+                  <!-- <input type="checkbox" class="custom-control-input" checked> -->
+                  {{input type="checkbox" class="custom-control-input" name="darkMode" checked=this.currentUser.user.darkMode }}
                   Dark mode
                 </label>
               </div>
@@ -210,10 +207,8 @@
                 <!--use matcher=timeZoneSearch instead of searchField for more advanced search -->
               </div>
 
-              <div class=text-right>
-                <button type="submit" class={{this.siteSettingSubmitBtn}}>{{this.siteSettingSubmitText}}</button>
+              {{submit-button  submitSuccessState=(mut siteSettingsSaveSuccess) submitStarted=(mut siteSettingsSaveStart)}}
 
-              </div>
             </form>
           </div>
         </div>
@@ -241,9 +236,7 @@
                 {{input type="password" class="form-control" required=true
                         autocomplete="current-password" value=inputEmailCurrentPassword }}
               </div>
-              <div class=text-right>
-                <button type="submit" class={{this.emailChangeSubmitBtn}}>{{this.emailChangeSubmitText}}</button>
-              </div>
+                {{submit-button  submitSuccessState=(mut emailSaveSuccess) submitStarted=(mut emailSaveStart)}}
             </form>
 
             <hr class="splash-horizontal-rule">
@@ -265,74 +258,12 @@
                 {{input type="password" class="form-control" required=true
                         autocomplete="current-password" value=inputPasswordCurrentPassword }}
               </div>
-              <div class=text-right>
-                <button type="submit" class={{this.passwordChangeSubmitBtn}}>{{this.passwordChangeSubmitText}}</button>
 
-              </div>
+
+              {{submit-button  submitSuccessState=(mut passwordSaveSuccess) submitStarted=(mut passwordSaveStart)}}
+
             </form>
 
-            <hr class="splash-horizontal-rule">
-
-            <form {{action "submitSecurityQuestionChange" on="submit"}}>
-              <h5>Change your Security Questions</h5>
-              <div class="form-group">
-                <label>Question 1</label>
-                {{#power-select
-                        selected=inputQuestion1
-                        id="inputQuestion1"
-                        options=questionsList
-                        onchange=(action (mut inputQuestion1))
-                        oninput=(action "checkLength")
-                        as |name|}}
-                  {{name}}
-                {{/power-select}}
-              </div>
-              <div class="form-group">
-                <label for="inputAnswer1">Answer 1</label>
-                {{input type="text" class="form-control" value=inputAnswer1 }}
-              </div>
-              <div class="form-group">
-                <label>Question 2</label>
-                {{#power-select
-                        selected=inputQuestion2
-                        id="inputQuestion2"
-                        options=questionsList
-                        onchange=(action (mut inputQuestion2))
-                        oninput=(action "checkLength")
-                        as |name|}}
-                  {{name}}
-                {{/power-select}}
-              </div>
-              <div class="form-group">
-                <label for="inputAnswer1">Answer 2</label>
-                {{input type="text" class="form-control" value=inputAnswer2 }}
-              </div>
-              <div class="form-group">
-                <label>Question 3</label>
-                {{#power-select
-                        selected=inputQuestion3
-                        id="inputQuestion3"
-                        options=questionsList
-                        onchange=(action (mut inputQuestion3))
-                        oninput=(action "checkLength")
-                        as |name|}}
-                  {{name}}
-                {{/power-select}}
-              </div>
-              <div class="form-group">
-                <label for="inputAnswer3">Answer 3</label>
-                {{input type="text" class="form-control" value=inputAnswer3 }}
-              </div>
-              <div class="form-group">
-                <label for="inputpassword">Current Password</label>
-                {{input type="password" class="form-control" required=true
-                        autocomplete="current-password" value=inputSecurityQuestionCurrentPassword }}
-              </div>
-              <div class=text-right>
-                <button type="submit" class={{this.securityQuestionsSubmitBtn}}>{{this.securityQuestionsSubmitText}}</button>
-
-              </div>
-            </form>
           </div>
         </div>
       </div>
@@ -427,156 +358,6 @@
 
 
 
-    {{#if this.currentUser.user.isContracted}}
-
-      <div class="row m-0">
-
-
-        {{#if this.currentUser.user.isContracted}}
-          <div class="col-xs-12 col-md-8 order-md-1">
-
-            Your Affiliate link is coming soon!
-            <br><br>
-
-            {{#if this.currentUser.user.broadcaster}}
-
-              <div class="card mb-3 " >
-                <div class="card-heading  " >
-                  <h4 class="card-title"><span class="fa fa-cog" aria-hidden="true"></span>&nbsp; Stream Settings</h4>
-                </div>
-                <div id="streamSettings" class="card">
-                  <div class="card-body">
-                    <div class=" row pb-3">
-                      <div class="col-xs-12 col-sm-6 pb-2">
-                        <button class="btn btn-block btn-secondary" type="button" {{action "showStreamKey"}}>Show Stream Key</button>
-                      </div>
-                      <div class="col-xs-12 col-sm-6">
-                        {{confirm-input title="Reset?" button-title="Reset Stream Key" onConfirm=(action "resetStreamKey")}}
-                      </div>
-                    </div>
-
-                    <div class="mb-3" {{action "copyStreamKeyToClipboard"}}>
-                      {{textarea id="streamKeyDisplayID" class="form-control" value=streamKeyDisplay readonly="true"}}
-                      <div class={{this.keyCopySuccess}}>
-                        <div class="float-right text-success">
-                          <span class="fa fa-check "></span>Copied to Clipboard
-                        </div>
-                      </div>
-                      <div class={{this.newCopySuccess}}>
-                        <div class="mt-0 float-right text-success">
-                          <span class="fa fa-check "></span>New Stream Key Saved
-                        </div>
-                      </div>
-                    </div>
-
-                    <hr class="splash-horizontal-rule mt-4">
-                    <form {{action "submitStreamSettings" on="submit"}}>
-                      <h5>Interaction Settings</h5>
-
-                      <div class="form-check mt-2">
-                        <label class="form-check-label">
-                          {{input type="checkbox" class="form-check-input" checked=model.userPublicDatum.allowTips}}
-                          Enable Tipping.
-                        </label>
-                      </div>
-
-                      <div class="text-right pt-3">
-                        <button type="submit" class={{this.streamSettingSubmitBtn}}>{{this.streamSettingSubmitText}}</button>
-                      </div>
-                    </form>
-
-                  </div>
-                </div>
-              </div>
-
-            {{/if}}
-
-
-            <div class="card mb-3 " id="notesAccordion">
-
-              <div class="card-heading">
-                <h4 class="card-title"><span class="fa fa-bar-chart" aria-hidden="true"></span>&nbsp; Private Notepad</h4>
-              </div>
-              <div id="notes" class="card">
-                <div class="card-body">
-
-                  <form {{action "submitUserNotes" on="submit"}}>
-                    {{textarea class="form-control" rows=8 id="privateUserNotes" maxlength="1000" value=model.user.privateUserNotes placeholder="Only you can see this notepad."}}
-                    <div class="text-right pt-3">
-                      <button type="submit" class={{this.notesSubmitBtn}}>{{this.notesSubmitText}}</button>
-                    </div>
-                  </form>
-
-                </div>
-              </div>
-            </div>
-            {{#if this.currentUser.user.developer}}
-              <div class="card mb-3 " id="developerAccordion">
-                <div class="card-heading" >
-                  <h4 class="card-title"><span class="fa fa-gamepad" aria-hidden="true"></span>&nbsp; My Games</h4>
-
-                </div>
-                <div id="developer" class="card">
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-6">
-                        <button class="btn btn-secondarysecondary btn-block btn-lg d-block d-sm-none" title="View the API and Documentation">View<br>API</button>
-                        <button class="btn btn-secondary btn-block btn-lg d-none d-sm-block" title="View the API and Documentation">View API</button>
-                      </div>
-                      <div class="col-6">
-                        <button class="btn btn-primary btn-block btn-lg d-block d-sm-none" title="Upload Your Game">Upload <br>Game</button>
-                        <button class="btn btn-primary btn-block btn-lg d-none d-sm-block" title="Upload Your Game">Upload Game</button>
-                      </div>
-                    </div>
-                    <hr class="splash-horizontal-rule">
-
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-6">
-                        <div class="col-xs-8">
-                          Game 1
-                        </div>
-                        <div class="col-xs-4">
-                          <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
-                        </div>
-                      </div>
-                      <div class="col-xs-12 col-sm-6">
-                        <div class="col-xs-8">
-                          Game 2
-                        </div>
-                        <div class="col-xs-4">
-                          <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-6">
-                        <div class="col-xs-8">
-                          Game 3
-                        </div>
-                        <div class="col-xs-4">
-                          <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
-                        </div>
-                      </div>
-                      <div class="col-xs-12 col-sm-6">
-                        <div class="col-xs-8">
-                          Game 4
-                        </div>
-                        <div class="col-xs-4">
-                          <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            {{/if}}
-          </div>
-        {{/if}}
-      </div>
-
-    {{else}}
-
-    {{/if}}
 
 
 
