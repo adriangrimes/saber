@@ -5,20 +5,19 @@ const shortid = require('./shortid'); // For generating IDs
 const requestLibrary = require('request'); // HTTP Gets for authentication
 
 const currentEnvironment = process.argv[2];
-let apiHost = '';
 
 switch (currentEnvironment) {
   case 'development':
-    apiHost = 'http://localhost:3000';
+    const apiHost = 'http://localhost:3000';
     break;
   case 'staging':
-    apiHost = 'https://api.saber.solversion.com';
+    const apiHost = 'https://api.saber.solversion.com';
     break;
   case 'production':
-    apiHost = 'https://api.saber.tv';
+    const apiHost = 'https://api.saber.tv';
     break;
   default:
-    apiHost = 'http://localhost:3000';
+    const apiHost = 'http://localhost:3000';
     break;
 }
 
@@ -341,8 +340,8 @@ function addChatUserToRequestedChannel(client, req) {
             channel.totalUsers += 1;
             broadcastUserJoinAndUserCount(client);
           }
-          //4XX status code
-        } else if (res && res.statusCode.toString()[0] == '4') {
+          //4XX/5XX status code
+        } else if (res && res.statusCode.toString()[0] != '2') {
           // Else client is a guest, increment guest and totalUsers counter and
           // send updated user count to client
           console.log(

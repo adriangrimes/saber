@@ -1,5 +1,4 @@
 import Component from '@ember/component';
-import jQuery from 'jquery';
 
 // log-in
 export default Component.extend({
