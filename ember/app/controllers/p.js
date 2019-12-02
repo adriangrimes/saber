@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import jQuery from 'jquery';
 import RSVP from 'rsvp';
 import { inject as service } from '@ember/service';
+
 export default Controller.extend({
   notify: service(),
   errorHandler: service(),
@@ -22,9 +23,8 @@ export default Controller.extend({
   gameIsActive: true,
   tipMenuOpen: false,
   tipAmountOptions: 10,
-  profileSaveStart:false,
-  profileSaveSuccess:false,
-
+  profileSaveStart: false,
+  profileSaveSuccess: false,
 
   actions: {
     addTag(tag) {
@@ -119,8 +119,8 @@ export default Controller.extend({
     },
 
     submitProfileSettings() {
-      // If gender selection is male or female, save that to profileGender,
       this.set('profileSaveStart', true);
+      // If gender selection is male or female, save that to profileGender,
       // otherwise set the custom gender textfield as the gender.
       if (
         this.tempGenderSelection == 'Male' ||
@@ -144,7 +144,6 @@ export default Controller.extend({
           ) {
             this.set('tempGenderText', '');
           }
-
         })
         .catch(err => {
           // Save failed
