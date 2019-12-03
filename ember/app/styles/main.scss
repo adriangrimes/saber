@@ -3,9 +3,13 @@ $background-color: #2a2a2a;
 $layer1-background-color: #323232;
 $layer2-background-color: #6a6a6a;
 $font-color: #cbcbcb;
-$brand-color-primary: #005369; // Buttons and Hyperlinks
-$brand-color-secondary: #003069; //Gradient Left / Secondary Buttons #b80000
-$brand-color-tertiary: #550000; //Gradient Right #800000
+$brand-color-primary: #85CB33; // Buttons and Hyperlinks
+$brand-color-secondary: #b0d54f; //Secondary Buttons #b80000
+$brand-color-tertiary: #b0d54f; //Gradient Left #800000
+$brand-color-quaternary: #3ba18b; //Gradient Right #800000
+
+$on-status-color: $brand-color-primary; //browse broadcaster online status
+$off-status-color: #000000; //browse broadcaster offline status
 
 * {
   font-family: "Lato", sans-serif;
@@ -31,51 +35,55 @@ a.brand-link:visited {
 .dropdown-menu {
   width: max-content !important;
 }
+.radio-is-selected:checked+label{
+  background-color: $brand-color-quaternary;
+  border-color: $brand-color-quaternary;
+}
 
 .brand-gradient-bg {
-  background: $brand-color-secondary; /* For browsers that do not support gradients */
+  background: $brand-color-tertiary; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(
     left,
-    $brand-color-secondary,
-    $brand-color-tertiary
+    $brand-color-tertiary,
+    $brand-color-quaternary
   ); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(
     right,
-    $brand-color-secondary,
-    $brand-color-tertiary
+    $brand-color-tertiary,
+    $brand-color-quaternary
   ); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(
     right,
-    $brand-color-secondary,
-    $brand-color-tertiary
+    $brand-color-tertiary,
+    $brand-color-quaternary
   ); /* For Firefox 3.6 to 15 */
   background: linear-gradient(
     to right,
-    $brand-color-secondary,
-    $brand-color-tertiary
+    $brand-color-tertiary,
+    $brand-color-quaternary
   ); /* Standard syntax */
 }
 .brand-gradient-font {
-  background: $brand-color-secondary; /* For browsers that do not support gradients */
+  background: $brand-color-tertiary; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(
     left,
-    $brand-color-secondary,
-    $brand-color-tertiary
+    $brand-color-tertiary,
+    $brand-color-quaternary
   ); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(
     right,
-    $brand-color-secondary,
-    $brand-color-tertiary
+    $brand-color-tertiary,
+    $brand-color-quaternary
   ); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(
     right,
-    $brand-color-secondary,
-    $brand-color-tertiary
+    $brand-color-tertiary,
+    $brand-color-quaternary
   ); /* For Firefox 3.6 to 15 */
   background: linear-gradient(
     to right,
-    $brand-color-secondary,
-    $brand-color-tertiary
+    $brand-color-tertiary,
+    $brand-color-quaternary
   ); /* Standard syntax */
 
   -webkit-background-clip: text;
@@ -113,6 +121,16 @@ a.brand-link:visited {
   position: fixed;
   bottom: 1rem;
   right: 2rem;
+}
+.status-border{
+  border-style: solid;
+  border-color: $font-color;
+}
+.online {
+  border-color: $on-status-color;
+ }
+.offline {
+  border-color: $off-status-color;
 }
 
 /// Overriding Bootstrap
@@ -570,31 +588,7 @@ $border-radius: 0.1rem;
 //   // width: calc(100vw - 34px);
 //   width: 100%;
 // }
-//
-// a {
-//   color: $linkTextColor;
-// }
-//
-// .btn-link {
-//   color: $linkTextColor;
-//   text-decoration: underline;
-//   cursor: pointer;
-// }
-// .btn-link:hover {
-//   color: $linkHoverTextColor;
-// }
-// .btn-link:active {
-//   color: $linkActiveTextColor;
-// }
-//
-// .footer {
-//   position: absolute;
-//   bottom: 0;
-//   width: 100%;
-//   height: 380px;
-//   background-color: $navDropDownBackgroundColor;
-// }
-//
+
 // .container {
 //   width: auto;
 //   max-width: 960px;
@@ -649,60 +643,6 @@ $border-radius: 0.1rem;
 // //   background-color: #bbbbbb;
 // // }
 //
-// //// Toggle buttons
-// /* The switch - the box around the slider */
-// .switch {
-//   position: relative;
-//   display: inline-block;
-//   width: 54px;
-//   height: 26px;
-// }
-//
-// /* Hide default HTML checkbox */
-// .switch input {
-//   display: none;
-// }
-//
-// /* The slider */
-// .slider {
-//   position: absolute;
-//   cursor: pointer;
-//   top: 0;
-//   left: 0;
-//   right: 0;
-//   bottom: 0;
-//   background-color: #ccc;
-//   -webkit-transition: 0.4s;
-//   transition: 0.4s;
-//   border-radius: 34px;
-// }
-//
-// .slider:before {
-//   position: absolute;
-//   content: "";
-//   height: 20px;
-//   width: 20px;
-//   left: 4px;
-//   bottom: 3px;
-//   background-color: $bodyFontColor;
-//   -webkit-transition: 0.4s;
-//   transition: 0.4s;
-//   border-radius: 50%;
-// }
-//
-// input:checked + .slider {
-//   background-color: #b80000;
-// }
-//
-// input:focus + .slider {
-//   box-shadow: 0 0 1px #2196f3;
-// }
-//
-// input:checked + .slider:before {
-//   -webkit-transform: translateX(26px);
-//   -ms-transform: translateX(26px);
-//   transform: translateX(26px);
-// }
 //
 // /////Buttons
 //
@@ -727,41 +667,7 @@ $border-radius: 0.1rem;
 // }
 //
 //
-// /////////////spinny guy
-// .spinner {
-//   width: 50px;
-//   height: 15px;
-//   background-color: #fff;
-//
-//   margin: 2px auto;
-//   -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
-//   animation: sk-rotateplane 1.2s infinite ease-in-out;
-// }
-// @-webkit-keyframes sk-rotateplane {
-//   0% {
-//     -webkit-transform: perspective(120px);
-//   }
-//   50% {
-//     -webkit-transform: perspective(120px) rotateY(180deg);
-//   }
-//   100% {
-//     -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg);
-//   }
-// }
-// @keyframes sk-rotateplane {
-//   0% {
-//     transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-//     -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-//   }
-//   50% {
-//     transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-//     -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-//   }
-//   100% {
-//     transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-//     -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-//   }
-// }
+
 //
 // /////////////splash page classes
 //
@@ -848,32 +754,7 @@ $border-radius: 0.1rem;
 // }
 //
 
-// // ////////////////////// homepage classes
-// .broadcaster-panel {
-//   margin: 3px;
-//   border-width: 3px;
-//   border-style: solid;
-//   border-radius: 3px;
-//   color: $broadcasterPanelTextColor;
-// }
-// .broadcaster-avatar {
-//   width: 100%;
-//   max-height: 180px;
-// }
-// .broadcaster-footer {
-//   padding: 7px;
-// }
-// .broadcaster-topic {
-//   max-width: 100%;
-//   overflow-x: hidden;
-//   white-space: nowrap;
-// }
-// .online {
-//   border-color: #b80000;
-// }
-// .offline {
-//   border-color: #000000;
-// }
+
 // // ///////////////////chat classes
 // #usermsg {
 //   border-radius: 0px;
@@ -1210,9 +1091,7 @@ $border-radius: 0.1rem;
 //   #splash-email-input {
 //     width: 50%;
 //   }
-//   .broadcaster-avatar {
-//     max-height: 123px;
-//   }
+
 //   body {
 //     margin-bottom: 120px;
 //   }

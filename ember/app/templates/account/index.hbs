@@ -39,12 +39,12 @@
 
               <form {{action "submitPayoutSettings" on="submit"}}>
                 <div class="form-check form-check-inline w-100 pb-3">
-                  <div class=" w-50 mx-0 py-3 btn btn-block btn-primary " {{action "checkThis" "inputPayoutCheck"}}>
-                    {{radio-button value='check' id="inputPayoutCheck" name=inputPayoutType checked=inputPayoutType}}
+                  <div class=" w-50 mx-0 py-3 btn btn-block btn-primary custom-control custom-radio " {{action "checkThis" "inputPayoutCheck"}}>
+                    {{radio-button class="custom-control-input" value='check' id="inputPayoutCheck" name=inputPayoutType checked=inputPayoutType}}
                     <label class="custom-control-label" for="inputPayoutType">Mailed Check</label>
                   </div>
-                  <div class=" w-50 mx-0 mt-0 py-3 btn btn-block btn-primary " {{action "checkThis" "inputPayoutBitcoin"}}>
-                    {{radio-button value='bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=inputPayoutType}}
+                  <div class=" w-50 mx-0 mt-0 py-3 btn btn-block btn-primary custom-control custom-radio" {{action "checkThis" "inputPayoutBitcoin"}}>
+                    {{radio-button class="custom-control-input" value='bitcoin' id="inputPayoutBitcoin" name=inputPayoutType checked=inputPayoutType}}
                     <label class="custom-control-label" for="inputPayoutType">Bitcoin</label>
                   </div>
                 </div>
@@ -144,7 +144,7 @@
               <div class="custom-control custom-checkbox">
                 {{input type="checkbox" class="custom-control-input" id="sendFollowedOnline" name="sendEmailFollowedOnline" checked=sendEmailFollowedOnline}}
                 <label class="custom-control-label" for="sendFollowedOnline">
-                        "Now Streaming" notifications from broadcasters you follow <i class="fa fa-heart" aria-hidden="true"></i>
+                        "Now Streaming" notifications from broadcasters you follow <i class="fa fa-bell" aria-hidden="true"></i>
                 </label>
               </div>
 

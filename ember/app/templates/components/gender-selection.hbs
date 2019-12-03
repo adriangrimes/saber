@@ -1,35 +1,32 @@
 <div class="form-group">
-  <label>Gender</label>
+  <label class="pl-2">Gender</label>
   <div class="form-inline">
-    <div class="form-check pr-3">
-      <label class="form-check-label">
-        {{radio-button class="form-check-input" value='Female'
+    <div class="custom-control custom-radio mr-5">
+        {{radio-button class="custom-control-input" id="inputGenderFemale" value='Female'
             groupValue=tempGenderSelection checked=genderSelection}}
-        Female
-      </label>
+
+        <label class="custom-control-label"   for="inputGenderFemale">  Female</label>
     </div>
-    <div class="form-check pr-3">
-      <label class="form-check-label">
-        {{radio-button class="form-check-input" value='Male'
+    <div class="form-custom-control custom-radio mr-5 ">
+        {{radio-button class="custom-control-input" value='Male'
+            id="inputGenderMale"
             groupValue=tempGenderSelection checked=genderSelection}}
-        Male
-      </label>
+
+        <label class="custom-control-label"  for="inputGenderMale">  Male</label>
     </div>
-    <div class="form-check pr-3">
-      <label class="form-check-label">
-        {{radio-button class="form-check-input" value='Other'
+    <div class="form-custom-control custom-radio  ">
+        {{radio-button class="custom-control-input radio-with-textbox" value='Other'
             groupValue=tempGenderSelection id="inputGenderOther" checked=genderSelection}}
-        <span {{action "checkOtherGender"}}>
-          {{input type="text" class="form-control" spellcheck=false value=genderSelectionOther placeholder="Other"}}
-        </span>
-      </label>
+
+        <label class="custom-control-label "  for="inputGenderOther"> &nbsp; </label>
     </div>
-    <div class="form-check pr-3">
-      <label class="form-check-label">
-        {{radio-button class="form-check-input" value='Hide'
+    <span class="mr-4 "{{action "checkOtherGender"}}>
+        {{input type="text" class="form-control" spellcheck=false value=genderSelectionOther placeholder="Other"}}
+    </span>
+    <div class="custom-control custom-radio mr-5">
+        {{radio-button class="custom-control-input"id="inputGenderHide" value='Hide'
             groupValue=tempGenderSelection checked=genderSelection}}
-        Hide
-      </label>
+        <label class="custom-control-label " for="inputGenderHide">   Hide </label>
     </div>
   </div>
 </div>

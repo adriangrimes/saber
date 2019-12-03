@@ -87,29 +87,33 @@
 
 
 
-                  <div class="input-group d-flex">
+                  <div class="input-group custom-control custom-radio d-flex">
                     <div class="input-group-prepend ">
                       <button class="btn btn-secondary border-0 px-2  h-2-5r" type="button" title="Tip Options" {{action "tipMenuToggle"}}>
                         <span class={{if tipMenuOpen "fa fa-chevron-right" "fa fa-bars"}}></span>
                       </button>
                     </div>
                     <div class={{if tipMenuOpen "d-none input-group-prepend h-2-5r" "d-flex input-group-prepend h-2-5r"}}>
-                      <label class="btn btn-secondary px-2 h-2-5r">
-                        {{radio-button value=10 id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
+
+                      {{radio-button value=10 class="custom-control-input radio-is-selected" id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
+                      <label class="btn btn-secondary  px-2 h-2-5r" for="tipAmount10">
                         10
                       </label>
-                      <label class="btn btn-secondary px-2 d-none d-sm-block h-2-5r ">
-                        {{radio-button value=25 id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
-                        25
-                      </label>
-                      <label class="btn btn-secondary px-2 h-2-5r">
-                        {{radio-button value=50 id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
-                        50
-                      </label>
-                      <label class="btn btn-secondary  px-2 d-none d-sm-block h-2-5r">
-                        {{radio-button value=100 id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
-                        100
-                      </label>
+
+                        {{radio-button value=25 class="custom-control-input radio-is-selected" id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
+                        <label class="btn btn-secondary px-2 d-none d-sm-block h-2-5r " for="tipAmount25">
+                           25
+                        </label>
+
+                        {{radio-button value=50 class="custom-control-input radio-is-selected" id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
+                        <label class="btn btn-secondary px-2 h-2-5r" for="tipAmount50">
+                          50
+                        </label>
+
+                        {{radio-button value=100 class="custom-control-input radio-is-selected" id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
+                        <label class="btn btn-secondary px-2 d-none d-sm-block h-2-5r" for="tipAmount100">
+                          100
+                        </label>
                     </div>
                     <div class={{if tipMenuOpen "d-flex input-group-prepend" "d-none input-group-prepend"}}>
                       <div style="width:130px">
@@ -127,6 +131,9 @@
                       {{confirm-input type="tip" title="Tip" titleDetail=this.tipAmountOptions titleEnd="?" button-title="Tip" onConfirm=(action "sendTip" tipAmountOptions)}}
                     {{/if}}
                   </div>
+
+
+
                 {{else}}
                   <div></div>
                 {{/if}}
@@ -213,40 +220,7 @@
                     placeholder="A little about yourself, your favorite games etc."}}
               </div>
             {{/if}}
-            <div class="form-group">
-              <label>Gender</label>
-              <div class="form-inline">
-                <div class="form-check pr-3">
-                  <label class="form-check-label">
-                    {{radio-button class="form-check-input" value='Female'
-                        groupValue=tempGenderSelection checked=tempGenderSelection}}
-                    Female
-                  </label>
-                </div>
-                <div class="form-check pr-3">
-                  <label class="form-check-label">
-                    {{radio-button class="form-check-input" value='Male'
-                        groupValue=tempGenderSelection checked=tempGenderSelection}}
-                    Male
-                  </label>
-                </div>
-                <div class="form-check pr-3">
-                  <label class="form-check-label" {{action "checkOtherGender"}}>
-                    {{radio-button class="form-check-input" value='Other'
-                        groupValue=tempGenderSelection id="inputGenderOther" checked=tempGenderSelection}}
-                    {{input type="text" class="form-control" spellcheck=false
-                        value=tempGenderText placeholder="Other"}}
-                  </label>
-                </div>
-                <div class="form-check pr-3">
-                  <label class="form-check-label">
-                    {{radio-button class="form-check-input" value='Hide'
-                        groupValue=tempGenderSelection checked=tempGenderSelection}}
-                    Hide
-                  </label>
-                </div>
-              </div>
-            </div>
+            {{gender-selection}}
             <div class="form-group">
               <label for="inputlocation">Location</label>
               {{input type="text" class="form-control" value=model.userPublicDatum.profileLocation

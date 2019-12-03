@@ -1,31 +1,41 @@
       <form>
-        <div class="modal-body">
-          <h4>Get More</h4>
-          <div class="  btn-block btn-group-vertical" data-toggle="buttons">
-            <label class="btn btn-secondary px-2   ">
-              {{radio-button name="basic-example" value=100 checked=creditAmount}}
-              100
+        <div>
+          <label class="text-center"> Get More</label>
+          <div class="btn-block btn-group-vertical" data-toggle="buttons">
+            <div {{action "selectAmount" "amount1"}} class="btn btn-secondary custom-control custom-radio">
+              {{radio-button name="amount-select" id="amount1" class="custom-control-input" value=this.package1 checked=creditAmount}}
+            <label class="custom-control-label px-2" for="amount1">
+            &nbsp;&nbsp;  {{package1}}
             </label>
-            <label class="btn btn-secondary px-2   ">
-              {{radio-button name="basic-example" value=250 checked=creditAmount}}
-              250
+          </div>
+          <div  {{action "selectAmount" "amount2"}} class="btn btn-secondary custom-control custom-radio">
+              {{radio-button name="amount-select" id="amount2" class="custom-control-input" value=this.package2 checked=creditAmount}}
+            <label class="custom-control-label px-2" for="amount2">
+            &nbsp;&nbsp;  {{package2}}
             </label>
-            <label class="btn btn-secondary px-2   ">
-              {{radio-button name="basic-example" value=500 checked=creditAmount}}
-              500
+          </div>
+          <div  {{action "selectAmount" "amount3"}} class="btn btn-secondary custom-control custom-radio">
+              {{radio-button name="amount-select" id="amount3" class="custom-control-input" value=this.package3 checked=creditAmount}}
+            <label class="custom-control-label px-2" for="amount3">
+          &nbsp;&nbsp;    {{package3}}
             </label>
-            <label class="btn btn-secondary px-2   ">
-              {{radio-button name="basic-example" value=750 checked=creditAmount}}
-              759
+          </div>
+          <div  {{action "selectAmount" "amount4"}} class="btn btn-secondary  custom-control custom-radio">
+              {{radio-button name="amount-select" id="amount4" class="custom-control-input" value=this.package4 checked=creditAmount}}
+            <label class="custom-control-label px-2" for="amount4">
+              &nbsp;&nbsp;      {{package4}}
             </label>
-            <label class="btn btn-secondary px-2   ">
-              {{radio-button name="basic-example" value=1000 checked=creditAmount}}
-              1000
+          </div>
+          <div  {{action "selectAmount" "amount5"}} class="btn btn-secondary custom-control custom-radio">
+              {{radio-button name="amount-select" id="amount5" class="custom-control-input" value=this.package5 checked=creditAmount}}
+              <label class=" custom-control-label px-2" for="amount5">
+              {{package5}}
             </label>
+          </div>
           </div>
           <br> <br>
           <br>
-          <button type="button" class="  btn btn-primary btn-block" data-dismiss="modal" {{action "purchaseCredits"}}>Buy Credits</button>
+          <button type="button" class="  btn btn-primary btn-block" {{action "purchaseCredits"}}>Buy Credits</button>
           <br>
         </div>
       </form>

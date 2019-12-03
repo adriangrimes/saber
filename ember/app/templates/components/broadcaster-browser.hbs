@@ -1,3 +1,4 @@
+
 {{! Header}}
 <div class="row m-0">
   <div class="col-xs-11 col-sm-6">
@@ -18,15 +19,15 @@
 <div class="row m-0">
 
   {{#each model as |broadcaster|}}
-    <div class="col-xs-12 col-sm-3 p-0">
+    <div class="col-xs-12 col-sm-3 mb-3">
       {{#link-to "p" (lower-case broadcaster.username) title=broadcaster.username}}
-        <div class="broadcaster-panel {{if broadcaster.onlineStatus "online" "offline"}}">
-          <img class="broadcaster-avatar" src="{{if broadcaster.profilePhotoPath broadcaster.profilePhotoPath "/streamnails/usericon.svg"}}">
-          <div class="broadcaster-footer text-light">
-            <div>{{broadcaster.username}}</div>
+        <div class="status-border {{if broadcaster.onlineStatus "online" "offline"}}">
+          <img class="" max-width="320" height="180" src="{{if broadcaster.profilePhotoPath broadcaster.profilePhotoPath "/streamnails/usericon.svg"}}">
+          <div class="text-light p-1">
+            <div class="d-flex justify-content-between">{{broadcaster.username}}
+             </div>
             {{#if broadcaster.onlineStatus}}
-              <br>
-              <div class="broadcaster-topic" title="{{broadcaster.channelTopic}}">
+              <div class="" title="{{broadcaster.channelTopic}}">
                 <small>{{broadcaster.channelTopic}}</small>
               </div>
             {{/if}}
