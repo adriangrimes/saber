@@ -10,9 +10,9 @@ if UserPublicDatum.update_all(online_status: false)
   p " - set all users offline"
 end
 
-if PublicUploader.storages[:cache].clear!(older_than: Time.now - 2*24*60*60) # delete cached files older than 2 days
+if PublicUploader.storages[:cache].clear! { |path| path.mtime < Time.now - 2*24*60*60 } # delete cached files older than 2 days
   p ' - cleared old cached PublicUploader uploads'
 end
-if VerificationUploader.storages[:cache].clear!(older_than: Time.now - 2*24*60*60) # delete cached files older than 2 days
+if VerificationUploader.storages[:cache].clear! { |path| path.mtime < Time.now - 2*24*60*60 } # delete cached files older than 2 days
   p ' - cleared old cached VerificationUploader uploads'
 end

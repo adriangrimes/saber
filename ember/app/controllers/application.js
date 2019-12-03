@@ -24,6 +24,10 @@ export default Controller.extend({
       window.scrollTo(0, 0);
     },
 
+    creditDropdownClicked(dropdown) {
+      console.log(dropdown);
+    },
+
     toggleDarkMode() {
       // Get current state of setting from page and set to a variable
       if (this.get('currentUser.user.darkMode')) {

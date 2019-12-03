@@ -6,18 +6,19 @@ const requestLibrary = require('request'); // HTTP Gets for authentication
 
 const currentEnvironment = process.argv[2];
 
+let apiHost;
 switch (currentEnvironment) {
   case 'development':
-    const apiHost = 'http://localhost:3000';
+    apiHost = 'http://localhost:3000';
     break;
   case 'staging':
-    const apiHost = 'https://api.saber.solversion.com';
+    apiHost = 'https://api.saber.solversion.com';
     break;
   case 'production':
-    const apiHost = 'https://api.saber.tv';
+    apiHost = 'https://api.saber.tv';
     break;
   default:
-    const apiHost = 'http://localhost:3000';
+    apiHost = 'http://localhost:3000';
     break;
 }
 

@@ -21,6 +21,7 @@ gem 'shrine', "~> 3.1"
 gem 'marcel'
 # Thumbnail processing
 gem 'image_processing', '~> 1.9'
+gem 'ruby-vips'
 
 # Websocket client for communicating to chat server
 gem 'websocket-client-simple'
