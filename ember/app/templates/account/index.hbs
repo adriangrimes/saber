@@ -91,14 +91,14 @@
                   {{/power-select}}
                 </div>
 
-                  {{submit-button  submitSuccessState=(mut payoutSettingsSaveSuccess) submitStarted=(mut payoutSettingsSaveStart)}}
+                {{submit-button submitSuccessState=(mut payoutSettingsSaveSuccess) submitStarted=(mut payoutSettingsSaveStart)}}
               </form>
             </div>
           </div>
         </div>
 
         <div class="card mb-3">
-          <div class="card-heading" >
+          <div class="card-heading">
             <h3 class="card-title">Tips</h3>
           </div>
           <div id="transactions" class="card ">
@@ -131,7 +131,7 @@
         </div>
       {{/if}}
 
-      <div class="card mb-3" >
+      <div class="card mb-3">
         <div class="card-heading">
           <h3 class="card-title">Notification Settings</h3>
         </div>
@@ -144,7 +144,7 @@
               <div class="custom-control custom-checkbox">
                 {{input type="checkbox" class="custom-control-input" id="sendFollowedOnline" name="sendEmailFollowedOnline" checked=sendEmailFollowedOnline}}
                 <label class="custom-control-label" for="sendFollowedOnline">
-                        "Now Streaming" notifications from broadcasters you follow <i class="fa fa-bell" aria-hidden="true"></i>
+                  "Now Streaming" notifications from broadcasters you follow <i class="fa fa-bell" aria-hidden="true"></i>
                 </label>
               </div>
 
@@ -161,7 +161,7 @@
                 </label>
               </div>
 
-              {{submit-button  submitSuccessState=(mut notifySettingsSaveSuccess) submitStarted=(mut notifysettingsSaveStart)}}
+              {{submit-button submitSuccessState=(mut notifySettingsSaveSuccess) submitStarted=(mut notifysettingsSaveStart)}}
 
 
             </form>
@@ -176,7 +176,7 @@
         <div id="SiteSettings" class="card">
           <div class="card-body">
             <form {{action "submitSiteSettings" on="submit"}}>
-
+              {{!--
 
               <hr class="splash-horizontal-rule">
               <h5> Site Graphics Style</h5>
@@ -207,7 +207,7 @@
                 <!--use matcher=timeZoneSearch instead of searchField for more advanced search -->
               </div>
 
-              {{submit-button  submitSuccessState=(mut siteSettingsSaveSuccess) submitStarted=(mut siteSettingsSaveStart)}}
+              {{submit-button submitSuccessState=(mut siteSettingsSaveSuccess) submitStarted=(mut siteSettingsSaveStart)}}
 
             </form>
           </div>
@@ -236,7 +236,7 @@
                 {{input type="password" class="form-control" required=true
                         autocomplete="current-password" value=inputEmailCurrentPassword }}
               </div>
-                {{submit-button  submitSuccessState=(mut emailSaveSuccess) submitStarted=(mut emailSaveStart)}}
+              {{submit-button submitSuccessState=(mut emailSaveSuccess) submitStarted=(mut emailSaveStart)}}
             </form>
 
             <hr class="splash-horizontal-rule">
@@ -260,7 +260,7 @@
               </div>
 
 
-              {{submit-button  submitSuccessState=(mut passwordSaveSuccess) submitStarted=(mut passwordSaveStart)}}
+              {{submit-button submitSuccessState=(mut passwordSaveSuccess) submitStarted=(mut passwordSaveStart)}}
 
             </form>
 
@@ -296,11 +296,11 @@
             {{/link-to}}
           </div>
           <div class="col p-1 mb-2">
-          {{#link-to "home" class="w-100 btn btn-secondary"}}
-            <span class="fa  fa-video-camera mr-3"></span>
-            Browse Broadcasters
-          {{/link-to}}
-        </div>
+            {{#link-to "home" class="w-100 btn btn-secondary"}}
+              <span class="fa  fa-video-camera mr-3"></span>
+              Browse Broadcasters
+            {{/link-to}}
+          </div>
         </div>
 
 
@@ -358,9 +358,153 @@
 
 
 
+  {{#if this.currentUser.user.isContracted}}
+
+    <div class="row m-0">
 
 
+      {{#if this.currentUser.user.isContracted}}
+        <div class="col-xs-12 col-md-8 order-md-1">
 
+          Your Affiliate link is coming soon!
+          <br><br>
+
+          {{#if this.currentUser.user.broadcaster}}
+
+            <div class="card mb-3 ">
+              <div class="card-heading  ">
+                <h4 class="card-title"><span class="fa fa-cog" aria-hidden="true"></span>&nbsp; Stream Settings</h4>
+              </div>
+              <div id="streamSettings" class="card">
+                <div class="card-body">
+                  <div class=" row pb-3">
+                    <div class="col-xs-12 col-sm-6 pb-2">
+                      <button class="btn btn-block btn-secondary" type="button" {{action "showStreamKey"}}>Show Stream Key</button>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                      {{confirm-input title="Reset?" button-title="Reset Stream Key" onConfirm=(action "resetStreamKey")}}
+                    </div>
+                  </div>
+
+                  <div class="mb-3" {{action "copyStreamKeyToClipboard"}}>
+                    {{textarea id="streamKeyDisplayID" class="form-control" value=streamKeyDisplay readonly="true"}}
+                    <div class={{this.keyCopySuccess}}>
+                      <div class="float-right text-success">
+                        <span class="fa fa-check "></span>Copied to Clipboard
+                      </div>
+                    </div>
+                    <div class={{this.newCopySuccess}}>
+                      <div class="mt-0 float-right text-success">
+                        <span class="fa fa-check "></span>New Stream Key Saved
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr class="splash-horizontal-rule mt-4">
+                  <form {{action "submitStreamSettings" on="submit"}}>
+                    <h5>Interaction Settings</h5>
+
+                    <div class="form-check mt-2">
+                      <label class="form-check-label">
+                        {{input type="checkbox" class="form-check-input" checked=model.userPublicDatum.allowTips}}
+                        Enable Tipping.
+                      </label>
+                    </div>
+
+                    <div class="text-right pt-3">
+                      <button type="submit" class={{this.streamSettingSubmitBtn}}>{{this.streamSettingSubmitText}}</button>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+
+          {{/if}}
+
+
+          <div class="card mb-3 " id="notesAccordion">
+
+            <div class="card-heading">
+              <h4 class="card-title"><span class="fa fa-bar-chart" aria-hidden="true"></span>&nbsp; Private Notepad</h4>
+            </div>
+            <div id="notes" class="card">
+              <div class="card-body">
+
+                <form {{action "submitUserNotes" on="submit"}}>
+                  {{textarea class="form-control" rows=8 id="privateUserNotes" maxlength="1000" value=model.user.privateUserNotes placeholder="Only you can see this notepad."}}
+                  <div class="text-right pt-3">
+                    <button type="submit" class={{this.notesSubmitBtn}}>{{this.notesSubmitText}}</button>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+          </div>
+          {{#if this.currentUser.user.developer}}
+            <div class="card mb-3 " id="developerAccordion">
+              <div class="card-heading">
+                <h4 class="card-title"><span class="fa fa-gamepad" aria-hidden="true"></span>&nbsp; My Games</h4>
+
+              </div>
+              <div id="developer" class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-6">
+                      <button class="btn btn-secondarysecondary btn-block btn-lg d-block d-sm-none" title="View the API and Documentation">View<br>API</button>
+                      <button class="btn btn-secondary btn-block btn-lg d-none d-sm-block" title="View the API and Documentation">View API</button>
+                    </div>
+                    <div class="col-6">
+                      <button class="btn btn-primary btn-block btn-lg d-block d-sm-none" title="Upload Your Game">Upload <br>Game</button>
+                      <button class="btn btn-primary btn-block btn-lg d-none d-sm-block" title="Upload Your Game">Upload Game</button>
+                    </div>
+                  </div>
+                  <hr class="splash-horizontal-rule">
+
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                      <div class="col-xs-8">
+                        Game 1
+                      </div>
+                      <div class="col-xs-4">
+                        <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                      <div class="col-xs-8">
+                        Game 2
+                      </div>
+                      <div class="col-xs-4">
+                        <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                      <div class="col-xs-8">
+                        Game 3
+                      </div>
+                      <div class="col-xs-4">
+                        <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                      <div class="col-xs-8">
+                        Game 4
+                      </div>
+                      <div class="col-xs-4">
+                        <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {{/if}}
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
 </div>
 
 {{outlet}}
