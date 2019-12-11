@@ -70,6 +70,9 @@ GEM
       addressable (~> 2.5)
     erubi (1.8.0)
     event_emitter (0.2.6)
+    exception_notification (4.4.0)
+      actionmailer (>= 4.0, < 7)
+      activesupport (>= 4.0, < 7)
     fast_jsonapi (1.5)
       activesupport (>= 4.2)
     ffi (1.10.0)
@@ -208,6 +211,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
   devise
+  exception_notification
   fast_jsonapi
   image_processing (~> 1.9)
   letter_opener

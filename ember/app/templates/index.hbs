@@ -1,19 +1,13 @@
 <div class="container">
-
-<div class="row m-0 pb-5">
-
-
-  <div class="col text-center " id="splash-text">
-
-
-
-    <h3>Saber is a demo live streaming site</h3>
+  <div class="row m-0 pb-5">
+    <div class="col text-center " id="splash-text">
+      Saber is demo live streaming site
+    </div>
   </div>
-</div>
   <div class="row m-0 pb-5">
     <div class="col-12 col-sm-6 d-inline vertical-rule">
-      <div class="row mb-2 px-2 d-block text-center" >
-          <h4> Players</h4>
+      <div class="row mb-2 px-2 d-block text-center">
+        <h4> Players</h4>
       </div>
       <div class="row mb-2   justify-content-center">
         <i class="fa fa-gamepad large-glyphicon" aria-hidden="true"></i>
@@ -23,22 +17,22 @@
         Enter your email
       </div>
       <br>
-        <form class=" row mb-2 form-inline   justify-content-center">
-          <input type="email" class="form-control" id="splash-email-input" placeholder="Enter email address">
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-      </div>
+      <form class="row mb-2 form-inline justify-content-center" {{action "submitPrereleaseEmail" on="submit"}}>
+        {{input type="email" class="form-control" id="splash-email-input" placeholder="Enter email address" required=true value=prereleaseEmail}}
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
     <div class="col-12 col-sm-6 ">
-      <div class="row mb-2 px-2 d-block text-center" >
-          <h4> Broadcasters</h4>
+      <div class="row mb-2 px-2 d-block text-center">
+        <h4> Broadcasters</h4>
       </div>
       <div class="row mb-2   justify-content-center">
 
         <i class="fa fa-video-camera large-glyphicon" aria-hidden="true"></i>
       </div>
 
-      <div class="row mb-2 px-2 text-center" >
-        Sign Up
+      <div class="row mb-2 px-2 text-center">
+        Sign up
       </div>
 
       <div class="row mb-2  justify-content-center">
@@ -50,40 +44,34 @@
 
   </div>
   <hr class="splash-horizontal-rule">
-<br>
-<div class="row m-0">
-
-
+  <br>
+  <div class="row m-0">
     <div class="col-12 col-sm-6">
       <div class="row mb-2 justify-content-center">
-          <i class="fa fa-bullhorn large-glyphicon"  aria-hidden="true"></i>
+        <i class="fa fa-bullhorn large-glyphicon" aria-hidden="true"></i>
       </div>
       <div class="row mb-2 px-2 d-block text-center">
-          Sign Up
+        Sign up
       </div>
       <div class="row mb-2  justify-content-center">
         {{link-to "Affiliate Sign Up" "signup.affiliate" class="btn btn-primary"}}
-
       </div>
     </div>
-  <div class="col-12 col-sm-6 ">
-    <div class="row mb-2 justify-content-center">
+    <div class="col-12 col-sm-6 ">
+      <div class="row mb-2 justify-content-center">
         <i class="fa fa-file-code-o large-glyphicon" aria-hidden="true"></i>
-    </div>
-    <div class="row mb-2 px-2 d-block text-center">
-        Sign Up
-    </div>
-    <br>
+      </div>
+      <div class="row mb-2 px-2 d-block text-center">
+        Sign up
+      </div>
+      <br>
 
-    <div class="row mb-2  justify-content-center">
-      {{link-to "Developer Sign Up" "signup.developer" class="btn btn-primary"}}
+      <div class="row mb-2  justify-content-center">
+        {{link-to "Developer Sign Up" "signup.developer" class="btn btn-primary"}}
+      </div>
+      <hr class="splash-horizontal-rule d-block d-sm-none">
     </div>
-    <hr class="splash-horizontal-rule d-block d-sm-none">
   </div>
-
-
-
-</div>
-<br>
+  <br>
 </div>
 {{outlet}}

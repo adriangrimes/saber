@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_07_230418) do
+ActiveRecord::Schema.define(version: 2019_12_12_001736) do
 
   create_table "chat_tickets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -121,6 +121,13 @@ ActiveRecord::Schema.define(version: 2019_10_07_230418) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["short_title"], name: "index_help_topics_on_short_title"
+  end
+
+  create_table "prerelease_emails", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "email", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_prerelease_emails_on_email", unique: true
   end
 
   create_table "private_messages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

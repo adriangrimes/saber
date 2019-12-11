@@ -106,9 +106,9 @@ class UserPublicDataController < ApplicationController
   end
 
   def search_broadcasters(search_string = '')
+    return [] if search_string && search_string.length < 3
     search_string = search_string.to_s
     p search_string
-    # TODO limit results returned
 
     # Remove any special non-alphanumeric characters
     search_string = search_string.gsub(/[^0-9a-z_]/i, '')

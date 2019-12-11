@@ -15,13 +15,10 @@ class UserPublicUploadsController < ApplicationController
           .order('id ASC')
 
         render json: UserPublicUploadSerializer
-          .new(
-            user_public_uploads,
-            params: {
+          .new(user_public_uploads, params: {
               client_is_member: token_exists_in_database?,
               current_profile_photo_path: user_public_datum.profile_photo_path
-            }
-          )
+            })
           .serialized_json,
           status: :ok
       else

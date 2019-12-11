@@ -4,22 +4,38 @@ const util = require('util'); //DEBUG - for writeToTextFile() and displaying obj
 const shortid = require('./shortid'); // For generating IDs
 const requestLibrary = require('request'); // HTTP Gets for authentication
 
+// get current environment from command line
 const currentEnvironment = process.argv[2];
 
-let apiHost;
-switch (currentEnvironment) {
-  case 'development':
-    apiHost = 'http://localhost:3000';
-    break;
-  case 'staging':
-    apiHost = 'https://api.saber.solversion.com';
-    break;
-  case 'production':
-    apiHost = 'https://api.saber.tv';
-    break;
-  default:
-    apiHost = 'http://localhost:3000';
-    break;
+let apiHost = 'http://localhost:3000';
+if (currentEnvironment) {
+  switch (currentEnvironment) {
+    case 'development':
+      formattedJsonLogger;
+      apiHost = 'http://localhost:3000';
+      break;
+    case 'staging':
+      apiHost = 'https://api.saber.solversion.com';
+      break;
+    case 'production':
+      apiHost = 'https://api.saber.tv';
+      break;
+    default:
+      break;
+  }
+  formattedJsonLogger(
+    'INFO',
+    'ENV:',
+    currentEnvironment + '.',
+    'Using API host',
+    apiHost
+  );
+} else {
+  formattedJsonLogger(
+    'WARN',
+    'No environment parameter passed. Using default API host:',
+    apiHost
+  );
 }
 
 let wsServer = new WebSocket.Server({
@@ -33,15 +49,19 @@ let chatState = {
 };
 
 // Log chat state every X seconds
-if (currentEnvironment != 'production') {
+if (currentEnvironment == 'production') {
   setInterval(function() {
-    formattedJsonLogger('CHAT STATE: ', chatState);
+    formattedJsonLogger('INFO', 'Connections:', chatState.connections);
+  }, 10000);
+} else {
+  setInterval(function() {
+    formattedJsonLogger('INFO', 'CHAT STATE: ', chatState);
   }, 5000);
 }
 
 //On connection
 wsServer.on('connection', function connection(wsClient, req) {
-  console.log('INFO: Connection with client opened');
+  formattedJsonLogger('INFO', 'Connection with client opened');
   chatState.connections = chatState.connections || 0;
   chatState.connections = chatState.connections + 1;
 
@@ -52,111 +72,121 @@ wsServer.on('connection', function connection(wsClient, req) {
     req.headers['streamstate-auth'] &&
     req.headers['streamstate-auth'] === 'muKl4S80Yi3gQA2v8o2AOPgI8l'
   ) {
-    console.log('streamstate access');
+    formattedJsonLogger('INFO', 'streamstate access');
     wsClient.hasStreamStateAccess = true;
   } else {
     addChatUserToRequestedChannel(wsClient, req);
-    console.log('after addChatUserToRequestedChannel');
+    formattedJsonLogger('INFO', 'after addChatUserToRequestedChannel');
   }
 
   // On message recieved
   wsClient.on('message', function incoming(message) {
-    let parsedMessage = JSON.parse(message);
-    formattedJsonLogger('recieved message: ', parsedMessage);
-    switch (parsedMessage.type) {
-      case 'ChatMessage':
-        if (messageIsAuthorized(wsClient)) {
-          if (messageIsValid(wsClient, parsedMessage) === true) {
+    let parsedMessage = safeMessageParse(message, ['type', 'data'], 280);
+    formattedJsonLogger('INFO', 'parsed message: ', parsedMessage);
+    if (parsedMessage && parsedMessage.type) {
+      switch (parsedMessage.type) {
+        case 'ChatMessage':
+          if (messageIsAuthorized(wsClient)) {
+            if (messageIsValid(wsClient, parsedMessage) === true) {
+              let messageToSend = JSON.stringify({
+                type: 'ChatMessage',
+                chatUsername: wsClient.chatUsername,
+                data: parsedMessage.data
+              });
+              // broadcast message to all connected clients in the room
+              wsServer.clients.forEach(function(c) {
+                formattedJsonLogger('INFO', 'all clients:', c.id);
+                if (c.channelUrl === wsClient.channelUrl) {
+                  if (c && c.readyState === WebSocket.OPEN) {
+                    c.send(messageToSend);
+                  }
+                }
+              });
+            }
+          }
+          break;
+        case 'ChannelChatUserList':
+          // Send friendlyUserList to client that requested it
+          let channel = chatState.channels[wsClient.channelUrl];
+          wsClient.send(
+            JSON.stringify({
+              type: 'ChannelChatUserList',
+              data: channel.friendlyUserList,
+              // If guests is somehow negative, send 0
+              guests: channel.guests < 0 ? 0 : channel.guests
+            })
+          );
+          formattedJsonLogger('INFO', 'sent user list');
+          break;
+        case 'ChannelTopicUpdated':
+          // Only clients with a username that matches their channel can send
+          // topic updates.
+          if (
+            '/' + wsClient.chatUsername.toLowerCase() ===
+            wsClient.channelUrl
+          ) {
             let messageToSend = JSON.stringify({
-              type: 'ChatMessage',
-              chatUsername: wsClient.chatUsername,
-              data: parsedMessage.data
+              type: 'ChannelTopicUpdated'
             });
             // broadcast message to all connected clients in the room
             wsServer.clients.forEach(function(c) {
-              formattedJsonLogger('all clients: ', c.id);
+              formattedJsonLogger('INFO', 'all clients:', c.id);
               if (c.channelUrl === wsClient.channelUrl) {
                 if (c && c.readyState === WebSocket.OPEN) {
                   c.send(messageToSend);
                 }
               }
             });
+            formattedJsonLogger('INFO', 'notified of updated channel topic');
           }
-        }
-        break;
-      case 'ChannelChatUserList':
-        // Send friendlyUserList to client that requested it
-        let channel = chatState.channels[wsClient.channelUrl];
-        wsClient.send(
-          JSON.stringify({
-            type: 'ChannelChatUserList',
-            data: channel.friendlyUserList,
-            // If guests is somehow negative, send 0
-            guests: channel.guests < 0 ? 0 : channel.guests
-          })
-        );
-        console.log('sent user list');
-        break;
-      case 'ChannelTopicUpdated':
-        // Only clients with a username that matches their channel can send
-        // topic updates.
-        if ('/' + wsClient.chatUsername.toLowerCase() === wsClient.channelUrl) {
-          let messageToSend = JSON.stringify({
-            type: 'ChannelTopicUpdated'
-          });
-          // broadcast message to all connected clients in the room
-          wsServer.clients.forEach(function(c) {
-            formattedJsonLogger('all clients: ', c.id);
-            if (c.channelUrl === wsClient.channelUrl) {
-              if (c && c.readyState === WebSocket.OPEN) {
-                c.send(messageToSend);
+          break;
+        case 'StreamState':
+          if (wsClient.hasStreamStateAccess) {
+            let messageToSend = JSON.stringify({
+              type: 'StreamState',
+              data: parsedMessage.data.state
+            });
+            formattedJsonLogger('INFO', 'sending state:' + messageToSend);
+            // broadcast message to all connected clients in the room
+            wsServer.clients.forEach(function(c) {
+              if (c.channelUrl === '/' + parsedMessage.data.username) {
+                if (c && c.readyState === WebSocket.OPEN) {
+                  c.send(messageToSend);
+                }
               }
-            }
-          });
-          console.log('notified of updated channel topic');
-        }
-        break;
-      case 'StreamState':
-        if (wsClient.hasStreamStateAccess) {
-          let messageToSend = JSON.stringify({
-            type: 'StreamState',
-            data: parsedMessage.data.state
-          });
-          console.log('sending state: ' + messageToSend);
-          // broadcast message to all connected clients in the room
-          wsServer.clients.forEach(function(c) {
-            if (c.channelUrl === '/' + parsedMessage.data.username) {
-              if (c && c.readyState === WebSocket.OPEN) {
-                c.send(messageToSend);
-              }
-            }
-          });
-        }
-        break;
-      default:
-        // Do nothing
-        break;
+            });
+          }
+          break;
+        default:
+          // Do nothing
+          break;
+      }
     }
   }); // End 'message' event block
 
   wsClient.on('pong', function(msg) {
     // Convert msg from hex buffer to UTF8 string
     msg = msg.toString();
-    console.log('pong recieved');
+    formattedJsonLogger('INFO', 'pong recieved');
     if (msg && msg.length > 0) {
       if (msg === wsClient.pingpong.pingId) {
         // client is responsive :) => restart checker
-        console.log(
-          ' - "%s,%s" received pong answer to ping "%s"',
+        formattedJsonLogger(
+          'INFO',
+          ' -',
           wsClient.id,
           wsClient.chatUsername,
+          ' - received pong answer to ping: ',
           wsClient.pingpong.pingId
         ); // eslint-disable-line
         startClientPing(wsClient);
       }
     } else {
       // pong message is empty or null: stop
-      console.log(' - pong message is empty or null: stop');
+      formattedJsonLogger(
+        'INFO',
+        ' - pong message is empty or null: stopping ping'
+      );
       stopClientPing(wsClient);
     }
   });
@@ -164,7 +194,7 @@ wsServer.on('connection', function connection(wsClient, req) {
   // When a user disconnects from chat, update the userlist for that clients
   // channel
   wsClient.on('close', function() {
-    console.log('close event called');
+    formattedJsonLogger('INFO', 'close event called');
 
     // Subtract from connection count
     if (chatState.connections > 0) {
@@ -188,7 +218,7 @@ wsServer.on('connection', function connection(wsClient, req) {
               wsClient.assignedIp.includes(ip) &&
               wsClient.chatUsername === channel.userList[i].username
             ) {
-              console.log(' - removing ip from user');
+              formattedJsonLogger('INFO', ' - removing ip from user');
               authenticatedUserFound = true;
               // Remove IP from ipArray
               let ipIndex = channel.userList[i].ipArray.indexOf(ip);
@@ -197,7 +227,10 @@ wsServer.on('connection', function connection(wsClient, req) {
 
               // If no IPs are assigned to the user, remove the user from all lists
               if (channel.userList[i].ipArray.length === 0) {
-                console.log(' - all ips removed, removing user from userList');
+                formattedJsonLogger(
+                  'INFO',
+                  ' - all ips removed, removing user from userList'
+                );
                 // Remove the user from the friendlyUserList
                 let userListIndex = channel.friendlyUserList.indexOf(
                   channel.userList[i].username
@@ -222,7 +255,7 @@ wsServer.on('connection', function connection(wsClient, req) {
       }
       // If client was a guest, clean up guest
       if (authenticatedUserFound === false) {
-        console.log(' - removing guest');
+        formattedJsonLogger('INFO', ' - removing guest');
         // Subtract user counts
         if (channel.guests > 0) {
           channel.guests -= 1;
@@ -240,7 +273,8 @@ wsServer.on('connection', function connection(wsClient, req) {
         channel.guests <= 0 &&
         channel.totalUsers <= 0
       ) {
-        console.log(
+        formattedJsonLogger(
+          'INFO',
           ' - channel chat empty, deleting channel: ' + util.inspect(channel)
         );
         delete chatState.channels[wsClient.channelUrl];
@@ -253,21 +287,22 @@ wsServer.on('connection', function connection(wsClient, req) {
         wsServer.clients.forEach(function(c) {
           if (c.channelUrl === wsClient.channelUrl) {
             if (c && c.readyState === WebSocket.OPEN) {
-              console.log(' - client: ', c.id);
+              formattedJsonLogger('INFO', ' - client: ', c.id);
               c.send(userCountJSON);
-              console.log(' - broadcasting');
+              formattedJsonLogger('INFO', ' - broadcasting');
             }
           }
         });
       }
     }
 
-    console.log(
-      'INFO: Connection with client ' + wsClient.assignedIp + ' closed'
+    formattedJsonLogger(
+      'INFO',
+      'Connection with client ' + wsClient.assignedIp + ' closed'
     );
   });
 });
-console.log('INFO: Chat server started and listening...');
+formattedJsonLogger('INFO', 'Chat server started and listening...');
 
 // Functions
 
@@ -282,7 +317,7 @@ function initializeChannel(channelUrl) {
 }
 
 function addChatUserToRequestedChannel(client, req) {
-  console.log('addChatUserToRequestedChannel()');
+  formattedJsonLogger('INFO', 'addChatUserToRequestedChannel()');
 
   // Add basic user info to connected client object
   client.assignedIp =
@@ -305,7 +340,10 @@ function addChatUserToRequestedChannel(client, req) {
         let channel = chatState.channels[client.channelUrl];
         if (body && res && res.statusCode == 200) {
           // Add user info to the userList and friendlyUserList if ticket was valid
-          console.log(' - ' + res.statusCode + ' adding as authenticated user');
+          formattedJsonLogger(
+            'INFO',
+            ' - ' + res.statusCode + ' adding as authenticated user'
+          );
 
           client.chatUsername = body.username;
 
@@ -317,7 +355,10 @@ function addChatUserToRequestedChannel(client, req) {
                 channel.userList[i].username == body.username
               ) {
                 // User found, add IP to users IP array instead of creating a new user
-                console.log(' - user already found in userList, updating IP');
+                formattedJsonLogger(
+                  'INFO',
+                  ' - user already found in userList, updating IP'
+                );
                 newUser = false;
                 channel.userList[i].ipArray.push(body.ip);
                 sendUserCountToClient(client);
@@ -327,7 +368,7 @@ function addChatUserToRequestedChannel(client, req) {
           }
           if (newUser) {
             // add additional ip to ip property
-            console.log(' - creating new user');
+            formattedJsonLogger('INFO', ' - creating new user');
             let ipArray = [];
             ipArray.push(body.ip);
             channel.userList.push({
@@ -345,14 +386,18 @@ function addChatUserToRequestedChannel(client, req) {
         } else if (res && res.statusCode.toString()[0] != '2') {
           // Else client is a guest, increment guest and totalUsers counter and
           // send updated user count to client
-          console.log(
+          formattedJsonLogger(
+            'INFO',
             ' - ' + res.statusCode + ' failed to find ticket, adding as guest'
           );
           channel.guests += 1;
           channel.totalUsers += 1;
           sendUserCountToClient(client);
         } else {
-          console.log('ERROR: Unusual error with API, it may be down');
+          formattedJsonLogger(
+            'ERROR',
+            'Unusual error with API, it may be down'
+          );
           channel.guests += 1;
           channel.totalUsers += 1;
           sendUserCountToClient(client);
@@ -365,7 +410,7 @@ function addChatUserToRequestedChannel(client, req) {
 
 function broadcastUserJoinAndUserCount(client) {
   // Broadcast message to all connected clients in the same channel
-  console.log('broadcastUserJoinAndUserCount()');
+  formattedJsonLogger('INFO', 'broadcastUserJoinAndUserCount()');
   let userJoinJSON = JSON.stringify({
     type: 'UserJoinedChannel',
     data: client.chatUsername
@@ -377,7 +422,7 @@ function broadcastUserJoinAndUserCount(client) {
   wsServer.clients.forEach(function(c) {
     if (c.channelUrl === client.channelUrl) {
       if (c && c.readyState === WebSocket.OPEN) {
-        console.log(' - broadcasting to client: ', c.id);
+        formattedJsonLogger('INFO', ' - broadcasting to client: ', c.id);
         c.send(userJoinJSON);
         c.send(userCountJSON);
       }
@@ -397,7 +442,7 @@ function sendUserCountToClient(client) {
 
 function messageIsValid(client, message) {
   if (message.data === '') {
-    console.log('WARNING: Invalid message recieved.');
+    formattedJsonLogger('WARN', 'Invalid message recieved.');
     return false;
   } else {
     return true;
@@ -405,7 +450,7 @@ function messageIsValid(client, message) {
 }
 
 function messageIsAuthorized(client) {
-  console.log('messageIsAuthorized() for ' + client.assignedIp);
+  formattedJsonLogger('INFO', 'messageIsAuthorized() for ' + client.assignedIp);
   let userAuthorized = false;
   let user = {};
   let channel = chatState.channels[client.channelUrl];
@@ -431,35 +476,38 @@ function messageIsAuthorized(client) {
       }
     }
     if (userAuthorized) {
-      console.log(
+      formattedJsonLogger(
+        'INFO',
         ' - true, matching user found / message authorized for: ' +
           user.username
       );
       return true;
     } else {
-      console.log(' - false, no matching user found');
+      formattedJsonLogger('INFO', ' - false, no matching user found');
       return false;
     }
   } else {
-    console.log(' - false, no matching user found');
+    formattedJsonLogger('INFO', ' - false, no matching user found');
     return false;
   }
 }
 
 function startClientPing(client) {
-  console.log('startClientPing()');
+  formattedJsonLogger('INFO', 'startClientPing()');
   client.pingpong.started = true;
   if (client.pingpong.pingTimeout) {
-    console.log(' - clearing timeout()');
+    formattedJsonLogger('INFO', ' - clearing timeout()');
     clearTimeout(client.pingpong.pingTimeout);
   }
   setTimeout(function() {
     if (client && client.readyState === WebSocket.OPEN) {
       // client is opened
       client.pingpong.pingId = shortid();
-      console.log(
-        ' - Sending ping: "%s" to "%s %s"',
+      formattedJsonLogger(
+        'INFO',
+        ' - Sending ping:',
         client.pingpong.pingId,
+        'to',
         client.chatUsername,
         client.id
       );
@@ -470,7 +518,7 @@ function startClientPing(client) {
         stopClientPing(client);
       }, 5000);
     } else {
-      console.log(' - client socket is not opened, stopping');
+      formattedJsonLogger('INFO', ' - client socket is not opened, stopping');
       // client is not opened: stop checking
       stopClientPing(client);
     }
@@ -483,17 +531,53 @@ function stopClientPing(client) {
     clearTimeout(client.pingpong.pingTimeout);
     client.pingpong.started = false;
     client.close(4042, ' - client seems unresponsive');
-    console.log(
-      ' - client "%s %s" seems unresponsive: closing...',
+    formattedJsonLogger(
+      'INFO',
+      ' - client',
       client.id,
-      client.chatUsername
+      client.chatUsername,
+      'seems unresponsive: closing...'
     );
   }
 }
 
-function formattedJsonLogger(description, data) {
+// pass expected list of properties and optional maxLen
+// returns obj or null
+function safeMessageParse(str, propArray, maxLen) {
+  var parsedObj = {};
+  var safeObj = {};
+
+  try {
+    if (maxLen && str.length > maxLen) {
+      console.error('ERROR: Received message over maxLen, nulling message');
+      return { type: null };
+    } else {
+      parsedObj = JSON.parse(str);
+      if (typeof parsedObj !== 'object' || Array.isArray(parsedObj)) {
+        safeObj = parsedObj;
+      } else {
+        // copy only expected properties to the safeObj
+        propArray.forEach(function(prop) {
+          if (parsedObj.hasOwnProperty(prop)) {
+            safeObj[prop] = parsedObj[prop];
+          }
+        });
+      }
+      return safeObj;
+    }
+  } catch (e) {
+    console.error(e);
+    return { type: null };
+  }
+}
+
+function formattedJsonLogger(type, ...args) {
+  console.log(new Date().toISOString(), ' ' + type + ': ', ...args);
+}
+
+function formattedJsonDeepLogger(type, description, data) {
   console.log(
-    'INFO: %s%s',
+    new Date().toISOString() + ' ' + type + ': %s%s%s',
     description,
     util.inspect(data, { showHidden: true, depth: null, colors: true })
   );
@@ -506,13 +590,14 @@ function writeToTextFile(data) {
 
     fs.writeFile('output.txt', output, function(err) {
       if (err) {
-        return console.log(err);
+        return formattedJsonLogger('ERROR', err);
       }
-      console.log('INFO: Text file saved.');
+      formattedJsonLogger('INFO', 'Text file saved.');
     });
   } else {
-    return console.log(
-      'ERROR: writeToTextFile() parameter data was undefined.'
+    return formattedJsonLogger(
+      'ERROR',
+      'writeToTextFile() parameter data was undefined.'
     );
   }
 }

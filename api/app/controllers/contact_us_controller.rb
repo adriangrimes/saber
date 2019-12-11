@@ -43,7 +43,7 @@ class ContactUsController < ApplicationController
       else
         render json: { errors: [{
             attribute: :base,
-            message: 'The reCAPTCHA service appears to be unavailable to verify the captcha.<br>Please try again later.'
+            message: 'The reCAPTCHA service appears to be unavailable to verify the captcha.<br>Sorry, please try again later.'
           }]},
           status: :unprocessable_entity
       end

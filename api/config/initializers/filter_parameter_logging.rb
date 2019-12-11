@@ -3,6 +3,7 @@
 # Configure sensitive parameters which will be filtered from the log file.
 Rails.application.config.filter_parameters += [
   :password,
+  :session, :warden, :secret, :salt, :cookie, :csrf,
   :private_user_notes,
   :security_questions,
   :upload_data,

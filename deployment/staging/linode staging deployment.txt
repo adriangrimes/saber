@@ -210,6 +210,9 @@ EOF
 # test password
 mysql -u root -pl5%qX#5W2NjYNAoe
 
+# create amplify-agent maria db user 
+# configure aplify conf to use mysqldb metrics
+
 # login as webadmin over ssh/scp
 
 # copy ember /dist to /var/www/saber-staging/ember

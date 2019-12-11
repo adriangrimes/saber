@@ -11,6 +11,10 @@ class UserPublicDatum < ApplicationRecord
 
   def valid_custom_tags
     user_custom_tags.each do |tag|
+      if tag.length < 3
+        errors.add(:user_custom_tags, "must be at least 3 characters")
+        break
+      end
       if tag.length > 20
         errors.add(:user_custom_tags, "cannot be longer than 20 characters")
         break

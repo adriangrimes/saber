@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::API
+  before_action :prepare_exception_notifier
+
   # Used for authenticate_with_http_token
   include ActionController::HttpAuthentication::Token::ControllerMethods
   include ErrorSerializer
@@ -83,4 +85,32 @@ class ApplicationController < ActionController::API
     @authenticated_user = nil
     render status: :not_found
   end
+
+  def current_user
+    p ">>> current_user called"
+    user = nil
+    # Extract token from Authentication header
+    authenticate_with_http_token do |token, options|
+      puts ">>> authentication token found"
+      query = User.find_by(authentication_token: token)
+      if query
+        # Mitigate timing attacks with secure_compare
+        if Devise.secure_compare(query.authentication_token, token)
+          puts ">>> authentication token matches"
+          user = query
+        end
+      end
+    end
+    user
+  end
+
+  private
+
+    def prepare_exception_notifier
+      # if @authenticated_user
+        request.env["exception_notifier.exception_data"] = {
+          current_user: current_user
+        }
+      # end
+    end
 end

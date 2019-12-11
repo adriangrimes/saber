@@ -19,6 +19,7 @@ export default Controller.extend({
 
     rollbackApplication(changeset) {
       changeset.rollback();
+      this.set('revertApplicationChanges', true);
     }
   },
 

@@ -2,6 +2,12 @@ ruby '>=2.5.3'
 
 gem 'rails', '~> 5.2.2.1'
 
+# email us when exceptions happen
+gem 'exception_notification'
+
+# fast like sanic serialization
+gem 'fast_jsonapi'
+
 # MariaDB/MySQL support
 gem 'mysql2'
 gem 'will_paginate', '~> 3.1.7'
@@ -12,8 +18,6 @@ gem 'devise'
 gem 'bcrypt', '~> 3.1.7', platform: :ruby
 # Encrypt sensitive ActiveRecord attributes
 gem 'symmetric-encryption'
-gem 'fast_jsonapi'
-# gem "active_model_serializers", "~> 0.10.2"
 
 # File attachment, uses Uppy.js XHR Uploading on the front-end
 gem 'shrine', "~> 3.1"

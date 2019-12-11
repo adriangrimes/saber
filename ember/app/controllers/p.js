@@ -120,30 +120,12 @@ export default Controller.extend({
 
     submitProfileSettings() {
       this.set('profileSaveStart', true);
-      // If gender selection is male or female, save that to profileGender,
-      // otherwise set the custom gender textfield as the gender.
-      if (
-        this.tempGenderSelection == 'Male' ||
-        this.tempGenderSelection == 'Female' ||
-        this.tempGenderSelection == 'Hide'
-      ) {
-        this.model.userPublicDatum.set('profileGender', this.tempGenderSelection);
-      } else {
-        this.model.userPublicDatum.set('profileGender', this.tempGenderText);
-      }
       // Submit record to store
       this.model.userPublicDatum
         .save()
         .then(() => {
           console.log('submitProfileSettings saved');
           this.set('profileSaveSuccess', true);
-          // Clear custom gender textfield if Male or Female was selected
-          if (
-            this.tempGenderSelection == 'Male' ||
-            this.tempGenderSelection == 'Female'
-          ) {
-            this.set('tempGenderText', '');
-          }
         })
         .catch(err => {
           // Save failed
@@ -155,19 +137,7 @@ export default Controller.extend({
     cancelProfileChanges(userPublicDatum) {
       // Rollback model to original values pulled from the store
       userPublicDatum.rollbackAttributes();
-      // Rollback gender selection
-      this.set('tempGenderText', '');
-      if (userPublicDatum.profileGender == 'Male') {
-        this.set('tempGenderSelection', 'Male');
-      } else if (userPublicDatum.profileGender == 'Female') {
-        this.set('tempGenderSelection', 'Female');
-      } else if (userPublicDatum.profileGender == 'Hide') {
-        this.set('tempGenderSelection', 'Hide');
-      } else {
-        this.set('tempGenderSelection', 'Other');
-        this.set('tempGenderText', userPublicDatum.profileGender);
-        this.set('checkOtherGender', true);
-      }
+      this.set('revertingProfileChanges', true);
 
       // Rollback tag selection
       this.set('tags', this.model.userPublicDatum.get('userCustomTags'));

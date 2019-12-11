@@ -22,6 +22,7 @@
           submit=(action "submitApplication")
           saveForLater=(action "saveApplicationForLater")
           rollback=(action "rollbackApplication")
+          revertApplicationChanges=(mut revertApplicationChanges)
         }}
 
         {{#unless currentUser.isContracted}}

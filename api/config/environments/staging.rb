@@ -1,6 +1,14 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # gem exception_notification
+  Rails.application.config.middleware.use ExceptionNotification::Rack,
+    email: {
+      email_prefix: '[Exception] ',
+      sender_address: config.x.admin_email_from,
+      exception_recipients: config.x.admin_email_to
+    }
+    
   # Set hostnames
   config.front_end_hostname = 'https://saber.solversion.com'
   config.x.saber.chat_server = 'wss://chat.saber.solversion.com'

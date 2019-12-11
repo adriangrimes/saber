@@ -156,7 +156,7 @@ if Rails.env.production? == false
   fake_usernames = fake_usernames.shuffle
 
   fake_tag_array = ['wow', 'yes', 'nice', 'drums',
-                    'no', 'sun', 'praise', 'test', 'MMO', 'english',
+                    'sun', 'praise', 'test', 'MMO', 'english',
                     'overwatch', 'slamdunk', 'multiplayer', 'PvE', 'raid', 'aaa', 'tes',
                     'testtest', 'testtesttest']
 

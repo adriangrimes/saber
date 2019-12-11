@@ -5,7 +5,7 @@ class PrivateMessagesController < ApplicationController
   def index
     user_id = params[:id].to_i
     if params[:with].present?
-      with_user = User.where('lower(username) = ?', params[:with].to_s.downcase).first
+      with_user = User.where('username = ?', params[:with].to_s).first
     end
     if params[:page].present?
       page = params[:page].to_i
@@ -20,11 +20,11 @@ class PrivateMessagesController < ApplicationController
       if token_is_authorized_for_id?(user_id)
 
         @private_messages = PrivateMessage
-                            .includes(:to_user, :from_user)
-                            .where('(from_user_id = ? AND to_user_id = ?) OR (from_user_id = ? AND to_user_id = ?)',
-                                   user_id, with_user.id, with_user.id, user_id)
-                            .order(created_at: :desc)
-                            .paginate(page: page, per_page: 6)
+          .includes(:to_user, :from_user)
+          .where('(from_user_id = ? AND to_user_id = ?) OR (from_user_id = ? AND to_user_id = ?)',
+                 user_id, with_user.id, with_user.id, user_id)
+          .order(created_at: :desc)
+          .paginate(page: page, per_page: 6)
 
         @private_messages = @private_messages.sort_by(&:created_at)
 
@@ -57,9 +57,9 @@ class PrivateMessagesController < ApplicationController
   # POST /private_messages
   def create
     raw_params = params[:data][:attributes]
-    from_user = User.where('lower(username) = ?', raw_params[:from_user].to_s.downcase).first
+    from_user = User.where('username = ?', raw_params[:from_user].to_s).first
     if token_is_authorized_for_id?(from_user.try(:id))
-      to_user = User.where('lower(username) = ?', raw_params[:to_user].to_s.downcase).first
+      to_user = User.where('username = ?', raw_params[:to_user].to_s).first
       @private_message = PrivateMessage.new(private_message_params)
       @private_message.to_user_id = to_user.try(:id) || 0
       @private_message.from_user_id = from_user.try(:id) || 0
@@ -122,7 +122,7 @@ class PrivateMessagesController < ApplicationController
           end
         end
       end
-      
+
       conversations = []
       conversation_hash_array.each_with_index do |conversation, index|
         unread_count = 0
@@ -134,10 +134,10 @@ class PrivateMessagesController < ApplicationController
         conversations
           .push(
             Conversation.new({
-                               id: index + 1,
-                               username: conversation[1][:username],
-                               unread: unread_count
-                             })
+              id: index + 1,
+              username: conversation[1][:username],
+              unread: unread_count
+            })
           )
       end
 
@@ -167,17 +167,12 @@ class PrivateMessagesController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
-  # def set_private_message
-  #   @private_message = PrivateMessage.find(params[:id])
-  # end
-
-  # Only allow a trusted parameter "white list" through.
-  def private_message_params
-    params.require(:data)
-          .require(:attributes)
-          .permit(:from_user_id,
-                  :to_user_id,
-                  :message)
-  end
+    # Only allow a trusted parameter "white list" through.
+    def private_message_params
+      params.require(:data)
+            .require(:attributes)
+            .permit(:from_user_id,
+                    :to_user_id,
+                    :message)
+    end
 end
