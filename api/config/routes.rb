@@ -2,7 +2,6 @@
 
 Rails.application.routes.draw do
 
-  resources :prerelease_emails
   # TODO: If your application has many RESTful routes, using :only and :except to
   # generate only the routes that you actually need can cut down on memory use
   # and speed up the routing process.
@@ -33,6 +32,8 @@ Rails.application.routes.draw do
   get '/transactions', to: 'transactions#index'
 
   resources :contractor_applications, only: %i[index create update]
+
+  resources :prerelease_emails
 
   # Controller for chat authentication
   resources :chat_tickets

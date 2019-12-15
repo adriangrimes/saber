@@ -9,6 +9,13 @@ const Router = EmberRouter.extend(RouterScroll, {
 });
 
 Router.map(function() {
+  this.route('home');
+
+  this.route('login');
+  this.route('forgot-password');
+  this.route('reset-password');
+  this.route('unlock-account');
+
   this.route('account', function() {
     this.route('developer');
     this.route('broadcaster');
@@ -41,12 +48,6 @@ Router.map(function() {
   this.route('user-not-found', {
     path: 'p/*wildcard'
   });
-  this.route('home');
-  this.route('login');
-
-  this.route('forgot-password');
-  this.route('reset-password');
-  this.route('unlock-account');
 });
 
 export default Router;
