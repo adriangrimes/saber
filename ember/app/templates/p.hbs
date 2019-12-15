@@ -65,71 +65,79 @@
         </div>
 -->
 
-        <div class=" p-0">
+          <div class="video-player p-0">
 
-          {{stream-player
+            {{stream-player
               broadcasterUsername=model.userPublicDatum.username
               currentUserUsername=session.data.authenticated.username
               profilePhoto=model.userPublicDatum.profilePhotoPath
               isStreaming=isStreaming
               onlineStatus=model.userPublicDatum.onlineStatus
             }}
-        </div>
+          </div>
 
-        <div class="pt-1">
+          <div class="pt-1">
+            {{#unless currentUser.user.isContracted}}
+              <div name="tip-toolbar" class="btn-toolbar justify-content-between ml-2 mr-1" role="toolbar">
 
-              {{#if model.userPublicDatum.allowTips}}
+                {{#if model.userPublicDatum.allowTips}}
 
-                <div class="input-group custom-control custom-radio d-flex">
-                  <div class="input-group-prepend ">
-                    <button class="btn btn-secondary border-0 px-2  h-2-5r" type="button" title="Tip Options" {{action "tipMenuToggle"}}>
-                      <span class={{if tipMenuOpen "fa fa-chevron-right" "fa fa-bars"}}></span>
-                    </button>
-                  </div>
-                  <div class={{if tipMenuOpen "d-none input-group-prepend h-2-5r" "d-flex input-group-prepend h-2-5r"}}>
-
-                    {{radio-button value=10 class="custom-control-input radio-is-selected" id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
-                    <label class="btn btn-secondary  px-2 h-2-5r" for="tipAmount10">
-                      10
-                    </label>
-
-                    {{radio-button value=25 class="custom-control-input radio-is-selected" id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
-                    <label class="btn btn-secondary px-2 d-none d-sm-block h-2-5r " for="tipAmount25">
-                      25
-                    </label>
-
-                    {{radio-button value=50 class="custom-control-input radio-is-selected" id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
-                    <label class="btn btn-secondary px-2 h-2-5r" for="tipAmount50">
-                      50
-                    </label>
-
-                    {{radio-button value=100 class="custom-control-input radio-is-selected" id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
-                    <label class="btn btn-secondary px-2 d-none d-sm-block h-2-5r" for="tipAmount100">
-                      100
-                    </label>
-                  </div>
-                  <div class={{if tipMenuOpen "d-flex input-group-prepend" "d-none input-group-prepend"}}>
-                    <div style="width:130px">
-                      {{input type="number"  class="form-control" min="1" max="10000" step="1" value=tipAmountOptions }}
+                  <div class="input-group custom-control custom-radio d-flex">
+                    <div class="input-group-prepend ">
+                      <button class="btn btn-secondary border-0 px-2  h-2-5r" type="button" title="Tip Options" {{action "tipMenuToggle"}}>
+                        <span class={{if tipMenuOpen "fa fa-chevron-right" "fa fa-bars"}}></span>
+                      </button>
                     </div>
-                    <div class="w-75">
-                      {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Chat note (optional)" }}
-                    </div>
-                  </div>
-                  {{#if (eq currentUser.user.creditsRemaining 0)}}
-                    <button {{action this.currentUser.openCreditDropdown}} class="btn btn-primary border-0 px-2 input-group-append h-2-5r" title="Tip">
-                      Tip
-                    </button>
-                  {{else}}
-                    {{confirm-input type="tip" title="Tip" titleDetail=this.tipAmountOptions titleEnd="?" button-title="Tip" onConfirm=(action "sendTip" tipAmountOptions)}}
-                  {{/if}}
-                </div>
+                    <div class={{if tipMenuOpen "d-none input-group-prepend h-2-5r" "d-flex input-group-prepend h-2-5r"}}>
 
-              {{else}}
-                <div></div>
-              {{/if}}
-            </div>
-        </div>
+                      {{radio-button value=10 class="custom-control-input radio-is-selected" id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
+                      <label class="btn btn-secondary  px-2 h-2-5r" for="tipAmount10">
+                        10
+                      </label>
+
+                        {{radio-button value=25 class="custom-control-input radio-is-selected" id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
+                        <label class="btn btn-secondary px-2 d-none d-sm-block h-2-5r " for="tipAmount25">
+                           25
+                        </label>
+
+                        {{radio-button value=50 class="custom-control-input radio-is-selected" id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
+                        <label class="btn btn-secondary px-2 h-2-5r" for="tipAmount50">
+                          50
+                        </label>
+
+                        {{radio-button value=100 class="custom-control-input radio-is-selected" id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
+                        <label class="btn btn-secondary px-2 d-none d-sm-block h-2-5r" for="tipAmount100">
+                          100
+                        </label>
+                    </div>
+                    <div class={{if tipMenuOpen "d-flex input-group-prepend" "d-none input-group-prepend"}}>
+                      <div style="width:130px">
+                        {{input type="number"  class="form-control" min="1" max="10000" step="1" value=tipAmountOptions }}
+                      </div>
+                      <div class="w-75">
+                        {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Chat note (optional)" }}
+                      </div>
+                    </div>
+                    {{#if (eq currentUser.user.creditsRemaining 0)}}
+                      <button {{action this.currentUser.openCreditDropdown}} class="btn btn-primary border-0 px-2 input-group-append h-2-5r" title="Tip">
+                        Tip
+                      </button>
+                    {{else}}
+                      {{confirm-input type="tip" title="Tip" titleDetail=this.tipAmountOptions titleEnd="?" button-title="Tip" onConfirm=(action "sendTip" tipAmountOptions)}}
+                    {{/if}}
+                  </div>
+
+
+
+                {{else}}
+                  <div></div>
+                {{/if}}
+              </div>
+            {{/unless}}
+          </div>
+
+
+
       </div>
       {{! Chat Window }}
       <div class={{if gameIsActive "col-12 col-sm-4 p-0 order-2" "col-12 col-sm-4 p-0 order-2"}}>
@@ -160,10 +168,10 @@
             onProfileImageChanged=(action "profileImageChanged")
           }}
         {{/if}}
-        <div class="col-12 p-2 horizontal-scroll">
-          {{#each model.userPublicUploads as |upload|}}
-            {{#if upload.fileUrl}}
-              {{#light-box
+      <div class="col-12 p-2 horizontal-scroll">
+        {{#each model.userPublicUploads as |upload|}}
+          {{#if upload.fileUrl}}
+            {{#light-box
               href=upload.fileUrl
               data-lightbox=model.userPublicDatum.username
               data-title=(concat model.userPublicDatum.username "'s images")
@@ -171,11 +179,11 @@
               data-class="image"
               inlineImage=false
             }}
-                <img src="{{upload.fileUrlSmall}}" max-width="300" height="300">
-              {{/light-box}}
-            {{/if}}
-          {{/each}}
-        </div>
+              <img src="{{upload.fileUrlSmall}}" max-width="300" height="300">
+            {{/light-box}}
+          {{/if}}
+        {{/each}}
+      </div>
 
       </div>
     </div>
@@ -244,7 +252,7 @@
             }}
 
             <div class="float-right">
-              {{submit-button submitSuccessState=(mut profileSaveSuccess) submitStarted=(mut profileSaveStart)}}
+              {{submit-button  submitSuccessState=(mut profileSaveSuccess) submitStarted=(mut profileSaveStart)}}
 
             </div>
             <br>

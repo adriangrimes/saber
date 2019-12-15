@@ -3,7 +3,7 @@ module StreamKey
     stream_key = ""
     possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    64.times do |i|
+    42.times do |i|
       stream_key += possible[(rand() * possible.length).floor];
     end
 

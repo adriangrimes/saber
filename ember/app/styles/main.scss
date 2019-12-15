@@ -3,13 +3,19 @@ $background-color: #2a2a2a;
 $layer1-background-color: #323232;
 $layer2-background-color: #6a6a6a;
 $font-color: #cbcbcb;
-$brand-color-primary: #ff3e01; // Buttons and Hyperlinks
-$brand-color-secondary: #a4040d; //Secondary Buttons #b80000
-$brand-color-tertiary: #3d3ba6; //Gradient Left #800000
-$brand-color-quaternary: #62168d; //Gradient Right #800000
+$placeholder-font-color: #9d9d9d;
 
-$on-status-color: #2e57d4; //browse broadcaster online status
-$off-status-color: #492828; //browse broadcaster offline status
+
+$brand-color-primary: #ae66e7; // Buttons and Hyperlinks
+$brand-color-secondary: #507fd7; //Secondary Buttons #b80000
+$brand-color-tertiary: #b918c6; //Gradient Left #800000
+$brand-color-quaternary: #642a9d; //Gradient Right #800000
+
+$brand-color-success: #0ab104;
+$brand-color-danger: #940000;
+
+$on-status-color: $brand-color-primary; //browse broadcaster online status
+$off-status-color: #000000; //browse broadcaster offline status
 
 * {
   font-family: "Lato", sans-serif;
@@ -33,14 +39,14 @@ a.brand-link:visited {
 }
 
 .dropdown-menu {
-  width: max-content !important;
+  width: 15rem !important;
 }
-.radio-is-selected:checked + label {
+.radio-is-selected:checked+label{
   background-color: $brand-color-quaternary;
   border-color: $brand-color-quaternary;
 }
 
-.brand-gradient-bg {
+.brand-gradient-bg{
   background: $brand-color-tertiary; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(
     left,
@@ -89,6 +95,62 @@ a.brand-link:visited {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+.brand-gradient-border{
+  background: $brand-color-tertiary; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(
+    left,
+    $brand-color-tertiary,
+    $brand-color-quaternary
+  ); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(
+    right,
+    $brand-color-tertiary,
+    $brand-color-quaternary
+  ); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(
+    right,
+    $brand-color-tertiary,
+    $brand-color-quaternary
+  ); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(
+    to right,
+    $brand-color-tertiary,
+    $brand-color-quaternary
+  ); /* Standard syntax */
+}
+.gradient-border-interior {
+  background: $background-color;
+}
+
+.online {
+  background: $brand-color-tertiary; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(
+    left,
+    $brand-color-tertiary,
+    $brand-color-quaternary
+  ); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(
+    right,
+    $brand-color-tertiary,
+    $brand-color-quaternary
+  ); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(
+    right,
+    $brand-color-tertiary,
+    $brand-color-quaternary
+  ); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(
+    to right,
+    $brand-color-tertiary,
+    $brand-color-quaternary
+  ); /* Standard syntax */
+  padding: .2rem;
+}
+.offline {
+  background: $font-color;
+  padding: .2rem;
+}
+
 
 .horizontal-scroll {
   overflow-x: auto;
@@ -112,6 +174,9 @@ a.brand-link:visited {
 .fs-1-5r {
   font-size: 1.5rem;
 }
+.fs-1-25r {
+  font-size: 1.25rem;
+}
 .fs-2r {
   font-size: 2rem;
 }
@@ -122,43 +187,17 @@ a.brand-link:visited {
   bottom: 1rem;
   right: 2rem;
 }
-.status-border {
-  border-style: solid;
-  border-color: $font-color;
-}
-.online {
-  border-color: $on-status-color;
-}
-.offline {
-  border-color: $off-status-color;
+.z-900{
+  z-index: 900 !important;
 }
 
-/// Overriding Bootstrap
-
-.card {
-  padding: 1rem;
+.bottom-border{
+  border-bottom-style: solid;
+  border-bottom-color: $font-color;
 }
-$card-border-width: none;
-$input-disabled-bg: $layer2-background-color;
 
-$enable-caret: false;
 
-$body-bg: $background-color;
-$body-color: $font-color;
 
-$primary: $brand-color-primary;
-$secondary: $brand-color-secondary;
-
-$dropdown-bg: $layer1-background-color;
-$dropdown-link-color: $font-color;
-$dropdown-header-color: $font-color;
-
-$card-bg: $layer1-background-color;
-
-$input-bg: $layer2-background-color;
-$input-color: $font-color;
-
-$border-radius: 0.1rem;
 
 .loader {
   font-size: 25px;
@@ -178,7 +217,7 @@ $border-radius: 0.1rem;
 
 .small-loader {
   font-size: 4px;
-  margin: 0.6rem;
+  margin: .6rem;
   width: 1em;
   height: 1em;
   border-radius: 50%;
@@ -222,7 +261,8 @@ $border-radius: 0.1rem;
   37.5% {
     box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2),
       1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5),
-      2.5em 0em 0 0em rgba(255, 255, 255, 0.7), 1.75em 1.75em 0 0em #ffffff,
+      2.5em 0em 0 0em rgba(255, 255, 255, 0.7),
+      1.75em 1.75em 0 0em #ffffff,
       0em 2.5em 0 0em rgba(255, 255, 255, 0.2),
       -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
       -2.6em 0em 0 0em rgba(255, 255, 255, 0.2),
@@ -232,8 +272,8 @@ $border-radius: 0.1rem;
     box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2),
       1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2),
       2.5em 0em 0 0em rgba(255, 255, 255, 0.5),
-      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.7), 0em 2.5em 0 0em #ffffff,
-      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
+      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.7),
+      0em 2.5em 0 0em #ffffff, -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
       -2.6em 0em 0 0em rgba(255, 255, 255, 0.2),
       -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
@@ -252,7 +292,8 @@ $border-radius: 0.1rem;
       2.5em 0em 0 0em rgba(255, 255, 255, 0.2),
       1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2),
       0em 2.5em 0 0em rgba(255, 255, 255, 0.5),
-      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.7), -2.6em 0em 0 0em #ffffff,
+      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.7),
+      -2.6em 0em 0 0em #ffffff,
       -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
   87.5% {
@@ -262,7 +303,8 @@ $border-radius: 0.1rem;
       1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2),
       0em 2.5em 0 0em rgba(255, 255, 255, 0.2),
       -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.5),
-      -2.6em 0em 0 0em rgba(255, 255, 255, 0.7), -1.8em -1.8em 0 0em #ffffff;
+      -2.6em 0em 0 0em rgba(255, 255, 255, 0.7),
+      -1.8em -1.8em 0 0em #ffffff;
   }
 }
 @keyframes load5 {
@@ -298,7 +340,8 @@ $border-radius: 0.1rem;
   37.5% {
     box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2),
       1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5),
-      2.5em 0em 0 0em rgba(255, 255, 255, 0.7), 1.75em 1.75em 0 0em #ffffff,
+      2.5em 0em 0 0em rgba(255, 255, 255, 0.7),
+      1.75em 1.75em 0 0em #ffffff,
       0em 2.5em 0 0em rgba(255, 255, 255, 0.2),
       -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
       -2.6em 0em 0 0em rgba(255, 255, 255, 0.2),
@@ -308,8 +351,8 @@ $border-radius: 0.1rem;
     box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2),
       1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2),
       2.5em 0em 0 0em rgba(255, 255, 255, 0.5),
-      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.7), 0em 2.5em 0 0em #ffffff,
-      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
+      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.7),
+      0em 2.5em 0 0em #ffffff, -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
       -2.6em 0em 0 0em rgba(255, 255, 255, 0.2),
       -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
@@ -328,7 +371,8 @@ $border-radius: 0.1rem;
       2.5em 0em 0 0em rgba(255, 255, 255, 0.2),
       1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2),
       0em 2.5em 0 0em rgba(255, 255, 255, 0.5),
-      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.7), -2.6em 0em 0 0em #ffffff,
+      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.7),
+      -2.6em 0em 0 0em #ffffff,
       -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
   87.5% {
@@ -338,9 +382,12 @@ $border-radius: 0.1rem;
       1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2),
       0em 2.5em 0 0em rgba(255, 255, 255, 0.2),
       -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.5),
-      -2.6em 0em 0 0em rgba(255, 255, 255, 0.7), -1.8em -1.8em 0 0em #ffffff;
+      -2.6em 0em 0 0em rgba(255, 255, 255, 0.7),
+      -1.8em -1.8em 0 0em #ffffff;
   }
 }
+
+
 
 .noscript-centered {
   position: fixed;
@@ -348,8 +395,94 @@ $border-radius: 0.1rem;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+ .cursor-pointer {
+   cursor: pointer;
+ }
+ .list-style-none{
+   list-style-type: none;
+ }
+.nav.tab{
+  background-color: #ffffff;
+}
+
+
+  // #chatUserMenu {
+  //   position: absolute;
+  //  width: 196px;
+  // }
+
+.chat-tab-content{
+  height: 79vh;
+}
+
+ .chat-tab-pane {
+   height: 100%;
+
+ }
+ .chat-tab-body{
+     height: 100%;
+     overflow-y: auto;
+     overflow-x: hidden;
+     word-wrap: break-word;
+ }
+
+
+
+
+
+
+
+/// Overriding Bootstrap
+
+.card {
+  padding: 1rem;
+}
+$card-border-width: none;
+$input-disabled-bg: $layer2-background-color;
+
+$enable-caret: false;
+
+$body-bg: $background-color;
+$body-color: $font-color;
+
+$primary: $brand-color-primary;
+$secondary: $brand-color-secondary;
+$success: $brand-color-success ;
+$danger: $brand-color-danger ;
+
+$dropdown-bg: $layer1-background-color;
+$dropdown-link-color: $font-color;
+$dropdown-header-color: $font-color;
+$dropdown-min-width: 15rem !important;
+
+$card-bg: $layer1-background-color;
+
+$input-bg: $layer2-background-color;
+$input-color: $font-color;
+$input-placeholder-color: $placeholder-font-color;
+
+$border-radius: 0.1rem;
+
+.modal-backdrop {
+   background-color: #000000 !important;
+   opacity: .95 !important;
+}
+
+.splash-horizontal-rule {
+   border-color: $font-color;
+ }
+
+
+
 
 //// Overriding node modules
+
+// bs-modal
+
+.modal-content{
+  background-color: $background-color !important;
+}
+
 
 //// ember-power-select
 .ember-power-select-trigger {
@@ -378,6 +511,8 @@ $border-radius: 0.1rem;
   color: $font-color;
   outline: 0;
 }
+
+
 
 //// Ember Tag Input
 
@@ -459,98 +594,11 @@ $border-radius: 0.1rem;
 .uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload:focus {
   box-shadow: none !important;
 }
+
+
+
 ///////////// Extra Small Screens, Optimizing for 320px and up.
 
-///////////////////// Overriding Bootstrap
-
-// $border-radius: 0.15rem;
-// $border-radius-lg: 0.15rem;
-// $border-radius-sm: 0.15rem;
-//
-// // .container-fluid {
-// //   padding-left: 30px;
-// //   padding-right: 30px;
-// // }
-// .btn-primary {
-//   background-color: #800000;
-//   border-style: none;
-// }
-// .badge-primary {
-//   background-color: #800000;
-// }
-//
-// .btn.focus,
-// .btn:focus,
-// .form-control.focus,
-// .form-control:focus {
-//   outline: 0;
-//   box-shadow: none !important;
-// }
-//
-// .btn-primary:hover {
-//   background-color: #b80000;
-//   border-color: #cccccc;
-// }
-//
-// .btn-primary:focus,
-// .btn-primary:active:hover,
-// .btn-primary.active,
-// .btn-primary.active.focus {
-//   background-color: #600000 !important;
-//   border-color: #cccccc;
-// }
-//
-// .border-primary {
-//   border-color: #800000 !important;
-// }
-//
-// .btn-outline-dark {
-//   border-color: $btnOutlineDarkBorderColor;
-//   color: $btnOutlineDarkTextColor;
-// }
-//
-// .nav-pills .nav-link.active,
-// .nav-pills .show > .nav-link {
-//   background-color: $navDropDownHoverBackgroundColor;
-// }
-//
-// .dropdown-item.active,
-// .dropdown-item:active {
-//   background-color: $navDropDownHoverBackgroundColor;
-// }
-//
-
-//
-// /* _border-width-customs.scss */
-// $border-width-custom-1: 1px !default;
-// $border-width-custom-2: 2px !default;
-// $border-width-custom-3: 3px !default;
-// $border-width-custom-4: 4px !default;
-// $border-width-custom-5: 5px !default;
-// $border-width-custom-6: 6px !default;
-// $border-width-custom-7: 7px !default;
-// $border-width-custom-8: 8px !default;
-//
-// $border-width-customs: (
-//   "1": $border-width-custom-1,
-//   "2": $border-width-custom-2,
-//   "3": $border-width-custom-3,
-//   "4": $border-width-custom-4,
-//   "5": $border-width-custom-5,
-//   "6": $border-width-custom-6,
-//   "7": $border-width-custom-7,
-//   "8": $border-width-custom-8
-// );
-//
-// @each $name, $size in $border-width-customs {
-//   @each $var in "", "top-", "right-", "bottom-", "left-" {
-//     .border-#{$var}#{$name} {
-//       border-#{$var}width: $size !important;
-//       border-#{$var}style: solid;
-//     }
-//   }
-// }
-//
 // //////////////////////generic classes
 // .vertical-rule {
 //   border-right-style: solid;
@@ -625,15 +673,6 @@ $border-radius: 0.1rem;
 //   font-size: 12px;
 // }
 
-// ///// Dropdown Menu
-// // .dropdown-item:hover {
-// //   background-color: #eeeeee;
-// // }
-// // .dropdown-item:active {
-// //   background-color: #bbbbbb;
-// // }
-//
-//
 // /////Buttons
 //
 // #scrollToTopBtn {
@@ -659,17 +698,7 @@ $border-radius: 0.1rem;
 //
 
 //
-// /////////////splash page classes
-//
-// #splash-text {
-//   font-size: 18px;
-// }
-// #splash-email-input {
-//   width: 75%;
-// }
-// .splash-horizontal-rule {
-//   border-color: #bcbcbc;
-// }
+
 //
 // //////////////////////////////////////Navbar Classes
 //
@@ -689,11 +718,7 @@ $border-radius: 0.1rem;
 // #logo-with-text {
 //   display: none;
 // }
-//
-// #nav-dropdown-toggle {
-//   color: #999999;
-// }
-//
+
 // #login-button {
 //   color: #000000;
 //   border: solid;
@@ -701,10 +726,7 @@ $border-radius: 0.1rem;
 //   background-color: #ffffff;
 // }
 //
-// #agegate {
-//   background-color: #280000;
-// }
-//
+
 // .navbar-default {
 //   min-height: 10px;
 //   height: 50px;
@@ -744,154 +766,6 @@ $border-radius: 0.1rem;
 // }
 //
 
-// // ///////////////////chat classes
-// #usermsg {
-//   border-radius: 0px;
-// }
-// #chatTabs {
-//   text-align: right;
-//   margin: 0;
-//   padding-left: 5px;
-//   padding-right: 5px;
-//   padding-top: 0px;
-//   padding-bottom: 0px;
-// }
-// #chatUserMenu {
-//   position: absolute;
-//   width: 196px;
-//   background-color: #800000;
-//   margin-left: 20px;
-//   padding-left: 0px;
-//   border-top-left-radius: 5px;
-//   border-top-right-radius: 5px;
-//   border-bottom-left-radius: 5px;
-//   border-bottom-right-radius: 5px;
-// }
-// .sharp-bottom-corners {
-//   border-top-left-radius: 0px;
-//   border-top-right-radius: 0px;
-// }
-// .round-top-left-corner-only {
-//   border-bottom-left-radius: 0px;
-//   border-bottom-right-radius: 0px;
-//   border-top-right-radius: 0px;
-// }
-// .round-top-right-corner-only {
-//   border-bottom-left-radius: 0px;
-//   border-bottom-right-radius: 0px;
-//   border-top-left-radius: 0px;
-// }
-// .chat-username {
-//   cursor: pointer;
-// }
-// .tab-btn {
-//   border-bottom-left-radius: 0px;
-//   border-bottom-right-radius: 0px;
-// }
-// .nav-pills > li.active > a,
-// .nav-pills > li.active > a:hover,
-// .nav-pills > li.active > a:focus {
-//   background-color: #dddddd;
-//   color: #000000;
-// }
-// #messages {
-//   list-style-type: none;
-//   margin-top: 10px;
-//   margin-bottom: 0px;
-//   margin-right: 0px;
-//   margin-left: 0px;
-//   padding: 0;
-// }
-// #messages li {
-//   padding-left: 0px;
-//   padding-bottom: 5px;
-//   padding-top: 0px;
-//   padding-right: 5px;
-// }
-// #users {
-//   list-style-type: none;
-//   margin: 0px;
-//   padding: 0;
-//   border-width: 1px;
-//   border-color: #000000;
-// }
-// #users li {
-//   padding: 5px;
-// }
-// #usermsg {
-//   border-radius: 0px;
-// }
-// .chat-divide {
-//   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#999999+0,727272+0&0.65+0,0+5,0+36 */
-//   background: -moz-linear-gradient(
-//     top,
-//     rgba(114, 114, 114, 0.65) 0%,
-//     rgba(114, 114, 114, 0) 5%,
-//     rgba(114, 114, 114, 0) 36%
-//   ); /* FF3.6-15 */
-//   background: -webkit-linear-gradient(
-//     top,
-//     rgba(114, 114, 114, 0.65) 0%,
-//     rgba(114, 114, 114, 0) 5%,
-//     rgba(114, 114, 114, 0) 36%
-//   ); /* Chrome10-25,Safari5.1-6 */
-//   background: linear-gradient(
-//     to bottom,
-//     rgba(114, 114, 114, 0.65) 0%,
-//     rgba(114, 114, 114, 0) 5%,
-//     rgba(114, 114, 114, 0) 36%
-//   ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-//   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6727272', endColorstr='#00727272',GradientType=0 ); /* IE6-9 */
-// }
-
-// // ////////////////////////////////Private Messenger Classes
-// #private-messenger-window {
-//   position: fixed;
-//   z-index: 10000;
-//   bottom: 0px;
-//   right: 10px;
-//   width: 300px;
-//   margin-bottom: 0px;
-//   border-bottom-right-radius: 0px;
-//   border-bottom-left-radius: 0px;
-// }
-// #private-messenger-panel {
-//   height: 280px;
-//   overflow-y: auto;
-// }
-// #closePM {
-//   float: left;
-//   padding-left: 5px;
-//   padding-right: 20px;
-//   font-color: #686868;
-// }
-// .chat-input-submit {
-//   border-radius: 0px;
-// }
-// .chat-input {
-//   position: absolute;
-//   bottom: 0;
-//   right: 0;
-//   padding: 0;
-//   margin: 0;
-//   width: 100%;
-// }
-// .topic-input {
-//   padding-top: 65px;
-// }
-// .chat-body {
-//   height: 400px;
-//   padding-top: 5px;
-//   overflow-y: auto;
-//   overflow-x: hidden;
-//   word-wrap: break-word;
-// }
-// .users-body {
-//   height: 400px;
-//   padding-top: 5px;
-//   overflow-y: auto;
-//   overflow-x: hidden;
-// }
 
 // #game-panel {
 //   height: 300px;
@@ -922,11 +796,7 @@ $border-radius: 0.1rem;
 //   padding-top: 10px;
 //   padding-bottom: 10px;
 // }
-// #closeAlert {
-//   float: right;
-//   padding-right: 5px;
-//   font-color: #686868;
-// }
+
 // // ////////////////////////account classes
 // .manage-users-panel {
 //   overflow-y: auto;
@@ -1005,18 +875,7 @@ $border-radius: 0.1rem;
 //   background-color: $bodyBackgroundColor;
 //   color: $bodyFontColor;
 // }
-// .close {
-//   color: $bodyFontColor;
-// }
-// .close:hover {
-//   color: $bodyFontHoverColor;
-// }
-// .close:active,
-// .close:focus {
-//   color: $bodyFontActiveColor;
-//   outline: 0;
-// }
-//
+
 // // Small devices (landscape phones, 576px and up)
 // @media (min-width: 576px) {
 
@@ -1049,72 +908,8 @@ $border-radius: 0.1rem;
 //     border: 0px;
 //     color: #ffffff;
 //   }
-//   #nav-dropdown-toggle {
-//     color: #ffffff;
-//   }
-//   #login-button {
-//     color: #000000;
-//     border: none;
-//     background-color: #ffffff;
-//   }
-//   // /////
-//   .dropdown ul.dropdown-menu {
-//     width: 210px;
-//     margin-right: 10px;
-//     background-color: $navDropDownBackgroundColor;
-//     color: $bodyFontColor;
-//   }
-//   .dropdown-item {
-//     height: 30px;
-//     padding-top: 0.15rem;
-//     color: $bodyFontColor;
-//   }
-//   .dropdown-item:hover,
-//   .dropdown-item:active {
-//     background-color: $navDropDownHoverBackgroundColor;
-//     color: $bodyFontColor;
-//   }
-//   #scrollToTopBtn {
-//     bottom: 2rem;
-//   }
-//   #splash-email-input {
-//     width: 50%;
-//   }
 
-//   body {
-//     margin-bottom: 120px;
-//   }
-//   #logo-with-text {
-//     display: block;
-//   }
-//   #logo-no-text {
-//     display: none;
-//   }
-//   .footer {
-//     height: 130px;
-//   }
-//   .chat-body {
-//     height: 100%;
-//   }
-//   .users-body {
-//     padding-top: 65px;
-//     height: 530px;
-//   }
 
-//   .chat-divide {
-//     background: #fff;
-//   }
-
-//   .chat-divide {
-//     background: #ffffff;
-//   }
-//   #verifyFooter {
-//     height: 55px;
-//   }
-//   #game-icon {
-//     position: relative;
-//   }
-// }
 
 // // Medium devices (tablets, 768px and up)
 // @media (min-width: 768px) {

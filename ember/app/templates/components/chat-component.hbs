@@ -14,12 +14,21 @@
 
 {{!-- Chat Navigation Tabs --}}
 <BsTab @customTabs={{true}} as |tab|>
-  <BsNav @type="tabs" as |nav|>
-    <nav.item @active={{bs-eq tab.activeId "Chat"}}><a role="tab" onclick={{action tab.select "Chat"}}>Chat</a></nav.item>
-    <nav.item @active={{bs-eq tab.activeId "Users"}}><a role="tab" onclick={{action "getChannelChatUserList" tab.select "Users"}}>Users<span class="badge">{{chatChannelUserCount}}</span></a></nav.item>
+  <BsNav @type="tabs" class="nav nav-tabs" as |nav|>
+    <nav.item @active={{bs-eq tab.activeId "Chat"}} class="nav-item">
+      <a role="tab" onclick={{action "chatTabSelect" tab.select "Chat"}}
+      class={{if chatOpen "nav-link active" "nav-link"}}>
+      Chat</a></nav.item>
+    <nav.item @active={{bs-eq tab.activeId "Users"}} class="nav-item">
+      <a role="tab" onclick={{action "chatTabSelect" tab.select "Users"}}
+      class={{if chatOpen "nav-link" "nav-link active"}}>
+      Users
+      <span class="badge">{{chatChannelUserCount}}</span></a></nav.item>
   </BsNav>
-  <div class="tab-content">
-    <tab.pane @id="Chat" @title="Chat">
+  <div class="tab-content ">
+    <tab.pane @id="Chat" @title="Chat" class="chat-tab-content">
+
+      <div role="tabpanel" class="tab-pane chat-tab-pane">
       <div class="topic-input">
         {{#if (eq session.data.authenticated.username model.username)}}
 
@@ -33,10 +42,10 @@
 
         {{/if}}
       </div>
-      <div class="card-body chat-body">
+      <div class="card-body chat-tab-body">
 
         {{!-- Chat messages --}}
-        <ul id="messages">
+        <ul id="messages" class="list-style-none p-0 m-0">
           {{#each chatMessagesList as |chatMessage|}}
             {{#if chatMessage.systemMessage}}
               <li><b>{{chatMessage.data}}</b></li>
@@ -60,19 +69,19 @@
           <button type="submit" name="submitmsg" class="input-group-btn btn btn-primary chat-input-submit">Send</button>
         </div>
       </form>{{!-- /Chat Input Field --}}
-
+</div>
 
 
     </tab.pane>
-    <tab.pane @id="Users" @title="Users">
+    <tab.pane @id="Users" @title="Users" class="chat-tab-content">
       {{!-- Users List Tab Content --}}
-      <div role="tabpanel" class="tab-pane" id="userstab">
-        <div class="card-body users-body">
-          <ul id="users">
+      <div role="tabpanel" class="tab-pane chat-tab-pane">
+        <div class="card-body chat-tab-body">
+          <ul id="userslist" class="list-style-none  p-0 m-0">
             {{! Display users}}
             {{#each chatUsersList as |chatUser|}}
               <li>
-                <span class="chat-username" onclick={{action "openChatUserMenu"}}>
+                <span class="cursor-pointer" onclick={{action "openChatUserMenu"}}>
                   <b>{{chatUser}}</b>
                 </span>
               </li>

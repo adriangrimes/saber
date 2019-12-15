@@ -14,6 +14,7 @@ export default Component.extend({
   userMessage: '',
   chatUserMenu: 'd-none',
   chatChannelUserCount: '-',
+  chatOpen: true,
 
   actions: {
     // User wants to send a message so...
@@ -46,11 +47,20 @@ export default Component.extend({
       this.set('chatUserMenu', 'd-none');
     },
 
-    getChannelChatUserList(openTab, tabName) {
+    chatTabSelect(openTab, tabName) {
       console.log('getting ChannelChatUserList');
 
       //open tab
       openTab(tabName);
+    if(tabName == "Chat"){
+        this.set('chatOpen', true);
+        console.log('chatOpen: '+this.chatOpen);
+
+    }else if(tabName == "Users"){
+      this.set('chatOpen', false);
+      console.log('chatOpen: '+this.chatOpen);
+    }
+
       //get user getChannelChatUserList
       this.socketRef.send(
         JSON.stringify({

@@ -1,7 +1,4 @@
 <div class="container">
-
-
-
   <div class="row m-0 mb-3 ml-2">
     <div class="col-8 col-sm-6 col-md-5 col-lg-4 p-0 pt-1 pl-1">
       <h2>Account Settings</h2>
@@ -21,17 +18,180 @@
   <div class="row m-0">
     <div class="col-xs-12 col-sm-7 col-md-8 ">
       {{#if this.currentUser.user.isContracted}}
+                <div class="card mb-3">
+                  <div class="card-heading">
+                    <h3 class="card-title">
+                      <img src="/credits.svg" class="" width="25rem">
+                      &nbsp;Credit History</h3>
+                  </div>
+                  <div id="transactions" class="card ">
+                    <div class="card-body">
+                      <input type="button" class="btn btn-primary" value="Get tips" {{action "getTransactions"}}>
+                      {{#if transactions}}
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Date</th>
+                              <th scope="col">Credits</th>
+                              <th scope="col">Description</th>
+                              <th scope="col">Payout Percentage</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {{#each transactions as |transaction|}}
+                              <tr>
+                                <td>{{transaction.createdAt}}</td>
+                                <td>{{transaction.creditsTransferred}}</td>
+                                <td>{{transaction.transferDescription}}</td>
+                                <td>{{transaction.broadcasterPayoutPercentage}}%</td>
+                              </tr>
+                            {{/each}}
+                          </tbody>
+                        </table>
+                      {{/if}}
+                    </div>
+                  </div>
+                </div>
+                {{#if this.currentUser.user.broadcaster}}
 
+                  <div class="card mb-3 ">
+                    <div class="card-heading">
+                      <h4 class="card-title"><span class="fa fa-video-camera" aria-hidden="true"></span>&nbsp; Stream Settings</h4>
+                    </div>
+                    <div  class="card">
+                      <div class="card-body">
+                        <div class=" row pb-3">
+                          <div class="col-xs-12 col-sm-6 pb-2">
+                            <button class="btn btn-block btn-secondary" type="button" {{action "showStreamKey"}}>{{this.toggleHideStreamKeyText}}</button>
+                          </div>
+                          <div class="col-xs-12 col-sm-6">
+                            <div class="float-right">
+                            {{confirm-input type="reset" title="Reset?" button-title="Reset Stream Key" onConfirm=(action "resetStreamKey")}}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mb-3" {{action "copyStreamKeyToClipboard"}}>
+                          Stream Key:
+                          {{input type="text" id="streamKeyDisplayID" class="form-control" value=streamKeyDisplay readonly="true"}}
+                          <div class={{this.keyCopySuccess}}>
+                            <div class="float-right text-success">
+                              <span class="fa fa-check "></span>Copied to clipboard
+                            </div>
+                          </div>
+                          <div class={{this.newCopySuccess}}>
+                            <div class="mt-0 float-right text-success">
+                              <span class="fa fa-check "></span>New stream key saved
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mb-5" {{action "copyServerToClipboard"}}>
+                          Stream Server:
+                          {{input type="text" id="streamServerDisplay" class="form-control" value=streamServer readonly="true"}}
+                          <div class={{this.serverCopySuccess}}>
+                            <div class="float-right text-success">
+                              <span class="fa fa-check "></span>Copied to clipboard
+                            </div>
+                          </div>
+                        </div>
+
+                        <a href="/help#streamHelp"class="w-100 btn btn-block btn-secondary">
+                        Live Streaming Help
+                      </a>
+
+
+                        <hr class="splash-horizontal-rule">
+                        <form {{action "submitStreamSettings" on="submit"}}>
+                          <h5>Interaction Settings</h5>
+
+                          <div class="form-check mt-2">
+                            <label class="form-check-label">
+                              {{input type="checkbox" class="form-check-input" checked=model.userPublicDatum.allowTips}}
+                              Enable Tipping.
+                            </label>
+                          </div>
+
+                          <div class="text-right pt-3">
+                            {{submit-button submitSuccessState=(mut streamSettingsSaveSuccess) submitStarted=(mut streamSettingsSaveStart)}}
+
+                          </div>
+                        </form>
+
+                      </div>
+                    </div>
+                  </div>
+
+                {{/if}}
+
+
+
+                {{#if this.currentUser.user.developer}}
+                  <div class="card mb-3 " id="developerAccordion">
+                    <div class="card-heading">
+                      <h4 class="card-title"><span class="fa fa-gamepad" aria-hidden="true"></span>&nbsp; My Games</h4>
+
+                    </div>
+                    <div id="developer" class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-6">
+                            <button class="btn btn-secondary btn-block btn-lg" title="View the API and Documentation">View API</button>
+                          </div>
+                          <div class="col-6">
+                            <button class="btn btn-primary btn-block btn-lg" title="Upload Your Game">Upload Game</button>
+                          </div>
+                        </div>
+                        <hr class="splash-horizontal-rule">
+
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-8">
+                              Game 1
+                            </div>
+                            <div class="col-xs-4">
+                              <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-8">
+                              Game 2
+                            </div>
+                            <div class="col-xs-4">
+                              <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-8">
+                              Game 3
+                            </div>
+                            <div class="col-xs-4">
+                              <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-8">
+                              Game 4
+                            </div>
+                            <div class="col-xs-4">
+                              <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {{/if}}
       {{/if}}
-      {{#link-to "p" (lower-case session.data.authenticated.username) class="btn btn-primary btn-block d-block d-sm-none mb-3"}}
-        <span class="fa fa-edit" aria-hidden="true"></span>
-        Edit Profile
-      {{/link-to}}
+
 
       {{#if this.currentUser.user.isContracted}}
+
         <div class="card mb-3">
           <div class="card-heading">
-            <h3 class="card-title">Payout Settings</h3>
+            <h3 class="card-title">    <span class="fa fa-address-card-o"></span>&nbsp; Payout Settings</h3>
           </div>
           <div class="card ">
             <div class="card-body">
@@ -97,43 +257,13 @@
           </div>
         </div>
 
-        <div class="card mb-3">
-          <div class="card-heading">
-            <h3 class="card-title">Tips</h3>
-          </div>
-          <div id="transactions" class="card ">
-            <div class="card-body">
-              <input type="button" class="btn btn-primary" value="Get tips" {{action "getTransactions"}}>
-              {{#if transactions}}
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">Date</th>
-                      <th scope="col">Credits</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Payout Percentage</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {{#each transactions as |transaction|}}
-                      <tr>
-                        <td>{{transaction.createdAt}}</td>
-                        <td>{{transaction.creditsTransferred}}</td>
-                        <td>{{transaction.transferDescription}}</td>
-                        <td>{{transaction.broadcasterPayoutPercentage}}%</td>
-                      </tr>
-                    {{/each}}
-                  </tbody>
-                </table>
-              {{/if}}
-            </div>
-          </div>
-        </div>
+
       {{/if}}
 
       <div class="card mb-3">
         <div class="card-heading">
-          <h3 class="card-title">Notification Settings</h3>
+          <h3 class="card-title">
+            <span class="fa fa-bell-o"></span>&nbsp;Notification Settings</h3>
         </div>
         <div class="card">
           <div class="card-body">
@@ -168,12 +298,12 @@
           </div>
         </div>
       </div>
-
-      <div class="card mb-3" id="siteSettingsAccordion">
+{{!--
+      <div class="card mb-3">
         <div class="card-heading">
           <h3 class="card-title">Site Settings</h3>
         </div>
-        <div id="SiteSettings" class="card">
+        <div  class="card">
           <div class="card-body">
             <form {{action "submitSiteSettings" on="submit"}}>
               {{!--
@@ -188,7 +318,7 @@
                   Dark mode
                 </label>
               </div>
-              <hr class="splash-horizontal-rule"> --}}
+              <hr class="splash-horizontal-rule">
 
               <h5>Time Zone</h5>
               <div class="form-group">
@@ -212,12 +342,13 @@
             </form>
           </div>
         </div>
-      </div>
-      <div class="card mb-3" id="securitySettingsAccordion">
+      </div> --}}
+      <div class="card mb-3">
         <div class="card-heading">
-          <h3 class="card-title">Email and Security Settings</h3>
+          <h3 class="card-title">
+            <span class="fa fa-cog"></span>&nbsp;Email and Security Settings</h3>
         </div>
-        <div id="SecuritySettings" class="card">
+        <div  class="card">
           <div class="card-body">
             <form {{action "submitEmailChange" on="submit"}}>
               <h5>Change your email address</h5>
@@ -278,12 +409,19 @@
           <div class="col  p-1 mb-2">
             {{#link-to "p" (lower-case session.data.authenticated.username) class="w-100 btn btn-secondary"}}
               <span class="fa fa-edit"></span><br>
-              Profile
+              Public Profile
             {{/link-to}}
           </div>
           <div class="col   p-1 mb-2">
             {{#link-to "account.messages" class="w-100 btn btn-secondary"}}
-              <span class="fa fa-inbox"></span><br>
+            {{#if (gt this.currentUser.unreadMessages 0)}}
+              <span class="ml-0 mr-1 badge badge-dark badge-pill">
+                {{this.currentUser.unreadMessages}}
+              </span>
+            {{else}}
+              <span class="fa fa-envelope-o"></span>
+            {{/if}}
+            <br>
               Inbox
             {{/link-to}}
           </div>
@@ -298,213 +436,55 @@
           <div class="col p-1 mb-2">
             {{#link-to "home" class="w-100 btn btn-secondary"}}
               <span class="fa  fa-video-camera mr-3"></span>
+              <br>
               Browse Broadcasters
             {{/link-to}}
           </div>
         </div>
-
-
+        <div class="card my-5">
+          <h4 class="card-title"><span class="fa fa-bullhorn" aria-hidden="true"></span>&nbsp; Affiliate Link</h4>
+          Your Affiliate link is coming soon!
+        </div>
       {{/if}}
 
 
       {{#if this.currentUser.user.broadcaster}}
+      <div class="pb-5">
+          <h4 class="card-title"><span class="fa fa-sticky-note-o" aria-hidden="true"></span>&nbsp; Private Notepad</h4>
+            <form {{action "submitUserNotes" on="submit"}}>
+              {{textarea class="form-control" rows=8 id="privateUserNotes" maxlength="1000" value=model.user.privateUserNotes placeholder="This notepad is only visible to you. Save stream titles, ideas, dates, or just things to remember."}}
+              <div class="text-right pt-3">
+                {{submit-button submitSuccessState=(mut notesSaveSuccess) submitStarted=(mut notesSaveStart)}}
+              </div>
+            </form>
+    </div>
       {{else}}
-        {{#link-to "account.broadcaster"  class="btn btn-primary btn-block d-none d-sm-block" }}
+        {{#link-to "account.broadcaster"  class="btn btn-primary btn-block" }}
           Become a Broadcaster &nbsp;<span class="fa fa-video-camera" aria-hidden="true"></span>
         {{/link-to}}
 
       {{/if}}
       {{#if this.currentUser.user.developer}}
       {{else}}
-        {{#link-to "account.developer" class="btn btn-primary btn-block d-none d-sm-block" }}
+        {{#link-to "account.developer" class="btn btn-primary btn-block" }}
           Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span>
         {{/link-to}}
 
       {{/if}}
       {{#if this.currentUser.user.affiliate}}
       {{else}}
-        {{#link-to "account.affiliate" class="btn btn-primary btn-block d-none d-sm-block" }}
+        {{#link-to "account.affiliate" class="btn btn-primary btn-block" }}
           Become an Affiliate &nbsp;<span class="fa fa-bullhorn" aria-hidden="true"></span>
         {{/link-to}}
       {{/if}}
 
-      {{#if this.currentUser.user.broadcaster}}
-      {{else}}
-        {{#link-to "account.broadcaster" class="btn btn-primary btn-block d-block d-sm-none" }}
-          Become a Broadcaster &nbsp;<span class="fa fa-video-camera" aria-hidden="true"></span>
-        {{/link-to}}
-      {{/if}}
-      {{#if this.currentUser.user.developer}}
-      {{else}}
-        {{#link-to "account.developer" class="btn btn-primary btn-block d-block d-sm-none" }}
-          Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span>
-
-        {{/link-to}}
-      {{/if}}
-      {{#if this.currentUser.user.affiliate}}
-      {{else}}
-        {{#link-to "account.affiliate" class="btn btn-primary btn-block d-block d-sm-none" }}
-          Become an Affiliate &nbsp;<span class="fa fa-bullhorn" aria-hidden="true"></span>
-        {{/link-to}}
-      {{/if}}
-      <div class="mt-4">
+      <div class="mt-5">
         {{#link-to "account.close" class="btn btn-outline-light btn-block "  }}
           Close Account
         {{/link-to}}
       </div>
     </div>
-
   </div>
-
-
-
-  {{#if this.currentUser.user.isContracted}}
-
-    <div class="row m-0">
-
-
-      {{#if this.currentUser.user.isContracted}}
-        <div class="col-xs-12 col-md-8 order-md-1">
-
-          Your Affiliate link is coming soon!
-          <br><br>
-
-          {{#if this.currentUser.user.broadcaster}}
-
-            <div class="card mb-3 ">
-              <div class="card-heading  ">
-                <h4 class="card-title"><span class="fa fa-cog" aria-hidden="true"></span>&nbsp; Stream Settings</h4>
-              </div>
-              <div id="streamSettings" class="card">
-                <div class="card-body">
-                  <div class=" row pb-3">
-                    <div class="col-xs-12 col-sm-6 pb-2">
-                      <button class="btn btn-block btn-secondary" type="button" {{action "showStreamKey"}}>Show Stream Key</button>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                      {{confirm-input title="Reset?" button-title="Reset Stream Key" onConfirm=(action "resetStreamKey")}}
-                    </div>
-                  </div>
-
-                  <div class="mb-3" {{action "copyStreamKeyToClipboard"}}>
-                    {{textarea id="streamKeyDisplayID" class="form-control" value=streamKeyDisplay readonly="true"}}
-                    <div class={{this.keyCopySuccess}}>
-                      <div class="float-right text-success">
-                        <span class="fa fa-check "></span>Copied to Clipboard
-                      </div>
-                    </div>
-                    <div class={{this.newCopySuccess}}>
-                      <div class="mt-0 float-right text-success">
-                        <span class="fa fa-check "></span>New Stream Key Saved
-                      </div>
-                    </div>
-                  </div>
-
-                  <hr class="splash-horizontal-rule mt-4">
-                  <form {{action "submitStreamSettings" on="submit"}}>
-                    <h5>Interaction Settings</h5>
-
-                    <div class="form-check mt-2">
-                      <label class="form-check-label">
-                        {{input type="checkbox" class="form-check-input" checked=model.userPublicDatum.allowTips}}
-                        Enable Tipping.
-                      </label>
-                    </div>
-
-                    <div class="text-right pt-3">
-                      <button type="submit" class={{this.streamSettingSubmitBtn}}>{{this.streamSettingSubmitText}}</button>
-                    </div>
-                  </form>
-
-                </div>
-              </div>
-            </div>
-
-          {{/if}}
-
-
-          <div class="card mb-3 " id="notesAccordion">
-
-            <div class="card-heading">
-              <h4 class="card-title"><span class="fa fa-bar-chart" aria-hidden="true"></span>&nbsp; Private Notepad</h4>
-            </div>
-            <div id="notes" class="card">
-              <div class="card-body">
-
-                <form {{action "submitUserNotes" on="submit"}}>
-                  {{textarea class="form-control" rows=8 id="privateUserNotes" maxlength="1000" value=model.user.privateUserNotes placeholder="Only you can see this notepad."}}
-                  <div class="text-right pt-3">
-                    <button type="submit" class={{this.notesSubmitBtn}}>{{this.notesSubmitText}}</button>
-                  </div>
-                </form>
-
-              </div>
-            </div>
-          </div>
-          {{#if this.currentUser.user.developer}}
-            <div class="card mb-3 " id="developerAccordion">
-              <div class="card-heading">
-                <h4 class="card-title"><span class="fa fa-gamepad" aria-hidden="true"></span>&nbsp; My Games</h4>
-
-              </div>
-              <div id="developer" class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-6">
-                      <button class="btn btn-secondarysecondary btn-block btn-lg d-block d-sm-none" title="View the API and Documentation">View<br>API</button>
-                      <button class="btn btn-secondary btn-block btn-lg d-none d-sm-block" title="View the API and Documentation">View API</button>
-                    </div>
-                    <div class="col-6">
-                      <button class="btn btn-primary btn-block btn-lg d-block d-sm-none" title="Upload Your Game">Upload <br>Game</button>
-                      <button class="btn btn-primary btn-block btn-lg d-none d-sm-block" title="Upload Your Game">Upload Game</button>
-                    </div>
-                  </div>
-                  <hr class="splash-horizontal-rule">
-
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-6">
-                      <div class="col-xs-8">
-                        Game 1
-                      </div>
-                      <div class="col-xs-4">
-                        <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
-                      </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                      <div class="col-xs-8">
-                        Game 2
-                      </div>
-                      <div class="col-xs-4">
-                        <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-6">
-                      <div class="col-xs-8">
-                        Game 3
-                      </div>
-                      <div class="col-xs-4">
-                        <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
-                      </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                      <div class="col-xs-8">
-                        Game 4
-                      </div>
-                      <div class="col-xs-4">
-                        <img src="/usericon.svg" class="img-responsive center-block" title="Click to view rules and controls" alt="Game Icon" width="100%">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          {{/if}}
-        </div>
-      {{/if}}
-    </div>
-  {{/if}}
 </div>
 
 {{outlet}}

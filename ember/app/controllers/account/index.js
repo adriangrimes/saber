@@ -12,13 +12,13 @@ export default Controller.extend({
   notesSaveStart: false,
   notesSaveSuccess: false,
 
-  streamSettingsSaveStart:false,
+  streamSettingsSaveStart: false,
   streamSettingsSaveSuccess: false,
 
-  notifySettingsSaveSuccess:false,
+  notifySettingsSaveSuccess: false,
   notifysettingsSaveStart: false,
 
-  payoutSettingsSaveStart:false,
+  payoutSettingsSaveStart: false,
   payoutSettingsSaveSuccess: false,
 
   emailSaveStart: false,
@@ -27,14 +27,16 @@ export default Controller.extend({
   passwordSaveStart: false,
   passwordSaveSuccess: false,
 
-  siteSettingsSaveSuccess:false,
+  siteSettingsSaveSuccess: false,
   siteSettingsSaveStart: false,
 
-    streamKeyDisplay: '********************',
-    streamKeyHidden: true,
-    keyCopySuccess: 'd-none',
-    newCopySuccess: 'd-none',
-
+  streamKeyDisplay: '********************',
+  streamKeyHidden: true,
+  streamServer: 'rtmp://saber.solversion.com/stream',
+  toggleHideStreamKeyText: 'Show Stream Key',
+  keyCopySuccess: 'd-none',
+  newCopySuccess: 'd-none',
+  serverCopySuccess: 'd-none',
 
   timezoneList: [
     '(GMT, UTC+00:00) Monrovia, Reykjavik',
@@ -409,17 +411,17 @@ export default Controller.extend({
     'Zimbabwe'
   ],
 
-
   actions: {
     showStreamKey() {
       if (this.streamKeyHidden) {
         this.set('streamKeyHidden', false);
         jQuery('[id=streamKeyDisplayID]').val(this.model.user.streamKey);
-        jQuery('[id=showStreamKeyBtn]').text('Hide Stream Key');
+        this.set('toggleHideStreamKeyText', 'Hide Stream Key');
       } else {
         this.set('streamKeyHidden', true);
-        jQuery('[id=streamKeyDisplayID]').val('********************');
-        jQuery('[id=showStreamKeyBtn]').text('Show Stream Key');
+        jQuery('[id=streamKeyDisplayID]').val('•••••••••••••••••••••');
+
+        this.set('toggleHideStreamKeyText', 'Show Stream Key');
       }
     },
 
@@ -434,14 +436,22 @@ export default Controller.extend({
         }, 3000);
       }
     },
-
+    copyServerToClipboard() {
+      var copyText = document.getElementById('streamServerDisplay');
+      copyText.select();
+      document.execCommand('Copy');
+      this.set('serverCopySuccess', 'd-block');
+      setTimeout(() => {
+        this.set('serverCopySuccess', 'd-none');
+      }, 3000);
+    },
     resetStreamKey() {
       // Get current state of setting from page and set to a variable
       var newStreamKey = '';
       var possible =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-      for (var i = 0; i < 64; i++) {
+      for (var i = 0; i < 42; i++) {
         newStreamKey += possible.charAt(
           Math.floor(Math.random() * possible.length)
         );
@@ -484,7 +494,6 @@ export default Controller.extend({
     },
 
     submitUserNotes() {
-
       this.set('notesSaveStart', true);
 
       // Save record to db
@@ -499,7 +508,6 @@ export default Controller.extend({
           this.errorHandler.handleWithNotification(err);
         });
     },
-
 
     checkLength(text, select /*, event */) {
       if (select.searchText.length >= 1 && text.length < 1) {
@@ -520,14 +528,6 @@ export default Controller.extend({
       } else if (toBeChecked == 'inputPayoutCheck') {
         this.set('payoutIsBitcoin', false);
         this.set('inputPayoutType', 'check');
-      }
-
-      if (toBeChecked == 'inputDefaultAll') {
-        this.set('inputDefaultSearch', 'all');
-      } else if (toBeChecked == 'inputDefaultFemale') {
-        this.set('inputDefaultSearch', 'female');
-      } else if (toBeChecked == 'inputDefaultMale') {
-        this.set('inputDefaultSearch', 'male');
       }
     },
 
@@ -582,7 +582,7 @@ export default Controller.extend({
         .save()
         .then(() => {
           console.log('submitSiteSettings saved');
-          this.set('siteSettingsSaveSuccess',true);
+          this.set('siteSettingsSaveSuccess', true);
         })
         .catch(err => {
           console.log('error saving user record:', err);
@@ -626,7 +626,6 @@ export default Controller.extend({
     },
 
     submitEmailChange() {
-
       this.set('emailSaveStart', true);
       if (
         this.get('inputnewemailAddress') ==
@@ -677,7 +676,7 @@ export default Controller.extend({
             );
             this.notify.success('Your password has been changed.');
             console.log('submitPasswordChange saved');
-              this.set('passwordSaveSuccess', true);
+            this.set('passwordSaveSuccess', true);
           })
           .catch(err => {
             console.log('error saving user record:', err);
@@ -688,7 +687,6 @@ export default Controller.extend({
         this.notify.error('The password fields must match.');
       }
     },
-
 
     getTransactions() {
       console.log('getting transactions');
