@@ -25,7 +25,7 @@ module.exports = function(defaults) {
       }
     },
     fingerprint: {
-      enabled: EmberApp.env() === 'production', // - Boolean. Enables fingerprinting if true. True by default if current environment is production.
+      enabled: EmberApp.env() === 'production' || EmberApp.env() === 'staging', // - Boolean. Enables fingerprinting if true. True by default if current environment is production.
       generateAssetMap: true
     }
   });

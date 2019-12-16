@@ -7,7 +7,7 @@ export default Component.extend({
   currentUser: service(),
 
   userPaused: false,
-  currentUserIsProfileOwner: false,
+  // currentUserIsProfileOwner: false,
 
   init() {
     this._super(...arguments);
@@ -28,9 +28,6 @@ export default Component.extend({
     // Plyr
     this.initializeVideoPlayer();
 
-    console.log(this.broadcasterUsername);
-    if (this.session.isAuthenticated)
-      console.log(this.currentUser.user.username);
   },
 
   isStreamingDidChange() {
