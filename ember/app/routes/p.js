@@ -16,20 +16,6 @@ export default Route.extend({
   setupController(controller, model) {
     this._super(controller, model);
 
-    // Set up gender selection inputs with loaded store data
-    controller.set('tempGenderText', '');
-    if (model.userPublicDatum.get('profileGender') == 'Male') {
-      controller.set('tempGenderSelection', 'Male');
-    } else if (model.userPublicDatum.get('profileGender') == 'Female') {
-      controller.set('tempGenderSelection', 'Female');
-    } else if (model.userPublicDatum.get('profileGender') == 'Hide') {
-      controller.set('tempGenderSelection', 'Hide');
-    } else {
-      controller.set('tempGenderSelection', 'Other');
-      controller.set('tempGenderText', model.userPublicDatum.get('profileGender'));
-      controller.set('checkOtherGender', true);
-    }
-
     // Set isStreaming
     // onlineStatus is currently used to determine whether the user is
     // streaming or not
