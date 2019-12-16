@@ -104,7 +104,7 @@ export default Component.extend({
         .catch(err => {
           console.log('caught error: ' + err);
           this.set('sendDisabled', false);
-          privateMessage.rollback();
+          privateMessage.rollbackAttributes();
           this.errorHandler.handleWithNotification(err);
         });
     },

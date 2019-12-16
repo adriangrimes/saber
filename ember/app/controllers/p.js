@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import jQuery from 'jquery';
 import RSVP from 'rsvp';
 import { inject as service } from '@ember/service';
+import { later } from '@ember/runloop';
 
 export default Controller.extend({
   notify: service(),
@@ -106,9 +107,13 @@ export default Controller.extend({
 
       // notify the user
       this.set('copiedNotification', true);
-      setTimeout(() => {
-        this.set('copiedNotification', false);
-      }, 1000);
+      later(
+        this,
+        function() {
+          this.set('copiedNotification', false);
+        },
+        1000
+      );
     },
 
     streamStateChange(state) {

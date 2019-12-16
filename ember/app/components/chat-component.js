@@ -52,14 +52,13 @@ export default Component.extend({
 
       //open tab
       openTab(tabName);
-    if(tabName == "Chat"){
+      if (tabName == 'Chat') {
         this.set('chatOpen', true);
-        console.log('chatOpen: '+this.chatOpen);
-
-    }else if(tabName == "Users"){
-      this.set('chatOpen', false);
-      console.log('chatOpen: '+this.chatOpen);
-    }
+        console.log('chatOpen: ' + this.chatOpen);
+      } else if (tabName == 'Users') {
+        this.set('chatOpen', false);
+        console.log('chatOpen: ' + this.chatOpen);
+      }
 
       //get user getChannelChatUserList
       this.socketRef.send(

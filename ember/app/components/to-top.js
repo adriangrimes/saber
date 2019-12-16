@@ -18,7 +18,7 @@ export default Component.extend({
         {
           scrollTop: 0
         },
-        800
+        600
       );
       return false;
     });

@@ -5,7 +5,6 @@ $layer2-background-color: #6a6a6a;
 $font-color: #cbcbcb;
 $placeholder-font-color: #9d9d9d;
 
-
 $brand-color-primary: #ae66e7; // Buttons and Hyperlinks
 $brand-color-secondary: #507fd7; //Secondary Buttons #b80000
 $brand-color-tertiary: #b918c6; //Gradient Left #800000
@@ -41,12 +40,12 @@ a.brand-link:visited {
 .dropdown-menu {
   width: 15rem !important;
 }
-.radio-is-selected:checked+label{
+.radio-is-selected:checked + label {
   background-color: $brand-color-quaternary;
   border-color: $brand-color-quaternary;
 }
 
-.brand-gradient-bg{
+.brand-gradient-bg {
   background: $brand-color-tertiary; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(
     left,
@@ -95,7 +94,7 @@ a.brand-link:visited {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.brand-gradient-border{
+.brand-gradient-border {
   background: $brand-color-tertiary; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(
     left,
@@ -144,13 +143,12 @@ a.brand-link:visited {
     $brand-color-tertiary,
     $brand-color-quaternary
   ); /* Standard syntax */
-  padding: .2rem;
+  padding: 0.2rem;
 }
 .offline {
   background: $font-color;
-  padding: .2rem;
+  padding: 0.2rem;
 }
-
 
 .horizontal-scroll {
   overflow-x: auto;
@@ -187,17 +185,14 @@ a.brand-link:visited {
   bottom: 1rem;
   right: 2rem;
 }
-.z-900{
+.z-900 {
   z-index: 900 !important;
 }
 
-.bottom-border{
+.bottom-border {
   border-bottom-style: solid;
   border-bottom-color: $font-color;
 }
-
-
-
 
 .loader {
   font-size: 25px;
@@ -217,7 +212,7 @@ a.brand-link:visited {
 
 .small-loader {
   font-size: 4px;
-  margin: .6rem;
+  margin: 0.6rem;
   width: 1em;
   height: 1em;
   border-radius: 50%;
@@ -261,8 +256,7 @@ a.brand-link:visited {
   37.5% {
     box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2),
       1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5),
-      2.5em 0em 0 0em rgba(255, 255, 255, 0.7),
-      1.75em 1.75em 0 0em #ffffff,
+      2.5em 0em 0 0em rgba(255, 255, 255, 0.7), 1.75em 1.75em 0 0em #ffffff,
       0em 2.5em 0 0em rgba(255, 255, 255, 0.2),
       -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
       -2.6em 0em 0 0em rgba(255, 255, 255, 0.2),
@@ -272,8 +266,8 @@ a.brand-link:visited {
     box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2),
       1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2),
       2.5em 0em 0 0em rgba(255, 255, 255, 0.5),
-      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.7),
-      0em 2.5em 0 0em #ffffff, -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
+      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.7), 0em 2.5em 0 0em #ffffff,
+      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
       -2.6em 0em 0 0em rgba(255, 255, 255, 0.2),
       -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
@@ -292,8 +286,7 @@ a.brand-link:visited {
       2.5em 0em 0 0em rgba(255, 255, 255, 0.2),
       1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2),
       0em 2.5em 0 0em rgba(255, 255, 255, 0.5),
-      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.7),
-      -2.6em 0em 0 0em #ffffff,
+      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.7), -2.6em 0em 0 0em #ffffff,
       -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
   87.5% {
@@ -303,8 +296,7 @@ a.brand-link:visited {
       1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2),
       0em 2.5em 0 0em rgba(255, 255, 255, 0.2),
       -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.5),
-      -2.6em 0em 0 0em rgba(255, 255, 255, 0.7),
-      -1.8em -1.8em 0 0em #ffffff;
+      -2.6em 0em 0 0em rgba(255, 255, 255, 0.7), -1.8em -1.8em 0 0em #ffffff;
   }
 }
 @keyframes load5 {
@@ -340,8 +332,7 @@ a.brand-link:visited {
   37.5% {
     box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2),
       1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5),
-      2.5em 0em 0 0em rgba(255, 255, 255, 0.7),
-      1.75em 1.75em 0 0em #ffffff,
+      2.5em 0em 0 0em rgba(255, 255, 255, 0.7), 1.75em 1.75em 0 0em #ffffff,
       0em 2.5em 0 0em rgba(255, 255, 255, 0.2),
       -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
       -2.6em 0em 0 0em rgba(255, 255, 255, 0.2),
@@ -351,8 +342,8 @@ a.brand-link:visited {
     box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2),
       1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2),
       2.5em 0em 0 0em rgba(255, 255, 255, 0.5),
-      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.7),
-      0em 2.5em 0 0em #ffffff, -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
+      1.75em 1.75em 0 0em rgba(255, 255, 255, 0.7), 0em 2.5em 0 0em #ffffff,
+      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2),
       -2.6em 0em 0 0em rgba(255, 255, 255, 0.2),
       -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
@@ -371,8 +362,7 @@ a.brand-link:visited {
       2.5em 0em 0 0em rgba(255, 255, 255, 0.2),
       1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2),
       0em 2.5em 0 0em rgba(255, 255, 255, 0.5),
-      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.7),
-      -2.6em 0em 0 0em #ffffff,
+      -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.7), -2.6em 0em 0 0em #ffffff,
       -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
   }
   87.5% {
@@ -382,12 +372,9 @@ a.brand-link:visited {
       1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2),
       0em 2.5em 0 0em rgba(255, 255, 255, 0.2),
       -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.5),
-      -2.6em 0em 0 0em rgba(255, 255, 255, 0.7),
-      -1.8em -1.8em 0 0em #ffffff;
+      -2.6em 0em 0 0em rgba(255, 255, 255, 0.7), -1.8em -1.8em 0 0em #ffffff;
   }
 }
-
-
 
 .noscript-centered {
   position: fixed;
@@ -395,42 +382,34 @@ a.brand-link:visited {
   left: 50%;
   transform: translate(-50%, -50%);
 }
- .cursor-pointer {
-   cursor: pointer;
- }
- .list-style-none{
-   list-style-type: none;
- }
-.nav.tab{
+.cursor-pointer {
+  cursor: pointer;
+}
+.list-style-none {
+  list-style-type: none;
+}
+.nav.tab {
   background-color: #ffffff;
 }
 
+// #chatUserMenu {
+//   position: absolute;
+//  width: 196px;
+// }
 
-  // #chatUserMenu {
-  //   position: absolute;
-  //  width: 196px;
-  // }
-
-.chat-tab-content{
+.chat-tab-content {
   height: 79vh;
 }
 
- .chat-tab-pane {
-   height: 100%;
-
- }
- .chat-tab-body{
-     height: 100%;
-     overflow-y: auto;
-     overflow-x: hidden;
-     word-wrap: break-word;
- }
-
-
-
-
-
-
+.chat-tab-pane {
+  height: 100%;
+}
+.chat-tab-body {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-wrap: break-word;
+}
 
 /// Overriding Bootstrap
 
@@ -447,8 +426,8 @@ $body-color: $font-color;
 
 $primary: $brand-color-primary;
 $secondary: $brand-color-secondary;
-$success: $brand-color-success ;
-$danger: $brand-color-danger ;
+$success: $brand-color-success;
+$danger: $brand-color-danger;
 
 $dropdown-bg: $layer1-background-color;
 $dropdown-link-color: $font-color;
@@ -464,25 +443,21 @@ $input-placeholder-color: $placeholder-font-color;
 $border-radius: 0.1rem;
 
 .modal-backdrop {
-   background-color: #000000 !important;
-   opacity: .95 !important;
+  background-color: #000000 !important;
+  opacity: 0.95 !important;
 }
 
 .splash-horizontal-rule {
-   border-color: $font-color;
- }
-
-
-
+  border-color: $font-color;
+}
 
 //// Overriding node modules
 
 // bs-modal
 
-.modal-content{
+.modal-content {
   background-color: $background-color !important;
 }
-
 
 //// ember-power-select
 .ember-power-select-trigger {
@@ -511,8 +486,6 @@ $border-radius: 0.1rem;
   color: $font-color;
   outline: 0;
 }
-
-
 
 //// Ember Tag Input
 
@@ -594,8 +567,6 @@ $border-radius: 0.1rem;
 .uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload:focus {
   box-shadow: none !important;
 }
-
-
 
 ///////////// Extra Small Screens, Optimizing for 320px and up.
 
@@ -766,7 +737,6 @@ $border-radius: 0.1rem;
 // }
 //
 
-
 // #game-panel {
 //   height: 300px;
 // }
@@ -908,8 +878,6 @@ $border-radius: 0.1rem;
 //     border: 0px;
 //     color: #ffffff;
 //   }
-
-
 
 // // Medium devices (tablets, 768px and up)
 // @media (min-width: 768px) {

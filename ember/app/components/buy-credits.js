@@ -1,12 +1,11 @@
 import Component from '@ember/component';
-import { inject } from '@ember/service';
+import { inject as service } from '@ember/service';
 import jQuery from 'jquery';
 
 //Component - buy-credits
 export default Component.extend({
-  store: inject(),
-  session: inject(),
-
+  store: service(),
+  session: service(),
 
   package1: 100,
   package2: 250,
@@ -14,16 +13,14 @@ export default Component.extend({
   package4: 750,
   package5: 1000,
 
-
   actions: {
-
-      selectAmount(amount) {
-        console.log('buy this many credits'+amount);
-        this.set('genderSelection', amount);
-        jQuery('#'+amount)
-          .prop('checked', true)
-          .change();
-      },
+    selectAmount(amount) {
+      console.log('buy this many credits' + amount);
+      this.set('genderSelection', amount);
+      jQuery('#' + amount)
+        .prop('checked', true)
+        .change();
+    },
 
     purchaseCredits() {
       console.log('purchasing: ', this.get('creditAmount'));

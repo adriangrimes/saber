@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import jQuery from 'jquery';
+import { later } from '@ember/runloop';
 
 export default Controller.extend({
   store: service(),
@@ -431,9 +432,13 @@ export default Controller.extend({
         copyText.select();
         document.execCommand('Copy');
         this.set('keyCopySuccess', 'd-block');
-        setTimeout(() => {
-          this.set('keyCopySuccess', 'd-none');
-        }, 3000);
+        later(
+          this,
+          function() {
+            this.set('keyCopySuccess', 'd-none');
+          },
+          3000
+        );
       }
     },
     copyServerToClipboard() {
@@ -441,9 +446,13 @@ export default Controller.extend({
       copyText.select();
       document.execCommand('Copy');
       this.set('serverCopySuccess', 'd-block');
-      setTimeout(() => {
-        this.set('serverCopySuccess', 'd-none');
-      }, 3000);
+      later(
+        this,
+        function() {
+          this.set('serverCopySuccess', 'd-none');
+        },
+        3000
+      );
     },
     resetStreamKey() {
       // Get current state of setting from page and set to a variable
@@ -473,9 +482,13 @@ export default Controller.extend({
           this.errorHandler.handleWithNotification(err);
         });
       this.set('newCopySuccess', 'd-block');
-      setTimeout(() => {
-        this.set('newCopySuccess', 'd-none');
-      }, 3000);
+      later(
+        this,
+        function() {
+          this.set('newCopySuccess', 'd-none');
+        },
+        3000
+      );
     },
 
     submitStreamSettings() {

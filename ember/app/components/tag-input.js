@@ -1,3 +1,4 @@
+// Override ember-tag-input component to only allow alphanumeric input
 import TagInput from 'ember-tag-input/components/tag-input';
 import layout from '../templates/components/ember-tag-input/tag-input';
 

@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { later } from '@ember/runloop';
 import { inject as service } from '@ember/service';
+import config from '../config/environment';
 
 export default Component.extend({
   currentUser: service(),
@@ -76,7 +77,9 @@ export default Component.extend({
     this.set(
       'player',
       new Plyr('#video-player', {
-        debug: false,
+        debug:
+          config.environment !== 'production' ||
+          config.environment !== 'staging',
         title: 'Example Title',
         controls: ['play', 'mute', 'volume', 'settings', 'fullscreen'],
         settings: ['quality'],
@@ -199,7 +202,8 @@ export default Component.extend({
       console.log('destroying player');
     }
     this.removeObserver('isStreaming', this, 'isStreamingDidChange');
-    console.log('removed isStreaming observer');
+    this.removeObserver('profilePhoto', this, 'profileImageChanged');
+    console.log('removed observers');
     this._super(...arguments);
   },
 

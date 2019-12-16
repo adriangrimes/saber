@@ -1,24 +1,22 @@
 // Default theme overrides:
 
 //body
-$bodyBackgroundColor: #FFFFFF;
+$bodyBackgroundColor: #ffffff;
 $bodyFontColor: #000000;
 $bodyFontHoverColor: #999999;
 $bodyFontActiveColor: #444444;
-$linkTextColor: #0000EE ;
+$linkTextColor: #0000ee;
 $linkHoverTextColor: inherit;
 $linkActiveTextColor: inherit;
 
 $profileLinkColor: #800000;
 
-
 //cards
-$cardBackgroundColor: #FFFFFF;
+$cardBackgroundColor: #ffffff;
 $cardBorderColor: #bcbcbc;
 $cardHeadingBackgroundColor: #bcbcbc;
 
 $broadcasterPanelTextColor: #000000;
-
 
 //buttons
 $btnOutlineDarkBorderColor: inherit;
@@ -32,22 +30,20 @@ $navtabTextColor: #666666;
 $navtabHoverTextColor: #000000;
 $navtabHoverBackgroundColor: #777777;
 $navtabActiveBackgroundColor: #666666;
-$navtabActiveTextColor: #FFFFFF;
-
+$navtabActiveTextColor: #ffffff;
 
 //forms
 $formBackgroundColor: inherit;
 $formBorderColor: inherit;
-$formActiveBackgroundColor:  inherit;
+$formActiveBackgroundColor: inherit;
 $formActiveBorderColor: inherit;
 
 $formTextColor: inherit;
 $formPlaceholderColor: #999999;
-
 
 $dropdownBackgroundColor: inherit;
 $dropdownHoverColor: #aaaaaa;
 $dropdownSelectedColor: #cccccc;
 
 // Append main.scss to this file
-@import 'main';
+@import "main";

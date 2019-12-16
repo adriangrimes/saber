@@ -7,6 +7,7 @@ export default Component.extend({
   openDropdown: null,
 
   didInsertElement() {
+    // give currentUser service access to the dropdowns openDropdown function
     this.currentUser.set('openCreditDropdown', this.openDropdown);
   }
 });

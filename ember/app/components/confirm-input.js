@@ -12,6 +12,7 @@ export default Component.extend({
       this.set('showButton', 'd-none');
       this.set('showConfirm', 'd-flex');
     },
+
     confirmInput() {
       console.log(this.type + ' input confirmed');
       this.onConfirm();
@@ -26,6 +27,7 @@ export default Component.extend({
         1000
       );
     },
+
     cancelInput() {
       console.log(this.type + ' input canceled');
       this.set('showButton', 'd-flex');

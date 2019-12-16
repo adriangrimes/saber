@@ -6,27 +6,24 @@
 {{! private-messenger}}
 {{! popup-alert}}
 {{! Notifications }}
-{{#ember-notify closeAfter=8000000 messageStyle='bootstrap' defaultClass="custom-notify" as |message close| }}
-
+{{#ember-notify closeAfter=10000 messageStyle='bootstrap' defaultClass="custom-notify" as |message close| }}
   <div class="row p-0">
     <div class="col-10 m-0 p-0">
-        <span class="message">
-          {{log message}}
-          {{#if message.textArray}}
-            {{#each message.textArray as |text|}}
-              <li>{{{text.message}}}</li>
-            {{/each}}
-          {{else}}
-            {{{message.text}}}
-          {{/if}}
-        </span>
+      <span class="message">
+        {{log message}}
+        {{#if message.textArray}}
+          {{#each message.textArray as |text|}}
+            <li>{{{text.message}}}</li>
+          {{/each}}
+        {{else}}
+          {{{message.text}}}
+        {{/if}}
+      </span>
     </div>
-      <button {{action close}} class="close btn btn-outline-light p-2 px-3">
-        <span aria-hidden="true">×</span>
-      </button>
-
+    <button {{action close}} class="close btn btn-outline-light p-2 px-3">
+      <span aria-hidden="true">×</span>
+    </button>
   </div>
-
 {{/ember-notify}}
 
 {{! Navbar }}

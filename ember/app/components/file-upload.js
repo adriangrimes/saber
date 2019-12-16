@@ -33,7 +33,9 @@ export default Component.extend({
     this.set(
       'uppy',
       Uppy({
-        debug: true,
+        debug:
+          config.environment !== 'production' ||
+          config.environment !== 'staging',
         autoProceed: false,
         restrictions: {
           maxFileSize: this.maxFileSize,

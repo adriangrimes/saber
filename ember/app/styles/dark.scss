@@ -9,7 +9,7 @@ $linkTextColor: #ffffff;
 $linkHoverTextColor: #b80000;
 $linkActiveTextColor: #800000;
 
-$profileLinkColor: #FFFFFF;
+$profileLinkColor: #ffffff;
 
 //cards
 $cardBackgroundColor: #333333;
@@ -27,11 +27,10 @@ $navDropDownHoverBackgroundColor: #222222;
 
 $navtabBackgroundColor: #333333;
 $navtabTextColor: #dddddd;
-$navtabHoverTextColor: #FFFFFF;
+$navtabHoverTextColor: #ffffff;
 $navtabHoverBackgroundColor: #777777;
 $navtabActiveBackgroundColor: #111111;
-$navtabActiveTextColor: #FFFFFF;
-
+$navtabActiveTextColor: #ffffff;
 
 //forms
 $formBackgroundColor: #444444;
@@ -47,6 +46,5 @@ $dropdownBackgroundColor: #444444;
 $dropdownHoverColor: #222222;
 $dropdownSelectedColor: #222222;
 
-
 // Append main.scss to this file
-@import 'main';
+@import "main";

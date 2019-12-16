@@ -10,6 +10,7 @@ export default Component.extend({
   captchaObject: null,
 
   topicList: [
+    'Feedback',
     'Bug Report',
     'Feature Request',
     'Sign up Help',

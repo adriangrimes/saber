@@ -18,8 +18,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
       contractorApplication: this.store
         .queryRecord('contractor-application', {}, { reload: true })
         .catch(err => {
+          // if no application is found
           if (err.errors[0] && err.errors[0].status == 404) {
             console.log('creating new application');
+            // create a new one
             return this.store.createRecord('contractor-application', {});
           }
         })
