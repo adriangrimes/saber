@@ -1,69 +1,68 @@
-
-  <div class="row m-0">
-    <div class="col-2 pb-2 pt-1">
-      <h2>Help {{#if this.currentUser.user.isContracted}}
-          for{{/if}}</h2>
-    </div>
-    <div class="col-3 p-0 userTypeBadges">
-      {{#if currentUser.user.affiliate}}
-        <div>Affiliates<span class="fa fa-bullhorn pl-1"></span></div>
-      {{/if}}
-      {{#if currentUser.user.broadcaster}}
-        <div>Broadcasters<span class="fa fa-video-camera pl-1"></span></div>
-      {{/if}}
-      {{#if currentUser.user.developer}}
-        <div>Developers<span class="fa fa-file-code-o pl-1"></span></div>
-      {{/if}}
-    </div>
+<div class="row m-0">
+  <div class="col-2 pb-2 pt-1">
+    <h2>Help {{#if this.currentUser.user.isContracted}}
+        for{{/if}}</h2>
   </div>
-  <div class="row m-0 ">
+  <div class="col-3 p-0 userTypeBadges">
+    {{#if currentUser.user.affiliate}}
+      <div>Affiliates<span class="fa fa-bullhorn pl-1"></span></div>
+    {{/if}}
+    {{#if currentUser.user.broadcaster}}
+      <div>Broadcasters<span class="fa fa-video-camera pl-1"></span></div>
+    {{/if}}
+    {{#if currentUser.user.developer}}
+      <div>Developers<span class="fa fa-file-code-o pl-1"></span></div>
+    {{/if}}
+  </div>
+</div>
+<div class="row m-0 ">
 
-    <div class="col-xs-12 col-sm-4 p-0 px-4 ">
-      <div class="sticky-top sticky-menu z-900">
-        {{#each model as |helpTopic|}}
-          {{! if of death!}}
-          {{#if (or (or (or helpTopic.allUsers (and helpTopic.contractorsOnly isContracted)) (and helpTopic.broadcastersOnly isBroadcaster)) (and helpTopic.developersOnly isDeveloper))}}
-            <a href="#{{helpTopic.shortTitle}}"> <button class="btn btn-block btn-primary mb-2" data-parent="#{{helpTopic.shortTitle}}" data-target="#{{helpTopic.shortTitle}}">{{helpTopic.title}}</button></a>
-          {{/if}}
-        {{/each}}
-        <div class="text-center pt-5 mt-5 d-none d-sm-block">
-          Still need help?<br> Click below to send us a message.
-          <a class="btn btn-primary mt-3" href="/contact" role="button">Contact Us</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-8 p-0 px-1 py-3">
+  <div class="col-xs-12 col-sm-4 p-0 px-4 ">
+    <div class="sticky-top sticky-menu z-900">
       {{#each model as |helpTopic|}}
         {{! if of death!}}
         {{#if (or (or (or helpTopic.allUsers (and helpTopic.contractorsOnly isContracted)) (and helpTopic.broadcastersOnly isBroadcaster)) (and helpTopic.developersOnly isDeveloper))}}
-          <div id="{{helpTopic.shortTitle}}">
-            <div class="card mb-3">
-              <div class="card-heading  " data-parent="#{{helpTopic.shortTitle}}" data-target="#{{helpTopic.shortTitle}}">
-                <h4 class="card-title ">{{helpTopic.title}}</h4>
-              </div>
-              <div class="card">
-                <div class="card-body">
-                  {{#each helpTopic.helpSections as |helpSection|}}
-                    <h5>{{helpSection.section_title}}</h5>
-                    <div class="pb-4">
-                      {{{helpSection.section_body}}}
-                    </div>
-                  {{/each}}
-                </div>
-              </div>
-            </div>
-          </div>
+          <LinkTo @route="help" @query={{hash show=helpTopic.shortTitle}} class="btn btn-block btn-primary mb-2">{{helpTopic.title}}</LinkTo>
         {{/if}}
       {{/each}}
-    </div>
-
-  </div>
-  <div class="row m-0 d-block d-sm-none">
-    <div class="col">
-      <div class="text-center pt-5 mt-5 d-block d-sm-none">
-        Still need help?<br> Click below to send us a message.<br>
-        <a class="btn btn-primary mt-3" href="/contact" role="button">Contact Us</a>
+      <div class="text-center pt-5 mt-5 d-none d-sm-block">
+        Still need help?<br>Click below to send us a message.
+        <LinkTo @route="contact" class="btn btn-primary mt-3">Contact Us</LinkTo>
       </div>
     </div>
   </div>
+
+  <div class="col-xs-12 col-sm-8 p-0 px-1 py-3">
+    {{#each model as |helpTopic|}}
+      {{! if of death!}}
+      {{#if (or (or (or helpTopic.allUsers (and helpTopic.contractorsOnly isContracted)) (and helpTopic.broadcastersOnly isBroadcaster)) (and helpTopic.developersOnly isDeveloper))}}
+        <div id="{{helpTopic.shortTitle}}">
+          <div class="card mb-3">
+            <div class="card-heading">
+              <h4 class="card-title ">{{helpTopic.title}}</h4>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                {{#each helpTopic.helpSections as |helpSection|}}
+                  <h5>{{helpSection.section_title}}</h5>
+                  <div class="pb-4">
+                    {{{helpSection.section_body}}}
+                  </div>
+                {{/each}}
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/if}}
+    {{/each}}
+  </div>
+
+</div>
+<div class="row m-0 d-block d-sm-none">
+  <div class="col">
+    <div class="text-center pt-5 mt-5 d-block d-sm-none">
+      Still need help?<br>Click below to send us a message.<br>
+      <LinkTo @route="contact" class="btn btn-primary mt-3">Contact Us</LinkTo>
+    </div>
+  </div>
+</div>

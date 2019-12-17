@@ -51,11 +51,11 @@
         <form {{action "sendDM" on="submit"}}>
           <div class="form-group">
             <label for="inputReciever">To</label>
-            {{input type="text" class="form-control" value=inputReciever required=true}}
+            {{input type="text" spellcheck=false class="form-control" value=inputReciever required=true}}
           </div>
           <div class="form-group">
             <label for="inputMessage">Message</label>
-            {{textarea rows="5" type="text" class="form-control" value=inputMessage required=true}}
+            {{textarea rows="5" id="messageInputBox" type="text" class="form-control" value=inputMessage required=true}}
           </div>
           <div class="text-right">
             <button type="submit" class="btn btn-primary" disabled={{sendDisabled}}>Send Message</button>

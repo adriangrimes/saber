@@ -20,9 +20,9 @@ export default Component.extend({
     // User wants to send a message so...
     sendUserMessage() {
       console.log('sendUserMessage()');
-      let userMessage = this.get('userMessage'); //.trim();
+      let userMessage = this.get('userMessage').trim();
       // if its not blank
-      if (userMessage !== '') {
+      if (userMessage) {
         // then you can send the message to the server
         var messageToSend = JSON.stringify({
           type: 'ChatMessage',
@@ -33,6 +33,7 @@ export default Component.extend({
       }
       // Empty chat input field after sending
       this.set('userMessage', '');
+      this.element.querySelector('#chatMessageInput').focus();
     },
 
     openChatUserMenu(event) {

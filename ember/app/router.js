@@ -30,7 +30,7 @@ Router.map(function() {
     this.route('affiliate');
     this.route('confirm');
   });
-  this.route('help', function() {});
+  this.route('help');
   this.route('terms');
   this.route('privacy');
   this.route('contact');

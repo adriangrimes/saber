@@ -24,6 +24,14 @@ export default Component.extend({
     }
   },
 
+  didInsertElement() {
+    this.element.querySelector('#messageInputBox').focus();
+  },
+
+  didUpdateAttrs() {
+    this.element.querySelector('#messageInputBox').focus();
+  },
+
   actions: {
     openMessages(fromUser) {
       let that = this;

@@ -20,14 +20,20 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
+    // get google recaptcha script
     jQuery
       .getScript('https://www.google.com/recaptcha/api.js')
       .done(() => {
         this.set('captchaObject', grecaptcha);
       })
       .fail(() => {
-        console.log('failed to get script');
+        this.notify.error(
+          "There was a problem setting up reCaptcha, you may not be able to submit a message until it's working."
+        );
       });
+
+    // focus email field
+    this.element.querySelector('#emailInput').focus();
   },
 
   actions: {

@@ -11,7 +11,7 @@
         <form {{action "submitContactMessage" on="submit"}} method="POST">
           <div class="form-group">
             <label for="inputemailAddress">Your Email Address</label>
-            {{input type="email" class="form-control" value=inputemailAddress required=true}}
+            {{input type="email" id="emailInput" class="form-control" value=inputemailAddress required=true}}
             <small>(please confirm your email is correct, otherwise we won't be able to respond to your message)</small>
           </div>
           <div class="form-group">

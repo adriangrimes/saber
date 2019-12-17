@@ -29,6 +29,12 @@ export default Route.extend(AuthenticatedRouteMixin, {
   setupController(controller, model) {
     this._super(controller, model);
     controller.set('applicationType', 'Developer');
+    // autofocus on the fullName field causes the fullName field to change from
+    // null to '', so adding this if statement to not trigger the unsaved
+    // changes dialog on page leave
+    if (model.contractorApplication.get('fullName') === null) {
+      model.contractorApplication.set('fullName', '');
+    }
     model.contractorApplication.set('electronicSignature', '');
     controller.set(
       'changeset',

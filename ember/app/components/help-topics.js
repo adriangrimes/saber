@@ -1,13 +1,21 @@
 import Component from '@ember/component';
 
 export default Component.extend({
+  show: null,
+
   didInsertElement() {
     this._super(...arguments);
+    this.gotoAnchor();
+  },
 
-    // scroll to anchor tag after load
-    let anchorText = location.hash.replace('#', '');
-    if (anchorText) {
-      document.getElementById(anchorText).scrollIntoView();
+  didUpdateAttrs() {
+    this._super(...arguments);
+    this.gotoAnchor();
+  },
+
+  gotoAnchor() {
+    if (this.show) {
+      document.getElementById(this.get('show')).scrollIntoView();
     }
   }
 });

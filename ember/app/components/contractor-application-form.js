@@ -246,6 +246,12 @@ export default Component.extend({
     'Zimbabwe'
   ],
 
+  didInsertElement() {
+    this._super(...arguments);
+    // focus Legal Name field
+    this.element.querySelector('#text-fullName').focus();
+  },
+
   willRender() {
     this._super(...arguments);
     // Update changeset.verificationCount when it changes to keep the changeset

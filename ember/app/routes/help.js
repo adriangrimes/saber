@@ -13,7 +13,7 @@ export default Route.extend({
       .sortBy('developersOnly');
     controller.set('model', model);
 
-    if (this.session.isAuthenticated) {
+    if (this.session.isAuthenticated && this.currentUser.user) {
       controller.set('isContracted', this.currentUser.user.isContracted);
       controller.set('isBroadcaster', this.currentUser.user.broadcaster);
       controller.set('isDeveloper', this.currentUser.user.developer);
@@ -21,6 +21,13 @@ export default Route.extend({
       controller.set('isContracted', false);
       controller.set('isBroadcaster', false);
       controller.set('isDeveloper', false);
+    }
+  },
+
+  resetController(controller, isExiting /*, transition*/) {
+    // reset help route query parameters on route exit
+    if (isExiting) {
+      controller.set('show', null);
     }
   }
 });

@@ -77,10 +77,11 @@ export default Component.extend({
         debug:
           config.environment !== 'production' ||
           config.environment !== 'staging',
-        title: 'Example Title',
+        title: this.broadcasterUsername + "'s stream",
         controls: ['play', 'mute', 'volume', 'settings', 'fullscreen'],
         settings: ['quality'],
-        ratio: '16:9'
+        ratio: '16:9',
+        keyboard: { focused: true, global: true }
       })
     );
 
@@ -154,6 +155,10 @@ export default Component.extend({
         component.get('hls').loadSource(component.hlsSource);
         component.playUnlessUserPaused();
       }
+
+      // focus video player
+      console.log('what da checkLength');
+      this.element.querySelector('#video-player').focus();
     });
 
     this.get('player').on('canplay', function() {
