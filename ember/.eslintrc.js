@@ -9,7 +9,8 @@ module.exports = {
     browser: true
   },
   rules: {
-    'no-console': 'off'
+    'no-console': 'off',
+    'no-global-assign': ['error', { exceptions: ['console'] }]
   },
   globals: {
     moment: true,
