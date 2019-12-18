@@ -33,7 +33,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
     // autofocus on the fullName field causes the fullName field to change from
     // null to '', so adding this if statement to not trigger the unsaved
     // changes dialog on page leave
-    if (model.contractorApplication.get('fullName') === null) {
+    if (
+      model.contractorApplication.get('fullName') === null ||
+      model.contractorApplication.get('fullName') === undefined
+    ) {
       model.contractorApplication.set('fullName', '');
     }
     model.contractorApplication.set('electronicSignature', '');
@@ -60,14 +63,12 @@ export default Route.extend(AuthenticatedRouteMixin, {
           )
         ) {
           transition.abort();
-        } else {
-          // Clears any unused created records
-          this.controller
-            .get('model.contractorApplication')
-            .rollbackAttributes();
           return true;
         }
       }
+      // Clears any unused created records
+      this.controller.get('model.contractorApplication').rollbackAttributes();
+      return true;
     }
   }
 });

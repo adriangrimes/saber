@@ -26,7 +26,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
         { reload: true }
       ),
       userPublicDatum: this.store.queryRecord('user-public-datum', {
-        username:  this.get('session.data.authenticated.username')
+        username: this.get('session.data.authenticated.username')
       }),
       contractorApplication: this.store
         .queryRecord('contractor-application', {}, { reload: true })
@@ -96,7 +96,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     willTransition(/*transition*/) {
       // Clears any unused created records
       this.controller.get('model.contractorApplication').rollbackAttributes();
-      // bubble
+      // bubble to application route willTransition
       return true;
     }
   }
