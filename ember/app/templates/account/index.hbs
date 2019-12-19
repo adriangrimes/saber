@@ -103,10 +103,13 @@
                 <form {{action "submitStreamSettings" on="submit"}}>
                   <h5>Interaction Settings</h5>
 
-                  <div class="form-check mt-2">
-                    <label class="form-check-label">
-                      {{input type="checkbox" class="form-check-input" checked=model.userPublicDatum.allowTips}}
-                      Enable Tipping.
+
+                  <div class="custom-control custom-checkbox">
+                    {{input type="checkbox" class="custom-control-input" id="enableTips" checked=model.userPublicDatum.allowTips}}
+                    <label class="custom-control-label" for="enableTips">
+                    Enable Tipping.
+                    </label>
+                  </div>
                     </label>
                   </div>
 

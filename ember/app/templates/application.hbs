@@ -27,11 +27,13 @@
 {{/ember-notify}}
 
 {{! Navbar }}
-<BsNavbar @class="navbar-expand brand-gradient-bg p-2" @type="pills" as |navbar|>
-  <LinkTo @route="home" @class="brand-link" @activeClass="">
-    <img src="/logo.svg" height="32px" width="32px">
-    Saber
+<BsNavbar @class="navbar navbar-expand brand-gradient-bg p-0 px-2  " @type="pills" as |navbar|>
+
+  <LinkTo @route="home" @class="brand-link navbar-brand  p-0" @activeClass="">
+      <img src="/logo.svg" class=" " height="26px">
+
   </LinkTo>
+
   {{#navbar.toggle}}
     <span class="navbar-toggler-icon"></span>
   {{/navbar.toggle}}
@@ -40,14 +42,14 @@
       {{#if session.isAuthenticated}}
           <nav.dropdown @closeOnMenuClick={{false}} as |dd|>
             {{dropdown-shim openDropdown=dd.openDropdown}}
-            <dd.button @type="" @class="nav-link btn-outlight-light mr-2">
+            <dd.button @type="" @class="nav-link btn-outline-light mr-2">
               <span class="mx-2"><i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></span>
             </dd.button>
             <dd.menu @align="right" @class="px-4 py-3" as |ddm|>
               {{refresh-credits}}
               <div class="dropdown-header text-center">
                 You have <i class="fa fa-database" aria-hidden="true"></i>
-                <strong>{{currentUser.user.creditsRemaining}} Arcs</strong>
+                <strong>{{currentUser.user.creditsRemaining}} Credits</strong>
               </div>
               {{buy-credits}}
             </dd.menu>

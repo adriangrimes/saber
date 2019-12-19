@@ -3,12 +3,13 @@ $background-color: #2a2a2a;
 $layer1-background-color: #323232;
 $layer2-background-color: #6a6a6a;
 $font-color: #cbcbcb;
+$font-color-secondary: #969393;
 $placeholder-font-color: #9d9d9d;
 
-$brand-color-primary: #ae66e7; // Buttons and Hyperlinks
-$brand-color-secondary: #507fd7; //Secondary Buttons #b80000
-$brand-color-tertiary: #b918c6; //Gradient Left #800000
-$brand-color-quaternary: #642a9d; //Gradient Right #800000
+$brand-color-primary: #820200; // Buttons and Hyperlinks
+$brand-color-secondary: #0B4F6C; //Secondary Buttons #b80000
+$brand-color-tertiary: #2f69e9; //Gradient Left #800000
+$brand-color-quaternary: #B80C09; //Gradient Right #800000
 
 $brand-color-success: #0ab104;
 $brand-color-danger: #940000;
@@ -20,11 +21,11 @@ $off-status-color: #000000; //browse broadcaster offline status
   font-family: "Lato", sans-serif;
 }
 
-//photo viewer background
-.lb-outerContainer {
-  background-color: $background-color;
-}
 
+
+.brand-link{
+  height: 3rem;
+}
 a.brand-link:link {
   text-decoration: inherit;
   color: inherit;
@@ -450,6 +451,18 @@ $border-radius: 0.1rem;
 .splash-horizontal-rule {
   border-color: $font-color;
 }
+.nav-tabs , .nav-tabs .nav-item.hide .nav-link
+{
+  color: $font-color-secondary !important;
+}
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link
+{
+  color: $font-color !important;
+}
+.nav-tabs .nav-link:hover,
+{
+  color: $brand-color-primary !important;
+}
 
 //// Overriding node modules
 
@@ -567,7 +580,10 @@ $border-radius: 0.1rem;
 .uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload:focus {
   box-shadow: none !important;
 }
-
+//photo viewer background
+.lb-outerContainer {
+  background-color: $background-color;
+}
 ///////////// Extra Small Screens, Optimizing for 320px and up.
 
 // //////////////////////generic classes
@@ -672,100 +688,7 @@ $border-radius: 0.1rem;
 
 //
 // //////////////////////////////////////Navbar Classes
-//
-// .navbar-default .navbar-brand {
-//   color: #ffffff;
-// }
-//
-// .navbar-brand {
-//   padding-left: 5px;
-//   padding-top: 9px;
-// }
-// .navbar-brand > img {
-//   display: inline;
-//   float: top;
-//   margin-right: 5px;
-// }
-// #logo-with-text {
-//   display: none;
-// }
 
-// #login-button {
-//   color: #000000;
-//   border: solid;
-//   border-width: 1px;
-//   background-color: #ffffff;
-// }
-//
-
-// .navbar-default {
-//   min-height: 10px;
-//   height: 50px;
-//   border-radius: 0px;
-//   border: 0px;
-// }
-//
-// #searchTabs {
-//   color: #000000;
-// }
-// .nav-tabs {
-//   background-color: $navtabBackgroundColor;
-// }
-// .nav-link {
-//   color: $navtabTextColor;
-// }
-// .nav-link:hover {
-//   color: $navtabHoverTextColor;
-//   background-color: $navtabHoverBackgroundColor;
-//   border-color: #444444;
-// }
-// .nav-tabs .nav-link.active,
-// .nav-tabs .nav-item.show .nav-link {
-//   background-color: $navtabActiveBackgroundColor;
-//   color: $navtabActiveTextColor;
-// }
-//
-// .footer-links {
-//   padding-left: 0px;
-//   padding-right: 0px;
-//   margin-left: 0px;
-//   margin-right: 0px;
-//   color: $bodyFontColor;
-// }
-// .footer-links:hover {
-//   color: $linkHoverTextColor;
-// }
-//
-
-// #game-panel {
-//   height: 300px;
-// }
-// #game-icon {
-//   width: 140px;
-//   position: absolute;
-//   right: 0px;
-//   bottom: 5px;
-// }
-// // ////////////////////////Pop Up Alert Classes
-// #popup-alert-window {
-//   position: fixed;
-//   z-index: 10000;
-//   bottom: 60px;
-//   right: 10px;
-//   width: 300px;
-//   margin-bottom: 0px;
-// }
-// #popup-alert-panel {
-//   height: 100px;
-//   overflow-y: auto;
-//   padding-left: 0px;
-//   padding-top: 5px;
-// }
-// .popup-title {
-//   font-size: 16px;
-//   padding-top: 10px;
-//   padding-bottom: 10px;
-// }
 
 // // ////////////////////////account classes
 // .manage-users-panel {
