@@ -36,8 +36,6 @@ class UserVerificationUploadsController < ApplicationController
           .serialized_json
         render json: json, status: :created
       else
-        p '============== errros'
-        p ErrorSerializer.serialize(verification_upload.errors)
         render json: ErrorSerializer.serialize(verification_upload.errors),
           status: :unprocessable_entity
       end

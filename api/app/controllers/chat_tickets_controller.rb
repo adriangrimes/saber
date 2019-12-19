@@ -7,13 +7,15 @@ class ChatTicketsController < ApplicationController
   def index
     if params[:identifier].present?
       ip = IPAddr.new(params[:identifier]).native.to_s
-      @chat_ticket = ChatTicket.where("updated_at >= ? AND user_ip = ?", 1.minute.ago, ip).first
+      @chat_ticket = ChatTicket
+        .where("updated_at >= ? AND user_ip = ?", 1.minute.ago, ip)
+        .first
       if @chat_ticket
         render json: {
-          username: @chat_ticket.username,
-          ip: @chat_ticket.user_ip
-        },
-               status: :ok
+            username: @chat_ticket.username,
+            ip: @chat_ticket.user_ip
+          },
+          status: :ok
         @chat_ticket.destroy
       else
         puts 'no ticket'
@@ -38,10 +40,10 @@ class ChatTicketsController < ApplicationController
       end
     else
       @chat_ticket = ChatTicket.new({
-                                      user_id: @authenticated_user[:id],
-                                      user_ip: request.remote_ip,
-                                      username: @authenticated_user[:username]
-                                    })
+        user_id: @authenticated_user[:id],
+        user_ip: request.remote_ip,
+        username: @authenticated_user[:username]
+      })
       if @chat_ticket.save
         render json: { status: 'ok' }, status: :ok
       else

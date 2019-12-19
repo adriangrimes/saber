@@ -32,7 +32,7 @@ class User < ApplicationRecord
   #validates_associated :user_public_datum
   validates :username,
     :uniqueness => { :case_sensitive => false },
-    format: { with: /^[a-zA-Z0-9_]*$/, :multiline => true },
+    format: { with: /\A[a-zA-Z0-9_]*\z/, :multiline => true },
     length: { minimum: 3, maximum: 26 }
   validate :username_passes_misc_rules?
   # Email and password are validated by devise
