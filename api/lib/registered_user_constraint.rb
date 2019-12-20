@@ -1,7 +1,9 @@
+# Only allow registered users (users with a valid authentication_token) to pass
+# this constraint
 class RegisteredUserConstraint
 
   def initialize
-    p 'RegisteredUserConstraint'
+    p 'RegisteredUserConstraint initialized'
   end
 
   def matches?(request)
