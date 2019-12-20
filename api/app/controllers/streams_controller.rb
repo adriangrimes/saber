@@ -115,10 +115,10 @@ class StreamsController < ApplicationController
   def send_stream_state(state, streaming_user)
     WebSocket::Client::Simple.connect(
       Rails.configuration.x.saber.chat_server,
-      headers: { "streamstate-auth": "muKl4S80Yi3gQA2v8o2AOPgI8l" }
+      headers: { "streamstate-auth": Rails.application.credentials.stream_state_auth }
     ) do |ws|
       ws.on :open do
-        puts "connected - sending streamstate " + state
+        puts "connected - sending streamstate" + state
         ws.send({
           type: "StreamState",
           data: {

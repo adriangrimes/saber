@@ -19,7 +19,7 @@ class ContactUsController < ApplicationController
       }
 
       captcha_verify_params = {
-        'secret' => '6Ld7w64UAAAAAJovUvbFab2gopseAMXov4G2UXB4',
+        'secret' => Rails.application.credentials.captcha_secret_key,
         'response' => message_params[:captcha_token]
       }
       response = Net::HTTP.post_form(

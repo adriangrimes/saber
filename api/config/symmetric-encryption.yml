@@ -16,20 +16,3 @@ test:
       iv: 1234567890ABCDEF
       cipher_name: aes-128-cbc
       version: 1
-staging:
-  ciphers:
-    - keystore: :file
-      cipher_name: aes-256-cbc
-      version: 1
-      key_filename: /home/webadmin/api_staging_v1.encrypted_key
-      iv: !binary |-
-        Bms+pRtvySovWurFmwWfRA==
-      key_encrypting_key:
-        encrypted_key: !binary |-
-          eN6qG9fkhuYWGzBnmy/Z7bSM/0z0zHwl/zzRgJLyEulSUl7k9sIWJDgJxgvzIOSO
-        iv: !binary |-
-          JUt96z/73mmG8DwHsnBeEw==
-        key_encrypting_key:
-          key_filename: /home/webadmin/api_staging_v1.kekek
-          iv: !binary |-
-            tpeVRBI1b0/LMLU9bI94uw==
