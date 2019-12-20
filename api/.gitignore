@@ -1,5 +1,8 @@
 # Rails api .gitignore
 
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+
 tmp
 storage
 uploads
@@ -8,3 +11,4 @@ log
 *.log
 
 *.sqlite3
+

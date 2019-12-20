@@ -29,9 +29,9 @@ class PublicUploader < Shrine
   Attacher.derivatives do |original|
     vips = ImageProcessing::Vips.source(original)
     {
-      # large:  vips.resize_to_limit!(800, 800),
+      # large: vips.resize_to_limit!(800, 800),
       # medium: vips.resize_to_limit!(500, 500),
-      small:  vips.resize_to_limit!(300, 300)
+      small: vips.resize_to_limit!(300, 300)
     }
   end
 end

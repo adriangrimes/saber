@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# include RegisteredUserConstraint
 
 Rails.application.routes.draw do
 
@@ -44,8 +45,10 @@ Rails.application.routes.draw do
 
   # Shrine attachment upload endpoints
   # See initializers/shrine.rb for configuration
-  mount PublicUploader.upload_endpoint(:cache) => '/upload'
-  mount VerificationUploader.upload_endpoint(:cache) => '/verification_upload'
+  mount PublicUploader.upload_endpoint(:cache) => '/upload',
+    constraints: RegisteredUserConstraint.new
+  mount VerificationUploader.upload_endpoint(:cache) => '/verification_upload',
+    constraints: RegisteredUserConstraint.new
 
   # Site data
   post '/send_contact_us', to: 'contact_us#send_email'

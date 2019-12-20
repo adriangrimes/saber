@@ -79,6 +79,10 @@ export default Component.extend({
         })
         .use(XHRUpload, {
           endpoint: config.apiHost + this.uploaderEndpoint,
+          // set up authorization header for upload endpoint
+          headers: {
+            Token: this.get('session.data.authenticated.token')
+          },
           limit: 5
         })
         .on('complete', result => {
