@@ -13,8 +13,8 @@
 </div>{{!-- End of context menu display --}}
 
 {{!-- Chat Navigation Tabs --}}
-<BsTab @customTabs={{true}} as |tab|>
-  <BsNav @type="tabs" class="nav nav-tabs" as |nav|>
+<BsTab @customTabs={{true}} class="h-100" as |tab|>
+  <BsNav @type="tabs" class="nav nav-tabs no-select" as |nav|>
     <nav.item @active={{bs-eq tab.activeId "Chat"}} class="nav-item">
       <a role="tab" onclick={{action "chatTabSelect" tab.select "Chat"}} class={{if chatOpen "nav-link active" "nav-link"}}>
         Chat</a></nav.item>
@@ -23,10 +23,10 @@
         Users
         <span class="badge">{{chatChannelUserCount}}</span></a></nav.item>
   </BsNav>
-  <div class="tab-content ">
-    <tab.pane @id="Chat" @title="Chat" class="chat-tab-content">
+  <div class="tab-content h-100 ">
+    <tab.pane @id="Chat" @title="Chat" class="chat-tab-content h-100">
 
-      <div role="tabpanel" class="tab-pane chat-tab-pane">
+      <div role="tabpanel" class="tab-pane chat-tab-pane h-100 ">
         <div class="topic-input">
           {{#if (eq session.data.authenticated.username model.username)}}
 
@@ -40,7 +40,7 @@
 
           {{/if}}
         </div>
-        <div class="card-body chat-tab-body">
+        <div id="chat-body" class="card-body chat-tab-body h-100 ">
 
           {{!-- Chat messages --}}
           <ul id="messages" class="list-style-none p-0 m-0">
@@ -62,7 +62,7 @@
         </div> {{!-- /Chat messages --}}
         {{!-- Chat Input Field --}}
         <form {{action "sendUserMessage" on="submit"}} class="chat-input" name="userMessage" autocomplete="off">
-          <div class="input-group">
+          <div class="input-group chat-input">
             {{input value=userMessage type="text" id="chatMessageInput" autocomplete="off" name="lastpass-disable-search" class="form-control" placeholder="Chat!" data-lpignore="true" }}
             <button type="submit" name="submitmsg" class="input-group-btn btn btn-primary chat-input-submit">Send</button>
           </div>

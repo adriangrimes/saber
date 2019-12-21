@@ -6,10 +6,10 @@ $font-color: #cbcbcb;
 $font-color-secondary: #969393;
 $placeholder-font-color: #9d9d9d;
 
-$brand-color-primary: #820200; // Buttons and Hyperlinks
-$brand-color-secondary: #0B4F6C; //Secondary Buttons #b80000
-$brand-color-tertiary: #2f69e9; //Gradient Left #800000
-$brand-color-quaternary: #B80C09; //Gradient Right #800000
+$brand-color-primary: #70163C; // Buttons and Hyperlinks
+$brand-color-secondary: #95B2B8; //Secondary Buttons #b80000
+$brand-color-tertiary: #307351; //Gradient Left #800000
+$brand-color-quaternary: #1D7874; //Gradient Right #800000
 
 $brand-color-success: #0ab104;
 $brand-color-danger: #940000;
@@ -22,7 +22,9 @@ $off-status-color: #000000; //browse broadcaster offline status
 }
 
 
-
+.navbar {
+  height: 3rem;
+}
 .brand-link{
   height: 3rem;
 }
@@ -34,12 +36,9 @@ a.brand-link:visited {
   text-decoration: inherit;
   color: inherit;
 }
-.navbar {
-  height: 3rem;
-}
-
 .dropdown-menu {
   width: 15rem !important;
+  user-select: none;
 }
 .radio-is-selected:checked + label {
   background-color: $brand-color-quaternary;
@@ -170,6 +169,7 @@ a.brand-link:visited {
 .h-2-5r {
   height: 2.5rem;
 }
+
 .fs-1-5r {
   font-size: 1.5rem;
 }
@@ -178,6 +178,9 @@ a.brand-link:visited {
 }
 .fs-2r {
   font-size: 2rem;
+}
+.no-select{
+  user-select: none;
 }
 
 .to-top {
@@ -193,6 +196,21 @@ a.brand-link:visited {
 .bottom-border {
   border-bottom-style: solid;
   border-bottom-color: $font-color;
+}
+
+.video-row{
+  height: 90vh;
+}
+
+.chat-input{
+  position: absolute;
+  bottom:0px;
+  width: 100%;
+}
+.game-info{
+  height: 500px;
+  border-style: solid;
+  border-color: $brand-color-primary;
 }
 
 .loader {
@@ -398,15 +416,8 @@ a.brand-link:visited {
 //  width: 196px;
 // }
 
-.chat-tab-content {
-  height: 79vh;
-}
 
-.chat-tab-pane {
-  height: 100%;
-}
 .chat-tab-body {
-  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   word-wrap: break-word;
@@ -584,224 +595,10 @@ $border-radius: 0.1rem;
 .lb-outerContainer {
   background-color: $background-color;
 }
-///////////// Extra Small Screens, Optimizing for 320px and up.
-
-// //////////////////////generic classes
-// .vertical-rule {
-//   border-right-style: solid;
-//   border-color: grey;
-// }
-//
-// .large-glyphicon {
-//   font-size: 75px;
-// }
-// .clearFix {
-//   clear: both;
-// }
-//
-// html {
-//   position: relative;
-//   min-height: 100%;
-// }
-//
-// body {
-//   margin-bottom: 400px;
-//   background-color: $bodyBackgroundColor;
-//   color: $bodyFontColor;
-//   // Attempts to stop scrollbar from moving page when it appears and dissappears.
-//   // Causes some wonkyness in other areas.
-//   // width: calc(100vw - 34px);
-//   width: 100%;
-// }
-
-// .container {
-//   width: auto;
-//   max-width: 960px;
-//   padding-top: 30px;
-//   padding-bottom: 30px;
-//   padding-left: 0px;
-//   padding-right: 0px;
-// }
-// .form-inline .form-control {
-//   display: inline-block;
-//   width: auto;
-//   vertical-align: middle;
-// }
-
-// .form-control.focus,
-// .form-control:focus {
-//   background-color: $formActiveBackgroundColor;
-//   border-color: $formActiveBorderColor;
-//   color: $formTextColor;
-// }
-//
-// *::-webkit-input-placeholder {
-//   color: $formPlaceholderColor !important;
-// }
-// *:-moz-placeholder {
-//   /* FF 4-18 */
-//   color: $formPlaceholderColor !important;
-// }
-// *::-moz-placeholder {
-//   /* FF 19+ */
-//   color: $formPlaceholderColor !important;
-// }
-// *:-ms-input-placeholder {
-//   /* IE 10+ */
-//   color: $formPlaceholderColor !important;
-// }
-//
-
-// #privateUserNotes {
-//   height: 8rem;
-// }
-//
-// .userTypeBadges {
-//   font-size: 12px;
-// }
-
-// /////Buttons
-//
-// #scrollToTopBtn {
-//   color: #999999;
-//   position: fixed;
-//   bottom: 0.5rem;
-//   left: 0.5rem;
-//   font-size: 30pt;
-//   padding-left: 0.25rem;
-//   padding-right: 0.25rem;
-//   padding-bottom: 0.3rem;
-//
-//   cursor: pointer;
-// }
-//
-// #scrollToTopBtn:hover {
-//   color: #800000;
-// }
-// #scrollToTopBtn:active {
-//   color: #b80000;
-// }
-//
-//
-
-//
-
-//
-// //////////////////////////////////////Navbar Classes
-
-
-// // ////////////////////////account classes
-// .manage-users-panel {
-//   overflow-y: auto;
-//   height: 500px;
-// }
-// #blockedUsersList {
-//   list-style-type: none;
-//   margin-top: 10px;
-//   margin-bottom: 0px;
-//   margin-right: 0px;
-//   margin-left: 0px;
-//   padding: 0;
-// }
-// #blockedUsersList li {
-//   padding-left: 0px;
-//   padding-bottom: 5px;
-//   padding-top: 0px;
-//   padding-right: 5px;
-// }
-// #favoriteUsersList {
-//   list-style-type: none;
-//   margin-top: 10px;
-//   margin-bottom: 0px;
-//   margin-right: 0px;
-//   margin-left: 0px;
-//   padding: 0;
-// }
-// #favoriteUsersList li {
-//   padding-left: 0px;
-//   padding-bottom: 5px;
-//   padding-top: 0px;
-//   padding-right: 5px;
-// }
-// .remove {
-//   float: right;
-//   font-size: 18;
-//   line-height: 1;
-//   color: #b80000;
-//   &:hover,
-//   &:focus {
-//     color: #c95252;
-//     text-decoration: none;
-//     cursor: pointer;
-//   }
-// }
-// .chat-tab-panel {
-//   position: absolute;
-//   right: 0;
-//   border-bottom: none;
-//   display: flex;
-//   background-color: #000000aa;
-//   margin: 0;
-//   padding: 0;
-//   border-radius: 0.25rem;
-// }
-// .chat-tab {
-//   font-size: 24px;
-//   text-align: center;
-//   width: 65px;
-//   height: 65px;
-//   padding-left: 0.5rem;
-//   padding-right: 0.5rem;
-//   padding-top: 0.8rem;
-//   padding-bottom: 0.25rem;
-//   border-bottom: none;
-// }
-// .chat-tab:hover,
-// .chat-tab.hover,
-// .chat-tab:active,
-// .chat-tab.active {
-//   border-bottom: none;
-//   border-bottom-right-radius: 0.25rem;
-//   border-bottom-left-radius: 0.25rem;
-// }
-// .modal-content {
-//   background-color: $bodyBackgroundColor;
-//   color: $bodyFontColor;
-// }
 
 // // Small devices (landscape phones, 576px and up)
 // @media (min-width: 576px) {
-
-//   .large-controls {
-//     height: 46px;
-//   }
-//   .close-account-btn {
-//     margin-top: 12rem;
-//   } // / Navbar Classes
-//   .navbar-default {
-//     background: #b80000; /* For browsers that do not support gradients */
-//     background: -webkit-linear-gradient(
-//       left,
-//       #b80000,
-//       #800000
-//     ); /* For Safari 5.1 to 6.0 */
-//     background: -o-linear-gradient(right, #b80000, #800000);
-//     /* For Opera 11.1 to 12.0 */
-//     background: -moz-linear-gradient(
-//       right,
-//       #b80000,
-//       #800000
-//     ); /* For Firefox 3.6 to 15 */
-//     background: linear-gradient(
-//       to right,
-//       #b80000,
-//       #800000
-//     ); /* Standard syntax */
-//     border-radius: 0px;
-//     border: 0px;
-//     color: #ffffff;
-//   }
-
+// }
 // // Medium devices (tablets, 768px and up)
 // @media (min-width: 768px) {
 // }

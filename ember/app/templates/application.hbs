@@ -43,12 +43,14 @@
           <nav.dropdown @closeOnMenuClick={{false}} as |dd|>
             {{dropdown-shim openDropdown=dd.openDropdown}}
             <dd.button @type="" @class="nav-link btn-outline-light mr-2">
-              <span class="mx-2"><i title="Buy Credits" class="fa fa-database" aria-hidden="true"></i></span>
+              <span class="mx-2">
+                <img src="/credits.svg" class="" width="25rem"></span>
             </dd.button>
             <dd.menu @align="right" @class="px-4 py-3" as |ddm|>
               {{refresh-credits}}
               <div class="dropdown-header text-center">
-                You have <i class="fa fa-database" aria-hidden="true"></i>
+                You have
+                <img src="/credits.svg" class="" width="25rem">
                 <strong>{{currentUser.user.creditsRemaining}} Credits</strong>
               </div>
               {{buy-credits}}
