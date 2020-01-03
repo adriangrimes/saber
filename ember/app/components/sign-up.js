@@ -21,6 +21,10 @@ export default Component.extend({
   }),
 
   actions: {
+    onCaptchaResolved(reCaptchaResponse) {
+      this.set('captchaResponse', reCaptchaResponse);
+    },
+
     // Passes form fields as parameters to current-user.signUp function
     signUp() {
         this.currentUser.signUp(
@@ -28,7 +32,8 @@ export default Component.extend({
           this.inputemailaddress,
           this.inputpassword,
           this.inputFullName,
-          this.signUpType
+          this.signUpType,
+          this.captchaResponse
         );
     }
   }

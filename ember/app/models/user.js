@@ -33,6 +33,9 @@ export default DS.Model.extend({
   privateMessageEmailNotifications: DS.attr('boolean'),
   privateUserNotes: DS.attr('string'), // Encrypted at the back-end level
 
+  // for user registration
+  captchaResponse: DS.attr('string'),
+
   // Computed properties
   isContracted: computedOr('{broadcaster,developer,affiliate}'),
   isPlayer: computedNot('isContracted')

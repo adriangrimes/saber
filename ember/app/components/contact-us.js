@@ -7,7 +7,7 @@ export default Component.extend({
   notify: service(),
   errorHandler: service(),
 
-  captchaObject: null,
+  captchaResponse: null,
 
   topicList: [
     'Feedback',
@@ -20,17 +20,6 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    // get google recaptcha script
-    jQuery
-      .getScript('https://www.google.com/recaptcha/api.js')
-      .done(() => {
-        this.set('captchaObject', grecaptcha);
-      })
-      .fail(() => {
-        this.notify.error(
-          "There was a problem setting up reCaptcha, you may not be able to submit a message until it's working."
-        );
-      });
 
     // focus email field
     this.element.querySelector('#emailInput').focus();
@@ -45,9 +34,13 @@ export default Component.extend({
       }
     },
 
+    onCaptchaResolved(reCaptchaResponse) {
+      this.set('captchaResponse', reCaptchaResponse);
+    },
+
     submitContactMessage() {
       let url = `${config.apiHost}/send_contact_us`;
-      let captchaResponse = this.get('captchaObject').getResponse();
+      let captchaResponse = this.get('captchaResponse');
       console.log('sending message');
       if (captchaResponse) {
         console.log('captcha filled');

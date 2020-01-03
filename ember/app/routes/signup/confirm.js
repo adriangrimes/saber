@@ -6,6 +6,12 @@ import { inject as service } from '@ember/service';
 export default Route.extend({
   notify: service(),
 
+  beforeModel() {
+    if (this.session.isAuthenticated) {
+      this.replaceWith('account');
+    }
+  },
+
   model(params) {
     // Confirm user with confirmation token in url
     if (params.confirmation_token) {

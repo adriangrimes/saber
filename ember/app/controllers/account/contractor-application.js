@@ -18,6 +18,7 @@ export default Controller.extend({
     },
 
     rollbackApplication(changeset) {
+      console.log('rolling back application');
       changeset.rollback();
       this.set('revertApplicationChanges', true);
     }

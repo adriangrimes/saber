@@ -1,4 +1,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  require "uri"
+  require "net/http"
+
   before_action :sign_up_params, only: [:create]
 
   # GET /resource/sign_up
@@ -8,14 +11,40 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    @user = User.new(sign_up_params)
-    @user.build_user_public_datum(username: sign_up_params[:username], broadcaster: false)
-    if @user.save
-      render json: UserSerializer.new(@user).serialized_json,
-        status: :created
+    captcha_response = Net::HTTP.post_form(
+      URI.parse(
+        'https://www.google.com/recaptcha/api/siteverify'
+      ),
+      {
+        'secret' => Rails.application.credentials.captcha_secret_key,
+        'response' => params[:data][:attributes][:captcha_response].to_s
+      }
+    )
+    if captcha_response.is_a?(Net::HTTPSuccess)
+      captcha_verification = JSON.parse(captcha_response.body)
+      if captcha_verification["success"] == true
+        @user = User.new(sign_up_params)
+        @user.build_user_public_datum(username: sign_up_params[:username], broadcaster: false)
+        if @user.save
+          render json: UserSerializer.new(@user).serialized_json,
+            status: :created
+        else
+          puts @user.errors.inspect
+          render json: ErrorSerializer.serialize(@user.errors),
+            status: :unprocessable_entity
+        end
+      else
+        render json: { errors: [{
+            attribute: :base,
+            message: 'reCAPTCHA failed to verify. You may need to refresh the page and try again.'
+          }]},
+          status: :unprocessable_entity
+      end
     else
-      puts @user.errors.inspect
-      render json: ErrorSerializer.serialize(@user.errors),
+      render json: { errors: [{
+          attribute: :base,
+          message: 'The reCAPTCHA service appears to be unavailable to verify the captcha.<br>Sorry, please try again later.'
+        }]},
         status: :unprocessable_entity
     end
   end

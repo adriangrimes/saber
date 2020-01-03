@@ -283,6 +283,10 @@ export default Component.extend({
       jQuery('#' + toBeChecked)
         .prop('checked', true)
         .change();
+    },
+
+    preventFormSubmission(e) {
+      return e.key != 'Enter';
     }
   }
 });

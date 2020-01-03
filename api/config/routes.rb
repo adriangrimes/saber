@@ -60,5 +60,4 @@ Rails.application.routes.draw do
 
   # status info for uptime checking
   get '/up', to: 'status#up'
-
 end

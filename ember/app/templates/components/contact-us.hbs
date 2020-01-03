@@ -35,7 +35,7 @@
             <label for="comment">Message</label>
             {{textarea rows="5" maxlength="4000" type="text" class="form-control" value=inputMessage required=true}}
           </div>
-          <div class="g-recaptcha" data-theme="dark" data-sitekey="6Ld7w64UAAAAAPzcvuA1hvB3xh1TMLyY8osoO7dW"></div>
+          {{g-recaptcha theme="dark" onSuccess=(action "onCaptchaResolved")}}
           <br>
           <button type="submit" id="submitContactButton" class="btn btn-primary btn-block">Send Message</button>
           <br><br>

@@ -42,6 +42,10 @@ module.exports = function(environment) {
       routeAfterAuthentication: '/account',
       routeIfAlreadyAuthenticated: '/home'
     },
+    gReCaptcha: {
+      jsUrl: 'https://www.google.com/recaptcha/api.js?render=explicit', // default
+      siteKey: '6Ld7w64UAAAAAPzcvuA1hvB3xh1TMLyY8osoO7dW'
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build

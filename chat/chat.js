@@ -39,6 +39,7 @@ if (currentEnvironment) {
 }
 
 let wsServer = new WebSocket.Server({
+  host: '127.0.0.1',
   port: 7000,
   clientTracking: true
 });

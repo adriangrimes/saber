@@ -39,13 +39,18 @@ export default Service.extend({
   },
 
   // Registration
-  signUp(username, email, pw, fullname, contractorType) {
+  signUp(username, email, pw, fullname, contractorType, captchaResponse) {
+    if (!captchaResponse) {
+      this.notify.error("You must prove you're not a robot to continue.");
+      return;
+    }
     if (username && email && pw) {
       // Construct new user record
       let newUser = this.store.createRecord('user', {
         email: email.trim(),
         username: username.trim(),
-        password: pw // Do not trim password
+        password: pw, // Do not trim password
+        captchaResponse: captchaResponse
       });
       let isContractor = false;
       if (contractorType === 'broadcaster') {

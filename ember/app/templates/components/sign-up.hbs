@@ -27,6 +27,7 @@
   <label for="password">Password</label>
   {{input type="password" class="form-control" spellcheck=false value=inputpassword}}
 </div>
+{{g-recaptcha theme="dark" onSuccess=(action "onCaptchaResolved")}}
 <button type="submit" class="signup-button btn btn-primary btn-block" {{action "signUp"}}>
   Sign me up!
 </button>

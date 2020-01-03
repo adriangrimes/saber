@@ -33,8 +33,12 @@ export default Component.extend({
 
   didUpdateAttrs() {
     this._super(...arguments);
-    console.log('didUpdateAttrs');
-    if (this.revertingChanges) {
+    console.log('didUpdateAttrs gender selection');
+    if (
+      this.revertingChanges &&
+      this.changeset &&
+      this.changeset.get(this.attributeToModify) != null
+    ) {
       console.log('revertingChanges');
       if (
         this.changeset.get(this.attributeToModify).toLowerCase() == 'female' ||
@@ -54,7 +58,7 @@ export default Component.extend({
 
   didRender() {
     this._super(...arguments);
-    console.log('didRender');
+    console.log('didRender gender selection');
     this.set('revertingChanges', false);
     if (this.genderSelection && this.changeset) {
       if (this.genderSelection == 'Other') {

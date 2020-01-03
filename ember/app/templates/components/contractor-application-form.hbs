@@ -34,7 +34,7 @@
     {{/if}}
   {{/if}}
 
-  <form onkeydown="return event.key != 'Enter';">
+  <form onkeydown={{action "preventFormSubmission"}}>
     {{! Legal Name }}
     {{validated-field
       label="Legal Name"
