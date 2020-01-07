@@ -198,21 +198,40 @@ a.brand-link:visited {
   border-bottom-color: $font-color;
 }
 
-.video-row{
-  height: 90vh;
+
+
+.image-thumb{
+
+   max-width: 500px;
+   max-height:300px;
+   width: auto;
+   height: auto;
 }
 
+.tip-toolbar{
+  height: 2rem;
+}
 .chat-input{
   position: absolute;
   bottom:0px;
   width: 100%;
 }
-.game-info{
-  height: 500px;
+.game-panel{
+  height: 13em;
   border-style: solid;
   border-color: $brand-color-primary;
 }
-
+.chat-panel{
+  height: 13em;
+  border-style: solid;
+  border-color: $brand-color-secondary;
+}
+.chat-tab-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  height: 8rem;
+}
 .loader {
   font-size: 25px;
   position: fixed;
@@ -417,11 +436,7 @@ a.brand-link:visited {
 // }
 
 
-.chat-tab-body {
-  overflow-y: auto;
-  overflow-x: hidden;
-  word-wrap: break-word;
-}
+
 
 /// Overriding Bootstrap
 
@@ -599,9 +614,18 @@ $border-radius: 0.1rem;
 // // Small devices (landscape phones, 576px and up)
 // @media (min-width: 576px) {
 // }
-// // Medium devices (tablets, 768px and up)
-// @media (min-width: 768px) {
-// }
+// Medium devices (tablets, 768px and up)
+ @media (min-width: 768px) {
+   .game-panel{
+     height: 15em;
+   }
+   .chat-panel{
+     height: 26em;
+   }
+   .chat-tab-body {
+     height: 21rem;
+   }
+}
 // // Large devices (desktops, 992px and up)
 // @media (min-width: 992px) {
 // }

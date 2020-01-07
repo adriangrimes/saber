@@ -29,7 +29,7 @@
 {{! Navbar }}
 <BsNavbar @class="navbar navbar-expand brand-gradient-bg p-0 px-2  " @type="pills" as |navbar|>
 
-  <LinkTo @route="home" @class="brand-link navbar-brand  p-0" @activeClass="">
+  <LinkTo @route="index" @class="brand-link navbar-brand  p-0" @activeClass="">
       <img src="/logo.svg" class=" " height="26px">
 
   </LinkTo>
@@ -130,6 +130,8 @@
         </nav.dropdown>
       {{else}} {{! user not authenticated }}
         <nav.dropdown @closeOnMenuClick={{false}} as |dd|>
+          {{dropdown-shim openDropdown=dd.openDropdown}}
+
           <dd.button @type="" @class="nav-link btn-light">
             <span class="mx-2">Log in</span>
           </dd.button>
@@ -143,10 +145,10 @@
 </BsNavbar>
 
 <div class="viewport-height">
-  <div id="page" class="vertical-scroll">
+
     <div class="my-2 mb-5">
       {{outlet}}
       {{to-top}}
     </div>
-  </div>
+
 </div>

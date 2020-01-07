@@ -15,6 +15,7 @@ export default Service.extend({
   readyForConversationLoad: true,
   readyForCreditLoad: true,
   openCreditDropdown: function() {}, //populated by dropdown-shim component
+  openLoginDropdown: function() {}, //populated by dropdown-shim component
 
   // Main login function
   logIn(identification, password) {

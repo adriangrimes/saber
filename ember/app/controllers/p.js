@@ -26,6 +26,7 @@ export default Controller.extend({
   tipAmountOptions: 10,
   profileSaveStart: false,
   profileSaveSuccess: false,
+  editingProfile: false,
 
   actions: {
     addTag(tag) {
@@ -46,7 +47,13 @@ export default Controller.extend({
       modifiedTags.removeAt(index);
       this.model.userPublicDatum.set('userCustomTags', modifiedTags);
     },
-
+    toggleEditProfile(){
+      if(this.editingProfile){
+        this.set('editingProfile', false);
+      }else{
+        this.set('editingProfile', true);
+      }
+    },
     checkOtherGender() {
       jQuery('#inputGenderOther')
         .prop('checked', true)
