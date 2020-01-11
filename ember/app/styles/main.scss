@@ -6,10 +6,10 @@ $font-color: #cbcbcb;
 $font-color-secondary: #969393;
 $placeholder-font-color: #9d9d9d;
 
-$brand-color-primary: #70163C; // Buttons and Hyperlinks
-$brand-color-secondary: #95B2B8; //Secondary Buttons #b80000
-$brand-color-tertiary: #307351; //Gradient Left #800000
-$brand-color-quaternary: #1D7874; //Gradient Right #800000
+$brand-color-primary: #EF8354; // Buttons and Hyperlinks
+$brand-color-secondary: #BFD7EA; //Secondary Buttons #b80000
+$brand-color-tertiary: #FF6663; //Gradient Left #800000
+$brand-color-quaternary: #4F5D75; //Gradient Right #800000
 
 $brand-color-success: #0ab104;
 $brand-color-danger: #940000;
@@ -169,7 +169,10 @@ a.brand-link:visited {
 .h-2-5r {
   height: 2.5rem;
 }
+.h-2-4r{
+  height: 2.4rem;
 
+}
 .fs-1-5r {
   font-size: 1.5rem;
 }

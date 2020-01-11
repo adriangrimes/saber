@@ -1,8 +1,8 @@
-<div class={{this.showButton}}>
+<div class={{if showButton "d-flex" "d-none"}}>
 
   {{#if (eq this.type "tip")}}
-      <div class="btn btn-primary p-2 input-group-append h-2-5r" {{action "openConfirm"}}>
-        {{button-title}}
+      <div class="btn btn-primary   px-2 input-group-append h-2-4r" {{action "openConfirm"}}>
+        {{button-title}}     <img src="/credits.svg" class="" width="25rem">
       </div>
 
   {{else if (eq this.type "reset")}}
@@ -25,11 +25,11 @@
 
 <div class="mr-1 ">
 
-  <div class={{this.showConfirm}}>
+  <div class={{if showConfirm "d-flex" "d-none"}}>
     {{#if titleDetail}}
-      <h5 class="pl-2 pr-3 pt-1">{{title}} {{titleDetail}} {{titleEnd}}</h5>
+      <div class="p-2 m-0">{{title}} {{titleDetail}} {{titleEnd}}</div>
     {{else}}
-      <h5 class="pl-2 pr-3 pt-1">{{title}}</h5>
+      <div class="p-2 m-0">{{title}}</div>
     {{/if}}
     <button class="btn btn-success border-0 mr-2" {{action "confirmInput"}}>
       <span class="fa fa-check"></span>
