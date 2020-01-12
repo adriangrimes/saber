@@ -4,7 +4,7 @@ import { later } from '@ember/runloop';
 export default Component.extend({
   showConfirm: false,
   showButton: true,
-  resetIcon: 'fa fa-refresh',
+  resetIconSpin: false,
 
   actions: {
     openConfirm() {
@@ -16,13 +16,13 @@ export default Component.extend({
     confirmInput() {
       console.log(this.type + ' input confirmed');
       this.onConfirm();
-      this.set('resetIcon', 'fa fa-refresh fa-spin');
+      this.set('resetIconSpin', true);
       this.set('showButton', true);
       this.set('showConfirm', false);
       later(
         this,
         function() {
-          this.set('resetIcon', 'fa fa-refresh');
+          this.set('resetIconSpin', false);
         },
         1000
       );

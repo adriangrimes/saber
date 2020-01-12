@@ -12,7 +12,7 @@ export default Component.extend({
 
   chatUserMenuUsername: '',
   userMessage: '',
-  chatUserMenu: 'd-none',
+  chatUserMenuVisible: false,
   chatChannelUserCount: '-',
   chatOpen: true,
 
@@ -41,11 +41,11 @@ export default Component.extend({
       jQuery('#chatUserMenu').css({ top: menuYPos });
       // Username of clicked name
       this.set('chatUserMenuUsername', event.srcElement.textContent);
-      this.set('chatUserMenu', 'd-inline-block');
+      this.set('chatUserMenuVisible', true);
     },
 
     closeChatUserMenu() {
-      this.set('chatUserMenu', 'd-none');
+      this.set('chatUserMenuVisible', false);
     },
 
     chatTabSelect(openTab, tabName) {

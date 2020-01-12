@@ -36,9 +36,9 @@ export default Controller.extend({
   streamKeyHidden: true,
   streamServer: 'rtmp://saber.solversion.com/stream',
   toggleHideStreamKeyText: 'Show Stream Key',
-  keyCopySuccess: 'd-none',
-  newCopySuccess: 'd-none',
-  serverCopySuccess: 'd-none',
+  keyCopySuccess: false,
+  newCopySuccess: false,
+  serverCopySuccess: false,
 
   timezoneList: [
     '(GMT, UTC+00:00) Monrovia, Reykjavik',
@@ -432,11 +432,11 @@ export default Controller.extend({
         var copyText = document.getElementById('streamKeyDisplayID');
         copyText.select();
         document.execCommand('Copy');
-        this.set('keyCopySuccess', 'd-block');
+        this.set('keyCopySuccess', true);
         later(
           this,
           function() {
-            this.set('keyCopySuccess', 'd-none');
+            this.set('keyCopySuccess', false);
           },
           3000
         );
@@ -447,11 +447,11 @@ export default Controller.extend({
       var copyText = document.getElementById('streamServerDisplay');
       copyText.select();
       document.execCommand('Copy');
-      this.set('serverCopySuccess', 'd-block');
+      this.set('serverCopySuccess', true);
       later(
         this,
         function() {
-          this.set('serverCopySuccess', 'd-none');
+          this.set('serverCopySuccess', false);
         },
         3000
       );
@@ -465,11 +465,11 @@ export default Controller.extend({
         .save()
         .then(user => {
           console.log('newStreamKey saved');
-          this.set('newCopySuccess', 'd-block');
+          this.set('newCopySuccess', true);
           later(
             this,
             function() {
-              this.set('newCopySuccess', 'd-none');
+              this.set('newCopySuccess', false);
             },
             3000
           );

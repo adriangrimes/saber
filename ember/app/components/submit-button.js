@@ -2,10 +2,9 @@ import Component from '@ember/component';
 import { later } from '@ember/runloop';
 
 export default Component.extend({
-  submitButtonClass: 'btn btn-primary',
-  submitButtonText: 'Save',
-  submitButtonIcon: '',
-  isDisabled: false,
+  submitButtonDisabled: false,
+  showButtonIcon: false,
+  buttonIcon: 'small-loader',
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -14,25 +13,28 @@ export default Component.extend({
     let submitSuccessState = this.submitSuccessState;
 
     if (submitStarted) {
-      this.set('submitButtonText', '');
-      this.set('submitButtonIcon', 'small-loader');
-      this.set('submitButtonClass', 'btn btn-primary disabled');
-      this.set('isDisabled', true);
+      this.set('showButtonIcon', true);
+      this.set('submitButtonDisabled', true);
       if (submitSuccessState) {
         later(
           this,
           function() {
-            this.set('submitButtonIcon', 'fa fa-check');
+            this.set('buttonIcon', 'fa fa-check');
+            later(
+              this,
+              function() {
+                this.set('buttonIcon', 'small-loader');
+              },
+              1000
+            );
           },
           200
         );
         later(
           this,
           function() {
-            this.set('submitButtonText', 'Save');
-            this.set('submitButtonIcon', '');
-            this.set('submitButtonClass', 'btn btn-primary');
-            this.set('isDisabled', false);
+            this.set('showButtonIcon', false);
+            this.set('submitButtonDisabled', false);
             this.set('submitStarted', false);
             this.set('submitSuccessState', false);
           },
@@ -42,10 +44,9 @@ export default Component.extend({
         later(
           this,
           function() {
-            this.set('submitButtonText', 'Save');
-            this.set('submitButtonIcon', '');
-            this.set('submitButtonClass', 'btn btn-primary');
-            this.set('isDisabled', false);
+
+            this.set('showButtonIcon', false);
+            this.set('submitButtonDisabled', false);
             this.set('submitStarted', false);
             this.set('submitSuccessState', false);
           },
@@ -53,10 +54,9 @@ export default Component.extend({
         );
       }
     } else {
-      this.set('submitButtonText', 'Save');
-      this.set('submitButtonIcon', '');
-      this.set('submitButtonClass', 'btn btn-primary');
-      this.set('isDisabled', false);
+
+      this.set('showButtonIcon', false);
+      this.set('submitButtonDisabled', false);
       this.set('submitStarted', false);
       this.set('submitSuccessState', false);
     }

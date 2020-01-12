@@ -1,5 +1,5 @@
 
 <div class="text-right pt-3">
-  <button type="submit" class={{this.submitButtonClass}} disabled={{isDisabled}}><div class={{this.submitButtonIcon}}></div>{{this.submitButtonText}}</button>
+  <button type="submit" class={{if submitButtonDisabled "btn btn-primary disabled" "btn btn-primary"}} disabled={{submitButtonDisabled}}><div class={{if showButtonIcon this.buttonIcon ""}} ></div>{{if showButtonIcon "" "Save"}}</button>
 </div>
 {{yield}}

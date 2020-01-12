@@ -80,12 +80,12 @@
                 <div class="mb-3" {{action "copyStreamKeyToClipboard"}}>
                   Stream Key:
                   {{input type="text" id="streamKeyDisplayID" class="form-control" value=streamKeyDisplay readonly="true"}}
-                  <div class={{this.keyCopySuccess}}>
+                  <div class={{if keyCopySuccess "d-block" "d-none"}}>
                     <div class="float-right text-success">
                       <span class="fa fa-check "></span>Copied to clipboard
                     </div>
                   </div>
-                  <div class={{this.newCopySuccess}}>
+                  <div class={{if newCopySuccess "d-block" "d-none"}}>
                     <div class="mt-0 float-right text-success">
                       <span class="fa fa-check "></span>New stream key saved
                     </div>
@@ -95,7 +95,7 @@
                 <div class="mb-5" {{action "copyServerToClipboard"}}>
                   Stream Server:
                   {{input type="text" id="streamServerDisplay" class="form-control" value=streamServer readonly="true"}}
-                  <div class={{this.serverCopySuccess}}>
+                  <div class={{if serverCopySuccess "d-block" "d-none"}}>
                     <div class="float-right text-success">
                       <span class="fa fa-check "></span>Copied to clipboard
                     </div>
