@@ -96,9 +96,7 @@ class UserPublicDataController < ApplicationController
                   :allow_suggested_games,
                   :timezone,
                   :profile_photo_id,
-                  :profile_gender,
                   :profile_about_me,
-                  :profile_age,
                   :profile_location,
                   :profile_languages,
                   :user_custom_tags => [])

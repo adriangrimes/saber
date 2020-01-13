@@ -2,8 +2,8 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Set hostnames
-  config.front_end_hostname = 'http://192.168.1.4:4200'
-  Rails.application.routes.default_url_options[:host] = 'http://192.168.1.4:3000'
+  config.front_end_hostname = 'http://192.168.132.120:4200'
+  Rails.application.routes.default_url_options[:host] = 'http://192.168.132.120:3000'
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -34,7 +34,7 @@ Rails.application.configure do
   end
 
   # Mailer options
-  config.action_mailer.default_url_options = {  :host => "192.168.1.4",
+  config.action_mailer.default_url_options = {  :host => "192.168.132.120",
                                                 :port => 3000 }
   config.action_mailer.delivery_method = :letter_opener
   # config.action_mailer.delivery_method = :mailjet

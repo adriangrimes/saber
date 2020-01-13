@@ -155,10 +155,9 @@ if Rails.env.production? == false
   fake_usernames = FakeUsernames.usernames
   fake_usernames = fake_usernames.shuffle
 
-  fake_tag_array = ['wow', 'yes', 'nice', 'drums',
-                    'sun', 'praise', 'test', 'MMO', 'english',
-                    'overwatch', 'slamdunk', 'multiplayer', 'PvE', 'raid', 'aaa', 'tes',
-                    'testtest', 'testtesttest']
+  fake_tag_array = ['English', 'PvP', 'Multiplayer', 'Let\'s Play', 'Speedrun',
+    'Hard Mode', 'Drops Enabled', 'Overwatch', 'Minecraft', 'Competitive',
+    'Raiding', 'Ranked', 'Casual']
 
   fake_online_statuses = [true, false]
   payout_methods = ["check", "bitcoin"]
@@ -176,7 +175,7 @@ if Rails.env.production? == false
   emptyuser = User.new(
     email: "emptyuser@email.com",
     username: "EmptyUser",
-    password: "password"
+    password: "12345678"
   )
   emptyuser.skip_confirmation!
   emptyuser.build_user_public_datum(
@@ -187,11 +186,10 @@ if Rails.env.production? == false
 
   # BroadcasterTester1
   p "BroadcasterTester1 ========================================="
-  age = rand(13..100)
   broadcaster1 = User.new(
     email: "broadcastertester1@email.com",
     username: "BroadcasterTester1",
-    password: "12345671",
+    password: "12345678",
     dark_mode: false,
     send_email_followed_online: false,
     stream_key: StreamKey.generate()
@@ -205,7 +203,6 @@ if Rails.env.production? == false
     online_status: false,
     channel_topic: "Channel topic for describing the topic of #{broadcaster1.username}'s channel",
     user_custom_tags: tags,
-    profile_age: age,
     profile_about_me: "Hey, I'm new here. Also hello from the seeds.rb file!"
   )
   broadcaster1.is_being_seeded = true
@@ -232,7 +229,7 @@ if Rails.env.production? == false
     consent_to_store_data: true,
     pending_broadcaster_application: true,
     full_name: "Streamer1 C1 Aster1",
-    birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ'),
+    birthdate: (30.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ'),
     payout_method: 'bitcoin',
     bitcoin_address: "SDfjknsjkjh389f",
     street_address: "321 Nice St",
@@ -275,15 +272,14 @@ if Rails.env.production? == false
     testuser = User.new(
       email: "usertester#{i + 1}@email.com",
       username: "UserTester#{i + 1}",
-      password: "1234567#{i + 1}",
+      password: "12345678",
       dark_mode: true,
       send_email_followed_online: [true, false].sample
     )
     testuser.skip_confirmation!
     testuser.build_user_public_datum(
       username: testuser.username,
-      broadcaster: false,
-      profile_age: rand(13..100)
+      broadcaster: false
     )
     testuser.save!
   end
@@ -293,20 +289,19 @@ if Rails.env.production? == false
   test_broadcaster_count.times do |i|
     p "test broadcaster ========================================="
     i += 1
-    age = rand(13..100)
     testbroadcaster = User.new(
       email: "broadcastertester#{i + 1}@email.com",
       username: fake_usernames[i].capitalize,
-      password: "asdfasdf",
+      password: "12345678",
       dark_mode: false,
-      send_email_followed_online: false
+      send_email_followed_online: false,
       stream_key: StreamKey.generate()
     )
     testbroadcaster.is_being_seeded = true
     p "about to skip confirmation"
     testbroadcaster.skip_confirmation!
     onlinestatus = fake_online_statuses.sample # ~X% of users as online
-    tags = fake_tag_array.sample(rand(0..15))
+    tags = fake_tag_array.sample(rand(0..3))
     puts tags.inspect
     game_id = 0
     if onlinestatus
@@ -320,7 +315,6 @@ if Rails.env.production? == false
       channel_topic: "Channel topic for describing the topic of #{testbroadcaster.username}'s channel",
       current_game_id: game_id,
       user_custom_tags: tags,
-      profile_age: age,
       profile_about_me: "Hey, I'm #{testbroadcaster.username} and new here. Also hello from the seeds.rb file!"
     )
 
@@ -347,7 +341,7 @@ if Rails.env.production? == false
       consent_to_store_data: true,
       pending_broadcaster_application: true,
       full_name: "Streamer#{i + 1} C#{i + 1} Aster#{i + 1}",
-      birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,
+      birthdate: (30.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,
       payout_method: payout_methods.sample,
       street_address: "#{i + 1} Nice St",
       city: "Townsville",
@@ -372,11 +366,10 @@ if Rails.env.production? == false
   # Test developers
   test_developer_count.times do |i|
     p "========================================="
-    age = rand(13..100)
     testdeveloper = User.new(
       email: "developertester#{i + 1}@email.com",
       username: "DeveloperTester#{i + 1}",
-      password: "1234567#{i + 1}",
+      password: "12345678",
       dark_mode: false,
       send_email_followed_online: false
     )
@@ -384,14 +377,13 @@ if Rails.env.production? == false
     testdeveloper.build_user_public_datum(
       username: testdeveloper.username,
       broadcaster: false,
-      profile_age: age,
       profile_about_me: "just developin"
     )
     attribs = {
       consent_to_store_data: true,
       pending_developer_application: true,
       full_name: "Dev#{i + 1} E#{i + 1} Loper#{i + 1}",
-      birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,
+      birthdate: (30.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,
       payout_method: payout_methods.sample,
       street_address: "#{i + 1} Nice St",
       city: "Townsville",
@@ -412,25 +404,23 @@ if Rails.env.production? == false
   # Test affiliates
   test_affiliate_count.times do |i|
     p "========================================="
-    age = rand(13..100)
     testaffiliate = User.new(
       email: "affiliatetester#{i + 1}@email.com",
       username: "AffiliateTester#{i + 1}",
-      password: "1234567#{i + 1}",
+      password: "12345678",
       dark_mode: false,
       send_email_followed_online: false
     )
     testaffiliate.skip_confirmation!
     testaffiliate.build_user_public_datum(
       username: testaffiliate.username,
-      broadcaster: false,
-      profile_age: age
+      broadcaster: false
     )
     attribs = {
       consent_to_store_data: true,
       pending_affiliate_application: true,
       full_name: "Aff#{i + 1} Ili#{i + 1} Ate#{i + 1}",
-      birthdate: (age.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,
+      birthdate: (30.years.ago - 1.day).to_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ') ,
       payout_method: payout_methods.sample,
       street_address: "#{i + 1} Nice St",
       city: "Townsville",

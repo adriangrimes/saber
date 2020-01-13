@@ -17,9 +17,7 @@ export default DS.Model.extend({
   timezone: DS.attr('string'),
   userCustomTags: DS.attr(),
   profilePhotoPath: DS.attr('string'),
-  profileGender: DS.attr('string'),
   profileAboutMe: DS.attr('string'),
-  profileAge: DS.attr('number'),
   profileLocation: DS.attr('string'),
   profileLanguages: DS.attr('string')
   //profilePlatforms: DS.attr('string')

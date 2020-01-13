@@ -8,7 +8,7 @@ export default Component.extend({
     this._super(...arguments);
 
     this.set('inputusername', 'UserTester1');
-    this.set('inputpassword', '12345671');
+    this.set('inputpassword', '12345678');
   },
 
   actions: {

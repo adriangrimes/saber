@@ -181,9 +181,7 @@ ActiveRecord::Schema.define(version: 2019_12_12_001736) do
     t.string "timezone"
     t.string "user_custom_tags"
     t.string "profile_photo_path", default: "/streamnails/usericon.svg", null: false
-    t.string "profile_gender", limit: 16
     t.text "profile_about_me"
-    t.integer "profile_age", limit: 3
     t.string "profile_location", limit: 32
     t.string "profile_languages", limit: 32
     t.datetime "created_at", null: false

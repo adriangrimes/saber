@@ -27,10 +27,10 @@
 {{/ember-notify}}
 
 {{! Navbar }}
-<BsNavbar @class="navbar navbar-expand brand-gradient-bg p-0 px-2  " @type="pills" as |navbar|>
+<BsNavbar @class="navbar navbar-expand brand-gradient-bg p-2" @type="pills" as |navbar|>
 
   <LinkTo @route="index" @class="brand-link navbar-brand  p-0" @activeClass="">
-      <img src="/logo.svg" class=" " height="26px">
+    <img src="/logo.svg" class=" " height="26px">
 
   </LinkTo>
 
@@ -40,31 +40,29 @@
   <navbar.content @class="flex-row-reverse">
     <navbar.nav as |nav|>
       {{#if session.isAuthenticated}}
-          <nav.dropdown @closeOnMenuClick={{false}} as |dd|>
-            {{dropdown-shim openDropdown=dd.openDropdown}}
-            <dd.button @type="" @class="nav-link btn-outline-light mr-2">
-              <span class="mx-2">
-                <img src="/credits.svg" class="" width="25rem">
-              </span>
-            </dd.button>
-            <dd.menu @align="right" @class="px-4 py-3" as |ddm|>
-              {{refresh-credits}}
-              <div class="dropdown-header text-center">
-                You have
-                <img src="/credits.svg" class="" width="25rem">
-                <strong>{{currentUser.user.creditsRemaining}} Credits</strong>
-              </div>
-              {{buy-credits}}
-            </dd.menu>
-          </nav.dropdown>
+        <nav.dropdown @closeOnMenuClick={{false}} as |dd|>
+          {{dropdown-shim openDropdown=dd.openDropdown}}
+          <dd.button @type="" @class="btn btn-light rounded mr-2">
+            <img src="/credits.svg" class="" width="25rem">
+          </dd.button>
+          <dd.menu @align="right" @class="px-4 py-3" as |ddm|>
+            {{refresh-credits}}
+            <div class="dropdown-header text-center">
+              You have
+              <img src="/credits.svg" class="" width="25rem">
+              <strong>{{currentUser.user.creditsRemaining}} Credits</strong>
+            </div>
+            {{buy-credits}}
+          </dd.menu>
+        </nav.dropdown>
         <nav.dropdown as |dd|>
-          <dd.button @type="" @class="btn-outline-light">
+          <dd.button @type="" @class="btn btn-light">
             {{#if (gt this.currentUser.unreadMessages 0)}}
               <span class="ml-0 mr-1 badge badge-primary badge-pill">
                 {{this.currentUser.unreadMessages}}
               </span>
             {{else}}
-              <i title="Menu" class="fa fa-align-right mr-2"></i>
+              <i title="Menu" class="fa fa-user mr-2"></i>
             {{/if}}
             <i class="fa fa-caret-down"></i>
           </dd.button>
@@ -147,9 +145,9 @@
 
 <div class="viewport-height">
 
-    <div class="my-2 mb-5">
-      {{outlet}}
-      {{to-top}}
-    </div>
+  <div class="my-2 mb-5">
+    {{outlet}}
+    {{to-top}}
+  </div>
 
 </div>

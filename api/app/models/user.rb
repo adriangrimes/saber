@@ -122,7 +122,7 @@ class User < ApplicationRecord
   end
 
   def send_drop_stream
-    unless self.is_being_seeded
+    unless self.is_being_seeded || Rails.env.development?
       puts stream_key_was
       puts 'dropping stream'
       params = {

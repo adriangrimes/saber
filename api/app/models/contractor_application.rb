@@ -91,8 +91,6 @@ class ContractorApplication < ApplicationRecord
       u.pending_broadcaster_application ||
       u.pending_developer_application ||
       u.pending_affiliate_application }
-  after_commit :cleanup_broadcaster,
-    if: Proc.new { |u| u.pending_broadcaster_application }
 
   ## Functions
 

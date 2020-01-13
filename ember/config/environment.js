@@ -39,8 +39,8 @@ module.exports = function(environment) {
     'ember-simple-auth': {
       baseURL: 'index',
       authenticationRoute: 'home',
-      routeAfterAuthentication: '/account',
-      routeIfAlreadyAuthenticated: '/home'
+      routeAfterAuthentication: 'home',
+      routeIfAlreadyAuthenticated: 'home'
     },
     gReCaptcha: {
       jsUrl: 'https://www.google.com/recaptcha/api.js?render=explicit', // default
@@ -63,8 +63,8 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
-    ENV.apiHost = 'http://192.168.132.129:3000';
-    ENV.chatServer = 'ws://192.168.132.129:7000';
+    ENV.apiHost = 'http://192.168.132.120:3000';
+    ENV.chatServer = 'ws://192.168.132.120:7000';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;
@@ -73,8 +73,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'test') {
-    ENV.apiHost = 'http://192.168.132.147:3000';
-    ENV.chatServer = 'ws://192.168.132.147:7000';
+    ENV.apiHost = 'http://192.168.132.120:3000';
+    ENV.chatServer = 'ws://192.168.132.120:7000';
     // Testem prefers this...
     ENV.locationType = 'none';
 

@@ -1,11 +1,11 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
-export default Route.extend({
+export default Route.extend(ApplicationRouteMixin, {
   errorHandler: service(),
 
   beforeModel() {
-    console.log('R1 beforeModel application route hook');
     if (this.get('session.isAuthenticated')) {
       console.log('session is authenticated');
       return this._loadCurrentUser();
@@ -13,7 +13,6 @@ export default Route.extend({
   },
 
   _loadCurrentUser() {
-    console.log('R3 _loadCurrentUser()');
     return this.currentUser.load().catch(() => this.session.invalidate());
   },
 

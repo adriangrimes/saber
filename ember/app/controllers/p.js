@@ -47,17 +47,12 @@ export default Controller.extend({
       modifiedTags.removeAt(index);
       this.model.userPublicDatum.set('userCustomTags', modifiedTags);
     },
-    toggleEditProfile(){
-      if(this.editingProfile){
+    toggleEditProfile() {
+      if (this.editingProfile) {
         this.set('editingProfile', false);
-      }else{
+      } else {
         this.set('editingProfile', true);
       }
-    },
-    checkOtherGender() {
-      jQuery('#inputGenderOther')
-        .prop('checked', true)
-        .change();
     },
 
     checkLength(text, select /*, event */) {

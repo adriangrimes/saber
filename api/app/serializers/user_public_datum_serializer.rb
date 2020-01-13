@@ -19,9 +19,7 @@ class UserPublicDatumSerializer
     Rails.application.routes.default_url_options[:host] + record.profile_photo_path
   end
 
-  attributes :profile_gender,
-    :profile_about_me,
-    :profile_age,
+  attributes :profile_about_me,
     :profile_location,
     :profile_languages
   #:profile_platforms

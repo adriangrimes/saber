@@ -15,22 +15,21 @@
           </div>
 
           <div class="col-4 d-flex justify-content-end">
-          {{#if session.isAuthenticated}}
-
-            {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
-              {{confirm-input button-title="Email Followers" title="Send email now?"
-                onConfirm=(action "sendFollowerEmail")
-              }}
+            {{#if session.isAuthenticated}}
+              {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
+                {{confirm-input button-title="Email Followers" title="Send email now?"
+                  onConfirm=(action "sendFollowerEmail")
+                }}
+              {{else}}
+                <a href="/account/messages?toUser={{model.userPublicDatum.username}}" class="btn btn-link pb-0">
+                  <span title="Send Private Message" class="fs-1-5r fa fa-envelope"></span>
+                </a>
+              {{/if}}
             {{else}}
-              <a href="/account/messages?toUser={{model.userPublicDatum.username}}" class="btn btn-link pb-0">
-                <span title="Send Private Message" class="fs-1-5r fa fa-envelope"></span>
-              </a>
-            {{/if}}
-          {{else}}
               <button {{action this.currentUser.openLoginDropdown}} class="btn btn-link pb-0">
                 <span title="Send Private Message" class="fs-1-5r fa fa-envelope"></span>
               </button>
-          {{/if}}
+            {{/if}}
 
             <!--  <button type="button" class="btn btn-link pb-0 collapsed" data-toggle="collapse" data-target="#share-form,#share-form2"><span title="Open Share Form" class="fs-1-5r fa fa-share-alt"></span></button>
             -->
@@ -44,193 +43,153 @@
                 {{/if}}
               {{/if}}
             {{else}}
-              <button {{action this.currentUser.openLoginDropdown}} type="button" class="btn btn-link pb-0 pl-2"> <span title="Follow {{model.userPublicDatum.username}}" class="fs-1-5r fa fa-bell-o" ></span></button>
+              <button {{action this.currentUser.openLoginDropdown}} type="button" class="btn btn-link pb-0 pl-2"> <span title="Follow {{model.userPublicDatum.username}}" class="fs-1-5r fa fa-bell-o"></span></button>
             {{/if}}
           </div>
         </div>
-        {{!--
-        <div class="row m-0 collapse px-2" id="share-form">
-          <div class="col-xs-12 col-sm-8  px-0 pb-3">
-            <div class="input-group justify-content-end">
-              <h6 class="pr-2 pt-2"> Share this profile:</h6>
-              <div class="btn-group " role="group">
-                <a href="https://twitter.com/intent/tweet?text=Check+out+{{model.userPublicDatum.username}}+at+https://saber.tv/p/{{lower-case model.userPublicDatum.username}}" target="_blank" class="btn btn-primary" title="Twitter"><span
-                    class="fa fa-twitter"></span></a>
-                <a href="http://www.reddit.com/submit?url=https://saber.tv/p/{{lower-case model.userPublicDatum.username}}&title=Check+out+{{model.userPublicDatum.username}}+Live%21" target="_blank" class="btn btn-primary" title="Reddit"><span
-                    class="fa fa-reddit-alien"></span></a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-4  pr-0 pb-3">
-            <div class="input-group w-100" {{action "copyUrlToClipboard"}}>
-              <input type="text" autocomplete="off" class="form-control " id="urlDisplay" value="https://saber.tv/p/{{lower-case model.userPublicDatum.username}}">
-              <div class="input-group-append">
-                <button class="btn btn-primary btn-sm" type="button">
-                  <span id="copyUrlBtn" class={{if copiedNotification "fa fa-check" "fa fa-link"}}></span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
---}}
 
-          <div class="video-player h-100 p-0">
-            {{stream-player
+        <div class="video-player h-100 p-0">
+          {{stream-player
               broadcasterUsername=model.userPublicDatum.username
               currentUserUsername=session.data.authenticated.username
               profilePhoto=model.userPublicDatum.profilePhotoPath
               isStreaming=isStreaming
               onlineStatus=model.userPublicDatum.onlineStatus
             }}
-          </div>
+        </div>
 
-          <div class="video-toolbar pt-1">
-            {{#unless currentUser.user.isContracted}}
-              <div name="tip-toolbar" class="btn-toolbar justify-content-between ml-2 mr-1" role="toolbar">
+        <div class="video-toolbar pt-1">
+          {{#unless currentUser.user.isContracted}}
+            <div name="tip-toolbar" class="btn-toolbar justify-content-between ml-2 mr-1" role="toolbar">
 
-                {{#if model.userPublicDatum.allowTips}}
+              {{#if model.userPublicDatum.allowTips}}
 
-                  <div class="input-group custom-control custom-radio d-flex">
-                    <div class="input-group-prepend ">
-                      <button class="btn btn-secondary px-2  h-2-4r" type="button" title="Tip Options" {{action "tipMenuToggle"}}>
-                        <span class={{if tipMenuOpen "fa fa-chevron-right" "fa fa-bars"}}></span>
-                      </button>
+                <div class="input-group custom-control custom-radio d-flex">
+                  <div class="input-group-prepend ">
+                    <button class="btn btn-secondary px-2  h-2-4r" type="button" title="Tip Options" {{action "tipMenuToggle"}}>
+                      <span class={{if tipMenuOpen "fa fa-chevron-right" "fa fa-bars"}}></span>
+                    </button>
+                  </div>
+                  <div class={{if tipMenuOpen "d-none input-group-prepend h-2-4r" "d-flex input-group-prepend h-2-4r"}}>
+
+                    {{radio-button value=10 class="custom-control-input radio-is-selected" id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
+                    <label class="btn btn-secondary  px-2 h-2-4r" for="tipAmount10">
+                      10
+                    </label>
+
+                    {{radio-button value=25 class="custom-control-input radio-is-selected" id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
+                    <label class="btn btn-secondary px-2 d-none d-sm-block h-2-4r " for="tipAmount25">
+                      25
+                    </label>
+
+                    {{radio-button value=50 class="custom-control-input radio-is-selected" id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
+                    <label class="btn btn-secondary px-2 h-2-4r" for="tipAmount50">
+                      50
+                    </label>
+
+                    {{radio-button value=100 class="custom-control-input radio-is-selected" id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
+                    <label class="btn btn-secondary px-2 d-none d-sm-block h-2-4r" for="tipAmount100">
+                      100
+                    </label>
+                  </div>
+                  <div class={{if tipMenuOpen "d-flex input-group-prepend h-2-4r" "d-none input-group-prepend h-2-4r"}}>
+                    <div class="w-25">
+                      {{input type="number"  class="form-control " min="1" max="10000" step="1" value=tipAmountOptions }}
                     </div>
-                    <div class={{if tipMenuOpen "d-none input-group-prepend h-2-4r" "d-flex input-group-prepend h-2-4r"}}>
-
-                      {{radio-button value=10 class="custom-control-input radio-is-selected" id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
-                      <label class="btn btn-secondary  px-2 h-2-4r" for="tipAmount10">
-                        10
-                      </label>
-
-                        {{radio-button value=25 class="custom-control-input radio-is-selected" id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
-                        <label class="btn btn-secondary px-2 d-none d-sm-block h-2-4r " for="tipAmount25">
-                           25
-                        </label>
-
-                        {{radio-button value=50 class="custom-control-input radio-is-selected" id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
-                        <label class="btn btn-secondary px-2 h-2-4r" for="tipAmount50">
-                          50
-                        </label>
-
-                        {{radio-button value=100 class="custom-control-input radio-is-selected" id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
-                        <label class="btn btn-secondary px-2 d-none d-sm-block h-2-4r" for="tipAmount100">
-                          100
-                        </label>
+                    <div class="w-75">
+                      {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Chat note (optional)" }}
                     </div>
-                    <div class={{if tipMenuOpen "d-flex input-group-prepend h-2-4r" "d-none input-group-prepend h-2-4r"}}>
-                      <div class="w-25">
-                        {{input type="number"  class="form-control " min="1" max="10000" step="1" value=tipAmountOptions }}
-                      </div>
-                      <div class="w-75">
-                        {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Chat note (optional)" }}
-                      </div>
-                    </div>
-                    {{#if session.isAuthenticated}}
+                  </div>
+                  {{#if session.isAuthenticated}}
 
                     {{#if (eq currentUser.user.creditsRemaining 0)}}
-                      <button {{action this.currentUser.openCreditDropdown}}  type="button" class="btn btn-primary   px-2 input-group-append h-2-4r" title="Tip">
-                        Tip    <img src="/credits.svg" class="" width="25rem">
+                      <button {{action this.currentUser.openCreditDropdown}} type="button" class="btn btn-primary   px-2 input-group-append h-2-4r" title="Tip">
+                        Tip <img src="/credits.svg" class="" width="25rem">
                       </button>
                     {{else}}
                       {{confirm-input type="tip" title="Tip" titleDetail=this.tipAmountOptions titleEnd="?" button-title="Tip" onConfirm=(action "sendTip" tipAmountOptions)}}
                     {{/if}}
-                    {{else}}
-                      <button {{action this.currentUser.openLoginDropdown}}  type="button" class="btn btn-primary   px-2 input-group-append h-2-4r" title="Tip">
-                        Tip    <img src="/credits.svg" class="" width="25rem">
-                      </button>
-                    {{/if}}
-                  </div>
-
-
-
-                {{else}}
-                  <div></div>
-                {{/if}}
-              </div>
-            {{/unless}}
-
-          </div>
-
+                  {{else}}
+                    <button {{action this.currentUser.openLoginDropdown}} type="button" class="btn btn-primary   px-2 input-group-append h-2-4r" title="Tip">
+                      Tip <img src="/credits.svg" class="" width="25rem">
+                    </button>
+                  {{/if}}
+                </div>
+              {{else}}
+                <div></div>
+              {{/if}}
+            </div>
+          {{/unless}}
+        </div>
       </div>
-
-
 
       <div class="col-xs-12 col-md-5 p-0 h-100">
         <div class="row m-0">
           {{! Game Window }}
           <div class="col-12 no-select pt-2 order-last order-md-first game-panel">
             <h4> Game Setup</h4>
-
-              Coming Soon
+            Coming Soon
           </div> {{! end game window}}
-                {{! Chat Window }}
-        <div class="col-12 p-0 order-first order-md-last chat-panel">
-          {{chat-component
-            chatChannel=(lower-case model.userPublicDatum.username)
-            channelTopic=model.userPublicDatum.channelTopic
-            model=model.userPublicDatum
-            changeStreamState=(action "streamStateChange")
-          }}
+          {{! Chat Window }}
+          <div class="col-12 p-0 order-first order-md-last chat-panel">
+            {{chat-component
+              chatChannel=(lower-case model.userPublicDatum.username)
+              channelTopic=model.userPublicDatum.channelTopic
+              model=model.userPublicDatum
+              changeStreamState=(action "streamStateChange")
+            }}
+          </div>
         </div>
       </div>
-    </div>
 
-  </div> {{! end video-row div}}
+    </div> {{! end video-row div}}
 
-  <div class="row m-0">
-    {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
-      <div class="col ">
-        <button {{action "toggleEditProfile"}}type="button" class="btn btn-primary">
-          {{if editingProfile "Stop Editing Profile" "Edit Profile"}}
-        </button>
-      </div>
-    {{/if}}
-
-    <div class={{if editingProfile "d-block col-12 p-0" "d-none col-12 p-0"}}>
+    <div class="row m-0">
       {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
+        <div class="col ">
+          <button {{action "toggleEditProfile"}}type="button" class="btn btn-primary">
+            {{if editingProfile "Stop Editing Profile" "Edit Profile"}}
+          </button>
+        </div>
+      {{/if}}
 
-        <form autocomplete="off" {{action "submitProfileSettings" on="submit"}}>
-          <div class="card-body">
-            {{#if currentUser.user.broadcaster}}
-              <div class="form-group">
-                <label for="inputaboutme">About Me</label>
-                {{textarea rows="5" class="form-control" value=model.userPublicDatum.profileAboutMe
+      <div class={{if editingProfile "d-block col-12 p-0" "d-none col-12 p-0"}}>
+        {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
+          <form autocomplete="off" {{action "submitProfileSettings" on="submit"}}>
+            <div class="card-body">
+              {{#if currentUser.user.broadcaster}}
+                <div class="form-group">
+                  <label for="inputaboutme">About Me</label>
+                  {{textarea rows="5" class="form-control" value=model.userPublicDatum.profileAboutMe
                     placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
-              </div>
-            {{else if currentUser.user.developer}}
-              <div class="form-group">
-                <label for="inputaboutme">About Me</label>
-                {{textarea class="form-control" value=model.userPublicDatum.profileAboutMe
+                </div>
+              {{else if currentUser.user.developer}}
+                <div class="form-group">
+                  <label for="inputaboutme">About Me</label>
+                  {{textarea class="form-control" value=model.userPublicDatum.profileAboutMe
                     placeholder="A little about yourself and your games"}}
-              </div>
-            {{else}}
-              <div class="form-group">
-                <label for="inputaboutme">About Me</label>
-                {{textarea class="form-control" value=model.userPublicDatum.profileAboutMe
+                </div>
+              {{else}}
+                <div class="form-group">
+                  <label for="inputaboutme">About Me</label>
+                  {{textarea class="form-control" value=model.userPublicDatum.profileAboutMe
                     placeholder="A little about yourself, your favorite games etc."}}
-              </div>
-            {{/if}}
-            {{gender-selection changeset=(mut model.userPublicDatum) revertingChanges=(mut revertingProfileChanges)}}
-            <div class="form-group">
-              <label for="inputlocation">Location</label>
-              {{input type="text" class="form-control" value=model.userPublicDatum.profileLocation
+                </div>
+              {{/if}}
+              <div class="form-group">
+                <label for="inputlocation">Location</label>
+                {{input type="text" class="form-control" value=model.userPublicDatum.profileLocation
                   placeholder="Your general location" }}
-            </div>
-            <div class="form-group">
-              <label for="inputLanguages">Languages</label>
-              {{input type="text" class="form-control" value=model.userPublicDatum.profileLanguages
+              </div>
+              <div class="form-group">
+                <label for="inputLanguages">Languages</label>
+                {{input type="text" class="form-control" value=model.userPublicDatum.profileLanguages
                   placeholder="I can speak..." }}
-            </div>
-            <div class="form-group">
-              <label for="inputAge">Age</label>
-              {{input type="number" min="0" max="100000" step="1" class="form-control"
-                  value=model.userPublicDatum.profileAge }}
-            </div>
-            {{#if currentUser.user.broadcaster}}
-              <div class="form-group ">
-                <label>Tags (choose up to 15)</label>
-                {{#tag-input
+              </div>
+              {{#if currentUser.user.broadcaster}}
+                <div class="form-group ">
+                  <label>Tags (choose up to 15)</label>
+                  {{#tag-input
                     tags=model.userPublicDatum.userCustomTags
                     addTag=(action 'addTag')
                     removeTagAtIndex=(action 'removeTagAtIndex')
@@ -238,24 +197,22 @@
                     placeholder = 'Add tags here'
                     as |tag|
                   }}
-                  {{tag}}
-                {{/tag-input}}
+                    {{tag}}
+                  {{/tag-input}}
+                </div>
+              {{/if}}
+              <br>
+              {{confirm-input button-title="Revert Changes" title="Revert Changes?"
+                onConfirm=(action "cancelProfileChanges" model.userPublicDatum)
+              }}
+              <div class="float-right">
+                {{submit-button submitSuccessState=(mut profileSaveSuccess) submitStarted=(mut profileSaveStart)}}
               </div>
-            {{/if}}
-            <br>
-            {{confirm-input button-title="Revert Changes" title="Revert Changes?"
-              onConfirm=(action "cancelProfileChanges" model.userPublicDatum)
-            }}
-
-            <div class="float-right">
-              {{submit-button  submitSuccessState=(mut profileSaveSuccess) submitStarted=(mut profileSaveStart)}}
-
+              <br>
             </div>
-            <br>
-          </div>
-        </form>
-      {{/if}}
-    </div>
+          </form>
+        {{/if}}
+      </div>
       <div class={{if editingProfile "d-none col-12 pt-3 no-select" "d-block col-12 pt-3 no-select"}}>
         <h4>About {{model.userPublicDatum.username}}:</h4>
         {{if model.userPublicDatum.profileAboutMe (break-lines model.userPublicDatum.profileAboutMe)}}
@@ -266,16 +223,6 @@
           {{model.userPublicDatum.profileAge}}
           <br>
         {{/if}}
-        {{#if model.userPublicDatum.profileGender}}
-          {{#if (eq model.userPublicDatum.profileGender 'Hide')}}
-          {{else}}
-            <label>Gender:</label>
-            {{model.userPublicDatum.profileGender}}
-            <br>
-          {{/if}}
-
-        {{/if}}
-
         {{#if model.userPublicDatum.profileLocation}}
           <label>Location:</label>
           {{model.userPublicDatum.profileLocation}}
@@ -286,7 +233,6 @@
           {{model.userPublicDatum.profileLanguages}}
           <br>
         {{/if}}
-
         {{#if model.userPublicDatum.broadcaster}}
           {{#if tags}}
             <div class="form-group">
@@ -298,7 +244,6 @@
               }}
                 {{tag}}
               {{/tag-input}}
-
             </div>
           {{/if}}
         {{/if}}
@@ -317,7 +262,7 @@
                 data-class="image"
                 inlineImage=false
               }}
-                <img src="{{upload.fileUrlSmall}}" class="image-thumb" >
+                <img src="{{upload.fileUrlSmall}}" class="image-thumb">
               {{/light-box}}
             {{/if}}
           {{/each}}
@@ -334,11 +279,8 @@
           }}
         {{/if}}
       </div>
-
-
-
     </div>
-    {{/if}}
+  {{/if}}
 </div>
 
 {{outlet}}

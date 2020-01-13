@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
 
 export default Component.extend({
   store: service(),
@@ -12,7 +11,7 @@ export default Component.extend({
       this.set('searchInput', this.get('searchInput').trim());
       console.log('searching');
       console.log(this.get('searchInput'));
-      let params = { };
+      let params = {};
       if (this.searchInput) {
         params.search = this.get('searchInput');
       }

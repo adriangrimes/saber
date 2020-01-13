@@ -1,76 +1,40 @@
 <div class="container">
   <div class="row m-0 pt-4 pb-4">
-    <div class="col text-center ">
-        <h4>Saber is a demo live streaming site</h4>
-    </div>
-  </div>
-  <div class="row m-0 pb-0 ">
-    <div class="col-12 col-sm-6 d-inline card">
-      <div class="row mb-2 px-2 d-block text-center">
-        <h4> Players</h4>
-      </div>
-      <div class="row mb-3  justify-content-center">
-        <i class="fa fa-gamepad fs-5r" aria-hidden="true"></i>
-      </div>
-
-      <div class="row mb-2 px-4  d-block text-center">
-       Enter your email
-      </div>
-      <br>
-      <form class="row pl-4 mb-2 form-inline input-group justify-content-center" {{action "submitPrereleaseEmail" on="submit"}}>
-        {{input type="email" class="form-control" id="splash-email-input" placeholder="Enter email address" required=true value=prereleaseEmail}}
-        <button type="submit" class=" input-group-append btn btn-primary">Submit</button>
-      </form>
-    </div>
-    <div class="col-12 col-sm-6 card">
-      <div class="row mb-2 px-2 d-block text-center">
-        <h4> Broadcasters</h4>
-      </div>
-      <div class="row mb-2   justify-content-center">
-
+    <div class="col text-center">
+      <div class="row mb-2 justify-content-center">
         <i class="fa fa-video-camera fs-5r" aria-hidden="true"></i>
       </div>
-
-      <div class="row mb-2 px-4 text-center">
-        Sign up
-      </div>
-      <br>
-      <div class="row mb-2  justify-content-center">
-        {{link-to "Broadcaster Sign Up" "signup.broadcaster" class="btn btn-primary"}}
-      </div>
-
-      <hr class="splash-horizontal-rule d-block d-sm-none">
-    </div>
-
-  </div>
-
-  <div class="row m-0">
-
-    <div class="col-12 col-sm-6 card">
-      <div class="row mb-2 justify-content-center">
-        <i class="fa fa-bullhorn fs-5r" aria-hidden="true"></i>
-      </div>
-      <div class="row mb-2 px-2 d-block text-center">
-        Sign up
-      </div>
-      <br>
-      <div class="row mb-2  justify-content-center">
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 card">
-      <div class="row mb-2 justify-content-center">
-        <i class="fa fa-file-code-o fs-5r" aria-hidden="true"></i>
-      </div>
-      <div class="row mb-2 px-2 d-block text-center">
-        Sign up
-      </div>
-      <br>
-
-      <div class="row mb-2  justify-content-center">
-      </div>
-      <hr class="splash-horizontal-rule d-block d-sm-none">
+      <h4>Saber is a basic demonstration live streaming site</h4>
     </div>
   </div>
-  <br>
+  <div class="row m-0 pb-0">
+    <div class="col-12 col-sm-6 d-inline card">
+      <div class="row mb-2 px-4 d-block">
+        <h5>Front-end</h5>
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-primary p-2">Ember.js</li>
+        </ul>
+        <h5 class="mt-3">Back-end</h5>
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-primary p-2">Rails 5 API with MariaDB and Devise for authentication</li>
+          <li class="list-group-item list-group-item-primary p-2">Node.js with WebSockets for real-time chat</li>
+          <li class="list-group-item list-group-item-primary p-2">NGINX RTMP integration for live video streaming and conversion to HLS video</li>
+          <li class="list-group-item list-group-item-primary p-2">Served by NGINX with Passenger</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 d-inline card">
+      <div class="row mb-2 px-4 d-block">
+        <h5>Test it out</h5>
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-secondary p-2">A standard user login is prepopulated in the log in form.</li>
+          <li class="list-group-item list-group-item-secondary p-2">You can log in as a broadcaster account with the username <code>BroadcasterTester1</code></li>
+          <li class="list-group-item list-group-item-secondary p-2">The password for all accounts (even the randomly generated ones) is <code>12345678</code></li>
+        </ul>
+        <div class="text-center">
+          <LinkTo @route="home" class="btn btn-primary mt-3">Browse Streams</LinkTo>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-{{outlet}}

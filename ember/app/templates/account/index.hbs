@@ -29,37 +29,37 @@
             <div class="card-body">
               <input type="button" class="btn btn-primary" value="Show Credit History" {{action "getTransactions"}}>
               {{#if transactions}}
-              <div class="pt-2">
-              You have {{creditsEarned}} <img src="/credits.svg" class="" width="25rem">
-            </div>
-            <div class="table-responsive-md">
-                <table class="table table-sm table-hover">
-                  <thead>
-                    <tr>
-                      <th scope="col">Date</th>
-                      <th scope="col">Credits</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Payout Percentage</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {{#each transactions as |transaction|}}
+                <div class="pt-2">
+                  You have {{creditsEarned}} <img src="/credits.svg" class="" width="25rem">
+                </div>
+                <div class="table-responsive-md">
+                  <table class="table table-sm table-hover">
+                    <thead>
                       <tr>
-                        <td>{{transaction.createdAt}}</td>
-                        <td class="text-right">{{transaction.creditsTransferred}}</td>
-                        <td>{{transaction.transferDescription}}</td>
-                        <td class="text-right">{{transaction.broadcasterPayoutPercentage}}%</td>
+                        <th scope="col">Date</th>
+                        <th scope="col">Credits</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Payout Percentage</th>
                       </tr>
-                    {{/each}}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {{#each transactions as |transaction|}}
+                        <tr>
+                          <td>{{transaction.createdAt}}</td>
+                          <td class="text-right">{{transaction.creditsTransferred}}</td>
+                          <td>{{transaction.transferDescription}}</td>
+                          <td class="text-right">{{transaction.broadcasterPayoutPercentage}}%</td>
+                        </tr>
+                      {{/each}}
+                    </tbody>
+                  </table>
+                </div>
               {{/if}}
             </div>
           </div>
         </div>
-        {{#if this.currentUser.user.broadcaster}}
 
+        {{#if this.currentUser.user.broadcaster}}
           <div class="card mb-3 ">
             <div class="card-heading">
               <h4 class="card-title"><span class="fa fa-video-camera" aria-hidden="true"></span>&nbsp; Stream Settings</h4>
@@ -76,7 +76,6 @@
                     </div>
                   </div>
                 </div>
-
                 <div class="mb-3" {{action "copyStreamKeyToClipboard"}}>
                   Stream Key:
                   {{input type="text" id="streamKeyDisplayID" class="form-control" value=streamKeyDisplay readonly="true"}}
@@ -91,7 +90,6 @@
                     </div>
                   </div>
                 </div>
-
                 <div class="mb-5" {{action "copyServerToClipboard"}}>
                   Stream Server:
                   {{input type="text" id="streamServerDisplay" class="form-control" value=streamServer readonly="true"}}
@@ -101,40 +99,29 @@
                     </div>
                   </div>
                 </div>
-
                 <LinkTo @route="help" @query={{hash show="streamHelp"}} class="w-100 btn btn-block btn-secondary">Live Streaming Help</LinkTo>
-
                 <hr class="splash-horizontal-rule">
                 <form {{action "submitStreamSettings" on="submit"}}>
                   <h5>Interaction Settings</h5>
-
-
                   <div class="custom-control custom-checkbox">
                     {{input type="checkbox" class="custom-control-input" id="enableTips" checked=model.userPublicDatum.allowTips}}
                     <label class="custom-control-label" for="enableTips">
-                    Enable Tipping.
+                      Enable Tipping.
                     </label>
                   </div>
-
                   <div class="text-right pt-3">
                     {{submit-button submitSuccessState=(mut streamSettingsSaveSuccess) submitStarted=(mut streamSettingsSaveStart)}}
-
                   </div>
                 </form>
-
               </div>
             </div>
           </div>
-
         {{/if}}
-
-
 
         {{#if this.currentUser.user.developer}}
           <div class="card mb-3 ">
             <div class="card-heading">
               <h4 class="card-title"><span class="fa fa-gamepad" aria-hidden="true"></span>&nbsp; My Games</h4>
-
             </div>
             <div class="card">
               <div class="card-body">
@@ -190,9 +177,7 @@
         {{/if}}
       {{/if}}
 
-
       {{#if this.currentUser.user.isContracted}}
-
         <div class="card mb-3">
           <div class="card-heading">
             <h3 class="card-title"> <span class="fa fa-address-card-o"></span>&nbsp; Payout Settings</h3>
@@ -200,7 +185,6 @@
           <div class="card ">
             <div class="card-body">
               <h5> Select Payout Method:</h5>
-
               <form {{action "submitPayoutSettings" on="submit"}}>
                 <div class="form-check form-check-inline w-100 pb-3">
                   <div class=" w-50 mx-0 py-3 btn btn-block btn-primary custom-control custom-radio " {{action "checkThis" "inputPayoutCheck"}}>
@@ -213,19 +197,15 @@
                   </div>
                 </div>
                 {{#if payoutIsBitcoin}}
-                  <div class="form-group" >
+                  <div class="form-group">
                     <label for="inputbitcoinaddress">Bitcoin Address</label>
                     {{input type="text" class="form-control" value=inputbitcoinaddress }}
                   </div>
-                {{else}}
                 {{/if}}
-
                 <div class="form-group">
                   <label for="inputaddress1">Address Line 1</label>
                   {{input type="text" class="form-control" value=inputaddress1 }}
                 </div>
-
-
                 <div class="form-group">
                   <label for="inputaddress2">Address Line 2</label>
                   {{input type="text" class="form-control" value=inputaddress2 }}
@@ -254,14 +234,11 @@
                     {{name}}
                   {{/power-select}}
                 </div>
-
                 {{submit-button submitSuccessState=(mut payoutSettingsSaveSuccess) submitStarted=(mut payoutSettingsSaveStart)}}
               </form>
             </div>
           </div>
         </div>
-
-
       {{/if}}
 
       <div class="card mb-3">
@@ -272,16 +249,13 @@
         <div class="card">
           <div class="card-body">
             <h5>Email Subscriptions </h5>
-
             <form {{action "submitnotifySettings" on="submit"}}>
-
               <div class="custom-control custom-checkbox">
                 {{input type="checkbox" class="custom-control-input" id="sendFollowedOnline" name="sendEmailFollowedOnline" checked=sendEmailFollowedOnline}}
                 <label class="custom-control-label" for="sendFollowedOnline">
                   "Now Streaming" notifications from broadcasters you follow <i class="fa fa-bell" aria-hidden="true"></i>
                 </label>
               </div>
-
               <div class="custom-control custom-checkbox">
                 {{input type="checkbox" class="custom-control-input" id="sendPrivateMessageEmail" name="privateMessageEmailNotifications" checked=privateMessageEmailNotifications}}
                 <label class="custom-control-label" for="sendPrivateMessageEmail">
@@ -294,58 +268,12 @@
                   Monthly site newsletter
                 </label>
               </div>
-
               {{submit-button submitSuccessState=(mut notifySettingsSaveSuccess) submitStarted=(mut notifysettingsSaveStart)}}
-
-
             </form>
           </div>
         </div>
       </div>
-      {{!--
-      <div class="card mb-3">
-        <div class="card-heading">
-          <h3 class="card-title">Site Settings</h3>
-        </div>
-        <div  class="card">
-          <div class="card-body">
-            <form {{action "submitSiteSettings" on="submit"}}>
 
-              <hr class="splash-horizontal-rule">
-              <h5> Site Graphics Style</h5>
-
-              <div class="custom-control custom-checkbox">
-                <label class="custom-control-label">
-                  <!-- <input type="checkbox" class="custom-control-input" checked> -->
-                  {{input type="checkbox" class="custom-control-input" name="darkMode" checked=this.currentUser.user.darkMode }}
-                  Dark mode
-                </label>
-              </div>
-              <hr class="splash-horizontal-rule">
-
-              <h5>Time Zone</h5>
-              <div class="form-group">
-                <label for="inputTimeZone">Your Time Zone</label>
-                {{#power-select
-                      options=timezoneList
-                      selected=inputTimeZone
-                      id="inputTimeZone"
-                      onchange=(action (mut inputTimeZone))
-                      oninput=(action "checkLength")
-                      as |name|}}
-                  {{name}}
-                {{/power-select}}
-
-
-                <!--use matcher=timeZoneSearch instead of searchField for more advanced search -->
-              </div>
-
-              {{submit-button submitSuccessState=(mut siteSettingsSaveSuccess) submitStarted=(mut siteSettingsSaveStart)}}
-
-            </form>
-          </div>
-        </div>
-      </div> --}}
       <div class="card mb-3">
         <div class="card-heading">
           <h3 class="card-title">
@@ -372,9 +300,7 @@
               </div>
               {{submit-button submitSuccessState=(mut emailSaveSuccess) submitStarted=(mut emailSaveStart)}}
             </form>
-
             <hr class="splash-horizontal-rule">
-
             <form {{action "submitPasswordChange" on="submit"}}>
               <h5>Change your password</h5>
               <div class="form-group">
@@ -392,12 +318,8 @@
                 {{input type="password" class="form-control" required=true
                         autocomplete="current-password" value=inputPasswordCurrentPassword }}
               </div>
-
-
               {{submit-button submitSuccessState=(mut passwordSaveSuccess) submitStarted=(mut passwordSaveStart)}}
-
             </form>
-
           </div>
         </div>
       </div>
@@ -405,9 +327,6 @@
 
     <div class="col-xs-12  col-md-4">
       {{#if this.currentUser.user.isContracted}}
-
-
-
         <div class="row mt-4">
           <div class="col  p-1 mb-2 ">
             {{#link-to "p" (lower-case session.data.authenticated.username) class="w-100 h-100 btn btn-secondary"}}
@@ -438,7 +357,7 @@
           </div>
           <div class="col p-1 mb-2">
             {{#link-to "home" class="w-100 h-100 btn btn-secondary"}}
-              <span class="fa  fa-video-camera mr-3"></span>
+              <span class="fa fa-video-camera mr-3"></span>
               <br>
               Browse Broadcasters
             {{/link-to}}
@@ -449,7 +368,6 @@
           Your Affiliate link is coming soon!
         </div>
       {{/if}}
-
 
       {{#if this.currentUser.user.broadcaster}}
         <div class="pb-5">
@@ -465,24 +383,19 @@
         {{#link-to "account.broadcaster"  class="btn btn-primary btn-block" }}
           Become a Broadcaster &nbsp;<span class="fa fa-video-camera" aria-hidden="true"></span>
         {{/link-to}}
-
       {{/if}}
-      {{#if this.currentUser.user.developer}}
-      {{else}}
+      {{#unless this.currentUser.user.developer}}
         {{#link-to "account.developer" class="btn btn-primary btn-block" }}
           Become a Developer &nbsp;<span class="fa fa-file-code-o" aria-hidden="true"></span>
         {{/link-to}}
-
-      {{/if}}
-      {{#if this.currentUser.user.affiliate}}
-      {{else}}
+      {{/unless}}
+      {{#unless this.currentUser.user.affiliate}}
         {{#link-to "account.affiliate" class="btn btn-primary btn-block" }}
           Become an Affiliate &nbsp;<span class="fa fa-bullhorn" aria-hidden="true"></span>
         {{/link-to}}
-      {{/if}}
-
+      {{/unless}}
       <div class="mt-5">
-        {{#link-to "account.close" class="btn btn-outline-light btn-block "  }}
+        {{#link-to "account.close" class="btn btn-light btn-block "  }}
           Close Account
         {{/link-to}}
       </div>

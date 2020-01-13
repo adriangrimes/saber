@@ -1,15 +1,15 @@
 // Base css for all themes
-$background-color: #2a2a2a;
-$layer1-background-color: #323232;
-$layer2-background-color: #6a6a6a;
-$font-color: #cbcbcb;
-$font-color-secondary: #969393;
-$placeholder-font-color: #9d9d9d;
+$background-color: #e7e7e7;
+$layer1-background-color: #ffffff;
+$layer2-background-color: #ffffff;
+$font-color: #1c1c1c;
+$font-color-secondary: #1a1616;
+$placeholder-font-color: #888888;
 
-$brand-color-primary: #F71735; // Buttons and Hyperlinks
-$brand-color-secondary: #47E5BC; //Secondary Buttons #b80000
-$brand-color-tertiary: #FF9F1C; //Gradient Left #800000
-$brand-color-quaternary: #41EAD4; //Gradient Right #800000
+$brand-color-primary: #25282b; // Buttons and Hyperlinks
+$brand-color-secondary: #556f68; //Secondary Buttons #b80000
+$brand-color-tertiary: #25282b; //Gradient Left #800000
+$brand-color-quaternary: #25282b; //Gradient Right #800000
 
 $brand-color-success: #0ab104;
 $brand-color-danger: #940000;
@@ -18,14 +18,20 @@ $on-status-color: $brand-color-primary; //browse broadcaster online status
 $off-status-color: #000000; //browse broadcaster offline status
 
 * {
-  font-family: "Lato", sans-serif;
+  font-family: "Heebo", sans-serif;
 }
 
+a {
+  text-decoration: none;
+}
+a:hover {
+  color: $brand-color-primary;
+}
 
 .navbar {
   height: 3rem;
 }
-.brand-link{
+.brand-link {
   height: 3rem;
 }
 a.brand-link:link {
@@ -117,10 +123,34 @@ a.brand-link:visited {
     $brand-color-quaternary
   ); /* Standard syntax */
 }
-.gradient-border-interior {
-  background: $background-color;
-}
 
+.force-sixteen-nine {
+  position: relative;
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: (9 / 16) * 100%;
+    background-color: #000;
+  }
+  > .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+.broadcaster-detail {
+  line-height: 1.1;
+  font-size: 0.875rem;
+}
+.broadcaster-detail:hover {
+  color: #9d1414;
+}
+.gradient-border-interior {
+  background: #fff;
+}
 .online {
   background: $brand-color-tertiary; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(
@@ -169,9 +199,8 @@ a.brand-link:visited {
 .h-2-5r {
   height: 2.5rem;
 }
-.h-2-4r{
+.h-2-4r {
   height: 2.4rem;
-
 }
 .fs-1-5r {
   font-size: 1.5rem;
@@ -182,10 +211,10 @@ a.brand-link:visited {
 .fs-2r {
   font-size: 2rem;
 }
-.fs-5r{
-  font-size:5rem;
+.fs-5r {
+  font-size: 5rem;
 }
-.no-select{
+.no-select {
   user-select: none;
 }
 
@@ -204,30 +233,27 @@ a.brand-link:visited {
   border-bottom-color: $font-color;
 }
 
-
-
-.image-thumb{
-
-   max-width: 500px;
-   max-height:300px;
-   width: auto;
-   height: auto;
+.image-thumb {
+  max-width: 500px;
+  max-height: 300px;
+  width: auto;
+  height: auto;
 }
 
-.tip-toolbar{
+.tip-toolbar {
   height: 2rem;
 }
-.chat-input{
+.chat-input {
   position: absolute;
-  bottom:0px;
+  bottom: 0px;
   width: 100%;
 }
-.game-panel{
+.game-panel {
   height: 13em;
   border-style: solid;
   border-color: $brand-color-primary;
 }
-.chat-panel{
+.chat-panel {
   height: 13em;
   border-style: solid;
   border-color: $brand-color-secondary;
@@ -239,7 +265,7 @@ a.brand-link:visited {
   height: 8rem;
 }
 
-.blurb-list{
+.blurb-list {
   list-style-type: circle;
 }
 .loader {
@@ -445,9 +471,6 @@ a.brand-link:visited {
 //  width: 196px;
 // }
 
-
-
-
 /// Overriding Bootstrap
 
 .card {
@@ -477,7 +500,7 @@ $input-bg: $layer2-background-color;
 $input-color: $font-color;
 $input-placeholder-color: $placeholder-font-color;
 
-$border-radius: 0.1rem;
+$border-radius: 0.12rem;
 
 .modal-backdrop {
   background-color: #000000 !important;
@@ -487,20 +510,18 @@ $border-radius: 0.1rem;
 .splash-horizontal-rule {
   border-color: $font-color;
 }
-.splash-vertical-rule{
+.splash-vertical-rule {
   border-color: $font-color;
-
 }
-.nav-tabs , .nav-tabs .nav-item.hide .nav-link
-{
+.nav-tabs,
+.nav-tabs .nav-item.hide .nav-link {
   color: $font-color-secondary !important;
 }
-.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link
-{
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
   color: $font-color !important;
 }
-.nav-tabs .nav-link:hover,
-{
+.nav-tabs .nav-link:hover {
   color: $brand-color-primary !important;
 }
 
@@ -629,19 +650,19 @@ $border-radius: 0.1rem;
 // @media (min-width: 576px) {
 // }
 // Medium devices (tablets, 768px and up)
- @media (min-width: 768px) {
-   .game-panel{
-     height: 15em;
-   }
-   .chat-panel{
-     height: 26em;
-   }
-   .chat-tab-body {
-     height: 21rem;
-   }
-   .splash-vertical-rule{
-     border-right: solid;
-   }
+@media (min-width: 768px) {
+  .game-panel {
+    height: 15em;
+  }
+  .chat-panel {
+    height: 26em;
+  }
+  .chat-tab-body {
+    height: 21rem;
+  }
+  .splash-vertical-rule {
+    border-right: solid;
+  }
 }
 // // Large devices (desktops, 992px and up)
 // @media (min-width: 992px) {

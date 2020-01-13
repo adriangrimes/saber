@@ -7,17 +7,21 @@ const requestLibrary = require('request'); // HTTP Gets for authentication
 // get current environment from command line
 const currentEnvironment = process.argv[2];
 
+// null chatHost will set the WS server to listen on the default IP
+let chatHost = null;
 let apiHost = 'http://localhost:3000';
 if (currentEnvironment) {
   switch (currentEnvironment) {
     case 'development':
-      formattedJsonLogger;
+      chatHost = null;
       apiHost = 'http://localhost:3000';
       break;
     case 'staging':
+      chatHost = '127.0.0.1';
       apiHost = 'https://api.saber.solversion.com';
       break;
     case 'production':
+      chatHost = '127.0.0.1';
       apiHost = 'https://api.saber.tv';
       break;
     default:
@@ -39,7 +43,7 @@ if (currentEnvironment) {
 }
 
 let wsServer = new WebSocket.Server({
-  host: '127.0.0.1',
+  host: chatHost,
   port: 7000,
   clientTracking: true
 });

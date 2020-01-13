@@ -16,7 +16,6 @@ export default Component.extend({
   actions: {
     selectAmount(amount) {
       console.log('buy this many credits' + amount);
-      this.set('genderSelection', amount);
       jQuery('#' + amount)
         .prop('checked', true)
         .change();
