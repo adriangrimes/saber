@@ -1,40 +1,40 @@
 <div class="container">
-  <div class="row m-0 pb-5">
+  <div class="row m-0 pt-4 pb-4">
     <div class="col text-center ">
-      Saber is a demo live streaming site
+        <h4>Saber is a demo live streaming site</h4>
     </div>
   </div>
-  <div class="row m-0 pb-5">
-    <div class="col-12 col-sm-6 d-inline vertical-rule">
+  <div class="row m-0 pb-0 ">
+    <div class="col-12 col-sm-6 d-inline card">
       <div class="row mb-2 px-2 d-block text-center">
         <h4> Players</h4>
       </div>
-      <div class="row mb-2   justify-content-center">
-        <i class="fa fa-gamepad large-glyphicon" aria-hidden="true"></i>
+      <div class="row mb-3  justify-content-center">
+        <i class="fa fa-gamepad fs-5r" aria-hidden="true"></i>
       </div>
 
-      <div class="row mb-2 px-2  d-block text-center" >
-        Enter your email
+      <div class="row mb-2 px-4  d-block text-center">
+       Enter your email
       </div>
       <br>
-      <form class="row mb-2 form-inline justify-content-center" {{action "submitPrereleaseEmail" on="submit"}}>
+      <form class="row pl-4 mb-2 form-inline input-group justify-content-center" {{action "submitPrereleaseEmail" on="submit"}}>
         {{input type="email" class="form-control" id="splash-email-input" placeholder="Enter email address" required=true value=prereleaseEmail}}
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class=" input-group-append btn btn-primary">Submit</button>
       </form>
     </div>
-    <div class="col-12 col-sm-6 ">
+    <div class="col-12 col-sm-6 card">
       <div class="row mb-2 px-2 d-block text-center">
         <h4> Broadcasters</h4>
       </div>
       <div class="row mb-2   justify-content-center">
 
-        <i class="fa fa-video-camera large-glyphicon" aria-hidden="true"></i>
+        <i class="fa fa-video-camera fs-5r" aria-hidden="true"></i>
       </div>
 
-      <div class="row mb-2 px-2 text-center">
+      <div class="row mb-2 px-4 text-center">
         Sign up
       </div>
-
+      <br>
       <div class="row mb-2  justify-content-center">
         {{link-to "Broadcaster Sign Up" "signup.broadcaster" class="btn btn-primary"}}
       </div>
@@ -43,23 +43,23 @@
     </div>
 
   </div>
-  <hr class="splash-horizontal-rule">
-  <br>
+
   <div class="row m-0">
-    <div class="col-12 col-sm-6">
+
+    <div class="col-12 col-sm-6 card">
       <div class="row mb-2 justify-content-center">
-        <i class="fa fa-bullhorn large-glyphicon" aria-hidden="true"></i>
+        <i class="fa fa-bullhorn fs-5r" aria-hidden="true"></i>
       </div>
       <div class="row mb-2 px-2 d-block text-center">
         Sign up
       </div>
+      <br>
       <div class="row mb-2  justify-content-center">
-        {{link-to "Affiliate Sign Up" "signup.affiliate" class="btn btn-primary"}}
       </div>
     </div>
-    <div class="col-12 col-sm-6 ">
+    <div class="col-12 col-sm-6 card">
       <div class="row mb-2 justify-content-center">
-        <i class="fa fa-file-code-o large-glyphicon" aria-hidden="true"></i>
+        <i class="fa fa-file-code-o fs-5r" aria-hidden="true"></i>
       </div>
       <div class="row mb-2 px-2 d-block text-center">
         Sign up
@@ -67,7 +67,6 @@
       <br>
 
       <div class="row mb-2  justify-content-center">
-        {{link-to "Developer Sign Up" "signup.developer" class="btn btn-primary"}}
       </div>
       <hr class="splash-horizontal-rule d-block d-sm-none">
     </div>

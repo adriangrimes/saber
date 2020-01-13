@@ -16,18 +16,11 @@
   </div>
 </div>
 <br>
-{{#if contractorSignup}}
-  <div class="form-group">
-    <label for="inputFullName">Full Name</label>
-    {{input type="text" class="form-control" spellcheck=false value=inputFullName }}
-  </div>
-  <br>
-{{/if}}
 <div class="form-group-sm">
   <label for="password">Password</label>
   {{input type="password" class="form-control" spellcheck=false value=inputpassword}}
 </div>
 {{g-recaptcha theme="dark" onSuccess=(action "onCaptchaResolved")}}
-<button type="submit" class="signup-button btn btn-primary btn-block" {{action "signUp"}}>
+<button type="submit" class="signup-button btn btn-primary btn-block mt-2" {{action "signUp"}}>
   Sign me up!
 </button>

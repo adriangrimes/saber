@@ -33,7 +33,7 @@
       {{/if}}
 
       {{#each privateMessages as |message|}}
-        <div class="border-top {{if message.messageRead "border-default" "border-danger"}} m-1 pl-1 pb-2">
+        <div class="border-top {{if message.messageRead "border-default" "border-primary"}} m-1 pl-1 pb-2">
           {{#if (not-eq message.fromUser currentUsername)}}
             <strong>{{message.fromUser}}</strong>
           {{else}}
