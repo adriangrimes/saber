@@ -31,8 +31,8 @@ a:hover {
 .navbar {
   height: 3rem;
 }
-.brand-link {
-  height: 3rem;
+.brand-link-image {
+  padding: 0.85rem;
 }
 a.brand-link:link {
   text-decoration: inherit;
@@ -226,6 +226,14 @@ a.brand-link:visited {
 }
 .z-900 {
   z-index: 900 !important;
+}
+
+.fixed-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1020 !important;
 }
 
 .bottom-border {
@@ -670,7 +678,9 @@ $border-radius: 0.12rem;
 // // Extra large devices (large desktops, 1200px and up)
 // @media (min-width: 1200px) {
 // }
-
+// Only mobile devices 768px or smaller
+@media (max-width: 768px) {
+}
 @import "ember-bootstrap/bootstrap";
 @import "notifications";
 $ember-power-select-line-height: 2.5;

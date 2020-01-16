@@ -6,7 +6,6 @@ import { later } from '@ember/runloop';
 export default Controller.extend({
   store: service(),
   session: service(),
-  themeChanger: service(),
   notify: service(),
   errorHandler: service(),
 
@@ -568,19 +567,8 @@ export default Controller.extend({
 
     submitSiteSettings() {
       this.set('siteSettingsSaveStart', true);
-      if (this.get('currentUser.user.darkMode')) {
-        this.themeChanger.set('theme', 'dark');
-      } else {
-        this.themeChanger.set('theme', 'default');
-      }
-
-      console.log(
-        'At /account display settings save currentUser.darkMode:',
-        this.get('currentUser.user.darkMode')
-      );
 
       // Modify record pulled from db to variable
-      this.model.user.set('darkMode', this.get('currentUser.user.darkMode'));
       this.model.user.set('timezone', this.inputTimeZone);
       console.log('timezone: ' + this.inputTimeZone);
 

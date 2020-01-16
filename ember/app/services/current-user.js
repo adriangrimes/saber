@@ -9,7 +9,6 @@ export default Service.extend({
   store: service(),
   notify: service(),
   errorHandler: service(),
-  themeChanger: service(),
 
   signupSuccess: false,
   readyForConversationLoad: true,
@@ -33,7 +32,6 @@ export default Service.extend({
   },
 
   logOut() {
-    this.themeChanger.set('theme', 'default');
     // invalidate() causes a page refresh, which should finish the clean up and
     // logout process
     this.session.invalidate();
@@ -102,9 +100,6 @@ export default Service.extend({
       return this.store
         .findRecord('user', this.session.data.authenticated.user_id)
         .then(user => {
-          // Set theme to dark if true, otherwise default theme
-          console.log('heeloo darkmode:', user.darkMode);
-          this.themeChanger.set('theme', user.darkMode ? 'dark' : 'default');
           // Set data returned to currentUser.user
           this.set('user', user);
           this.loadMessages({ forceReload: options.forceReloadMessages });

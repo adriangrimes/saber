@@ -74,6 +74,7 @@ wsServer.on('connection', function connection(wsClient, req) {
   wsClient.hasStreamStateAccess = false;
   // Determine if connection is a user, or API stream state access
   if (
+    req.headers &&
     req.headers['streamstate-auth'] &&
     req.headers['streamstate-auth'] === 'muKl4S80Yi3gQA2v8o2AOPgI8l'
   ) {
@@ -324,7 +325,7 @@ function initializeChannel(channelUrl) {
 function addChatUserToRequestedChannel(client, req) {
   formattedJsonLogger('INFO', 'addChatUserToRequestedChannel()');
 
-  // Add basic user info to connected client object
+  // Add basic user IP and info to connected client object
   client.assignedIp =
     req.headers['x-forwarded-for'] || client._socket.remoteAddress;
   client.id = shortid();

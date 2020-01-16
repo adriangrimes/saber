@@ -16,11 +16,6 @@ module.exports = function(environment) {
       // 'none' - no data, just timezone API
       includeTimezone: 'all'
     },
-    theme: {
-      // Add themes for ember-theme-changer
-      themes: ['default', 'dark'], // MANDATORY
-      defaultTheme: 'default' // OPTIONAL
-    },
     'ember-cli-lightbox': {
       lightboxOptions: {
         alwaysShowNavOnTouchDevices: false,

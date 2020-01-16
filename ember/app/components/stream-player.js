@@ -6,6 +6,9 @@ import config from '../config/environment';
 export default Component.extend({
   currentUser: service(),
 
+  videoPlayerTopPosition: 0,
+  videoPlayerHeight: 0,
+  scrollThrottleTime: 0,
   userPaused: false,
   // currentUserIsProfileOwner: false,
 
@@ -28,6 +31,25 @@ export default Component.extend({
     // Plyr
     this.initializeVideoPlayer();
 
+    // Sticky video player
+    this.set('videoPlayerTopPosition', $('#video-player-wrapper').offset().top);
+    this.set('videoPlayerHeight', $('#video-player-wrapper').height());
+    this.set('scrollThrottleTime', Date.now());
+    $(window).scroll(() => {
+      if (this.scrollThrottleTime + 30 - Date.now() < 0) {
+        if (
+          $(window).scrollTop() >= this.videoPlayerTopPosition &&
+          window.innerWidth <= 768
+        ) {
+          $('#video-player-wrapper').addClass('fixed-video');
+          $('#video-player-dummy').height(this.videoPlayerHeight);
+        } else {
+          $('#video-player-wrapper').removeClass('fixed-video');
+          $('#video-player-dummy').height(0);
+        }
+        this.set('scrollThrottleTime', Date.now());
+      }
+    });
   },
 
   isStreamingDidChange() {
@@ -194,6 +216,8 @@ export default Component.extend({
   },
 
   willDestroyElement() {
+    $(window).off('scroll');
+
     // dispose of video player
     if (this.hls) {
       this.get('hls').destroy();

@@ -37,7 +37,7 @@ export default Component.extend({
     },
 
     openChatUserMenu(event) {
-      var menuYPos = event.pageY - jQuery('#chat-panel').offset().top + 14;
+      var menuYPos = event.pageY - jQuery('#chat-body').offset().top + 14;
       jQuery('#chatUserMenu').css({ top: menuYPos });
       // Username of clicked name
       this.set('chatUserMenuUsername', event.srcElement.textContent);
