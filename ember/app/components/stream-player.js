@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { later } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import config from '../config/environment';
+import jQuery from 'jquery';
 
 export default Component.extend({
   currentUser: service(),
@@ -32,20 +33,23 @@ export default Component.extend({
     this.initializeVideoPlayer();
 
     // Sticky video player
-    this.set('videoPlayerTopPosition', $('#video-player-wrapper').offset().top);
-    this.set('videoPlayerHeight', $('#video-player-wrapper').height());
+    this.set(
+      'videoPlayerTopPosition',
+      jQuery('#video-player-wrapper').offset().top
+    );
+    this.set('videoPlayerHeight', jQuery('#video-player-wrapper').height());
     this.set('scrollThrottleTime', Date.now());
-    $(window).scroll(() => {
+    jQuery(window).scroll(() => {
       if (this.scrollThrottleTime + 30 - Date.now() < 0) {
         if (
-          $(window).scrollTop() >= this.videoPlayerTopPosition &&
+          jQuery(window).scrollTop() >= this.videoPlayerTopPosition &&
           window.innerWidth <= 768
         ) {
-          $('#video-player-wrapper').addClass('fixed-video');
-          $('#video-player-dummy').height(this.videoPlayerHeight);
+          jQuery('#video-player-wrapper').addClass('fixed-video');
+          jQuery('#video-player-dummy').height(this.videoPlayerHeight);
         } else {
-          $('#video-player-wrapper').removeClass('fixed-video');
-          $('#video-player-dummy').height(0);
+          jQuery('#video-player-wrapper').removeClass('fixed-video');
+          jQuery('#video-player-dummy').height(0);
         }
         this.set('scrollThrottleTime', Date.now());
       }
@@ -216,7 +220,7 @@ export default Component.extend({
   },
 
   willDestroyElement() {
-    $(window).off('scroll');
+    jQuery(window).off('scroll');
 
     // dispose of video player
     if (this.hls) {
