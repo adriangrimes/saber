@@ -28,6 +28,7 @@ export default Route.extend({
     // reset help route query parameters on route exit
     if (isExiting) {
       controller.set('show', null);
+      controller.set('for', null);
     }
   }
 });
