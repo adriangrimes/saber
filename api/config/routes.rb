@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   # Credit purchase and transfer data
   resources :credit_transfers
   resources :credit_purchases
+  # resources :payouts
   get '/transactions', to: 'transactions#index'
 
   resources :contractor_applications, only: %i[index create update]

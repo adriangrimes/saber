@@ -1,6 +1,13 @@
 class TransactionSerializer
   include FastJsonapi::ObjectSerializer
 
+  attributes :id,
+    :timestamp,
+    :transaction_type,
+    :details,
+    :credit_value,
+    :dollar_value
+
   # Use block form to serialize attributes when serializer doesn't have a model
   # to use.
   # attribute :id do |object| object.id end

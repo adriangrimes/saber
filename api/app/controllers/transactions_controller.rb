@@ -1,30 +1,20 @@
 class TransactionsController < ApplicationController
-  before_action :is_user_authorized?
+
+  #before_action :is_user_authorized?
+  # TODO enable authorization check
 
   def index
-    # transactions = ActiveRecord::Base.connection.execute(
-    #   "SELECT *
-    #     FROM credit_transfers
-    #   UNION
-    #   SELECT purchase_type, purchase_amount, payment_method, cleared, cancelled, credits_purchased, credits_remaining
-    #     FROM credit_purchases"
-    # )
-
-    @credit_transfers = CreditTransfer
-                        .where('to_user_id = ?', params[:id])
-                        .order('created_at DESC')
-    # .limit(10)
-    #
-    # puts @credit_transfers.inspect
-    # transactions = []
-    # @credit_transfers.each do |transfer|
-    #   transaction = OpenStruct.new
-    #   transaction.transaction_type = transfer.transfer_type
-    #   # transaction.type = transfer.transfer_type
-    #   transactions.push(transaction)
-    # end
-
-    render json: CreditTransferSerializer.new(@credit_transfers, { params: { transactions: true } }).serialized_json, status: :ok
+    transaction_data = Transaction
+      .get_transactions_for_user(params[:id], params[:page])
+    options = {}
+    options[:meta] = {
+      totalTransactions: transaction_data[:total_transactions],
+      totalPages: transaction_data[:total_pages],
+    }
+    render json: TransactionSerializer
+      .new(transaction_data[:transactions], options)
+      .serialized_json,
+     status: :ok
   end
 
   private

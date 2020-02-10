@@ -38,7 +38,6 @@
   <navbar.content >
     <navbar.nav @class="ml-auto p-2" as |nav|>
       {{#if session.isAuthenticated}}
-        {{#if this.currentUser.user.spendsCredits}}
           {{! Buy credits dropdown}}
           <nav.dropdown @closeOnMenuClick={{false}} as |dd|>
             {{dropdown-shim openDropdown=dd.openDropdown}}

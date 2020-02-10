@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_12_001736) do
+ActiveRecord::Schema.define(version: 2020_03_23_002307) do
 
   create_table "chat_tickets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -121,6 +121,23 @@ ActiveRecord::Schema.define(version: 2019_12_12_001736) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["short_title"], name: "index_help_topics_on_short_title"
+  end
+
+  create_table "payouts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "total_credits", null: false, unsigned: true
+    t.integer "total_amount_paid", null: false, unsigned: true
+    t.string "payment_method", null: false
+    t.string "transaction_id"
+    t.string "bitcoin_address"
+    t.text "street_address"
+    t.text "city"
+    t.text "region"
+    t.text "postal_code"
+    t.text "country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_payouts_on_user_id"
   end
 
   create_table "prerelease_emails", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -258,6 +275,7 @@ ActiveRecord::Schema.define(version: 2019_12_12_001736) do
   add_foreign_key "credit_purchases", "users"
   add_foreign_key "credit_transfers", "users", column: "from_user_id"
   add_foreign_key "credit_transfers", "users", column: "to_user_id"
+  add_foreign_key "payouts", "users"
   add_foreign_key "private_messages", "users", column: "from_user_id"
   add_foreign_key "private_messages", "users", column: "to_user_id"
   add_foreign_key "static_game_data", "users"

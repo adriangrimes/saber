@@ -17,47 +17,20 @@
   </div>
   <div class="row m-0">
     <div class="col-xs-12 col-md-8 ">
-      {{#if this.currentUser.user.isContracted}}
-        <div class="card mb-3">
-          <div class="card-heading">
-            <h3 class="card-title">
-              <img src="/credits.svg" class="" width="25rem">
-              &nbsp;Credit History
-            </h3>
-          </div>
-          <div class="card ">
-            <div class="card-body">
-              <input type="button" class="btn btn-primary" value="Show Credit History" {{action "getTransactions"}}>
-              {{#if transactions}}
-                <div class="pt-2">
-                  You have {{creditsEarned}} <img src="/credits.svg" class="" width="25rem">
-                </div>
-                <div class="table-responsive-md">
-                  <table class="table table-sm table-hover">
-                    <thead>
-                      <tr>
-                        <th scope="col">Date</th>
-                        <th scope="col">Credits</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Payout Percentage</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {{#each transactions as |transaction|}}
-                        <tr>
-                          <td>{{transaction.createdAt}}</td>
-                          <td class="text-right">{{transaction.creditsTransferred}}</td>
-                          <td>{{transaction.transferDescription}}</td>
-                          <td class="text-right">{{transaction.broadcasterPayoutPercentage}}%</td>
-                        </tr>
-                      {{/each}}
-                    </tbody>
-                  </table>
-                </div>
-              {{/if}}
-            </div>
+      <div class="card mb-3">
+        <div class="card-heading">
+          <h3 class="card-title">
+            <img src="/credits.svg" class="" width="25rem">
+            &nbsp;Credit History
+          </h3>
+        </div>
+        <div class="card ">
+          <div class="card-body">
+            {{transaction-list}}
           </div>
         </div>
+      </div>
+      {{#if this.currentUser.user.isContracted}}
 
         {{#if this.currentUser.user.broadcaster}}
           <div class="card mb-3 ">

@@ -1,0 +1,37 @@
+<input type="button" class="btn btn-primary" value="Show Credit History" {{action "getTransactions"}}>
+{{#if transactions}}
+  <div class="pt-2">
+    You have 0 <img src="/credits.svg" class="" width="25rem">
+  </div>
+  <div class="table-responsive-md">
+    <table class="table table-sm table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Type</th>
+          <th scope="col">Description</th>
+          <th scope="col" class="text-right">Credit Value</th>
+          <th scope="col" class="text-right">Dollar Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each transactions as |transaction|}}
+          <tr>
+            <td>{{ms-to-datetime transaction.timestamp}}</td>
+            <td class="text-right">{{transaction.transactionType}}</td>
+            <td>{{transaction.details}}</td>
+            <td class="text-right">{{transaction.creditValue}}</td>
+            <td class="text-right">{{transaction.dollarValue}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  {{simple-pagination
+    recordCount=totalTransactions
+    pageSize=10
+    pageNumber=currentPage
+    maxPagesInList=totalTransactionPages
+    onPageSelect=(action "getTransactionPage")
+  }}
+{{/if}}

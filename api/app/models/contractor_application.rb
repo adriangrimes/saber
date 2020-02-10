@@ -115,13 +115,13 @@ class ContractorApplication < ApplicationRecord
   end
 
   def submitting_application?
-    p "is user submitting_application? " + (pending_broadcaster_application || pending_developer_application || pending_affiliate_application).to_s
+    #p "is user submitting_application? " + (pending_broadcaster_application || pending_developer_application || pending_affiliate_application).to_s
     # Return a boolean if at least one application is pending
     pending_broadcaster_application || pending_developer_application || pending_affiliate_application
   end
 
   def submitting_broadcaster_application?
-    p "did user submit a broadcaster application? " + (pending_broadcaster_application_changed? && pending_broadcaster_application == true).to_s
+    #p "did user submit a broadcaster application? " + (pending_broadcaster_application_changed? && pending_broadcaster_application == true).to_s
     pending_broadcaster_application_changed? && pending_broadcaster_application == true
   end
 
@@ -139,7 +139,6 @@ class ContractorApplication < ApplicationRecord
 
   # If user has a pending application, do not let them modify the record
   def no_pending_application
-    p "no_pending_application"
     if self.pending_application_override != true
       if (pending_broadcaster_application && pending_broadcaster_application_in_database ) ||
         (pending_developer_application && pending_developer_application_in_database) ||
@@ -151,7 +150,6 @@ class ContractorApplication < ApplicationRecord
   end
 
   def not_undoing_application
-    p "not_undoing_application"
     if self.pending_application_override != true
       if (!pending_broadcaster_application && pending_broadcaster_application_in_database ) ||
         (!pending_developer_application && pending_developer_application_in_database) ||
@@ -173,7 +171,6 @@ class ContractorApplication < ApplicationRecord
   end
 
   def located_in_united_states?
-    p "lives in the US? " + (country&.downcase&.include?('united states')).to_s
     country&.downcase&.include?('united states')
   end
 

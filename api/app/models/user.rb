@@ -20,6 +20,7 @@ class User < ApplicationRecord
   has_many :user_verification_uploads, dependent: :delete_all
   has_many :credit_purchases
   has_many :credit_transfers
+  has_many :payouts
   has_many :private_messages
 
   # Attributes that will be encrypted with symmetric-encryption gem
@@ -60,12 +61,9 @@ class User < ApplicationRecord
   end
 
   def update_public_data_record
-    p "after commit"
-    p broadcaster
     if broadcaster_in_database
       user_public_datum = self.user_public_datum
       if user_public_datum.broadcaster != self.broadcaster
-        p "updating public record to reflect user broadcaster change"
         user_public_datum.update_attributes(:broadcaster => self.broadcaster)
       end
     end
@@ -90,7 +88,6 @@ class User < ApplicationRecord
   end
 
   def generate_stream_key
-    p "generating stream_key"
     self.stream_key = StreamKey.generate
   end
 

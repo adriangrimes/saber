@@ -681,22 +681,6 @@ export default Controller.extend({
       } else {
         this.notify.error('The password fields must match.');
       }
-    },
-
-    getTransactions() {
-      console.log('getting transactions');
-      this.store
-        .query('transaction', {
-          id: this.session.data.authenticated.user_id
-        })
-        .then(transactions => {
-          console.log(transactions);
-          this.set('transactions', transactions);
-        })
-        .catch(err => {
-          console.log('error getting transactions:', err);
-          this.errorHandler.handleWithNotification(err);
-        });
     }
   }
 });

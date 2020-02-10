@@ -37,7 +37,12 @@ help_topics = [
       {
         section_title: 'How do I become a Developer?',
         section_body:
-        'Visit <a href="/signup/developer">Saber.tv/signup/developer</a> to become a developer.'
+        'Coming Soon!'
+      },
+      {
+        section_title: 'How do I become an Affiliate?',
+        section_body:
+        'Coming Soon!'
       },
     ]
   },
@@ -58,20 +63,8 @@ help_topics = [
       {
         section_title: 'Payout Requirments',
         section_body:
-        'Payments will be processed for all contractors who have earned more then the minimum of $20. If you earn less than $20 during a pay period the amount you have earned will carry over to the next pay period. '
-      },
-      {
-        section_title: 'Payout Methods',
-        section_body: 'We currently support the following methods for payouts: Mailed Check, Bitcoin
-        <br>You can change or update your payout method in your <a href="/account">Account Settings</a>.'
-      },
-      {
-        section_title: 'How much is a Credit worth?',
-        section_body: 'Each credit costs the user between XXX and XXX. <br>
-        Broadcasters will receive 50%, XXX per credit they receive.<br>
-        Developers will receive 5%, XXX per credit spent on their games.<br>
-        Affiliates will receive 5%, XXX per credit purchased from their affiliate link.<br>
-        By default all contractors will receive a monthly payment of their earnings.'
+        'Payments will be processed for all contractors who have earned more then the minimum of $20.
+        <br>If you earn less than $20 during a pay period the amount you have earned will carry over to the next pay period. '
       }
     ]
   },
@@ -85,12 +78,41 @@ help_topics = [
 
     help_sections: [
       {
-        section_title: 'How much can I earn?',
-        section_body: ' Earn XX% from every credit spent with you.'
+        section_title: 'Can I stream with RTMP?',
+        section_body: 'Yes! You will need RTMP streaming software such as <a href="https://obsproject.com/">OBS</a>.
+        <br>Configuring OBS:
+        <br>Open the Settings menu, and then the Stream tab. Set the service to "Custom" and then enter your private stream key and our stream server.
+        <br>You can find your private stream key and server on your <a href="/account">Account Settings</a> page.
+        <br>
+        <br>Starting your stream:
+        <br>To enter your chat room open your Saber.tv profile by clicking "Public Profile" in your  <a href="/account">Account Settings</a> page.
+        <br>When you are ready to start your stream click "Start Streaming" in your RTMP software. It will take about 30 seconds for your stream to appear to the public, when you can see it on your profile it is available to everyone.
+        <br>Once your stream is connected you will appear as "Online" on our homepage.
+        <br>
+        <br>Stopping your stream:
+        <br>When you are done streaming, click "Stop Streaming" on your RTMP Software.
+        <br>Once your stream is disconnected you will no longer appear as "Online".
+        <br>To leave your chat room, close your Saber.tv profile or log out of Saber.tv.'
+      }
+    ]
+  },
+  {
+    short_title: 'affiliateHelp',
+    title: 'Affiliate Program',
+    all_users: false,
+    contractors_only: true,
+    broadcasters_only: false,
+    developers_only: false,
+
+    help_sections: [
+      {
+        section_title: 'Affiliate Rules',
+        section_body: 'Do Not repeatedly spam your referral links, or share them in communities where such advertising is not welcome.'
       },
       {
-        section_title: 'Can I stream with RTMP?',
-        section_body: 'Yes!'
+        section_title: 'How do I become an affiliate?',
+        section_body: 'Visit <a href="/signup/affiliate">Saber.tv/signup/affiliate</a> to create a affiliate account.<br>
+        If you are already a Broadcaster or Developer, congratulations! You are already an affiliate.'
       }
     ]
   },
@@ -104,12 +126,9 @@ help_topics = [
 
     help_sections: [
       {
-        section_title: 'How much can I earn?',
-        section_body: 'Earn XX% of the entry fee every time your game is played on Saber.tv'
-      },
-      {
         section_title: 'Game Requirments',
-        section_body: 'We currently only accept HTML5 Games.'
+        section_body: 'We currently only accept HTML5 Games.
+        <br> All games are subject to approval by site administrators. We reserve the right to remove any game for any reason.'
       },
       {
         section_title: 'API Documentation',
@@ -145,6 +164,7 @@ help_topics.each do |help_topic|
   end
   topic_to_save.save!
 end
+p "Created help"
 
 if Rails.env.production? == false
   include FakeUsernames # api/lib/fake_usernames.rb
@@ -160,18 +180,18 @@ if Rails.env.production? == false
     'Raiding', 'Ranked', 'Casual']
 
   fake_online_statuses = [true, false]
-  payout_methods = ["check", "bitcoin"]
+  payout_methods = ["paypal", "check", "bitcoin"]
 
   # Set how many of each user type to seed
-  test_user_count = 5
-  test_broadcaster_count = 30
+  test_user_count = 50
+  test_broadcaster_count = 5
   test_developer_count = 5
   test_affiliate_count = 5
 
   # User for testing database defaults
   # Email, username, password, and a user_public_datum record are the minimum
   # required to save a user
-  p "========================================="
+  p "Empty users"
   emptyuser = User.new(
     email: "emptyuser@email.com",
     username: "EmptyUser",
@@ -185,7 +205,7 @@ if Rails.env.production? == false
   emptyuser.save!
 
   # BroadcasterTester1
-  p "BroadcasterTester1 ========================================="
+  p "BroadcasterTester1"
   broadcaster1 = User.new(
     email: "broadcastertester1@email.com",
     username: "BroadcasterTester1",
@@ -196,7 +216,6 @@ if Rails.env.production? == false
   )
   broadcaster1.skip_confirmation!
   tags = fake_tag_array.sample(rand(0..3))
-  puts tags.inspect
   broadcaster1.build_user_public_datum(
     username: broadcaster1.username,
     broadcaster: broadcaster1.broadcaster,
@@ -251,7 +270,7 @@ if Rails.env.production? == false
   # Users used to check that password encryption is working correctly when
   # two users have the same password
   2.times do |j|
-    p "========================================="
+    p "SamePass"
     samepass = User.new(
       email: "samepass#{j + 1}@email.com",
       username: "SamePass#{j + 1}",
@@ -268,12 +287,16 @@ if Rails.env.production? == false
   ###########################################
   # Test users
   p "========================================="
+  credit_purchase_amount = 200
+  tip_amount = 100
+  broadcaster_payout_amount = ((tip_amount * test_user_count) * broadcaster1.contractor_application.broadcaster_percentage ) / 10
+
   test_user_count.times do |i|
     testuser = User.new(
       email: "usertester#{i + 1}@email.com",
       username: "UserTester#{i + 1}",
       password: "12345678",
-      dark_mode: true,
+      dark_mode: false,
       send_email_followed_online: [true, false].sample
     )
     testuser.skip_confirmation!
@@ -282,12 +305,42 @@ if Rails.env.production? == false
       broadcaster: false
     )
     testuser.save!
+    testuser.credit_purchases.create(
+      user_id: testuser.id,
+      purchase_type: 'purchase',
+      purchase_amount: credit_purchase_amount / 10,
+      payment_method: 'paypal',
+      cleared: true,
+      credits_purchased: credit_purchase_amount,
+      credits_remaining: credit_purchase_amount - tip_amount
+    )
+    testuser.save!
+    CreditTransfer.create(
+      from_user: testuser,
+      to_user: broadcaster1,
+      credits_transferred: tip_amount,
+      transfer_type: 'tip',
+      transfer_description: broadcaster1.username,
+      broadcaster_payout_percentage: broadcaster1.contractor_application.broadcaster_percentage
+    ).save!
+
+    p "Created user: " + testuser.username
   end
+
+  # Seed payout to BroadcasterTester1
+  broadcaster1.payouts.create(
+    user_id: broadcaster1.id,
+    total_credits: tip_amount * test_user_count,
+    total_amount_paid: broadcaster_payout_amount,
+    payment_method: "check",
+    street_address: broadcaster1.contractor_application.street_address
+  )
+  broadcaster1.save!
 
   ###########################################
   # Test broadcasters
+  p "========================================="
   test_broadcaster_count.times do |i|
-    p "test broadcaster ========================================="
     i += 1
     testbroadcaster = User.new(
       email: "broadcastertester#{i + 1}@email.com",
@@ -298,11 +351,9 @@ if Rails.env.production? == false
       stream_key: StreamKey.generate()
     )
     testbroadcaster.is_being_seeded = true
-    p "about to skip confirmation"
     testbroadcaster.skip_confirmation!
     onlinestatus = fake_online_statuses.sample # ~X% of users as online
     tags = fake_tag_array.sample(rand(0..3))
-    puts tags.inspect
     game_id = 0
     if onlinestatus
       game_id = rand(1..10)
@@ -360,12 +411,13 @@ if Rails.env.production? == false
     testbroadcaster.contractor_application.save!
     testbroadcaster.make_broadcaster
     testbroadcaster.save!
+    p "Created broadcaster: " + testbroadcaster.username
   end
 
   ###########################################
   # Test developers
+  p "========================================="
   test_developer_count.times do |i|
-    p "========================================="
     testdeveloper = User.new(
       email: "developertester#{i + 1}@email.com",
       username: "DeveloperTester#{i + 1}",
@@ -398,12 +450,13 @@ if Rails.env.production? == false
     testdeveloper.contractor_application.save!
     testdeveloper.make_developer
     testdeveloper.save!
+    p "Created developer: " + testdeveloper.username
   end
 
   ###########################################
   # Test affiliates
+  p "========================================="
   test_affiliate_count.times do |i|
-    p "========================================="
     testaffiliate = User.new(
       email: "affiliatetester#{i + 1}@email.com",
       username: "AffiliateTester#{i + 1}",
@@ -435,6 +488,7 @@ if Rails.env.production? == false
     testaffiliate.contractor_application.save!
     testaffiliate.make_affiliate
     testaffiliate.save!
+    p "Created affiliate: " + testaffiliate.username
   end
 
 end
