@@ -11,6 +11,7 @@ class Transaction
       page = page.to_i
       per_page = 10
 
+      user = User.where('id = ?', user_id).first
       purchases = CreditPurchase
         .where('user_id = ?', user_id)
       credit_transfers = CreditTransfer
@@ -43,6 +44,7 @@ class Transaction
         transactions.push(transaction)
       end
 
+      total_credits_made = 0
       credit_transfers.each do |transfer|
         transaction = Transaction.new
         transaction.transaction_type = 'transfer'
@@ -54,9 +56,13 @@ class Transaction
           to_user: transfer.to_user.username
         }
         transaction.credit_value = transfer.credits_transferred
+        if transfer.to_user_id = user_id
+          total_credits_made += transfer.credits_transferred
+        end
         transactions.push(transaction)
       end
 
+      total_amount_already_paid = 0
       payouts.each do |payout|
         transaction = Transaction.new
         transaction.transaction_type = 'payout'
@@ -67,6 +73,7 @@ class Transaction
         transaction.details[:bitcoin_address] = payout.bitcoin_address.last(5) if payout.bitcoin_address
         transaction.credit_value = payout.total_credits
         transaction.dollar_value = payout.total_amount_paid
+        total_amount_already_paid += payout.total_credits
         transactions.push(transaction)
       end
 
@@ -79,10 +86,17 @@ class Transaction
       total_pages = (transactions.length.to_d / per_page.to_d).to_d.ceil
       page = total_pages if page > total_pages
       page = 1 if page.to_i < 1
-      return {
+      transaction_data = {
         transactions: transactions.paginate(:page => page, :per_page => per_page),
         total_transactions: transactions.length,
         total_pages: total_pages
       }
+      if user.broadcaster
+        if total_credits_made >= total_amount_already_paid
+          transaction_data[:remaining_credits_to_payout] =
+            total_credits_made - total_amount_already_paid
+        end
+      end
+      return transaction_data
     end
 end

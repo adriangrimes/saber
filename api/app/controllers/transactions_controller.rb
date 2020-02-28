@@ -10,6 +10,7 @@ class TransactionsController < ApplicationController
     options[:meta] = {
       totalTransactions: transaction_data[:total_transactions],
       totalPages: transaction_data[:total_pages],
+      remainingCreditsToPayout: transaction_data[:remaining_credits_to_payout]      
     }
     render json: TransactionSerializer
       .new(transaction_data[:transactions], options)

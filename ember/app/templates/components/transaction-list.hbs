@@ -1,8 +1,13 @@
-<input type="button" class="btn btn-primary" value="Show Credit History" {{action "getTransactions"}}>
+<input type="button" class="btn btn-primary" value="Show Credit History" {{action "getTransactionPage" 1}}>
 {{#if transactions}}
   <div class="pt-2">
-    You have 0 <img src="/credits.svg" class="" width="25rem">
+    You have {{this.currentUser.user.creditsRemaining}} <img src="/credits.svg" class="" width="25rem">
   </div>
+  {{#if this.currentUser.user.broadcaster}}
+    <div class="pt-2">
+      {{remainingCreditsToPayout}} <img src="/credits.svg" class="" width="25rem"> waiting to be paid out
+    </div>
+  {{/if}}
   <div class="table-responsive-md">
     <table class="table table-sm table-hover">
       <thead>
@@ -10,18 +15,18 @@
           <th scope="col">Date</th>
           <th scope="col">Type</th>
           <th scope="col">Description</th>
-          <th scope="col" class="text-right">Credit Value</th>
+          <th scope="col" class="text-right">Credits <img src="/credits.svg" class="" width="25rem"></th>
           <th scope="col" class="text-right">Dollar Value</th>
         </tr>
       </thead>
       <tbody>
         {{#each transactions as |transaction|}}
           <tr>
-            <td>{{ms-to-datetime transaction.timestamp}}</td>
+            <td>{{if transaction.timestamp (ms-to-datetime transaction.timestamp) ""}}</td>
             <td class="text-right">{{transaction.transactionType}}</td>
             <td>{{transaction.details}}</td>
             <td class="text-right">{{transaction.creditValue}}</td>
-            <td class="text-right">{{transaction.dollarValue}}</td>
+            <td class="text-right">{{format-currency transaction.dollarValue}}</td>
           </tr>
         {{/each}}
       </tbody>

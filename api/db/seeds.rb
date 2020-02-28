@@ -1,5 +1,6 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
+SymmetricEncryption.load!
 
 help_topics = [
   {
@@ -166,10 +167,24 @@ help_topics.each do |help_topic|
 end
 p "Created help"
 
+admin_user = User.new(
+  id: 192837,
+  email: "user@gmail.com",
+  username: "SaberAdmin",
+  password: "87654321",
+  admin_status: true
+)
+admin_user.skip_confirmation!
+admin_user.build_user_public_datum(
+  username: admin_user.username,
+  broadcaster: false
+)
+admin_user.save!
+p "Created admin user"
+
 if Rails.env.production? == false
   include FakeUsernames # api/lib/fake_usernames.rb
   include StreamKey
-  SymmetricEncryption.load!
   verification_uploader = VerificationUploader.new(:store)
 
   fake_usernames = FakeUsernames.usernames
@@ -289,7 +304,7 @@ if Rails.env.production? == false
   p "========================================="
   credit_purchase_amount = 200
   tip_amount = 100
-  broadcaster_payout_amount = ((tip_amount * test_user_count) * broadcaster1.contractor_application.broadcaster_percentage ) / 10
+  broadcaster_payout_amount = ((tip_amount * test_user_count) * (broadcaster1.contractor_application.broadcaster_percentage.to_d / 100.0).to_d).to_d / 10.to_d
 
   test_user_count.times do |i|
     testuser = User.new(

@@ -6,7 +6,7 @@ class ApplicationController < ActionController::API
   include ErrorSerializer
 
   def token_is_authorized_for_id?(user_id)
-    p ">>> token_is_authorized_for_id? called"
+    p ">>> token_is_authorized_for_id? called for " + user_id.to_s
     user_id = user_id.to_i
     @authenticated_user = nil
     # Extract token from Authentication header

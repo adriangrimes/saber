@@ -16,6 +16,7 @@ module.exports = {
     moment: true,
     grecaptcha: true,
     Plyr: true,
-    Hls: true
+    Hls: true,
+    Promise: false
   }
 };

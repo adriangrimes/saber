@@ -126,7 +126,7 @@ ActiveRecord::Schema.define(version: 2020_03_23_002307) do
   create_table "payouts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "total_credits", null: false, unsigned: true
-    t.integer "total_amount_paid", null: false, unsigned: true
+    t.decimal "total_amount_paid", precision: 10, scale: 2, null: false, unsigned: true
     t.string "payment_method", null: false
     t.string "transaction_id"
     t.string "bitcoin_address"
