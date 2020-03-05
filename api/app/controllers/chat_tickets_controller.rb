@@ -50,29 +50,15 @@ class ChatTicketsController < ApplicationController
     end
   end
 
-  # GET /chat_tickets/1
-  def show
-    render status :not_found
-  end
-
-  # PATCH/PUT /chat_tickets/1
-  def update
-    render status :not_found
-  end
-
-  # DELETE /chat_tickets/1
-  def destroy
-    render status :not_found
-  end
-
   private
 
-  def is_user_authorized?
-    if token_is_authorized_for_id?(params[:id])
-      return true
-    else
-      clean_up_and_render_unauthorized
-      return false
+    def is_user_authorized?
+      if token_is_authorized_for_id?(params[:id])
+        return true
+      else
+        clean_up_and_render_unauthorized
+        return false
+      end
     end
-  end
+
 end

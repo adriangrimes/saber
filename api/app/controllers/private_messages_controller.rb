@@ -26,6 +26,8 @@ class PrivateMessagesController < ApplicationController
 
         @private_messages = @private_messages.sort_by(&:created_at)
 
+        # Collect usernames to pass to the serializer, so that it doesn't query
+        # for each users username individually
         usernames = {}
         @private_messages.each do |message|
           if usernames[message.to_user_id].blank?
@@ -40,6 +42,8 @@ class PrivateMessagesController < ApplicationController
           .new(@private_messages, params: { user_id: user_id, usernames: usernames })
           .serialized_json
 
+        # Mark messages that were pulled as read, since they have appeared on
+        # the users screen
         @private_messages.each do |message|
           if message.from_user_id != user_id && message.message_read != true
             message.message_read = true
@@ -95,10 +99,9 @@ class PrivateMessagesController < ApplicationController
       ActiveRecord::Associations::Preloader.new.preload(
         private_messages_for_conversations, [:to_user, :from_user]
       )
-      sanitized_where =
-        PrivateMessage.sanitize_sql_for_assignment(
-          'pm.to_user_id = ' + user_id.to_s + ' AND pm.message_read = false'
-        )
+      sanitized_where = PrivateMessage.sanitize_sql_for_assignment(
+        'pm.to_user_id = ' + user_id.to_s + ' AND pm.message_read = false'
+      )
       users_with_unread = ActiveRecord::Base.connection.exec_query(
         'SELECT pm.to_user_id, pm.from_user_id, COUNT(pm.message_read) AS unread_count
         FROM private_messages AS pm
@@ -106,6 +109,7 @@ class PrivateMessagesController < ApplicationController
         GROUP BY pm.from_user_id'
       )
 
+      # Build a hash with user ID as the key, and their username as the value
       conversation_hash_array = {}
       private_messages_for_conversations.each do |message|
         if message.to_user_id != user_id
@@ -121,6 +125,8 @@ class PrivateMessagesController < ApplicationController
         end
       end
 
+      # Use the hash of conversations and create an array of Conversations
+      # with the unread message count added
       conversations = []
       conversation_hash_array.each_with_index do |conversation, index|
         unread_count = 0
@@ -129,14 +135,13 @@ class PrivateMessagesController < ApplicationController
             unread_count = row['unread_count']
           end
         end
-        conversations
-          .push(
-            Conversation.new({
-              id: index + 1,
-              username: conversation[1][:username],
-              unread: unread_count
-            })
-          )
+        conversations.push(
+          Conversation.new({
+            id: index + 1,
+            username: conversation[1][:username],
+            unread: unread_count
+          })
+        )
       end
 
       render json: ConversationSerializer
@@ -146,21 +151,6 @@ class PrivateMessagesController < ApplicationController
     else
       render status: :not_found
     end
-  end
-
-  # GET /private_messages/1
-  def show
-    render status: :not_found
-  end
-
-  # PATCH/PUT /private_messages/1
-  def update
-    render status: :not_found
-  end
-
-  # DELETE /private_messages/1
-  def destroy
-    render status: :not_found
   end
 
   private
@@ -173,4 +163,5 @@ class PrivateMessagesController < ApplicationController
                     :to_user_id,
                     :message)
     end
+
 end

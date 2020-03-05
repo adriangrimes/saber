@@ -1,4 +1,5 @@
 class UserPublicDatum < ApplicationRecord
+  
   belongs_to :user
 
   serialize :user_custom_tags, Array
@@ -25,4 +26,5 @@ class UserPublicDatum < ApplicationRecord
       end
     end
   end
+
 end

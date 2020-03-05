@@ -1,7 +1,7 @@
 class UserVerificationUploadsController < ApplicationController
 
-  before_action :verification_upload_params, only: %i[create update]
   before_action :is_user_authorized?
+  before_action :verification_upload_params, only: %i[create update]
 
   def index
     verification_uploads = UserVerificationUpload
@@ -63,21 +63,21 @@ class UserVerificationUploadsController < ApplicationController
 
   private
 
-  def is_user_authorized?
-    if get_user_id_from_token > 0
-      return true
-    else
-      clean_up_and_render_not_found
-      return false
+    def is_user_authorized?
+      if get_user_id_from_token > 0
+        return true
+      else
+        clean_up_and_render_not_found
+        return false
+      end
     end
-  end
 
-  # Only allow a trusted parameter "white list" through.
-  def verification_upload_params
-    params.require(:data)
-          .require(:attributes)
-          .permit(:user_id,
-                  :upload_data_json)
-  end
+    # Only allow a trusted parameter "white list" through.
+    def verification_upload_params
+      params.require(:data)
+            .require(:attributes)
+            .permit(:user_id,
+                    :upload_data_json)
+    end
 
 end

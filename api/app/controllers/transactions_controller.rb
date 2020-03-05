@@ -3,8 +3,7 @@ class TransactionsController < ApplicationController
   before_action :is_user_authorized?
 
   def index
-    transaction_data = Transaction
-      .get_transactions_for_user(params[:id], params[:page])
+    transaction_data = Transaction.get_transactions_for_user(params[:id], params[:page])
     options = {}
     options[:meta] = {
       totalTransactions: transaction_data[:total_transactions],

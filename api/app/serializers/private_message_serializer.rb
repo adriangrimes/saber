@@ -2,6 +2,8 @@ class PrivateMessageSerializer
   include FastJsonapi::ObjectSerializer
 
   attribute :id
+  # If a username hash was passed, pull usernames from it. Otherwise, query for
+  # the username
   attribute :from_user do |private_message, params|
     if params[:usernames]
       params[:usernames][private_message.from_user_id]
@@ -18,6 +20,7 @@ class PrivateMessageSerializer
   end
   attribute :message
   attribute :message_read do |private_message, params|
+    # Set messages that the user sent as read regardless of the state
     if params[:user_id] == private_message.from_user_id
       true
     else

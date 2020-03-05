@@ -1,17 +1,5 @@
 class PrereleaseEmailsController < ApplicationController
 
-  # GET /prerelease_emails
-  def index
-    # @prerelease_emails = PrereleaseEmail.all
-    #
-    # render json: @prerelease_emails
-  end
-
-  # GET /prerelease_emails/1
-  def show
-    # render json: @prerelease_email
-  end
-
   # POST /prerelease_emails
   def create
     already_present = PrereleaseEmail.find_by(email: prerelease_email_params[:email])
@@ -28,20 +16,6 @@ class PrereleaseEmailsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /prerelease_emails/1
-  def update
-    # if @prerelease_email.update(prerelease_email_params)
-    #   render json: @prerelease_email
-    # else
-    #   render json: @prerelease_email.errors, status: :unprocessable_entity
-    # end
-  end
-
-  # DELETE /prerelease_emails/1
-  def destroy
-    # @prerelease_email.destroy
-  end
-
   private
 
     # Only allow a trusted parameter "white list" through.
@@ -50,5 +24,5 @@ class PrereleaseEmailsController < ApplicationController
             .require(:attributes)
             .permit(:email)
     end
-    
+
 end

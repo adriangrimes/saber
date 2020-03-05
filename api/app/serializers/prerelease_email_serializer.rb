@@ -1,4 +1,5 @@
 class PrereleaseEmailSerializer
   include FastJsonapi::ObjectSerializer
-  attributes 
+  
+  attributes
 end

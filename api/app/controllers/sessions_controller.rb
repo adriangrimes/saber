@@ -38,23 +38,4 @@ class SessionsController < Devise::SessionsController
     end
   end
 
-  def new
-    clean_up_and_render_not_found
-  end
-
-  def index
-    clean_up_and_render_not_found
-  end
-
-  def show
-    clean_up_and_render_not_found
-  end
-
-  def update
-    clean_up_and_render_not_found
-  end
-
-  def destroy
-    clean_up_and_render_not_found
-  end
 end

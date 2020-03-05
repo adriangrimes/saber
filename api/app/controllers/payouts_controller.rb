@@ -1,42 +1,28 @@
 class PayoutsController < ApplicationController
   before_action :set_payout, only: [:show, :update, :destroy]
 
-  # GET /payouts
-  def index
-    @payouts = Payout.all
+  # # GET /payouts
+  # def index
+  #   @payouts = Payout.all
+  #
+  #   render json: @payouts
+  # end
+  #
+  # # GET /payouts/1
+  # def show
+  #   render json: @payout
+  # end
 
-    render json: @payouts
-  end
-
-  # GET /payouts/1
-  def show
-    render json: @payout
-  end
-
-  # POST /payouts
-  def create
-    @payout = Payout.new(payout_params)
-
-    if @payout.save
-      render json: @payout, status: :created, location: @payout
-    else
-      render json: @payout.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /payouts/1
-  def update
-    if @payout.update(payout_params)
-      render json: @payout
-    else
-      render json: @payout.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /payouts/1
-  def destroy
-    @payout.destroy
-  end
+  # # POST /payouts
+  # def create
+  #   @payout = Payout.new(payout_params)
+  #
+  #   if @payout.save
+  #     render json: @payout, status: :created, location: @payout
+  #   else
+  #     render json: @payout.errors, status: :unprocessable_entity
+  #   end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.

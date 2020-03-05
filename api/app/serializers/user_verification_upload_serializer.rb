@@ -4,6 +4,7 @@ class UserVerificationUploadSerializer
   include FastJsonapi::ObjectSerializer
 
   attribute :file_url do |record|
+    # If the upload was verified, don't display it for privacy
     if record.verified
       nil
     else

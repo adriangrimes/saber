@@ -117,6 +117,7 @@ class User < ApplicationRecord
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
+  # Tells NGINX to drop the RTMP stream for the users previous stream key
   def send_drop_stream
     unless self.is_being_seeded || Rails.env.development?
       params = {
@@ -132,9 +133,9 @@ class User < ApplicationRecord
     end
   end
 
+  # Suspend account if user submitted an account deletion request (by submitting
+  # a datetime in the pending_deletion_since attribute)
   def suspend_account
-    # Suspend account if user submitted an account deletion request (by submitting
-    # a datetime in the pending_deletion_since attribute)
     if pending_deletion_since
       # Overwrite the value sent by the client with our server time
       self.pending_deletion_since = DateTime.now
@@ -171,4 +172,5 @@ class User < ApplicationRecord
     def regenerate_authentication_token
       self.authentication_token = generate_authentication_token
     end
+    
 end

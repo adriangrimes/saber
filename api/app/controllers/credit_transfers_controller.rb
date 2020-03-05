@@ -10,91 +10,72 @@ class CreditTransfersController < ApplicationController
       @credit_transfer.transfer_type == 'tip'
 
       sender = User.find(@credit_transfer.from_user_id)
-        sender_credit_purchases = CreditPurchase
-                                  .where('user_id = ?', sender.id)
-                                  .where('cleared = true')
-                                  .where('cancelled = false')
-                                  .where('credits_remaining > 0')
-                                  .order('created_at ASC')
-        sender_credits_remaining = sender_credit_purchases.sum(:credits_remaining) * 1
-        if sender_credits_remaining >= @credit_transfer.credits_transferred
-          credits_left_to_transfer = @credit_transfer.credits_transferred
-          sender_credit_purchases.each do |purchase|
-            if purchase.credits_remaining >= credits_left_to_transfer
-              purchase.credits_remaining -= credits_left_to_transfer
-              purchase.save
-              credits_left_to_transfer = 0
-              break
-            else
-              credits_left_to_transfer -= purchase.credits_remaining
-              purchase.credits_remaining = 0
-              purchase.save
-            end
-          end
-
-          if credits_left_to_transfer == 0
-            receiver = User.find(@credit_transfer.to_user_id)
-            @credit_transfer.transfer_description =
-              "#{sender.username} tipped #{@credit_transfer.credits_transferred} credits to #{receiver.username}"
-            @credit_transfer.broadcaster_payout_percentage =
-              receiver.contractor_application.broadcaster_percentage
-
-            if @credit_transfer.save
-              render json: CreditTransferSerializer.new(@credit_transfer),
-                status: :created
-            else
-              render json: ErrorSerializer.serialize(@credit_transfer.errors),
-                status: :unprocessable_entity
-            end
+      sender_credit_purchases = CreditPurchase
+                                .where('user_id = ?', sender.id)
+                                .where('cleared = true')
+                                .where('cancelled = false')
+                                .where('credits_remaining > 0')
+                                .order('created_at ASC')
+      sender_credits_remaining = sender_credit_purchases.sum(:credits_remaining) * 1
+      if sender_credits_remaining >= @credit_transfer.credits_transferred
+        credits_left_to_transfer = @credit_transfer.credits_transferred
+        sender_credit_purchases.each do |purchase|
+          if purchase.credits_remaining >= credits_left_to_transfer
+            purchase.credits_remaining -= credits_left_to_transfer
+            purchase.save
+            credits_left_to_transfer = 0
+            break
           else
-            render status: :internal_server_error
+            credits_left_to_transfer -= purchase.credits_remaining
+            purchase.credits_remaining = 0
+            purchase.save
+          end
+        end
+
+        if credits_left_to_transfer == 0
+          receiver = User.find(@credit_transfer.to_user_id)
+          @credit_transfer.transfer_description =
+            "#{sender.username} tipped #{@credit_transfer.credits_transferred} credits to #{receiver.username}"
+          @credit_transfer.broadcaster_payout_percentage =
+            receiver.contractor_application.broadcaster_percentage
+
+          if @credit_transfer.save
+            render json: CreditTransferSerializer.new(@credit_transfer),
+              status: :created
+          else
+            render json: ErrorSerializer.serialize(@credit_transfer.errors),
+              status: :unprocessable_entity
           end
         else
-          render json: { errors: "Not enough credits" }, status: :unprocessable_entity
+          render status: :internal_server_error
         end
+      else
+        render json: { errors: "Not enough credits" }, status: :unprocessable_entity
+      end
     else
       render json: { errors: "You cannot tip yourself" }, status: :unprocessable_entity
     end
   end
 
-  # GET /credit_transfers
-  def index
-    render status: :not_found
-  end
-
-  # GET /credit_transfers/1
-  def show
-    render status: :not_found
-  end
-
-  # PATCH/PUT /credit_transfers/1
-  def update
-    render status: :not_found
-  end
-
-  # DELETE /credit_transfers/1
-  def destroy
-    render status: :not_found
-  end
-
   private
 
-  def is_user_authorized?
-    if token_is_authorized_for_id?(params[:data][:attributes][:from_user_id])
-      return true
-    else
-      clean_up_and_render_not_found
-      return false
+    def is_user_authorized?
+      if token_is_authorized_for_id?(params[:data][:attributes][:from_user_id])
+        return true
+      else
+        clean_up_and_render_not_found
+        return false
+      end
     end
-  end
 
-  # Only allow a trusted parameter "white list" through.
-  def credit_transfer_params
-    params.require(:data)
-          .require(:attributes)
-          .permit(:from_user_id,
-                  :to_user_id,
-                  :credits_transferred,
-                  :transfer_type)
-  end
+    # Only allow a trusted parameter "white list" through.
+    def credit_transfer_params
+      params.require(:data)
+            .require(:attributes)
+            .permit(:from_user_id,
+                    :to_user_id,
+                    :credits_transferred,
+                    :transfer_type)
+    end
+
 end
