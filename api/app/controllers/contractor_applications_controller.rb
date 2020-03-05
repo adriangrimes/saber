@@ -47,7 +47,6 @@ class ContractorApplicationsController < ApplicationController
               .serialized_json,
             status: :ok
         else
-          p app.errors
           render json: ErrorSerializer.serialize(app.errors),
             status: :unprocessable_entity
         end

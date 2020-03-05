@@ -68,6 +68,5 @@ class CreditPurchasesController < ApplicationController
           .require(:attributes)
           .permit(:user_id,
                   :credits_purchased)
-    # params.fetch(:credit_purchase, {})
   end
 end

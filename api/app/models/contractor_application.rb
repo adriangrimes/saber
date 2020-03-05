@@ -115,13 +115,11 @@ class ContractorApplication < ApplicationRecord
   end
 
   def submitting_application?
-    #p "is user submitting_application? " + (pending_broadcaster_application || pending_developer_application || pending_affiliate_application).to_s
     # Return a boolean if at least one application is pending
     pending_broadcaster_application || pending_developer_application || pending_affiliate_application
   end
 
   def submitting_broadcaster_application?
-    #p "did user submit a broadcaster application? " + (pending_broadcaster_application_changed? && pending_broadcaster_application == true).to_s
     pending_broadcaster_application_changed? && pending_broadcaster_application == true
   end
 
@@ -143,7 +141,6 @@ class ContractorApplication < ApplicationRecord
       if (pending_broadcaster_application && pending_broadcaster_application_in_database ) ||
         (pending_developer_application && pending_developer_application_in_database) ||
         (pending_affiliate_application && pending_affiliate_application_in_database)
-          p self.changed_attributes
           errors.add(:base, "Sorry, you can't modify your application while it is pending approval. Contact us below if there is an issue.")
       end
     end
@@ -154,7 +151,6 @@ class ContractorApplication < ApplicationRecord
       if (!pending_broadcaster_application && pending_broadcaster_application_in_database ) ||
         (!pending_developer_application && pending_developer_application_in_database) ||
         (!pending_affiliate_application && pending_affiliate_application_in_database)
-          p self.changed_attributes
           errors.add(:base, "Sorry, you can't modify your application while it is pending approval. Contact us below if there is an issue.")
       end
     end
@@ -183,7 +179,6 @@ class ContractorApplication < ApplicationRecord
         message: "Please enter a valid SSN, EIN, or ITIN, including dashes")
     end
     if business_identification_number && business_identification_number.include?('*')
-      p "found obfuscated BIN, reverting to original value"
       self.business_identification_number = business_identification_number_in_database
     end
   end

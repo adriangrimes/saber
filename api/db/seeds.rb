@@ -145,9 +145,7 @@ help_topics = [
       }
     ]
   }
-
 ]
-
 help_topics.each do |help_topic|
   topic_to_save = HelpTopic.new(
     short_title: help_topic[:short_title],
@@ -235,7 +233,7 @@ if Rails.env.production? == false
     username: broadcaster1.username,
     broadcaster: broadcaster1.broadcaster,
     online_status: false,
-    channel_topic: "Channel topic for describing the topic of #{broadcaster1.username}'s channel",
+    channel_topic: "#{broadcaster1.username}'s channel topic",
     user_custom_tags: tags,
     profile_about_me: "Hey, I'm new here. Also hello from the seeds.rb file!"
   )
@@ -378,7 +376,7 @@ if Rails.env.production? == false
       username: testbroadcaster.username,
       broadcaster: testbroadcaster.broadcaster,
       online_status: onlinestatus,
-      channel_topic: "Channel topic for describing the topic of #{testbroadcaster.username}'s channel",
+      channel_topic: "#{testbroadcaster.username}'s channel topic",
       current_game_id: game_id,
       user_custom_tags: tags,
       profile_about_me: "Hey, I'm #{testbroadcaster.username} and new here. Also hello from the seeds.rb file!"

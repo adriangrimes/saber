@@ -18,11 +18,9 @@ class ChatTicketsController < ApplicationController
           status: :ok
         @chat_ticket.destroy
       else
-        puts 'no ticket'
         render status: :not_found
       end
     else
-      puts 'nothing here'
       render status: :not_found
     end
   end

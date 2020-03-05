@@ -8,7 +8,6 @@ class JsonApiFailureApp < Devise::FailureApp
   end
 
   def json_error_response
-    puts "Executing FailureApp - converting 401 error to JSONAPI"
     self.status = 401
     self.content_type = "application/json"
     self.response_body = { errors: [{ attribute: :base, message: i18n_message }] }.to_json

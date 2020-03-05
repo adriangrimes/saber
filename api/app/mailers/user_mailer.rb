@@ -11,7 +11,7 @@ class UserMailer < Devise::Mailer
 
   def account_deleted_email
     @user = params[:user]
-    mail(to: @user[:email], subject: 'Your account has been closed and deleted')
+    mail(to: @user.email, subject: 'Your account has been closed and deleted')
   end
 
   def broadcaster_application_submitted

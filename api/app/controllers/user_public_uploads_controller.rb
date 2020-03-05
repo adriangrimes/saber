@@ -32,7 +32,6 @@ class UserPublicUploadsController < ApplicationController
   def create
     user_public_datum = UserPublicDatum.find_by(user_id: upload_params[:user_id])
     if token_is_authorized_for_id?(user_public_datum.user_id)
-      p 'user authorized to create upload'
       upload_count = UserPublicUpload
         .where('user_id = ?', upload_params[:user_id])
         .count
@@ -44,8 +43,6 @@ class UserPublicUploadsController < ApplicationController
 
         user_public_upload.upload_derivatives!
         if user_public_upload.save
-          p 'attached upload - starting serialization'
-          p user_public_upload.upload_url
           options = {}
           options[:is_collection] = false
           options[:params] = {
@@ -57,8 +54,6 @@ class UserPublicUploadsController < ApplicationController
             .serialized_json
           render json: json, status: :created
         else
-          p '============== errros'
-          p ErrorSerializer.serialize(user_public_upload.errors)
           render json: ErrorSerializer.serialize(user_public_upload.errors),
             status: :unprocessable_entity
         end
@@ -72,7 +67,6 @@ class UserPublicUploadsController < ApplicationController
   end
 
   def update
-    p 'UPDATE - public upload route'
     if params[:id].present?
       user_public_upload = UserPublicUpload.find(params[:id])
       user_public_datum = UserPublicDatum.find_by(user_id: user_public_upload.user_id)
@@ -85,7 +79,6 @@ class UserPublicUploadsController < ApplicationController
         end
 
         if user_public_upload.save && user_public_datum.save
-          p 'upload updated - serializing'
           options = {}
           options[:is_collection] = false
           options[:params] = {
@@ -123,13 +116,10 @@ class UserPublicUploadsController < ApplicationController
           # Or if user is deleting the image that was set as their profile
           # image, set it to the first in line afterwards.
           uploads = UserPublicUpload.where('user_id = ?', user_public_upload.user_id)
-          p uploads.count
           if uploads.count == 0
-            p 'setting profile path to no image url'
             user_public_datum.profile_photo_path =
               Rails.configuration.x.saber.no_profile_image_url
           elsif user_public_upload.upload_url == user_public_datum.profile_photo_path
-            p 'setting profile image to first in line'
             user_public_datum.profile_photo_path = uploads.first.upload_url
           end
 

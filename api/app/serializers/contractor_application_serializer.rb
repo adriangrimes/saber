@@ -23,10 +23,8 @@ class ContractorApplicationSerializer
         business_identification_number =
           ('*' * (app.business_identification_number.length - 2)) +
             app.business_identification_number.last(2)
-        business_identification_number
-      else
-        business_identification_number
       end
+      business_identification_number
     else
       nil
     end

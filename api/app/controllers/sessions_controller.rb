@@ -2,7 +2,6 @@ class SessionsController < Devise::SessionsController
   include ErrorSerializer
 
   def create
-    p "session create"
     self.resource = warden.authenticate!(auth_options)
     sign_in(resource_name, resource)
     yield resource if block_given?
@@ -35,7 +34,6 @@ class SessionsController < Devise::SessionsController
     if resource.save!
       render json: data, status: :created
     else
-      p "session controller save error"
       render status: :internal_server_error
     end
   end

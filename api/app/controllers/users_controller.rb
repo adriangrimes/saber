@@ -13,7 +13,6 @@ class UsersController < ApplicationController
 
       # Update user record with whitelisted params
       if @authenticated_user.update_with_password(passworded_user_params)
-        puts 'update with password successful, rendering'
         render json: serialize_user(@authenticated_user),
                status: :ok
         if @authenticated_user.pending_deletion_since
@@ -32,7 +31,6 @@ class UsersController < ApplicationController
       render json: serialize_user(@authenticated_user),
              status: :ok
     else
-      p @authenticated_user.errors
       render json: ErrorSerializer.serialize(@authenticated_user.errors),
              status: :unprocessable_entity
     end

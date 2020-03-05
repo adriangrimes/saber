@@ -20,9 +20,10 @@ class Transaction
       ActiveRecord::Associations::Preloader.new.preload(
         credit_transfers, [:to_user, :from_user]
       )
-      payouts = Payout
-        .where('user_id = ?', user_id)
+      payouts = Payout.where('user_id = ?', user_id)
 
+      # Go through users purchase, transfers, and payouts, and normalize them
+      # all into a transactions array
       transactions = []
 
       purchases.each do |purchase|
@@ -83,6 +84,7 @@ class Transaction
         transaction.id = index + 1
       end
 
+      # Calculate pages and total transactions
       total_pages = (transactions.length.to_d / per_page.to_d).to_d.ceil
       page = total_pages if page > total_pages
       page = 1 if page.to_i < 1
@@ -97,6 +99,7 @@ class Transaction
             total_credits_made - total_amount_already_paid
         end
       end
-      return transaction_data
+      
+      transaction_data
     end
 end

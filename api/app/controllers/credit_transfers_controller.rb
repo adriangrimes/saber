@@ -4,7 +4,6 @@ class CreditTransfersController < ApplicationController
 
   # POST /credit_transfers
   def create
-    p 'starting credit transfer'
     @credit_transfer = CreditTransfer.new(credit_transfer_params)
     # If user is not tipping themselves and type equals 'tip'
     if @credit_transfer.from_user_id != @credit_transfer.to_user_id &&
@@ -88,11 +87,6 @@ class CreditTransfersController < ApplicationController
       return false
     end
   end
-
-  # Use callbacks to share common setup or constraints between actions.
-  # def set_credit_transfer
-  #   @credit_transfer = CreditTransfer.find(params[:id])
-  # end
 
   # Only allow a trusted parameter "white list" through.
   def credit_transfer_params

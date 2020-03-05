@@ -55,9 +55,7 @@ class User < ApplicationRecord
   end
 
   def username_passes_misc_rules?
-    if username.start_with?('_')
-      errors.add(:username, :invalid)
-    end
+    errors.add(:username, :invalid) if username.start_with?('_')
   end
 
   def update_public_data_record
@@ -103,6 +101,7 @@ class User < ApplicationRecord
     end
   end
 
+  # Allow login with either username or email
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
@@ -120,8 +119,6 @@ class User < ApplicationRecord
 
   def send_drop_stream
     unless self.is_being_seeded || Rails.env.development?
-      puts stream_key_was
-      puts 'dropping stream'
       params = {
         'app' => 'stream',
         'name' => stream_key_was
@@ -132,7 +129,6 @@ class User < ApplicationRecord
         ),
         params
       )
-      puts x.body
     end
   end
 
@@ -140,7 +136,6 @@ class User < ApplicationRecord
     # Suspend account if user submitted an account deletion request (by submitting
     # a datetime in the pending_deletion_since attribute)
     if pending_deletion_since
-      p "Suspending account and resetting authentication token"
       # Overwrite the value sent by the client with our server time
       self.pending_deletion_since = DateTime.now
       self.suspended_account = true

@@ -8,11 +8,10 @@ class UserPublicDataController < ApplicationController
     # If search parameter is specified
     if params[:search]
       search_results = search_broadcasters(params[:search])
-      render json: serialize_public_data(search_results, {search_only: true}),
+      render json: serialize_public_data(search_results, { search_only: true }),
         status: :ok
     # Else if the username parameter is present, render single record
     elsif params[:username]
-      puts 'getting single user data'
       user_public_datum = UserPublicDatum
                           .where("username = ?", params[:username])
                           .first
@@ -23,21 +22,18 @@ class UserPublicDataController < ApplicationController
       end
     # Else display front page browse results
     else
-      puts 'getting all data'
       browse_data = UserPublicDatum
                     .where('broadcaster = true')
                     .order(online_status: :desc, username: :asc)
       p browse_data.count
-      render json: serialize_public_data(browse_data, {search_only: true}),
+      render json: serialize_public_data(browse_data, { search_only: true }),
         status: :ok
     end
   end
 
   # PATCH/PUT /user_public_data/1
   def update
-    if @user_public_datum = UserPublicDatum.find(params[:id]) # user_id: params[:data][:attributes][:user_id])
-      puts "found user id"
-      puts @user_public_datum.user_id
+    if @user_public_datum = UserPublicDatum.find(params[:id])
       if token_is_authorized_for_id?(@user_public_datum.user_id)
         if @user_public_datum.update(public_params)
           render json: serialize_public_data(@user_public_datum), status: :ok
@@ -83,8 +79,6 @@ class UserPublicDataController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def public_params
     ## Public profile
-    # params[:data][:attributes][:user_custom_tags] = JSON.parse(
-    #   params[:data][:attributes][:user_custom_tags])
     params.require(:data)
           .require(:attributes)
           .permit(:username,
@@ -106,7 +100,6 @@ class UserPublicDataController < ApplicationController
   def search_broadcasters(search_string = '')
     return [] if search_string && search_string.length < 3
     search_string = search_string.to_s
-    p search_string
 
     # Remove any special non-alphanumeric characters
     search_string = search_string.gsub(/[^0-9a-z_]/i, '')
@@ -123,18 +116,14 @@ class UserPublicDataController < ApplicationController
     search_string = UserPublicDatum.sanitize_sql_for_conditions(search_string)
 
     if search_string.blank?
-      p  "search_string not present"
       online_user_search_results = UserPublicDatum
         .where("broadcaster = true AND online_status = true")
         .order(:username)
       offline_user_search_results = UserPublicDatum
         .where("broadcaster = true AND online_status = false")
         .order(:username)
-      p online_user_search_results.count
-      p offline_user_search_results.count
       return online_user_search_results + offline_user_search_results
     elsif search_string.present?
-      p "search_string present"
       regexp = /#{search_string}/i;
       online_user_search_results = UserPublicDatum
         .where("broadcaster = true AND online_status = true AND username LIKE ? ESCAPE '#'", '%' + search_string.to_s + '%')
@@ -190,10 +179,6 @@ class UserPublicDataController < ApplicationController
         end
       end
 
-      p online_user_search_results.count
-      p online_tag_search_results.count
-      p offline_user_search_results.count
-      p offline_tag_search_results.count
       # Return concatenated record array in order of search priority
       return online_user_search_results + online_tag_search_results + offline_user_search_results + offline_tag_search_results
     else

@@ -2,17 +2,15 @@ class ManagementController < ApplicationController
   before_action :check_if_authorized_admin
 
   def index
-    p 'management index'
     render status: :ok
   end
 
   protected
 
     def check_if_authorized_admin
-      user_id = params[:id].to_i
-      user = User.find(user_id)
+      user = User.find(params[:id].to_i)
       if user.admin_status == true
-        if token_is_authorized_for_id?(user_id)
+        if token_is_authorized_for_id?(user.id)
 
           return true
         else

@@ -9,9 +9,7 @@ class PrivateMessagesController < ApplicationController
     end
     if params[:page].present?
       page = params[:page].to_i
-      if page < 1
-        page = 1
-      end
+      page = 1 if page < 1
     else
       page = 1
     end

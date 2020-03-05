@@ -4,7 +4,6 @@ class UserVerificationUploadsController < ApplicationController
   before_action :is_user_authorized?
 
   def index
-    p 'INDEX - listing verification uploads for user_id: ' + @authenticated_user.id.to_s
     verification_uploads = UserVerificationUpload
       .where('user_id = ?', @authenticated_user.id)
     unless verification_uploads.nil?
@@ -18,12 +17,11 @@ class UserVerificationUploadsController < ApplicationController
   end
 
   def create
-    p 'CREATE - user authorized to create verification upload'
-    parsed_upload_json = JSON.parse(verification_upload_params[:upload_data_json])
     verification_upload_count = UserVerificationUpload
       .where('user_id = ?', @authenticated_user.id)
       .count
     if verification_upload_count < Rails.configuration.x.saber.verification_upload_limit
+      parsed_upload_json = JSON.parse(verification_upload_params[:upload_data_json])
       verification_upload = UserVerificationUpload.new
       verification_upload.upload = parsed_upload_json
       verification_upload.user_id = @authenticated_user.id
@@ -40,7 +38,7 @@ class UserVerificationUploadsController < ApplicationController
           status: :unprocessable_entity
       end
     else
-      render json: {errors: ['maximum uploads reached']},
+      render json: { errors: ['maximum uploads reached'] },
         status: :unprocessable_entity
     end
   end

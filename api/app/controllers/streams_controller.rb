@@ -2,18 +2,17 @@ class StreamsController < ApplicationController
   require 'websocket-client-simple'
   require "net/http"
 
-  # Called by nginx.
-  # Sends stream-up to users watching, and returns redirect response to nginx to
-  # internally redirect stream to the restricted hlsout rtmp app
+  # Called by NGINX.
+  # Sends stream-up over websockets to users watching, and returns redirect
+  # response to nginx to internally redirect stream to the restricted hlsout RTMP app
   def start
-    p 'stream starting'
     if params[:name]
       streaming_user = User.where('stream_key = ?', params[:name]).first
       if streaming_user
         async_confirm_and_set_stream_state(streaming_user)
-        # Sending a redirect causes nginx rtmp module to redirect the stream
+        # Sending a redirect causes NGINX rtmp module to redirect the stream
         # to the restricted hlsout application. This also effectively translates
-        # the users stream key to their username for client use.
+        # the users stream key to their username for client-side use.
         redirect_to "rtmp://127.0.0.1/hlsout/" + streaming_user.username.downcase
       else
         render status: :not_found
@@ -23,10 +22,9 @@ class StreamsController < ApplicationController
     end
   end
 
-  # Called by nginx.
-  # Sends stream-down to users watching stream
+  # Called by NGINX.
+  # Sends stream-down over websockets to users watching stream
   def stop
-    p 'stream stopping'
     if params[:name]
       streaming_user = User.where('stream_key = ?', params[:name]).first
       if streaming_user
@@ -62,50 +60,46 @@ class StreamsController < ApplicationController
         req = Net::HTTP.new(url.host, url.port)
         req.use_ssl = true
         res = req.request_head(url.path)
-        p "code: " + res.code
 
         # If stream manifest is found, increment found_count and reset
         # not_found count. Otherwise, do the opposite
         if res.code == "200"
-          p 'stream_found_count: ' + stream_found_count.to_s
           stream_found_count += 1
           stream_not_found_count = 0
         else
-          p 'stream_not_found_count: ' + stream_not_found_count.to_s
           stream_not_found_count += 1
           stream_found_count = 0
         end
 
+        # If stream is confirmed, set status to true, and send a 'stream-up'
+        # message to all users in the broadcasters chat room.
         if stream_found_count == confirmations
-          p "stream confirmed - setting online status to true"
           streaming_user.user_public_datum.online_status = true
           if streaming_user.user_public_datum.save!
-            puts 'saved, attempting to send streamstate stream-up'
             send_stream_state("stream-up", streaming_user)
             stream_state_confirmed = true
             break
           end
         elsif stream_not_found_count == confirmations
-          p "stream unconfirmed - setting online status to false"
           streaming_user.user_public_datum.online_status = false
           if streaming_user.user_public_datum.save!
-            puts 'saved, attempting to send streamstate stream-down'
             send_stream_state("stream-down", streaming_user)
             stream_state_confirmed = true
             break
           end
         end
 
+        # If retries exceed the limit, the stream is either down or unstable.
+        # Send 'stream-down' message to all chat room users.
         if retry_count >= retries
-          p "retries exceeded, stream unstable - sending stream-down"
           streaming_user.user_public_datum.online_status = false
           if streaming_user.user_public_datum.save!
-            puts 'saved online status, attempting to send streamstate stream-down'
             send_stream_state("stream-down", streaming_user)
             stream_state_confirmed = true
           end
           break
         end
+
         retry_count += 1
       end
     end
@@ -118,7 +112,6 @@ class StreamsController < ApplicationController
       headers: { "streamstate-auth": Rails.application.credentials.stream_state_auth }
     ) do |ws|
       ws.on :open do
-        puts "connected - sending streamstate" + state
         ws.send({
           type: "StreamState",
           data: {

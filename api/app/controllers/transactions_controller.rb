@@ -1,7 +1,6 @@
 class TransactionsController < ApplicationController
 
-  #before_action :is_user_authorized?
-  # TODO enable authorization check
+  before_action :is_user_authorized?
 
   def index
     transaction_data = Transaction
@@ -10,7 +9,7 @@ class TransactionsController < ApplicationController
     options[:meta] = {
       totalTransactions: transaction_data[:total_transactions],
       totalPages: transaction_data[:total_pages],
-      remainingCreditsToPayout: transaction_data[:remaining_credits_to_payout]      
+      remainingCreditsToPayout: transaction_data[:remaining_credits_to_payout]
     }
     render json: TransactionSerializer
       .new(transaction_data[:transactions], options)
@@ -20,13 +19,14 @@ class TransactionsController < ApplicationController
 
   private
 
-  def is_user_authorized?
-    if token_is_authorized_for_id?(params[:id])
-      puts 'authorized'
-      return true
-    else
-      clean_up_and_render_not_found
-      return false
+    def is_user_authorized?
+      if token_is_authorized_for_id?(params[:id])
+        puts 'authorized'
+        return true
+      else
+        clean_up_and_render_not_found
+        return false
+      end
     end
-  end
+
 end
