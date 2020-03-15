@@ -34,6 +34,9 @@ chmod 700 /home/webadmin/.ssh
 chmod 600 /home/webadmin/.ssh/authorized_keys
 systemctl restart sshd
 
+# create nginx user, disallow login
+useradd -s /bin/false nginx
+
 # create web directory
 mkdir /var/www/
 chown root:www /var/www
@@ -78,7 +81,7 @@ yum install -y fail2ban sendmail sendmail-cf cyrus-sasl cyrus-sasl-lib cyrus-sas
 mkdir /etc/mail/authinfo
 chmod 700 /etc/mail/authinfo
 # create auth file
-echo 'AuthInfo: "U:root" "I:user@gmail.com" "P:password"' > /etc/mail/authinfo/smtp-auth
+echo 'AuthInfo: "U:root" "I:user@gmail.com" "P:PASSWORD"' > /etc/mail/authinfo/smtp-auth
 makemap hash /etc/mail/authinfo/smtp-auth < /etc/mail/authinfo/smtp-auth
 
 # copy /etc/mail/sendmail.mc over
@@ -91,18 +94,19 @@ systemctl enable fail2ban
 systemctl start sendmail
 systemctl enable sendmail
 # test sendmail
-echo -e "Subject:staging test\nhello from test staging" | sendmail -f "mailersaber@gmail.com" -t "user@gmail.com"
+echo -e "Subject:staging test\nhello from test staging" | sendmail -f "mailersaber@gmail.com" -t "user@email.com"
 systemctl restart fail2ban
 # test if fail2ban is reporting over email
 
 # install certbot
 yum install -y certbot python2-certbot-nginx
-# copy and extract /etc/letsencrypt.tar.gz
-tar xvzf /etc/letsencrypt/letsencrypt.tar.gz -C /etc
+certbot certonly --nginx
+# accept all defaults
 # sanity check certbot and cert renewal
-certbot renew
+certbot renew --dry-run
 # add cron job to check for a new cert every 12 hours (will only renew when the cert is within 30 days of expiring)
-echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew --pre-hook \"systemctl stop nginx\" --post-hook \"systemctl start nginx\"" | tee -a /etc/crontab > /dev/null
+#echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew --pre-hook \"systemctl stop nginx\" --post-hook \"systemctl start nginx\"" | tee -a /etc/crontab > /dev/null
+(crontab -l ; echo "0 12 * * * /usr/bin/certbot renew --quiet") | crontab -
 
 # install passenger and nginx
 # add passenger repo 
@@ -154,8 +158,6 @@ make install
 echo -e "PATH=/usr/local/src/nginx/passenger-6.0.2/bin:\$PATH\nexport PATH" >> /etc/profile.d/sh.local
 # reconnect session to reload PATH
 
-# create nginx user, disallow login
-useradd -s /bin/false nginx
 # create temp folders and set to nginx user
 mkdir -p /var/lib/nginx/tmp
 mkdir /var/run/passenger-instreg
@@ -210,39 +212,72 @@ EOF
 # test password
 mysql -u root -pl5%qX#5W2NjYNAoe
 
+# install nginx amplify
+curl -L -O https://github.com/nginxinc/nginx-amplify-agent/raw/master/packages/install.sh
+API_KEY='API_KEY' sh ./install.sh
+
 # create amplify-agent maria db user 
+mysql -u root -pl5%qX#5W2NjYNAoe
+CREATE USER 'amplify-agent'@'localhost' IDENTIFIED BY 'PASSWORD';
 # configure aplify conf to use mysqldb metrics
+#Add the following to /etc/amplify-agent/agent.conf:
+#[extensions]
+#..
+#mysql = True
+
+#[mysql]
+##host =
+##port =
+#unix_socket = /var/run/mysqld/mysqld.sock
+#user = amplify-agent
+#password = YOUR_PASSWORD_HERE
+systemctl restart amplify-agent
 
 # login as webadmin over ssh/scp
 
-# copy ember /dist to /var/www/saber-staging/ember
+# build and copy ember /dist to /var/www/saber-staging/ember
 
 # install vips libraries for thumnailing
+sudo yum install glib2-devel expat-devel libgsf-devel libjpeg-turbo libtiff-devel fftw-devel orc
+wget https://github.com/libvips/libvips/releases/download/v8.9.2/vips-8.9.2.tar.gz
+tar xf vips-8.9.2.tar.gz
+cd vips-8.9.2
+./configure
+make
+sudo make install
+sudo ldconfig
 
 # install ruby via rbenv for ruby version management
+# clone into home as webadmin
 git clone git://github.com/sstephenson/rbenv.git .rbenv
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
 echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
 git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 # relogin
 
+# Install ruby, may take some time
 rbenv install 2.5.3
 rbenv global 2.5.3
 # update RubyGems system gems
 gem update --system --no-document
 
-# install gems for api 
+# copy saber API files and install gems 
 cd /var/www/saber-staging/api
-# copy rails files
 # force installation of newer bundler gem
 gem install bundler --force
-bundle install --deployment --without development test
-#mkdir log
-#mkdir storage
+bundle config set deployment 'true'
+bundle config set without 'development test'
+bundle install
+#mkdir log ?
+#mkdir storage ?
 # set permissions on rails folder/files
 sudo chmod 700 config db
 sudo chmod 600 config/database.yml config/secrets.yml
 rbenv rehash
+# generate symmetric-encryption keys and config
+bundle exec symmetric-encryption --generate --app-name api --environments "staging"
+sudo chmod -R 0600 ~/.symmetric-encryption
+sudo chmod 0500 ~/.symmetric-encryption
 RAILS_ENV=staging bundle exec rails db:setup
 
 # add nodejs repo
@@ -259,6 +294,7 @@ pm2 startup
 # run given command 
 sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u webadmin --hp /home/webadmin
 pm2 save
+#pm2 install pm2-health
 
 sudo chown -R webadmin:www /var/www/*
 sudo chown -R nginx:www /var/www/saber-staging/stream
@@ -268,7 +304,13 @@ sudo systemctl restart nginx
 # finishing up
 sudo yum update
 
-# copy /etc/ssh/sshd_config over to block password and root login
+#in /etc/ssh/sshd_config
+#change
+#ChallengeResponseAuthentication yes
+#PasswordAuthentication yes
+#to
+#ChallengeResponseAuthentication no
+#PasswordAuthentication no
 # remove authorized keys from root to prevent ssh login
 sudo rm /root/.ssh/authorized_keys
 # restart service to take effect

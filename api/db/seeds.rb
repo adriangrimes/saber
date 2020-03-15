@@ -166,7 +166,6 @@ end
 p "Created help"
 
 admin_user = User.new(
-  id: 192837,
   email: "user@gmail.com",
   username: "SaberAdmin",
   password: "87654321",
