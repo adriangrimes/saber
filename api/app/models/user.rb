@@ -13,7 +13,7 @@ class User < ApplicationRecord
          :lockable
 
   # Public profile data
-  has_one :user_public_datum #, autosave: true
+  has_one :user_public_datum
   has_one :contractor_application
   # Set user_verification_uploads to dependent: :delete_all, which will remove them
   # from the database, but keep Shrine from deleting them off disk
@@ -29,8 +29,6 @@ class User < ApplicationRecord
 
   attribute :is_being_seeded, type: :boolean
 
-  validates :user_public_datum, :presence => true
-  #validates_associated :user_public_datum
   validates :username,
     :uniqueness => { :case_sensitive => false },
     format: { with: /\A[a-zA-Z0-9_]*\z/, :multiline => true },

@@ -187,7 +187,7 @@ if Rails.env.production? == false
   fake_usernames = FakeUsernames.usernames
   fake_usernames = fake_usernames.shuffle
 
-  fake_tag_array = ['English', 'PvP', 'Multiplayer', 'Let\'s Play', 'Speedrun',
+  fake_tag_array = ['English', 'PvP', 'Multiplayer', 'Lets Play', 'Speedrun',
     'Hard Mode', 'Drops Enabled', 'Overwatch', 'Minecraft', 'Competitive',
     'Raiding', 'Ranked', 'Casual']
 
@@ -195,7 +195,7 @@ if Rails.env.production? == false
   payout_methods = ["paypal", "check", "bitcoin"]
 
   # Set how many of each user type to seed
-  test_user_count = 50
+  test_user_count = 10
   test_broadcaster_count = 5
   test_developer_count = 5
   test_affiliate_count = 5
@@ -335,7 +335,6 @@ if Rails.env.production? == false
       transfer_description: broadcaster1.username,
       broadcaster_payout_percentage: broadcaster1.contractor_application.broadcaster_percentage
     ).save!
-
     p "Created user: " + testuser.username
   end
 
@@ -370,7 +369,7 @@ if Rails.env.production? == false
     if onlinestatus
       game_id = rand(1..10)
     end
-
+    testbroadcaster.save!
     testbroadcaster.build_user_public_datum(
       username: testbroadcaster.username,
       broadcaster: testbroadcaster.broadcaster,
@@ -380,8 +379,7 @@ if Rails.env.production? == false
       user_custom_tags: tags,
       profile_about_me: "Hey, I'm #{testbroadcaster.username} and new here. Also hello from the seeds.rb file!"
     )
-
-    testbroadcaster.save!
+    testbroadcaster.user_public_datum.save!
     testbroadcaster.user_verification_uploads.create(
       user_id: testbroadcaster.id,
       verified: true,
