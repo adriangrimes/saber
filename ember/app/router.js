@@ -35,7 +35,6 @@ Router.map(function() {
   this.route('privacy');
   this.route('contact');
   this.route('games');
-  this.route('legal');
 
   this.route('p', {
     path: 'p/:username'

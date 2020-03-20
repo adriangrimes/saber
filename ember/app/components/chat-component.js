@@ -227,7 +227,7 @@ export default Component.extend({
       case 'ChatMessage':
         this.chatMessagesList.pushObject({
           chatUsername: message.chatUsername,
-          data: ': ' + message.data
+          data: message.data
         });
         break;
       case 'UserJoinedChannel':

@@ -17,16 +17,24 @@
   <BsNav @type="tabs" class="nav nav-tabs no-select" as |nav|>
     <nav.item @active={{bs-eq tab.activeId "Chat"}} class="nav-item">
       <a role="tab" onclick={{action "chatTabSelect" tab.select "Chat"}} class={{if chatOpen "nav-link active" "nav-link"}}>
-        Chat</a></nav.item>
+        Chat
+      </a>
+    </nav.item>
     <nav.item @active={{bs-eq tab.activeId "Users"}} class="nav-item">
-      <a role="tab" onclick={{action "chatTabSelect" tab.select "Users"}} class={{if chatOpen "nav-link" "nav-link active"}}>
-        Users
-        <span class="badge">{{chatChannelUserCount}}</span></a></nav.item>
+      <a role="tab" onclick={{action "chatTabSelect" tab.select "Users"}} class="{{if chatOpen "nav-link" "nav-link active"}}">
+        <span class="badge badge-pill bg-secondary text-white">
+          <span title="Viewers" class="fa fa-user-o mr-1"></span>
+          <span>
+            {{chatChannelUserCount}}
+          </span>
+        </span>
+      </a>
+    </nav.item>
   </BsNav>
-  <div class="tab-content h-100 ">
+  <div class="tab-content h-100">
     <tab.pane @id="Chat" @title="Chat" class="chat-tab-content h-100">
 
-      <div role="tabpanel" class="tab-pane chat-tab-pane h-100 ">
+      <div role="tabpanel" class="tab-pane chat-tab-pane h-100">
         <div class="topic-input">
           {{#if (eq session.data.authenticated.username model.username)}}
 
@@ -40,7 +48,7 @@
 
           {{/if}}
         </div>
-        <div id="chat-body" class="card-body chat-tab-body ">
+        <div id="chat-body" class="card-body chat-tab-body">
 
           {{!-- Chat messages --}}
           <ul id="messages" class="list-style-none p-0 m-0">
@@ -52,7 +60,7 @@
               {{else}}
                 <li>
                   <span class="chat-username" onclick={{action "openChatUserMenu"}}>
-                    <b>{{chatMessage.chatUsername}}</b>
+                    <b>{{chatMessage.chatUsername}}:</b>
                   </span>
                   {{chatMessage.data}}
                 </li>
