@@ -20,8 +20,8 @@
       <div class="card mb-3">
         <div class="card-heading">
           <h3 class="card-title">
-            <img src="/credits.svg" class="" width="25rem">
-            &nbsp;Credit History
+            <i class="fa fa-cubes"></i>
+            &nbsp;Cube History
           </h3>
         </div>
         <div class="card ">
@@ -77,9 +77,9 @@
                 <form {{action "submitStreamSettings" on="submit"}}>
                   <h5>Interaction Settings</h5>
                   <div class="custom-control custom-checkbox">
-                    {{input type="checkbox" class="custom-control-input" id="enableTips" checked=model.userPublicDatum.allowTips}}
-                    <label class="custom-control-label" for="enableTips">
-                      Enable Tipping
+                    {{input type="checkbox" class="custom-control-input" id="enableDonations" checked=model.userPublicDatum.allowDonations}}
+                    <label class="custom-control-label" for="enableDonations">
+                      Enable Donations
                     </label>
                   </div>
                   <div class="text-right pt-3">

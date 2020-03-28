@@ -10,7 +10,7 @@ class UserPublicDatumSerializer
     :channel_topic,
     :current_game_id,
     :streamnail_path,
-    :allow_tips,
+    :allow_donations,
     :allow_suggested_games,
     :timezone,
     :user_custom_tags

@@ -23,7 +23,7 @@ export default Controller.extend({
       window.scrollTo(0, 0);
     },
 
-    creditDropdownClicked(dropdown) {
+    cubeDropdownClicked(dropdown) {
       console.log(dropdown);
     }
   }

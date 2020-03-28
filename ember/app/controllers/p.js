@@ -22,8 +22,8 @@ export default Controller.extend({
   copiedNotification: false,
   isFavorite: false,
   gameIsActive: true,
-  tipMenuOpen: false,
-  tipAmountOptions: 10,
+  donationMenuOpen: false,
+  donationAmountOptions: 10,
   profileSaveStart: false,
   profileSaveSuccess: false,
   editingProfile: false,
@@ -94,8 +94,8 @@ export default Controller.extend({
       this.set('gameSuggestionPanelOpen', false);
     },
 
-    tipMenuToggle() {
-      this.toggleProperty('tipMenuOpen');
+    donationMenuToggle() {
+      this.toggleProperty('donationMenuOpen');
     },
 
     sendFollowerEmail() {
@@ -169,35 +169,35 @@ export default Controller.extend({
         });
     },
 
-    sendTip(tipAmount) {
-      tipAmount = Number.parseInt(tipAmount);
+    sendDonation(donationAmount) {
+      donationAmount = Number.parseInt(donationAmount);
       if (
         this.get('session.isAuthenticated') &&
-        Number.isInteger(tipAmount) &&
-        tipAmount > 0
+        Number.isInteger(donationAmount) &&
+        donationAmount > 0
       ) {
-        console.log('sending tip of', tipAmount);
+        console.log('sending donation of', donationAmount);
 
-        let creditTransfer = this.store.createRecord('credit-transfer', {
+        let cubeTransfer = this.store.createRecord('cube-transfer', {
           fromUserId: this.session.data.authenticated.user_id,
           toUserId: this.model.userPublicDatum.get('userId'),
-          creditsTransferred: tipAmount,
-          transferType: 'tip'
+          cubesTransferred: donationAmount,
+          transferType: 'donation'
         });
 
-        creditTransfer
+        cubeTransfer
           .save()
           .then(transfer => {
-            console.log('tipped: ', transfer.creditsTransferred);
+            console.log('donated: ', transfer.cubesTransferred);
             this.currentUser.load({ forceReloadMessages: false });
           })
           .catch(err => {
-            console.log('failed to tip', err);
+            console.log('failed to donate', err);
             this.errorHandler.handleWithNotification(err);
           });
       } else {
-        console.log('invalid tip');
-        this.notify.error('Something about your tip is invalid.');
+        console.log('invalid donation');
+        this.notify.error('Something about your donation is invalid.');
       }
     }
   }

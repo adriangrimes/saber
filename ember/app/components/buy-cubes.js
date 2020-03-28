@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import jQuery from 'jquery';
 
-//Component - buy-credits
+//Component - buy-cubes
 export default Component.extend({
   store: service(),
   session: service(),
@@ -15,24 +15,24 @@ export default Component.extend({
 
   actions: {
     selectAmount(amount) {
-      console.log('buy this many credits' + amount);
+      console.log('buy this many cubes' + amount);
       jQuery('#' + amount)
         .prop('checked', true)
         .change();
     },
 
-    purchaseCredits() {
-      console.log('purchasing: ', this.get('creditAmount'));
+    purchaseCubes() {
+      console.log('purchasing: ', this.get('cubeAmount'));
 
-      let creditPurchase = this.store.createRecord('credit-purchase', {
+      let cubePurchase = this.store.createRecord('cube-purchase', {
         userId: this.get('session.data.authenticated.user_id'),
-        creditsPurchased: this.get('creditAmount')
+        cubesPurchased: this.get('cubeAmount')
       });
 
-      creditPurchase
+      cubePurchase
         .save()
         .then(() => {
-          console.log('purchased: ', this.get('creditAmount'));
+          console.log('purchased: ', this.get('cubeAmount'));
           this.currentUser.load();
         })
         .catch(() => {

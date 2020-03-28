@@ -18,8 +18,8 @@ class User < ApplicationRecord
   # Set user_verification_uploads to dependent: :delete_all, which will remove them
   # from the database, but keep Shrine from deleting them off disk
   has_many :user_verification_uploads, dependent: :delete_all
-  has_many :credit_purchases
-  has_many :credit_transfers
+  has_many :cube_purchases
+  has_many :cube_transfers
   has_many :payouts
   has_many :private_messages
 
@@ -170,5 +170,5 @@ class User < ApplicationRecord
     def regenerate_authentication_token
       self.authentication_token = generate_authentication_token
     end
-    
+
 end

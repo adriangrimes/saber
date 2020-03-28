@@ -60,58 +60,58 @@
 
         <div class="video-toolbar pt-1">
           {{#unless currentUser.user.isContracted}}
-            <div name="tip-toolbar" class="btn-toolbar justify-content-between ml-2 mr-1" role="toolbar">
+            <div name="donation-toolbar" class="btn-toolbar justify-content-between ml-2 mr-1" role="toolbar">
 
-              {{#if model.userPublicDatum.allowTips}}
+              {{#if model.userPublicDatum.allowDonations}}
 
                 <div class="input-group custom-control custom-radio d-flex">
                   <div class="input-group-prepend ">
-                    <button class="btn btn-secondary px-2  h-2-4r" type="button" title="Tip Options" {{action "tipMenuToggle"}}>
-                      <span class={{if tipMenuOpen "fa fa-chevron-right" "fa fa-bars"}}></span>
+                    <button class="btn btn-secondary px-2  h-2-4r" type="button" title="Donation Options" {{action "donationMenuToggle"}}>
+                      <span class={{if donationMenuOpen "fa fa-chevron-right" "fa fa-bars"}}></span>
                     </button>
                   </div>
-                  <div class={{if tipMenuOpen "d-none input-group-prepend h-2-4r" "d-flex input-group-prepend h-2-4r"}}>
+                  <div class={{if donationMenuOpen "d-none input-group-prepend h-2-4r" "d-flex input-group-prepend h-2-4r"}}>
 
-                    {{radio-button value=10 class="custom-control-input radio-is-selected" id="tipAmount10" name=tipAmountOptions checked=tipAmountOptions}}
-                    <label class="btn btn-secondary  px-2 h-2-4r" for="tipAmount10">
+                    {{radio-button value=10 class="custom-control-input radio-is-selected" id="donationAmount10" name=donationAmountOptions checked=donationAmountOptions}}
+                    <label class="btn btn-secondary  px-2 h-2-4r" for="donationAmount10">
                       10
                     </label>
 
-                    {{radio-button value=25 class="custom-control-input radio-is-selected" id="tipAmount25" name=tipAmountOptions checked=tipAmountOptions}}
-                    <label class="btn btn-secondary px-2 d-none d-sm-block h-2-4r " for="tipAmount25">
+                    {{radio-button value=25 class="custom-control-input radio-is-selected" id="donationAmount25" name=donationAmountOptions checked=donationAmountOptions}}
+                    <label class="btn btn-secondary px-2 d-none d-sm-block h-2-4r " for="donationAmount25">
                       25
                     </label>
 
-                    {{radio-button value=50 class="custom-control-input radio-is-selected" id="tipAmount50" name=tipAmountOptions checked=tipAmountOptions}}
-                    <label class="btn btn-secondary px-2 h-2-4r" for="tipAmount50">
+                    {{radio-button value=50 class="custom-control-input radio-is-selected" id="donationAmount50" name=donationAmountOptions checked=donationAmountOptions}}
+                    <label class="btn btn-secondary px-2 h-2-4r" for="donationAmount50">
                       50
                     </label>
 
-                    {{radio-button value=100 class="custom-control-input radio-is-selected" id="tipAmount100" name=tipAmountOptions checked=tipAmountOptions}}
-                    <label class="btn btn-secondary px-2 d-none d-sm-block h-2-4r" for="tipAmount100">
+                    {{radio-button value=100 class="custom-control-input radio-is-selected" id="donationAmount100" name=donationAmountOptions checked=donationAmountOptions}}
+                    <label class="btn btn-secondary px-2 d-none d-sm-block h-2-4r" for="donationAmount100">
                       100
                     </label>
                   </div>
-                  <div class={{if tipMenuOpen "d-flex input-group-prepend h-2-4r" "d-none input-group-prepend h-2-4r"}}>
+                  <div class={{if donationMenuOpen "d-flex input-group-prepend h-2-4r" "d-none input-group-prepend h-2-4r"}}>
                     <div class="w-25">
-                      {{input type="number"  class="form-control " min="1" max="10000" step="1" value=tipAmountOptions }}
+                      {{input type="number"  class="form-control " min="1" max="10000" step="1" value=donationAmountOptions }}
                     </div>
                     <div class="w-75">
-                      {{input type="text" autocomplete="off" class="form-control" value=inputTipMessage placeholder="Chat note (optional)" }}
+                      {{input type="text" autocomplete="off" class="form-control" value=inputDonationMessage placeholder="Donation note (optional)" }}
                     </div>
                   </div>
                   {{#if session.isAuthenticated}}
 
-                    {{#if (eq currentUser.user.creditsRemaining 0)}}
-                      <button {{action this.currentUser.openCreditDropdown}} type="button" class="btn btn-primary   px-2 input-group-append h-2-4r" title="Tip">
-                        Tip <img src="/credits.svg" class="" width="25rem">
+                    {{#if (eq currentUser.user.cubesRemaining 0)}}
+                      <button {{action this.currentUser.openCubePurchaseDropdown}} type="button" class="btn btn-primary   px-2 input-group-append h-2-4r" title="Donate">
+                        Donate <i class="fa fa-cubes"></i>
                       </button>
                     {{else}}
-                      {{confirm-input type="tip" title="Tip" titleDetail=this.tipAmountOptions titleEnd="?" button-title="Tip" onConfirm=(action "sendTip" tipAmountOptions)}}
+                      {{confirm-input type="donation" title="Donate" titleDetail=this.donationAmountOptions titleEnd="?" button-title="Donate" onConfirm=(action "sendDonation" donationAmountOptions)}}
                     {{/if}}
                   {{else}}
-                    <button {{action this.currentUser.openLoginDropdown}} type="button" class="btn btn-primary   px-2 input-group-append h-2-4r" title="Tip">
-                      Tip <img src="/credits.svg" class="" width="25rem">
+                    <button {{action this.currentUser.openLoginDropdown}} type="button" class="btn btn-primary   px-2 input-group-append h-2-4r" title="Donate">
+                      Donate <i class="fa fa-cubes"></i>
                     </button>
                   {{/if}}
                 </div>

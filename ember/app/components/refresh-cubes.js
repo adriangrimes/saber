@@ -7,13 +7,13 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
-    if (this.currentUser.get('readyForCreditLoad')) {
-      this.currentUser.set('readyForCreditLoad', false);
+    if (this.currentUser.get('readyForCubeLoad')) {
+      this.currentUser.set('readyForCubeLoad', false);
       this.currentUser.load();
       later(
         this,
         function() {
-          this.currentUser.set('readyForCreditLoad', true);
+          this.currentUser.set('readyForCubeLoad', true);
         },
         10000
       );

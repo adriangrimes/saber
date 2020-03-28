@@ -299,9 +299,9 @@ if Rails.env.production? == false
   ###########################################
   # Test users
   p "========================================="
-  credit_purchase_amount = 200
-  tip_amount = 100
-  broadcaster_payout_amount = ((tip_amount * test_user_count) * (broadcaster1.contractor_application.broadcaster_percentage.to_d / 100.0).to_d).to_d / 10.to_d
+  cube_purchase_amount = 200
+  donation_amount = 100
+  broadcaster_payout_amount = ((donation_amount * test_user_count) * (broadcaster1.contractor_application.broadcaster_percentage.to_d / 100.0).to_d).to_d / 10.to_d
 
   test_user_count.times do |i|
     testuser = User.new(
@@ -317,21 +317,21 @@ if Rails.env.production? == false
       broadcaster: false
     )
     testuser.save!
-    testuser.credit_purchases.create(
+    testuser.cube_purchases.create(
       user_id: testuser.id,
       purchase_type: 'purchase',
-      purchase_amount: credit_purchase_amount / 10,
+      purchase_amount: cube_purchase_amount / 10,
       payment_method: 'paypal',
       cleared: true,
-      credits_purchased: credit_purchase_amount,
-      credits_remaining: credit_purchase_amount - tip_amount
+      cubes_purchased: cube_purchase_amount,
+      cubes_remaining: cube_purchase_amount - donation_amount
     )
     testuser.save!
-    CreditTransfer.create(
+    CubeTransfer.create(
       from_user: testuser,
       to_user: broadcaster1,
-      credits_transferred: tip_amount,
-      transfer_type: 'tip',
+      cubes_transferred: donation_amount,
+      transfer_type: 'donation',
       transfer_description: broadcaster1.username,
       broadcaster_payout_percentage: broadcaster1.contractor_application.broadcaster_percentage
     ).save!
@@ -341,7 +341,7 @@ if Rails.env.production? == false
   # Seed payout to BroadcasterTester1
   broadcaster1.payouts.create(
     user_id: broadcaster1.id,
-    total_credits: tip_amount * test_user_count,
+    total_cubes: donation_amount * test_user_count,
     total_amount_paid: broadcaster_payout_amount,
     payment_method: "check",
     street_address: broadcaster1.contractor_application.street_address

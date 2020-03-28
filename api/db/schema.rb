@@ -70,31 +70,31 @@ ActiveRecord::Schema.define(version: 2020_03_23_002307) do
     t.index ["user_id"], name: "index_contractor_applications_on_user_id", unique: true
   end
 
-  create_table "credit_purchases", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "cube_purchases", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "purchase_type", null: false
     t.integer "purchase_amount", null: false, unsigned: true
     t.string "payment_method", null: false
     t.boolean "cleared", default: false, null: false
     t.boolean "cancelled", default: false, null: false
-    t.integer "credits_purchased", null: false, unsigned: true
-    t.integer "credits_remaining", null: false, unsigned: true
+    t.integer "cubes_purchased", null: false, unsigned: true
+    t.integer "cubes_remaining", null: false, unsigned: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_credit_purchases_on_user_id"
+    t.index ["user_id"], name: "index_cube_purchases_on_user_id"
   end
 
-  create_table "credit_transfers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "cube_transfers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "from_user_id", null: false
     t.bigint "to_user_id", null: false
-    t.integer "credits_transferred", default: 0, null: false, unsigned: true
+    t.integer "cubes_transferred", default: 0, null: false, unsigned: true
     t.string "transfer_type", null: false
     t.string "transfer_description"
     t.integer "broadcaster_payout_percentage", limit: 1, default: 50, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["from_user_id"], name: "index_credit_transfers_on_from_user_id"
-    t.index ["to_user_id"], name: "index_credit_transfers_on_to_user_id"
+    t.index ["from_user_id"], name: "index_cube_transfers_on_from_user_id"
+    t.index ["to_user_id"], name: "index_cube_transfers_on_to_user_id"
   end
 
   create_table "game_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 2020_03_23_002307) do
 
   create_table "payouts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.integer "total_credits", null: false, unsigned: true
+    t.integer "total_cubes", null: false, unsigned: true
     t.decimal "total_amount_paid", precision: 10, scale: 2, null: false, unsigned: true
     t.string "payment_method", null: false
     t.string "transaction_id"
@@ -193,7 +193,7 @@ ActiveRecord::Schema.define(version: 2020_03_23_002307) do
     t.string "channel_topic"
     t.integer "current_game_id"
     t.string "streamnail_path", default: "/streamnails/usericon.svg", null: false
-    t.boolean "allow_tips", default: true, null: false
+    t.boolean "allow_donations", default: true, null: false
     t.boolean "allow_suggested_games", default: false, null: false
     t.string "timezone"
     t.string "user_custom_tags"
@@ -272,9 +272,9 @@ ActiveRecord::Schema.define(version: 2020_03_23_002307) do
   end
 
   add_foreign_key "contractor_applications", "users"
-  add_foreign_key "credit_purchases", "users"
-  add_foreign_key "credit_transfers", "users", column: "from_user_id"
-  add_foreign_key "credit_transfers", "users", column: "to_user_id"
+  add_foreign_key "cube_purchases", "users"
+  add_foreign_key "cube_transfers", "users", column: "from_user_id"
+  add_foreign_key "cube_transfers", "users", column: "to_user_id"
   add_foreign_key "payouts", "users"
   add_foreign_key "private_messages", "users", column: "from_user_id"
   add_foreign_key "private_messages", "users", column: "to_user_id"

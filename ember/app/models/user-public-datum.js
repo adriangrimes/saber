@@ -12,7 +12,7 @@ export default DS.Model.extend({
   channelTopic: DS.attr('string'),
   currentGameId: DS.attr('number'),
   streamnailPath: DS.attr('string'),
-  allowTips: DS.attr('boolean'),
+  allowDonations: DS.attr('boolean'),
   allowSuggestedGames: DS.attr('boolean'),
   timezone: DS.attr('string'),
   userCustomTags: DS.attr(),

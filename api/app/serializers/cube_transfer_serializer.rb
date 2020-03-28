@@ -1,4 +1,4 @@
-class CreditTransferSerializer
+class CubeTransferSerializer
   include FastJsonapi::ObjectSerializer
 
   attribute :id
@@ -11,7 +11,7 @@ class CreditTransferSerializer
   #   end
   # end
   # :to_user_id,
-  attributes :credits_transferred,
+  attributes :cubes_transferred,
              :transfer_type,
              :transfer_description
   attribute :broadcaster_payout_percentage, if: Proc.new { |record, params|

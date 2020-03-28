@@ -21,14 +21,14 @@ class UserSerializer
   attribute :pending_deletion_since do nil end
   attributes :security_questions,
     :stream_key
-  attribute :credits_remaining do |user|
-    credits_remaining = CreditPurchase
-                        .select(:credits_remaining)
+  attribute :cubes_remaining do |user|
+    cubes_remaining = CubePurchase
+                        .select(:cubes_remaining)
                         .where('user_id = ?', user.id)
                         .where('cleared = true')
                         .where('cancelled = false')
-                        .sum(:credits_remaining)
-    credits_remaining * 1
+                        .sum(:cubes_remaining)
+    cubes_remaining * 1
   end
 
   ## Site settings

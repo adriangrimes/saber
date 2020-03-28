@@ -4,6 +4,6 @@ export default DS.Model.extend({
   timestamp: DS.attr('number'),
   transactionType: DS.attr('string'),
   details: DS.attr(),
-  creditValue: DS.attr('number'),
+  cubeValue: DS.attr('number'),
   dollarValue: DS.attr('number')
 });

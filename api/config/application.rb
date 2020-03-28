@@ -56,9 +56,9 @@ module ApiServer
     config.x.saber.developer_bonus_payout_percentage = 25
     # config.saber.affiliate_payout_percentage = 5
 
-    # Credit denominations
-    # Dollar price => Credit quantity
-    config.x.saber.credit_denominations = {
+    # Cube denominations
+    # Dollar price => Cube quantity
+    config.x.saber.cube_denominations = {
       10 => 100,
       25 => 250,
       50 => 500,

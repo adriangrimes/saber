@@ -2,7 +2,7 @@ class CreatePayouts < ActiveRecord::Migration[5.2]
   def change
     create_table :payouts do |t|
       t.references :user, foreign_key: true, null: false
-      t.integer :total_credits, null: false, unsigned: true
+      t.integer :total_cubes, null: false, unsigned: true
       t.decimal :total_amount_paid, precision: 10, scale: 2, null: false, unsigned: true
       t.string :payment_method, null: false
       t.string :transaction_id

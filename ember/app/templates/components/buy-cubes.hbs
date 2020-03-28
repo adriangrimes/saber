@@ -1,0 +1,38 @@
+<form>
+  <div>
+    <label class="text-left">Get More</label>
+    <div {{action "selectAmount" "amount1"}} class="btn btn-secondary custom-control custom-radio mb-2">
+      {{radio-button name="amount-select" id="amount1" class="custom-control-input" value=this.package1 checked=cubeAmount}}
+      <label class="custom-control-label px-2" for="amount1">
+        <i class="fa fa-cube"></i>&nbsp;{{package1}}
+      </label>
+    </div>
+    <div {{action "selectAmount" "amount2"}} class="btn btn-secondary custom-control custom-radio mb-2">
+      {{radio-button name="amount-select" id="amount2" class="custom-control-input" value=this.package2 checked=cubeAmount}}
+      <label class="custom-control-label px-2" for="amount2">
+        <i class="fa fa-cube"></i>&nbsp;{{package2}}
+      </label>
+    </div>
+    <div {{action "selectAmount" "amount3"}} class="btn btn-secondary custom-control custom-radio mb-2">
+      {{radio-button name="amount-select" id="amount3" class="custom-control-input" value=this.package3 checked=cubeAmount}}
+      <label class="custom-control-label px-2" for="amount3">
+        <i class="fa fa-cubes"></i>&nbsp;{{package3}}
+      </label>
+    </div>
+    <div {{action "selectAmount" "amount4"}} class="btn btn-secondary  custom-control custom-radio mb-2">
+      {{radio-button name="amount-select" id="amount4" class="custom-control-input" value=this.package4 checked=cubeAmount}}
+      <label class="custom-control-label px-2" for="amount4">
+        <i class="fa fa-cubes"></i>&nbsp;{{package4}}
+      </label>
+    </div>
+    <div {{action "selectAmount" "amount5"}} class="btn btn-secondary custom-control custom-radio mb-4">
+      {{radio-button name="amount-select" id="amount5" class="custom-control-input" value=this.package5 checked=cubeAmount}}
+      <label class=" custom-control-label px-2" for="amount5">
+        <i class="fa fa-cubes"></i>&nbsp;{{package5}}
+      </label>
+    </div>
+    <button type="button" class="  btn btn-primary btn-block" {{action "purchaseCubes"}}>
+      Buy Cubes
+    </button>
+  </div>
+</form>

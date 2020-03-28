@@ -3,7 +3,7 @@ class Transaction
     :timestamp,
     :transaction_type,
     :details,
-    :credit_value,
+    :cube_value,
     :dollar_value
 
     def self.get_transactions_for_user(user_id, page = 1)
@@ -12,13 +12,13 @@ class Transaction
       per_page = 10
 
       user = User.where('id = ?', user_id).first
-      purchases = CreditPurchase
+      purchases = CubePurchase
         .where('user_id = ?', user_id)
-      credit_transfers = CreditTransfer
+      cube_transfers = CubeTransfer
         .where('to_user_id = ? OR from_user_id = ?', user_id, user_id)
       # Include all user record data to prevent a lookup per each user
       ActiveRecord::Associations::Preloader.new.preload(
-        credit_transfers, [:to_user, :from_user]
+        cube_transfers, [:to_user, :from_user]
       )
       payouts = Payout.where('user_id = ?', user_id)
 
@@ -36,17 +36,17 @@ class Transaction
           cleared: purchase.cleared,
           cancelled: purchase.cancelled
         }
-        transaction.credit_value = purchase.credits_purchased
+        transaction.cube_value = purchase.cubes_purchased
         transaction.dollar_value = purchase.purchase_amount
         if purchase.cleared == false || purchase.cancelled == true
-          transaction.credit_value = 0
+          transaction.cube_value = 0
           trnasaction.dollar_value = 0
         end
         transactions.push(transaction)
       end
 
-      total_credits_made = 0
-      credit_transfers.each do |transfer|
+      total_cubes_made = 0
+      cube_transfers.each do |transfer|
         transaction = Transaction.new
         transaction.transaction_type = 'transfer'
         transaction.timestamp = transfer.created_at.to_datetime.strftime("%Q")
@@ -56,9 +56,9 @@ class Transaction
           from_user: transfer.from_user.username,
           to_user: transfer.to_user.username
         }
-        transaction.credit_value = transfer.credits_transferred
+        transaction.cube_value = transfer.cubes_transferred
         if transfer.to_user_id = user_id
-          total_credits_made += transfer.credits_transferred
+          total_cubes_made += transfer.cubes_transferred
         end
         transactions.push(transaction)
       end
@@ -72,9 +72,9 @@ class Transaction
           payment_method: payout.payment_method,
         }
         transaction.details[:bitcoin_address] = payout.bitcoin_address.last(5) if payout.bitcoin_address
-        transaction.credit_value = payout.total_credits
+        transaction.cube_value = payout.total_cubes
         transaction.dollar_value = payout.total_amount_paid
-        total_amount_already_paid += payout.total_credits
+        total_amount_already_paid += payout.total_cubes
         transactions.push(transaction)
       end
 
@@ -94,9 +94,9 @@ class Transaction
         total_pages: total_pages
       }
       if user.broadcaster
-        if total_credits_made >= total_amount_already_paid
-          transaction_data[:remaining_credits_to_payout] =
-            total_credits_made - total_amount_already_paid
+        if total_cubes_made >= total_amount_already_paid
+          transaction_data[:remaining_cubes_to_payout] =
+            total_cubes_made - total_amount_already_paid
         end
       end
       

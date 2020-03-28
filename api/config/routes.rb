@@ -26,9 +26,9 @@ Rails.application.routes.draw do
   resources :user_blocks
   resources :game_logs
 
-  # Credit purchase and transfer data
-  resources :credit_transfers
-  resources :credit_purchases
+  # Cube purchase and transfer data
+  resources :cube_transfers
+  resources :cube_purchases
   # resources :payouts
   get '/transactions', to: 'transactions#index'
 

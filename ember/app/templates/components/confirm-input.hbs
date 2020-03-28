@@ -1,8 +1,8 @@
 <div class={{if showButton "d-flex" "d-none"}}>
 
-  {{#if (eq this.type "tip")}}
+  {{#if (eq this.type "donation")}}
       <div class="btn btn-primary   px-2 input-group-append h-2-4r" {{action "openConfirm"}}>
-        {{button-title}}     <img src="/credits.svg" class="" width="25rem">
+        {{button-title}}    <i class="fa fa-cubes"></i>
       </div>
 
   {{else if (eq this.type "reset")}}

@@ -10,5 +10,5 @@ export default DS.Model.extend({
   paymentMethod: DS.attr('string'),
   // cleared: DS.attr('boolean'),
   // cancelled: DS.attr('boolean'),
-  creditsPurchased: DS.attr('number')
+  cubesPurchased: DS.attr('number')
 });

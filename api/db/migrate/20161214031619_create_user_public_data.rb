@@ -10,7 +10,7 @@ class CreateUserPublicData < ActiveRecord::Migration[5.2]
       t.string :channel_topic
       t.integer :current_game_id
       t.string :streamnail_path, null: false, default: Rails.configuration.x.saber.no_profile_image_url
-      t.boolean :allow_tips, default: true, null: false
+      t.boolean :allow_donations, default: true, null: false
       t.boolean :allow_suggested_games, default: false, null: false
       t.string :timezone
       t.string :user_custom_tags, default: nil, array: true

@@ -12,8 +12,8 @@ export default Service.extend({
 
   signupSuccess: false,
   readyForConversationLoad: true,
-  readyForCreditLoad: true,
-  openCreditDropdown: function() {}, //populated by dropdown-shim component
+  readyForCubeLoad: true,
+  openCubePurchaseDropdown: function() {}, //populated by dropdown-shim component
   openLoginDropdown: function() {}, //populated by dropdown-shim component
 
   // Main login function

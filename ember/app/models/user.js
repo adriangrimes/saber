@@ -4,8 +4,8 @@ import { not as computedNot, or as computedOr } from '@ember/object/computed';
 export default DS.Model.extend({
   // Has one user account datum record
   userPublicDatum: DS.belongsTo('user-public-datum'),
-  creditPurchases: DS.hasMany('credit-purchase'),
-  creditTransfers: DS.hasMany('credit-transfer'),
+  cubePurchases: DS.hasMany('cube-purchase'),
+  cubeTransfers: DS.hasMany('cube-transfer'),
 
   // Account data
   username: DS.attr('string'),
@@ -24,7 +24,7 @@ export default DS.Model.extend({
   pendingDeletionSince: DS.attr('date'),
   securityQuestions: DS.attr('string'), // Encrypted at the back-end level
   streamKey: DS.attr('string'),
-  creditsRemaining: DS.attr('number'),
+  cubesRemaining: DS.attr('number'),
 
   // Site settings
   darkMode: DS.attr('boolean'),

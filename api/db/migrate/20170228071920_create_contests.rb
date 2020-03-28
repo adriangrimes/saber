@@ -4,7 +4,7 @@ class CreateContests < ActiveRecord::Migration[5.2]
       t.string :name
       t.text :description
       t.text :rules
-      t.integer :credit_reward
+      t.integer :cube_reward
       t.datetime :start
       t.datetime :end
 

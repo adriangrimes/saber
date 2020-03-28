@@ -5,6 +5,6 @@ class TransactionSerializer
     :timestamp,
     :transaction_type,
     :details,
-    :credit_value,
+    :cube_value,
     :dollar_value
 end

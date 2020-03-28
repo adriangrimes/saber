@@ -8,7 +8,7 @@ export default Component.extend({
   currentPage: 1,
   totalTransactionPages: 0,
   totalTransactions: 0,
-  remainingCreditsToPayout: 0,
+  remainingCubesToPayout: 0,
 
   actions: {
     getTransactionPage(page) {
@@ -26,8 +26,8 @@ export default Component.extend({
             this.set('totalTransactions', transactions.meta.totalTransactions);
             this.set('totalTransactionPages', transactions.meta.totalPages);
             this.set(
-              'remainingCreditsToPayout',
-              transactions.meta.remainingCreditsToPayout
+              'remainingCubesToPayout',
+              transactions.meta.remainingCubesToPayout
             );
           } else {
             this.set('transactions', [{ details: 'No transactions' }]);
