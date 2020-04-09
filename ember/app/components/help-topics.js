@@ -65,13 +65,13 @@ export default Component.extend({
 
   gotoHelpTopic() {
     let helpTopic = jQuery('#' + this.get('show'));
-    if (this.show && helpTopic.offset() != undefined) {
+    if (this.show && helpTopic.position() != undefined) {
       once(this, function() {
-        jQuery('html, body').animate(
+        jQuery('#main-outlet').animate(
           {
-            scrollTop: helpTopic.offset().top
+            scrollTop: helpTopic.position().top
           },
-          300
+          500
         );
       });
     }

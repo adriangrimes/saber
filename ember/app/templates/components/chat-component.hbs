@@ -1,27 +1,13 @@
-{{!-- Chat user context menu, hidden until a username is clicked --}}
-<div class={{if chatUserMenuVisible "d-inline-block" "d-none"}} id="chatUserMenu">
-  <a href="/p/{{lower-case chatUserMenuUsername}}" target="_blank" class=" round-top-left-corner-only btn btn-primary pt-1" title="Open users profile in new tab"><span class="fa fa-user pr-2"> </span>{{chatUserMenuUsername}}</a>
-  <button class=" round-top-right-corner-only btn btn-primary float-right pt-1" title="Close" {{action "closeChatUserMenu"}}><span class="fa fa-close"></span></button>
-  <div class="input-group">
-    <div class="input-group-prepend w-50 mr-0 ">
-      <a href="/account/messages?toUser={{chatUserMenuUsername}}" class="btn btn-block btn-primary sharp-bottom-corners" title="Message"><span class="fa fa-envelope"></span></a>
-    </div>
-    <div class="input-group-append w-50">
-      <button class="btn btn-block btn-primary sharp-bottom-corners " title="Kick and Block this user" {{action "blockUser"}}><span class="fa fa-ban"></span></button>
-    </div>
-  </div>
-</div>{{!-- End of context menu display --}}
-
 {{!-- Chat Navigation Tabs --}}
-<BsTab @customTabs={{true}} class="h-100" as |tab|>
-  <BsNav @type="tabs" class="nav nav-tabs no-select" as |nav|>
-    <nav.item @active={{bs-eq tab.activeId "Chat"}} class="nav-item">
-      <a role="tab" onclick={{action "chatTabSelect" tab.select "Chat"}} class={{if chatOpen "nav-link active" "nav-link"}}>
+<BsTab @customTabs={{true}} class="d-flex flex-column h-100" as |tab|>
+  <BsNav @type="tabs" class="no-select" as |nav|>
+    <nav.item @active={{bs-eq tab.activeId "Chat"}}>
+      <a role="tab" onclick={{action "chatTabSelect" tab.select "Chat"}} class="cursor-pointer nav-link {{if chatOpen "active" ""}}">
         Chat
       </a>
     </nav.item>
-    <nav.item @active={{bs-eq tab.activeId "Users"}} class="nav-item">
-      <a role="tab" onclick={{action "chatTabSelect" tab.select "Users"}} class="{{if chatOpen "nav-link" "nav-link active"}}">
+    <nav.item @active={{bs-eq tab.activeId "Users"}}>
+      <a role="tab" onclick={{action "chatTabSelect" tab.select "Users"}} class="cursor-pointer nav-link {{if chatOpen "" "active"}}">
         <span class="badge badge-pill bg-secondary text-white">
           <span title="Viewers" class="fa fa-user-o mr-1"></span>
           <span>
@@ -31,99 +17,118 @@
       </a>
     </nav.item>
   </BsNav>
-  <div class="tab-content h-100">
-    <tab.pane @id="Chat" @title="Chat" class="chat-tab-content h-100">
 
-      <div role="tabpanel" class="tab-pane chat-tab-pane h-100">
+  <div class="tab-content d-flex flex-fill min-height-0">
+
+    <tab.pane @id="Chat" @title="Chat" @class="flex-fill min-height-0">
+      <div class="d-flex flex-fill flex-column h-100 min-height-0">
         <div class="topic-input">
           {{#if (eq session.data.authenticated.username model.username)}}
-
             {{!--  Topic Input Field--}}
             <form {{action "updateChannelTopic" on="submit"}} name="channelTopic" autocomplete="off">
               <div class="input-group">
-                {{input value=channelTopic type="text" autocomplete="off" name="lastpass-disable-search" style="border-radius:0px" class="form-control" placeholder="Enter a Room Topic" data-lpignore="true" }}
-                <button type="submit" name="submitTopic" class="input-group-btn btn btn-primary chat-input-submit">Set Topic</button>
+                {{input value=channelTopic type="text" autocomplete="off" name="lastpass-disable-search" class="form-control form-control-sm m-1" placeholder="Enter a Room Topic" data-lpignore="true" }}
+                <button type="submit" name="submitTopic" class="btn btn-sm btn-secondary my-1 mr-1">Set Topic</button>
               </div>
             </form>{{!-- /Topic Input Field --}}
-
           {{/if}}
         </div>
-        <div id="chat-body" class="card-body chat-tab-body">
 
+        <div id="chat-body" class="chat-tab-body h-100 min-height-0 p-3">
           {{!-- Chat messages --}}
-          <ul id="messages" class="list-style-none p-0 m-0">
+          <ul class="list-style-none p-0 m-0">
             {{#each chatMessagesList as |chatMessage|}}
               {{#if chatMessage.systemMessage}}
                 <li><b>{{chatMessage.data}}</b></li>
               {{else if chatMessage.topicMessage}}
                 <li><b>New topic: {{chatMessage.data}}</b></li>
+              {{else if chatMessage.userJoin}}
+                <li>{{chatMessage.chatUsername}} has joined!</li>
               {{else}}
                 <li>
-                  <span class="chat-username" onclick={{action "openChatUserMenu"}}>
-                    <b>{{chatMessage.chatUsername}}:</b>
-                  </span>
-                  {{chatMessage.data}}
+                  <span class="chat-username">
+                    <BsPopover @placement="bottom" @triggerEvents="click" as |po|>
+                      <a href="/p/{{lower-case chatMessage.chatUsername}}" target="_blank" class="btn btn-light pt-1" title="Open users profile in new tab">
+                        <span class="fa fa-user pr-2"></span>{{chatMessage.chatUsername}}
+                      </a>
+                      <button class="btn btn-light float-right pt-1" title="Close" {{action po.close}}><span class="fa fa-close"></span></button>
+                      <div class="input-group">
+                        <div class="input-group-prepend w-50 mr-0 ">
+                          <a href="/account/messages?toUser={{chatMessage.chatUsername}}" class="btn btn-block btn-light" title="Message"><span class="fa fa-envelope"></span></a>
+                        </div>
+                        <div class="input-group-append w-50">
+                          <button class="btn btn-block btn-light" title="Kick and Block this user" {{action "blockUser"}}><span class="fa fa-ban"></span></button>
+                        </div>
+                      </div>
+                    </BsPopover>
+                    <b>{{chatMessage.chatUsername}}</b></span>:&nbsp;{{chatMessage.data}}
                 </li>
               {{/if}}
             {{/each}}
           </ul>
         </div> {{!-- /Chat messages --}}
+
         {{!-- Chat Input Field --}}
         {{#if session.isAuthenticated}}
           <form {{action "sendUserMessage" on="submit"}} class="chat-input" name="userMessage" autocomplete="off">
-            <div class="input-group chat-input">
-              {{input value=userMessage type="text" id="chatMessageInput" autocomplete="off" name="lastpass-disable-search" class="form-control" placeholder="Chat!" data-lpignore="true" }}
-              <button type="submit" name="submitmsg" class="input-group-btn btn btn-primary chat-input-submit">Send</button>
+            <div class="input-group">
+              {{input value=userMessage type="text" id="chatMessageInput" autocomplete="off" name="lastpass-disable-search" class="form-control form-control-sm m-1" placeholder="Chat!" data-lpignore="true" }}
+              <button type="submit" name="submitmsg" class="btn btn-sm btn-secondary my-1 mr-1">Send</button>
             </div>
           </form>
         {{else}}
           <form {{action this.currentUser.openLoginDropdown}} class="chat-input" name="userMessage" autocomplete="off">
-            <div class="input-group chat-input">
-              {{input value=userMessage type="text" id="chatMessageInput" autocomplete="off" name="lastpass-disable-search" class="form-control" placeholder="Chat!" data-lpignore="true" }}
-              <button type="submit" name="submitmsg" class="input-group-btn btn btn-primary chat-input-submit">Send</button>
+            <div class="input-group">
+              {{input value=userMessage type="text" id="chatMessageInput" autocomplete="off" name="lastpass-disable-search" class="form-control form-control-sm m-1" placeholder="Chat!" data-lpignore="true" }}
+              <button type="submit" name="submitmsg" class="btn btn-sm btn-secondary my-1 mr-1">Send</button>
             </div>
           </form>
         {{/if}}{{!-- /Chat Input Field --}}
       </div>
     </tab.pane>
 
-    <tab.pane @id="Users" @title="Users" class="chat-tab-content">
+    <tab.pane @id="Users" @title="Users" class="chat-tab-content flex-fill min-height-0">
       {{!-- Users List Tab Content --}}
-      <div role="tabpanel" class="tab-pane chat-tab-pane">
-        <div class="card-body chat-tab-body">
-          <ul id="userslist" class="list-style-none  p-0 m-0">
-            {{! Display users}}
-            {{#each chatUsersList as |chatUser|}}
-              <li>
-                <span class="cursor-pointer" onclick={{action "openChatUserMenu"}}>
-                  <b>{{chatUser}}</b>
-                </span>
-              </li>
-            {{/each}}
-            {{! Display guests, if any}}
-            {{#if (gt chatUsersListGuestCount 0)}}
-              <li>
-                <span>
-                  {{#if (gt chatUsersListGuestCount 1)}}
-                    {{chatUsersListGuestCount}} spies
-                  {{else}}
-                    1 spy
-                  {{/if}}
-                </span>
-              </li>
-            {{/if}}
-          </ul>
-        </div>
+      <div class="chat-tab-body d-flex flex-fill flex-column h-100 min-height-0">
+        <ul id="userslist" class="list-style-none p-3 m-0">
+          {{! Display users}}
+          {{#each chatUsersList as |chatUser|}}
+            <li>
+              <span class="cursor-pointer" onclick={{action "openChatUserMenu"}}>
+                <BsPopover @placement="bottom" @triggerEvents="click" as |po|>
+                  <a href="/p/{{lower-case chatUser}}" target="_blank" class="btn btn-light pt-1" title="Open users profile in new tab">
+                    <span class="fa fa-user pr-2"></span>{{chatUser}}
+                  </a>
+                  <button class="btn btn-light float-right pt-1" title="Close" {{action po.close}}><span class="fa fa-close"></span></button>
+                  <div class="input-group">
+                    <div class="input-group-prepend w-50 mr-0 ">
+                      <a href="/account/messages?toUser={{chatUser}}" class="btn btn-block btn-light" title="Message"><span class="fa fa-envelope"></span></a>
+                    </div>
+                    <div class="input-group-append w-50">
+                      <button class="btn btn-block btn-light" title="Kick and Block this user" {{action "blockUser"}}><span class="fa fa-ban"></span></button>
+                    </div>
+                  </div>
+                </BsPopover>
+                <b>{{chatUser}}</b>
+              </span>
+            </li>
+          {{/each}}
+          {{! Display guests, if any}}
+          {{#if (gt chatUsersListGuestCount 0)}}
+            <li>
+              <span>
+                {{#if (gt chatUsersListGuestCount 1)}}
+                  {{chatUsersListGuestCount}} spies
+                {{else}}
+                  1 spy
+                {{/if}}
+              </span>
+            </li>
+          {{/if}}
+        </ul>
       </div>
     </tab.pane>
+
   </div>
+
 </BsTab>
-
-
-
-
-
-
-
-
-{{yield}}

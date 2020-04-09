@@ -1,30 +1,26 @@
 <div class={{if showButton "d-flex" "d-none"}}>
-
   {{#if (eq this.type "donation")}}
-      <div class="btn btn-primary   px-2 input-group-append h-2-4r" {{action "openConfirm"}}>
-        {{button-title}}    <i class="fa fa-cubes"></i>
-      </div>
-
+    <div class="btn btn-primary px-2 input-group-append h-2-4r" {{action "openConfirm"}}>
+      {{button-title}}<i class="fa fa-cubes ml-2 lh-14"></i>
+    </div>
   {{else if (eq this.type "reset")}}
     <div class="btn btn-block btn-primary" {{action "openConfirm"}}>
-      <span class={{if resetIconSpin "fa fa-refresh fa-spin" "fa fa-refresh"}}  aria-hidden="true"></span>&nbsp;
+      <span class={{if resetIconSpin "fa fa-refresh fa-spin" "fa fa-refresh"}} aria-hidden="true"></span>&nbsp;
       {{button-title}}
     </div>
-    {{else if (eq this.type "delete")}}
-      <div class="btn btn-block btn-dark" {{action "openConfirm"}}>
-        <span class="fa fa-trash-o"  aria-hidden="true"></span>&nbsp;
-        {{button-title}}
-      </div>
+  {{else if (eq this.type "delete")}}
+    <div class="btn btn-block btn-dark" {{action "openConfirm"}}>
+      <span class="fa fa-trash-o" aria-hidden="true"></span>&nbsp;
+      {{button-title}}
+    </div>
   {{else}}
     <div class="btn btn-primary border-0 px-2" {{action "openConfirm"}}>
       {{button-title}}
     </div>
   {{/if}}
-
 </div>
 
-<div class="mr-1 ">
-
+<div class="mr-1">
   <div class={{if showConfirm "d-flex" "d-none"}}>
     {{#if titleDetail}}
       <div class="p-2 m-0">{{title}} {{titleDetail}} {{titleEnd}}</div>
@@ -38,7 +34,4 @@
       <span class="fa fa-times"></span>
     </button>
   </div>
-
 </div>
-
-{{yield}}

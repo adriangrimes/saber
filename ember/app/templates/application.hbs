@@ -28,7 +28,6 @@
 
 {{! Navbar }}
 <BsNavbar @class="navbar navbar-expand brand-gradient-bg p-0" @type="pills" as |navbar|>
-
   <LinkTo @route="home" @class="navbar-brand h-100 p-0" @activeClass="">
     <img src="/logo.svg" class="brand-link-image" height="100%">
   </LinkTo>
@@ -43,7 +42,7 @@
           {{dropdown-shim openDropdown=dd.openDropdown}}
           <dd.button @type="" @class="nav-link rounded btn-light mr-2">
             <span class="mx-2">
-            <i class="fa fa-cubes fs-5"></i>
+              <i class="fa fa-cube fs-5"></i>
             </span>
           </dd.button>
           <dd.menu @align="right" @class="px-4 py-3" as |ddm|>
@@ -94,12 +93,6 @@
               </ddm.linkTo>
             </ddm.item>
             <ddm.divider></ddm.divider>
-            <!--  <ddm.item>
-              <label class="form-check-label dropdown-item" onclick={{action "keepDropdownOpen" dd.openDropdown}}>
-                Dark mode
-                {{input type="checkbox" checked=this.currentUser.user.darkMode}}
-              </label>
-            </ddm.item>-->
             <ddm.item>
               <ddm.linkTo @route="help">
                 Help
@@ -131,7 +124,6 @@
       {{else}} {{! user not authenticated, show Log In button}}
         <nav.dropdown @closeOnMenuClick={{false}} as |dd|>
           {{dropdown-shim openDropdown=dd.openDropdown}}
-
           <dd.button @type="" @class="rounded nav-link btn-light mr-1">
             <span class="mx-2">Log in</span>
           </dd.button>
@@ -144,9 +136,7 @@
   </navbar.content>
 </BsNavbar>
 
-<div class="viewport-height">
-  <div class="my-2 mb-5">
-    {{outlet}}
-    {{to-top}}
-  </div>
+<div id="main-outlet" class="fill-viewport">
+  {{outlet}}
+  {{to-top}}
 </div>

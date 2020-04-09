@@ -8,6 +8,8 @@ export default Component.extend({
   websockets: service(),
   store: service(),
 
+  classNames: ['h-100'],
+
   socketRef: null,
 
   chatUserMenuUsername: '',
@@ -125,6 +127,17 @@ export default Component.extend({
     this.startChatConnection();
   },
 
+  didRender() {
+    this._super(...arguments);
+    // Scroll chat to bottom when a message is added to chatMessagesList
+    // (via template re-render)
+    once(this, function() {
+      if (jQuery('#chat-body')[0]) {
+        jQuery('#chat-body').scrollTop(jQuery('#chat-body')[0].scrollHeight);
+      }
+    });
+  },
+
   startChatConnection() {
     console.log('startChatConnection()');
     // Display connection starting message
@@ -235,7 +248,7 @@ export default Component.extend({
         if (message.data != this.get('session.data.authenticated.username')) {
           this.chatMessagesList.pushObject({
             chatUsername: message.data,
-            data: ' has joined the chat!'
+            userJoin: true
           });
         }
         break;
@@ -303,16 +316,5 @@ export default Component.extend({
       this.websockets.closeSocketFor(this.get('chatChannelFullUrl'));
     }
     console.log('closing socket');
-  },
-
-  didRender() {
-    this._super(...arguments);
-    // Scroll chat to bottom when a message is added to chatMessagesList
-    // (via template re-render)
-    once(this, function() {
-      if (jQuery('#chat-body')[0]) {
-        jQuery('#chat-body').scrollTop(jQuery('#chat-body')[0].scrollHeight);
-      }
-    });
   }
 });

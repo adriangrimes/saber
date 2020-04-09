@@ -1,11 +1,11 @@
 <input type="button" class="btn btn-primary" value="Show Cube History" {{action "getTransactionPage" 1}}>
 {{#if transactions}}
   <div class="pt-2">
-    You have {{this.currentUser.user.cubesRemaining}} <img src="/cubes.svg" class="" width="25rem">
+    You have {{this.currentUser.user.cubesRemaining}}<i class="fa fa-cube mx-2"></i>Cubes
   </div>
   {{#if this.currentUser.user.broadcaster}}
     <div class="pt-2">
-      {{remainingCubesToPayout}} <img src="/cubes.svg" class="" width="25rem"> waiting to be paid out
+      {{remainingCubesToPayout}}<i class="fa fa-cube ml-2"></i>waiting to be paid out
     </div>
   {{/if}}
   <div class="table-responsive-md">
@@ -15,7 +15,7 @@
           <th scope="col">Date</th>
           <th scope="col">Type</th>
           <th scope="col">Description</th>
-          <th scope="col" class="text-right">Cubes <img src="/cubes.svg" class="" width="25rem"></th>
+          <th scope="col" class="text-right">Cubes<i class="fa fa-cube ml-2"></i></th>
           <th scope="col" class="text-right">Dollar Value</th>
         </tr>
       </thead>

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mt-2">
   <div class="row m-0">
     <div class="col-xs-12 col-sm-4">
       <div class="well">
@@ -14,30 +14,32 @@
           {{/unless}}
           <br>
           {{#each this.currentUser.conversations as |conversation|}}
-            <button class="btn btn-block {{if conversation.unread "btn-primary" "btn-secondary"}} {{if (eq conversation.username selectedUser) "border border-3" ""}} m-1" {{action "openMessages" conversation.username}}>
+            <button class="btn btn-block {{if conversation.unread "btn-primary" ""}} {{if (eq conversation.username selectedUser) "btn-outline-secondary bg-white" "btn-secondary"}} m-1" {{action "openMessages" conversation.username}}>
               {{conversation.username}} <span class="ml-2 badge badge-primary badge-pill">{{if conversation.unread conversation.unread ""}}</span>
             </button>
           {{/each}}
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-8">
+    <div class="col-xs-12 col-sm-8 bg-white p-3">
       {{#if selectedUser}}
         <h5>Messages with <a href="/p/{{lower-case selectedUser}}">{{selectedUser}}</a></h5>
         <br>
-        {{#unless noMoreHistory}}
-          <a href="" class="text-center" {{action "loadOlderMessages"}}>load older messages</a>
-        {{else}}
-          no more history
-        {{/unless}}
+        <div class="text-center">
+          {{#unless noMoreHistory}}
+            <a href="" class="text-secondary" {{action "loadOlderMessages"}}>load older messages</a>
+          {{else}}
+            <span class="text-muted">end of messages</span>
+          {{/unless}}
+        </div>
       {{/if}}
 
       {{#each privateMessages as |message|}}
-        <div class="border-top {{if message.messageRead "border-default" "border-primary"}} m-1 pl-1 pb-2">
+        <div class="border-top {{if message.messageRead "border-primary" "border-secondary"}} m-1 pl-1 pb-2">
           {{#if (not-eq message.fromUser currentUsername)}}
-            <strong>{{message.fromUser}}</strong>
+            <strong>{{message.fromUser}}:</strong>
           {{else}}
-            <strong class="text-muted">You</strong>
+            <strong class="text-muted">You:</strong>
           {{/if}}
           <div class="float-right">{{ms-to-datetime message.timestamp}}</div>
           <div>{{break-lines message.message}}</div>

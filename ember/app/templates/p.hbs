@@ -1,281 +1,238 @@
-<div class="container-fluid px-0 mt-n2">
+<div class="container-fluid d-md-flex justify-content-between px-0 h-100">
 
   {{#if model.userPublicDatum.broadcaster}}
-    {{!--- Video and Chat Row --}}
-    <div class="row m-0 mb-3">
-      <div class="col-xs-12 col-md-7 p-0">
-        <div class="row pt-1 m-0">
-          <div class="col-8 pb-0">
-            <h4 class="overflow-hidden">
-              {{model.userPublicDatum.username}}
-              {{#if model.userPublicDatum.onlineStatus}}
-                <span title="Online" class="fa fa-video-camera pl-1"></span>
-              {{/if}}
-            </h4>
-          </div>
+    <div class="fill-viewport flex-fill flex-shrink-1">
 
-          <div class="col-4 d-flex justify-content-end">
-            {{#if session.isAuthenticated}}
-              {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
-                {{confirm-input button-title="Email Followers" title="Send email now?"
-                  onConfirm=(action "sendFollowerEmail")
-                }}
-              {{else}}
-                <a href="/account/messages?toUser={{model.userPublicDatum.username}}" class="btn btn-link pb-0">
-                  <span title="Send Private Message" class="fs-1-5r fa fa-envelope"></span>
-                </a>
-              {{/if}}
-            {{else}}
-              <button {{action this.currentUser.openLoginDropdown}} class="btn btn-link pb-0">
-                <span title="Send Private Message" class="fs-1-5r fa fa-envelope"></span>
-              </button>
-            {{/if}}
-
-            <!--  <button type="button" class="btn btn-link pb-0 collapsed" data-toggle="collapse" data-target="#share-form,#share-form2"><span title="Open Share Form" class="fs-1-5r fa fa-share-alt"></span></button>
-            -->
-            {{#if session.isAuthenticated}}
-              {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
-              {{else}}
-                {{#if isFollowed}}
-                  <button type="button" class="btn btn-link pb-0 pl-2"> <span title="Unfollow {{model.userPublicDatum.username}}" class="fs-1-5r fa fa-bell" {{action "toggleFollow" model.userPublicDatum.userId}}></span></button>
-                {{else}}
-                  <button type="button" class="btn btn-link pb-0 pl-2"> <span title="Follow {{model.userPublicDatum.username}}" class="fs-1-5r fa fa-bell-o" {{action "toggleFollow" model.userPublicDatum.userId}}></span></button>
-                {{/if}}
-              {{/if}}
-            {{else}}
-              <button {{action this.currentUser.openLoginDropdown}} type="button" class="btn btn-link pb-0 pl-2"> <span title="Follow {{model.userPublicDatum.username}}" class="fs-1-5r fa fa-bell-o"></span></button>
-            {{/if}}
-          </div>
+      {{! Username row }}
+      <div class="username-bar d-flex align-content-center overflow-hidden p-1 pl-3">
+        <div>
+          {{model.userPublicDatum.username}}
+          {{#if model.userPublicDatum.onlineStatus}}
+            <span title="Online" class="fa fa-video-camera pl-1"></span>
+          {{/if}}
         </div>
+      </div>
 
-        <div class="video-player p-0">
-          {{stream-player
-              broadcasterUsername=model.userPublicDatum.username
-              currentUserUsername=session.data.authenticated.username
-              profilePhoto=model.userPublicDatum.profilePhotoPath
-              isStreaming=isStreaming
-              onlineStatus=model.userPublicDatum.onlineStatus
-            }}
-        </div>
+      <div class="video-player p-0">
+        {{stream-player
+          broadcasterUsername=model.userPublicDatum.username
+          currentUserUsername=session.data.authenticated.username
+          profilePhoto=model.userPublicDatum.profilePhotoPath
+          isStreaming=isStreaming
+          onlineStatus=model.userPublicDatum.onlineStatus
+        }}
+      </div>
 
-        <div class="video-toolbar pt-1">
-          {{#unless currentUser.user.isContracted}}
-            <div name="donation-toolbar" class="btn-toolbar justify-content-between ml-2 mr-1" role="toolbar">
-
-              {{#if model.userPublicDatum.allowDonations}}
-
-                <div class="input-group custom-control custom-radio d-flex">
-                  <div class="input-group-prepend ">
-                    <button class="btn btn-secondary px-2  h-2-4r" type="button" title="Donation Options" {{action "donationMenuToggle"}}>
-                      <span class={{if donationMenuOpen "fa fa-chevron-right" "fa fa-bars"}}></span>
-                    </button>
-                  </div>
-                  <div class={{if donationMenuOpen "d-none input-group-prepend h-2-4r" "d-flex input-group-prepend h-2-4r"}}>
-
-                    {{radio-button value=10 class="custom-control-input radio-is-selected" id="donationAmount10" name=donationAmountOptions checked=donationAmountOptions}}
-                    <label class="btn btn-secondary  px-2 h-2-4r" for="donationAmount10">
-                      10
-                    </label>
-
-                    {{radio-button value=25 class="custom-control-input radio-is-selected" id="donationAmount25" name=donationAmountOptions checked=donationAmountOptions}}
-                    <label class="btn btn-secondary px-2 d-none d-sm-block h-2-4r " for="donationAmount25">
-                      25
-                    </label>
-
-                    {{radio-button value=50 class="custom-control-input radio-is-selected" id="donationAmount50" name=donationAmountOptions checked=donationAmountOptions}}
-                    <label class="btn btn-secondary px-2 h-2-4r" for="donationAmount50">
-                      50
-                    </label>
-
-                    {{radio-button value=100 class="custom-control-input radio-is-selected" id="donationAmount100" name=donationAmountOptions checked=donationAmountOptions}}
-                    <label class="btn btn-secondary px-2 d-none d-sm-block h-2-4r" for="donationAmount100">
-                      100
-                    </label>
-                  </div>
-                  <div class={{if donationMenuOpen "d-flex input-group-prepend h-2-4r" "d-none input-group-prepend h-2-4r"}}>
-                    <div class="w-25">
-                      {{input type="number"  class="form-control " min="1" max="10000" step="1" value=donationAmountOptions }}
-                    </div>
-                    <div class="w-75">
-                      {{input type="text" autocomplete="off" class="form-control" value=inputDonationMessage placeholder="Donation note (optional)" }}
-                    </div>
-                  </div>
-                  {{#if session.isAuthenticated}}
-
-                    {{#if (eq currentUser.user.cubesRemaining 0)}}
-                      <button {{action this.currentUser.openCubePurchaseDropdown}} type="button" class="btn btn-primary   px-2 input-group-append h-2-4r" title="Donate">
-                        Donate <i class="fa fa-cubes"></i>
-                      </button>
-                    {{else}}
-                      {{confirm-input type="donation" title="Donate" titleDetail=this.donationAmountOptions titleEnd="?" button-title="Donate" onConfirm=(action "sendDonation" donationAmountOptions)}}
-                    {{/if}}
-                  {{else}}
-                    <button {{action this.currentUser.openLoginDropdown}} type="button" class="btn btn-primary   px-2 input-group-append h-2-4r" title="Donate">
-                      Donate <i class="fa fa-cubes"></i>
-                    </button>
-                  {{/if}}
+      {{! Donation toolbar}}
+      <div class="video-toolbar pt-1">
+        {{#unless currentUser.user.isContracted}}
+          <div name="donation-toolbar" class="btn-toolbar justify-content-end pr-2" role="toolbar">
+            {{#if model.userPublicDatum.allowDonations}}
+              <div class="input-group custom-control custom-radio d-flex">
+                <div class="input-group-prepend">
+                  <button class="btn btn-secondary px-2 h-2-4r" type="button" title="Donation Options" {{action "donationMenuToggle"}}>
+                    <span class={{if donationMenuOpen "fa fa-chevron-right" "fa fa-bars"}}></span>
+                  </button>
                 </div>
-              {{else}}
-                <div></div>
-              {{/if}}
-            </div>
-          {{/unless}}
-        </div>
-      </div>
+                <div class={{if donationMenuOpen "d-none input-group-prepend h-2-4r" "d-flex input-group-prepend h-2-4r"}}>
+                  {{radio-button value=10 class="custom-control-input radio-is-selected" id="donationAmount10" name=donationAmountOptions checked=donationAmountOptions}}
+                  <label class="btn btn-secondary px-2 h-2-4r" for="donationAmount10">
+                    10
+                  </label>
 
-      <div class="col-xs-12 col-md-5 p-0 h-100">
-        <div class="row m-0">
-          {{! Chat Window }}
-          <div class="col-12 p-0 order-first order-md-last chat-panel">
-            {{chat-component
-              chatChannel=(lower-case model.userPublicDatum.username)
-              channelTopic=model.userPublicDatum.channelTopic
-              model=model.userPublicDatum
-              changeStreamState=(action "streamStateChange")
-            }}
+                  {{radio-button value=25 class="custom-control-input radio-is-selected" id="donationAmount25" name=donationAmountOptions checked=donationAmountOptions}}
+                  <label class="btn btn-secondary px-2 d-none d-sm-block h-2-4r" for="donationAmount25">
+                    25
+                  </label>
+
+                  {{radio-button value=50 class="custom-control-input radio-is-selected" id="donationAmount50" name=donationAmountOptions checked=donationAmountOptions}}
+                  <label class="btn btn-secondary px-2 h-2-4r" for="donationAmount50">
+                    50
+                  </label>
+
+                  {{radio-button value=100 class="custom-control-input radio-is-selected" id="donationAmount100" name=donationAmountOptions checked=donationAmountOptions}}
+                  <label class="btn btn-secondary px-2 d-none d-sm-block h-2-4r" for="donationAmount100">
+                    100
+                  </label>
+                </div>
+                <div class={{if donationMenuOpen "d-flex input-group-prepend h-2-4r" "d-none input-group-prepend h-2-4r"}}>
+                  <div class="w-25">
+                    {{input type="number" class="form-control" min="1" max="10000" step="1" value=donationAmountOptions }}
+                  </div>
+                  <div class="w-75">
+                    {{input type="text" autocomplete="off" class="form-control" value=inputDonationMessage placeholder="Donation note (optional)" }}
+                  </div>
+                </div>
+                {{#if session.isAuthenticated}}
+                  {{#if (eq currentUser.user.cubesRemaining 0)}}
+                    <button {{action this.currentUser.openCubePurchaseDropdown}} type="button" class="btn btn-primary px-2 input-group-append h-2-4r" title="Donate">
+                      <span>Donate</span><i class="fa fa-cubes ml-2 lh-14"></i>
+                    </button>
+                  {{else}}
+                    {{confirm-input type="donation" title="Donate" titleDetail=this.donationAmountOptions titleEnd="?" button-title="Donate" onConfirm=(action "sendDonation" donationAmountOptions)}}
+                  {{/if}}
+                {{else}}
+                  <button {{action this.currentUser.openLoginDropdown}} type="button" class="btn btn-primary px-2 input-group-append h-2-4r" title="Donate">
+                    <span>Donate</span><i class="fa fa-cubes ml-2 lh-14"></i>
+                  </button>
+                {{/if}}
+              </div>
+            {{else}}
+              <div></div>
+            {{/if}}
           </div>
-        </div>
+        {{/unless}}
       </div>
 
-    </div> {{! end video-row div}}
-
-    <div class="row m-0">
-      {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
-        <div class="col ">
-          <button {{action "toggleEditProfile"}}type="button" class="btn btn-primary">
+      {{! Profile editing }}
+      <div class="d-none d-md-block p-2">
+        {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
+          <button {{action "toggleEditProfile"}} type="button" class="btn btn-primary">
             {{if editingProfile "Stop Editing Profile" "Edit Profile"}}
           </button>
-        </div>
-      {{/if}}
-
-      <div class={{if editingProfile "d-block col-12 p-0" "d-none col-12 p-0"}}>
-        {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
-          <form autocomplete="off" {{action "submitProfileSettings" on="submit"}}>
-            <div class="card-body">
-              {{#if currentUser.user.broadcaster}}
+        {{/if}}
+        <div class={{if editingProfile "d-block p-0" "d-none p-0"}}>
+          {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
+            <form autocomplete="off" {{action "submitProfileSettings" on="submit"}}>
+              <div class="card-body">
+                {{#if currentUser.user.broadcaster}}
+                  <div class="form-group">
+                    <label for="inputaboutme">About Me</label>
+                    {{textarea rows="5" class="form-control" value=model.userPublicDatum.profileAboutMe
+                      placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
+                  </div>
+                {{else if currentUser.user.developer}}
+                  <div class="form-group">
+                    <label for="inputaboutme">About Me</label>
+                    {{textarea class="form-control" value=model.userPublicDatum.profileAboutMe
+                      placeholder="A little about yourself and your games"}}
+                  </div>
+                {{else}}
+                  <div class="form-group">
+                    <label for="inputaboutme">About Me</label>
+                    {{textarea class="form-control" value=model.userPublicDatum.profileAboutMe
+                      placeholder="A little about yourself, your favorite games etc."}}
+                  </div>
+                {{/if}}
                 <div class="form-group">
-                  <label for="inputaboutme">About Me</label>
-                  {{textarea rows="5" class="form-control" value=model.userPublicDatum.profileAboutMe
-                    placeholder="A little about yourself, the type of games you like to play, your streaming schedule, etc."}}
+                  <label for="inputlocation">Location</label>
+                  {{input type="text" class="form-control" value=model.userPublicDatum.profileLocation
+                    placeholder="Your general location" }}
                 </div>
-              {{else if currentUser.user.developer}}
                 <div class="form-group">
-                  <label for="inputaboutme">About Me</label>
-                  {{textarea class="form-control" value=model.userPublicDatum.profileAboutMe
-                    placeholder="A little about yourself and your games"}}
+                  <label for="inputLanguages">Languages</label>
+                  {{input type="text" class="form-control" value=model.userPublicDatum.profileLanguages
+                    placeholder="I can speak..." }}
                 </div>
-              {{else}}
-                <div class="form-group">
-                  <label for="inputaboutme">About Me</label>
-                  {{textarea class="form-control" value=model.userPublicDatum.profileAboutMe
-                    placeholder="A little about yourself, your favorite games etc."}}
+                {{#if currentUser.user.broadcaster}}
+                  <div class="form-group ">
+                    <label>Tags (choose up to 15)</label>
+                    {{#tag-input
+                      tags=model.userPublicDatum.userCustomTags
+                      addTag=(action 'addTag')
+                      removeTagAtIndex=(action 'removeTagAtIndex')
+                      maxlength=20
+                      placeholder = 'Add tags here'
+                      as |tag|
+                    }}
+                      {{tag}}
+                    {{/tag-input}}
+                  </div>
+                {{/if}}
+                <br>
+                {{confirm-input button-title="Revert Changes" title="Revert Changes?"
+                  onConfirm=(action "cancelProfileChanges" model.userPublicDatum)
+                }}
+                <div class="float-right">
+                  {{submit-button submitSuccessState=(mut profileSaveSuccess) submitStarted=(mut profileSaveStart)}}
                 </div>
-              {{/if}}
-              <div class="form-group">
-                <label for="inputlocation">Location</label>
-                {{input type="text" class="form-control" value=model.userPublicDatum.profileLocation
-                  placeholder="Your general location" }}
+                <br>
               </div>
-              <div class="form-group">
-                <label for="inputLanguages">Languages</label>
-                {{input type="text" class="form-control" value=model.userPublicDatum.profileLanguages
-                  placeholder="I can speak..." }}
-              </div>
-              {{#if currentUser.user.broadcaster}}
-                <div class="form-group ">
-                  <label>Tags (choose up to 15)</label>
-                  {{#tag-input
-                    tags=model.userPublicDatum.userCustomTags
-                    addTag=(action 'addTag')
-                    removeTagAtIndex=(action 'removeTagAtIndex')
-                    maxlength=20
-                    placeholder = 'Add tags here'
-                    as |tag|
-                  }}
-                    {{tag}}
-                  {{/tag-input}}
-                </div>
-              {{/if}}
-              <br>
-              {{confirm-input button-title="Revert Changes" title="Revert Changes?"
-                onConfirm=(action "cancelProfileChanges" model.userPublicDatum)
-              }}
-              <div class="float-right">
-                {{submit-button submitSuccessState=(mut profileSaveSuccess) submitStarted=(mut profileSaveStart)}}
-              </div>
-              <br>
-            </div>
-          </form>
-        {{/if}}
-      </div>
-      <div class={{if editingProfile "d-none col-12 pt-3 no-select" "d-block col-12 pt-3 no-select"}}>
-        <h4>About {{model.userPublicDatum.username}}:</h4>
-        {{if model.userPublicDatum.profileAboutMe (break-lines model.userPublicDatum.profileAboutMe)}}
-        <br>
-        <br>
-        {{#if model.userPublicDatum.profileAge}}
-          <label>Age:</label>
-          {{model.userPublicDatum.profileAge}}
-          <br>
-        {{/if}}
-        {{#if model.userPublicDatum.profileLocation}}
-          <label>Location:</label>
-          {{model.userPublicDatum.profileLocation}}
-          <br>
-        {{/if}}
-        {{#if model.userPublicDatum.profileLanguages}}
-          <label>Languages:</label>
-          {{model.userPublicDatum.profileLanguages}}
-          <br>
-        {{/if}}
-        {{#if model.userPublicDatum.broadcaster}}
-          {{#if tags}}
-            <div class="form-group">
-              <label>Tags:</label>
-              {{#tag-input
-                tags=tags
-                readOnly=true
-                as |tag|
-              }}
-                {{tag}}
-              {{/tag-input}}
-            </div>
+            </form>
           {{/if}}
-        {{/if}}
-      </div>
-
-      <div class={{if editingProfile "d-none col-12 pt-3 p-0 no-select" "d-block col-12 pt-3 p-0 no-select"}}>
-        <div class="col-12 p-0 horizontal-scroll">
-          {{!--Photos window --}}
-          {{#each model.userPublicUploads as |upload|}}
-            {{#if upload.fileUrl}}
-              {{#light-box
-                href=upload.fileUrl
-                data-lightbox=model.userPublicDatum.username
-                data-title=(concat model.userPublicDatum.username "'s images")
-                data-alt="Test alt"
-                data-class="image"
-                inlineImage=false
-              }}
-                <img src="{{upload.fileUrlSmall}}" class="image-thumb">
-              {{/light-box}}
-            {{/if}}
-          {{/each}}
         </div>
-      </div>
-      <div class={{if editingProfile "d-block col-12" "d-none col-12"}}>
-        {{!-- Upload Photos Window --}}
-        {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
-          {{edit-photos
-            model=(mut (get model "userPublicUploads"))
-            store=this.store
-            profilePhotoPath=model.userPublicDatum.profilePhotoPath
-            onProfileImageChanged=(action "profileImageChanged")
-          }}
-        {{/if}}
+
+        {{! Live profile view}}
+        <div class={{if editingProfile "d-none pt-3 no-select" "d-block pt-3 no-select"}}>
+          <h4>About {{model.userPublicDatum.username}}:</h4>
+          {{if model.userPublicDatum.profileAboutMe (break-lines model.userPublicDatum.profileAboutMe)}}
+          <br>
+          <br>
+          {{#if model.userPublicDatum.profileAge}}
+            <label>Age:</label>
+            {{model.userPublicDatum.profileAge}}
+            <br>
+          {{/if}}
+          {{#if model.userPublicDatum.profileLocation}}
+            <label>Location:</label>
+            {{model.userPublicDatum.profileLocation}}
+            <br>
+          {{/if}}
+          {{#if model.userPublicDatum.profileLanguages}}
+            <label>Languages:</label>
+            {{model.userPublicDatum.profileLanguages}}
+            <br>
+          {{/if}}
+          {{#if model.userPublicDatum.broadcaster}}
+            {{#if tags}}
+              <div class="form-group">
+                <label>Tags:</label>
+                {{#tag-input
+                  tags=tags
+                  readOnly=true
+                  as |tag|
+                }}
+                  {{tag}}
+                {{/tag-input}}
+              </div>
+            {{/if}}
+          {{/if}}
+        </div>
+
+        {{!-- Uploaded photos --}}
+        <div class={{if editingProfile "d-none pt-3 p-0 no-select" "d-block pt-3 p-0 no-select"}}>
+          <div class="p-0 horizontal-scroll">
+            {{#each model.userPublicUploads as |upload|}}
+              {{#if upload.fileUrl}}
+                {{#light-box
+                  href=upload.fileUrl
+                  data-lightbox=model.userPublicDatum.username
+                  data-title=(concat model.userPublicDatum.username "'s images")
+                  data-alt=(concat model.userPublicDatum.username "'s images")
+                  data-class="image"
+                  inlineImage=false
+                }}
+                  <img src="{{upload.fileUrlSmall}}" class="image-thumb">
+                {{/light-box}}
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+
+        {{!-- Edit uploaded photos --}}
+        <div class={{if editingProfile "d-block" "d-none"}}>
+          {{#if (eq session.data.authenticated.username model.userPublicDatum.username)}}
+            {{edit-photos
+              model=(mut (get model "userPublicUploads"))
+              store=this.store
+              profilePhotoPath=model.userPublicDatum.profilePhotoPath
+              onProfileImageChanged=(action "profileImageChanged")
+            }}
+          {{/if}}
+        </div>
       </div>
     </div>
-  {{/if}}
-</div>
 
-{{outlet}}
+    {{! Chat Window }}
+    <div class="fill-viewport chat-panel">
+      {{chat-component
+          chatChannel=(lower-case model.userPublicDatum.username)
+          channelTopic=model.userPublicDatum.channelTopic
+          model=model.userPublicDatum
+          changeStreamState=(action "streamStateChange")
+        }}
+    </div>
+
+  {{/if}}
+
+</div>
