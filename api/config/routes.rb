@@ -55,4 +55,7 @@ Rails.application.routes.draw do
   resources :help_topics
   resources :static_game_data
 
+  # status info for uptime checking
+  get '/up', to: 'status#up'
+
 end

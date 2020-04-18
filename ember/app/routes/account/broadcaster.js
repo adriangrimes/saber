@@ -60,12 +60,14 @@ export default Route.extend(AuthenticatedRouteMixin, {
           )
         ) {
           transition.abort();
+        } else {
+          // Clears any unused created records
+          this.controller
+            .get('model.contractorApplication')
+            .rollbackAttributes();
+          return true;
         }
       }
-
-      // Clears any unused created records
-      this.controller.get('model.contractorApplication').rollbackAttributes();
-      return true;
     }
   }
 });

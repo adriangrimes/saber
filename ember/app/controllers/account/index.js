@@ -31,7 +31,8 @@ export default Controller.extend({
   siteSettingsSaveSuccess: false,
   siteSettingsSaveStart: false,
 
-  streamKeyDisplay: '********************',
+  streamKeyDisplay: '•••••••••••••••••••••',
+  streamKeyObfuscatedDisplay: '•••••••••••••••••••••',
   streamKeyHidden: true,
   streamServer: 'rtmp://saber.solversion.com/stream',
   toggleHideStreamKeyText: 'Show Stream Key',
@@ -420,7 +421,7 @@ export default Controller.extend({
         this.set('toggleHideStreamKeyText', 'Hide Stream Key');
       } else {
         this.set('streamKeyHidden', true);
-        jQuery('[id=streamKeyDisplayID]').val('•••••••••••••••••••••');
+        jQuery('[id=streamKeyDisplayID]').val(this.streamKeyObfuscatedDisplay);
 
         this.set('toggleHideStreamKeyText', 'Show Stream Key');
       }
@@ -441,6 +442,7 @@ export default Controller.extend({
         );
       }
     },
+
     copyServerToClipboard() {
       var copyText = document.getElementById('streamServerDisplay');
       copyText.select();
@@ -454,41 +456,33 @@ export default Controller.extend({
         3000
       );
     },
+
     resetStreamKey() {
-      // Get current state of setting from page and set to a variable
-      var newStreamKey = '';
-      var possible =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-      for (var i = 0; i < 42; i++) {
-        newStreamKey += possible.charAt(
-          Math.floor(Math.random() * possible.length)
-        );
-      }
-      if (this.streamKeyHidden == false) {
-        jQuery('[id=streamKeyDisplayID]').val(newStreamKey);
-      }
-
-      this.set('streamKey', newStreamKey);
-      this.model.user.set('streamKey', newStreamKey);
+      // Set streamKey to any value, keys are generated on the API side
+      this.model.user.set('streamKey', '');
       // Save record to db
       this.model.user
         .save()
-        .then(() => {
+        .then(user => {
           console.log('newStreamKey saved');
+          this.set('newCopySuccess', 'd-block');
+          later(
+            this,
+            function() {
+              this.set('newCopySuccess', 'd-none');
+            },
+            3000
+          );
+          if (this.streamKeyHidden) {
+            this.set('streamKeyDisplay', this.streamKeyObfuscatedDisplay);
+          } else {
+            this.set('streamKeyDisplay', user.streamKey);
+          }
         })
         .catch(err => {
           console.log('error saving user record:', err);
           this.errorHandler.handleWithNotification(err);
         });
-      this.set('newCopySuccess', 'd-block');
-      later(
-        this,
-        function() {
-          this.set('newCopySuccess', 'd-none');
-        },
-        3000
-      );
     },
 
     submitStreamSettings() {

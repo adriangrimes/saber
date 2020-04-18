@@ -13,7 +13,7 @@ class User < ApplicationRecord
          :lockable
 
   # Public profile data
-  has_one :user_public_datum#, autosave: true
+  has_one :user_public_datum #, autosave: true
   has_one :contractor_application
   # Set user_verification_uploads to dependent: :delete_all, which will remove them
   # from the database, but keep Shrine from deleting them off disk
@@ -42,6 +42,7 @@ class User < ApplicationRecord
   before_save :ensure_stream_key, if: Proc.new { |u| u.broadcaster }
   before_save :regenerate_authentication_token, if: :encrypted_password_changed?
   before_save :send_drop_stream, if: :stream_key_changed?
+  before_save :generate_stream_key, if: :stream_key_changed?
   before_save :suspend_account, if: :pending_deletion_since_changed?
 
   after_commit :update_public_data_record
@@ -86,6 +87,11 @@ class User < ApplicationRecord
   # Block authentication if account is pending deletion
   def active_for_authentication?
     super && !suspended_account
+  end
+
+  def generate_stream_key
+    p "generating stream_key"
+    self.stream_key = StreamKey.generate
   end
 
   def ensure_stream_key
@@ -172,17 +178,5 @@ class User < ApplicationRecord
 
     def regenerate_authentication_token
       self.authentication_token = generate_authentication_token
-    end
-
-    def generate_stream_key
-      p "generating stream_key"
-      possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      loop do
-        key = ""
-        64.times do |i|
-          key += possible[(rand() * possible.length).floor];
-        end
-        break key unless User.where(stream_key: key).first
-      end
     end
 end

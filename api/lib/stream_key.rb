@@ -1,5 +1,5 @@
 module StreamKey
-  def generate
+  def self.generate
     stream_key = ""
     possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
