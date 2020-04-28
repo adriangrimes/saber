@@ -4,12 +4,6 @@
 ### CentOS 7
 ### saber-staging
 
-### Check the box for the webadmin-staging SSH key in the Add an SSH key section of linode creation/rebuilding
-
-# Connect to root@<ip> over SSH with private key
-
-# all yum commands will need -y if they are used in an unattended script
-
 # machine setup
 hostnamectl set-hostname saber-staging
 reboot
