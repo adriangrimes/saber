@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2020_03_23_002307) do
     t.string "name"
     t.text "description"
     t.text "rules"
-    t.integer "credit_reward"
+    t.integer "cube_reward"
     t.datetime "start"
     t.datetime "end"
     t.datetime "created_at", null: false

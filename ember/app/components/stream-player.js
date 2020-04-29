@@ -2,7 +2,6 @@ import Component from '@ember/component';
 import { later } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import config from '../config/environment';
-import jQuery from 'jquery';
 
 export default Component.extend({
   currentUser: service(),

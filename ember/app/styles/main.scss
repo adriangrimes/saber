@@ -28,13 +28,6 @@ body {
   min-height: 100vh;
 }
 
-a {
-  text-decoration: none;
-}
-a:hover {
-  color: $brand-color-secondary;
-}
-
 .navbar {
   height: 3rem;
 }
@@ -441,7 +434,7 @@ $border-radius: 0.12rem;
   color: $brand-color-primary;
 }
 .uppy-Dashboard-browse {
-  color: $brand-color-primary;
+  color: $brand-color-secondary;
   &:hover,
   &:focus {
     border-bottom: 2px solid $brand-color-primary;
@@ -481,6 +474,22 @@ $border-radius: 0.12rem;
 }
 
 @import "ember-bootstrap/bootstrap";
+
+a {
+  color: $brand-color-primary;
+  text-decoration: underline;
+  text-decoration-color: $brand-color-secondary;
+}
+a:hover {
+  color: $brand-color-secondary;
+}
+.btn {
+  text-decoration: none;
+}
+.dropdown-item {
+  text-decoration: none;
+}
+
 @import "notifications";
 $ember-power-select-line-height: 2.5;
 @import "ember-power-select";

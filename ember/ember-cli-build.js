@@ -26,7 +26,8 @@ module.exports = function(defaults) {
     },
     fingerprint: {
       enabled: EmberApp.env() === 'production' || EmberApp.env() === 'staging', // - Boolean. Enables fingerprinting if true. True by default if current environment is production.
-      generateAssetMap: true
+      generateAssetMap: true,
+      exclude: ['apple-touch-icon', 'favicon', 'mstile', 'android-chrome']
     }
   });
 
@@ -42,7 +43,6 @@ module.exports = function(defaults) {
   // modules that you would like to import into your application
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
-
 
   // Plyr library
   app.import({

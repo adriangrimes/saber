@@ -187,8 +187,8 @@ if Rails.env.production? == false
   fake_usernames = FakeUsernames.usernames
   fake_usernames = fake_usernames.shuffle
 
-  fake_tag_array = ['English', 'PvP', 'Multiplayer', 'Lets Play', 'Speedrun',
-    'Hard Mode', 'Drops Enabled', 'Overwatch', 'Minecraft', 'Competitive',
+  fake_tag_array = ['English', 'PvP', 'Multiplayer', 'LetsPlay', 'Speedrun',
+    'HardMode', 'DropsEnabled', 'Overwatch', 'Minecraft', 'Competitive',
     'Raiding', 'Ranked', 'Casual']
 
   fake_online_statuses = [true, false]
