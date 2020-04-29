@@ -36,6 +36,7 @@ The SSL/TLS certificate for the live server is provided by [Let's Encrypt](https
 - Responsive design thanks to [Bootstrap](https://getbootstrap.com/)
 - User accounts with multiple user type variants, registration, and authentication
 - Almost real-time RTMP video streaming delivered as an HLS stream, and secured by a private stream key per each broadcaster
+  - Use any software like [OBS](https://obsproject.com/) to stream video
 - Individual real-time WebSocket chat rooms for all broadcasters
 - Credit purchasing and transaction/donation framework (like Bits on twitch.tv)
 - Direct user messaging with unread counts (and email notifications in the future)
