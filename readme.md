@@ -33,6 +33,7 @@ The SSL/TLS certificate for the live server is provided by [Let's Encrypt](https
 ## Features
 
 - Uses Ember.js for a single page app, navigation and actions feel snappy
+- Responsive design thanks to [Bootstrap](https://getbootstrap.com/)
 - User accounts with multiple user type variants, registration, and authentication
 - Almost real-time RTMP video streaming delivered as an HLS stream, and secured by a private stream key per each broadcaster
 - Individual real-time WebSocket chat rooms for all broadcasters
