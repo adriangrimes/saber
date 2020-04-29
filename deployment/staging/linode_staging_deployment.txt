@@ -1,8 +1,9 @@
-#!/bin/bash
-
 ### Linode Nanode 1 CPU 1GB RAM
 ### CentOS 7
 ### saber-staging
+
+# NOTE: this "script" can't be run as-is/unattended
+# NOTE: a number of credentials, passwords, and user accounts need to be replaced with your own. Passwords can be left as is, if you really don't mind
 
 # machine setup
 hostnamectl set-hostname saber-staging
@@ -93,13 +94,13 @@ systemctl restart fail2ban
 # test if fail2ban is reporting over email
 
 # install certbot
+# you man need to modify the NGINX conf files to allow http access to issue the Let's Encrypt certificate
 yum install -y certbot python2-certbot-nginx
 certbot certonly --nginx
 # accept all defaults
 # sanity check certbot and cert renewal
 certbot renew --dry-run
 # add cron job to check for a new cert every 12 hours (will only renew when the cert is within 30 days of expiring)
-#echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew --pre-hook \"systemctl stop nginx\" --post-hook \"systemctl start nginx\"" | tee -a /etc/crontab > /dev/null
 (crontab -l ; echo "0 12 * * * /usr/bin/certbot renew --quiet") | crontab -
 
 # install passenger and nginx
@@ -168,23 +169,16 @@ systemctl start nginx
 
 mkdir /etc/nginx/conf.d
 
-# follow this guide to build ffmpeg with x264 and aac
-# https://trac.ffmpeg.org/wiki/CompilationGuide/Centos
-# or 
 # copy ffmpeg and other bins to /usr/bin
 # tar xvf ffmpeg.tgz -C /usr
+# or 
+# follow this guide to build ffmpeg with x264 and aac
+# https://trac.ffmpeg.org/wiki/CompilationGuide/Centos
+
 #####################################################################################################################
-# visiting the ip in a browser should show the nginx welcome screen
 
 # copy nginx conf
-
-# Stop deep linking or hot linking
-#location /images/ {
-#  valid_referers none blocked www.example.com example.com;
-#   if ($invalid_referer) {
-#     return   403;
-#   }
-#}
+# you may need to modify the conf files to allow http access to issue the Let's Encrypt certificate
 
 # mysql (mariadb)
 yum update -y
@@ -214,22 +208,22 @@ API_KEY='API_KEY' sh ./install.sh
 mysql -u root -pl5%qX#5W2NjYNAoe
 CREATE USER 'amplify-agent'@'localhost' IDENTIFIED BY 'PASSWORD';
 # configure aplify conf to use mysqldb metrics
-#Add the following to /etc/amplify-agent/agent.conf:
-#[extensions]
-#..
-#mysql = True
+# Add the following to /etc/amplify-agent/agent.conf:
+# [extensions]
+# ..
+# mysql = True
 
-#[mysql]
-##host =
-##port =
-#unix_socket = /var/run/mysqld/mysqld.sock
-#user = amplify-agent
-#password = YOUR_PASSWORD_HERE
+# [mysql]
+# #host =
+# #port =
+# unix_socket = /var/run/mysqld/mysqld.sock
+# user = amplify-agent
+# password = YOUR_PASSWORD_HERE
 systemctl restart amplify-agent
 
 # login as webadmin over ssh/scp
 
-# build and copy ember /dist to /var/www/saber-staging/ember
+# build ember with `ember build --environment=staging` and copy ember/dist to /var/www/saber-staging/ember
 
 # install vips libraries for thumnailing
 sudo yum install glib2-devel expat-devel libgsf-devel libjpeg-turbo libtiff-devel fftw-devel orc
@@ -255,15 +249,13 @@ rbenv global 2.5.3
 # update RubyGems system gems
 gem update --system --no-document
 
-# copy saber API files and install gems 
+# copy saber API files and install gems
 cd /var/www/saber-staging/api
 # force installation of newer bundler gem
 gem install bundler --force
 bundle config set deployment 'true'
 bundle config set without 'development test'
 bundle install
-#mkdir log ?
-#mkdir storage ?
 # set permissions on rails folder/files
 sudo chmod 700 config db
 sudo chmod 600 config/database.yml config/secrets.yml
@@ -288,7 +280,7 @@ pm2 startup
 # run given command 
 sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u webadmin --hp /home/webadmin
 pm2 save
-#pm2 install pm2-health
+# optional, pm2 install pm2-health (needs some configuration)
 
 sudo chown -R webadmin:www /var/www/*
 sudo chown -R nginx:www /var/www/saber-staging/stream
@@ -298,13 +290,14 @@ sudo systemctl restart nginx
 # finishing up
 sudo yum update
 
-#in /etc/ssh/sshd_config
-#change
-#ChallengeResponseAuthentication yes
-#PasswordAuthentication yes
-#to
-#ChallengeResponseAuthentication no
-#PasswordAuthentication no
+# in /etc/ssh/sshd_config
+# change
+# ChallengeResponseAuthentication yes
+# PasswordAuthentication yes
+# to
+# ChallengeResponseAuthentication no
+# PasswordAuthentication no
+
 # remove authorized keys from root to prevent ssh login
 sudo rm /root/.ssh/authorized_keys
 # restart service to take effect
