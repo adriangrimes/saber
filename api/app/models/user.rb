@@ -117,7 +117,7 @@ class User < ApplicationRecord
 
   # Tells NGINX to drop the RTMP stream for the users previous stream key
   def send_drop_stream
-    unless self.is_being_seeded || Rails.env.development?
+    unless self.is_being_seeded || Rails.env.development? || Rails.env.test?
       params = {
         'app' => 'stream',
         'name' => stream_key_was

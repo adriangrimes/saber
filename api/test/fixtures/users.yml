@@ -1,17 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  email: MyString
-  username: MyString
-  password: MyString
-  first_name: MyString
-  last_name: MyString
-  birthdate: 2016-12-13 19:16:18
-
-two:
-  email: MyString
-  username: MyString
-  password: MyString
-  first_name: MyString
-  last_name: MyString
-  birthdate: 2016-12-13 19:16:18
+  username: TestUser1
+  email: user1@test.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, '12345678') %>
+  authentication_token: <%= Devise.friendly_token %>
+  confirmed_at: 2016-01-02 08:31:23
+  confirmation_sent_at: 2016-01-02 08:30:59

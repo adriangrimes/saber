@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  
+
   before_action :is_user_authorized?
 
   # GET /users/1
