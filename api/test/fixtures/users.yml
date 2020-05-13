@@ -7,3 +7,20 @@ one:
   authentication_token: <%= Devise.friendly_token %>
   confirmed_at: 2016-01-02 08:31:23
   confirmation_sent_at: 2016-01-02 08:30:59
+  stream_key: <%= StreamKey.generate %>
+
+samepass1:
+  username: SamePass1
+  email: user2@test.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  authentication_token: <%= Devise.friendly_token %>
+  confirmed_at: 2016-01-02 08:31:23
+  confirmation_sent_at: 2016-01-02 08:30:59
+
+samepass2:
+  username: SamePass2
+  email: user3@test.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  authentication_token: <%= Devise.friendly_token %>
+  confirmed_at: 2016-01-02 08:31:23
+  confirmation_sent_at: 2016-01-02 08:30:59

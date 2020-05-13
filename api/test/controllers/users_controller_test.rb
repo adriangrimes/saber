@@ -52,6 +52,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "newuser1@test.com", @user.email
   end
 
+  test "password hashes should not match" do
+    assert_not_equal users(:samepass1).encrypted_password, users(:samepass2).encrypted_password
+  end
+
   test "should create user" do
     skip "User creation handled by registrations_controller"
   end
