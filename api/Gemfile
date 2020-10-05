@@ -20,7 +20,7 @@ gem 'bcrypt', '~> 3.1.7', platform: :ruby
 gem 'symmetric-encryption'
 
 # File attachment, uses Uppy.js XHR Uploading on the front-end
-gem 'shrine', "~> 3.1"
+gem 'shrine', "~> 3.3"
 # Binary image analyzer to determine mime type
 gem 'marcel'
 # Thumbnail processing
